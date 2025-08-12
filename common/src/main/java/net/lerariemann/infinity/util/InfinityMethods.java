@@ -12,6 +12,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.registry.RegistryKey;
+import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.MutableText;
@@ -25,8 +26,10 @@ import net.minecraft.util.math.noise.DoublePerlinNoiseSampler;
 import net.minecraft.util.math.random.CheckedRandom;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.world.BlockRenderView;
+import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
+import net.minecraft.world.biome.Biome;
 import net.minecraft.world.level.storage.LevelStorage;
 import org.apache.commons.io.FileUtils;
 
@@ -75,6 +78,18 @@ public interface InfinityMethods {
     }
     static boolean isBiomeInfinity(WorldAccess world, BlockPos pos) {
         return world.getBiome(pos).getIdAsString().contains("infinity");
+    }
+    static boolean isBiomeInfinity(RegistryEntry<Biome> b) {
+        return b.getIdAsString().contains("infinity");
+    }
+    static boolean isBiomeInfinity(BlockView world, BlockPos pos) {
+        if (world instanceof WorldAccess acc) {
+            return InfinityMethods.isBiomeInfinity(acc, pos);
+        }
+        else return Platform.isFabric()
+                && world.hasBiomes()
+                && world.getBiomeFabric(pos) instanceof RegistryEntry<Biome> biome
+                && InfinityMethods.isBiomeInfinity(biome);
     }
 
     /**

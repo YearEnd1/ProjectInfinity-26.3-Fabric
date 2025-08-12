@@ -48,6 +48,8 @@
     "options.PlayerManagerMixin",
     "options.ServerWorldMixin",
     "qol.BlockEntityTypeMixin",
+    "qol.CoralBlockBlockMixin",
+    "qol.CoralParentBlockMixin",
     "qol.EnderDragonEntityMixin",
     "qol.FireBlockMixin",
     "qol.LavaFluidMixin"
