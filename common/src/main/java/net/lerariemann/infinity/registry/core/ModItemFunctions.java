@@ -7,15 +7,12 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.lerariemann.infinity.block.custom.BiomeBottleBlock;
 import net.lerariemann.infinity.item.function.*;
-import net.lerariemann.infinity.options.InfinityOptions;
 import net.lerariemann.infinity.util.InfinityMethods;
 import net.minecraft.block.DispenserBlock;
 import net.minecraft.block.dispenser.ItemDispenserBehavior;
-import net.minecraft.client.world.ClientWorld;
 import net.minecraft.component.ComponentChanges;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.ItemEntity;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.FluidModificationItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -33,7 +30,6 @@ import net.minecraft.util.math.BlockPointer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.Optional;
 import java.util.function.Function;
@@ -122,13 +118,6 @@ public class ModItemFunctions {
                 -v.x, -v.y, -v.z);
         w.spawnEntity(result);
         itemEntity.remove(Entity.RemovalReason.CHANGED_DIMENSION);
-    }
-
-    @Deprecated
-    @Environment(EnvType.CLIENT)
-    public static float iridPredicate(@Nullable ItemStack stack, ClientWorld world, @Nullable LivingEntity entity, int seed) {
-        if (entity == null) return 0;
-        return (InfinityOptions.access(world).iridMap.getColor(entity.getBlockPos()) / 100.0f);
     }
 
     @Environment(EnvType.CLIENT)

@@ -23,7 +23,6 @@ public class InfinityOptions {
     public NbtCompound data;
     public PitchShifter shifter;
     public EffectGiver effect;
-    public IridescentMap iridMap;
 
     private final double mavity;
     private final double timeScale;
@@ -33,7 +32,6 @@ public class InfinityOptions {
         this.data = data;
         this.shifter = PitchShifter.decode(NbtUtils.getCompound(data, "pitch_shift", new NbtCompound()));
         this.effect = EffectGiver.of(NbtUtils.getCompound(data, "effect", new NbtCompound()));
-        this.iridMap = IridescentMap.decode(NbtUtils.getCompound(data, "iridescent_map", new NbtCompound()));
         this.mavity = NbtUtils.getDouble(data, "mavity", 1.0);
         this.timeScale = NbtUtils.getDouble(data, "time_scale", 1.0);
         this.haunted = NbtUtils.getBoolean(data, "haunted", false);

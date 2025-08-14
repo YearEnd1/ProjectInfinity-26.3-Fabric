@@ -115,7 +115,7 @@ public interface Iridescence {
         StatusEffectInstance cooldown = entity.getStatusEffect(ModStatusEffects.IRIDESCENT_COOLDOWN);
         if (cooldown == null) return original;
         else if (cooldown.getAmplifier() < 1) {
-            if (original > 0) return 0;
+            if (original > 0) return original / 2;
         }
         return -1;
     }
@@ -135,7 +135,7 @@ public interface Iridescence {
         return ticksInHour;
     }
     static int getPeakLength(int amplifier) {
-        return ticksInHour * (3 + amplifier);
+        return ticksInHour * (4 + amplifier);
     }
     static int getOffsetLength(int amplifier) {
         return ticksInHour * (4 + amplifier) / 2;
