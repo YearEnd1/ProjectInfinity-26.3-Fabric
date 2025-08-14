@@ -129,6 +129,10 @@ public class RandomBiome {
         return res;
     }
 
+    float randomDustScale() {
+        return random.nextBoolean() ? random.nextFloat() * 0.99f + 0.01f : random.nextFloat() * 3f + 1f;
+    }
+
     NbtCompound particleOptions() {
         NbtCompound res = new NbtCompound();
         String particle = PROVIDER.randomName(random, ConfigType.PARTICLES);
@@ -148,13 +152,13 @@ public class RandomBiome {
             }
             case "minecraft:dust" -> {
                 res.put("color", randomDustColor());
-                res.putFloat("scale", random.nextFloat());
+                res.putFloat("scale", randomDustScale());
                 return res;
             }
             case "minecraft:dust_color_transition" -> {
                 res.put("from_color", randomDustColor());
                 res.put("to_color", randomDustColor());
-                res.putFloat("scale", random.nextFloat());
+                res.putFloat("scale", randomDustScale());
                 return res;
             }
             case "minecraft:entity_effect" -> {
