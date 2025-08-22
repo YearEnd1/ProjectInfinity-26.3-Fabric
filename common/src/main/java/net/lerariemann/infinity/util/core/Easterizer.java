@@ -2,9 +2,11 @@ package net.lerariemann.infinity.util.core;
 
 import net.lerariemann.infinity.InfinityMod;
 import net.lerariemann.infinity.dimensions.RandomDimension;
+import net.lerariemann.infinity.util.InfinityMethods;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
 import net.minecraft.nbt.NbtString;
+import net.minecraft.util.Identifier;
 
 import java.io.IOException;
 import java.nio.file.Path;
@@ -16,6 +18,7 @@ import static java.nio.file.Files.walk;
 
 
 public class Easterizer {
+    public Map<String, Identifier> destinationMap = new HashMap<>();
     public Map<String, String> aliasMap = new HashMap<>();
     public Map<String, NbtCompound> map = new HashMap<>();
     public Map<String, String> typeMap = new HashMap<>();
@@ -28,8 +31,6 @@ public class Easterizer {
                 NbtCompound compound = CommonIO.read(p.toFile());
                 if (compound.contains("name"))
                     name = NbtUtils.getString(compound, "name");
-                if (compound.contains("type"))
-                    typeMap.put(name, NbtUtils.getString(compound, "type"));
                 if (compound.getType("aliases") == NbtElement.LIST_TYPE) {
                     String finalName = name;
                     NbtUtils.getList(compound, "aliases", NbtElement.STRING_TYPE)
@@ -40,11 +41,15 @@ public class Easterizer {
                 }
                 else if (compound.getType("aliases") == NbtElement.STRING_TYPE)
                     aliasMap.put(NbtUtils.getString(compound, "aliases"), name);
-                if (compound.contains("options")) {
-                    optionmap.put(name, NbtUtils.getCompound(compound, "options"));
+                if (compound.contains("destination")) destinationMap.put(name, Identifier.of(NbtUtils.getString(compound, "destination")));
+                else {
+                    if (compound.contains("type"))
+                        typeMap.put(name, NbtUtils.getString(compound, "type"));
+                    if (compound.contains("options")) {
+                        optionmap.put(name, NbtUtils.getCompound(compound, "options"));
+                    }
+                    map.put(name, NbtUtils.getCompound(compound, "generator"));
                 }
-
-                map.put(name, NbtUtils.getCompound(compound, "generator"));
             });
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -65,10 +70,9 @@ public class Easterizer {
         return InfinityMod.provider.disabledDimensions.contains(name);
     }
 
-    public String getAsEaster(String name) {
-        if (aliasMap.containsKey(name)) return aliasMap.get(name);
-        if (isEaster(name)) return name;
-        return null;
+    public Identifier getAsEaster(String name) {
+        if (aliasMap.containsKey(name)) name = aliasMap.get(name);
+        return destinationMap.getOrDefault(name, isEaster(name) ? InfinityMethods.getId(name) : null);
     }
 
     public boolean isEaster(String name) {

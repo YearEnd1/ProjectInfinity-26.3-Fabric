@@ -123,11 +123,9 @@ public interface InfinityMethods {
      * This also checks if it matches an Easter Egg dimension.
      */
     static Identifier dimTextToId(String text) {
-        if (text.equals("abatised redivides"))
-            return World.END.getValue();
-        String easterId = InfinityMod.provider.easterizer.getAsEaster(text);
+        Identifier easterId = InfinityMod.provider.easterizer.getAsEaster(text);
         if (easterId != null)
-            return InfinityMethods.getId(easterId);
+            return easterId;
         return InfinityMethods.getDimId(getDimensionSeed(text));
     }
 
