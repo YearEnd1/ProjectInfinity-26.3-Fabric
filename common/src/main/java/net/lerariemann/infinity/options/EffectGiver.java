@@ -1,5 +1,6 @@
 package net.lerariemann.infinity.options;
 
+import net.lerariemann.infinity.util.VersionMethods;
 import net.lerariemann.infinity.util.core.NbtUtils;
 import net.minecraft.entity.effect.InstantStatusEffect;
 import net.minecraft.entity.effect.StatusEffect;
@@ -10,11 +11,10 @@ import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.util.Identifier;
 
 public record EffectGiver(RegistryEntry<StatusEffect> id, int duration, int amplifier, int cooldown) {
     public static RegistryEntry<StatusEffect> effectOf(String id) {
-        RegistryEntry<StatusEffect> entry = Registries.STATUS_EFFECT.entryOf(RegistryKey.of(RegistryKeys.STATUS_EFFECT, Identifier.of(id)));
+        RegistryEntry<StatusEffect> entry = Registries.STATUS_EFFECT.entryOf(RegistryKey.of(RegistryKeys.STATUS_EFFECT, VersionMethods.id(id)));
         if (entry == null || entry.value() instanceof InstantStatusEffect) return null;
         return entry;
     }

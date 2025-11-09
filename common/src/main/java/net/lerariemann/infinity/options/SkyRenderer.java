@@ -4,6 +4,7 @@ import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.lerariemann.infinity.util.VersionMethods;
 import net.minecraft.block.enums.CameraSubmersionType;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gl.VertexBuffer;
@@ -45,7 +46,7 @@ public record SkyRenderer(InfinityOptions options, MinecraftClient client, Clien
     
     public boolean testAndRenderNonOverworldySkies() {
         if (client.world!=null && client.world.getDimensionEffects().getSkyType() == DimensionEffects.SkyType.END) {
-            renderSkybox(Identifier.of("textures/environment/end_sky.png"), 16.0f, 40, 255);
+            renderSkybox(VersionMethods.id("textures/environment/end_sky.png"), 16.0f, 40, 255);
             return true;
         }
         if (options.endSkyLike()) {

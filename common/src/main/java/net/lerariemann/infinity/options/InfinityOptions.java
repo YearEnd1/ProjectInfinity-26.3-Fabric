@@ -4,6 +4,7 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.lerariemann.infinity.InfinityMod;
 import net.lerariemann.infinity.access.InfinityOptionsAccess;
+import net.lerariemann.infinity.util.VersionMethods;
 import net.lerariemann.infinity.util.core.CommonIO;
 import net.lerariemann.infinity.util.core.NbtUtils;
 import net.minecraft.client.MinecraftClient;
@@ -126,7 +127,7 @@ public class InfinityOptions {
         return new Vector3f((float)(color >> 16 & 0xFF) / 255.0f, (float)(color >> 8 & 0xFF) / 255.0f, (float)(color & 0xFF) / 255.0f);
     }
     public Identifier getSolarTexture() {
-        return Identifier.of(NbtUtils.getString(data, "solar_texture", "textures/environment/sun.png"));
+        return VersionMethods.id(NbtUtils.getString(data, "solar_texture", "textures/environment/sun.png"));
     }
 
     //stars
@@ -187,8 +188,8 @@ public class InfinityOptions {
     }
     public Identifier getLunarTexture(int i) {
         if (lunarTest("lunar_texture", i))
-            return Identifier.of(NbtUtils.getString(((NbtCompound) (NbtUtils.getList(data, "moons", NbtElement.COMPOUND_TYPE).get(i))), "lunar_texture"));
-        return Identifier.of("textures/environment/moon_phases.png");
+            return VersionMethods.id(NbtUtils.getString(((NbtCompound) (NbtUtils.getList(data, "moons", NbtElement.COMPOUND_TYPE).get(i))), "lunar_texture"));
+        return VersionMethods.id("textures/environment/moon_phases.png");
     }
     public float getLunarVelocity(int i) {
         return fullLunarTest("lunar_velocity", i, 1.0f);

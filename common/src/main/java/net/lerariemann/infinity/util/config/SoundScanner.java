@@ -5,6 +5,7 @@ import net.lerariemann.infinity.access.MinecraftServerAccess;
 import net.lerariemann.infinity.mixin.SoundListMixin;
 import net.lerariemann.infinity.registry.var.ModPayloads;
 import net.lerariemann.infinity.util.InfinityMethods;
+import net.lerariemann.infinity.util.VersionMethods;
 import net.lerariemann.infinity.util.core.CommonIO;
 import net.lerariemann.infinity.util.core.ConfigType;
 import net.lerariemann.infinity.util.core.NbtUtils;
@@ -54,7 +55,7 @@ public record SoundScanner(Map<Identifier, Resource> soundIds) {
         //the client unpacks a non-empty payload only when needed, meaning only if it doesn't have necessary files yet
         if (!songIds.isEmpty() && !Files.exists(cl.getResourcePackDir().resolve("infinity/assets/infinity/sounds.json"))) {
             cl.execute(() -> saveResourcePack(cl, NbtUtils.getList(songIds, "entries", NbtElement.STRING_TYPE).stream()
-                    .map(NbtElement::asString).map(Identifier::of), false));
+                    .map(NbtElement::asString).map(VersionMethods::id), false));
         }
         else if (isPreloaded()) {
             cl.execute(() -> {

@@ -3,6 +3,7 @@ package net.lerariemann.infinity.util.core;
 import net.lerariemann.infinity.InfinityMod;
 import net.lerariemann.infinity.dimensions.RandomDimension;
 import net.lerariemann.infinity.util.InfinityMethods;
+import net.lerariemann.infinity.util.VersionMethods;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
 import net.minecraft.nbt.NbtString;
@@ -41,7 +42,7 @@ public class Easterizer {
                 }
                 else if (compound.getType("aliases") == NbtElement.STRING_TYPE)
                     aliasMap.put(NbtUtils.getString(compound, "aliases"), name);
-                if (compound.contains("destination")) destinationMap.put(name, Identifier.of(NbtUtils.getString(compound, "destination")));
+                if (compound.contains("destination")) destinationMap.put(name, VersionMethods.id(NbtUtils.getString(compound, "destination")));
                 else {
                     if (compound.contains("type"))
                         typeMap.put(name, NbtUtils.getString(compound, "type"));

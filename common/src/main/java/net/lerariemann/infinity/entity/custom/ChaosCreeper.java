@@ -6,6 +6,7 @@ import net.lerariemann.infinity.registry.core.ModComponentTypes;
 import net.lerariemann.infinity.registry.core.ModEntities;
 import net.lerariemann.infinity.registry.core.ModItems;
 import net.lerariemann.infinity.util.InfinityMethods;
+import net.lerariemann.infinity.util.VersionMethods;
 import net.lerariemann.infinity.util.core.ConfigType;
 import net.lerariemann.infinity.util.core.NbtUtils;
 import net.minecraft.component.ComponentMap;
@@ -121,7 +122,7 @@ public class ChaosCreeper extends CreeperEntity implements TintableEntity {
         if (s != null) {
             ServerWorld serverWorld = s.getWorld(this.getWorld().getRegistryKey());
             if (serverWorld != null) {
-                BiomeBottleBlock.spreadCircle(serverWorld, getBlockPos(), Identifier.of(getBiome()), getCharge());
+                BiomeBottleBlock.spreadCircle(serverWorld, getBlockPos(), VersionMethods.id(getBiome()), getCharge());
             }
         }
         this.getWorld().createExplosion(this, this.getX(), this.getY(), this.getZ(), f, World.ExplosionSourceType.NONE);
@@ -141,7 +142,7 @@ public class ChaosCreeper extends CreeperEntity implements TintableEntity {
             CreeperEntity newCreeper;
             if (!this.getWorld().isClient() && (newCreeper = EntityType.CREEPER.create(this.getWorld())) != null) {
                 itemStack2.applyComponentsFrom(BiomeBottleBlock.addComponents(ComponentMap.builder(),
-                                Identifier.of(getBiome()), getColor(), getCharge()).build());
+                        VersionMethods.id(getBiome()), getColor(), getCharge()).build());
                 ItemStack itemStack3 = ItemUsage.exchangeStack(itemStack, player, itemStack2, false);
                 player.setStackInHand(hand, itemStack3);
                 this.discard();
@@ -157,7 +158,7 @@ public class ChaosCreeper extends CreeperEntity implements TintableEntity {
     protected void dropEquipment(ServerWorld world, DamageSource source, boolean causedByPlayer) {
         if (source.getAttacker() != null && source.getAttacker().getType().isIn(EntityTypeTags.SKELETONS)) {
             ItemStack stack = ModItems.DISC.get().getDefaultStack();
-            Identifier song = Identifier.of(InfinityMod.provider.randomName(world.random, ConfigType.JUKEBOXES));
+            Identifier song = VersionMethods.id(InfinityMod.provider.randomName(world.random, ConfigType.JUKEBOXES));
             stack.applyComponentsFrom(ComponentMap.builder()
                     .add(DataComponentTypes.JUKEBOX_PLAYABLE, new JukeboxPlayableComponent(new RegistryPair<>(
                             RegistryKey.of(RegistryKeys.JUKEBOX_SONG, song)), true))

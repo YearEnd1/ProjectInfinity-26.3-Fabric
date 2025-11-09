@@ -57,7 +57,7 @@ public interface InfinityMethods {
      * Converts a string to an identifier in the Infinite Dimensions namespace.
      */
     static Identifier getId(String value){
-		return Identifier.of(InfinityMod.MOD_ID, value);
+		return VersionMethods.id(InfinityMod.MOD_ID, value);
 	}
 
     /**

@@ -2,6 +2,7 @@ package net.lerariemann.infinity.util.config;
 
 import dev.architectury.platform.Platform;
 import net.lerariemann.infinity.InfinityMod;
+import net.lerariemann.infinity.util.VersionMethods;
 import net.lerariemann.infinity.util.core.CommonIO;
 import net.lerariemann.infinity.util.core.ConfigType;
 import net.lerariemann.infinity.util.core.NbtUtils;
@@ -13,7 +14,6 @@ import net.minecraft.registry.Registries;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.tag.TagKey;
-import net.minecraft.util.Identifier;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -124,11 +124,11 @@ public record Amendment(ConfigType area, ModSelector modSelector, Selector selec
     }
     public record MatchingBlockTagSelector(TagKey<Block> tag) implements Selector {
         public MatchingBlockTagSelector(String key) {
-            this(TagKey.of(RegistryKeys.BLOCK, Identifier.of(key)));
+            this(TagKey.of(RegistryKeys.BLOCK, VersionMethods.id(key)));
         }
 
         public boolean applies(String key) {
-            Block b = Registries.BLOCK.get(RegistryKey.of(RegistryKeys.BLOCK, Identifier.of(key)));
+            Block b = Registries.BLOCK.get(RegistryKey.of(RegistryKeys.BLOCK, VersionMethods.id(key)));
             if (b != null) {
                 return b.getDefaultState().isIn(this.tag);
             }

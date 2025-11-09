@@ -2,6 +2,8 @@ package net.lerariemann.infinity.entity.custom;
 
 import net.lerariemann.infinity.InfinityMod;
 import net.lerariemann.infinity.iridescence.Iridescence;
+import net.lerariemann.infinity.util.InfinityMethods;
+import net.lerariemann.infinity.util.VersionMethods;
 import net.lerariemann.infinity.util.core.ConfigType;
 import net.lerariemann.infinity.util.core.RandomProvider;
 import net.minecraft.block.BlockState;
@@ -102,12 +104,12 @@ public class ChaosPawn extends AbstractChessFigure {
     @Override
     public RegistryKey<LootTable> getLootTableId() {
         Identifier i = switch (getCase()) {
-            case 0 -> Identifier.of("infinity:entities/chaos_pawn_black");
-            case 1 -> Identifier.of("infinity:entities/chaos_pawn_white");
+            case 0 -> InfinityMethods.getId("entities/chaos_pawn_black");
+            case 1 -> InfinityMethods.getId("entities/chaos_pawn_white");
             default -> {
                 boolean bl = RandomProvider.rule("pawnsCanDropIllegalItems");
-                if (bl) yield Identifier.of(""); //loot is defined in dropEquipment instead
-                else yield Identifier.of(InfinityMod.provider.randomName(random, ConfigType.LOOT_TABLES));
+                if (bl) yield VersionMethods.id(""); //loot is defined in dropEquipment instead
+                else yield VersionMethods.id(InfinityMod.provider.randomName(random, ConfigType.LOOT_TABLES));
             }
         };
         return RegistryKey.of(RegistryKeys.LOOT_TABLE, i);
@@ -168,7 +170,7 @@ public class ChaosPawn extends AbstractChessFigure {
         if (!this.isBlackOrWhite() && RandomProvider.rule("pawnsCanDropIllegalItems")) {
             String s = InfinityMod.provider.randomName(random, ConfigType.ITEMS);
             double i = Objects.requireNonNull(this.getAttributeInstance(EntityAttributes.GENERIC_MAX_HEALTH)).getBaseValue() / 10;
-            ItemStack stack = Registries.ITEM.get(Identifier.of(s)).getDefaultStack().copyWithCount((int) (i * i));
+            ItemStack stack = Registries.ITEM.get(VersionMethods.id(s)).getDefaultStack().copyWithCount((int) (i * i));
             stack.applyComponentsFrom(ComponentMap.builder().add(DataComponentTypes.MAX_STACK_SIZE, 64).build());
             this.dropStack(stack);
         }

@@ -2,6 +2,7 @@ package net.lerariemann.infinity.entity.custom;
 
 import net.lerariemann.infinity.InfinityMod;
 import net.lerariemann.infinity.util.InfinityMethods;
+import net.lerariemann.infinity.util.VersionMethods;
 import net.lerariemann.infinity.util.core.ConfigType;
 import net.lerariemann.infinity.util.core.NbtUtils;
 import net.minecraft.block.Block;
@@ -25,7 +26,6 @@ import net.minecraft.particle.ParticleEffect;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.sound.SoundEvent;
-import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.*;
 import org.jetbrains.annotations.Nullable;
@@ -60,7 +60,7 @@ public class ChaosSlime extends SlimeEntity implements TintableEntity {
     @Nullable
     public EntityData initialize(ServerWorldAccess world, LocalDifficulty difficulty, SpawnReason spawnReason, @Nullable EntityData entityData) {
         Random r = new Random();
-        this.dataTracker.set(core, Registries.BLOCK.get(Identifier.of(InfinityMod.provider.randomName(r, ConfigType.ALL_BLOCKS))).getDefaultState());
+        this.dataTracker.set(core, Registries.BLOCK.get(VersionMethods.id(InfinityMod.provider.randomName(r, ConfigType.ALL_BLOCKS))).getDefaultState());
         this.dataTracker.set(color, r.nextInt(16777216));
         return super.initialize(world, difficulty, spawnReason, entityData);
     }
@@ -124,7 +124,7 @@ public class ChaosSlime extends SlimeEntity implements TintableEntity {
     public void readCustomDataFromNbt(NbtCompound nbt) {
         super.readCustomDataFromNbt(nbt);
         this.setColor(NbtUtils.getInt(nbt, "color"));
-        Block b = Registries.BLOCK.get(Identifier.of(NbtUtils.getString(nbt,"core")));
+        Block b = Registries.BLOCK.get(VersionMethods.id(NbtUtils.getString(nbt,"core")));
         this.setCore(b.getDefaultState());
     }
 

@@ -9,13 +9,13 @@ import dev.emi.emi.api.widget.WidgetHolder;
 import net.lerariemann.infinity.item.PortalDataHolder;
 import net.lerariemann.infinity.item.function.CollisionCraftingRecipe;
 import net.lerariemann.infinity.registry.core.ModComponentTypes;
+import net.lerariemann.infinity.util.VersionMethods;
 import net.lerariemann.infinity.util.var.ColorLogic;
 import net.minecraft.component.ComponentChanges;
 import net.minecraft.item.ItemStack;
 import net.minecraft.recipe.RecipeEntry;
 import net.minecraft.registry.DynamicRegistryManager;
 import net.minecraft.text.Text;
-import net.minecraft.util.Identifier;
 
 import java.util.Objects;
 
@@ -32,7 +32,7 @@ public class PortalCraftingEmiRecipe extends BasicEmiRecipe {
             b = b.add(ModComponentTypes.COLOR.get(), ColorLogic.defaultPortal);
         }
         if (out.getItem() instanceof PortalDataHolder.Destinable) {
-            b = b.add(ModComponentTypes.DESTINATION.get(), Identifier.of("infinity:generated_0"));
+            b = b.add(ModComponentTypes.DESTINATION.get(), VersionMethods.id("infinity:generated_0"));
         }
         out.applyChanges(b.build());
         this.outputs.add(EmiStack.of(out));

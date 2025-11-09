@@ -2,6 +2,7 @@ package net.lerariemann.infinity.block.custom;
 
 import com.mojang.serialization.MapCodec;
 import net.lerariemann.infinity.util.PlatformMethods;
+import net.lerariemann.infinity.util.VersionMethods;
 import net.minecraft.block.*;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemPlacementContext;
@@ -9,7 +10,6 @@ import net.minecraft.registry.Registries;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.state.StateManager;
 import net.minecraft.util.ActionResult;
-import net.minecraft.util.Identifier;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
@@ -33,10 +33,10 @@ public class AntBlock extends HorizontalFacingBlock {
         var s = Registries.BLOCK.getEntry(down).getIdAsString();
         var state = down.getDefaultState();
         if (PlatformMethods.isInBlack(state)) {
-            return Registries.BLOCK.containsId(Identifier.of(s.replace("black", "white")));
+            return Registries.BLOCK.containsId(VersionMethods.id(s.replace("black", "white")));
         }
         if (PlatformMethods.isInWhite(state)) {
-            return Registries.BLOCK.containsId(Identifier.of(s.replace("white", "black")));
+            return Registries.BLOCK.containsId(VersionMethods.id(s.replace("white", "black")));
         }
         return false;
     }
@@ -48,10 +48,10 @@ public class AntBlock extends HorizontalFacingBlock {
         String s = Registries.BLOCK.getEntry(down).getIdAsString();
         var state = down.getDefaultState();
         if (PlatformMethods.isInBlack(state)) {
-            return toWhite ? Registries.BLOCK.get(Identifier.of(s.replace("black", "white"))) : down;
+            return toWhite ? Registries.BLOCK.get(VersionMethods.id(s.replace("black", "white"))) : down;
         }
         if (PlatformMethods.isInWhite(state)) {
-            return toWhite ? down : Registries.BLOCK.get(Identifier.of(s.replace("white", "black")));
+            return toWhite ? down : Registries.BLOCK.get(VersionMethods.id(s.replace("white", "black")));
         }
         return null;
     }

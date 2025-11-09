@@ -4,8 +4,8 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.lerariemann.infinity.registry.core.ModStructureTypes;
+import net.lerariemann.infinity.util.VersionMethods;
 import net.minecraft.registry.RegistryKeys;
-import net.minecraft.util.Identifier;
 import net.minecraft.world.gen.structure.Structure;
 import net.minecraft.world.gen.structure.StructureType;
 
@@ -24,7 +24,7 @@ public class SetupperStructure extends Structure {
 
     @Override
     public Optional<StructurePosition> getStructurePosition(Context context) {
-        Structure shadow = context.dynamicRegistryManager().get(RegistryKeys.STRUCTURE).get(Identifier.of(id));
+        Structure shadow = context.dynamicRegistryManager().get(RegistryKeys.STRUCTURE).get(VersionMethods.id(id));
         return shadow == null ? Optional.empty() : shadow.getStructurePosition(context);
     }
 

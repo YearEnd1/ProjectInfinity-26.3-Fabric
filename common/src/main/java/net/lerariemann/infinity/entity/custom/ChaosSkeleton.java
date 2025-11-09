@@ -2,12 +2,12 @@ package net.lerariemann.infinity.entity.custom;
 
 import net.lerariemann.infinity.InfinityMod;
 import net.lerariemann.infinity.registry.core.ModEntities;
+import net.lerariemann.infinity.util.VersionMethods;
 import net.lerariemann.infinity.util.core.ConfigType;
 import net.lerariemann.infinity.util.core.NbtUtils;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.PotionContentsComponent;
 import net.minecraft.enchantment.Enchantment;
-import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.EntityData;
 import net.minecraft.entity.EntityType;
@@ -33,7 +33,6 @@ import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
-import net.minecraft.util.Identifier;
 import net.minecraft.world.LocalDifficulty;
 import net.minecraft.world.ServerWorldAccess;
 import net.minecraft.world.World;
@@ -111,7 +110,7 @@ public class ChaosSkeleton extends SkeletonEntity implements TintableEntity {
             }
             if (player.getWorld().getRandom().nextFloat() < 0.5) {
                 String i = effect_lookup.get(this.getEffect());
-                StatusEffect newEffect = Registries.STATUS_EFFECT.get(Identifier.of(i));
+                StatusEffect newEffect = Registries.STATUS_EFFECT.get(VersionMethods.id(i));
                 if (newEffect != null) {
                     ChaosSkeleton newSkeleton;
                     if (!this.getWorld().isClient() && (newSkeleton = ModEntities.CHAOS_SKELETON.get().create(this.getWorld())) != null) {

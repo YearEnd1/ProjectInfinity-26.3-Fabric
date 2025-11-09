@@ -4,6 +4,7 @@ import net.lerariemann.infinity.block.custom.BiomeBottleBlock;
 import net.lerariemann.infinity.registry.core.ModBlockEntities;
 import net.lerariemann.infinity.registry.core.ModComponentTypes;
 import net.lerariemann.infinity.registry.core.ModItems;
+import net.lerariemann.infinity.util.VersionMethods;
 import net.lerariemann.infinity.util.core.NbtUtils;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
@@ -71,7 +72,7 @@ public class BiomeBottleBlockEntity extends TintableBlockEntity {
     public void readNbt(NbtCompound tag, RegistryWrapper.WrapperLookup registryLookup) {
         super.readNbt(tag, registryLookup);
         this.charge = NbtUtils.getInt(tag, "Charge");
-        this.biome = Identifier.of(NbtUtils.getString(tag, "Biome"));
+        this.biome = VersionMethods.id(NbtUtils.getString(tag, "Biome"));
         this.color = NbtUtils.getInt(tag, "Color");
         this.from_charge = NbtUtils.getInt(tag, "from_charge", 0);
     }

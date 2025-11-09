@@ -1,6 +1,7 @@
 package net.lerariemann.infinity.util.core;
 
 import net.lerariemann.infinity.InfinityMod;
+import net.lerariemann.infinity.util.VersionMethods;
 import net.lerariemann.infinity.util.var.ColorLogic;
 import net.minecraft.item.Item;
 import net.minecraft.nbt.*;
@@ -9,7 +10,6 @@ import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.state.property.Properties;
-import net.minecraft.util.Identifier;
 import net.minecraft.world.biome.Biome;
 
 import java.nio.file.Path;
@@ -43,7 +43,7 @@ public class RandomProvider {
 
     public Optional<Item> getPortalKeyAsItem() {
         if (portalKey.isBlank()) return Optional.empty();
-        return Registries.ITEM.getOrEmpty(Identifier.of(portalKey));
+        return Registries.ITEM.getOrEmpty(VersionMethods.id(portalKey));
     }
     public boolean isPortalKeyBlank() {
         return getPortalKeyAsItem().isEmpty();
@@ -223,7 +223,7 @@ public class RandomProvider {
 
     public NbtCompound blockToProvider(NbtCompound block, Random random) {
         NbtCompound res = new NbtCompound();
-        boolean isRotatable = Registries.BLOCK.get(Identifier.of(NbtUtils.getString(block, "Name"))).getDefaultState().getProperties().contains(Properties.AXIS);
+        boolean isRotatable = Registries.BLOCK.get(VersionMethods.id(NbtUtils.getString(block, "Name"))).getDefaultState().getProperties().contains(Properties.AXIS);
         res.putString("type", isRotatable && roll(random, "rotate_blocks") ?
                 "minecraft:rotated_block_provider" : "minecraft:simple_state_provider");
         res.put("state", block);
@@ -262,6 +262,6 @@ public class RandomProvider {
         registry.remove(ConfigType.BIOMES);
         List<NbtCompound> biomes = CommonIO.readCategory(ConfigType.BIOMES);
         Registry<Biome> reg = s.get(RegistryKeys.BIOME);
-        registerCategory(ConfigType.BIOMES, biomes.stream().filter(comp -> reg.containsId(Identifier.of(NbtUtils.getString(comp,"key")))).toList());
+        registerCategory(ConfigType.BIOMES, biomes.stream().filter(comp -> reg.containsId(VersionMethods.id(NbtUtils.getString(comp,"key")))).toList());
     }
 }

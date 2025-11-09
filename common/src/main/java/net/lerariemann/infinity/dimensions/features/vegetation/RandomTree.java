@@ -123,9 +123,9 @@ public class RandomTree extends RandomisedFeature {
         res.putString("type", type);
         switch (type) {
             case "blob_foliage_placer", "bush_foliage_placer", "fancy_foliage_placer", "jungle_foliage_placer" -> res.putInt("height", random.nextInt(16));
-            case "pine_foliage_placer" -> res.put("height", NbtUtils.randomIntProvider(random, ishuge ? 24 : 6, true));
-            case "spruce_foliage_placer" -> res.put("trunk_height", NbtUtils.randomIntProvider(random, ishuge ? 24 : 6, true));
-            case "mega_pine_foliage_placer" -> res.put("crown_height", NbtUtils.randomIntProvider(random, ishuge ? 24 : 6, true));
+            case "pine_foliage_placer" -> res.put("height", NbtUtils.randomIntProvider(random, 1, ishuge ? 24 : 6, true));
+            case "spruce_foliage_placer" -> res.put("trunk_height", NbtUtils.randomIntProvider(random, 1, ishuge ? 24 : 6, true));
+            case "mega_pine_foliage_placer" -> res.put("crown_height", NbtUtils.randomIntProvider(random, 1, ishuge ? 24 : 6, true));
             case "random_spread_foliage_placer" -> {
                 addRandomIntProvider(res, "foliage_height", 1, ishuge ? 512 : 16);
                 res.putInt("leaf_placement_attempts", random.nextInt(256));

@@ -6,6 +6,7 @@ import dev.emi.emi.api.recipe.VanillaEmiRecipeCategories;
 import dev.emi.emi.api.stack.EmiIngredient;
 import dev.emi.emi.api.stack.EmiStack;
 import dev.emi.emi.api.widget.WidgetHolder;
+import net.lerariemann.infinity.util.VersionMethods;
 import net.minecraft.client.gui.tooltip.TooltipComponent;
 import net.minecraft.item.Items;
 import net.minecraft.text.Text;
@@ -15,7 +16,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 
 public class EmiBrewingRecipe implements EmiRecipe {
-    private static final Identifier BACKGROUND = Identifier.of("minecraft", "textures/gui/container/brewing_stand.png");
+    private static final Identifier BACKGROUND = VersionMethods.id("minecraft", "textures/gui/container/brewing_stand.png");
     private static final EmiStack BLAZE_POWDER = EmiStack.of(Items.BLAZE_POWDER);
     private final EmiIngredient input, ingredient;
     private final EmiStack output, input3, output3;

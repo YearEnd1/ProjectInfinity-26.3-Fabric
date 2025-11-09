@@ -5,6 +5,7 @@ import net.lerariemann.infinity.item.F4Item;
 import net.lerariemann.infinity.registry.core.ModComponentTypes;
 import net.lerariemann.infinity.registry.var.ModPayloads;
 import net.lerariemann.infinity.registry.var.ModScreenHandlers;
+import net.lerariemann.infinity.util.VersionMethods;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.component.ComponentMap;
 import net.minecraft.entity.player.PlayerEntity;
@@ -91,7 +92,7 @@ public class F4ScreenHandler extends ScreenHandler {
 
         @Override
         public Text getDisplayName() {
-            return F4Item.getDimensionTooltip(destination.isEmpty() ? null : Identifier.of(destination));
+            return F4Item.getDimensionTooltip(destination.isEmpty() ? null : VersionMethods.id(destination));
         }
 
         @Override

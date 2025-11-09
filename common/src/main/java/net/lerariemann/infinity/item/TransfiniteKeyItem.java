@@ -4,6 +4,7 @@ import net.lerariemann.infinity.block.entity.InfinityPortalBlockEntity;
 import net.lerariemann.infinity.options.PortalColorApplier;
 import net.lerariemann.infinity.registry.core.ModComponentTypes;
 import net.lerariemann.infinity.util.InfinityMethods;
+import net.lerariemann.infinity.util.VersionMethods;
 import net.minecraft.component.ComponentChanges;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.item.Item;
@@ -50,7 +51,7 @@ public class TransfiniteKeyItem extends Item implements PortalDataHolder.Destina
     @Override
     public Identifier getDestination(ItemStack stack) {
         return Objects.requireNonNullElse(stack.getComponents().get(ModComponentTypes.DESTINATION.get()),
-                Identifier.of(InfinityMethods.ofRandomDim)); // no destination component -> randomize
+                VersionMethods.id(InfinityMethods.ofRandomDim)); // no destination component -> randomize
     }
 
     @Override

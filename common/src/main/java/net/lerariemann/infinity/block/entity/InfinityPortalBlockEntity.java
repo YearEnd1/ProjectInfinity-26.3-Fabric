@@ -3,6 +3,7 @@ package net.lerariemann.infinity.block.entity;
 import net.lerariemann.infinity.options.PortalColorApplier;
 import net.lerariemann.infinity.util.InfinityMethods;
 import net.lerariemann.infinity.registry.core.ModBlockEntities;
+import net.lerariemann.infinity.util.VersionMethods;
 import net.lerariemann.infinity.util.core.NbtUtils;
 import net.lerariemann.infinity.util.teleport.InfinityPortal;
 import net.minecraft.block.BlockState;
@@ -157,12 +158,12 @@ public class InfinityPortalBlockEntity extends TintableBlockEntity {
         if (tag.getType("Dimension") == NbtElement.NUMBER_TYPE) { //conversion from legacy formats
             this.portalColor = NbtUtils.getInt(tag, "Dimension") & 0xFFFFFF;
             if (tag.contains("DimensionName")) {
-                this.dimension = Identifier.of(NbtUtils.getString(tag, "DimensionName"));
+                this.dimension = VersionMethods.id(NbtUtils.getString(tag, "DimensionName"));
             }
             else this.dimension = InfinityMethods.getDimId(this.portalColor);
         }
         else if (tag.getType("Dimension") == NbtElement.STRING_TYPE) { //new better format
-            this.dimension = Identifier.of(NbtUtils.getString(tag, "Dimension"));
+            this.dimension = VersionMethods.id(NbtUtils.getString(tag, "Dimension"));
             if (world != null && world.getServer() != null)
                 this.portalColor = NbtUtils.getInt(tag, "Color", PortalColorApplier.of(dimension, world.getServer()).apply(pos) & 0xFFFFFF);
             else

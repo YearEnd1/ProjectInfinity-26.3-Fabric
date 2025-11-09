@@ -14,7 +14,7 @@ public class RandomDimensionType {
     private final Random random;
     public RandomDimension parent;
     public NbtCompound data;
-    public boolean ultrawarm, foggy;
+    public boolean ultrawarm;
     public static int scaleCap = 100000;
 
     RandomDimensionType(RandomDimension dim) {
@@ -23,14 +23,12 @@ public class RandomDimensionType {
         name = "generated_" +dim.numericId;
         fullname = InfinityMod.MOD_ID + ":" + name;
         data = new NbtCompound();
-        ultrawarm = roll("ultrawarm");
-        data.putBoolean("ultrawarm", ultrawarm);
-        add_roll(data, "natural");
-        add_roll(data, "has_skylight");
-        add_roll(data, "piglin_safe");
-        add_roll(data, "bed_works");
-        add_roll(data, "respawn_anchor_works");
-        add_roll(data, "has_raids");
+        add_roll("ultrawarm");
+        add_roll("natural");
+        add_roll("piglin_safe");
+        add_roll("bed_works");
+        add_roll("respawn_anchor_works");
+        add_roll("has_raids");
         data.putBoolean("has_ceiling", dim.hasCeiling());
         data.putDouble("coordinate_scale", coordinateScale());
         data.putFloat("ambient_light", random.nextFloat());
@@ -48,8 +46,8 @@ public class RandomDimensionType {
         data.put("monster_spawn_light_level", lightLevel);
         data.putString("infiniburn", "#" + dim.PROVIDER.randomName(random, ConfigType.TAGS));
         String s = dim.PROVIDER.randomName(random, ConfigType.DIMENSION_EFFECTS);
-        foggy = s.equals("minecraft:the_nether");
         data.putString("effects", s);
+        data.putBoolean("has_skylight", s.equals("minecraft:overworld"));
         CommonIO.write(data, dim.getStoragePath() + "/dimension_type", name + ".json");
     }
 
@@ -57,8 +55,8 @@ public class RandomDimensionType {
         return parent.PROVIDER.roll(random, key);
     }
 
-    void add_roll(NbtCompound res, String key) {
-        res.putBoolean(key, roll(key));
+    void add_roll(String key) {
+        data.putBoolean(key, roll(key));
     }
 
     double coordinateScale() {
