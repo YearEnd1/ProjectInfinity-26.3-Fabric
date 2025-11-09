@@ -1,0 +1,188 @@
+plugins {
+    id("net.neoforged.moddev.legacyforge")
+    id("dev.kikugie.postprocess.jsonlang")
+    id("me.modmuss50.mod-publish-plugin")
+    id("maven-publish")
+}
+
+val minecraft = stonecutter.current.version
+val mcVersion = stonecutter.current.project.substringBeforeLast('-')
+
+tasks.named<ProcessResources>("processResources") {
+    fun prop(name: String) = project.property(name) as String
+
+    val props = HashMap<String, String>().apply {
+        this["version"] = prop("mod.version") + "+" + prop("deps.minecraft")
+        this["minecraft"] = prop("mod.mc_dep_forge")
+    }
+
+    filesMatching(listOf("neoforge.mod.json", "META-INF/neoforge.mods.toml", "META-INF/mods.toml")) {
+        expand(props)
+    }
+}
+
+version = "${property("mod.version")}+${property("deps.minecraft")}-forge"
+base.archivesName = property("mod.id") as String
+
+jsonlang {
+    languageDirectories = listOf("assets/${property("mod.id")}/lang")
+    prettyPrint = true
+}
+
+
+repositories {
+    mavenLocal()
+    maven ( "https://maven.minecraftforge.net" ) {
+        name = "Minecraft Forge"
+    }
+    maven ( "https://maven.shedaniel.me/" ) {
+        name = "shedaniel (Cloth Config)"
+    }
+    maven ( "https://maven.terraformersmc.com/releases/" ) {
+        name = "Terraformers (Mod Menu)"
+    }
+    maven ( "https://maven.wispforest.io/releases/" ) {
+        name = "Wisp Forest Maven"
+    }
+    maven ( "https://api.modrinth.com/maven") {
+        name = "Modrinth"
+    }
+    maven ( "https://maven2.bai.lol" ) {
+        name = "WTHIT"
+    }
+    maven ( "https://repo.sleeping.town/" ) {
+        name = "Sisby Maven"
+    }
+    maven ( "https://maven.parchmentmc.org" ) {
+        name = "Parchment Mappings"
+    }
+    maven ( "https://maven.isxander.dev/releases") {
+        name = "Xander Maven"
+    }
+    maven ( "https://maven.nucleoid.xyz" ) {
+        name = "Nucleoid Maven (Polymer)"
+    }
+    maven ( "https://raw.githubusercontent.com/Fuzss/modresources/main/maven/") {
+        name = "Fuzs Mod Resources"
+    }
+    maven {
+        name = "Kotlin for Forge"
+        setUrl("https://thedarkcolour.github.io/KotlinForForge/")
+    }
+    flatDir { dirs("libs") }
+}
+
+legacyForge {
+    version = property("deps.forge") as String
+    validateAccessTransformers = true
+
+    if (hasProperty("deps.parchment")) parchment {
+        val (mc, ver) = (property("deps.parchment") as String).split(':')
+        mappingsVersion = ver
+        minecraftVersion = mc
+    }
+
+    runs {
+        register("client") {
+            gameDirectory = file("run/")
+            client()
+        }
+        register("server") {
+            gameDirectory = file("run/")
+            server()
+        }
+    }
+
+    mods {
+        register(property("mod.id") as String) {
+            sourceSet(sourceSets["main"])
+        }
+    }
+    sourceSets["main"].resources.srcDir("src/main/generated")
+}
+
+
+dependencies {
+    // Cloth Config
+    if (hasProperty("deps.cloth")) {
+        modImplementation("me.shedaniel.cloth:cloth-config-forge:${property("deps.cloth")}")
+    } else {
+        compileOnly("me.shedaniel.cloth:cloth-config-forge:11.0.136")
+    }
+    modCompileOnly("io.github.llamalad7:mixinextras-common:0.5.0")
+    implementation("io.github.llamalad7:mixinextras-forge:0.5.0")
+    jarJar("io.github.llamalad7:mixinextras-forge:0.5.0")
+}
+
+tasks {
+    processResources {
+        exclude("**/neoforge.mod.json", "**/*.accesswidener", "**/neoforge.mods.toml")
+    }
+
+    named("createMinecraftArtifacts") {
+        dependsOn("stonecutterGenerate")
+    }
+
+    register<Copy>("buildAndCollect") {
+        group = "build"
+        from(jar.map { it.archiveFile })
+        into(rootProject.layout.buildDirectory.file("libs/${project.property("mod.version")}"))
+        dependsOn("build")
+    }
+}
+
+java {
+    withSourcesJar()
+    val javaCompat = if (stonecutter.eval(stonecutter.current.version, ">=1.20.5")) {
+        JavaVersion.VERSION_21
+    } else {
+        JavaVersion.VERSION_17
+    }
+    sourceCompatibility = javaCompat
+    targetCompatibility = javaCompat
+}
+
+val additionalVersionsStr = findProperty("publish.additionalVersions") as String?
+val additionalVersions: List<String> = additionalVersionsStr
+    ?.split(",")
+    ?.map { it.trim() }
+    ?.filter { it.isNotEmpty() }
+    ?: emptyList()
+
+publishMods {
+    file = tasks.jar.map { it.archiveFile.get() }
+    additionalFiles.from(tasks.named<org.gradle.jvm.tasks.Jar>("sourcesJar").map { it.archiveFile.get() })
+
+    type = STABLE
+    displayName = "${property("mod.name")} ${property("mod.version")} for ${stonecutter.current.version} Forge"
+    version = "${property("mod.version")}+${property("deps.minecraft")}-forge"
+    changelog = provider { rootProject.file("CHANGELOG-LATEST.md").readText() }
+    modLoaders.add("forge")
+
+    modrinth {
+        projectId = property("publish.modrinth") as String
+        accessToken = env.MODRINTH_API_KEY.orNull()
+        minecraftVersions.add(stonecutter.current.version)
+        minecraftVersions.addAll(additionalVersions)
+        optional("cloth-config")
+    }
+
+    curseforge {
+        projectId = property("publish.curseforge") as String
+        accessToken = env.CURSEFORGE_API_KEY.orNull()
+        minecraftVersions.add(stonecutter.current.version)
+        minecraftVersions.addAll(additionalVersions)
+    }
+}
+
+publishing {
+    publications {
+        create<MavenPublication>("maven") {
+            groupId = "net.lerariemann"
+            artifactId = "infinity"
+            version = "${property("mod.version")}+${property("deps.minecraft")}"
+
+            from(components["java"])
+        }
+    }
+}

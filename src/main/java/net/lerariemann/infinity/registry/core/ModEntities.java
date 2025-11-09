@@ -1,0 +1,148 @@
+package net.lerariemann.infinity.registry.core;
+
+import dev.architectury.platform.Platform;
+import dev.architectury.registry.client.level.entity.EntityModelLayerRegistry;
+import dev.architectury.registry.client.level.entity.EntityRendererRegistry;
+import dev.architectury.registry.level.entity.EntityAttributeRegistry;
+import dev.architectury.registry.registries.DeferredRegister;
+import dev.architectury.registry.registries.RegistrySupplier;
+import net.lerariemann.infinity.entity.client.*;
+import net.lerariemann.infinity.entity.custom.*;
+import net.lerariemann.infinity.util.InfinityMethods;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.Difficulty;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.MobCategory;
+import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.SpawnPlacementType;
+import net.minecraft.world.entity.SpawnPlacementTypes;
+import net.minecraft.world.entity.SpawnPlacements;
+import net.minecraft.world.entity.animal.Animal;
+import net.minecraft.world.entity.monster.AbstractSkeleton;
+import net.minecraft.world.entity.monster.Monster;
+import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.world.level.levelgen.Heightmap;
+
+import static net.lerariemann.infinity.InfinityMod.MOD_ID;
+
+public class ModEntities {
+    public static void copy(Mob from, Mob e) {
+        e.moveTo(from.getX(), from.getY(), from.getZ(), from.getYRot(), from.getXRot());
+        e.setHealth(from.getHealth());
+        e.yBodyRot = from.yBodyRot;
+        if (from.hasCustomName()) {
+            e.setCustomName(from.getCustomName());
+            e.setCustomNameVisible(from.isCustomNameVisible());
+        }
+        if (from.isPersistenceRequired()) {
+            e.setPersistenceRequired();
+        }
+        e.setInvulnerable(from.isInvulnerable());
+        e.setItemInHand(InteractionHand.MAIN_HAND, from.getItemInHand(InteractionHand.MAIN_HAND));
+        e.setItemInHand(InteractionHand.OFF_HAND, from.getItemInHand(InteractionHand.OFF_HAND));
+    }
+
+    public static final DeferredRegister<EntityType<?>> INFINITY_ENTITIES = DeferredRegister.create(MOD_ID, Registries.ENTITY_TYPE);
+
+    public static final RegistrySupplier<EntityType<ChaosSlime>> CHAOS_SLIME = INFINITY_ENTITIES
+            .register("chaos_slime", () -> EntityType.Builder.of(ChaosSlime::new, MobCategory.MONSTER)
+                    .sized(0.52f, 0.52f)
+                    .clientTrackingRange(10)
+                    .build(type("chaos_slime")));
+    public static final RegistrySupplier<EntityType<ChaosSkeleton>> CHAOS_SKELETON = INFINITY_ENTITIES
+            .register("chaos_skeleton", () -> EntityType.Builder.of(ChaosSkeleton::new, MobCategory.MONSTER)
+                    .sized(0.6f, 1.99f)
+                    .clientTrackingRange(8)
+                    .ridingOffset(-0.7F)
+                    .build(type("chaos_skeleton")));
+    public static final RegistrySupplier<EntityType<ChaosCreeper>> CHAOS_CREEPER = INFINITY_ENTITIES
+            .register("chaos_creeper", () -> EntityType.Builder.of(ChaosCreeper::new, MobCategory.MONSTER)
+                    .sized(0.6f, 1.7f)
+                    .clientTrackingRange(8)
+                    .build(type("chaos_creeper")));
+    public static final RegistrySupplier<EntityType<ChaosPawn>> CHAOS_PAWN = INFINITY_ENTITIES
+            .register("chaos_pawn", () -> EntityType.Builder.of(ChaosPawn::new, MobCategory.MONSTER)
+                    .sized(0.6f, 2.0f)
+                    .clientTrackingRange(10)
+                    .ridingOffset(-0.7F)
+                    .build(type("chaos_pawn")));
+    public static final RegistrySupplier<EntityType<AntEntity>> ANT = INFINITY_ENTITIES
+            .register("ant", () -> EntityType.Builder.of(AntEntity::new, MobCategory.CREATURE)
+                    .sized(0.6f, 0.3f)
+                    .clientTrackingRange(10)
+                    .build(type("ant")));
+    public static final RegistrySupplier<EntityType<BishopEntity>> BISHOP = INFINITY_ENTITIES
+            .register("bishop", () -> EntityType.Builder.of(BishopEntity::new, MobCategory.MONSTER)
+                    .sized(0.6f, 2.7f)
+                    .eyeHeight(1.75f)
+                    .nameTagOffset(2.05F)
+                    .ridingOffset(-0.7F)
+                    .clientTrackingRange(10)
+                    .build(type("bishop")));
+
+    public static void registerEntities() {
+        INFINITY_ENTITIES.register();
+        registerAttributes();
+    }
+
+    public static String type(String id) {
+        if (!Platform.isFabric()) {
+            return "infinity:"+id;
+        }
+        else return null;
+    }
+
+    public static void registerAttributes() {
+        EntityAttributeRegistry.register(CHAOS_SLIME, ChaosSlime::createAttributes);
+        EntityAttributeRegistry.register(CHAOS_SKELETON, AbstractSkeleton::createAttributes);
+        EntityAttributeRegistry.register(CHAOS_CREEPER, ChaosCreeper::createAttributes);
+        EntityAttributeRegistry.register(CHAOS_PAWN, ChaosPawn::createAttributes);
+        EntityAttributeRegistry.register(ANT, AntEntity::createAttributes);
+        EntityAttributeRegistry.register(BISHOP, BishopEntity::createAttributes);
+    }
+
+    public static <T extends Mob> void registerSafe(EntityType<T> type, SpawnPlacementType location, Heightmap.Types heightmapType, SpawnPlacements.SpawnPredicate<T> predicate) {
+        if (!SpawnPlacements.DATA_BY_TYPE.containsKey(type))
+            SpawnPlacements.register(type, location, heightmapType, predicate);
+    }
+
+    public static void registerSpawnRestrictions() {
+        SpawnPlacements.register(CHAOS_SLIME.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, ChaosSlime::canSpawn);
+        SpawnPlacements.register(CHAOS_SKELETON.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, ModEntities::canChaosMonsterSpawn);
+        SpawnPlacements.register(CHAOS_CREEPER.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, ModEntities::canChaosMonsterSpawn);
+        SpawnPlacements.register(CHAOS_PAWN.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, ModEntities::canChessFigureSpawn);
+        SpawnPlacements.register(ANT.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, ModEntities::canChessFigureSpawn);
+        SpawnPlacements.register(BISHOP.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, ModEntities::canChessFigureSpawn);
+
+        registerSafe(EntityType.SNIFFER, SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Animal::checkAnimalSpawnRules);
+        registerSafe(EntityType.CAMEL, SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Animal::checkAnimalSpawnRules);
+        registerSafe(EntityType.ZOGLIN, SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Monster::checkMonsterSpawnRules);
+        registerSafe(EntityType.BREEZE, SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Monster::checkMonsterSpawnRules);
+    }
+
+    public static boolean canChaosMonsterSpawn(EntityType<? extends Monster> type, ServerLevelAccessor world, MobSpawnType spawnReason, BlockPos pos, RandomSource random) {
+        return Monster.checkMonsterSpawnRules(type, world, spawnReason, pos, random)
+                && InfinityMethods.chaosMobsEnabled();
+    }
+    public static boolean canChessFigureSpawn(EntityType<? extends AbstractChessFigure> type, ServerLevelAccessor world, MobSpawnType spawnReason, BlockPos pos, RandomSource random) {
+        return Mob.checkMobSpawnRules(type, world, spawnReason, pos, random)
+                && world.getDifficulty() != Difficulty.PEACEFUL
+                && InfinityMethods.chaosMobsEnabled();
+    }
+
+    public static void registerEntityRenderers() {
+        EntityModelLayerRegistry.register(AntModel.MODEL_LAYER, AntModel::getTexturedModelData);
+        EntityModelLayerRegistry.register(BishopModel.MODEL_LAYER, BishopModel::getTexturedModelData);
+
+        EntityRendererRegistry.register(CHAOS_SLIME, ChaosSlimeRenderer::new);
+        EntityRendererRegistry.register(CHAOS_SKELETON, ChaosSkeletonRenderer::new);
+        EntityRendererRegistry.register(CHAOS_CREEPER, ChaosCreeperRenderer::new);
+        EntityRendererRegistry.register(CHAOS_PAWN, ChaosPawnRenderer::new);
+        EntityRendererRegistry.register(ANT, AntRenderer::new);
+        EntityRendererRegistry.register(BISHOP, BishopRenderer::new);
+    }
+}

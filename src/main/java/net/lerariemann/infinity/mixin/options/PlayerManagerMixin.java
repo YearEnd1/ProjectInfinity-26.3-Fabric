@@ -1,0 +1,71 @@
+package net.lerariemann.infinity.mixin.options;
+
+import com.llamalad7.mixinextras.sugar.Local;
+import net.lerariemann.infinity.InfinityMod;
+import net.lerariemann.infinity.access.MinecraftServerAccess;
+import net.lerariemann.infinity.util.config.ConfigGenInvocation;
+import net.lerariemann.infinity.util.core.CommonIO;
+import net.lerariemann.infinity.util.core.RandomProvider;
+import net.lerariemann.infinity.util.teleport.WarpLogic;
+import net.lerariemann.infinity.registry.var.ModPayloads;
+import net.minecraft.core.LayeredRegistryAccess;
+import net.minecraft.network.Connection;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.RegistryLayer;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.server.network.CommonListenerCookie;
+import net.minecraft.server.players.PlayerList;
+import net.minecraft.world.level.storage.LevelResource;
+import net.minecraft.world.level.storage.PlayerDataStorage;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Unique;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+
+@Mixin(PlayerList.class)
+public class PlayerManagerMixin {
+    @Unique
+    public boolean infinity$needsTpOut;
+
+    @Inject(method = "<init>", at = @At("TAIL"))
+    private void injected(MinecraftServer server, LayeredRegistryAccess<RegistryLayer> registryManager, PlayerDataStorage saveHandler, int maxPlayers, CallbackInfo ci) {
+        infinity$needsTpOut = false;
+    }
+
+    @Inject(method="placeNewPlayer", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/MinecraftServer;overworld()Lnet/minecraft/server/level/ServerLevel;"))
+    void inj(Connection connection, ServerPlayer player, CommonListenerCookie clientData, CallbackInfo ci) {
+        infinity$needsTpOut = true;
+    }
+
+    @Inject(method="placeNewPlayer", at = @At(value = "TAIL"))
+    void inj2(Connection connection, ServerPlayer player, CommonListenerCookie clientData, CallbackInfo ci) {
+        if (infinity$needsTpOut) {
+            infinity$needsTpOut = false;
+            WarpLogic.respawnAlive(player);
+            WarpLogic.sendToMissingno(player);
+        }
+    }
+
+    @Inject(method = "placeNewPlayer", at = @At(value="INVOKE",
+            target = "Lnet/minecraft/server/players/PlayerList;sendPlayerPermissionLevel(Lnet/minecraft/server/level/ServerPlayer;)V"))
+    private void injected(Connection connection, ServerPlayer player, CommonListenerCookie clientData, CallbackInfo ci, @Local(ordinal=0) ServerLevel serverWorld2) {
+        if (serverWorld2 == null) return;
+        ModPayloads.sendShaderPayload(player, serverWorld2);
+        ModPayloads.sendStarsPayload(player);
+        MinecraftServerAccess acc = ((MinecraftServerAccess)(serverWorld2.getServer()));
+        if (acc.infinity$needsInvocation()) {
+            ConfigGenInvocation.invokeOn(player);
+        }
+        InfinityMod.LOGGER.info("Sending sound pack to client");
+        if (RandomProvider.rule("useSoundSyncPackets")) ModPayloads.sendSoundPackPayload(player, CommonIO.read(
+                player.server.getWorldPath(LevelResource.DATAPACK_DIR).resolve("client_sound_pack_data.json")));
+    }
+
+    @Inject(method="sendLevelInfo", at = @At("TAIL"))
+    private void injected2(ServerPlayer player, ServerLevel world, CallbackInfo ci) {
+        ModPayloads.sendShaderPayload(player, world);
+        ModPayloads.sendStarsPayload(player);
+    }
+}

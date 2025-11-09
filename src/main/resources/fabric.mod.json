@@ -1,0 +1,33 @@
+{
+  "schemaVersion": 1,
+  "id": "infinity",
+  "name": "Infinite Dimensions",
+  "version": "${version}",
+  "authors": ["cassiancc"],
+  "contact": {
+    "sources": "",
+    "issues": ""
+  },
+  "description": "",
+  "icon": "assets/icon.png",
+  "license": "MIT",
+  "environment": "*",
+  "accessWidener": "infinity.accesswidener",
+  "entrypoints": {
+    "main": [
+      "net.lerariemann.infinity.util.platform.fabric.FabricEntrypoint"
+    ],
+    "client": [
+      "net.lerariemann.infinity.util.platform.fabric.FabricClientEntrypoint"
+    ],
+    "fabric-datagen": [
+      "net.lerariemann.infinity.util.platform.fabric.datagen.FabricDataGeneratorEntrypoint"
+    ]
+  },
+  "mixins": [
+    "infinity.mixins.json"
+  ],
+  "depends": {
+    "fabric-api": "*"
+  }
+}
