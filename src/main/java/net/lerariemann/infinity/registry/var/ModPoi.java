@@ -1,10 +1,13 @@
 package net.lerariemann.infinity.registry.var;
 
+//? fabric {
+/*
+import net.fabricmc.fabric.api.object.builder.v1.world.poi.PointOfInterestHelper;
+*///?}
 import com.google.common.collect.ImmutableSet;
 import dev.architectury.platform.Platform;
 import dev.architectury.registry.registries.DeferredRegister;
 import dev.architectury.registry.registries.RegistrySupplier;
-import net.fabricmc.fabric.api.object.builder.v1.world.poi.PointOfInterestHelper;
 import net.lerariemann.infinity.InfinityMod;
 import net.lerariemann.infinity.registry.core.ModBlocks;
 import net.lerariemann.infinity.util.InfinityMethods;

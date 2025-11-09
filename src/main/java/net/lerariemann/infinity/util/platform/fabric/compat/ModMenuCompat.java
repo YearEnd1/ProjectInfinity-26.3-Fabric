@@ -1,6 +1,7 @@
 package net.lerariemann.infinity.util.platform.fabric.compat;
 
-import com.terraformersmc.modmenu.api.ConfigScreenFactory;
+//? fabric {
+/*import com.terraformersmc.modmenu.api.ConfigScreenFactory;
 import com.terraformersmc.modmenu.api.ModMenuApi;
 import dev.architectury.platform.Platform;
 
@@ -14,3 +15,4 @@ public class ModMenuCompat implements ModMenuApi {
         }
     }
 }
+*///?}

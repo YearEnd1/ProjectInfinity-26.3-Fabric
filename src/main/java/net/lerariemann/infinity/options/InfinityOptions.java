@@ -1,7 +1,5 @@
 package net.lerariemann.infinity.options;
 
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 import net.lerariemann.infinity.InfinityMod;
 import net.lerariemann.infinity.access.InfinityOptionsAccess;
 import net.lerariemann.infinity.util.Methods;
@@ -63,14 +61,15 @@ public class InfinityOptions {
     public static InfinityOptions access(Level world) {
         return ((InfinityOptionsAccess)world).infinity$getOptions();
     }
-    @Environment(EnvType.CLIENT)
+
     public static InfinityOptions ofClient() {
         return ofClient(Minecraft.getInstance());
     }
-    @Environment(EnvType.CLIENT)
+
     public static InfinityOptions ofClient(Minecraft client) {
         return ((InfinityOptionsAccess)client).infinity$getOptions();
     }
+
     public static InfinityOptions nullSafe(InfinityOptions options) {
         return (options != null) ? options : InfinityOptions.empty();
     }

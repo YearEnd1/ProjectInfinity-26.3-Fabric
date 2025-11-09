@@ -26,14 +26,8 @@ jsonlang {
 }
 
 repositories {
-    maven ( "https://repo.sleeping.town/" ) {
-        name = "Sisby Maven"
-    }
     maven ( "https://maven.parchmentmc.org" ) {
         name = "Parchment Mappings"
-    }
-    maven ( "https://maven.isxander.dev/releases") {
-        name = "Xander Maven"
     }
     maven ( "https://api.modrinth.com/maven") {
         name = "Modrinth"
@@ -43,6 +37,27 @@ repositories {
     }
     maven ("https://maven.architectury.dev/") {
         name = "architectury"
+    }
+    maven ("https://jitpack.io") {
+        name = "DimLib"
+    }
+    maven ("https://maven.squiddev.cc") {
+        name = "CC: Tweaked"
+    }
+    maven ("https://mvn.devos.one/snapshots") {
+        name = "Fabricators of Create"
+    }
+    maven ("https://mvn.devos.one/releases") {
+        name = "Porting Lib"
+    }
+    maven ("https://maven.createmod.net") {
+        name = "Create, Ponder, Flywheel"
+    }
+    maven("https://raw.githubusercontent.com/Fuzss/modresources/main/maven") {
+        name = "forgeconfigapiport"
+    }
+    maven("https://maven.jamieswhiteshirt.com/libs-release") {
+        name = "reach-entity-attributes"
     }
 }
 
@@ -77,6 +92,11 @@ neoForge {
 
 dependencies {
     implementation("dev.architectury:architectury-neoforge:${property("deps.architectury")}")
+    api("me.shedaniel.cloth:cloth-config-neoforge:${property("deps.cloth")}")
+    implementation("com.terraformersmc:modmenu:${property("deps.modmenu")}")
+    implementation("cc.tweaked:cc-tweaked-${property("deps.minecraft")}-forge:${property("deps.cct")}")
+    compileOnly("dev.emi:emi-neoforge:${property("deps.emi")}+${property("deps.minecraft")}:api")
+    implementation("dev.emi:emi-neoforge:${property("deps.emi")}+${property("deps.minecraft")}")
 }
 
 
@@ -138,5 +158,26 @@ publishMods {
         accessToken = env.CURSEFORGE_API_KEY.orNull()
         minecraftVersions.add(stonecutter.current.version)
         minecraftVersions.addAll(additionalVersions)
+    }
+}
+
+val minecraft = stonecutter.current.version
+val accesstransformer = when {
+    stonecutter.eval(minecraft, ">=1.21") -> "1.21.cfg"
+    else -> "1.20.cfg"
+}
+
+minecraft {
+    accessTransformers {
+        file("../../src/main/resources/accesstransformers/$accesstransformer")
+    }
+}
+
+tasks.processResources {
+    filesMatching("META-INF/neoforge.mods.toml") {
+        expand(mapOf(
+            // other properties
+            "at_file" to accesstransformer,
+        ))
     }
 }

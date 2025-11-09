@@ -10,8 +10,6 @@ import com.mojang.blaze3d.vertex.Tesselator;
 import com.mojang.blaze3d.vertex.VertexBuffer;
 import com.mojang.blaze3d.vertex.VertexFormat;
 import com.mojang.math.Axis;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 import net.lerariemann.infinity.util.Methods;
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
@@ -28,7 +26,6 @@ import org.joml.Vector3f;
 
 import java.awt.Color;
 
-@Environment(EnvType.CLIENT)
 public record SkyRenderer(InfinityOptions options, Minecraft client, ClientLevel world,
                           PoseStack matrices, Tesselator tessellator, float tickDelta, Matrix4f projectionMatrix,
                           VertexBuffer lightSkyBuffer, VertexBuffer starsBuffer) {

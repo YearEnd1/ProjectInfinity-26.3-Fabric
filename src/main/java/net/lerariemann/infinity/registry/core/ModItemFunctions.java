@@ -3,8 +3,6 @@ package net.lerariemann.infinity.registry.core;
 import dev.architectury.registry.item.ItemPropertiesRegistry;
 import dev.architectury.registry.registries.DeferredRegister;
 import dev.architectury.registry.registries.RegistrySupplier;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 import net.lerariemann.infinity.block.custom.BiomeBottleBlock;
 import net.lerariemann.infinity.item.function.*;
 import net.lerariemann.infinity.util.InfinityMethods;

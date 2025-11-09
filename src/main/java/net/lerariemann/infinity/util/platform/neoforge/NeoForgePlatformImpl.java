@@ -9,7 +9,6 @@ import net.neoforged.fml.loading.FMLPaths;
 import java.nio.file.Path;
 
 public class NeoForgePlatformImpl implements Platform {
-
     @Override
     public boolean isModLoaded(String modid) {
         return ModList.get().isLoaded(modid);
@@ -21,14 +20,13 @@ public class NeoForgePlatformImpl implements Platform {
     }
 
     @Override
-    public Path getConfigDir() {
+    public Path getConfigFolder() {
         return FMLPaths.CONFIGDIR.get();
     }
 
     @Override
     public boolean isDevelopment() {
-        return !FMLEnvironment.isProduction();
+        return !FMLEnvironment.production;
     }
-
 }
 //?}

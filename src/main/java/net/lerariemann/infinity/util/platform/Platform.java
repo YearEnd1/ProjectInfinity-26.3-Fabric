@@ -4,8 +4,9 @@ package net.lerariemann.infinity.util.platform;
 /*import net.lerariemann.infinity.util.platform.fabric.FabricPlatformImpl;
 *///?}
 //? neoforge {
-import net.lerariemann.infinity.neoforge.NeoForgePlatformImpl;
+import net.lerariemann.infinity.util.platform.neoforge.NeoForgePlatformImpl;
 //?}
+
 import java.nio.file.Path;
 
 public interface Platform {

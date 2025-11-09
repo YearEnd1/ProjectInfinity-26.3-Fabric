@@ -1,5 +1,6 @@
 package net.lerariemann.infinity.util.config;
 
+import dev.architectury.platform.Platform;
 import net.lerariemann.infinity.InfinityMod;
 import net.lerariemann.infinity.util.Methods;
 import net.lerariemann.infinity.util.core.CommonIO;
@@ -31,7 +32,7 @@ public record Amendment(ConfigType area, ModSelector modSelector, Selector selec
         if (mod.equals("all")) {
             modSelector = new UniversalModSelector();
         }
-        else if (!Methods.isModLoaded(mod)) return null;
+        else if (!Platform.isModLoaded(mod)) return null;
         else modSelector = new MatchingModSelector(mod);
 
         String selectorType = NbtUtils.getString(data,"selector", "");

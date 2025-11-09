@@ -1,8 +1,6 @@
 package net.lerariemann.infinity.util.loading;
 
 import com.google.common.util.concurrent.AtomicDouble;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 import net.lerariemann.infinity.access.GameRendererAccess;
 import net.lerariemann.infinity.registry.var.ModPayloads;
 import net.lerariemann.infinity.util.InfinityMethods;
@@ -15,7 +13,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.concurrent.atomic.AtomicInteger;
 
-@Environment(EnvType.CLIENT)
 public interface ShaderLoader {
     String FILENAME = "current.json";
     AtomicInteger iridLevel = new AtomicInteger(-1);

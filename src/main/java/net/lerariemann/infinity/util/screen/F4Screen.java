@@ -1,7 +1,5 @@
 package net.lerariemann.infinity.util.screen;
 
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 import net.lerariemann.infinity.util.InfinityMethods;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.EditBox;
@@ -14,7 +12,6 @@ import net.minecraft.world.inventory.ContainerListener;
 import net.minecraft.world.item.ItemStack;
 import java.util.concurrent.atomic.AtomicInteger;
 
-@Environment(EnvType.CLIENT)
 public class F4Screen extends AbstractContainerScreen<F4ScreenHandler> {
     EditBox widthValue;
     EditBox heightValue;

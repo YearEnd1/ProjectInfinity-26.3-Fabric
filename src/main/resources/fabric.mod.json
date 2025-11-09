@@ -9,10 +9,10 @@
     "issues": ""
   },
   "description": "",
-  "icon": "assets/icon.png",
+  "icon": "assets/infinity/icon.png",
   "license": "MIT",
   "environment": "*",
-  "accessWidener": "infinity.accesswidener",
+  "accessWidener": "accesswideners/${aw_file}",
   "entrypoints": {
     "main": [
       "net.lerariemann.infinity.util.platform.fabric.FabricEntrypoint"

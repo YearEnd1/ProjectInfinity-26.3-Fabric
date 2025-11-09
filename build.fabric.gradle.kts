@@ -171,3 +171,22 @@ publishMods {
         requires("fabric-api")
     }
 }
+
+val minecraft = stonecutter.current.version
+val accesswidener = when {
+    stonecutter.eval(minecraft, ">=1.21") -> "1.21.accesswidener"
+    else -> "1.20.accesswidener"
+}
+
+loom {
+    accessWidenerPath = rootProject.file("src/main/resources/accesswideners/$accesswidener")
+}
+
+tasks.processResources {
+    filesMatching("fabric.mod.json") {
+        expand(mapOf(
+            // other properties
+            "aw_file" to accesswidener,
+        ))
+    }
+}

@@ -25,3 +25,6 @@ side = "BOTH"
 modId = "minecraft"
 type = "required"
 versionRange = "${minecraft}"
+
+[[accessTransformers]]
+file="accesstransformers/${at_file}"
