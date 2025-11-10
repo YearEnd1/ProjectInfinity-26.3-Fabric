@@ -24,10 +24,11 @@ import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
 import net.neoforged.neoforge.network.registration.PayloadRegistrar;
 
+import static net.lerariemann.infinity.InfinityMod.MOD_ID;
 import static net.lerariemann.infinity.registry.var.ModPayloads.*;
 
-@Mod(InfinityMod.MOD_ID)
-@EventBusSubscriber // sample_content
+@Mod(MOD_ID)
+@EventBusSubscriber(modid = MOD_ID)
 public class InfinityModNeoforge {
     public InfinityModNeoforge(IEventBus eventBus, ModContainer container) {
         // Run our common setup.
@@ -35,11 +36,6 @@ public class InfinityModNeoforge {
         // Run our client setup.
         if (FMLEnvironment.dist == Dist.CLIENT) InfinityModNeoForgeClient.initializeClient(eventBus);
         // Run any remaining tasks that require waiting for the registry to freeze on NeoForge.
-        eventBus.addListener(InfinityModNeoforge::registerSpawns);
-        eventBus.addListener(InfinityModNeoforge::commonSetup);
-        eventBus.addListener(FluidTypes::registerFluidInteractions);
-        eventBus.addListener(InfinityModNeoforge::registerPayloads);
-        eventBus.addListener(NeoItems::buildContents);
         FluidTypes.registerFluidTypes(eventBus);
         ModFluidsNeoforge.registerModFluids();
         ModEffectsNeoforge.register(eventBus);
@@ -47,7 +43,7 @@ public class InfinityModNeoforge {
 
     @SubscribeEvent
     public static void registerSpawns(RegisterSpawnPlacementsEvent event) {
-        ModEntities.registerSpawnRestrictions();
+        ModEntities.registerSpawnRestrictions(event);
     }
 
     @SubscribeEvent

@@ -87,10 +87,14 @@ public interface InfinityMethods {
         if (world instanceof LevelAccessor acc) {
             return InfinityMethods.isBiomeInfinity(acc, pos);
         }
-        else return Platform.isFabric()
+        //? if fabric {
+        /*else return Platform.isFabric()
                 && world.hasBiomes()
                 && world.getBiomeFabric(pos) instanceof Holder<Biome> biome
                 && InfinityMethods.isBiomeInfinity(biome);
+        *///?} else {
+        return false;
+        //?}
     }
 
     /**

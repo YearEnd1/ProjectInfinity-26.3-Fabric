@@ -2,13 +2,8 @@ package net.lerariemann.infinity.util.platform;
 
 import dev.architectury.registry.registries.RegistrySupplier;
 
-import net.lerariemann.infinity.item.StarOfLangItem;
 import net.lerariemann.infinity.registry.core.ModBlocks;
 import net.lerariemann.infinity.util.InfinityMethods;
-import net.lerariemann.infinity.util.platform.neoforge.FluidTypes;
-import net.lerariemann.infinity.util.platform.neoforge.IridescenceLiquidBlockNeoforge;
-import net.lerariemann.infinity.util.platform.neoforge.ModFluidsNeoforge;
-import net.lerariemann.infinity.util.platform.neoforge.StarOfLangItemNeoforge;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
@@ -32,7 +27,6 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.FlowingFluid;
 import net.minecraft.world.level.material.MapColor;
 import java.nio.file.Path;
-import java.util.function.Function;
 import java.util.function.Supplier;
 
 //? fabric {
@@ -49,7 +43,6 @@ import net.lerariemann.infinity.InfinityMod;
 import net.lerariemann.infinity.iridescence.IridescenceLiquidBlock;
 import net.lerariemann.infinity.item.StarOfLangItem;
 import net.lerariemann.infinity.util.platform.fabric.ModFluidsFabric;
-import net.lerariemann.infinity.util.platform.fabric.StarOfLangFabricItem;
 import net.minecraft.core.registries.Registries;
 *///?}
 //? neoforge {
@@ -59,6 +52,9 @@ import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.common.Tags;
 import net.neoforged.neoforge.event.level.LevelEvent;
 import net.neoforged.neoforge.network.PacketDistributor;
+import net.lerariemann.infinity.util.platform.neoforge.FluidTypes;
+import net.lerariemann.infinity.util.platform.neoforge.IridescenceLiquidBlockNeoforge;
+import net.lerariemann.infinity.util.platform.neoforge.ModFluidsNeoforge;
 //?}
 /**
  * Methods that require different implementations to work on Fabric vs. NeoForge.
@@ -263,15 +259,6 @@ public class PlatformMethods {
         
         if (entity instanceof Player) return -1;
         return entity.getFluidTypeHeight(FluidTypes.IRIDESCENCE_TYPE.value());
-         //?}
-    }
-
-    public static Function<Item.Properties, ? extends StarOfLangItem> getStarOfLangConstructor() {
-        //? fabric {
-        /*return StarOfLangFabricItem::new;
-        *///?}
-        //? neoforge {
-        return StarOfLangItemNeoforge::new;
          //?}
     }
 

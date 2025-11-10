@@ -20,44 +20,70 @@ tasks.named<ProcessResources>("processResources") {
 version = "${property("mod.version")}+${property("deps.minecraft")}-neoforge"
 base.archivesName = property("mod.id") as String
 
+val minecraft = stonecutter.current.version
+val accesstransformer = when {
+    stonecutter.eval(minecraft, ">=1.21") -> "1.21.cfg"
+    else -> "1.20.cfg"
+}
+
 jsonlang {
     languageDirectories = listOf("assets/${property("mod.id")}/lang")
     prettyPrint = true
 }
 
 repositories {
-    maven ( "https://maven.parchmentmc.org" ) {
+    maven {
         name = "Parchment Mappings"
+        url = uri("https://maven.parchmentmc.org")
+        content {
+            includeGroupAndSubgroups("org.parchmentmc")
+        }
     }
-    maven ( "https://api.modrinth.com/maven") {
+    maven {
         name = "Modrinth"
+        url = uri("https://api.modrinth.com/maven")
+        content {
+            includeGroupAndSubgroups("maven.modrinth")
+        }
     }
-    maven ( "https://maven.terraformersmc.com/releases/" ) {
+    maven {
         name = "Terraformers (Mod Menu)"
+        url = uri("https://maven.terraformersmc.com/releases/")
+        content {
+            includeGroupAndSubgroups("com.terraformersmc")
+            includeGroupAndSubgroups("dev.emi")
+        }
     }
-    maven ("https://maven.architectury.dev/") {
-        name = "architectury"
+    maven {
+        name = "Architectury"
+        url = uri("https://maven.architectury.dev/")
+        content {
+            includeGroupAndSubgroups("dev.architectury")
+            includeGroupAndSubgroups("me.shedaniel")
+        }
     }
-    maven ("https://jitpack.io") {
-        name = "DimLib"
-    }
-    maven ("https://maven.squiddev.cc") {
+    maven {
         name = "CC: Tweaked"
+        url = uri("https://maven.squiddev.cc")
+        content {
+            includeGroupAndSubgroups("cc.tweaked")
+        }
     }
-    maven ("https://mvn.devos.one/snapshots") {
-        name = "Fabricators of Create"
-    }
-    maven ("https://mvn.devos.one/releases") {
-        name = "Porting Lib"
-    }
-    maven ("https://maven.createmod.net") {
+    maven {
         name = "Create, Ponder, Flywheel"
+        url = uri("https://maven.createmod.net")
+        content {
+            includeGroupAndSubgroups("net.createmod")
+            includeGroupAndSubgroups("dev.engine-room")
+            includeGroupAndSubgroups("com.simibubi")
+        }
     }
-    maven("https://raw.githubusercontent.com/Fuzss/modresources/main/maven") {
-        name = "forgeconfigapiport"
-    }
-    maven("https://maven.jamieswhiteshirt.com/libs-release") {
-        name = "reach-entity-attributes"
+    maven {
+        name = "Registrate"
+        url = uri("https://maven.ithundxr.dev/snapshots")
+        content {
+            includeGroupAndSubgroups("com.tterrag")
+        }
     }
 }
 
@@ -87,16 +113,23 @@ neoForge {
             sourceSet(sourceSets["main"])
         }
     }
-    sourceSets["main"].resources.srcDir("src/main/generated")
 }
 
 dependencies {
     implementation("dev.architectury:architectury-neoforge:${property("deps.architectury")}")
     api("me.shedaniel.cloth:cloth-config-neoforge:${property("deps.cloth")}")
-    implementation("com.terraformersmc:modmenu:${property("deps.modmenu")}")
     implementation("cc.tweaked:cc-tweaked-${property("deps.minecraft")}-forge:${property("deps.cct")}")
     compileOnly("dev.emi:emi-neoforge:${property("deps.emi")}+${property("deps.minecraft")}:api")
     implementation("dev.emi:emi-neoforge:${property("deps.emi")}+${property("deps.minecraft")}")
+
+
+    // Create
+    compileOnly("com.simibubi.create:create-${property("deps.minecraft")}:${property("deps.create")}:slim") { isTransitive = false }
+    implementation("net.createmod.ponder:Ponder-NeoForge-${property("deps.minecraft")}:${property("deps.ponder")}")
+    compileOnly("dev.engine-room.flywheel:flywheel-neoforge-api-${property("deps.minecraft")}:${property("deps.flywheel")}")
+    runtimeOnly("dev.engine-room.flywheel:flywheel-neoforge-${property("deps.minecraft")}:${property("deps.flywheel")}")
+    implementation("com.tterrag.registrate:Registrate:${property("deps.registrate")}")
+
 }
 
 
@@ -158,18 +191,6 @@ publishMods {
         accessToken = env.CURSEFORGE_API_KEY.orNull()
         minecraftVersions.add(stonecutter.current.version)
         minecraftVersions.addAll(additionalVersions)
-    }
-}
-
-val minecraft = stonecutter.current.version
-val accesstransformer = when {
-    stonecutter.eval(minecraft, ">=1.21") -> "1.21.cfg"
-    else -> "1.20.cfg"
-}
-
-minecraft {
-    accessTransformers {
-        file("../../src/main/resources/accesstransformers/$accesstransformer")
     }
 }
 

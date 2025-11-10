@@ -19,6 +19,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.FastColor;
 import net.minecraft.world.level.BlockAndTintGetter;
 import net.minecraft.world.level.material.FluidState;
+import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.ModLoadingContext;
@@ -31,15 +32,13 @@ import net.neoforged.neoforge.client.extensions.common.RegisterClientExtensionsE
 import net.neoforged.neoforge.client.gui.IConfigScreenFactory;
 import org.jetbrains.annotations.NotNull;
 
+import static net.lerariemann.infinity.InfinityMod.MOD_ID;
+
+@EventBusSubscriber(value = Dist.CLIENT, modid = MOD_ID)
 public class InfinityModNeoForgeClient {
     public static void initializeClient(IEventBus eventBus) {
         InfinityModClient.initializeClient();
         InfinityModNeoForgeClient.registerModsPage();
-        eventBus.addListener(InfinityModNeoForgeClient::registerBlockColorHandlers);
-        eventBus.addListener(InfinityModNeoForgeClient::registerItemColorHandlers);
-        eventBus.addListener(InfinityModNeoForgeClient::registerFluidRenderLayers);
-        eventBus.addListener(InfinityModNeoForgeClient::registerModelPredicates);
-        eventBus.addListener(InfinityModNeoForgeClient::registerMenuScreens);
     }
 
     //Integrate Cloth Config screen (if mod present) with NeoForge mod menu.
@@ -86,35 +85,32 @@ public class InfinityModNeoForgeClient {
         ItemBlockRenderTypes.setRenderLayer(PlatformMethods.getIridescenceFlowing().get(), RenderType.translucent());
     }
 
-    @EventBusSubscriber(bus = EventBusSubscriber.Bus.MOD, modid = InfinityMod.MOD_ID)
-    public static class FluidClientHandler {
-        @SubscribeEvent
-        static void onRegisterClientExtensions(RegisterClientExtensionsEvent event) {
-            event.registerFluidType(new IClientFluidTypeExtensions() {
-                @Override
-                public @NotNull ResourceLocation getStillTexture() {
-                    return Iridescence.TEXTURE;
-                }
-                @Override
-                public @NotNull ResourceLocation getFlowingTexture() {
-                    return Iridescence.FLOWING_TEXTURE;
-                }
-                @Override
-                public @NotNull ResourceLocation getOverlayTexture() {
-                    return Iridescence.OVERLAY_TEXTURE;
-                }
+    @SubscribeEvent
+    static void onRegisterClientExtensions(RegisterClientExtensionsEvent event) {
+        event.registerFluidType(new IClientFluidTypeExtensions() {
+            @Override
+            public @NotNull ResourceLocation getStillTexture() {
+                return Iridescence.TEXTURE;
+            }
+            @Override
+            public @NotNull ResourceLocation getFlowingTexture() {
+                return Iridescence.FLOWING_TEXTURE;
+            }
+            @Override
+            public @NotNull ResourceLocation getOverlayTexture() {
+                return Iridescence.OVERLAY_TEXTURE;
+            }
 
-                @Override
-                public int getTintColor() {
-                    return FastColor.ARGB32.opaque(Iridescence.getTimeBasedColor());
-                }
-                @Override
-                public int getTintColor(@NotNull FluidState state, @NotNull BlockAndTintGetter getter, @NotNull BlockPos pos) {
-                    return FastColor.ARGB32.opaque(Iridescence.getPosBasedColor(pos));
-                }
+            @Override
+            public int getTintColor() {
+                return FastColor.ARGB32.opaque(Iridescence.getTimeBasedColor());
+            }
+            @Override
+            public int getTintColor(@NotNull FluidState state, @NotNull BlockAndTintGetter getter, @NotNull BlockPos pos) {
+                return FastColor.ARGB32.opaque(Iridescence.getPosBasedColor(pos));
+            }
 
-            }, FluidTypes.IRIDESCENCE_TYPE.value());
-        }
+        }, FluidTypes.IRIDESCENCE_TYPE.value());
     }
 }
 //?}

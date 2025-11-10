@@ -115,7 +115,7 @@ public class ModItems {
             registerItemAfter("iridescent_star", CreativeModeTabs.INGREDIENTS, Items.NETHER_STAR, IridescentStarItem::new,
                     new Item.Properties().rarity(Rarity.UNCOMMON).component(DataComponents.ENCHANTMENT_GLINT_OVERRIDE, true));
     public static final RegistrySupplier<? extends StarOfLangItem> STAR_OF_LANG =
-            registerItemAfter("star_of_lang", CreativeModeTabs.INGREDIENTS, Items.NETHER_STAR, PlatformMethods.getStarOfLangConstructor(),
+            registerItemAfter("star_of_lang", CreativeModeTabs.INGREDIENTS, Items.NETHER_STAR, StarOfLangItem::new,
                     new Item.Properties().component(DataComponents.ENCHANTMENT_GLINT_OVERRIDE, true));
     public static final RegistrySupplier<F4Item> F4 =
             registerItemAfter("f4", CreativeModeTabs.TOOLS_AND_UTILITIES, Items.WRITABLE_BOOK, F4Item::new,

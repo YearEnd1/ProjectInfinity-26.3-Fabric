@@ -6,12 +6,19 @@ plugins {
     id("me.modmuss50.mod-publish-plugin")
 }
 
+val minecraft = stonecutter.current.version
+val accesswidener = when {
+    stonecutter.eval(minecraft, ">=1.21") -> "1.21.accesswidener"
+    else -> "1.20.accesswidener"
+}
+
 tasks.named<ProcessResources>("processResources") {
     fun prop(name: String) = project.property(name) as String
 
     val props = HashMap<String, String>().apply {
         this["version"] = prop("mod.version") + "+" + prop("deps.minecraft")
         this["minecraft"] = prop("mod.mc_dep_fabric")
+        this["aw_file"] = accesswidener
     }
 
     filesMatching(listOf("fabric.mod.json", "META-INF/neoforge.mods.toml", "META-INF/mods.toml")) {
@@ -32,38 +39,89 @@ jsonlang {
 }
 
 repositories {
-    maven ( "https://maven.parchmentmc.org" ) {
+    maven {
         name = "Parchment Mappings"
+        url = uri("https://maven.parchmentmc.org")
+        content {
+            includeGroupAndSubgroups("org.parchmentmc")
+        }
     }
-    maven ( "https://api.modrinth.com/maven") {
+    maven {
         name = "Modrinth"
+        url = uri("https://api.modrinth.com/maven")
+        content {
+            includeGroupAndSubgroups("maven.modrinth")
+        }
     }
-    maven ( "https://maven.terraformersmc.com/releases/" ) {
+    maven {
         name = "Terraformers (Mod Menu)"
+        url = uri("https://maven.terraformersmc.com/releases/")
+        content {
+            includeGroupAndSubgroups("com.terraformersmc")
+            includeGroupAndSubgroups("dev.emi")
+        }
     }
-    maven ("https://maven.architectury.dev/") {
-        name = "architectury"
+    maven {
+        name = "Architectury"
+        url = uri("https://maven.architectury.dev/")
+        content {
+            includeGroupAndSubgroups("dev.architectury")
+            includeGroupAndSubgroups("me.shedaniel")
+        }
     }
-    maven ("https://jitpack.io") {
-        name = "DimLib"
+    maven {
+        name = "Jitpack (DimLib)"
+        url = uri("https://jitpack.io")
+        content {
+            includeGroupAndSubgroups("com.github.iPortalTeam")
+        }
     }
-    maven ("https://maven.squiddev.cc") {
+    maven {
         name = "CC: Tweaked"
+        url = uri("https://maven.squiddev.cc")
+        content {
+            includeGroupAndSubgroups("cc.tweaked")
+        }
     }
-    maven ("https://mvn.devos.one/snapshots") {
-        name = "Fabricators of Create"
+    maven {
+        name = "Fabricators of Create (Snapshots)"
+        url = uri("https://mvn.devos.one/snapshots")
+        content {
+            includeGroupAndSubgroups("net.createmod")
+            includeGroupAndSubgroups("dev.engine-room")
+            includeGroupAndSubgroups("io.github.fabricators_of_create")
+        }
     }
-    maven ("https://mvn.devos.one/releases") {
-        name = "Porting Lib"
+    maven {
+        name = "Fabricators of Create (Releases)"
+        url = uri("https://mvn.devos.one/releases")
+        content {
+            includeGroupAndSubgroups("net.createmod")
+            includeGroupAndSubgroups("dev.engine-room")
+            includeGroupAndSubgroups("io.github.fabricators_of_create")
+        }
     }
-    maven ("https://maven.createmod.net") {
+    maven {
         name = "Create, Ponder, Flywheel"
+        url = uri("https://maven.createmod.net")
+        content {
+            includeGroupAndSubgroups("net.createmod")
+            includeGroupAndSubgroups("dev.engine-room")
+        }
     }
-    maven("https://raw.githubusercontent.com/Fuzss/modresources/main/maven") {
-        name = "forgeconfigapiport"
+    maven {
+        name = "Fuzs Mod Resources"
+        url = uri("https://raw.githubusercontent.com/Fuzss/modresources/main/maven/")
+        content {
+            includeGroupAndSubgroups("fuzs")
+        }
     }
-    maven("https://maven.jamieswhiteshirt.com/libs-release") {
+    maven {
         name = "reach-entity-attributes"
+        url = uri("https://maven.jamieswhiteshirt.com/libs-release")
+        content {
+            includeGroupAndSubgroups("com.jamieswhiteshirt")
+        }
     }
 }
 
@@ -102,12 +160,12 @@ configurations.all {
 }
 
 
-fabricApi {
-    configureDataGeneration() {
-        outputDirectory = file("$rootDir/src/main/generated")
-        client = true
-    }
-}
+//fabricApi {
+//    configureDataGeneration() {
+//        outputDirectory = file("$rootDir/src/main/generated")
+//        client = true
+//    }
+//}
 
 tasks.named("processResources") {
     dependsOn(":${stonecutter.current.project}:stonecutterGenerate")
@@ -170,12 +228,6 @@ publishMods {
         minecraftVersions.addAll(additionalVersions)
         requires("fabric-api")
     }
-}
-
-val minecraft = stonecutter.current.version
-val accesswidener = when {
-    stonecutter.eval(minecraft, ">=1.21") -> "1.21.accesswidener"
-    else -> "1.20.accesswidener"
 }
 
 loom {

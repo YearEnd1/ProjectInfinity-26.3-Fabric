@@ -117,7 +117,6 @@ public class ModItemFunctions {
         itemEntity.remove(Entity.RemovalReason.CHANGED_DIMENSION);
     }
 
-    @Environment(EnvType.CLIENT)
     public static void registerModelPredicates() {
         ItemPropertiesRegistry.register(ModItems.TRANSFINITE_KEY.get(), InfinityMethods.getId("key"), (stack, world, entity, seed) -> {
             ResourceLocation id = ModItems.TRANSFINITE_KEY.get().getDestination(stack);

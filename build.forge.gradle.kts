@@ -31,45 +31,94 @@ jsonlang {
 
 
 repositories {
-    mavenLocal()
     maven ( "https://maven.minecraftforge.net" ) {
         name = "Minecraft Forge"
     }
-    maven ( "https://maven.shedaniel.me/" ) {
-        name = "shedaniel (Cloth Config)"
-    }
-    maven ( "https://maven.terraformersmc.com/releases/" ) {
-        name = "Terraformers (Mod Menu)"
-    }
-    maven ( "https://maven.wispforest.io/releases/" ) {
-        name = "Wisp Forest Maven"
-    }
-    maven ( "https://api.modrinth.com/maven") {
-        name = "Modrinth"
-    }
-    maven ( "https://maven2.bai.lol" ) {
-        name = "WTHIT"
-    }
-    maven ( "https://repo.sleeping.town/" ) {
-        name = "Sisby Maven"
-    }
-    maven ( "https://maven.parchmentmc.org" ) {
+    maven {
         name = "Parchment Mappings"
-    }
-    maven ( "https://maven.isxander.dev/releases") {
-        name = "Xander Maven"
-    }
-    maven ( "https://maven.nucleoid.xyz" ) {
-        name = "Nucleoid Maven (Polymer)"
-    }
-    maven ( "https://raw.githubusercontent.com/Fuzss/modresources/main/maven/") {
-        name = "Fuzs Mod Resources"
+        url = uri("https://maven.parchmentmc.org")
+        content {
+            includeGroupAndSubgroups("org.parchmentmc")
+        }
     }
     maven {
-        name = "Kotlin for Forge"
-        setUrl("https://thedarkcolour.github.io/KotlinForForge/")
+        name = "Modrinth"
+        url = uri("https://api.modrinth.com/maven")
+        content {
+            includeGroupAndSubgroups("maven.modrinth")
+        }
     }
-    flatDir { dirs("libs") }
+    maven {
+        name = "Terraformers (Mod Menu)"
+        url = uri("https://maven.terraformersmc.com/releases/")
+        content {
+            includeGroupAndSubgroups("com.terraformersmc")
+            includeGroupAndSubgroups("dev.emi")
+        }
+    }
+    maven {
+        name = "Architectury"
+        url = uri("https://maven.architectury.dev/")
+        content {
+            includeGroupAndSubgroups("dev.architectury")
+            includeGroupAndSubgroups("me.shedaniel")
+        }
+    }
+    maven {
+        name = "Jitpack (DimLib)"
+        url = uri("https://jitpack.io")
+        content {
+            includeGroupAndSubgroups("com.github.iPortalTeam")
+        }
+    }
+    maven {
+        name = "CC: Tweaked"
+        url = uri("https://maven.squiddev.cc")
+        content {
+            includeGroupAndSubgroups("cc.tweaked")
+        }
+    }
+    maven {
+        name = "Fabricators of Create (Snapshots)"
+        url = uri("https://mvn.devos.one/snapshots")
+        content {
+            includeGroupAndSubgroups("net.createmod")
+            includeGroupAndSubgroups("dev.engine-room")
+            includeGroupAndSubgroups("io.github.fabricators_of_create")
+        }
+    }
+    maven {
+        name = "Fabricators of Create (Releases)"
+        url = uri("https://mvn.devos.one/releases")
+        content {
+            includeGroupAndSubgroups("net.createmod")
+            includeGroupAndSubgroups("dev.engine-room")
+            includeGroupAndSubgroups("io.github.fabricators_of_create")
+        }
+    }
+    maven {
+        name = "Create, Ponder, Flywheel"
+        url = uri("https://maven.createmod.net")
+        content {
+            includeGroupAndSubgroups("net.createmod")
+            includeGroupAndSubgroups("dev.engine-room")
+            includeGroupAndSubgroups("com.simibubi")
+        }
+    }
+    maven {
+        name = "Fuzs Mod Resources"
+        url = uri("https://raw.githubusercontent.com/Fuzss/modresources/main/maven/")
+        content {
+            includeGroupAndSubgroups("fuzs")
+        }
+    }
+    maven {
+        name = "Registrate"
+        url = uri("https://maven.ithundxr.dev/mirror")
+        content {
+            includeGroupAndSubgroups("com.tterrag")
+        }
+    }
 }
 
 legacyForge {
@@ -103,12 +152,20 @@ legacyForge {
 
 
 dependencies {
-    // Cloth Config
-    if (hasProperty("deps.cloth")) {
-        modImplementation("me.shedaniel.cloth:cloth-config-forge:${property("deps.cloth")}")
-    } else {
-        compileOnly("me.shedaniel.cloth:cloth-config-forge:11.0.136")
-    }
+    implementation("dev.architectury:architectury-forge:${property("deps.architectury")}")
+    api("me.shedaniel.cloth:cloth-config-forge:${property("deps.cloth")}")
+    implementation("cc.tweaked:cc-tweaked-${property("deps.minecraft")}-forge:${property("deps.cct")}")
+    compileOnly("dev.emi:emi-forge:${property("deps.emi")}+${property("deps.minecraft")}:api")
+    implementation("dev.emi:emi-forge:${property("deps.emi")}+${property("deps.minecraft")}")
+
+
+    // Create
+    compileOnly("com.simibubi.create:create-${property("deps.minecraft")}:${property("deps.create")}:slim") { isTransitive = false }
+    implementation("net.createmod.ponder:Ponder-Forge-${property("deps.minecraft")}:${property("deps.ponder")}")
+    compileOnly("dev.engine-room.flywheel:flywheel-forge-api-${property("deps.minecraft")}:${property("deps.flywheel")}")
+    runtimeOnly("dev.engine-room.flywheel:flywheel-forge-${property("deps.minecraft")}:${property("deps.flywheel")}")
+    implementation("com.tterrag.registrate:Registrate:${property("deps.registrate")}")
+
     modCompileOnly("io.github.llamalad7:mixinextras-common:0.5.0")
     implementation("io.github.llamalad7:mixinextras-forge:0.5.0")
     jarJar("io.github.llamalad7:mixinextras-forge:0.5.0")

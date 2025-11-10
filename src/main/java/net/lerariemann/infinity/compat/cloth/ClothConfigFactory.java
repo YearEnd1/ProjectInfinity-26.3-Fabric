@@ -191,7 +191,6 @@ public class ClothConfigFactory {
     /**
      * Create a translatable text tooltip for a config entry.
      */
-    @Environment(EnvType.CLIENT)
     static Component[] fieldTooltip(Map.Entry<String, JsonElement> field, String category, String nested) {
         if (category.equals("general")) {
             category = "";
@@ -213,7 +212,6 @@ public class ClothConfigFactory {
      * This code was adapted from Item Descriptions, as
      * Cloth Config's tooltip wrapper can sometimes cause a crash.
     */
-    @Environment(EnvType.CLIENT)
     public static List<Component> createTooltip(String loreKey, boolean translate) {
         //Setup list to store (potentially multi-line) tooltip.
         ArrayList<Component> lines = new ArrayList<>();

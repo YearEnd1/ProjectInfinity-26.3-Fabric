@@ -1,7 +1,5 @@
 package net.lerariemann.infinity.block.custom;
 
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 import net.lerariemann.infinity.InfinityMod;
 import net.lerariemann.infinity.access.Timebombable;
 import net.lerariemann.infinity.block.entity.InfinityPortalBlockEntity;
@@ -123,7 +121,6 @@ public class InfinityPortalBlock extends NetherPortalBlock implements EntityBloc
     /**
      * Spawns colourful particles.
      */
-    @Environment(EnvType.CLIENT) @Override
     public void animateTick(BlockState state, Level world, BlockPos pos, RandomSource random) {
         if (random.nextInt(100) == 0) {
             world.playLocalSound((double)pos.getX() + 0.5, (double)pos.getY() + 0.5, (double)pos.getZ() + 0.5, SoundEvents.BEACON_AMBIENT, SoundSource.BLOCKS, 1.0F, random.nextFloat() * 0.4F + 0.8F, false);

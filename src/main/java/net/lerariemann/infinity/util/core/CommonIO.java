@@ -3,6 +3,7 @@ package net.lerariemann.infinity.util.core;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import dev.architectury.platform.Platform;
 import net.minecraft.nbt.*;
+import net.minecraft.util.Mth;
 import org.apache.commons.io.FileUtils;
 
 import java.io.File;
@@ -175,13 +176,13 @@ public interface CommonIO {
 
     int maxBound = 30000000;
     static float boundsCheck(float base) {
-        return Math.clamp(base, -maxBound, maxBound);
+        return Mth.clamp(base, -maxBound, maxBound);
     }
     static int boundsCheck(long base) {
-        return Math.clamp(base, -maxBound, maxBound);
+        return (int) Mth.clamp(base, -maxBound, maxBound);
     }
     static int boundsCheck(int base) {
-        return Math.clamp(base, -maxBound, maxBound);
+        return Mth.clamp(base, -maxBound, maxBound);
     }
 
     static String compoundToString(CompoundTag base) {

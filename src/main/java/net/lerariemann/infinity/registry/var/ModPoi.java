@@ -1,8 +1,8 @@
 package net.lerariemann.infinity.registry.var;
 
 //? fabric {
-/*
-import net.fabricmc.fabric.api.object.builder.v1.world.poi.PointOfInterestHelper;
+
+/*import net.fabricmc.fabric.api.object.builder.v1.world.poi.PointOfInterestHelper;
 *///?}
 import com.google.common.collect.ImmutableSet;
 import dev.architectury.platform.Platform;

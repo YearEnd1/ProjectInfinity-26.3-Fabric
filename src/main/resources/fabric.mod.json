@@ -3,10 +3,11 @@
   "id": "infinity",
   "name": "Infinite Dimensions",
   "version": "${version}",
-  "authors": ["cassiancc"],
+  "authors": ["Lera Riemann", "cassiancc"],
   "contact": {
-    "sources": "",
-    "issues": ""
+    "homepage": "https://modrinth.com/mod/infinite-dimensions",
+    "sources": "https://tangled.org/@lerariemann.nekoweb.org/ProjectInfinity",
+    "issues": "https://tangled.org/@lerariemann.nekoweb.org/ProjectInfinity/issues"
   },
   "description": "",
   "icon": "assets/infinity/icon.png",
@@ -19,15 +20,22 @@
     ],
     "client": [
       "net.lerariemann.infinity.util.platform.fabric.FabricClientEntrypoint"
-    ],
-    "fabric-datagen": [
-      "net.lerariemann.infinity.util.platform.fabric.datagen.FabricDataGeneratorEntrypoint"
     ]
   },
   "mixins": [
     "infinity.mixins.json"
   ],
   "depends": {
-    "fabric-api": "*"
+    "minecraft": "${minecraft}",
+    "fabric-api": "*",
+    "architectury": "*"
+  },
+  "recommends": {
+    "cloth-config": "*"
+  },
+  "custom": {
+    "lithium:options": {
+      "mixin.ai.poi.fast_portals": false
+    }
   }
 }

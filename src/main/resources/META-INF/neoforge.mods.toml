@@ -6,9 +6,9 @@ license = "MIT"
 modId = "infinity"
 displayName = "Infinite Dimensions"
 version = "${version}"
-displayURL = ""
+displayURL = "https://modrinth.com/mod/infinite-dimensions"
 logoFile = "assets/icon.png"
-authors = "Lera Riemann"
+authors = "Lera Riemann, cassiancc"
 description = '''Inspired by 2020's April Fools' 20w14infinite Snapshot, this mod brings endless randomly generated dimensions into Minecraft.'''
 
 [[mixins]]
@@ -26,5 +26,12 @@ modId = "minecraft"
 type = "required"
 versionRange = "${minecraft}"
 
-[[accessTransformers]]
-file="accesstransformers/${at_file}"
+[[dependencies.infinity]]
+modId = "architectury"
+type = "required"
+versionRange = "[13.0.2,)"
+ordering = "AFTER"
+side = "BOTH"
+
+["lithium:options"]
+"mixin.ai.poi.fast_portals" = false
