@@ -31,7 +31,7 @@ import java.util.function.Supplier;
 
 //? fabric {
 /*import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
-import net.fabricmc.fabric.api.event.lifecycle.v1.ServerWorldEvents;
+import net.fabricmc.fabric.api.event.lifecycle.v1.DimensionTransitionEvents;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
@@ -97,7 +97,7 @@ public class PlatformMethods {
      */
     public static void onWorldLoad(Object mixin, ServerLevel world) {
         //? fabric {
-        /*ServerWorldEvents.LOAD.invoker().onWorldLoad((MinecraftServer)mixin, world);
+        /*DimensionTransitionEvents.LOAD.invoker().onWorldLoad((MinecraftServer)mixin, world);
         *///?}
         //? neoforge {
         MinecraftServer server = world.getServer();

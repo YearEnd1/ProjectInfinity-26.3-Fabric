@@ -9,7 +9,10 @@ import net.minecraft.commands.CommandSource;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.MinecraftServer;
+//? if >1.21 {
 import net.minecraft.server.ServerInfo;
+import net.minecraft.world.level.chunk.storage.ChunkIOErrorReporter;
+//?}
 import net.minecraft.server.TickTask;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.progress.ChunkProgressListener;
@@ -21,7 +24,6 @@ import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.BiomeManager;
 import net.minecraft.world.level.border.BorderChangeListener;
-import net.minecraft.world.level.chunk.storage.ChunkIOErrorReporter;
 import net.minecraft.world.level.dimension.LevelStem;
 import net.minecraft.world.level.storage.LevelStorageSource;
 import net.minecraft.world.level.storage.ServerLevelData;
@@ -43,7 +45,10 @@ import java.util.Map;
 import java.util.concurrent.Executor;
 
 @Mixin(MinecraftServer.class)
-public abstract class MinecraftServerMixin extends ReentrantBlockableEventLoop<TickTask> implements ServerInfo, ChunkIOErrorReporter, CommandSource, AutoCloseable, MinecraftServerAccess {
+public abstract class MinecraftServerMixin extends ReentrantBlockableEventLoop<TickTask> implements
+        //? if >1.21
+        ServerInfo, ChunkIOErrorReporter,
+        CommandSource, AutoCloseable, MinecraftServerAccess {
     @Final @Shadow
     private Map<ResourceKey<Level>, ServerLevel> levels;
     @Final @Shadow
@@ -112,7 +117,13 @@ public abstract class MinecraftServerMixin extends ReentrantBlockableEventLoop<T
                 serverWorldProperties,
                 key,
                 options,
-                progressListenerFactory.create(worldData.getGameRules().getInt(GameRules.RULE_SPAWN_CHUNK_RADIUS)),
+                progressListenerFactory.create(
+                        //? if >1.21 {
+                        worldData.getGameRules().getInt(GameRules.RULE_SPAWN_CHUNK_RADIUS)
+                        //?} else {
+                        /*2
+                        *///?}
+                ),
                 worldData.isDebugWorld(),
                 BiomeManager.obfuscateSeed(worldData.worldGenOptions().seed()),
                 ImmutableList.of(),

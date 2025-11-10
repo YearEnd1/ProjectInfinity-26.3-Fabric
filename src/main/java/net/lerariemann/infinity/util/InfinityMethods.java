@@ -13,6 +13,8 @@ import net.lerariemann.infinity.util.platform.PlatformMethods;
 import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceKey;
@@ -23,15 +25,13 @@ import net.minecraft.util.FastColor;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.BlockAndTintGetter;
-import net.minecraft.world.level.BlockGetter;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.*;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.LegacyRandomSource;
 import net.minecraft.world.level.levelgen.synth.NormalNoise;
+import net.minecraft.world.level.storage.LevelResource;
 import net.minecraft.world.level.storage.LevelStorageSource;
 import org.apache.commons.io.FileUtils;
 
@@ -81,10 +81,19 @@ public interface InfinityMethods {
         return key.location().getNamespace().equals(MOD_ID);
     }
     static boolean isBiomeInfinity(LevelAccessor world, BlockPos pos) {
+        //? if >1.21 {
         return world.getBiome(pos).getRegisteredName().contains("infinity");
+        //?} else {
+        /*return world.registryAccess().registryOrThrow(Registries.BIOME).getKey(world.getBiome(pos).value()).getNamespace().contains("infinity");
+        *///?}
+
     }
     static boolean isBiomeInfinity(Holder<Biome> b) {
+        //? if >1.21 {
         return b.getRegisteredName().contains("infinity");
+        //?} else {
+        /*return false;
+        *///?}
     }
     static boolean isBiomeInfinity(BlockGetter world, BlockPos pos) {
         if (world instanceof LevelAccessor acc) {
@@ -290,6 +299,12 @@ public interface InfinityMethods {
     }
 
     static boolean deleteLevel(LevelStorageSource.LevelStorageAccess session) {
-        return FileUtils.deleteQuietly(session.getLevelDirectory().path().resolve("datapacks").toFile());
+        return FileUtils.deleteQuietly(
+                //? if >1.21 {
+                session.getLevelDirectory().path().resolve("datapacks")
+                //?} else {
+                /*session.getLevelPath(LevelResource.DATAPACK_DIR)
+                *///?}
+                .toFile());
     }
 }

@@ -2,6 +2,8 @@ package net.lerariemann.infinity.features;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import net.lerariemann.infinity.util.BackportMethods;
+import net.lerariemann.infinity.util.InfinityMethods;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.ExtraCodecs;
 import net.minecraft.world.level.WorldGenLevel;
@@ -33,7 +35,7 @@ public class RandomEndGatewayFeature extends Feature<RandomEndGatewayFeature.Con
             if (bl && bl2 && bl3) {
                 BlockPos destination = new BlockPos(bp.getX() + context.random().nextIntBetweenInclusive(-config.spread, config.spread),
                         bp.getY(), bp.getZ() + context.random().nextIntBetweenInclusive(-config.spread, config.spread));
-                destination = structureWorldAccess.getWorldBorder().clampToBounds(destination);
+                destination = BackportMethods.clampToBounds(structureWorldAccess, destination);
                 this.setBlock(structureWorldAccess, bp, Blocks.END_GATEWAY.defaultBlockState());
                 if (structureWorldAccess.getBlockEntity(bp) instanceof TheEndGatewayBlockEntity egbe) {
                     egbe.setExitPosition(destination, false);

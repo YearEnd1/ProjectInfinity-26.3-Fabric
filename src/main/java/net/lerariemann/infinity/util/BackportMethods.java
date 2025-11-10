@@ -6,9 +6,11 @@ import net.lerariemann.infinity.registry.core.ModComponentTypes;
 import net.minecraft.core.component.DataComponentMap;
 import net.minecraft.core.component.DataComponentType;
 //?}
+import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.WorldGenLevel;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Objects;
@@ -102,4 +104,14 @@ public class BackportMethods {
 
     }
     //?}
+
+    public static BlockPos clampToBounds(WorldGenLevel structureWorldAccess, BlockPos destination) {
+        return structureWorldAccess.getWorldBorder().clampToBounds(
+                //? if >1.21 {
+                destination
+                 //?} else {
+                /*destination.getX(), destination.getY(), destination.getZ()
+                *///?}
+        );
+    }
 }
