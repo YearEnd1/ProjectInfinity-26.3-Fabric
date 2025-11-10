@@ -39,7 +39,9 @@ public class InfinityMod {
         rootConfigPathInJar = PlatformMethods.getRootConfigPath();
         ConfigManager.updateInvocationUnlock();
         ConfigManager.unpackDefaultConfigs();
+        //? if >1.21 {
         ModComponentTypes.registerComponentTypes();
+        //?}
         ModStatusEffects.registerModEffects();
         ModItemFunctions.registerItemFunctions();
         ModEntities.registerEntities();

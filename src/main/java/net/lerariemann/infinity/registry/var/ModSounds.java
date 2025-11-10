@@ -15,12 +15,21 @@ public class ModSounds {
     public static SoundEvent IVORY_MUSIC_HOPE_EVENT = SoundEvent.createVariableRangeEvent(IVORY_MUSIC_HOPE);
     public static SoundEvent IVORY_MUSIC_CHALLENGER_EVENT = SoundEvent.createVariableRangeEvent(IVORY_MUSIC_CHALLENGER);
     public static SoundEvent CLASSIC_MUSIC_SOUND_EVENT = SoundEvent.createVariableRangeEvent(CLASSIC_MUSIC);
+
+    //? if <1.21 {
+    /*public static final ResourceLocation BACKPORT_VAULT = InfinityMethods.getId("backport.vault.open_shutter");
+    public static SoundEvent BACKPORT_VAULT_EVENT = SoundEvent.createVariableRangeEvent(BACKPORT_VAULT);
+    *///?}
+
     public static final DeferredRegister<SoundEvent> SOUNDS = DeferredRegister.create(MOD_ID, Registries.SOUND_EVENT);
 
     public static void registerSounds() {
         SOUNDS.register(IVORY_MUSIC_HOPE, () -> IVORY_MUSIC_HOPE_EVENT);
         SOUNDS.register(IVORY_MUSIC_CHALLENGER, () -> IVORY_MUSIC_CHALLENGER_EVENT);
         SOUNDS.register(CLASSIC_MUSIC, () -> CLASSIC_MUSIC_SOUND_EVENT);
+        //? if <1.21 {
+        /*SOUNDS.register(BACKPORT_VAULT, () -> BACKPORT_VAULT_EVENT);
+        *///?}
         SOUNDS.register();
     }
 }

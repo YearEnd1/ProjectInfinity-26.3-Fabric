@@ -3,6 +3,7 @@ package net.lerariemann.infinity.item;
 import net.lerariemann.infinity.block.entity.InfinityPortalBlockEntity;
 import net.lerariemann.infinity.registry.core.ModBlocks;
 import net.lerariemann.infinity.registry.core.ModComponentTypes;
+import net.lerariemann.infinity.util.BackportMethods;
 import net.lerariemann.infinity.util.ClientMethods;
 import net.lerariemann.infinity.util.InfinityMethods;
 import net.lerariemann.infinity.util.teleport.InfinityPortal;
@@ -10,7 +11,9 @@ import net.minecraft.BlockUtil;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+//? if >1.21 {
 import net.minecraft.core.component.DataComponentMap;
+//?}
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
@@ -49,7 +52,7 @@ public class F4Item extends Item implements PortalDataHolder.Destinable {
     }
 
     public static int getCharge(ItemStack f4) {
-        return f4.getOrDefault(ModComponentTypes.CHARGE.get(), 0);
+        return BackportMethods.getOrDefaultInt(f4, ModComponentTypes.CHARGE, 0);
     }
 
     @Override
@@ -58,9 +61,15 @@ public class F4Item extends Item implements PortalDataHolder.Destinable {
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltip, TooltipFlag type) {
+    public void appendHoverText(ItemStack stack,
+                                //? if >1.21 {
+                                TooltipContext
+                                //?} else {
+                                /*Level
+                                *///?}
+                                            context, List<Component> tooltip, TooltipFlag type) {
         super.appendHoverText(stack, context, tooltip, type);
-        ResourceLocation dimension = stack.getComponents().get(ModComponentTypes.DESTINATION.get());
+        ResourceLocation dimension = BackportMethods.getDimensionIdentifier(stack);
         MutableComponent mutableText = getDimensionTooltip(dimension);
         tooltip.add(mutableText.withStyle(ChatFormatting.GRAY));
         MutableComponent mutableText2 = Component.translatable("tooltip.infinity.f4.charges", getCharge(stack));
@@ -79,7 +88,7 @@ public class F4Item extends Item implements PortalDataHolder.Destinable {
             return null;
         }
         BlockPos lowerLeft = lowerCenter.relative(dir2, -(size_x/2));
-        ResourceLocation id = stack.getComponents().get(ModComponentTypes.DESTINATION.get());
+        ResourceLocation id = BackportMethods.getDimensionIdentifier(stack);
         boolean doNotRenderPortal = (world.isClientSide && (id == null || !id.getPath().contains("generated_")));
         if (PortalDataHolder.isDestinationRandom(id))
             id = InfinityMethods.getRandomId(world.random);
@@ -106,9 +115,8 @@ public class F4Item extends Item implements PortalDataHolder.Destinable {
         useCharges -= obsNotReplaced;
 
         world.playSound(player, player.blockPosition(), SoundEvents.BELL_BLOCK, SoundSource.BLOCKS, 1, 0.75f);
-        stack.applyComponents(DataComponentMap.builder()
-                .set(ModComponentTypes.CHARGE.get(), charges - useCharges).build());
-        return stack;
+        return BackportMethods.apply(stack, ModComponentTypes.CHARGE, charges-useCharges);
+
     }
 
     @Override
@@ -124,8 +132,8 @@ public class F4Item extends Item implements PortalDataHolder.Destinable {
         BlockPos lowerCenter = player.blockPosition().relative(dir, 4);
         ItemStack stack = player.getItemInHand(hand);
 
-        int size_x = stack.getOrDefault(ModComponentTypes.SIZE_X.get(), 3);
-        int size_y = stack.getOrDefault(ModComponentTypes.SIZE_Y.get(), 3);
+        int size_x = BackportMethods.getOrDefaultInt(stack, ModComponentTypes.SIZE_X, 3);
+        int size_y = BackportMethods.getOrDefaultInt(stack, ModComponentTypes.SIZE_Y, 3);
         if (size_y % 2 == 0) {
             double d = dir2.equals(Direction.Axis.X) ? player.position().x : player.position().z;
             if (d % 1 > 0.5) { //player on the positive side of the block
@@ -189,8 +197,8 @@ public class F4Item extends Item implements PortalDataHolder.Destinable {
         Direction.Axis dir2 =
                 player.getDirection().getAxis().equals(Direction.Axis.X) ? Direction.Axis.Z : Direction.Axis.X;
 
-        int size_x = stack.getOrDefault(ModComponentTypes.SIZE_X.get(), 3);
-        int size_y = stack.getOrDefault(ModComponentTypes.SIZE_Y.get(), 3);
+        int size_x = BackportMethods.getOrDefaultInt(stack, ModComponentTypes.SIZE_X, 3);
+        int size_y = BackportMethods.getOrDefaultInt(stack, ModComponentTypes.SIZE_Y, 3);
 
         //validating the place position
         for (int j = -1; j <= size_y; j++) for (int k = -1; k <= size_x; k++) {
@@ -278,9 +286,8 @@ public class F4Item extends Item implements PortalDataHolder.Destinable {
         }
         for (int i = 0; i < portal.axis1Size; i++) for (int j = 0; j < portal.axis2Size; j++)
             world.setBlock(portal.minCorner.relative(axis, i).above(j), Blocks.AIR.defaultBlockState(), 3, 0);
-        stack.applyComponents(DataComponentMap.builder()
-                .set(ModComponentTypes.CHARGE.get(), getCharge(stack) + obsidian).build());
         world.playSound(null, origin, SoundEvents.GLASS_BREAK, SoundSource.BLOCKS, 1, 0.75f);
-        return stack;
+        return BackportMethods.apply(stack, ModComponentTypes.CHARGE, getCharge(stack)+obsidian);
+
     }
 }

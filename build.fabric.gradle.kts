@@ -74,6 +74,7 @@ repositories {
         url = uri("https://jitpack.io")
         content {
             includeGroupAndSubgroups("com.github.iPortalTeam")
+            includeGroupAndSubgroups("com.github.qouteall")
         }
     }
     maven {
@@ -90,6 +91,7 @@ repositories {
             includeGroupAndSubgroups("net.createmod")
             includeGroupAndSubgroups("dev.engine-room")
             includeGroupAndSubgroups("io.github.fabricators_of_create")
+            includeGroupAndSubgroups("com.simibubi")
         }
     }
     maven {
@@ -99,6 +101,7 @@ repositories {
             includeGroupAndSubgroups("net.createmod")
             includeGroupAndSubgroups("dev.engine-room")
             includeGroupAndSubgroups("io.github.fabricators_of_create")
+            includeGroupAndSubgroups("com.simibubi")
         }
     }
     maven {
@@ -141,11 +144,23 @@ dependencies {
     if (hasProperty("deps.dimlib")) {
         modApi("com.github.iPortalTeam:DimLib:${property("deps.dimlib")}")
     }
+    if (hasProperty("deps.gravity_changer")) {
+        modCompileOnly("com.github.qouteall:GravityChanger:v${property("deps.gravity_changer")}-mc${property("deps.minecraft")}") {
+            isTransitive = false
+        }
+    }
     modCompileOnly("dev.emi:emi-fabric:${property("deps.emi")}+${property("deps.minecraft")}:api")
     modLocalRuntime("dev.emi:emi-fabric:${property("deps.emi")}+${property("deps.minecraft")}")
 
     modImplementation("cc.tweaked:cc-tweaked-${property("deps.minecraft")}-fabric:${property("deps.cct")}")
     modCompileOnly("net.createmod.ponder:Ponder-Fabric-${property("deps.minecraft")}:${property("deps.ponder")}")
+
+    if (stonecutter.eval(stonecutter.current.version, ">=1.21")) {
+        modCompileOnly("com.simibubi.create:create-fucked-up-1.21.1:6.0.6+053024d") { isTransitive = false }
+    } else {
+        modCompileOnly("com.simibubi.create:create-fabric-1.20.1:6.0.7.0+mc1.20.1-build.1716")
+        { isTransitive = false }
+    }
 
     val modules = listOf("transitive-access-wideners-v1", "registry-sync-v0", "resource-loader-v0")
     for (it in modules) modImplementation(fabricApi.module("fabric-$it", property("deps.fabric_api") as String))

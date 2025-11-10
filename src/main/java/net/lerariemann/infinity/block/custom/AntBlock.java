@@ -20,20 +20,24 @@ import net.minecraft.world.phys.BlockHitResult;
 import org.jetbrains.annotations.Nullable;
 
 public class AntBlock extends HorizontalDirectionalBlock {
+    //? if >1.21 {
     public static final MapCodec<AntBlock> CODEC = simpleCodec(AntBlock::new);
+    //?}
 
     public AntBlock(Properties settings) {
         super(settings);
         this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH));
     }
 
+    //? if >1.21 {
     @Override
     protected MapCodec<? extends HorizontalDirectionalBlock> codec() {
         return CODEC;
     }
-
+    //?}
+    
     private static boolean inverseExists(Block down) {
-        var s = BuiltInRegistries.BLOCK.wrapAsHolder(down).getRegisteredName();
+        var s = BuiltInRegistries.BLOCK.getKey(down);
         var state = down.defaultBlockState();
         if (PlatformMethods.isInBlack(state)) {
             return BuiltInRegistries.BLOCK.containsKey(Methods.id(s.replace("black", "white")));

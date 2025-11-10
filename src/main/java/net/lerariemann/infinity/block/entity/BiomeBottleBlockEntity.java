@@ -19,6 +19,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.state.BlockState;
+import org.intellij.lang.annotations.Identifier;
 import org.jetbrains.annotations.Nullable;
 
 public class BiomeBottleBlockEntity extends TintableBlockEntity {
@@ -60,6 +61,7 @@ public class BiomeBottleBlockEntity extends TintableBlockEntity {
         this.biome = i;
     }
 
+    //? if >1.21 {
     public void saveAdditional(CompoundTag tag, HolderLookup.Provider registryLookup) {
         super.saveAdditional(tag, registryLookup);
         tag.putString("Biome", biome.toString());
@@ -89,6 +91,27 @@ public class BiomeBottleBlockEntity extends TintableBlockEntity {
         this.color = components.getOrDefault(ModComponentTypes.COLOR.get(), 0xFFFFFF);
         this.charge = components.getOrDefault(ModComponentTypes.CHARGE.get(), 0);
     }
+    @Override
+    public CompoundTag getUpdateTag(HolderLookup.Provider registryLookup) {
+        return saveWithoutMetadata(registryLookup);
+    }
+    //?} else {
+    /*public void saveAdditional(CompoundTag tag) {
+        super.saveAdditional(tag);
+        tag.putString("Biome", biome.toString());
+        tag.putInt("Color", color);
+        tag.putInt("Charge", charge);
+        if (from_charge > 0) tag.putInt("from_charge", from_charge);
+    }
+
+    public void load(CompoundTag tag) {
+        super.load(tag);
+        this.charge = tag.getInt("Charge");
+        this.biome = Methods.id(tag.getString("Biome"));
+        this.color = tag.getInt("Color");
+        this.from_charge = NbtUtils.test(tag, "from_charge", 0);
+    }
+    *///?}
 
     @Nullable
     @Override
@@ -96,10 +119,7 @@ public class BiomeBottleBlockEntity extends TintableBlockEntity {
         return ClientboundBlockEntityDataPacket.create(this);
     }
 
-    @Override
-    public CompoundTag getUpdateTag(HolderLookup.Provider registryLookup) {
-        return saveWithoutMetadata(registryLookup);
-    }
+
 
     public int getTint() {
         return propertyDelegate.get(0);
@@ -107,6 +127,7 @@ public class BiomeBottleBlockEntity extends TintableBlockEntity {
 
     public ItemStack asStack() {
         ItemStack itemStack = ModItems.BIOME_BOTTLE_ITEM.get().getDefaultInstance();
+        //? if >1.21
         itemStack.applyComponents(this.collectComponents());
         return itemStack;
     }

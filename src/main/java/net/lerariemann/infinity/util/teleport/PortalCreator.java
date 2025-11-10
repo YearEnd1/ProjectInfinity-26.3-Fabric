@@ -5,12 +5,14 @@ import net.lerariemann.infinity.InfinityMod;
 import net.lerariemann.infinity.access.MinecraftServerAccess;
 import net.lerariemann.infinity.block.custom.Boopable;
 //import net.lerariemann.infinity.compat.CreateCompat;
+import net.lerariemann.infinity.compat.CreateCompat;
 import net.lerariemann.infinity.compat.DimLibCompat;
 import net.lerariemann.infinity.registry.core.ModBlocks;
 import net.lerariemann.infinity.block.custom.InfinityPortalBlock;
 import net.lerariemann.infinity.block.entity.InfinityPortalBlockEntity;
 import net.lerariemann.infinity.dimensions.RandomDimension;
 import net.lerariemann.infinity.registry.core.ModItems;
+import net.lerariemann.infinity.registry.var.ModSounds;
 import net.lerariemann.infinity.util.InfinityMethods;
 import net.lerariemann.infinity.util.core.CommonIO;
 import net.lerariemann.infinity.util.core.NbtUtils;
@@ -22,7 +24,11 @@ import net.lerariemann.infinity.registry.var.ModStats;
 import net.minecraft.BlockUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+//? if >1.21 {
 import net.minecraft.core.component.DataComponents;
+import net.minecraft.world.item.component.WritableBookContent;
+import net.minecraft.world.item.component.WrittenBookContent;
+//?}
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
@@ -40,9 +46,9 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.component.WritableBookContent;
-import net.minecraft.world.item.component.WrittenBookContent;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.NetherPortalBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -74,6 +80,7 @@ public interface PortalCreator {
         }
 
         /* Check if the item provided is a book of some kind. */
+        //? if >1.21 {
         WritableBookContent writableComponent = itemStack.getComponents().get(DataComponents.WRITABLE_BOOK_CONTENT);
         WrittenBookContent writtenComponent = itemStack.getComponents().get(DataComponents.WRITTEN_BOOK_CONTENT);
         String printedComponent = null;
@@ -93,11 +100,40 @@ public interface PortalCreator {
             if (bl) entity.remove(Entity.RemovalReason.CHANGED_DIMENSION);
             recordIdTranslation(world.getServer(), id, content);
         }
+        //?} else {
+        /*else if (itemStack.getItem() == Items.WRITTEN_BOOK || itemStack.getItem() == Items.WRITABLE_BOOK) {
+            var compound = itemStack.getTag();
+            String content;
+            if (compound != null) {
+                content = parseComponents(compound, itemStack.getItem());
+            }
+            else content = "";
+            MinecraftServer server = world.getServer();
+            var id = InfinityMethods.dimTextToId(content);
+            boolean bl = modifyOnInitialCollision(id, world, pos);
+            if (bl) entity.remove(Entity.RemovalReason.CHANGED_DIMENSION);
+            recordIdTranslation(world.getServer(), id, content);
+        }
+        else if (Platform.isModLoaded("computercraft")) {
+            try {
+                String content;
+                content = checkPrintedPage(itemStack);
+                MinecraftServer server = world.getServer();
+                var id = InfinityMethods.dimTextToId(content);
+                boolean bl = modifyOnInitialCollision(id, world, pos);
+                if (bl) entity.remove(Entity.RemovalReason.CHANGED_DIMENSION);
+                recordIdTranslation(world.getServer(), id, content);
+            } catch (Exception e) {
+                InfinityMod.LOGGER.warn("An incompatible version of ComputerCraft is present. Please update it to the latest version");
+            }
+        }
+        *///?}
     }
 
     /**
      * Extracts the string used to generate the dimension ID from component content.
      */
+    //? if >1.21 {
     static String parseComponents(WritableBookContent writableComponent, WrittenBookContent writtenComponent, String printedComponent) {
         String content = "";
         try {
@@ -117,6 +153,22 @@ public interface PortalCreator {
         }
         return content;
     }
+    //?} else {
+    /*static String parseComponents(CompoundTag compound, Item item) {
+        ListTag pages = compound.getList("pages", Tag.TAG_STRING);
+        if (pages.isEmpty()) {
+            return "";
+        }
+        else if (item == Items.WRITTEN_BOOK) {
+            String pagesString = pages.get(0).getAsString();
+            return pagesString.substring(pagesString.indexOf(':')+2, pagesString.length()-2);
+        }
+        else if (item == Items.WRITABLE_BOOK) {
+            return pages.get(0).getAsString();
+        }
+        else return "";
+    }
+    *///?}
 
     /**
      * Sets the portal color and destination and calls to open the portal immediately if the portal key is blank.
@@ -233,7 +285,7 @@ public interface PortalCreator {
                 .addModifier(npbe -> npbe.setOpen(open))
                 .addModifier(BlockEntity::setChanged);
         if (Platform.isModLoaded("create")) {
-            //union.addModifier(CreateCompat::tryModifyRails);
+            union.addModifier(CreateCompat::tryModifyRails);
         }
         return union;
     }
@@ -275,11 +327,19 @@ public interface PortalCreator {
      * Jingle signaling if the portal is usable or not.
      */
     static void runAfterEffects(ServerLevel world, BlockPos pos, boolean dimensionIsNew, boolean portalWorks) {
+        //? if >1.21 {
         if (!portalWorks) playSound(world, pos, SoundEvents.VAULT_REJECT_REWARDED_PLAYER);
         else {
             if (dimensionIsNew) playSound(world, pos, SoundEvents.VAULT_OPEN_SHUTTER);
             playSound(world, pos, SoundEvents.BEACON_ACTIVATE);
         }
+        //?} else {
+        /*if (!portalWorks) playSound(world, pos, ModSounds.BACKPORT_VAULT_EVENT);
+        else {
+            if (dimensionIsNew) playSound(world, pos, ModSounds.BACKPORT_VAULT_EVENT);
+            playSound(world, pos, SoundEvents.BEACON_ACTIVATE);
+        }
+        *///?}
     }
     static void playSound(ServerLevel world, BlockPos pos, SoundEvent soundEvent) {
         world.playSound(null, pos, soundEvent, SoundSource.BLOCKS, 1f, 1f);

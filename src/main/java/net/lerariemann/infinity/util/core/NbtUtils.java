@@ -8,6 +8,26 @@ import java.util.Random;
 
 /** Contains various common use methods for working with {@link CompoundTag} objects. */
 public interface NbtUtils {
+
+    static String test(CompoundTag data, String key, String def) {
+        return data.contains(key, Tag.TAG_STRING) ? data.getString(key) : def;
+    }
+    static CompoundTag test(CompoundTag data, String key, CompoundTag def) {
+        return data.contains(key, Tag.TAG_COMPOUND) ? data.getCompound(key) : def;
+    }
+    static float test(CompoundTag data, String key, float def) {
+        return data.contains(key, Tag.TAG_DOUBLE) ? data.getFloat(key) : def;
+    }
+    static int test(CompoundTag data, String key, int def) {
+        return data.contains(key, Tag.TAG_INT) ? data.getInt(key) : def;
+    }
+    static double test(CompoundTag data, String key, double def) {
+        return data.contains(key, Tag.TAG_DOUBLE) ? data.getDouble(key) : def;
+    }
+    static boolean test(CompoundTag data, String key, boolean def) {
+        return data.contains(key) ? data.getBoolean(key) : def;
+    }
+    
     static String getString(CompoundTag data, String key, String def) {
         return data.contains(key, Tag.TAG_STRING) ? data.getString(key) : def;
     }

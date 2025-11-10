@@ -2,7 +2,7 @@ package net.lerariemann.infinity.block.custom;
 
 import com.mojang.serialization.MapCodec;
 import dev.architectury.platform.Platform;
-//import net.lerariemann.infinity.compat.CreateCompat;
+import net.lerariemann.infinity.compat.CreateCompat;
 import net.lerariemann.infinity.registry.core.ModBlockEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
@@ -20,10 +20,12 @@ public class RailHelper extends BaseEntityBlock {
         super(settings);
     }
 
+    //? if >1.21 {
     @Override
     protected MapCodec<? extends BaseEntityBlock> codec() {
         return null;
     }
+    //?}
 
     @Override
     public void onPlace(BlockState state, Level world, BlockPos pos, BlockState oldState, boolean notify) {
@@ -33,7 +35,7 @@ public class RailHelper extends BaseEntityBlock {
     @Override
     public void tick(BlockState state, ServerLevel world, BlockPos pos, RandomSource random) {
         if (Platform.isModLoaded("create")) {
-            //CreateCompat.reattachRails(world, pos, getBlockEntity(world, pos));
+            CreateCompat.reattachRails(world, pos, getBlockEntity(world, pos));
         }
         else world.setBlockAndUpdate(pos, Blocks.AIR.defaultBlockState());
     }

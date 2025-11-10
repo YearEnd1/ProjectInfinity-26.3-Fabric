@@ -14,6 +14,8 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.FlowingFluid;
+
+import java.util.Objects;
 import java.util.function.Supplier;
 
 public class IridescenceLiquidBlock extends ArchitecturyLiquidBlock {
@@ -24,16 +26,16 @@ public class IridescenceLiquidBlock extends ArchitecturyLiquidBlock {
     @Override
     public void entityInside(BlockState state, Level world, BlockPos pos, Entity entity) {
         super.entityInside(state, world, pos, entity);
-        if (world.getFluidState(pos).getAmount() > 3 && world instanceof ServerLevel w) switch (entity) {
-            case Player player -> Iridescence.tryBeginJourney(player, RandomProvider.ruleInt("iridescenceContactLevel"), false);
-            case Mob ent -> Iridescence.tryApplyEffect(ent);
-            case ItemEntity item -> {
+        if (world.getFluidState(pos).getAmount() > 3 && world instanceof ServerLevel w)
+            if (Objects.requireNonNull(entity) instanceof Player player) {
+                Iridescence.tryBeginJourney(player, RandomProvider.ruleInt("iridescenceContactLevel"), false);
+            } else if (entity instanceof Mob ent) {
+                Iridescence.tryApplyEffect(ent);
+            } else if (entity instanceof ItemEntity item) {
                 if (!Iridescence.isIridescentItem(item.getItem()) && item.getOwner() instanceof LivingEntity le &&
-                !Iridescence.getPhase(le).equals(Iridescence.Phase.INITIAL))
+                        !Iridescence.getPhase(le).equals(Iridescence.Phase.INITIAL))
                     ModItemFunctions.checkCollisionRecipes(w, item, ModItemFunctions.IRIDESCENCE_CRAFTING_TYPE.get(),
                             i -> PortalDataHolder.getIridComponents(i, item));
             }
-            default -> {}
-        }
     }
 }

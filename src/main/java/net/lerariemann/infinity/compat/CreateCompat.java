@@ -1,5 +1,5 @@
 package net.lerariemann.infinity.compat;
-/*
+
 import com.simibubi.create.api.contraption.train.PortalTrackProvider;
 import com.simibubi.create.content.trains.track.AllPortalTracks;
 import com.simibubi.create.content.trains.track.TrackBlock;
@@ -8,6 +8,7 @@ import net.createmod.catnip.math.BlockFace;
 import net.lerariemann.infinity.block.custom.RailHelper;
 import net.lerariemann.infinity.block.entity.InfinityPortalBlockEntity;
 import net.lerariemann.infinity.registry.core.ModBlocks;
+import net.lerariemann.infinity.util.Methods;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -24,7 +25,8 @@ import java.util.Set;
 public class CreateCompat {
     private static PortalTrackProvider.Exit infinityPortalProvider(ServerLevel worldFrom, BlockFace blockFace) {
         MinecraftServer server = worldFrom.getServer();
-//        if (!server.isNetherAllowed()) return null;
+        //? if <1.21
+        /*if (!server.isNetherEnabled()) return null;*/
         BlockPos posFrom = blockFace.getConnectedPos();
         if (worldFrom.getBlockEntity(posFrom) instanceof InfinityPortalBlockEntity ipbe
                 && ipbe.isConnectedBothSides()) { //we only allow trains through if portals are in sync
@@ -42,7 +44,7 @@ public class CreateCompat {
     }
 
     public static void register() {
-        AllPortalTracks.tryRegisterIntegration(ModBlocks.PORTAL.get().arch$registryName(), CreateCompat::infinityPortalProvider);
+        AllPortalTracks.tryRegisterIntegration(Methods.ofInfinity("neither_portal"), CreateCompat::infinityPortalProvider);
     }
 
     public static void tryModifyRails(InfinityPortalBlockEntity ipbe) {
@@ -83,4 +85,4 @@ public class CreateCompat {
         else bs = b.get().defaultBlockState().setValue(TrackBlock.SHAPE, e.shape.equals("zo") ? TrackShape.ZO : TrackShape.XO);
         world.setBlockAndUpdate(pos, bs);
     }
-}*/
+}

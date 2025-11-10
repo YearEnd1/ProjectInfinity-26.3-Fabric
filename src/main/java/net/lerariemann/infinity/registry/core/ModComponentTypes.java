@@ -1,5 +1,6 @@
 package net.lerariemann.infinity.registry.core;
 
+//? if >1.21 {
 import com.mojang.serialization.Codec;
 import dev.architectury.registry.registries.DeferredRegister;
 import dev.architectury.registry.registries.RegistrySupplier;
@@ -12,8 +13,10 @@ import net.minecraft.util.ExtraCodecs;
 import java.util.function.UnaryOperator;
 
 import static net.lerariemann.infinity.InfinityMod.MOD_ID;
+//?}
 
 public class ModComponentTypes {
+    //? if >1.21 {
     public static final DeferredRegister<DataComponentType<?>> COMPONENT_TYPES =
             DeferredRegister.create(MOD_ID, Registries.DATA_COMPONENT_TYPE);
 
@@ -42,4 +45,15 @@ public class ModComponentTypes {
         InfinityMod.LOGGER.debug("Registering component types for " + MOD_ID);
         COMPONENT_TYPES.register();
     }
+
+    //?} else {
+    /*public static String DESTINATION = "key_destination";
+    public static String BIOME_CONTENTS = "biome_contents";
+    public static String COLOR = "key_color";
+    public static String HUE = "hue";
+    public static String DYE_COLOR = "dye_color";
+    public static String CHARGE = "f4_charge";
+    public static String SIZE_X = "f4_size_x";
+    public static String SIZE_Y = "f4_size_y";
+    *///?}
 }

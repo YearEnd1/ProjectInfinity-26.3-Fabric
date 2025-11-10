@@ -3,6 +3,7 @@ package net.lerariemann.infinity.util.platform.neoforge;
 //? neoforge {
 import dev.architectury.platform.Platform;
 import net.lerariemann.infinity.InfinityMod;
+import net.lerariemann.infinity.compat.CreateCompat;
 import net.lerariemann.infinity.registry.core.ModBlocks;
 import net.lerariemann.infinity.registry.core.ModEntities;
 import net.lerariemann.infinity.registry.core.ModItemFunctions;
@@ -39,6 +40,8 @@ public class InfinityModNeoforge {
         FluidTypes.registerFluidTypes(eventBus);
         ModFluidsNeoforge.registerModFluids();
         ModEffectsNeoforge.register(eventBus);
+        if (Platform.isModLoaded("create"))
+            CreateCompat.register();
     }
 
     @SubscribeEvent

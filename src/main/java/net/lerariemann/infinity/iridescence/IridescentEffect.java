@@ -24,6 +24,7 @@ import net.minecraft.world.entity.NeutralMob;
 import net.minecraft.world.entity.player.Player;
 import net.lerariemann.infinity.registry.core.ModStatusEffects;
 import java.awt.Color;
+import java.util.Objects;
 
 import static net.lerariemann.infinity.iridescence.Iridescence.*;
 
@@ -45,27 +46,22 @@ public class IridescentEffect extends MobEffect implements ModStatusEffects.Spec
     }
 
     public void onRemoved(LivingEntity entity) {
-        switch (entity) {
-            case Player player -> {
-                if (player instanceof ServerPlayer serverPlayer) {
-                    if (player.isInvulnerable()) player.setInvulnerable(false);
-                    if (Iridescence.getPhase(entity) == Phase.PLATEAU) endJourney(serverPlayer, true, 0);
-                    unloadShader(serverPlayer);
-                }
-                else {
-                    ShaderLoader.reloadShaders(Minecraft.getInstance(), InfinityOptions.ofClient().data, false);
-                }
+        if (Objects.requireNonNull(entity) instanceof Player player) {
+            if (player instanceof ServerPlayer serverPlayer) {
+                if (player.isInvulnerable()) player.setInvulnerable(false);
+                if (getPhase(entity) == Phase.PLATEAU) endJourney(serverPlayer, true, 0);
+                unloadShader(serverPlayer);
+            } else {
+                ShaderLoader.reloadShaders(Minecraft.getInstance(), InfinityOptions.ofClient().data, false);
             }
-            case ChaosPawn pawn -> {
-                if (pawn.getRandom().nextBoolean()) {
-                    pawn.unchess();
-                    pawn.playSound(SoundEvents.ZOMBIE_VILLAGER_CONVERTED, 1.0f, 1.0f);
-                    convTriggers(pawn);
-                }
+        } else if (entity instanceof ChaosPawn pawn) {
+            if (pawn.getRandom().nextBoolean()) {
+                pawn.unchess();
+                pawn.playSound(SoundEvents.ZOMBIE_VILLAGER_CONVERTED, 1.0f, 1.0f);
+                convTriggers(pawn);
             }
-            case Mob currEntity -> endConversion(currEntity);
-            default -> {
-            }
+        } else if (entity instanceof Mob currEntity) {
+            endConversion(currEntity);
         }
     }
 

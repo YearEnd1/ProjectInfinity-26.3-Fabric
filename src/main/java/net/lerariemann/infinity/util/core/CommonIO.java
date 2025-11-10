@@ -159,19 +159,28 @@ public interface CommonIO {
     }
 
     static String elementToString(Tag base, int t) {
-        return switch (base) {
-            case null -> "!!NULL!!";
-            case CompoundTag nbtCompound -> compoundToString(nbtCompound, t + 1);
-            case ListTag nbtElements -> listToString(nbtElements, t + 1);
-            case ByteTag nbtByte -> (nbtByte.getAsByte() != 0) ? "true" : "false";
-            case DoubleTag nbtDouble -> String.valueOf(boundsCheck(nbtDouble.getAsFloat()));
-            case FloatTag nbtFloat -> String.valueOf(boundsCheck(nbtFloat.getAsFloat()));
-            case LongTag nbtLong -> String.valueOf(boundsCheck(nbtLong.getAsLong()));
-            case IntTag nbtInt -> String.valueOf(boundsCheck(nbtInt.getAsInt()));
-            case ShortTag nbtShort -> String.valueOf(boundsCheck(nbtShort.getAsShort()));
-            case StringTag nbtString -> "\"" + nbtString.getAsString().replace("\"", "\\\"") + "\"";
-            default -> base.toString();
-        };
+        if (base == null) {
+            return "!!NULL!!";
+        } else if (base instanceof CompoundTag nbtCompound) {
+            return compoundToString(nbtCompound, t + 1);
+        } else if (base instanceof ListTag nbtElements) {
+            return listToString(nbtElements, t + 1);
+        } else if (base instanceof ByteTag nbtByte) {
+            return (nbtByte.getAsByte() != 0) ? "true" : "false";
+        } else if (base instanceof DoubleTag nbtDouble) {
+            return String.valueOf(boundsCheck(nbtDouble.getAsFloat()));
+        } else if (base instanceof FloatTag nbtFloat) {
+            return String.valueOf(boundsCheck(nbtFloat.getAsFloat()));
+        } else if (base instanceof LongTag nbtLong) {
+            return String.valueOf(boundsCheck(nbtLong.getAsLong()));
+        } else if (base instanceof IntTag nbtInt) {
+            return String.valueOf(boundsCheck(nbtInt.getAsInt()));
+        } else if (base instanceof ShortTag nbtShort) {
+            return String.valueOf(boundsCheck(nbtShort.getAsShort()));
+        } else if (base instanceof StringTag nbtString) {
+            return "\"" + nbtString.getAsString().replace("\"", "\\\"") + "\"";
+        }
+        return base.toString();
     }
 
     int maxBound = 30000000;

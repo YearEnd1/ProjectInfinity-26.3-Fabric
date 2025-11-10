@@ -17,6 +17,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.Style;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.BlockAndTintGetter;
@@ -134,7 +135,7 @@ public class ModFluidsFabric {
     public static class IridescenceVariantAttributeHandler implements FluidVariantAttributeHandler {
         @Override
         public Component getName(FluidVariant fluidVariant) {
-            return Component.translatable("block.infinity.iridescence").withColor(Iridescence.getTimeBasedColor());
+            return Component.translatable("block.infinity.iridescence").withStyle(Style.EMPTY.withColor(Iridescence.getTimeBasedColor()));
         }
     }
     public static class IridescenceVariantRenderHandler implements FluidVariantRenderHandler {

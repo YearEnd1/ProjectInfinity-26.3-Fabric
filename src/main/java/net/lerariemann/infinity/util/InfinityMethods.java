@@ -7,6 +7,7 @@ import net.lerariemann.infinity.InfinityMod;
 import net.lerariemann.infinity.access.Timebombable;
 import net.lerariemann.infinity.block.entity.TintableBlockEntity;
 import net.lerariemann.infinity.registry.core.ModComponentTypes;
+import net.lerariemann.infinity.registry.core.ModItems;
 import net.lerariemann.infinity.util.core.RandomProvider;
 import net.lerariemann.infinity.util.platform.PlatformMethods;
 import net.minecraft.Util;
@@ -37,6 +38,8 @@ import org.apache.commons.io.FileUtils;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 
+import static net.lerariemann.infinity.InfinityMod.MOD_ID;
+
 /** Common mod methods that work identically on Fabric and NeoForge.
  * @see PlatformMethods */
 @SuppressWarnings("unused")
@@ -58,7 +61,7 @@ public interface InfinityMethods {
      * Converts a string to an identifier in the Infinite Dimensions namespace.
      */
     static ResourceLocation getId(String value){
-		return Methods.id(InfinityMod.MOD_ID, value);
+		return Methods.id(MOD_ID, value);
 	}
 
     /**
@@ -75,7 +78,7 @@ public interface InfinityMethods {
         return isInfinity(w.dimension());
     }
     static boolean isInfinity(ResourceKey<Level> key) {
-        return key.location().getNamespace().equals(InfinityMod.MOD_ID);
+        return key.location().getNamespace().equals(MOD_ID);
     }
     static boolean isBiomeInfinity(LevelAccessor world, BlockPos pos) {
         return world.getBiome(pos).getRegisteredName().contains("infinity");
@@ -180,11 +183,29 @@ public interface InfinityMethods {
     }
 
     static int getOverlayColorFromComponents(ItemStack stack, int layer) {
+        //? if >1.21 {
         int color = stack.getComponents().getOrDefault(ModComponentTypes.COLOR.get(), 0xFFFFFF);
         if (layer == 1) {
             return FastColor.ARGB32.opaque(color);
         }
         return FastColor.ARGB32.opaque(0xFFFFFF);
+        //?} else {
+        /*if (stack.getTag() != null) {
+            if (layer == 1) {
+                if (stack.is(ModItems.TRANSFINITE_KEY.get()))
+                    return stack.getTag().getInt(ModComponentTypes.COLOR);
+                else if (stack.is(ModItems.BIOME_BOTTLE_ITEM.get())) {
+                    return stack.getTag().getCompound("BlockEntityTag").getInt("Color");
+                }
+                else if (stack.is(ModItems.F4.get())) {
+                    return BackportMethods.getOrDefaultInt(stack, ModComponentTypes.COLOR, 10879231);
+                }
+            }
+            else if (stack.is(ModItems.CHROMATIC_MATTER.get()) || stack.is(ModItems.CHROMATIC_WOOL.get()) || stack.is(ModItems.CHROMATIC_CARPET.get()))
+                return stack.getTag().getInt(ModComponentTypes.COLOR);
+        }
+        return 0xFFFFFF;
+        *///?}
     }
     static int getItemColorFromComponents(ItemStack stack, int layer) {
         int color = stack.getComponents().getOrDefault(ModComponentTypes.COLOR.get(), 0xFFFFFF);
