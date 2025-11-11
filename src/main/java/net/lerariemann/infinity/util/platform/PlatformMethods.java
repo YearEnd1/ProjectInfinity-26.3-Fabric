@@ -5,6 +5,7 @@ import dev.architectury.registry.registries.RegistrySupplier;
 import net.lerariemann.infinity.registry.core.ModBlocks;
 import net.lerariemann.infinity.util.InfinityMethods;
 import net.minecraft.core.component.DataComponentType;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceKey;
@@ -18,6 +19,8 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.enchantment.ItemEnchantments;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.FireBlock;
@@ -268,6 +271,15 @@ public class PlatformMethods {
         *///?}
         //? neoforge {
         return new Item.Properties().component(componentTypeSupplier, i);
+        //?}
+    }
+
+    public static ItemEnchantments getEnchantments(ItemStack weapon, MinecraftServer s) {
+        //? fabric {
+        /*return weapon.getEnchantments();
+         *///?}
+        //? neoforge {
+        return weapon.getAllEnchantments(s.registryAccess().lookupOrThrow(Registries.ENCHANTMENT));
         //?}
     }
 }

@@ -46,6 +46,9 @@ public interface NbtUtils {
     static boolean getBoolean(CompoundTag data, String key, boolean def) {
         return data.contains(key) ? data.getBoolean(key) : def;
     }
+    static ListTag getList(CompoundTag data, String key, ListTag def, byte nbttype) {
+        return data.contains(key) ? data.getList(key, nbttype) : def;
+    }
 
     static String getString(CompoundTag data, String key) {
         return data.getString(key);
