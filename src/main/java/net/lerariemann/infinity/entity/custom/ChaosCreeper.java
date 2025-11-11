@@ -43,7 +43,9 @@ import org.jetbrains.annotations.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 
 @MethodsReturnNonnullByDefault
-@ParametersAreNonnullByDefault
+//? if >1.21 {
+/*@ParametersAreNonnullByDefault
+ *///?}
 public class ChaosCreeper extends Creeper implements TintableEntity {
     public static EntityDataAccessor<Integer> color = SynchedEntityData.defineId(ChaosCreeper.class, EntityDataSerializers.INT);
     public static EntityDataAccessor<Float> range = SynchedEntityData.defineId(ChaosCreeper.class, EntityDataSerializers.FLOAT);
@@ -59,17 +61,36 @@ public class ChaosCreeper extends Creeper implements TintableEntity {
 
     @Override
     @Nullable
-    public SpawnGroupData finalizeSpawn(ServerLevelAccessor world, DifficultyInstance difficulty, MobSpawnType spawnReason, @Nullable SpawnGroupData entityData) {
+    public SpawnGroupData finalizeSpawn(ServerLevelAccessor world, DifficultyInstance difficulty, MobSpawnType spawnReason, @Nullable SpawnGroupData entityData
+                                        //? if <1.21 {
+                                         , @Nullable CompoundTag entityNbt
+                                        //}
+    ) {
         CompoundTag biome = InfinityMod.provider.randomElement(world.getRandom(), ConfigType.BIOMES);
         this.setColor(NbtUtils.getInt(biome, "Color", 7842607));
         this.setRandomCharge();
         this.setBiome(NbtUtils.getString(biome, "Name"));
-        return super.finalizeSpawn(world, difficulty, spawnReason, entityData);
+        return super.finalizeSpawn(world, difficulty, spawnReason, entityData
+                //? if <1.21 {
+                , entityNbt
+                //}
+                );
     }
 
     @Override
-    protected void defineSynchedData(SynchedEntityData.Builder builder) {
-        super.defineSynchedData(builder);
+    protected void defineSynchedData(
+            //? if >1.21 {
+            /*SynchedEntityData.Builder builder
+            *///?}
+    ) {
+        super.defineSynchedData(
+                //? if >1.21 {
+                /*builder
+                *///?}
+                );
+        //? if <1.21 {
+        SynchedEntityData builder = this.entityData;
+        //}
         builder.define(color, 7842607);
         builder.define(range, 16.0f);
         builder.define(biome, "minecraft:plains");
@@ -81,6 +102,9 @@ public class ChaosCreeper extends Creeper implements TintableEntity {
     public String getBiome() {
         return this.entityData.get(biome);
     }
+    public String getBiomeId() {
+        return this.entityData.get(biome);
+    }
 
     public void setColor(int c) {
         this.entityData.set(color, c);
@@ -90,7 +114,6 @@ public class ChaosCreeper extends Creeper implements TintableEntity {
     public int getColorNamed() {
         return hasCustomName() ? TintableEntity.getColorNamed(getName().getString(), tickCount, getId()) : -1;
     }
-
     @Override
     public int getColor() {
         return this.entityData.get(color);
@@ -151,8 +174,19 @@ public class ChaosCreeper extends Creeper implements TintableEntity {
             Creeper newCreeper;
             try (Level level = this.level()) {
                 if (!level.isClientSide() && (newCreeper = EntityType.CREEPER.create(this.level())) != null) {
+                    //? if >1.21 {
+                    /*
                     itemStack2.applyComponents(BiomeBottleBlock.addComponents(DataComponentMap.builder(),
                             VersionMethods.id(getBiome()), getColor(), getCharge()).build());
+                    *///?} else {
+                    CompoundTag compound = new CompoundTag();
+                    CompoundTag blockEntityTag = new CompoundTag();
+                    blockEntityTag.putString("Biome", getBiomeId());
+                    blockEntityTag.putInt("Color", getColor());
+                    blockEntityTag.putInt("Charge", getCharge());
+                    compound.put("BlockEntityTag", blockEntityTag);
+                    itemStack2.setTag(compound);
+                    //?}
                     ItemStack itemStack3 = ItemUtils.createFilledResult(itemStack, player, itemStack2, false);
                     player.setItemInHand(hand, itemStack3);
                     this.discard();
@@ -167,7 +201,8 @@ public class ChaosCreeper extends Creeper implements TintableEntity {
         return super.mobInteract(player, hand);
     }
 
-    @Override
+    //? if >1.21 {
+    /* @Override
     protected void dropCustomDeathLoot(ServerLevel world, DamageSource source, boolean causedByPlayer) {
         if (source.getEntity() != null && source.getEntity().getType().is(EntityTypeTags.SKELETONS)) {
             ItemStack stack = ModItems.DISC.get().getDefaultInstance();
@@ -179,4 +214,5 @@ public class ChaosCreeper extends Creeper implements TintableEntity {
             this.spawnAtLocation(stack);
         }
     }
+    *///?}
 }

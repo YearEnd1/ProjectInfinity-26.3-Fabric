@@ -1,6 +1,5 @@
 package net.lerariemann.infinity.block.custom;
 
-import com.mojang.serialization.MapCodec;
 import net.lerariemann.infinity.util.platform.PlatformMethods;
 import net.lerariemann.infinity.util.VersionMethods;
 import net.minecraft.MethodsReturnNonnullByDefault;
@@ -8,6 +7,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.context.BlockPlaceContext;
@@ -18,18 +18,23 @@ import net.minecraft.world.level.block.HorizontalDirectionalBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.phys.BlockHitResult;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+//? if >1.21 {
+/*import com.mojang.serialization.MapCodec;
 import javax.annotation.ParametersAreNonnullByDefault;
+*///?}
 import java.util.Objects;
+import java.util.logging.Handler;
 
 @MethodsReturnNonnullByDefault
-@ParametersAreNonnullByDefault
+//? if >1.21 {
+/*@ParametersAreNonnullByDefault
+ *///?}
 public class AntBlock extends HorizontalDirectionalBlock {
     //? if >1.21 {
-    public static final MapCodec<AntBlock> CODEC = simpleCodec(AntBlock::new);
-    //?}
+    /*public static final MapCodec<AntBlock> CODEC = simpleCodec(AntBlock::new);
+    *///?}
 
     public AntBlock(Properties settings) {
         super(settings);
@@ -37,11 +42,11 @@ public class AntBlock extends HorizontalDirectionalBlock {
     }
 
     //? if >1.21 {
-    @Override
+    /*@Override
     protected @NotNull MapCodec<? extends HorizontalDirectionalBlock> codec() {
         return CODEC;
     }
-    //?}
+    *///?}
     
     private static boolean inverseExists(Block down) {
         var s = BuiltInRegistries.BLOCK.getKey(down);
@@ -60,7 +65,7 @@ public class AntBlock extends HorizontalDirectionalBlock {
 
     @Nullable
     public static Block recolor(Block down, boolean toWhite) {
-        String s = BuiltInRegistries.BLOCK.wrapAsHolder(down).getRegisteredName();
+        String s = VersionMethods.getNameAsString(BuiltInRegistries.BLOCK, down);
         var state = down.defaultBlockState();
         if (PlatformMethods.isInBlack(state)) {
             return toWhite ? BuiltInRegistries.BLOCK.get(VersionMethods.id(s.replace("black", "white"))) : down;
@@ -73,7 +78,7 @@ public class AntBlock extends HorizontalDirectionalBlock {
 
     @Nullable
     public static Clockwiseness getCW(Block down) {
-        String s = BuiltInRegistries.BLOCK.wrapAsHolder(down).getRegisteredName();
+        String s = VersionMethods.getNameAsString(BuiltInRegistries.BLOCK, down);
         if (s.contains("black")) {
             return Clockwiseness.CCW;
         }
@@ -92,7 +97,17 @@ public class AntBlock extends HorizontalDirectionalBlock {
     }
 
     @Override
-    public InteractionResult useWithoutItem(BlockState state, Level world, BlockPos pos, Player player, BlockHitResult hit) {
+    public InteractionResult
+    //? if >1.21 {
+    /* useWithoutItem
+    *///?} else {
+    use
+    //?}
+    (BlockState state, Level world, BlockPos pos, Player player,
+                                            //? if <1.21 {
+                                            InteractionHand hand,
+                                            //?}
+                                            BlockHitResult hit) {
         return move(state, world, pos);
     }
 

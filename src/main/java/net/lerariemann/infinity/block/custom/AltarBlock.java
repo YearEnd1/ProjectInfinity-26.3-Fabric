@@ -85,10 +85,10 @@ public class AltarBlock extends Block {
     @Override
     public ItemStack getCloneItemStack(
             //? if >1.21 {
-            LevelReader
-             //?} else {
-            /*BlockGetter
-                    *///?}
+            /*LevelReader
+             *///?} else {
+            BlockGetter
+                    //?}
             world, BlockPos pos, BlockState state) {
         ItemStack res = super.getCloneItemStack(world, pos, state);
         res.applyComponentsAndValidate(toComponentChanges(state));

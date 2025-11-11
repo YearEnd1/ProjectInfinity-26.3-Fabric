@@ -8,10 +8,11 @@ import net.lerariemann.infinity.registry.var.ModScreenHandlers;
 import net.lerariemann.infinity.util.VersionMethods;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.client.player.LocalPlayer;
-import net.minecraft.core.component.DataComponentMap;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -20,11 +21,15 @@ import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.Nullable;
 
-import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.concurrent.atomic.AtomicInteger;
 
-@MethodsReturnNonnullByDefault
+//? if >1.21 {
+/*import net.minecraft.core.component.DataComponentMap;
+import javax.annotation.ParametersAreNonnullByDefault;
+
 @ParametersAreNonnullByDefault
+*///?}
+@MethodsReturnNonnullByDefault
 public class F4ScreenHandler extends AbstractContainerMenu {
     public final Inventory playerInventory;
     public final ItemStack stack;
@@ -40,8 +45,8 @@ public class F4ScreenHandler extends AbstractContainerMenu {
         this.playerInventory = playerInventory;
         this.slot = slot;
         stack = playerInventory.getItem(slot);
-        width = new AtomicInteger(stack.getOrDefault(ModComponentTypes.SIZE_X.get(), 3));
-        height = new AtomicInteger(stack.getOrDefault(ModComponentTypes.SIZE_Y.get(), 3));
+        width = new AtomicInteger(VersionMethods.getOrDefaultInt(stack, ModComponentTypes.SIZE_X, 3));
+        height = new AtomicInteger(VersionMethods.getOrDefaultInt(stack, ModComponentTypes.SIZE_Y, 3));
 
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 9; j++) {
@@ -56,10 +61,17 @@ public class F4ScreenHandler extends AbstractContainerMenu {
     @Override
     public void removed(Player player) {
         ItemStack st = stack.copy();
-        st.applyComponents(DataComponentMap.builder()
+        //? if >1.21 {
+        /*st.applyComponents(DataComponentMap.builder()
                 .set(ModComponentTypes.SIZE_X.get(), Math.clamp(width.get(), 1, 21))
                 .set(ModComponentTypes.SIZE_Y.get(), Math.clamp(height.get(), 1, 21))
                 .build());
+         *///?} else {
+        CompoundTag nbtCompound = new CompoundTag();
+        nbtCompound.putInt(ModComponentTypes.SIZE_X, Mth.clamp(width.get(), 1, 21));
+        nbtCompound.putInt(ModComponentTypes.SIZE_Y, Mth.clamp(height.get(), 1, 21));
+        stack.setTag(nbtCompound);
+        //?}
         playerInventory.setItem(slot, st);
         super.removed(player);
         if (player instanceof LocalPlayer) {
@@ -84,7 +96,7 @@ public class F4ScreenHandler extends AbstractContainerMenu {
         public Factory(Player player) {
             f4 = player.getItemInHand(InteractionHand.MAIN_HAND);
             slot = player.getInventory().selected;
-            ResourceLocation id = f4.get(ModComponentTypes.DESTINATION.get());
+            ResourceLocation id = VersionMethods.getDimensionIdentifier(f4);
             destination = id == null ? "" : id.toString();
         }
 

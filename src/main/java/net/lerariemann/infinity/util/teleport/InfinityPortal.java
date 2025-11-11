@@ -27,10 +27,10 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.border.WorldBorder;
 import net.minecraft.world.level.dimension.DimensionType;
 //? if >1.21 {
-import net.minecraft.world.level.portal.DimensionTransition;
-//?} else {
-/*import net.minecraft.world.level.portal.PortalInfo;
-*///?}
+/*import net.minecraft.world.level.portal.DimensionTransition;
+*///?} else {
+import net.minecraft.world.level.portal.PortalInfo;
+//?}
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Comparator;
@@ -101,10 +101,10 @@ public class InfinityPortal {
     /** Finding where to teleport stuff. The constructor ensures all scanning is already done by this point */
     public
     //? if >1.21 {
-    DimensionTransition
-    //?} else {
-    /*PortalInfo
-    *///?}
+    /*DimensionTransition
+    *///?} else {
+    PortalInfo
+    //?}
     getTeleportTarget(Entity entity) {
         if (portalShouldWork() && portalTo != null && worldTo != null) {
             return NetherPortalBlock.getDimensionTransitionFromExit(entity, posTo, portalTo, worldTo,
@@ -150,18 +150,18 @@ public class InfinityPortal {
     /** If teleportation failed for any reason, this ensures the entity does not teleport anywhere. */
     public static
     //? if >1.21 {
-    DimensionTransition
-     //?} else {
-    /*PortalInfo
-    *///?}
+    /*DimensionTransition
+     *///?} else {
+    PortalInfo
+    //?}
     emptyTarget(Entity entity) {
         //? if >1.21 {
-                return new DimensionTransition((ServerLevel)entity.level(), entity.position(),
+                /*return new DimensionTransition((ServerLevel)entity.level(), entity.position(),
                 entity.getDeltaMovement(), entity.getYRot(), entity.getXRot(),
                 DimensionTransition.DO_NOTHING);
-         //?} else {
-        /*return new PortalInfo(entity.position(), entity.getDeltaMovement(), entity.getYRot(), entity.getXRot());
-        *///?}
+         *///?} else {
+        return new PortalInfo(entity.position(), entity.getDeltaMovement(), entity.getYRot(), entity.getXRot());
+        //?}
 
     }
 

@@ -2,15 +2,12 @@ package net.lerariemann.infinity.block.entity;
 
 import net.lerariemann.infinity.block.custom.BiomeBottleBlock;
 import net.lerariemann.infinity.registry.core.ModBlockEntities;
-import net.lerariemann.infinity.registry.core.ModComponentTypes;
 import net.lerariemann.infinity.registry.core.ModItems;
 import net.lerariemann.infinity.util.VersionMethods;
 import net.lerariemann.infinity.util.core.NbtUtils;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
-import net.minecraft.core.HolderLookup;
-import net.minecraft.core.component.DataComponentMap;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.resources.ResourceLocation;
@@ -22,10 +19,17 @@ import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
 
+//? if >1.21 {
+/*import net.lerariemann.infinity.registry.core.ModComponentTypes;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.core.component.DataComponentMap;
 import javax.annotation.ParametersAreNonnullByDefault;
+*///?}
 
 @MethodsReturnNonnullByDefault
-@ParametersAreNonnullByDefault
+//? if >1.21 {
+/*@ParametersAreNonnullByDefault
+ *///?}
 public class BiomeBottleBlockEntity extends TintableBlockEntity {
     private final ContainerData propertyDelegate;
     private ResourceLocation biome;
@@ -66,7 +70,7 @@ public class BiomeBottleBlockEntity extends TintableBlockEntity {
     }
 
     //? if >1.21 {
-    public void saveAdditional(CompoundTag tag, HolderLookup.Provider registryLookup) {
+    /*public void saveAdditional(CompoundTag tag, HolderLookup.Provider registryLookup) {
         super.saveAdditional(tag, registryLookup);
         tag.putString("Biome", biome.toString());
         tag.putInt("Color", color);
@@ -99,8 +103,8 @@ public class BiomeBottleBlockEntity extends TintableBlockEntity {
     public CompoundTag getUpdateTag(HolderLookup.Provider registryLookup) {
         return saveWithoutMetadata(registryLookup);
     }
-    //?} else {
-    /*public void saveAdditional(CompoundTag tag) {
+    *///?} else {
+    public void saveAdditional(CompoundTag tag) {
         super.saveAdditional(tag);
         tag.putString("Biome", biome.toString());
         tag.putInt("Color", color);
@@ -110,12 +114,12 @@ public class BiomeBottleBlockEntity extends TintableBlockEntity {
 
     public void load(CompoundTag tag) {
         super.load(tag);
-        this.charge = tag.getInt("Charge");
-        this.biome = Methods.id(tag.getString("Biome"));
-        this.color = tag.getInt("Color");
-        this.from_charge = NbtUtils.test(tag, "from_charge", 0);
+        this.charge = NbtUtils.getInt(tag, "Charge");
+        this.biome = VersionMethods.id(tag.getString("Biome"));
+        this.color = NbtUtils.getInt(tag, "Color");
+        this.from_charge = NbtUtils.getInt(tag, "from_charge", 0);
     }
-    *///?}
+    //?}
 
     @Nullable
     @Override
@@ -132,7 +136,7 @@ public class BiomeBottleBlockEntity extends TintableBlockEntity {
     public ItemStack asStack() {
         ItemStack itemStack = ModItems.BIOME_BOTTLE_ITEM.get().getDefaultInstance();
         //? if >1.21
-        itemStack.applyComponents(this.collectComponents());
+        /*itemStack.applyComponents(this.collectComponents());*/
         return itemStack;
     }
 

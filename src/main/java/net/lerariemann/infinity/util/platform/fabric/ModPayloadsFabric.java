@@ -1,7 +1,7 @@
 package net.lerariemann.infinity.util.platform.fabric;
 
 //? fabric {
-/*import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.lerariemann.infinity.registry.var.ModPayloads;
@@ -10,9 +10,9 @@ import net.minecraft.client.Minecraft;
 
 import static net.lerariemann.infinity.registry.var.ModPayloads.*;
 
-/^*
+/**
  * See {@link ModPayloads} for usages.
- ^/
+ */
 public class ModPayloadsFabric {
     public static Minecraft client(Object context) {
         ClientPlayNetworking.Context clientContext = (ClientPlayNetworking.Context) context;
@@ -51,4 +51,4 @@ public class ModPayloadsFabric {
                 SoundScanner.unpackDownloadedPack(payload.songIds(), client(context)));
     }
 }
-*///?}
+//?}

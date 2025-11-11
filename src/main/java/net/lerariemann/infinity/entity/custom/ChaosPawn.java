@@ -7,10 +7,10 @@ import net.lerariemann.infinity.util.VersionMethods;
 import net.lerariemann.infinity.util.core.ConfigType;
 import net.lerariemann.infinity.util.core.RandomProvider;
 //? if >1.21 {
-import net.minecraft.MethodsReturnNonnullByDefault;
+/*import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.component.DataComponentMap;
 import net.minecraft.core.component.DataComponents;
-//?}
+*///?}
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
@@ -62,7 +62,7 @@ public class ChaosPawn extends AbstractChessFigure {
         return Monster.createMonsterAttributes().add(Attributes.ATTACK_DAMAGE, 5.0)
                 .add(Attributes.FOLLOW_RANGE, 35.0)
                 //? if >1.21
-                .add(Attributes.SCALE, 0.9)
+                /*.add(Attributes.SCALE, 0.9)*/
                 .add(Attributes.MOVEMENT_SPEED, 0.25F);
     }
     @Override
@@ -113,10 +113,10 @@ public class ChaosPawn extends AbstractChessFigure {
     @Override
     public
     //? if >1.21 {
-    ResourceKey<LootTable>
-    //?} else {
-    /*ResourceLocation
-    *///?}
+    /*ResourceKey<LootTable>
+    *///?} else {
+    ResourceLocation
+    //?}
      getDefaultLootTable() {
         ResourceLocation i = switch (getCase()) {
             case 0 -> InfinityMethods.getId("entities/chaos_pawn_black");
@@ -128,10 +128,10 @@ public class ChaosPawn extends AbstractChessFigure {
             }
         };
         //? if >1.21 {
-        return ResourceKey.create(Registries.LOOT_TABLE, i);
-        //?} else {
-        /*return i;
-        *///?}
+        /*return ResourceKey.create(Registries.LOOT_TABLE, i);
+        *///?} else {
+        return i;
+        //?}
     }
 
     public static CompoundTag getColorSetup(Supplier<Integer> colorSupplier) {
@@ -184,7 +184,7 @@ public class ChaosPawn extends AbstractChessFigure {
     }
 
     //? if >1.21 {
-    @Override
+    /*@Override
     protected void dropCustomDeathLoot(ServerLevel world, DamageSource source, boolean causedByPlayer) {
         super.dropCustomDeathLoot(world, source, causedByPlayer);
         if (!this.isBlackOrWhite() && RandomProvider.rule("pawnsCanDropIllegalItems")) {
@@ -195,8 +195,8 @@ public class ChaosPawn extends AbstractChessFigure {
             this.spawnAtLocation(stack);
         }
     }
-    //?} else {
-    /*@Override
+    *///?} else {
+    @Override
     protected void dropCustomDeathLoot(DamageSource source, int lootingMultiplier, boolean allowDrops) {
         super.dropCustomDeathLoot(source, lootingMultiplier, allowDrops);
         if (!this.isBlackOrWhite() && RandomProvider.rule("pawnsCanDropIllegalItems")) {
@@ -207,5 +207,5 @@ public class ChaosPawn extends AbstractChessFigure {
             this.spawnAtLocation(stack);
         }
     }
-    *///?}
+    //?}
 }

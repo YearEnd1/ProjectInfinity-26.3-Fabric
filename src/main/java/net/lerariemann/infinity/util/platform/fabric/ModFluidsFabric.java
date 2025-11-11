@@ -1,7 +1,7 @@
 package net.lerariemann.infinity.util.platform.fabric;
 
 //? fabric {
-/*import dev.architectury.registry.registries.DeferredRegister;
+import dev.architectury.registry.registries.DeferredRegister;
 import dev.architectury.registry.registries.RegistrySupplier;
 import net.fabricmc.fabric.api.client.render.fluid.v1.FluidRenderHandler;
 import net.fabricmc.fabric.api.transfer.v1.client.fluid.FluidVariantRenderHandler;
@@ -162,4 +162,4 @@ public class ModFluidsFabric {
         }
     }
 }
-*///?}
+//?}

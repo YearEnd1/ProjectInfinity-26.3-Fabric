@@ -2,7 +2,6 @@ package net.lerariemann.infinity;
 
 import net.lerariemann.infinity.access.MinecraftServerAccess;
 import net.lerariemann.infinity.dimensions.RandomText;
-import net.lerariemann.infinity.registry.core.ModComponentTypes;
 import net.lerariemann.infinity.registry.core.*;
 import net.lerariemann.infinity.registry.var.*;
 import net.lerariemann.infinity.util.platform.PlatformMethods;
@@ -40,13 +39,14 @@ public class InfinityMod {
         ConfigManager.updateInvocationUnlock();
         ConfigManager.unpackDefaultConfigs();
         //? if >1.21 {
-        ModComponentTypes.registerComponentTypes();
-        //?}
+        /*ModComponentTypes.registerComponentTypes();
+        *///?}
         ModStatusEffects.registerModEffects();
         ModItemFunctions.registerItemFunctions();
         ModEntities.registerEntities();
         ModBlocks.registerModBlocks();
         ModItems.registerModItems();
+        ModPayloads.registerC2SPacketsReceivers();
         ModBlockEntities.registerBlockEntities();
         ModPoi.registerPoi();
         ModCommands.registerCommands();

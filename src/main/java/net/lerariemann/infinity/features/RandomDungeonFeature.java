@@ -8,10 +8,10 @@ import net.minecraft.core.Direction;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.util.RandomSource;
 //? if >1.21 {
-import net.minecraft.world.RandomizableContainer;
- //?} else {
-/*import net.minecraft.world.level.block.entity.RandomizableContainerBlockEntity;
-*///?}
+/*import net.minecraft.world.RandomizableContainer;
+ *///?} else {
+import net.minecraft.world.level.block.entity.RandomizableContainerBlockEntity;
+//?}
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.Block;
@@ -107,10 +107,10 @@ public class RandomDungeonFeature extends Feature<RandomDungeonFeature.Config> {
                 if (x != 1) continue;
                 this.safeSetBlock(structureWorldAccess, blockPos3, StructurePiece.reorient(structureWorldAccess, blockPos3, Blocks.CHEST.defaultBlockState()), predicate);
                 //? if >1.21 {
-                RandomizableContainer.setBlockEntityLootTable
-                 //?} else {
-                /*RandomizableContainerBlockEntity.setLootTable
-                *///?}
+                /*RandomizableContainer.setBlockEntityLootTable
+                 *///?} else {
+                RandomizableContainerBlockEntity.setLootTable
+                //?}
                 (structureWorldAccess, random, blockPos, BuiltInLootTables.SIMPLE_DUNGEON);
                 continue block6;
             }

@@ -1,7 +1,7 @@
 package net.lerariemann.infinity.util.platform.neoforge;
 
 //? neoforge {
-import dev.architectury.platform.Platform;
+/*import dev.architectury.platform.Platform;
 import net.lerariemann.infinity.InfinityMod;
 import net.lerariemann.infinity.InfinityModClient;
 import net.lerariemann.infinity.registry.var.ModScreenHandlers;
@@ -113,4 +113,4 @@ public class InfinityModNeoForgeClient {
         }, FluidTypes.IRIDESCENCE_TYPE.value());
     }
 }
-//?}
+*///?}

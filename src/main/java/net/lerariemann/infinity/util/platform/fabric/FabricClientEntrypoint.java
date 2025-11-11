@@ -1,7 +1,7 @@
 package net.lerariemann.infinity.util.platform.fabric;
 
 //? fabric {
-/*import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
+import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.render.fluid.v1.FluidRenderHandlerRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
 import net.fabricmc.fabric.api.transfer.v1.client.fluid.FluidVariantRendering;
@@ -55,7 +55,6 @@ public class FabricClientEntrypoint implements ClientModInitializer {
 
         // Common client setup tasks
         InfinityModClient.initializeClient();
-        ModPayloadsFabric.registerPayloadsClient();
         ModItemFunctions.registerModelPredicates();
 
         //Fluid stuff
@@ -67,4 +66,4 @@ public class FabricClientEntrypoint implements ClientModInitializer {
         FluidRenderHandlerRegistry.INSTANCE.register(PlatformMethods.getIridescenceFlowing().get(), new ModFluidsFabric.IridescenceRenderHandler());
     }
 }
-*///?}
+//?}

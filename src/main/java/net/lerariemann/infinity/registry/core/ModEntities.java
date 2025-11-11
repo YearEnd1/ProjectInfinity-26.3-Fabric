@@ -27,8 +27,8 @@ import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.levelgen.Heightmap;
 //? if neoforge {
-import net.neoforged.neoforge.event.entity.RegisterSpawnPlacementsEvent;
-//?}
+/*import net.neoforged.neoforge.event.entity.RegisterSpawnPlacementsEvent;
+*///?}
 
 import static net.lerariemann.infinity.InfinityMod.MOD_ID;
 
@@ -110,40 +110,40 @@ public class ModEntities {
 
     public static <T extends Mob> void registerSafe(EntityType<T> type, SpawnPlacementType location, Heightmap.Types heightmapType, SpawnPlacements.SpawnPredicate<T> predicate,
                                                     //? if neoforge {
-                                                    RegisterSpawnPlacementsEvent event
-                                                    //?} else {
-                                                    /*Object event
-                                                    *///?}
+                                                    /*RegisterSpawnPlacementsEvent event
+                                                    *///?} else {
+                                                    Object event
+                                                    //?}
     ) {
         //? if fabric {
-        /*if (!SpawnPlacements.DATA_BY_TYPE.containsKey(type))
+        if (!SpawnPlacements.DATA_BY_TYPE.containsKey(type))
             SpawnPlacements.register(type, location, heightmapType, predicate);
-        *///?} else {
-        event.register(type, location, heightmapType, predicate, RegisterSpawnPlacementsEvent.Operation.REPLACE);
-        //?}
+        //?} else {
+        /*event.register(type, location, heightmapType, predicate, RegisterSpawnPlacementsEvent.Operation.REPLACE);
+        *///?}
     }
 
     public static void registerSpawnRestrictions(
             //? if neoforge {
-            RegisterSpawnPlacementsEvent event
-            //?}
+            /*RegisterSpawnPlacementsEvent event
+            *///?}
     ) {
         //? if fabric {
-        /*Object event = null;
+        Object event = null;
         SpawnPlacements.register(CHAOS_SLIME.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, ChaosSlime::canSpawn);
         SpawnPlacements.register(CHAOS_SKELETON.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, ModEntities::canChaosMonsterSpawn);
         SpawnPlacements.register(CHAOS_CREEPER.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, ModEntities::canChaosMonsterSpawn);
         SpawnPlacements.register(CHAOS_PAWN.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, ModEntities::canChessFigureSpawn);
         SpawnPlacements.register(ANT.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, ModEntities::canChessFigureSpawn);
         SpawnPlacements.register(BISHOP.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, ModEntities::canChessFigureSpawn);
-        *///?} else {
-        event.register(CHAOS_SLIME.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, ChaosSlime::canSpawn, RegisterSpawnPlacementsEvent.Operation.REPLACE);
+        //?} else {
+        /*event.register(CHAOS_SLIME.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, ChaosSlime::canSpawn, RegisterSpawnPlacementsEvent.Operation.REPLACE);
         event.register(CHAOS_SKELETON.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, ModEntities::canChaosMonsterSpawn, RegisterSpawnPlacementsEvent.Operation.REPLACE);
         event.register(CHAOS_CREEPER.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, ModEntities::canChaosMonsterSpawn, RegisterSpawnPlacementsEvent.Operation.REPLACE);
         event.register(CHAOS_PAWN.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, ModEntities::canChessFigureSpawn, RegisterSpawnPlacementsEvent.Operation.REPLACE);
         event.register(ANT.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, ModEntities::canChessFigureSpawn, RegisterSpawnPlacementsEvent.Operation.REPLACE);
         event.register(BISHOP.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, ModEntities::canChessFigureSpawn, RegisterSpawnPlacementsEvent.Operation.REPLACE);
-        //?}
+        *///?}
 
         registerSafe(EntityType.SNIFFER, SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Animal::checkAnimalSpawnRules, event);
         registerSafe(EntityType.CAMEL, SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Animal::checkAnimalSpawnRules, event);

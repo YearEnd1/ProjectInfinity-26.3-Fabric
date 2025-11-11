@@ -1,7 +1,7 @@
 package net.lerariemann.infinity.util.platform.neoforge;
 
 //? neoforge {
-import dev.architectury.registry.registries.DeferredRegister;
+/*import dev.architectury.registry.registries.DeferredRegister;
 import dev.architectury.registry.registries.RegistrySupplier;
 import net.lerariemann.infinity.registry.core.ModBlocks;
 import net.lerariemann.infinity.registry.core.ModItems;
@@ -30,4 +30,4 @@ public class ModFluidsNeoforge {
         FLUIDS.register();
     }
 }
-//?}
+*///?}

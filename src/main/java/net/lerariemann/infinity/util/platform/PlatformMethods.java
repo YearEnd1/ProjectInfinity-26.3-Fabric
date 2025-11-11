@@ -2,6 +2,7 @@ package net.lerariemann.infinity.util.platform;
 
 import dev.architectury.registry.registries.RegistrySupplier;
 
+import net.fabricmc.fabric.api.networking.v1.FabricPacket;
 import net.lerariemann.infinity.registry.core.ModBlocks;
 import net.lerariemann.infinity.util.InfinityMethods;
 import net.minecraft.core.component.DataComponentType;
@@ -33,7 +34,7 @@ import java.nio.file.Path;
 import java.util.function.Supplier;
 
 //? fabric {
-/*import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.event.lifecycle.v1.DimensionTransitionEvents;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
@@ -47,9 +48,9 @@ import net.lerariemann.infinity.iridescence.IridescenceLiquidBlock;
 import net.lerariemann.infinity.item.StarOfLangItem;
 import net.lerariemann.infinity.util.platform.fabric.ModFluidsFabric;
 import net.minecraft.core.registries.Registries;
-*///?}
+//?}
 //? neoforge {
-import io.netty.buffer.Unpooled;
+/*import io.netty.buffer.Unpooled;
 import net.neoforged.fml.ModLoadingContext;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.common.Tags;
@@ -58,184 +59,196 @@ import net.neoforged.neoforge.network.PacketDistributor;
 import net.lerariemann.infinity.util.platform.neoforge.FluidTypes;
 import net.lerariemann.infinity.util.platform.neoforge.IridescenceLiquidBlockNeoforge;
 import net.lerariemann.infinity.util.platform.neoforge.ModFluidsNeoforge;
-//?}
+*///?}
 /**
  * Methods that require different implementations to work on Fabric vs. NeoForge.
  * @see InfinityMethods
  */
-public class PlatformMethods {
+public interface PlatformMethods {
     /**
      * Creates an empty PacketByteBuf - intended to replace the method
      * in Fabric API.
      */
-    public static FriendlyByteBuf createPacketByteBufs() {
+    static FriendlyByteBuf createPacketByteBufs() {
         //? fabric {
-        /*return PacketByteBufs.create();
-        *///?}
-        //? neoforge {
-        return new FriendlyByteBuf(Unpooled.buffer());
+        return PacketByteBufs.create();
         //?}
+        //? neoforge {
+        /*return new FriendlyByteBuf(Unpooled.buffer());
+        *///?}
     }
 
-    public static void sendS2CPayload(ServerPlayer entity, CustomPacketPayload payload) {
+    static void sendS2CPayload(ServerPlayer entity,
+                               //? if >1.21 {
+                               /*CustomPacketPayload
+                               *///?} else {
+                               FabricPacket
+                               //?}
+                                       payload) {
         //? fabric {
-        /*ServerPlayNetworking.send(entity, payload);
-        *///?}
-        //? neoforge {
-        PacketDistributor.sendToPlayer(entity, payload);
+        ServerPlayNetworking.send(entity, payload);
         //?}
+        //? neoforge {
+        /*PacketDistributor.sendToPlayer(entity, payload);
+        *///?}
     }
-    public static void sendC2SPayload(CustomPacketPayload payload) {
+    static void sendC2SPayload(
+            //? if >1.21 {
+            /*CustomPacketPayload
+             *///?} else {
+            FabricPacket
+            //?}
+                    payload) {
         //? fabric {
-        /*ClientPlayNetworking.send(payload);
-        *///?}
-        //? neoforge {
-        PacketDistributor.sendToServer(payload);
+        ClientPlayNetworking.send(payload);
         //?}
+        //? neoforge {
+        /*PacketDistributor.sendToServer(payload);
+        *///?}
     }
 
     /**
      * On NeoForge, this allows the world to be ticked.
      * On Fabric, this invokes a server world event in Fabric API.
      */
-    public static void onWorldLoad(Object mixin, ServerLevel world) {
+    static void onWorldLoad(Object mixin, ServerLevel world) {
         //? fabric {
-        /*DimensionTransitionEvents.LOAD.invoker().onWorldLoad((MinecraftServer)mixin, world);
-        *///?}
+        DimensionTransitionEvents.LOAD.invoker().onWorldLoad((MinecraftServer)mixin, world);
+        //?}
         //? neoforge {
-        MinecraftServer server = world.getServer();
+        /*MinecraftServer server = world.getServer();
         server.forgeGetWorldMap().put(world.dimension(),world);
         server.markWorldsDirty();
         NeoForge.EVENT_BUS.post(new LevelEvent.Load(world));
-        //?}
+        *///?}
     }
 
     /**
      * Fabric-exclusive method of adding an item to an Item Group, which uses Fabric API.
      * On NeoForge, does nothing.
      */
-    public static <T extends Item> void addAfter(RegistrySupplier<T> supplier, ResourceKey<CreativeModeTab> group, Item item) {
+    static <T extends Item> void addAfter(RegistrySupplier<T> supplier, ResourceKey<CreativeModeTab> group, Item item) {
         //? fabric {
-        /*ItemGroupEvents.modifyEntriesEvent(group).register(content -> content.addAfter(item, supplier.get()));
-        *///?}
+        ItemGroupEvents.modifyEntriesEvent(group).register(content -> content.addAfter(item, supplier.get()));
+        //?}
     }
-    public static <T extends Item> void addEnd(RegistrySupplier<T> supplier, ResourceKey<CreativeModeTab> group) {
+    static <T extends Item> void addEnd(RegistrySupplier<T> supplier, ResourceKey<CreativeModeTab> group) {
         //? fabric {
-        /*ItemGroupEvents.modifyEntriesEvent(group).register(content -> content.accept(supplier.get()));
-        *///?}
+        ItemGroupEvents.modifyEntriesEvent(group).register(content -> content.accept(supplier.get()));
+        //?}
     }
 
     /**
      * Check if a block is in the Black Dyed Conventional Tag.
      */
-    public static boolean isInBlack(BlockState state) {
+    static boolean isInBlack(BlockState state) {
         //? fabric {
-        /*return state.is(ConventionalBlockTags.BLACK_DYED);
-        *///?}
-        //? neoforge {
-        return state.is(Tags.Blocks.DYED_BLACK);
+        return state.is(ConventionalBlockTags.BLACK_DYED);
         //?}
+        //? neoforge {
+        /*return state.is(Tags.Blocks.DYED_BLACK);
+        *///?}
     }
 
     /**
      * Check if a block is in the White Dyed Conventional Tag.
      */
-    public static boolean isInWhite(BlockState state) {
+    static boolean isInWhite(BlockState state) {
         //? fabric {
-        /*return state.is(ConventionalBlockTags.WHITE_DYED);
-        *///?}
-        //? neoforge {
-        return state.is(Tags.Blocks.DYED_WHITE);
+        return state.is(ConventionalBlockTags.WHITE_DYED);
         //?}
+        //? neoforge {
+        /*return state.is(Tags.Blocks.DYED_WHITE);
+        *///?}
     }
 
     /**
      * Get the still variant of Iridescence fluid.
      */
-    public static RegistrySupplier<? extends FlowingFluid> getIridescenceStill() {
+    static RegistrySupplier<? extends FlowingFluid> getIridescenceStill() {
         //? fabric {
-        /*return ModFluidsFabric.IRIDESCENCE_STILL;
-        *///?}
-        //? neoforge {
-        return ModFluidsNeoforge.IRIDESCENCE_STILL;
+        return ModFluidsFabric.IRIDESCENCE_STILL;
         //?}
+        //? neoforge {
+        /*return ModFluidsNeoforge.IRIDESCENCE_STILL;
+        *///?}
     }
     /**
      * Get the flowing variant of Iridescence fluid.
      */
-    public static RegistrySupplier<? extends FlowingFluid> getIridescenceFlowing() {
+    static RegistrySupplier<? extends FlowingFluid> getIridescenceFlowing() {
         //? fabric {
-        /*return ModFluidsFabric.IRIDESCENCE_FLOWING;
-        *///?}
+        return ModFluidsFabric.IRIDESCENCE_FLOWING;
+        //?}
         //? neoforge {
-        return ModFluidsNeoforge.IRIDESCENCE_FLOWING;
-         //?}
+        /*return ModFluidsNeoforge.IRIDESCENCE_FLOWING;
+         *///?}
     }
 
     /**
      * Get the registry supplier for Iridescence fluid.
      */
-    public static RegistrySupplier<LiquidBlock> getIridBlockForReg() {
+    static RegistrySupplier<LiquidBlock> getIridBlockForReg() {
         //? fabric {
-        /*return ModBlocks.BLOCKS.register("iridescence", () ->
+        return ModBlocks.BLOCKS.register("iridescence", () ->
                 new IridescenceLiquidBlock(PlatformMethods.getIridescenceStill(),
                         BlockBehaviour.Properties.ofFullCopy(Blocks.WATER).mapColor(MapColor.COLOR_MAGENTA)));
-        *///?}
+        //?}
         //? neoforge {
-        return ModBlocks.BLOCKS.register("iridescence", () ->
+        /*return ModBlocks.BLOCKS.register("iridescence", () ->
                 new IridescenceLiquidBlockNeoforge(PlatformMethods.getIridescenceStill(), BlockBehaviour.Properties.ofFullCopy(Blocks.WATER)
                                 .mapColor(MapColor.COLOR_MAGENTA)));
-        //?}
+        *///?}
     }
 
     /**
      * Read from the config path inside the mod JAR.
      */
-    public static Path getRootConfigPath() {
+    static Path getRootConfigPath() {
         //? fabric {
-        /*ModContainer mc = FabricLoader.getInstance().getModContainer(InfinityMod.MOD_ID).orElse(null);
+        ModContainer mc = FabricLoader.getInstance().getModContainer(InfinityMod.MOD_ID).orElse(null);
         assert mc != null;
         return mc.getRootPaths().getFirst().resolve("config");
-        *///?}
+        //?}
         //? neoforge {
         
-        return ModLoadingContext.get().getActiveContainer().getModInfo().getOwningFile().getFile().findResource("config");
-        //?}
+        /*return ModLoadingContext.get().getActiveContainer().getModInfo().getOwningFile().getFile().findResource("config");
+        *///?}
     }
 
     /**
      * Create an Item Tag.
      */
-    public static TagKey<Item> createItemTag(String id) {
+    static TagKey<Item> createItemTag(String id) {
         //? fabric {
-        /*return TagKey.create(Registries.ITEM, InfinityMethods.getId(id));
-        *///?}
+        return TagKey.create(Registries.ITEM, InfinityMethods.getId(id));
+        //?}
         //? neoforge {
         
-        return ItemTags.create(InfinityMethods.getId(id));
-         //?}
+        /*return ItemTags.create(InfinityMethods.getId(id));
+         *///?}
     }
-    public static TagKey<Block> createBlockTag(String id) {
+    static TagKey<Block> createBlockTag(String id) {
         //? fabric {
-        /*return TagKey.create(Registries.BLOCK, InfinityMethods.getId(id));
-        *///?}
+        return TagKey.create(Registries.BLOCK, InfinityMethods.getId(id));
+        //?}
         //? neoforge {
         
-        return BlockTags.create(InfinityMethods.getId(id));
-         //?}
+        /*return BlockTags.create(InfinityMethods.getId(id));
+         *///?}
     }
 
     /**
      * Register a Flammable nameToElement (how does Architectury API not have a helper for this)
      */
-    public static void registerFlammableBlock(RegistrySupplier<Block> block, int burn, int spread) {
+    static void registerFlammableBlock(RegistrySupplier<Block> block, int burn, int spread) {
         //? fabric {
-        /*FlammableBlockRegistry.getDefaultInstance().add(block.get(), burn, spread);
-         *///?}
+        FlammableBlockRegistry.getDefaultInstance().add(block.get(), burn, spread);
+         //?}
         //? neoforge {
-        FireBlock fireblock = (FireBlock)Blocks.FIRE;
+        /*FireBlock fireblock = (FireBlock)Blocks.FIRE;
         fireblock.setFlammable(block.get(), burn, spread);
-        //?}
+        *///?}
     }
 
     /**
@@ -243,43 +256,43 @@ public class PlatformMethods {
      * Used only in mixins, to fix the neoforge loader stripping mobs of ability to swim in non-water fluids.
      * On Fabric, returns false.
      */
-    public static boolean acidTest(Entity entity, boolean eyes) {
+    static boolean acidTest(Entity entity, boolean eyes) {
         //? fabric {
-        /*return false;
-        *///?}
+        return false;
+        //?}
         //? neoforge {
         
-        if (entity instanceof Player) return false;
+        /*if (entity instanceof Player) return false;
         if (eyes) return entity.isEyeInFluidType(FluidTypes.IRIDESCENCE_TYPE.value());
         return entity.isInFluidType(FluidTypes.IRIDESCENCE_TYPE.value());
-         //?}
+         *///?}
     }
-    public static double acidHeightTest(Entity entity) {
+    static double acidHeightTest(Entity entity) {
         //? fabric {
-        /*return -1;
-        *///?}
+        return -1;
+        //?}
         //? neoforge {
         
-        if (entity instanceof Player) return -1;
+        /*if (entity instanceof Player) return -1;
         return entity.getFluidTypeHeight(FluidTypes.IRIDESCENCE_TYPE.value());
-         //?}
-    }
-
-    public static Item.Properties deferredIntComponent(Supplier<DataComponentType<Integer>> componentTypeSupplier, int i) {
-        //? fabric {
-        /*return new Item.Properties().component(componentTypeSupplier.get(), i);
-        *///?}
-        //? neoforge {
-        return new Item.Properties().component(componentTypeSupplier, i);
-        //?}
-    }
-
-    public static ItemEnchantments getEnchantments(ItemStack weapon, MinecraftServer s) {
-        //? fabric {
-        /*return weapon.getEnchantments();
          *///?}
-        //? neoforge {
-        return weapon.getAllEnchantments(s.registryAccess().lookupOrThrow(Registries.ENCHANTMENT));
+    }
+
+    static Item.Properties deferredIntComponent(Supplier<DataComponentType<Integer>> componentTypeSupplier, int i) {
+        //? fabric {
+        return new Item.Properties().component(componentTypeSupplier.get(), i);
         //?}
+        //? neoforge {
+        /*return new Item.Properties().component(componentTypeSupplier, i);
+        *///?}
+    }
+
+    static ItemEnchantments getEnchantments(ItemStack weapon, MinecraftServer s) {
+        //? fabric {
+        return weapon.getEnchantments();
+         //?}
+        //? neoforge {
+        /*return weapon.getAllEnchantments(s.registryAccess().lookupOrThrow(Registries.ENCHANTMENT));
+        *///?}
     }
 }

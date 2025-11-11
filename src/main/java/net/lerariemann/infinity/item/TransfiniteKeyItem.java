@@ -8,8 +8,8 @@ import net.lerariemann.infinity.util.InfinityMethods;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 //? if >1.21 {
-import net.minecraft.core.component.DataComponentPatch;
-//?}
+/*import net.minecraft.core.component.DataComponentPatch;
+*///?}
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
@@ -66,10 +66,10 @@ public class TransfiniteKeyItem extends Item implements PortalDataHolder.Destina
     @Override
     public void appendHoverText(ItemStack stack,
                                 //? if >1.21 {
-                                TooltipContext
-                                //?} else {
-                                /*Level
-                                *///?}
+                                /*TooltipContext
+                                *///?} else {
+                                Level
+                                //?}
                                         context, List<Component> tooltip, TooltipFlag type) {
         super.appendHoverText(stack, context, tooltip, type);
         ResourceLocation dimension = VersionMethods.getDimensionIdentifier(stack);

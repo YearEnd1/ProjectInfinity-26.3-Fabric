@@ -1,7 +1,7 @@
 package net.lerariemann.infinity.util.platform.neoforge;
 
 //? neoforge {
-import dev.architectury.platform.Platform;
+/*import dev.architectury.platform.Platform;
 import net.lerariemann.infinity.InfinityMod;
 import net.lerariemann.infinity.compat.CreateCompat;
 import net.lerariemann.infinity.registry.core.ModBlocks;
@@ -72,7 +72,7 @@ public class InfinityModNeoforge {
         registrar.playToClient(
                 ModPayloads.WorldAddS2CPayload.ID,
                 ModPayloads.WorldAddS2CPayload.CODEC,
-                (payload, context) -> receiveWorldAddPayload(client(), payload.world_id(), payload.world_data())
+                (payload, context) -> receiveWorldAddPayload(client(), payload.id(), payload.world_data())
         );
         registrar.playToClient(
                 ModPayloads.BiomeAddS2CPayload.ID,
@@ -111,4 +111,4 @@ public class InfinityModNeoforge {
         );
     }
 }
-//?}
+*///?}

@@ -3,17 +3,14 @@ package net.lerariemann.infinity.iridescence;
 import net.lerariemann.infinity.InfinityMod;
 import net.lerariemann.infinity.entity.custom.ChaosPawn;
 import net.lerariemann.infinity.options.InfinityOptions;
+import net.lerariemann.infinity.util.VersionMethods;
 import net.lerariemann.infinity.util.core.RandomProvider;
 import net.lerariemann.infinity.util.loading.ShaderLoader;
 import net.lerariemann.infinity.util.teleport.WarpLogic;
 import net.minecraft.client.Minecraft;
-import net.minecraft.core.particles.ColorParticleOption;
-import net.minecraft.core.particles.ParticleOptions;
-import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
-import net.minecraft.util.FastColor;
 import net.minecraft.world.effect.InstantenousMobEffect;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
@@ -21,10 +18,18 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.NeutralMob;
+import net.minecraft.world.entity.ai.attributes.AttributeMap;
 import net.minecraft.world.entity.player.Player;
 import net.lerariemann.infinity.registry.core.ModStatusEffects;
-import java.awt.Color;
 import java.util.Objects;
+
+//? if >1.21 {
+/*import net.minecraft.core.particles.ColorParticleOption;
+import net.minecraft.core.particles.ParticleOptions;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.util.FastColor;
+import java.awt.Color;
+ *///?}
 
 import static net.lerariemann.infinity.iridescence.Iridescence.*;
 
@@ -34,10 +39,15 @@ public class IridescentEffect extends MobEffect implements ModStatusEffects.Spec
     }
 
     @Override
-    public void onEffectStarted(LivingEntity entity, int amplifier) {
+    //? if >1.21 {
+    /*public void onEffectStarted(LivingEntity entity, int amplifier) {
         super.onEffectStarted(entity, amplifier);
-        if (entity.hasEffect(ModStatusEffects.IRIDESCENT_SETUP)) {
-            entity.removeEffect(ModStatusEffects.IRIDESCENT_SETUP);
+    *///?} else {
+    public void addAttributeModifiers(LivingEntity entity, AttributeMap attributes, int amplifier) {
+        super.addAttributeModifiers(entity, attributes, amplifier);
+    //?}
+        if (entity.hasEffect(VersionMethods.effectOrHolder(ModStatusEffects.IRIDESCENT_SETUP))) {
+            entity.removeEffect(VersionMethods.effectOrHolder(ModStatusEffects.IRIDESCENT_SETUP));
         }
         if (entity instanceof NeutralMob ang) ang.stopBeingAngry();
         if (entity instanceof ServerPlayer player
@@ -83,7 +93,7 @@ public class IridescentEffect extends MobEffect implements ModStatusEffects.Spec
                 if (shouldRequestShaderLoad(duration, amplifier))
                     loadShader(player);
                 if (amplifier == 0 && duration == 2) {
-                    player.addEffect(new MobEffectInstance(ModStatusEffects.AFTERGLOW,
+                    player.addEffect(new MobEffectInstance(VersionMethods.effectOrHolder(ModStatusEffects.AFTERGLOW),
                             getAfterglowDuration() / 2, 0, true, true));
                 }
             }
@@ -99,12 +109,14 @@ public class IridescentEffect extends MobEffect implements ModStatusEffects.Spec
         }
     }
 
-    @Override
+    //? if >1.21 {
+    /*@Override
     public ParticleOptions createParticleOptions(MobEffectInstance effect) {
         float hue = effect.getDuration() / 13.0f;
         return ColorParticleOption.create(
                 ParticleTypes.ENTITY_EFFECT, FastColor.ARGB32.opaque(Color.HSBtoRGB(hue - (int)hue, 1.0f, 1.0f)));
     }
+    *///?}
 
     public static class Setup extends InstantenousMobEffect {
         public Setup(MobEffectCategory category, int color) {
@@ -112,8 +124,13 @@ public class IridescentEffect extends MobEffect implements ModStatusEffects.Spec
         }
 
         @Override
-        public void onEffectStarted(LivingEntity entity, int amplifier) {
+        //? if >1.21 {
+        /*public void onEffectStarted(LivingEntity entity, int amplifier) {
             super.onEffectStarted(entity, amplifier);
+        *///?} else {
+        public void addAttributeModifiers(LivingEntity entity, AttributeMap attributes, int amplifier) {
+            super.addAttributeModifiers(entity, attributes, amplifier);
+        //?}
             tryBeginJourney(entity, amplifier, true);
         }
     }

@@ -1,7 +1,7 @@
 package net.lerariemann.infinity.util.platform.fabric;
 
 //? fabric {
-/*import dev.architectury.platform.Platform;
+import dev.architectury.platform.Platform;
 import net.lerariemann.infinity.InfinityMod;
 import net.fabricmc.api.ModInitializer;
 import net.lerariemann.infinity.compat.CreateCompat;
@@ -26,9 +26,8 @@ public class FabricEntrypoint implements ModInitializer {
         ModStats.load();
         ModBlocks.registerFlammableBlocks();
         ModItemFunctions.registerDispenserBehaviour();
-        ModPayloadsFabric.registerPayloadsServer();
         if (Platform.isModLoaded("create"))
             CreateCompat.register();
     }
 }
-*///?}
+//?}

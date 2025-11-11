@@ -26,7 +26,7 @@ public class CreateCompat {
     private static PortalTrackProvider.Exit infinityPortalProvider(ServerLevel worldFrom, BlockFace blockFace) {
         MinecraftServer server = worldFrom.getServer();
         //? if <1.21
-        /*if (!server.isNetherEnabled()) return null;*/
+        if (!server.isNetherEnabled()) return null;
         BlockPos posFrom = blockFace.getConnectedPos();
         if (worldFrom.getBlockEntity(posFrom) instanceof InfinityPortalBlockEntity ipbe
                 && ipbe.isConnectedBothSides()) { //we only allow trains through if portals are in sync

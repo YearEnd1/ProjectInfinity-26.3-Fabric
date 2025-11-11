@@ -38,10 +38,10 @@ public class ChromaticBlock extends BaseEntityBlock implements Boopable {
     @Override
     public ItemStack getCloneItemStack(
             //? if >1.21 {
-            LevelReader
-             //?} else {
-            /*BlockGetter
-            *///?}
+            /*LevelReader
+             *///?} else {
+            BlockGetter
+            //?}
             world, BlockPos pos, BlockState state) {
         ItemStack res = super.getCloneItemStack(world, pos, state);
         if (!res.isEmpty() && world.getBlockEntity(pos) instanceof ChromaticBlockEntity cbe)

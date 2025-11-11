@@ -28,6 +28,7 @@ public class InfinityModClient {
         ModEntities.registerEntityRenderers();
         ModScreenHandlers.register();
         KeyMappingRegistry.register(f4ConfigKey);
+        ModPayloads.registerS2CPacketsReceivers();
         ClientTickEvent.CLIENT_POST.register(client -> {
             while (f4ConfigKey.consumeClick()) if (client.player != null
                     && client.player.getItemInHand(InteractionHand.MAIN_HAND).is(ModItems.F4.get())) {

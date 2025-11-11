@@ -7,19 +7,14 @@ import net.lerariemann.infinity.iridescence.Iridescence;
 import net.lerariemann.infinity.item.F4Item;
 import net.lerariemann.infinity.registry.core.ModComponentTypes;
 import net.lerariemann.infinity.registry.core.ModItems;
+import net.lerariemann.infinity.util.config.SoundScanner;
 import net.lerariemann.infinity.util.platform.PlatformMethods;
 import net.lerariemann.infinity.util.loading.DimensionGrabber;
 import net.lerariemann.infinity.options.InfinityOptions;
-import net.lerariemann.infinity.util.InfinityMethods;
 import net.lerariemann.infinity.util.loading.ShaderLoader;
 import net.minecraft.client.Minecraft;
-import net.minecraft.core.component.DataComponentMap;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.RegistryFriendlyByteBuf;
-import net.minecraft.network.codec.ByteBufCodecs;
-import net.minecraft.network.codec.StreamCodec;
-import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -28,55 +23,342 @@ import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.dimension.DimensionType;
+
+
+//? if >1.21 {
+/*
+import net.lerariemann.infinity.util.InfinityMethods;
+import net.minecraft.world.level.dimension.DimensionType;
+import org.jetbrains.annotations.NotNull;
+import net.minecraft.core.component.DataComponentMap;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
+*///?} else {
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.client.multiplayer.ClientPacketListener;
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
+import net.fabricmc.fabric.api.networking.v1.FabricPacket;
+import net.fabricmc.fabric.api.networking.v1.PacketSender;
+import net.fabricmc.fabric.api.networking.v1.PacketType;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
+import static net.lerariemann.infinity.util.InfinityMethods.getId;
+//?}
+
 import java.nio.file.Path;
 
 public class ModPayloads {
-    public record WorldAddS2CPayload(ResourceLocation world_id, CompoundTag world_data) implements CustomPacketPayload {
-        public static final Type<WorldAddS2CPayload> ID = new Type<>(InfinityMethods.getId("add_world"));
-        public static final StreamCodec<RegistryFriendlyByteBuf, WorldAddS2CPayload> CODEC = StreamCodec.composite(
-                ResourceLocation.STREAM_CODEC, WorldAddS2CPayload::world_id,
-                ByteBufCodecs.COMPOUND_TAG, WorldAddS2CPayload::world_data,
-                WorldAddS2CPayload::new);
+    public static boolean resourcesReloaded = Path.of(Platform.getGameFolder() + "/resourcepacks/infinity/assets/infinity/shaders").toFile().exists();
+    //? if >1.21 {
+    /*
+    public record JukeboxesC2SPayload(CompoundTag data) implements CustomPacketPayload {
+        public static final Type<JukeboxesC2SPayload> ID = new Type<>(InfinityMethods.getId("upload_jukeboxes"));
+        public static final StreamCodec<RegistryFriendlyByteBuf, JukeboxesC2SPayload> CODEC = StreamCodec.composite(
+                ByteBufCodecs.COMPOUND_TAG, JukeboxesC2SPayload::data, JukeboxesC2SPayload::new);
         @Override
-        public Type<? extends CustomPacketPayload> type() {
+        public @NotNull Type<? extends CustomPacketPayload> type() {
             return ID;
         }
     }
+    public static void sendJukeboxesPayload(CompoundTag data) {
+        PlatformMethods.sendC2SPayload(new JukeboxesC2SPayload(data));
+    }
+    *///?}
+    public interface FriendlyPacket extends
+    //? if >1.21 {
+    /*CustomPacketPayload {
+     *///?} else {
+    FabricPacket {
+        //?}
+    }
+
+    public interface FriendlyPacketS2C extends FriendlyPacket {
+        void receive(Minecraft client);
+    }
+
+    public interface FriendlyPacketC2S extends FriendlyPacket {
+        void receive(ServerPlayer player);
+    }
+
+    public record WorldAddS2CPayload(ResourceLocation id, CompoundTag data) implements FriendlyPacket {
+        static ResourceLocation sid = getId("add_world");
+        //? if >1.21 {
+        /*
+        public static final Type<WorldAddS2CPayload> ID = new Type<>(sid);
+        public static final StreamCodec<RegistryFriendlyByteBuf, WorldAddS2CPayload> CODEC = StreamCodec.composite(
+                ResourceLocation.STREAM_CODEC, WorldAddS2CPayload::id,
+                ByteBufCodecs.COMPOUND_TAG, WorldAddS2CPayload::data,
+                WorldAddS2CPayload::new);
+        @Override
+        public @NotNull Type<? extends CustomPacketPayload> type() {
+            return ID;
+        }
+        *///?} else {
+        public void write(FriendlyByteBuf buf) {
+            buf.writeResourceLocation(id);
+            buf.writeNbt(data);
+        }
+        public static PacketType<WorldAddS2CPayload> type =
+                PacketType.create(sid, buf -> new WorldAddS2CPayload(buf.readResourceLocation(), buf.readNbt()));
+        @Override
+        public PacketType<?> getType() {
+            return type;
+        }
+        public static void receive(Minecraft client, ClientPacketListener handler, FriendlyByteBuf buf, PacketSender responseSender) {
+            type.read(buf).receive(client);
+        }
+        //?}
+        public void receive(Minecraft client) {
+            client.execute(() -> DimensionGrabber.grabObjectForClient(client, DimensionType.DIRECT_CODEC, Registries.DIMENSION_TYPE, id, data));
+        }
+    }
+
+    public record BiomeAddS2CPayload(ResourceLocation id, CompoundTag data) implements FriendlyPacket {
+        static ResourceLocation sid = getId("add_biome");
+        //? if >1.21 {
+        /*
+        public static final Type<BiomeAddS2CPayload> ID = new Type<>(sid);
+        public static final StreamCodec<RegistryFriendlyByteBuf, BiomeAddS2CPayload> CODEC = StreamCodec.composite(
+                ResourceLocation.STREAM_CODEC, BiomeAddS2CPayload::id,
+                ByteBufCodecs.COMPOUND_TAG, BiomeAddS2CPayload::data,
+                BiomeAddS2CPayload::new);
+        @Override
+        public @NotNull Type<? extends CustomPacketPayload> type() {
+            return ID;
+        }
+        *///?} else {
+        public void write(FriendlyByteBuf buf) {
+            buf.writeResourceLocation(id);
+            buf.writeNbt(data);
+        }
+        public static PacketType<BiomeAddS2CPayload> type =
+                PacketType.create(sid, buf -> new BiomeAddS2CPayload(buf.readResourceLocation(), buf.readNbt()));
+        @Override
+        public PacketType<?> getType() {
+            return type;
+        }
+        public static void receive(Minecraft client, ClientPacketListener handler, FriendlyByteBuf buf, PacketSender responseSender) {
+            type.read(buf).receive(client);
+        }
+        //?}
+        public void receive(Minecraft client) {
+            client.execute(() -> DimensionGrabber.grabObjectForClient(client, Biome.DIRECT_CODEC, Registries.BIOME, id, data));
+        }
+    }
+
+    public record ShaderS2CPayload(boolean iridescence, CompoundTag data) implements FriendlyPacketS2C {
+        static ResourceLocation sid = getId("reload_shader");
+        //? if >1.21 {
+        /*
+        public static final Type<ShaderS2CPayload> ID = new Type<>(sid);
+        public static final StreamCodec<RegistryFriendlyByteBuf, ShaderS2CPayload> CODEC = StreamCodec.composite(
+                ByteBufCodecs.BOOL, ShaderS2CPayload::iridescence,
+                ByteBufCodecs.COMPOUND_TAG, ShaderS2CPayload::data,
+                ShaderS2CPayload::new);
+        @Override
+        public @NotNull Type<? extends CustomPacketPayload> type() {
+            return ID;
+        }
+        *///?} else {
+        public void write(FriendlyByteBuf buf) {
+            buf.writeBoolean(iridescence);
+            buf.writeNbt(data);
+        }
+        public static PacketType<ShaderS2CPayload> type =
+                PacketType.create(sid, buf -> new ShaderS2CPayload(buf.readBoolean(), buf.readNbt()));
+        @Override
+        public PacketType<?> getType() {
+            return type;
+        }
+        public static void receive(Minecraft client, ClientPacketListener handler, FriendlyByteBuf buf, PacketSender responseSender) {
+            type.read(buf).receive(client);
+        }
+        //?}
+        @Override
+        public void receive(Minecraft client) {
+            InfinityOptions options = new InfinityOptions(data);
+            ((InfinityOptionsAccess)client).infinity$setOptions(options);
+            client.execute(() -> ShaderLoader.reloadShaders(client, options.getShader(), iridescence));
+        }
+    }
+
+    public record StarsS2CPayload() implements FriendlyPacketS2C {
+        static ResourceLocation sid = getId("reload_stars");
+        public static final StarsS2CPayload INSTANCE = new StarsS2CPayload();
+        //? if >1.21 {
+        /*
+        public static final Type<StarsS2CPayload> ID = new Type<>(sid);
+        public static final StreamCodec<RegistryFriendlyByteBuf, StarsS2CPayload> CODEC = StreamCodec.unit(INSTANCE);
+        @Override
+        public @NotNull Type<? extends CustomPacketPayload> type() {
+            return ID;
+        }
+        *///?} else {
+        @Override
+        public void write(FriendlyByteBuf buf) {
+        }
+        public static PacketType<StarsS2CPayload> type =
+                PacketType.create(sid, buf -> INSTANCE);
+        @Override
+        public PacketType<?> getType() {
+            return type;
+        }
+        public static void receive(Minecraft client, ClientPacketListener handler, FriendlyByteBuf buf, PacketSender responseSender) {
+            type.read(buf).receive(client);
+        }
+        //?}
+        @Override
+        public void receive(Minecraft client) {
+            ((WorldRendererAccess)(client.levelRenderer)).infinity$setNeedsStars(true);
+        }
+    }
+
+
+    public record SoundPackS2CPayload(CompoundTag songIds) implements FriendlyPacketS2C {
+        static ResourceLocation sid = getId("download_sound_pack");
+        //? if >1.21 {
+        /*
+        public static final Type<SoundPackS2CPayload> ID = new Type<>(sid);
+        public static final StreamCodec<RegistryFriendlyByteBuf, SoundPackS2CPayload> CODEC = StreamCodec.composite(
+                ByteBufCodecs.COMPOUND_TAG, SoundPackS2CPayload::songIds, SoundPackS2CPayload::new);
+        @Override
+        public @NotNull Type<? extends CustomPacketPayload> type() {
+            return ID;
+        }
+        *///?} else {
+        @Override
+        public void write(FriendlyByteBuf buf) {
+            buf.writeNbt(songIds);
+        }
+        public static PacketType<SoundPackS2CPayload> type =
+                PacketType.create(sid, buf -> new SoundPackS2CPayload(buf.readNbt()));
+        @Override
+        public PacketType<?> getType() {
+            return type;
+        }
+        public static void receive(Minecraft client, ClientPacketListener handler, FriendlyByteBuf buf, PacketSender responseSender) {
+            type.read(buf).receive(client);
+        }
+        //?}
+        @Override
+        public void receive(Minecraft client) {
+            SoundScanner.unpackDownloadedPack(songIds, client);
+        }
+    }
+
+    public record F4DeployC2SPayload() implements FriendlyPacketC2S {
+        static ResourceLocation sid = getId("deploy_f4");
+        public static final F4DeployC2SPayload INSTANCE = new F4DeployC2SPayload();
+        //? if >1.21 {
+        /*
+        public static final Type<F4DeployC2SPayload> ID = new Type<>(sid);
+        public static final StreamCodec<RegistryFriendlyByteBuf, F4DeployC2SPayload> CODEC = StreamCodec.unit(INSTANCE);
+        @Override
+        public @NotNull Type<? extends CustomPacketPayload> type() {
+            return ID;
+        }
+        *///?} else {
+        @Override
+        public void write(FriendlyByteBuf buf) {
+        }
+        public static PacketType<F4DeployC2SPayload> type = PacketType.create(sid, buf -> INSTANCE);
+        @Override
+        public PacketType<?> getType() {
+            return type;
+        }
+        public static void receive(F4DeployC2SPayload packet, ServerPlayer player, PacketSender responceSenser) {
+            packet.receive(player);
+        }
+        //?}
+        @Override
+        public void receive(ServerPlayer player) {
+            ItemStack st = player.getItemInHand(InteractionHand.MAIN_HAND);
+            if (st.is(ModItems.F4.get())) {
+                InteractionResultHolder<ItemStack> result = F4Item.deploy(player.serverLevel(), player, InteractionHand.MAIN_HAND);
+                player.setItemInHand(InteractionHand.MAIN_HAND, result.getObject());
+            }
+        }
+    }
+
+    public record F4UpdateC2SPayload(int slot, int width, int height) implements FriendlyPacketC2S {
+        static ResourceLocation sid = getId("update_f4");
+        //? if >1.21 {
+        /*
+        public static final Type<F4UpdateC2SPayload> ID = new Type<>(InfinityMethods.getId("receive_f4"));
+        public static final StreamCodec<RegistryFriendlyByteBuf, F4UpdateC2SPayload> CODEC = StreamCodec.composite(
+                ByteBufCodecs.VAR_INT, F4UpdateC2SPayload::slot,
+                ByteBufCodecs.VAR_INT, F4UpdateC2SPayload::width,
+                ByteBufCodecs.VAR_INT, F4UpdateC2SPayload::height,
+                F4UpdateC2SPayload::new);
+        @Override
+        public @NotNull Type<? extends CustomPacketPayload> type() {
+            return ID;
+        }
+        *///?} else {
+        @Override
+        public void write(FriendlyByteBuf buf) {
+            buf.writeInt(slot);
+            buf.writeInt(width);
+            buf.writeInt(height);
+        }
+        public static PacketType<F4UpdateC2SPayload> type =
+                PacketType.create(sid, buf -> new F4UpdateC2SPayload(buf.readInt(), buf.readInt(), buf.readInt()));
+        @Override
+        public PacketType<?> getType() {
+            return type;
+        }
+        public static void receive(F4UpdateC2SPayload packet, ServerPlayer player, PacketSender responceSenser) {
+            packet.receive(player);
+        }
+        //?}
+        public void receive(ServerPlayer player) {
+            ItemStack st = player.getInventory().getItem(slot);
+            if (st.is(ModItems.F4.get())) {
+                ItemStack newStack = st.copy();
+                //? if >1.21 {
+                /*newStack.applyComponents(DataComponentMap.builder()
+                        .set(ModComponentTypes.SIZE_X.get(), Math.clamp(width, 1, 21))
+                        .set(ModComponentTypes.SIZE_Y.get(), Math.clamp(height, 1, 21))
+                        .build());
+                 *///?} else {
+                CompoundTag nbt = st.getTag();
+                if (nbt == null) nbt = new CompoundTag();
+                nbt.putInt(ModComponentTypes.SIZE_X, width);
+                nbt.putInt(ModComponentTypes.SIZE_Y, height);
+                newStack.setTag(nbt);
+                //?}
+                player.getInventory().setItem(slot, newStack);
+            }
+        }
+    }
+
+    public static void registerC2SPacketsReceivers() {
+        //? if >1.21 {
+        /*net.lerariemann.infinity.util.platform.Platform.INSTANCE.registerPayloadsServer();
+        *///?} else {
+        ServerPlayNetworking.registerGlobalReceiver(F4UpdateC2SPayload.type, F4UpdateC2SPayload::receive);
+        ServerPlayNetworking.registerGlobalReceiver(F4DeployC2SPayload.type, F4DeployC2SPayload::receive);
+        //?}
+    }
+
+    public static void registerS2CPacketsReceivers() {
+        //? if >1.21 {
+        /*net.lerariemann.infinity.util.platform.Platform.INSTANCE.registerPayloadsClient();
+        *///?} else {
+        ClientPlayNetworking.registerGlobalReceiver(WorldAddS2CPayload.sid, WorldAddS2CPayload::receive);
+        ClientPlayNetworking.registerGlobalReceiver(BiomeAddS2CPayload.sid, BiomeAddS2CPayload::receive);
+        ClientPlayNetworking.registerGlobalReceiver(ShaderS2CPayload.sid, ShaderS2CPayload::receive);
+        ClientPlayNetworking.registerGlobalReceiver(StarsS2CPayload.sid, StarsS2CPayload::receive);
+        ClientPlayNetworking.registerGlobalReceiver(SoundPackS2CPayload.sid, SoundPackS2CPayload::receive);
+        //?}
+    }
+
     public static void sendWorldAddPayload(ServerPlayer player, ResourceLocation id, CompoundTag data) {
         PlatformMethods.sendS2CPayload(player, new WorldAddS2CPayload(id, data));
     }
-    public static void receiveWorldAddPayload(Minecraft client, ResourceLocation id, CompoundTag data) {
-        client.execute(() -> DimensionGrabber.grabObjectForClient(client, DimensionType.DIRECT_CODEC, Registries.DIMENSION_TYPE, id, data));
-    }
-
-    public record BiomeAddS2CPayload(ResourceLocation biome_id, CompoundTag biome_data) implements CustomPacketPayload {
-        public static final Type<BiomeAddS2CPayload> ID = new Type<>(InfinityMethods.getId("add_biome"));
-        public static final StreamCodec<RegistryFriendlyByteBuf, BiomeAddS2CPayload> CODEC = StreamCodec.composite(
-                ResourceLocation.STREAM_CODEC, BiomeAddS2CPayload::biome_id,
-                ByteBufCodecs.COMPOUND_TAG, BiomeAddS2CPayload::biome_data,
-                BiomeAddS2CPayload::new);
-        @Override
-        public Type<? extends CustomPacketPayload> type() {
-            return ID;
-        }
-    }
     public static void sendBiomeAddPayload(ServerPlayer player, ResourceLocation id, CompoundTag data) {
         PlatformMethods.sendS2CPayload(player, new BiomeAddS2CPayload(id, data));
-    }
-    public static void receiveBiomeAddPayload(Minecraft client, ResourceLocation id, CompoundTag data) {
-        client.execute(() -> DimensionGrabber.grabObjectForClient(client, Biome.DIRECT_CODEC, Registries.BIOME, id, data));
-    }
-
-    public record ShaderS2CPayload(CompoundTag shader_data, boolean iridescence) implements CustomPacketPayload {
-        public static final Type<ShaderS2CPayload> ID = new Type<>(InfinityMethods.getId("reload_shader"));
-        public static final StreamCodec<RegistryFriendlyByteBuf, ShaderS2CPayload> CODEC = StreamCodec.composite(
-                ByteBufCodecs.COMPOUND_TAG, ShaderS2CPayload::shader_data,
-                ByteBufCodecs.BOOL, ShaderS2CPayload::iridescence,
-                ShaderS2CPayload::new);
-        @Override
-        public Type<? extends CustomPacketPayload> type() {
-            return ID;
-        }
     }
     public static void sendShaderPayload(ServerPlayer player) {
         sendShaderPayload(player, player.serverLevel(), Iridescence.shouldApplyShader(player));
@@ -85,104 +367,19 @@ public class ModPayloads {
         sendShaderPayload(player, world, Iridescence.shouldApplyShader(player));
     }
     public static void sendShaderPayload(ServerPlayer player, ServerLevel world, boolean iridescence) {
-        PlatformMethods.sendS2CPayload(player, new ShaderS2CPayload(
-                world == null ? new CompoundTag() : InfinityOptions.access(world).data(),
-                iridescence));
-    }
-    public static void receiveShaderPayload(Minecraft client, CompoundTag data, boolean iridescence) {
-        InfinityOptions options = new InfinityOptions(data);
-        ((InfinityOptionsAccess)client).infinity$setOptions(options);
-        client.execute(() -> ShaderLoader.reloadShaders(client, options.getShader(), iridescence));
-    }
-    public static boolean resourcesReloaded = Path.of(Platform.getGameFolder() + "/resourcepacks/infinity/assets/infinity/shaders").toFile().exists();
-
-    public record StarsS2CPayload() implements CustomPacketPayload {
-        public static final StarsS2CPayload INSTANCE = new StarsS2CPayload();
-        public static final Type<StarsS2CPayload> ID = new Type<>(InfinityMethods.getId("reload_stars"));
-        public static final StreamCodec<RegistryFriendlyByteBuf, StarsS2CPayload> CODEC = StreamCodec.unit(INSTANCE);
-        @Override
-        public Type<? extends CustomPacketPayload> type() {
-            return ID;
-        }
+        PlatformMethods.sendS2CPayload(player, new ShaderS2CPayload(iridescence,
+                world == null ? new CompoundTag() : InfinityOptions.access(world).data()));
     }
     public static void sendStarsPayload(ServerPlayer player) {
         PlatformMethods.sendS2CPayload(player, StarsS2CPayload.INSTANCE);
     }
-    public static void receiveStarsPayload(Minecraft client) {
-        ((WorldRendererAccess)(client.levelRenderer)).infinity$setNeedsStars(true);
-    }
-
-    public record F4UpdateC2SPayload(int slot, int width, int height) implements CustomPacketPayload {
-        public static final Type<F4UpdateC2SPayload> ID = new Type<>(InfinityMethods.getId("receive_f4"));
-        public static final StreamCodec<RegistryFriendlyByteBuf, F4UpdateC2SPayload> CODEC = StreamCodec.composite(
-                ByteBufCodecs.VAR_INT, F4UpdateC2SPayload::slot,
-                ByteBufCodecs.VAR_INT, F4UpdateC2SPayload::width,
-                ByteBufCodecs.VAR_INT, F4UpdateC2SPayload::height,
-                F4UpdateC2SPayload::new);
-        @Override
-        public Type<? extends CustomPacketPayload> type() {
-            return ID;
-        }
+    public static void sendSoundPackPayload(ServerPlayer player, CompoundTag data) {
+        PlatformMethods.sendS2CPayload(player, new SoundPackS2CPayload(data));
     }
     public static void sendF4UpdatePayload(int slot, int width, int height) {
         PlatformMethods.sendC2SPayload(new F4UpdateC2SPayload(slot, width, height));
     }
-    public static void receiveF4UpdatePayload(ServerPlayer player, int slot, int width, int height) {
-        ItemStack st = player.getInventory().getItem(slot);
-        if (st.is(ModItems.F4.get())) {
-            ItemStack newStack = st.copy();
-            newStack.applyComponents(DataComponentMap.builder()
-                    .set(ModComponentTypes.SIZE_X.get(), Math.clamp(width, 1, 21))
-                    .set(ModComponentTypes.SIZE_Y.get(), Math.clamp(height, 1, 21))
-                    .build());
-            player.getInventory().setItem(slot, newStack);
-        }
-    }
-
-    public record F4DeployC2SPayload() implements CustomPacketPayload {
-        public static final F4DeployC2SPayload INSTANCE = new F4DeployC2SPayload();
-        public static final Type<F4DeployC2SPayload> ID = new Type<>(InfinityMethods.getId("deploy_f4"));
-        public static final StreamCodec<RegistryFriendlyByteBuf, F4DeployC2SPayload> CODEC = StreamCodec.unit(INSTANCE);
-        @Override
-        public Type<? extends CustomPacketPayload> type() {
-            return ID;
-        }
-    }
     public static void sendF4DeployPayload() {
         PlatformMethods.sendC2SPayload(F4DeployC2SPayload.INSTANCE);
-    }
-    public static void receiveF4DeployPayload(ServerPlayer player) {
-        ItemStack st = player.getItemInHand(InteractionHand.MAIN_HAND);
-        if (st.is(ModItems.F4.get())) {
-            InteractionResultHolder<ItemStack> result = F4Item.deploy(player.serverLevel(), player, InteractionHand.MAIN_HAND);
-            player.setItemInHand(InteractionHand.MAIN_HAND, result.getObject());
-        }
-    }
-
-    public record SoundPackS2CPayload(CompoundTag songIds) implements CustomPacketPayload {
-        public static final Type<SoundPackS2CPayload> ID = new Type<>(InfinityMethods.getId("download_sound_pack"));
-        public static final StreamCodec<RegistryFriendlyByteBuf, SoundPackS2CPayload> CODEC = StreamCodec.composite(
-                ByteBufCodecs.COMPOUND_TAG, SoundPackS2CPayload::songIds, SoundPackS2CPayload::new);
-
-        @Override
-        public Type<? extends CustomPacketPayload> type() {
-            return ID;
-        }
-    }
-    public static void sendSoundPackPayload(ServerPlayer player, CompoundTag data) {
-        PlatformMethods.sendS2CPayload(player, new SoundPackS2CPayload(data));
-    }
-
-    public record JukeboxesC2SPayload(CompoundTag data) implements CustomPacketPayload {
-        public static final Type<JukeboxesC2SPayload> ID = new Type<>(InfinityMethods.getId("upload_jukeboxes"));
-        public static final StreamCodec<RegistryFriendlyByteBuf, JukeboxesC2SPayload> CODEC = StreamCodec.composite(
-                ByteBufCodecs.COMPOUND_TAG, JukeboxesC2SPayload::data, JukeboxesC2SPayload::new);
-        @Override
-        public Type<? extends CustomPacketPayload> type() {
-            return ID;
-        }
-    }
-    public static void sendJukeboxesPayload(CompoundTag data) {
-        PlatformMethods.sendC2SPayload(new JukeboxesC2SPayload(data));
     }
 }

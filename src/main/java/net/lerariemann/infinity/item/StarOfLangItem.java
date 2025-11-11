@@ -11,7 +11,7 @@ public class StarOfLangItem extends Item {
     }
 
     //? if neoforge {
-    @Override
+    /*@Override
     public @NotNull ItemStack getCraftingRemainingItem(@NotNull ItemStack itemStack) {
         return new ItemStack(ModItems.STAR_OF_LANG.get());
     }
@@ -20,14 +20,14 @@ public class StarOfLangItem extends Item {
     public boolean hasCraftingRemainingItem(@NotNull ItemStack stack) {
         return true;
     }
-    //?}
+    *///?}
 
     //? if fabric {
-    /*@Override
+    @Override
     public ItemStack getRecipeRemainder(ItemStack stack) {
         return ModItems.STAR_OF_LANG.get().getDefaultInstance();
     }
-    *///?}
+    //?}
 
 
 }

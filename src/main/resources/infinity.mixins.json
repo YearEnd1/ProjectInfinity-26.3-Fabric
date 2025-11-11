@@ -14,6 +14,7 @@
     "core.MinecraftServerMixin",
     "core.NetherPortalBlockMixin",
     "core.NetherPortalMixin",
+    "core.PlayerMixin",
     "core.ServerPlayerEntityMixin",
     "core.SimpleRegistryMixin",
     "fixes.AquifierSamplerImplMixin",

@@ -46,8 +46,10 @@ import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.phys.AABB;
-import net.neoforged.neoforge.event.EventHooks;
 import org.jetbrains.annotations.Nullable;
+//? neoforge {
+/*import net.neoforged.neoforge.event.EventHooks;
+ *///?}
 
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -78,7 +80,7 @@ public interface Iridescence {
     }
 
     static boolean isUnderEffect(LivingEntity entity) {
-        return entity.hasEffect(ModStatusEffects.IRIDESCENT_EFFECT);
+        return entity.hasEffect(VersionMethods.effectOrHolder(ModStatusEffects.IRIDESCENT_EFFECT));
     }
 
     static int getPosBasedColor(BlockPos pos) {
@@ -113,11 +115,11 @@ public interface Iridescence {
     }
 
     static int getAmplifierOnApply(LivingEntity entity, int original, boolean willingly) {
-        MobEffectInstance effect = entity.getEffect(ModStatusEffects.IRIDESCENT_EFFECT);
+        MobEffectInstance effect = entity.getEffect(VersionMethods.effectOrHolder(ModStatusEffects.IRIDESCENT_EFFECT));
         if (effect != null) {
             return effect.getAmplifier() < original ? original : -1;
         }
-        MobEffectInstance cooldown = entity.getEffect(ModStatusEffects.IRIDESCENT_COOLDOWN);
+        MobEffectInstance cooldown = entity.getEffect(VersionMethods.effectOrHolder(ModStatusEffects.IRIDESCENT_COOLDOWN));
         if (cooldown == null) return original;
         else if (cooldown.getAmplifier() < 1) {
             if (original > 0) return original / 2;
@@ -171,7 +173,7 @@ public interface Iridescence {
     }
 
     static Phase getPhase(LivingEntity entity) {
-        MobEffectInstance effect = entity.getEffect(ModStatusEffects.IRIDESCENT_EFFECT);
+        MobEffectInstance effect = entity.getEffect(VersionMethods.effectOrHolder(ModStatusEffects.IRIDESCENT_EFFECT));
         if (effect == null) return Phase.INITIAL;
         return getPhase(effect.getDuration(), effect.getAmplifier());
     }
@@ -201,7 +203,7 @@ public interface Iridescence {
 
     static boolean shouldApplyShader(@Nullable Player player) {
         if (player == null) return false;
-        MobEffectInstance effect = player.getEffect(ModStatusEffects.IRIDESCENT_EFFECT);
+        MobEffectInstance effect = player.getEffect(VersionMethods.effectOrHolder(ModStatusEffects.IRIDESCENT_EFFECT));
         return (effect != null && effect.getDuration() > 20
                 && getPhase(effect.getDuration(), effect.getAmplifier()) != Phase.INITIAL);
     }
@@ -209,13 +211,13 @@ public interface Iridescence {
     static void tryBeginJourney(LivingEntity entity, int amplifier, boolean willingly) {
         amplifier = Iridescence.getAmplifierOnApply(entity, amplifier, willingly);
         if (amplifier >= 0) {
-            entity.addEffect(new MobEffectInstance(ModStatusEffects.IRIDESCENT_EFFECT,
+            entity.addEffect(new MobEffectInstance(VersionMethods.effectOrHolder(ModStatusEffects.IRIDESCENT_EFFECT),
                     Iridescence.getFullEffectLength(amplifier),
                     amplifier, true, true));
-            entity.removeEffect(ModStatusEffects.IRIDESCENT_COOLDOWN);
+            entity.removeEffect(VersionMethods.effectOrHolder(ModStatusEffects.IRIDESCENT_COOLDOWN));
             int cooldownDuration = Iridescence.getCooldownDuration();
             if (cooldownDuration > 0)
-                entity.addEffect(new MobEffectInstance(ModStatusEffects.IRIDESCENT_COOLDOWN,
+                entity.addEffect(new MobEffectInstance(VersionMethods.effectOrHolder(ModStatusEffects.IRIDESCENT_COOLDOWN),
                         cooldownDuration, amplifier > 0 ? 1 : 0, true, false));
             if (entity instanceof ServerPlayer player) {
                 ModCriteria.IRIDESCENT.get().trigger(player, willingly, amplifier);
@@ -237,7 +239,7 @@ public interface Iridescence {
         if (!isEarlyCancel) {
             player.awardStat(ModStats.IRIDESCENCE, 1);
             if (amplifier != 0)
-                player.addEffect(new MobEffectInstance(ModStatusEffects.AFTERGLOW,
+                player.addEffect(new MobEffectInstance(VersionMethods.effectOrHolder(ModStatusEffects.AFTERGLOW),
                         getAfterglowDuration(), 0, true, true));
         }
         Path cookie = InfinityMod.provider.savingPath.resolve(player.getStringUUID() + ".json");
@@ -268,12 +270,12 @@ public interface Iridescence {
     }
 
     static void tryApplyEffect(Mob ent) {
-        if (!ent.hasEffect(ModStatusEffects.IRIDESCENT_EFFECT)) {
+        if (!ent.hasEffect(VersionMethods.effectOrHolder(ModStatusEffects.IRIDESCENT_EFFECT))) {
             if (ent instanceof AbstractFish)
-                ent.addEffect(new MobEffectInstance(ModStatusEffects.IRIDESCENT_EFFECT, ticksInHour, 0,
+                ent.addEffect(new MobEffectInstance(VersionMethods.effectOrHolder(ModStatusEffects.IRIDESCENT_EFFECT), ticksInHour, 0,
                         true, false));
             else if (isConvertible(ent))
-                ent.addEffect(new MobEffectInstance(ModStatusEffects.IRIDESCENT_EFFECT, ticksInHour, 0,
+                ent.addEffect(new MobEffectInstance(VersionMethods.effectOrHolder(ModStatusEffects.IRIDESCENT_EFFECT), ticksInHour, 0,
                         true, true));
         }
     }
@@ -289,19 +291,23 @@ public interface Iridescence {
                 ModEntities.copy(currEntity, newEntity);
                 if (newEntity instanceof ChaosCreeper creeper) {
                     Holder<Biome> b = creeper.level().getBiome(creeper.blockPosition());
-                    creeper.setBiome(b.getRegisteredName());
+                    creeper.setBiome(VersionMethods.getRegisteredName(b));
                     creeper.setColor(b.value().getFoliageColor());
                     creeper.setRandomCharge();
                 }
                 else if (currEntity.level() instanceof ServerLevel w)
 
                 //? fabric {
-                /*newEntity.finalizeSpawn(
-                 *///?}
+                newEntity.finalizeSpawn(
+                 //?}
                 //? neoforge {
-                EventHooks.finalizeMobSpawn(newEntity,
-                //?}
-                w, w.getCurrentDifficultyAt(currEntity.blockPosition()), MobSpawnType.CONVERSION, null);
+                /*EventHooks.finalizeMobSpawn(newEntity,
+                *///?}
+                w, w.getCurrentDifficultyAt(currEntity.blockPosition()), MobSpawnType.CONVERSION, null
+                        //? if <1.21 {
+                        , null
+                        //?}
+                );
                 if (currEntity instanceof Slime e1 && newEntity instanceof Slime e2) {
                     e2.setSize(e1.getSize(), true);
                 }

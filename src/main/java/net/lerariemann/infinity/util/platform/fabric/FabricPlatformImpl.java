@@ -1,7 +1,7 @@
 package net.lerariemann.infinity.util.platform.fabric;
 
 //? fabric {
-/*import net.lerariemann.infinity.util.platform.Platform;
+import net.lerariemann.infinity.util.platform.Platform;
 import net.fabricmc.loader.api.FabricLoader;
 
 import java.nio.file.Path;
@@ -28,5 +28,13 @@ public class FabricPlatformImpl implements Platform {
         return FabricLoader.getInstance().isDevelopmentEnvironment();
     }
 
+    @Override
+    public void registerPayloadsServer() {
+        ModPayloadsFabric.registerPayloadsServer();
+    }
+    @Override
+    public void registerPayloadsClient() {
+        ModPayloadsFabric.registerPayloadsClient();
+    }
 }
-*///?}
+//?}

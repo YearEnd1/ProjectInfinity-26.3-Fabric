@@ -12,8 +12,6 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-//? if >1.21 {
-//?}
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
@@ -33,12 +31,15 @@ import net.minecraft.world.level.block.NetherPortalBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 
-import javax.annotation.Nullable;
-import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.*;
 
-@MethodsReturnNonnullByDefault
+//? if >1.21 {
+/*import javax.annotation.ParametersAreNonnullByDefault;
+import javax.annotation.Nullable;
+
 @ParametersAreNonnullByDefault
+*///?}
+@MethodsReturnNonnullByDefault
 public class F4Item extends Item implements PortalDataHolder.Destinable {
     static final BlockState OBSIDIAN = Blocks.OBSIDIAN.defaultBlockState();
 
@@ -46,7 +47,11 @@ public class F4Item extends Item implements PortalDataHolder.Destinable {
         super(settings);
     }
 
-    public static MutableComponent getDimensionTooltip(@Nullable ResourceLocation dimension) {
+    public static MutableComponent getDimensionTooltip(
+            //? if >1.21 {
+            /*@Nullable
+            *///?}
+            ResourceLocation dimension) {
         if (dimension == null) return Component.translatable(Blocks.NETHER_PORTAL.getDescriptionId());
         String name = dimension.toString();
         MutableComponent text = InfinityMethods.getDimensionNameAsText(dimension);
@@ -67,10 +72,10 @@ public class F4Item extends Item implements PortalDataHolder.Destinable {
     @Override
     public void appendHoverText(ItemStack stack,
                                 //? if >1.21 {
-                                TooltipContext
-                                //?} else {
-                                /*Level
-                                *///?}
+                                /*TooltipContext
+                                *///?} else {
+                                Level
+                                //?}
                                             context, List<Component> tooltip, TooltipFlag type) {
         super.appendHoverText(stack, context, tooltip, type);
         ResourceLocation dimension = VersionMethods.getDimensionIdentifier(stack);
@@ -80,7 +85,9 @@ public class F4Item extends Item implements PortalDataHolder.Destinable {
         tooltip.add(mutableText2.withStyle(ChatFormatting.GRAY));
     }
 
-    @Nullable
+    //? if >1.21 {
+    /*@Nullable
+     *///?}
     public static ItemStack placePortal(Level world, Player player, ItemStack stack, BlockPos lowerCenter,
                                     int size_x, int size_y) {
         Direction.Axis dir2 = player.getDirection().getClockWise(Direction.Axis.Y).getAxis();
@@ -221,7 +228,11 @@ public class F4Item extends Item implements PortalDataHolder.Destinable {
         return InteractionResult.CONSUME;
     }
 
-    public static boolean checkIfValidAxis(Direction.Axis axisFound, Direction.Axis axisBeingChecked, @Nullable Direction.Axis forceAxis) {
+    public static boolean checkIfValidAxis(Direction.Axis axisFound, Direction.Axis axisBeingChecked,
+                                           //? if >1.21 {
+                                           /*@Nullable
+                                           *///?}
+                                           Direction.Axis forceAxis) {
         if (forceAxis == null) {
             return axisBeingChecked.isVertical() || axisFound.equals(axisBeingChecked);
         }
@@ -232,7 +243,10 @@ public class F4Item extends Item implements PortalDataHolder.Destinable {
                                          Collection<Direction> primaryOffsets, //possible directions in which blocks of other portals may be
                                          Collection<Direction> secondaryOffsets, //possible secondary directions from a neighboring obsidian in case we found a corner
                                          int max,
-                                         @Nullable Direction.Axis forcePrimaryAxis) {
+                                         //? if >1.21 {
+                                         /*@Nullable
+                                         *///?}
+                                         Direction.Axis forcePrimaryAxis) {
         int i = 0;
         boolean checkCorners = !secondaryOffsets.isEmpty();
         for (Direction dir : primaryOffsets) {

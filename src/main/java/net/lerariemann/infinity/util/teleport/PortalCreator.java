@@ -1,6 +1,7 @@
 package net.lerariemann.infinity.util.teleport;
 
 import dev.architectury.platform.Platform;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.lerariemann.infinity.InfinityMod;
 import net.lerariemann.infinity.access.MinecraftServerAccess;
 import net.lerariemann.infinity.block.custom.Boopable;
@@ -21,19 +22,21 @@ import net.lerariemann.infinity.options.PortalColorApplier;
 import net.lerariemann.infinity.registry.var.ModCriteria;
 import net.lerariemann.infinity.registry.var.ModPayloads;
 import net.lerariemann.infinity.registry.var.ModStats;
+import net.lerariemann.infinity.util.platform.PlatformMethods;
 import net.minecraft.BlockUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 //? if >1.21 {
-import net.minecraft.core.component.DataComponents;
+/*import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.item.component.WritableBookContent;
 import net.minecraft.world.item.component.WrittenBookContent;
-//?}
+*///?}
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.StringTag;
 import net.minecraft.nbt.Tag;
+import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
@@ -54,6 +57,8 @@ import net.minecraft.world.level.block.NetherPortalBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.LevelResource;
+import oshi.util.tuples.Pair;
+
 import java.nio.file.Path;
 import java.util.*;
 import java.util.function.BiConsumer;
@@ -81,7 +86,7 @@ public interface PortalCreator {
 
         /* Check if the item provided is a book of some kind. */
         //? if >1.21 {
-        WritableBookContent writableComponent = itemStack.getComponents().get(DataComponents.WRITABLE_BOOK_CONTENT);
+        /*WritableBookContent writableComponent = itemStack.getComponents().get(DataComponents.WRITABLE_BOOK_CONTENT);
         WrittenBookContent writtenComponent = itemStack.getComponents().get(DataComponents.WRITTEN_BOOK_CONTENT);
         String printedComponent = null;
         if (Platform.isModLoaded("computercraft")) {
@@ -100,8 +105,8 @@ public interface PortalCreator {
             if (bl) entity.remove(Entity.RemovalReason.CHANGED_DIMENSION);
             recordIdTranslation(world.getServer(), id, content);
         }
-        //?} else {
-        /*else if (itemStack.getItem() == Items.WRITTEN_BOOK || itemStack.getItem() == Items.WRITABLE_BOOK) {
+        *///?} else {
+        else if (itemStack.getItem() == Items.WRITTEN_BOOK || itemStack.getItem() == Items.WRITABLE_BOOK) {
             var compound = itemStack.getTag();
             String content;
             if (compound != null) {
@@ -127,14 +132,14 @@ public interface PortalCreator {
                 InfinityMod.LOGGER.warn("An incompatible version of ComputerCraft is present. Please update it to the latest version");
             }
         }
-        *///?}
+        //?}
     }
 
     /**
      * Extracts the string used to generate the dimension ID from component content.
      */
     //? if >1.21 {
-    static String parseComponents(WritableBookContent writableComponent, WrittenBookContent writtenComponent, String printedComponent) {
+    /*static String parseComponents(WritableBookContent writableComponent, WrittenBookContent writtenComponent, String printedComponent) {
         String content = "";
         try {
             if (writableComponent != null) {
@@ -153,8 +158,8 @@ public interface PortalCreator {
         }
         return content;
     }
-    //?} else {
-    /*static String parseComponents(CompoundTag compound, Item item) {
+    *///?} else {
+    static String parseComponents(CompoundTag compound, Item item) {
         ListTag pages = compound.getList("pages", Tag.TAG_STRING);
         if (pages.isEmpty()) {
             return "";
@@ -168,7 +173,7 @@ public interface PortalCreator {
         }
         else return "";
     }
-    *///?}
+    //?}
 
     /**
      * Sets the portal color and destination and calls to open the portal immediately if the portal key is blank.
@@ -327,19 +332,23 @@ public interface PortalCreator {
      * Jingle signaling if the portal is usable or not.
      */
     static void runAfterEffects(ServerLevel world, BlockPos pos, boolean dimensionIsNew, boolean portalWorks) {
+        SoundEvent fail =
         //? if >1.21 {
-        if (!portalWorks) playSound(world, pos, SoundEvents.VAULT_REJECT_REWARDED_PLAYER);
+        /*SoundEvents.VAULT_REJECT_REWARDED_PLAYER;
+         *///?} else {
+        ModSounds.BACKPORT_VAULT_EVENT;
+        //?}
+        SoundEvent open =
+                //? if >1.21 {
+                /*SoundEvents.VAULT_OPEN_SHUTTER;
+                 *///?} else {
+                ModSounds.BACKPORT_VAULT_EVENT;
+        //?}
+        if (!portalWorks) playSound(world, pos, fail);
         else {
-            if (dimensionIsNew) playSound(world, pos, SoundEvents.VAULT_OPEN_SHUTTER);
+            if (dimensionIsNew) playSound(world, pos, open);
             playSound(world, pos, SoundEvents.BEACON_ACTIVATE);
         }
-        //?} else {
-        /*if (!portalWorks) playSound(world, pos, ModSounds.BACKPORT_VAULT_EVENT);
-        else {
-            if (dimensionIsNew) playSound(world, pos, ModSounds.BACKPORT_VAULT_EVENT);
-            playSound(world, pos, SoundEvents.BEACON_ACTIVATE);
-        }
-        *///?}
     }
     static void playSound(ServerLevel world, BlockPos pos, SoundEvent soundEvent) {
         world.playSound(null, pos, soundEvent, SoundSource.BLOCKS, 1f, 1f);

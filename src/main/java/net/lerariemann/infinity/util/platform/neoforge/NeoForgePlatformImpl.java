@@ -1,7 +1,7 @@
 package net.lerariemann.infinity.util.platform.neoforge;
 
 //? neoforge {
-import net.lerariemann.infinity.util.platform.Platform;
+/*import net.lerariemann.infinity.util.platform.Platform;
 import net.neoforged.fml.ModList;
 import net.neoforged.fml.loading.FMLEnvironment;
 import net.neoforged.fml.loading.FMLPaths;
@@ -28,5 +28,9 @@ public class NeoForgePlatformImpl implements Platform {
     public boolean isDevelopment() {
         return !FMLEnvironment.production;
     }
+    @Override
+    public void registerPayloadsServer() {};
+    @Override
+    public void registerPayloadsClient() {};
 }
-//?}
+*///?}

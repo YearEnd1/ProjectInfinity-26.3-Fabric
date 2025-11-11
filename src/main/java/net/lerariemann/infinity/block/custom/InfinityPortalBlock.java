@@ -44,8 +44,8 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 //? if >1.21 {
-import net.minecraft.world.level.portal.DimensionTransition;
-//?}
+/*import net.minecraft.world.level.portal.DimensionTransition;
+*///?}
 import net.minecraft.world.level.portal.PortalInfo;
 import net.minecraft.world.level.storage.LevelResource;
 import net.minecraft.world.phys.BlockHitResult;
@@ -81,11 +81,11 @@ public class InfinityPortalBlock extends NetherPortalBlock implements EntityBloc
 
     @Override
     //? if >1.21 {
-    public InteractionResult useWithoutItem(BlockState state, Level w, BlockPos pos,
+    /*public InteractionResult useWithoutItem(BlockState state, Level w, BlockPos pos,
                                             Player player, BlockHitResult hit) {
-    //?} else {
-    /*public InteractionResult use(BlockState state, Level w, BlockPos pos, Player player, InteractionHand interactionHand, BlockHitResult hitResult) {
-    *///?}
+    *///?} else {
+    public InteractionResult use(BlockState state, Level w, BlockPos pos, Player player, InteractionHand interactionHand, BlockHitResult hitResult) {
+    //?}
         if (w instanceof ServerLevel world) {
             MinecraftServer s = world.getServer();
             BlockEntity blockEntity = world.getBlockEntity(pos);
@@ -118,10 +118,10 @@ public class InfinityPortalBlock extends NetherPortalBlock implements EntityBloc
 
     public ItemStack getCloneItemStack(
             //? if >1.21 {
-            LevelReader
-            //?} else {
-            /*BlockGetter
-            *///?}
+            /*LevelReader
+            *///?} else {
+            BlockGetter
+            //?}
              world, BlockPos pos, BlockState state) {
         if (world.getBlockEntity(pos) instanceof InfinityPortalBlockEntity ipbe)
             return ModItems.TRANSFINITE_KEY.get().withPortalData(ipbe);
@@ -244,11 +244,11 @@ public class InfinityPortalBlock extends NetherPortalBlock implements EntityBloc
     @Nullable
     public
     //? if >1.21 {
-    @Override
+    /*@Override
     DimensionTransition
-    //?} else {
-    /*PortalInfo
-    *///?}
+    *///?} else {
+    PortalInfo
+    //?}
     getPortalDestination(ServerLevel worldFrom, Entity entity, BlockPos posFrom) {
         if (worldFrom.getBlockEntity(posFrom) instanceof InfinityPortalBlockEntity ipbe) {
             return (new InfinityPortal(ipbe, worldFrom, posFrom)).getTeleportTarget(entity);
