@@ -31,7 +31,10 @@ public record EffectGiver(Holder<MobEffect> id, int duration, int amplifier, int
 
     public void tryGiveEffect(ServerPlayer player) {
         if (!isEmpty() && player.level().getGameTime() % cooldown == 0) {
-            player.addEffect(new MobEffectInstance(id, duration, amplifier));
+            player.addEffect(new MobEffectInstance(id
+                    //? if <1.21
+                    .value()
+                    , duration, amplifier));
         }
     }
 

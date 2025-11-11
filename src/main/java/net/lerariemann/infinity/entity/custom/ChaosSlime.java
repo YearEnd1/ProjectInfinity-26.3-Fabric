@@ -15,6 +15,7 @@ import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.*;
 import net.minecraft.world.damagesource.DamageSource;
@@ -58,8 +59,19 @@ public class ChaosSlime extends Slime implements TintableEntity {
     }
 
     @Override
-    protected void defineSynchedData(SynchedEntityData.Builder builder) {
-        super.defineSynchedData(builder);
+    protected void defineSynchedData(
+            //? if >1.21 {
+            /*SynchedEntityData.Builder builder
+             *///?}
+    ) {
+        super.defineSynchedData(
+                //? if >1.21 {
+                /*builder
+                 *///?}
+        );
+        //? if <1.21 {
+        var builder = this.entityData;
+        //?}
         builder.define(core, Blocks.STONE.defaultBlockState());
         builder.define(color, 0);
     }
@@ -70,11 +82,18 @@ public class ChaosSlime extends Slime implements TintableEntity {
 
     @Override
     @Nullable
-    public SpawnGroupData finalizeSpawn(ServerLevelAccessor world, DifficultyInstance difficulty, MobSpawnType spawnReason, @Nullable SpawnGroupData entityData) {
+    public SpawnGroupData finalizeSpawn(ServerLevelAccessor world, DifficultyInstance difficulty, MobSpawnType spawnReason, @Nullable SpawnGroupData entityData
+    //? if <1.21 {
+    ,CompoundTag tag
+    //?}
+    ) {
         Random r = new Random();
         this.entityData.set(core, BuiltInRegistries.BLOCK.get(VersionMethods.id(InfinityMod.provider.randomName(r, ConfigType.ALL_BLOCKS))).defaultBlockState());
         this.entityData.set(color, r.nextInt(16777216));
-        return super.finalizeSpawn(world, difficulty, spawnReason, entityData);
+        return super.finalizeSpawn(world, difficulty, spawnReason, entityData
+        //? if <1.21
+                , tag
+        );
     }
 
     @Override
@@ -121,7 +140,13 @@ public class ChaosSlime extends Slime implements TintableEntity {
         return this.getCore().getSoundType().getFallSound();
     }
     @Override
-    public ResourceKey<LootTable> getDefaultLootTable() {
+    public
+    //? if >1.21 {
+    /*ResourceKey<LootTable>
+    *///?} else {
+    ResourceLocation
+    //?}
+    getDefaultLootTable() {
         return this.getCore().getBlock().getLootTable();
     }
 

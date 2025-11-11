@@ -9,18 +9,15 @@ import net.lerariemann.infinity.item.*;
 import net.lerariemann.infinity.util.platform.PlatformMethods;
 import net.lerariemann.infinity.util.core.RandomProvider;
 import net.lerariemann.infinity.util.var.ColorLogic;
-import net.minecraft.core.component.DataComponents;
+//? if >1.21 {
+/*import net.minecraft.core.component.DataComponents;
+*///?}
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.food.FoodProperties;
-import net.minecraft.world.item.BlockItem;
-import net.minecraft.world.item.CreativeModeTab;
-import net.minecraft.world.item.CreativeModeTabs;
-import net.minecraft.world.item.Item;
-import net.minecraft.world.item.Items;
-import net.minecraft.world.item.Rarity;
+import net.minecraft.world.item.*;
 import net.minecraft.world.level.block.Block;
 import java.util.List;
 import java.util.Optional;
@@ -32,11 +29,27 @@ import static net.lerariemann.infinity.util.platform.PlatformMethods.*;
 
 @SuppressWarnings("unused")
 public class ModItems {
+
+    private static final Item OMINOUS_TRIAL_KEY =
+            //? if <1.21 {
+            Items.AMETHYST_SHARD
+            //?} else {
+            /*Items.OMINOUS_TRIAL_KEY
+             *///?}
+    ;
+    private static final Item VAULT =
+            //? if <1.21 {
+            Items.TNT
+            //?} else {
+            /*Items.VAULT
+             *///?}
+    ;
+
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(MOD_ID, Registries.ITEM);
     //block items
     public static final RegistrySupplier<Item> PORTAL_ITEM =
             ITEMS.register(ModBlocks.PORTAL.getId(), () -> new BlockItem(ModBlocks.PORTAL.get(),
-                            new Item.Properties().component(ModComponentTypes.COLOR.get(), ColorLogic.defaultPortal)));
+                            colorProperties(ColorLogic.defaultPortal)));
     public static final RegistrySupplier<Item> COSMIC_ALTAR_ITEM =
             registerBlockItemAfter(ModBlocks.COSMIC_ALTAR, CreativeModeTabs.FUNCTIONAL_BLOCKS, Items.LECTERN, BlockItem::new);
     public static final RegistrySupplier<Item> ALTAR_ITEM =
@@ -54,7 +67,7 @@ public class ModItems {
     public static final RegistrySupplier<Item> NOTES_BLOCK_ITEM =
             registerBlockItemAfter(ModBlocks.NOTES_BLOCK, CreativeModeTabs.FUNCTIONAL_BLOCKS, Items.NOTE_BLOCK, BlockItem::new);
     public static final RegistrySupplier<Item> TIME_BOMB_ITEM =
-            registerBlockItemAfter(ModBlocks.TIME_BOMB, CreativeModeTabs.FUNCTIONAL_BLOCKS, Items.VAULT, BlockItem::new);
+            registerBlockItemAfter(ModBlocks.TIME_BOMB, CreativeModeTabs.FUNCTIONAL_BLOCKS, VAULT, BlockItem::new);
     public static final RegistrySupplier<Item> IRIDESCENT_WOOL  =
             registerBlockItemAfter(ModBlocks.IRIDESCENT_WOOL, CreativeModeTabs.COLORED_BLOCKS, Items.PINK_WOOL, BlockItem::new);
     public static final RegistrySupplier<Item> IRIDESCENT_CARPET  =
@@ -62,11 +75,12 @@ public class ModItems {
     public static final RegistrySupplier<ChromaticBlockItem> CHROMATIC_WOOL  =
             registerBlockItemAfter(ModBlocks.CHROMATIC_WOOL, CreativeModeTabs.COLORED_BLOCKS, Items.PINK_WOOL,
                     new Item.Properties(),
-                    (p, settings) -> new ChromaticBlockItem(p, new Item.Properties().component(ModComponentTypes.COLOR.get(), ColorLogic.defaultChromatic)));
+                    (p, settings) -> new ChromaticBlockItem(p, colorProperties(ColorLogic.defaultChromatic)));
+
     public static final RegistrySupplier<ChromaticBlockItem> CHROMATIC_CARPET  =
             registerBlockItemAfter(ModBlocks.CHROMATIC_CARPET, CreativeModeTabs.COLORED_BLOCKS, Items.PINK_CARPET,
                     new Item.Properties(),
-                    (p, settings) -> new ChromaticBlockItem(p, new Item.Properties().component(ModComponentTypes.COLOR.get(), ColorLogic.defaultChromatic)));
+                    (p, settings) -> new ChromaticBlockItem(p, colorProperties(ColorLogic.defaultChromatic)));
     public static final RegistrySupplier<Item> BIOME_BOTTLE_ITEM =
             registerBlockItemAfter(ModBlocks.BIOME_BOTTLE, CreativeModeTabs.INGREDIENTS, Items.EXPERIENCE_BOTTLE, BiomeBottleItem::new);
 
@@ -99,24 +113,30 @@ public class ModItems {
     public static final RegistrySupplier<Item> FOOTPRINT =
             registerItemAfter("footprint", CreativeModeTabs.INGREDIENTS, Items.DISC_FRAGMENT_5, Item::new);
     public static final RegistrySupplier<TransfiniteKeyItem> TRANSFINITE_KEY =
-            registerItemAfter("key", CreativeModeTabs.INGREDIENTS, Items.OMINOUS_TRIAL_KEY, TransfiniteKeyItem::new);
+            registerItemAfter("key", CreativeModeTabs.INGREDIENTS, OMINOUS_TRIAL_KEY, TransfiniteKeyItem::new);
     public static final RegistrySupplier<HomeItem> HOME_ITEM =
             registerItemAfter("fine_item", CreativeModeTabs.FOOD_AND_DRINKS, Items.MILK_BUCKET, HomeItem::new,
-                    new Item.Properties().component(DataComponents.FOOD,
-                            new FoodProperties(0, 0, true, 3f, Optional.empty(), List.of())));
+                    foodProperties(0, 0, true, 3f, Optional.empty()));
+
     public static final RegistrySupplier<ChromaticItem> CHROMATIC_MATTER =
-            registerItemAfter("chromatic_matter", CreativeModeTabs.INGREDIENTS, Items.DISC_FRAGMENT_5, settings -> new ChromaticItem(deferredIntComponent(ModComponentTypes.COLOR, ColorLogic.defaultChromatic)),
-                    new Item.Properties());
+            registerItemAfter("chromatic_matter", CreativeModeTabs.INGREDIENTS, Items.DISC_FRAGMENT_5, settings -> new ChromaticItem(
+                    //? if >1.21
+                    /*deferredIntComponent(ModComponentTypes.COLOR, ColorLogic.defaultChromatic)),*/
+                    new Item.Properties()
+            //? if <1.21
+            )
+            );
     public static final RegistrySupplier<Item> WHITE_MATTER =
             registerItemAfter("white_matter", CreativeModeTabs.INGREDIENTS, Items.DISC_FRAGMENT_5, Item::new);
     public static final RegistrySupplier<Item> BLACK_MATTER =
             registerItemAfter("black_matter", CreativeModeTabs.INGREDIENTS, Items.DISC_FRAGMENT_5, Item::new);
     public static final RegistrySupplier<IridescentStarItem> IRIDESCENT_STAR =
             registerItemAfter("iridescent_star", CreativeModeTabs.INGREDIENTS, Items.NETHER_STAR, IridescentStarItem::new,
-                    new Item.Properties().rarity(Rarity.UNCOMMON).component(DataComponents.ENCHANTMENT_GLINT_OVERRIDE, true));
+                    glintProperties().rarity(Rarity.UNCOMMON));
     public static final RegistrySupplier<? extends StarOfLangItem> STAR_OF_LANG =
             registerItemAfter("star_of_lang", CreativeModeTabs.INGREDIENTS, Items.NETHER_STAR, StarOfLangItem::new,
-                    new Item.Properties().component(DataComponents.ENCHANTMENT_GLINT_OVERRIDE, true));
+                    glintProperties());
+
     public static final RegistrySupplier<F4Item> F4 =
             registerItemAfter("f4", CreativeModeTabs.TOOLS_AND_UTILITIES, Items.WRITABLE_BOOK, F4Item::new,
                     new Item.Properties().rarity(Rarity.UNCOMMON));
@@ -125,14 +145,42 @@ public class ModItems {
                     new Item.Properties().rarity(Rarity.RARE));
     public static final RegistrySupplier<Item> IRIDESCENT_POTION =
             registerItemAfter("iridescent_potion", CreativeModeTabs.FOOD_AND_DRINKS, Items.HONEY_BOTTLE, settings ->
-                            new IridescentPotionItem(deferredIntComponent(ModComponentTypes.CHARGE, RandomProvider.ruleInt("iridescencePotionLevel"))),
-                    new Item.Properties()
-                            .rarity(Rarity.UNCOMMON)
-                            .component(DataComponents.ENCHANTMENT_GLINT_OVERRIDE, true));
+                            new IridescentPotionItem(
+                                    //? if >1.21
+                                    /*deferredIntComponent(ModComponentTypes.CHARGE, RandomProvider.ruleInt("iridescencePotionLevel"))),*/
+                           glintProperties().rarity(Rarity.UNCOMMON)));
     public static final RegistrySupplier<Item> CHROMATIC_POTION =
             registerItemAfter("chromatic_potion", CreativeModeTabs.FOOD_AND_DRINKS, Items.HONEY_BOTTLE, settings ->
-                            new IridescentPotionItem(deferredIntComponent(ModComponentTypes.CHARGE, 0)),
-                    new Item.Properties());
+                            new IridescentPotionItem(
+                                    //? if >1.21
+                                    /*deferredIntComponent(ModComponentTypes.CHARGE, 0)),*/
+                    new Item.Properties())
+        //? if <1.21
+        )
+    ;
+
+    private static Item.Properties glintProperties() {
+        return new Item.Properties()
+                //? if >1.21
+                /*.component(DataComponents.ENCHANTMENT_GLINT_OVERRIDE, true)*/
+                ;
+    }
+    private static Item.Properties colorProperties(int defaultChromatic) {
+        return new Item.Properties()
+                //? if >1.21
+                /*.component(ModComponentTypes.COLOR.get(), defaultChromatic)*/
+                ;
+    }
+
+    private static Item.Properties foodProperties(int nutrition, int saturation, boolean canAlwaysEat, float eatSeconds, Optional<ItemStack> usingConvertsTo) {
+        //? if >1.21 {
+        /*return new Item.Properties().food(new FoodProperties(nutrition ,saturation, canAlwaysEat, eatSeconds, usingConvertsTo, List.of()));
+         *///?} else {
+        var properties = new FoodProperties.Builder().nutrition(nutrition).saturationMod(saturation);
+        if (canAlwaysEat) properties = properties.alwaysEat();
+        return new Item.Properties().food(properties.build());
+        //?}
+    }
 
     public static <T extends Item> RegistrySupplier<T> register(String item, Item.Properties settings, Function<Item.Properties, T> constructor) {
         return ITEMS.register(item, () -> constructor.apply(settings));

@@ -7,6 +7,7 @@ import net.lerariemann.infinity.registry.core.ModBlocks;
 import net.lerariemann.infinity.registry.core.ModComponentTypes;
 import net.lerariemann.infinity.registry.var.ModTags;
 import net.lerariemann.infinity.util.InfinityMethods;
+import net.lerariemann.infinity.util.VersionMethods;
 import net.lerariemann.infinity.util.var.ColorLogic;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.component.DataComponentPatch;
@@ -81,8 +82,8 @@ public class ChromaticItem extends Item implements PortalDataHolder {
 
     public boolean useOnBlock(Player player, InteractionHand hand, Level world, BlockPos pos, ItemStack currStack) {
         BlockState oldState = world.getBlockState(pos);
-        int currColor = currStack.getOrDefault(ModComponentTypes.COLOR.get(), 0xFFFFFF);
-        int currHue = currStack.getOrDefault(ModComponentTypes.HUE.get(), -1);
+        int currColor = VersionMethods.getOrDefaultInt(currStack, ModComponentTypes.COLOR, 0xFFFFFF);
+        int currHue = VersionMethods.getOrDefaultInt(currStack, ModComponentTypes.HUE, -1);
         if (player.isShiftKeyDown()) { //copy color
             ItemStack newStack = currStack.copy();
             int i = -1;
@@ -100,7 +101,7 @@ public class ChromaticItem extends Item implements PortalDataHolder {
             else { //copy color from vanilla blocks
                 DyeColor dyeColor = ColorLogic.getColorByState(oldState);
                 if (dyeColor != null &&
-                        !dyeColor.getName().equals(newStack.getOrDefault(ModComponentTypes.DYE_COLOR.get(), "null"))) {
+                        !dyeColor.getName().equals(VersionMethods.getOrDefaultString(newStack, ModComponentTypes.DYE_COLOR, "null"))) {
                     newStack.applyComponentsAndValidate(ofDye(dyeColor));
                 }
                 else return false;
@@ -119,7 +120,7 @@ public class ChromaticItem extends Item implements PortalDataHolder {
         }
         else { //paste color to blocks
             if (oldState.is(ModTags.IRIDESCENT_BLOCKS)) return false;
-            boolean bl = currStack.has(ModComponentTypes.DYE_COLOR.get());
+            boolean bl = VersionMethods.contains(currStack, ModComponentTypes.DYE_COLOR);
             BlockState state = ColorLogic.recolor(bl ? currStack.get(ModComponentTypes.DYE_COLOR.get()) : "infinity:chromatic", oldState);
             if (state == null) return false;
             world.setBlockAndUpdate(pos, state);

@@ -52,8 +52,15 @@ public class BishopEntity extends AbstractChessFigure implements RangedAttackMob
 
     @Nullable
     @Override
-    public SpawnGroupData finalizeSpawn(ServerLevelAccessor world, DifficultyInstance difficulty, MobSpawnType spawnReason, @Nullable SpawnGroupData entityData) {
-        entityData = super.finalizeSpawn(world, difficulty, spawnReason, entityData);
+    public SpawnGroupData finalizeSpawn(ServerLevelAccessor world, DifficultyInstance difficulty, MobSpawnType spawnReason, @Nullable SpawnGroupData entityData
+        //? if <1.21 {
+        ,CompoundTag tag
+        //?}
+    ) {
+        entityData = super.finalizeSpawn(world, difficulty, spawnReason, entityData
+            //? if <1.21
+            ,tag
+        );
         updateWeapon(random.nextBoolean(), true);
         updateAttackType();
         return entityData;

@@ -25,6 +25,7 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.SpawnGroupData;
 import net.minecraft.world.entity.monster.Skeleton;
@@ -93,12 +94,19 @@ public class ChaosSkeleton extends Skeleton implements TintableEntity {
 
     @Override
     @Nullable
-    public SpawnGroupData finalizeSpawn(ServerLevelAccessor world, DifficultyInstance difficulty, MobSpawnType spawnReason, @Nullable SpawnGroupData entityData) {
+    public SpawnGroupData finalizeSpawn(ServerLevelAccessor world, DifficultyInstance difficulty, MobSpawnType spawnReason, @Nullable SpawnGroupData entityData
+    //? if <1.21 {
+    ,CompoundTag tag
+    //?}
+    ) {
         Random r = new Random();
         CompoundTag effect = InfinityMod.provider.randomElement(r, ConfigType.EFFECTS);
         this.setEffect(effect);
         this.setDuration(r.nextInt(600));
-        return super.finalizeSpawn(world, difficulty, spawnReason, entityData);
+        return super.finalizeSpawn(world, difficulty, spawnReason, entityData
+        //? if <1.21
+        ,tag
+        );
     }
 
     @Override
@@ -229,12 +237,24 @@ public class ChaosSkeleton extends Skeleton implements TintableEntity {
         return setPotion(Items.TIPPED_ARROW.getDefaultInstance(), this.getColor(), this.getEffect(), this.getDuration());
     }
 
-    @Override
+    //? if >1.21 {
+    /*@Override
     protected void dropCustomDeathLoot(ServerLevel world, DamageSource source, boolean causedByPlayer) {
         super.dropCustomDeathLoot(world, source, causedByPlayer);
         ItemStack weapon = source.getWeaponItem();
         Holder<Enchantment> looting = world.getServer().registryAccess().registryOrThrow(Registries.ENCHANTMENT).getHolderOrThrow(Enchantments.LOOTING);
         int lootingLevel = weapon == null ? 0 : PlatformMethods.getEnchantments(weapon, world.getServer()).getLevel(looting);
+        dropEquipment(lootingLevel, world);
+    }
+    *///?} else {
+    @Override
+    protected void dropCustomDeathLoot(DamageSource source, int lootingLevel, boolean allowDrops) {
+        super.dropCustomDeathLoot(source, lootingLevel, allowDrops);
+        dropEquipment(lootingLevel, this.level());
+    }
+    //?}
+
+    private void dropEquipment(int lootingLevel, Level world) {
         int count = world.random.nextIntBetweenInclusive(0, 2 + lootingLevel);
         this.spawnAtLocation(getProjectileType().copyWithCount(count));
     }

@@ -190,12 +190,19 @@ public class ChaosPawn extends AbstractChessFigure {
 
     @Override
     @Nullable
-    public SpawnGroupData finalizeSpawn(ServerLevelAccessor world, DifficultyInstance difficulty, MobSpawnType spawnReason, @Nullable SpawnGroupData entityData) {
+    public SpawnGroupData finalizeSpawn(ServerLevelAccessor world, DifficultyInstance difficulty, MobSpawnType spawnReason, @Nullable SpawnGroupData entityData
+            //? if <1.21 {
+            ,CompoundTag tag
+            //?}
+    ) {
         initFromBlock(world.getBlockState(this.blockPosition().below()));
         double i = random.nextDouble() * 40;
         Objects.requireNonNull(this.getAttribute(Attributes.MAX_HEALTH)).setBaseValue(i);
         this.setHealth((float)i);
-        return super.finalizeSpawn(world, difficulty, spawnReason, entityData);
+        return super.finalizeSpawn(world, difficulty, spawnReason, entityData
+            //? if <1.21
+            ,tag
+        );
     }
 
     //? if >1.21 {
@@ -217,7 +224,7 @@ public class ChaosPawn extends AbstractChessFigure {
         if (!this.isBlackOrWhite() && RandomProvider.rule("pawnsCanDropIllegalItems")) {
             String s = InfinityMod.provider.randomName(random, ConfigType.ITEMS);
             double i = Objects.requireNonNull(this.getAttribute(Attributes.MAX_HEALTH)).getBaseValue() / 10;
-            ItemStack stack = BuiltInRegistries.ITEM.get(Methods.id(s)).getDefaultInstance().copyWithCount((int) (i * i));
+            ItemStack stack = BuiltInRegistries.ITEM.get(VersionMethods.id(s)).getDefaultInstance().copyWithCount((int) (i * i));
 //            stack.applyComponentsFrom(ComponentMap.builder().add(DataComponentTypes.MAX_STACK_SIZE, 64).build());
             this.spawnAtLocation(stack);
         }
