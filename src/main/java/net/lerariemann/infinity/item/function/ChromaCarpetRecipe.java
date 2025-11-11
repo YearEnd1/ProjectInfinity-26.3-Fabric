@@ -3,31 +3,55 @@ package net.lerariemann.infinity.item.function;
 import net.lerariemann.infinity.registry.core.ModComponentTypes;
 import net.lerariemann.infinity.registry.core.ModItemFunctions;
 import net.lerariemann.infinity.registry.core.ModItems;
+import net.lerariemann.infinity.util.VersionMethods;
+import net.minecraft.core.RegistryAccess;
+//? if >1.21 {
+import net.minecraft.world.item.crafting.CraftingInput;
 import net.minecraft.core.HolderLookup;
-import net.minecraft.core.component.DataComponentMap;
+//?}
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.inventory.CraftingContainer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.CraftingBookCategory;
-import net.minecraft.world.item.crafting.CraftingInput;
+
 import net.minecraft.world.item.crafting.CustomRecipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 
 public class ChromaCarpetRecipe extends CustomRecipe {
-    public ChromaCarpetRecipe(CraftingBookCategory craftingRecipeCategory) {
-        super(craftingRecipeCategory);
+    public ChromaCarpetRecipe(
+            //? if <1.21
+            /*ResourceLocation id,*/
+            CraftingBookCategory craftingRecipeCategory) {
+        super(
+                //? if <1.21
+                /*id,*/
+                craftingRecipeCategory);
     }
 
-    public boolean matches(CraftingInput craftingRecipeInput, Level world) {
+    public boolean matches(
+            //? if >1.21 {
+            CraftingInput
+             //?} else {
+            /*CraftingContainer
+            *///?}
+            craftingRecipeInput, Level world) {
         Integer color = null;
         int k_first = 0;
         boolean carpetDone = false;
+        //? if >1.21 {
         int w = craftingRecipeInput.width();
-        for (int k = 0; k < craftingRecipeInput.size(); k++) {
+        int size = craftingRecipeInput.size();
+        //?} else {
+        /*int w = craftingRecipeInput.getWidth();
+        int size = craftingRecipeInput.getContainerSize();
+        *///?}
+        for (int k = 0; k < size; k++) {
             ItemStack itemStack = craftingRecipeInput.getItem(k);
             if (itemStack.is(ModItems.CHROMATIC_WOOL.get())) {
                 if (carpetDone) return false;
-                int newColor = itemStack.getOrDefault(ModComponentTypes.COLOR.get(), 0);
+                int newColor = VersionMethods.getOrDefaultInt(itemStack, ModComponentTypes.COLOR, 0);
                 if (color == null) {
                     color = newColor;
                     if (k % w == w - 1) return false;
@@ -43,19 +67,36 @@ public class ChromaCarpetRecipe extends CustomRecipe {
         return carpetDone;
     }
 
-    public @NotNull ItemStack assemble(CraftingInput craftingRecipeInput, HolderLookup.Provider wrapperLookup) {
+    public @NotNull ItemStack assemble(
+            //? if >1.21 {
+            CraftingInput
+             //?} else {
+            /*CraftingContainer
+            *///?}
+            craftingRecipeInput,
+            //? if >1.21 {
+            HolderLookup.Provider
+            //?} else {
+            /*RegistryAccess
+            *///?}
+            registryAccess
+    ) {
         int color = 0;
-        for (int k = 0; k < craftingRecipeInput.size(); k++) {
+        //? if >1.21 {
+        
+        int size = craftingRecipeInput.size();
+        //?} else {
+        /*int size = craftingRecipeInput.getContainerSize();
+        *///?}
+        for (int k = 0; k < size; k++) {
             ItemStack itemStack = craftingRecipeInput.getItem(k);
             if (itemStack.is(ModItems.CHROMATIC_WOOL.get())) {
-                color = itemStack.getOrDefault(ModComponentTypes.COLOR.get(), 0);
+                color = VersionMethods.getOrDefaultInt(itemStack, ModComponentTypes.COLOR, 0);
                 break;
             }
         }
         ItemStack result = ModItems.CHROMATIC_CARPET.get().getDefaultInstance();
-        result.applyComponents(DataComponentMap.builder() //"adding obsidian" recipe
-                .set(ModComponentTypes.COLOR.get(), color)
-                .build());
+        VersionMethods.apply(result, ModComponentTypes.COLOR, color);
         return result.copyWithCount(3);
     }
 

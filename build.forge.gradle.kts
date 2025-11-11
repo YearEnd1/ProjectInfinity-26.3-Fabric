@@ -119,6 +119,13 @@ repositories {
             includeGroupAndSubgroups("com.tterrag")
         }
     }
+    maven {
+        name = "Sinytra (FFAPI)"
+        url = uri("https://maven.su5ed.dev/releases")
+        content {
+            includeGroupAndSubgroups("dev.su5ed")
+        }
+    }
 }
 
 legacyForge {
@@ -152,28 +159,33 @@ legacyForge {
 
 
 dependencies {
-    implementation("dev.architectury:architectury-forge:${property("deps.architectury")}")
-    api("me.shedaniel.cloth:cloth-config-forge:${property("deps.cloth")}")
-    implementation("cc.tweaked:cc-tweaked-${property("deps.minecraft")}-forge:${property("deps.cct")}")
-    compileOnly("dev.emi:emi-forge:${property("deps.emi")}+${property("deps.minecraft")}:api")
-    implementation("dev.emi:emi-forge:${property("deps.emi")}+${property("deps.minecraft")}")
+    modImplementation("dev.architectury:architectury-forge:${property("deps.architectury")}")
+    modImplementation("me.shedaniel.cloth:cloth-config-forge:${property("deps.cloth")}")
+    modImplementation("cc.tweaked:cc-tweaked-${property("deps.minecraft")}-forge:${property("deps.cct")}")
+    modCompileOnly("dev.emi:emi-forge:${property("deps.emi")}+${property("deps.minecraft")}:api")
+    modImplementation("dev.emi:emi-forge:${property("deps.emi")}+${property("deps.minecraft")}")
 
 
     // Create
-    compileOnly("com.simibubi.create:create-${property("deps.minecraft")}:${property("deps.create")}:slim") { isTransitive = false }
-    implementation("net.createmod.ponder:Ponder-Forge-${property("deps.minecraft")}:${property("deps.ponder")}")
-    compileOnly("dev.engine-room.flywheel:flywheel-forge-api-${property("deps.minecraft")}:${property("deps.flywheel")}")
-    runtimeOnly("dev.engine-room.flywheel:flywheel-forge-${property("deps.minecraft")}:${property("deps.flywheel")}")
-    implementation("com.tterrag.registrate:Registrate:${property("deps.registrate")}")
+    modCompileOnly("com.simibubi.create:create-${property("deps.minecraft")}:${property("deps.create")}:slim") { isTransitive = false }
+    modImplementation("net.createmod.ponder:Ponder-Forge-${property("deps.minecraft")}:${property("deps.ponder")}")
+    modCompileOnly("dev.engine-room.flywheel:flywheel-forge-api-${property("deps.minecraft")}:${property("deps.flywheel")}")
+    modRuntimeOnly("dev.engine-room.flywheel:flywheel-forge-${property("deps.minecraft")}:${property("deps.flywheel")}")
+    modImplementation("com.tterrag.registrate:Registrate:${property("deps.registrate")}")
 
-    modCompileOnly("io.github.llamalad7:mixinextras-common:0.5.0")
+    // https://maven.su5ed.dev/#/releases/dev/su5ed/sinytra/fabric-api
+    // Add modules as needed - Forge backport currently has a hard dependency on FFAPI, considering including the relevant modules instead of requiring the entire mod.
+    modImplementation("dev.su5ed.sinytra.fabric-api:fabric-networking-api-v1:1.3.14+fb7c822677")
+
+
+    compileOnly("io.github.llamalad7:mixinextras-common:0.5.0")
     implementation("io.github.llamalad7:mixinextras-forge:0.5.0")
     jarJar("io.github.llamalad7:mixinextras-forge:0.5.0")
 }
 
 tasks {
     processResources {
-        exclude("**/neoforge.mod.json", "**/*.accesswidener", "**/neoforge.mods.toml")
+        exclude("**/fabric.mod.json", "**/*.accesswidener", "**/neoforge.mods.toml")
     }
 
     named("createMinecraftArtifacts") {

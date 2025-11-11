@@ -1,25 +1,40 @@
 package net.lerariemann.infinity.item.function;
 
+import com.google.gson.JsonObject;
 import com.mojang.datafixers.util.Function3;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.lerariemann.infinity.registry.core.ModItemFunctions;
+import net.lerariemann.infinity.util.VersionMethods;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.core.RegistryAccess;
+
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.ExtraCodecs;
+import net.minecraft.util.GsonHelper;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.*;
+//? if >1.21 {
+import net.minecraft.world.item.crafting.SingleRecipeInput;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
-import net.minecraft.util.ExtraCodecs;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.item.crafting.Recipe;
-import net.minecraft.world.item.crafting.RecipeSerializer;
-import net.minecraft.world.item.crafting.RecipeType;
-import net.minecraft.world.item.crafting.SingleRecipeInput;
+//?} else {
+/*import net.minecraft.world.ticks.ContainerSingleItem;
+*///?}
 import net.minecraft.world.level.Level;
 
 @MethodsReturnNonnullByDefault
-public abstract class CollisionCraftingRecipe implements Recipe<SingleRecipeInput> {
+public abstract class CollisionCraftingRecipe implements Recipe<
+        //? if >1.21 {
+        SingleRecipeInput
+        //?} else {
+        /*ContainerSingleItem
+        *///?}
+        > {
     private final Ingredient input;
     private final ItemStack output;
     private final String lore;
@@ -31,13 +46,37 @@ public abstract class CollisionCraftingRecipe implements Recipe<SingleRecipeInpu
     }
 
     @Override
-    public boolean matches(SingleRecipeInput input, Level world) {
-        if (world.isClientSide) return false;
-        return this.input.test(input.item());
+    public boolean matches(
+            //? if >1.21 {
+            SingleRecipeInput
+             //?} else {
+            /*ContainerSingleItem
+            *///?}
+            input, Level world) {
+        if (world.isClientSide()) return false;
+        return this.input.test(input.
+                //? if >1.21 {
+                item
+                //?} else {
+                /*getFirstItem
+                *///?}
+                ());
     }
 
     @Override
-    public ItemStack assemble(SingleRecipeInput input, HolderLookup.Provider lookup) {
+    public ItemStack assemble(
+            //? if >1.21 {
+            SingleRecipeInput
+             //?} else {
+            /*ContainerSingleItem
+            *///?}
+            input,
+            //? if >1.21 {
+            HolderLookup.Provider
+             //?} else {
+            /*RegistryAccess
+            *///?}
+            lookup) {
         return output;
     }
 
@@ -47,7 +86,13 @@ public abstract class CollisionCraftingRecipe implements Recipe<SingleRecipeInpu
     }
 
     @Override
-    public ItemStack getResultItem(HolderLookup.Provider registriesLookup) {
+    public ItemStack getResultItem(
+            //? if >1.21 {
+            HolderLookup.Provider registriesLookup
+            //?} else {
+            /*RegistryAccess registryAccess
+            *///?}
+    ) {
         return output.copy();
     }
 
@@ -64,6 +109,7 @@ public abstract class CollisionCraftingRecipe implements Recipe<SingleRecipeInpu
     public record Serializer(Function3<Ingredient, ItemStack, String, CollisionCraftingRecipe> func)
             implements RecipeSerializer<CollisionCraftingRecipe> {
 
+        //? if >1.21 {
         @Override
         public MapCodec<CollisionCraftingRecipe> codec() {
             return RecordCodecBuilder.mapCodec(instance -> instance.group(
@@ -90,12 +136,47 @@ public abstract class CollisionCraftingRecipe implements Recipe<SingleRecipeInpu
             ItemStack.STREAM_CODEC.encode(buf, recipe.output);
             ByteBufCodecs.STRING_UTF8.encode(buf, recipe.lore);
         }
+        //?} else {
+        /*@Override
+        public CollisionCraftingRecipe fromJson(ResourceLocation id, JsonObject json) {
+            Ingredient input = Ingredient.fromJson(GsonHelper.getNonNull(json, "input"));
+            ItemStack output = ShapedRecipe.itemStackFromJson(GsonHelper.getAsJsonObject(json, "output"));
+            String lore = GsonHelper.getAsString(json, "lore");
+            return func.apply(input, output, lore);
+        }
+
+        @Override
+        public CollisionCraftingRecipe fromNetwork(ResourceLocation id, FriendlyByteBuf buf) {
+            Ingredient input = Ingredient.fromNetwork(buf);
+            ItemStack output = buf.readItem();
+            String lore = buf.readUtf();
+            return func.apply(input, output, lore);
+        }
+
+        @Override
+        public void toNetwork(FriendlyByteBuf buf, CollisionCraftingRecipe recipe) {
+            recipe.input.toNetwork(buf);
+            buf.writeItem(recipe.output);
+            buf.writeUtf(recipe.lore);
+        }
+        *///?}
     }
 
     public static class OfPortal extends CollisionCraftingRecipe {
+        ItemStack output;
         public OfPortal(Ingredient input, ItemStack output, String lore) {
             super(input, output, lore);
+            this.output = output;
         }
+
+        //? if <1.20 {
+        /*@Override
+        public ResourceLocation getId() {
+            ResourceLocation id = BuiltInRegistries.ITEM.getKey(output.getItem());
+            return VersionMethods.id(id.getNamespace(), id.getPath()+"_of_iridescence");
+        }
+        *///?}
+
         @Override
         public RecipeSerializer<?> getSerializer() {
             return ModItemFunctions.PORTAL_CRAFTING.get();
@@ -107,9 +188,20 @@ public abstract class CollisionCraftingRecipe implements Recipe<SingleRecipeInpu
     }
 
     public static class OfIridescence extends CollisionCraftingRecipe {
+        ItemStack output;
         public OfIridescence(Ingredient input, ItemStack output, String lore) {
             super(input, output, lore);
+            this.output = output;
         }
+
+        //? if <1.20 {
+        /*@Override
+        public ResourceLocation getId() {
+            ResourceLocation id = BuiltInRegistries.ITEM.getKey(output.getItem());
+            return VersionMethods.id(id.getNamespace(), id.getPath()+"_of_iridescence");
+        }
+        *///?}
+
         @Override
         public RecipeSerializer<?> getSerializer() {
             return ModItemFunctions.IRIDESCENCE_CRAFTING.get();

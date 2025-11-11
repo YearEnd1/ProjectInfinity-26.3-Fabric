@@ -8,18 +8,18 @@ import dev.emi.emi.api.widget.WidgetHolder;
 import net.lerariemann.infinity.item.function.CollisionCraftingRecipe;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import java.util.Objects;
 
 public class IridesenceCraftingEmiRecipe extends BasicEmiRecipe {
     String lore;
 
-    public IridesenceCraftingEmiRecipe(RecipeHolder<CollisionCraftingRecipe> recipeEntry, RegistryAccess registryManager) {
-        super(EmiCompat.IRIDESCENCE_CRAFTING, recipeEntry.id(), 118, 18);
-        CollisionCraftingRecipe recipe = recipeEntry.value();
+    public IridesenceCraftingEmiRecipe(ResourceLocation id, CollisionCraftingRecipe recipe, RegistryAccess registryManager) {
+        super(EmiCompat.IRIDESCENCE_CRAFTING, id, 118, 18);
         this.inputs.add(EmiIngredient.of(recipe.getInput()));
         this.outputs.add(EmiStack.of(recipe.getResultItem(registryManager)));
-        this.lore = recipeEntry.value().getLore();
+        this.lore = recipe.getLore();
         if (!Objects.equals(lore, "empty")) {
             this.width = 130;
         }

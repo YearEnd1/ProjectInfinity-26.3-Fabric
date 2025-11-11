@@ -23,16 +23,18 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent;
 import net.minecraft.core.RegistryAccess;
+//? if >1.21 {
 import net.minecraft.core.component.DataComponents;
+import net.minecraft.world.item.alchemy.PotionContents;
+import net.minecraft.world.item.crafting.RecipeHolder;
+//?}
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.FormattedCharSequence;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.item.alchemy.PotionContents;
 import net.minecraft.world.item.alchemy.Potions;
 import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeManager;
 import java.util.ArrayList;
 import java.util.List;
@@ -60,13 +62,33 @@ public class EmiCompat implements EmiPlugin {
         //collision recipes
         registry.addCategory(PORTAL_CRAFTING);
         registry.addWorkstation(PORTAL_CRAFTING, PORTAL_WORKSTATION);
-        for (RecipeHolder<CollisionCraftingRecipe> recipe : manager.getAllRecipesFor(ModItemFunctions.PORTAL_CRAFTING_TYPE.get())) {
-            registry.addRecipe(new PortalCraftingEmiRecipe(recipe, registryManager));
+        for (
+                //? if >1.21 {
+                RecipeHolder<CollisionCraftingRecipe>
+                //?} else {
+                /*CollisionCraftingRecipe
+                *///?}
+                recipe : manager.getAllRecipesFor(ModItemFunctions.PORTAL_CRAFTING_TYPE.get())) {
+            //? if >1.21 {
+            registry.addRecipe(new PortalCraftingEmiRecipe(recipe.id(), recipe.value(), registryManager));
+            //?} else {
+            /*registry.addRecipe(new PortalCraftingEmiRecipe(recipe.getId(), recipe, registryManager));
+            *///?}
         }
         registry.addCategory(IRIDESCENCE_CRAFTING);
         registry.addWorkstation(IRIDESCENCE_CRAFTING, IRIDESCENCE_WORKSTATION);
-        for (RecipeHolder<CollisionCraftingRecipe> recipe : manager.getAllRecipesFor(ModItemFunctions.IRIDESCENCE_CRAFTING_TYPE.get())) {
-            registry.addRecipe(new IridesenceCraftingEmiRecipe(recipe, registryManager));
+        for (
+            //? if >1.21 {
+            RecipeHolder<CollisionCraftingRecipe>
+            //?} else {
+            /*CollisionCraftingRecipe
+            *///?}
+                recipe : manager.getAllRecipesFor(ModItemFunctions.IRIDESCENCE_CRAFTING_TYPE.get())) {
+            //? if >1.21 {
+            registry.addRecipe(new IridesenceCraftingEmiRecipe(recipe.id(), recipe.value(), registryManager));
+            //?} else {
+            /*registry.addRecipe(new IridesenceCraftingEmiRecipe(recipe.getId(), recipe, registryManager));
+            *///?}
         }
 
         //item interactions when clicked on chromatic blocks
