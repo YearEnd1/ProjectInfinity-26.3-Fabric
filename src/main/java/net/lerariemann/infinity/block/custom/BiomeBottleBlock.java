@@ -4,7 +4,6 @@ import com.mojang.serialization.MapCodec;
 import net.lerariemann.infinity.block.entity.BiomeBottleBlockEntity;
 import net.lerariemann.infinity.registry.core.ModBlockEntities;
 import net.lerariemann.infinity.registry.core.ModComponentTypes;
-import net.lerariemann.infinity.util.InfinityMethods;
 import net.lerariemann.infinity.util.Methods;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
@@ -14,7 +13,6 @@ import net.minecraft.core.component.DataComponentMap;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.item.component.BlockItemStateProperties;
 //?}
-import net.minecraft.core.Registry;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
@@ -112,7 +110,7 @@ public class BiomeBottleBlock extends BaseEntityBlock {
     public static final int maxAllowedCharge = 10000;
 
     public static ResourceLocation defaultBiome() {
-        return Methods.ofVanilla("plains");
+        return Methods.id("plains");
     }
 
     public static Rarity getRarity(int charge) {

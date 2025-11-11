@@ -8,7 +8,7 @@ import net.createmod.catnip.math.BlockFace;
 import net.lerariemann.infinity.block.custom.RailHelper;
 import net.lerariemann.infinity.block.entity.InfinityPortalBlockEntity;
 import net.lerariemann.infinity.registry.core.ModBlocks;
-import net.lerariemann.infinity.util.Methods;
+import net.lerariemann.infinity.util.InfinityMethods;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -44,7 +44,7 @@ public class CreateCompat {
     }
 
     public static void register() {
-        AllPortalTracks.tryRegisterIntegration(Methods.ofInfinity("neither_portal"), CreateCompat::infinityPortalProvider);
+        AllPortalTracks.tryRegisterIntegration(InfinityMethods.getId("neither_portal"), CreateCompat::infinityPortalProvider);
     }
 
     public static void tryModifyRails(InfinityPortalBlockEntity ipbe) {
