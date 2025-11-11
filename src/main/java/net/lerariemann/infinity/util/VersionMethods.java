@@ -5,18 +5,22 @@ import net.lerariemann.infinity.registry.core.ModComponentTypes;
 /*import dev.architectury.registry.registries.RegistrySupplier;
 import net.minecraft.core.component.DataComponentMap;
 import net.minecraft.core.component.DataComponentType;
-*///?}
+import net.minecraft.world.item.alchemy.PotionContents;
+*///?} else {
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.item.alchemy.PotionUtils;
+//?}
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
-import net.minecraft.core.registries.Registries;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.effect.MobEffect;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.alchemy.Potion;
 import net.minecraft.world.level.WorldGenLevel;
-import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import org.jetbrains.annotations.Nullable;
@@ -93,13 +97,6 @@ public interface VersionMethods {
         return stack;
     }
 
-    static @Nullable String getBiomeComponents(ItemStack stack) {
-        if (stack.getTag() != null) {
-            return stack.getTag().getCompound("BlockEntityTag").getString("Biome");
-        }
-        return null;
-    }
-
     static @Nullable String getDimensionComponents(ItemStack stack) {
         if (stack.getTag() != null && stack.getTag().contains(ModComponentTypes.DESTINATION)) {
             return stack.getTag().getString(ModComponentTypes.DESTINATION);
@@ -119,6 +116,14 @@ public interface VersionMethods {
         }
     }
 
+    static Optional<Potion> getOrEmptyPotion(ItemStack input) {
+        return Optional.of(PotionUtils.getPotion(input));
+    }
+
+    static boolean isPotion(Potion input, Potion awkward) {
+        return input.equals(awkward);
+    }
+
     //?} else {
     /*static int getOrDefaultInt(ItemStack stack, RegistrySupplier<DataComponentType<Integer>> component, int i) {
         return stack.getOrDefault(component.get(), i);
@@ -132,6 +137,14 @@ public interface VersionMethods {
         stack.applyComponents(DataComponentMap.builder()
                 .set(charge.get(), i).build());
         return stack;
+    }
+
+    static Optional<Holder<Potion>> getOrEmptyPotion(ItemStack input) {
+        return input.getOrDefault(DataComponents.POTION_CONTENTS, PotionContents.EMPTY).potion();
+    }
+
+    static boolean isPotion(Holder<Potion> input, Holder<Potion> awkward) {
+        return input.value().equals(awkward.value());
     }
     *///?}
 
@@ -179,6 +192,17 @@ public interface VersionMethods {
         //?}
     }
 
+    static @Nullable ResourceLocation getBiomeComponents(ItemStack stack) {
+        //? if >1.21 {
+        /*return stack.getComponents().get(ModComponentTypes.BIOME_CONTENTS.get());
+        *///?} else {
+        if (stack.getTag() != null) {
+            return InfinityMethods.getId(stack.getTag().getCompound("BlockEntityTag").getString("Biome"));
+        }
+        return null;
+        //?}
+    }
+
     static
     //? if >1.21 {
     /*Holder<MobEffect>
@@ -195,5 +219,18 @@ public interface VersionMethods {
 
     static int opaque(int color) {
         return color | -16777216;
+    }
+
+    static void consumeWithRemainder(Player player, ItemStack stack, ItemStack defaultInstance) {
+        //? if >1.21 {
+        /*boolean creative = player.hasInfiniteMaterials();
+        *///?} else {
+        boolean creative = player.isCreative();
+        //?}
+        if (!creative) {
+            stack.setCount(stack.getCount()-1);
+            player.getInventory().add(new ItemStack(Items.GLASS_BOTTLE));
+        }
+
     }
 }

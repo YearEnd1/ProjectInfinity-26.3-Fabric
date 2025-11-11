@@ -116,9 +116,9 @@ public class AntEntity extends AbstractChessFigure {
         super.addAdditionalSaveData(nbt);
         nbt.putBoolean("dropsLoot", dropsLoot);
         nbt.putString("direction", switch(this.direction) {
-                    case Direction.NORTH -> "N";
-                    case Direction.WEST -> "W";
-                    case Direction.SOUTH -> "S";
+                    case NORTH -> "N";
+                    case WEST -> "W";
+                    case SOUTH -> "S";
                     default -> "E";
                 });
         if (lastChangedPos != null) {
@@ -140,10 +140,12 @@ public class AntEntity extends AbstractChessFigure {
                 && super.shouldPursueRegularGoals();
     }
 
-    @Override
+    //? if >1.21 {
+    /*@Override
     public boolean canBeLeashed() {
         return !isInBattle();
     }
+    *///?}
     @Override
     public boolean canStandOnFluid(FluidState state) {
         return state.is(FluidTags.WATER);
@@ -171,10 +173,11 @@ public class AntEntity extends AbstractChessFigure {
     @Override
     public InteractionResult mobInteract(Player player, InteractionHand hand) {
         if (!this.isVehicle()
-                && this.getAttributeValue(Attributes.SCALE) > 2
+                //? if >1.21
+                /*&& this.getAttributeValue(Attributes.SCALE) > 2*/
                 && player.getItemInHand(hand).isEmpty()) {
             this.putPlayerOnBack(player);
-            return InteractionResult.sidedSuccess(this.level().isClientSide);
+            return InteractionResult.sidedSuccess(this.level().isClientSide());
         }
         return super.mobInteract(player, hand);
     }
@@ -270,7 +273,11 @@ public class AntEntity extends AbstractChessFigure {
         @Override
         public void start() {
             if (targetPos == null) return;
-            Vec3 v = targetPos.getBottomCenter();
+            //? if >1.21 {
+            /*Vec3 v = targetPos.getBottomCenter();
+            *///?} else {
+            Vec3 v = targetPos.getCenter();
+            //?}
             mob.randomTeleport(v.x, v.y, v.z, false);
             mob.setYRot(mob.direction.toYRot());
         }

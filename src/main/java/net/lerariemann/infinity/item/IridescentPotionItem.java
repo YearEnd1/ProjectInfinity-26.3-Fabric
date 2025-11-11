@@ -3,6 +3,7 @@ package net.lerariemann.infinity.item;
 import net.lerariemann.infinity.iridescence.Iridescence;
 import net.lerariemann.infinity.registry.core.ModComponentTypes;
 import net.lerariemann.infinity.registry.core.ModStatusEffects;
+import net.lerariemann.infinity.util.VersionMethods;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
@@ -18,7 +19,11 @@ import net.minecraft.world.item.ItemUtils;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.UseAnim;
-import net.minecraft.world.item.alchemy.PotionContents;
+//? if >1.21 {
+/*import net.minecraft.world.item.alchemy.PotionContents;
+*///?} else {
+import net.minecraft.world.item.alchemy.PotionUtils;
+//?}
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.gameevent.GameEvent;
 import java.util.List;
@@ -30,17 +35,14 @@ public class IridescentPotionItem extends Item {
 
     @Override
     public ItemStack finishUsingItem(ItemStack stack, Level world, LivingEntity user) {
-        int level = stack.getOrDefault(ModComponentTypes.CHARGE.get(), 0);
-        if (!world.isClientSide) Iridescence.tryBeginJourney(user, level, true);
+        int level = VersionMethods.getOrDefaultInt(stack, ModComponentTypes.CHARGE, 0);
+        if (!world.isClientSide()) Iridescence.tryBeginJourney(user, level, true);
         if (user instanceof Player player) {
             if (user instanceof ServerPlayer spe) {
                 CriteriaTriggers.CONSUME_ITEM.trigger(spe, stack);
             }
             player.awardStat(Stats.ITEM_USED.get(this));
-            stack.consume(1, player);
-
-            if (!player.hasInfiniteMaterials())
-                player.getInventory().add(new ItemStack(Items.GLASS_BOTTLE));
+            VersionMethods.consumeWithRemainder(player, stack, Items.GLASS_BOTTLE.getDefaultInstance());
         }
         else if (stack.isEmpty()) {
             return new ItemStack(Items.GLASS_BOTTLE);
@@ -50,7 +52,10 @@ public class IridescentPotionItem extends Item {
     }
 
     @Override
-    public int getUseDuration(ItemStack stack, LivingEntity user) {
+    public int getUseDuration(ItemStack stack
+            //? if >1.21
+            /*, LivingEntity user*/
+    ) {
         return 32;
     }
 
@@ -65,10 +70,23 @@ public class IridescentPotionItem extends Item {
     }
 
     @Override
-    public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltip, TooltipFlag type) {
-        int level = stack.getOrDefault(ModComponentTypes.CHARGE.get(), 0);
-        List<MobEffectInstance> effects = List.of(new MobEffectInstance(ModStatusEffects.IRIDESCENT_EFFECT,
+    public void appendHoverText(ItemStack stack,
+                                //? if >1.21 {
+                                /*TooltipContext
+                                *///?} else {
+                                Level
+                                //?}
+                                        context, List<Component> tooltip, TooltipFlag type) {
+        int level = VersionMethods.getOrDefaultInt(stack, ModComponentTypes.CHARGE, 0);
+        List<MobEffectInstance> effects = List.of(new MobEffectInstance(ModStatusEffects.IRIDESCENT_EFFECT
+                //? if <1.21
+                .value()
+                ,
                 Iridescence.getFullEffectLength(level), level));
-        PotionContents.addPotionTooltip(effects, tooltip::add, 1.0F, context.tickRate());
+        //? if >1.21 {
+        /*PotionContents.addPotionTooltip(effects, tooltip::add, 1.0F, context.tickRate());
+        *///?} else {
+        PotionUtils.addPotionTooltip(effects, tooltip, 1.0F);
+        //?}
     }
 }

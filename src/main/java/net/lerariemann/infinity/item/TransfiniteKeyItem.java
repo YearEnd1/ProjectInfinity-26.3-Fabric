@@ -18,14 +18,18 @@ import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 
-import javax.annotation.ParametersAreNonnullByDefault;
+//? if neoforge {
+/*import javax.annotation.ParametersAreNonnullByDefault;
+*///?}
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-
-@ParametersAreNonnullByDefault
+//? if neoforge {
+/*@ParametersAreNonnullByDefault
+*///?}
 public class TransfiniteKeyItem extends Item implements PortalDataHolder.Destinable {
     public TransfiniteKeyItem(Properties settings) {
         super(settings);

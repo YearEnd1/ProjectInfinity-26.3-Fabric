@@ -30,7 +30,10 @@ public abstract class LivingEntityMixin extends Entity {
     /* Hook to allow unconventional effect removal logic */
     @Inject(method = "onEffectRemoved", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;refreshDirtyAttributes()V"))
     void inj(MobEffectInstance effect, CallbackInfo ci) {
-        if (effect.getEffect().value() instanceof ModStatusEffects.SpecialEffect eff) {
+        if (effect.getEffect()
+                //? if <1.21
+                .value()
+                instanceof ModStatusEffects.SpecialEffect eff) {
             eff.onRemoved((LivingEntity)(Object)this);
         }
     }

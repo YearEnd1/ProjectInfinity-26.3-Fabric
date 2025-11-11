@@ -2,6 +2,7 @@ package net.lerariemann.infinity.entity.client;
 
 import net.lerariemann.infinity.entity.custom.ChaosPawn;
 import net.lerariemann.infinity.entity.custom.TintableEntity;
+import net.lerariemann.infinity.util.VersionMethods;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.geom.ModelPart;
@@ -37,7 +38,7 @@ public class ChaosPawnTint extends RenderLayer<ChaosPawn, HumanoidModel<ChaosPaw
             }
         }
         else {
-            color = FastColor.ARGB32.opaque(color);
+            color = VersionMethods.opaque(color);
         }
         part.render(matrixStack, vertexConsumer, light, overlay, color);
     }

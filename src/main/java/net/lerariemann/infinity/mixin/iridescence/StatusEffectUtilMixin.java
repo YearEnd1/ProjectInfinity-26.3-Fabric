@@ -14,14 +14,23 @@ import java.util.Objects;
 public class StatusEffectUtilMixin {
     @Inject(method = "hasDigSpeed", at = @At("RETURN"), cancellable = true)
     private static void injected(LivingEntity entity, CallbackInfoReturnable<Boolean> cir) {
-        if (entity.hasEffect(ModStatusEffects.AFTERGLOW))
+        if (entity.hasEffect(ModStatusEffects.AFTERGLOW
+        //? if <1.21
+        .value()
+        ))
             cir.setReturnValue(true);
     }
 
     @Inject(method = "getDigSpeedAmplification", at = @At("RETURN"), cancellable = true)
     private static void inj2(LivingEntity entity, CallbackInfoReturnable<Integer> cir) {
-        if (entity.hasEffect(ModStatusEffects.AFTERGLOW))
+        if (entity.hasEffect(ModStatusEffects.AFTERGLOW
+        //? if <1.21
+        .value()
+        ))
             cir.setReturnValue(cir.getReturnValue() +
-                    Objects.requireNonNull(entity.getEffect(ModStatusEffects.AFTERGLOW)).getAmplifier());
+                    Objects.requireNonNull(entity.getEffect(ModStatusEffects.AFTERGLOW
+                    //? if <1.21
+                    .value()
+                    )).getAmplifier());
     }
 }

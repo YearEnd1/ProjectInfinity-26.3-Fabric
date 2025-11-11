@@ -3,6 +3,7 @@ package net.lerariemann.infinity.item;
 import net.lerariemann.infinity.block.entity.ChromaticBlockEntity;
 import net.lerariemann.infinity.registry.core.ModComponentTypes;
 import net.lerariemann.infinity.registry.core.ModItems;
+import net.lerariemann.infinity.util.VersionMethods;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Player;
@@ -25,7 +26,7 @@ public class ChromaticBlockItem extends BlockItem implements PortalDataHolder {
         if (player != null && player.getItemInHand(InteractionHand.OFF_HAND)
                 .is(ModItems.CHROMATIC_MATTER.get())
                 && world.getBlockEntity(pos) instanceof ChromaticBlockEntity cbe) {
-            cbe.setColor(stack.getOrDefault(ModComponentTypes.COLOR.get(), 0xFFFFFF));
+            cbe.setColor(VersionMethods.getOrDefaultInt(stack, ModComponentTypes.COLOR, 0xFFFFFF));
         }
         return bl;
     }
