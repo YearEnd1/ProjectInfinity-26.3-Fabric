@@ -99,7 +99,7 @@ public class AntBlock extends HorizontalDirectionalBlock {
     @Override
     public InteractionResult
     //? if >1.21 {
-    /* useWithoutItem
+     /*useWithoutItem
     *///?} else {
     use
     //?}

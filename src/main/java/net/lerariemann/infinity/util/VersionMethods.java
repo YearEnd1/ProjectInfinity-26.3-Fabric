@@ -2,8 +2,8 @@ package net.lerariemann.infinity.util;
 
 import net.lerariemann.infinity.registry.core.ModComponentTypes;
 //? if >1.21 {
-import dev.architectury.registry.registries.RegistrySupplier;
-/*import net.minecraft.core.component.DataComponentMap;
+/*import dev.architectury.registry.registries.RegistrySupplier;
+import net.minecraft.core.component.DataComponentMap;
 import net.minecraft.core.component.DataComponentType;
 *///?}
 import net.minecraft.core.BlockPos;
@@ -20,6 +20,8 @@ import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.Optional;
 
 public interface VersionMethods {
     static ResourceLocation id(String s) {
@@ -110,9 +112,16 @@ public interface VersionMethods {
         if (dimension != null) return ResourceLocation.tryParse(dimension);
         else return null;
     }
+
+    static void remove(ItemStack result, String destination) {
+        if (result.hasTag()) {
+            result.removeTagKey(destination);
+        }
+    }
+
     //?} else {
-    /*static int getOrDefaultInt(ItemStack stack, RegistrySupplier<DataComponentType<Integer>> charge, int i) {
-        return stack.getOrDefault(charge, i);
+    /*static int getOrDefaultInt(ItemStack stack, RegistrySupplier<DataComponentType<Integer>> component, int i) {
+        return stack.getOrDefault(component.get(), i);
     }
 
     static @Nullable ResourceLocation getDimensionIdentifier(ItemStack stack) {
@@ -121,7 +130,7 @@ public interface VersionMethods {
 
     static ItemStack apply(ItemStack stack, RegistrySupplier<DataComponentType<Integer>> charge, int i) {
         stack.applyComponents(DataComponentMap.builder()
-                .set(charge, i).build());
+                .set(charge.get(), i).build());
         return stack;
     }
     *///?}
@@ -170,7 +179,6 @@ public interface VersionMethods {
         //?}
     }
 
-
     static
     //? if >1.21 {
     /*Holder<MobEffect>
@@ -184,8 +192,8 @@ public interface VersionMethods {
         return holder.value();
         //?}
     }
-    //? if >1.21 {
-    /*
-     *///?} else {
-    //?}
+
+    static int opaque(int color) {
+        return color | -16777216;
+    }
 }

@@ -45,8 +45,9 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 //? if >1.21 {
 /*import net.minecraft.world.level.portal.DimensionTransition;
-*///?}
+*///?} else {
 import net.minecraft.world.level.portal.PortalInfo;
+//?}
 import net.minecraft.world.level.storage.LevelResource;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;

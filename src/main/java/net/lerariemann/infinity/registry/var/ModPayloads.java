@@ -26,8 +26,8 @@ import net.minecraft.world.level.dimension.DimensionType;
 
 
 //? if >1.21 {
-/*
-import net.lerariemann.infinity.util.InfinityMethods;
+
+/*import net.lerariemann.infinity.util.InfinityMethods;
 import net.minecraft.world.level.dimension.DimensionType;
 import org.jetbrains.annotations.NotNull;
 import net.minecraft.core.component.DataComponentMap;
@@ -51,8 +51,8 @@ import java.nio.file.Path;
 public class ModPayloads {
     public static boolean resourcesReloaded = Path.of(Platform.getGameFolder() + "/resourcepacks/infinity/assets/infinity/shaders").toFile().exists();
     //? if >1.21 {
-    /*
-    public record JukeboxesC2SPayload(CompoundTag data) implements CustomPacketPayload {
+    
+    /*public record JukeboxesC2SPayload(CompoundTag data) implements CustomPacketPayload {
         public static final Type<JukeboxesC2SPayload> ID = new Type<>(InfinityMethods.getId("upload_jukeboxes"));
         public static final StreamCodec<RegistryFriendlyByteBuf, JukeboxesC2SPayload> CODEC = StreamCodec.composite(
                 ByteBufCodecs.COMPOUND_TAG, JukeboxesC2SPayload::data, JukeboxesC2SPayload::new);
@@ -84,8 +84,8 @@ public class ModPayloads {
     public record WorldAddS2CPayload(ResourceLocation id, CompoundTag data) implements FriendlyPacket {
         static ResourceLocation sid = getId("add_world");
         //? if >1.21 {
-        /*
-        public static final Type<WorldAddS2CPayload> ID = new Type<>(sid);
+        
+        /*public static final Type<WorldAddS2CPayload> ID = new Type<>(sid);
         public static final StreamCodec<RegistryFriendlyByteBuf, WorldAddS2CPayload> CODEC = StreamCodec.composite(
                 ResourceLocation.STREAM_CODEC, WorldAddS2CPayload::id,
                 ByteBufCodecs.COMPOUND_TAG, WorldAddS2CPayload::data,
@@ -117,8 +117,8 @@ public class ModPayloads {
     public record BiomeAddS2CPayload(ResourceLocation id, CompoundTag data) implements FriendlyPacket {
         static ResourceLocation sid = getId("add_biome");
         //? if >1.21 {
-        /*
-        public static final Type<BiomeAddS2CPayload> ID = new Type<>(sid);
+        
+        /*public static final Type<BiomeAddS2CPayload> ID = new Type<>(sid);
         public static final StreamCodec<RegistryFriendlyByteBuf, BiomeAddS2CPayload> CODEC = StreamCodec.composite(
                 ResourceLocation.STREAM_CODEC, BiomeAddS2CPayload::id,
                 ByteBufCodecs.COMPOUND_TAG, BiomeAddS2CPayload::data,
@@ -150,8 +150,8 @@ public class ModPayloads {
     public record ShaderS2CPayload(boolean iridescence, CompoundTag data) implements FriendlyPacketS2C {
         static ResourceLocation sid = getId("reload_shader");
         //? if >1.21 {
-        /*
-        public static final Type<ShaderS2CPayload> ID = new Type<>(sid);
+        
+        /*public static final Type<ShaderS2CPayload> ID = new Type<>(sid);
         public static final StreamCodec<RegistryFriendlyByteBuf, ShaderS2CPayload> CODEC = StreamCodec.composite(
                 ByteBufCodecs.BOOL, ShaderS2CPayload::iridescence,
                 ByteBufCodecs.COMPOUND_TAG, ShaderS2CPayload::data,
@@ -187,8 +187,8 @@ public class ModPayloads {
         static ResourceLocation sid = getId("reload_stars");
         public static final StarsS2CPayload INSTANCE = new StarsS2CPayload();
         //? if >1.21 {
-        /*
-        public static final Type<StarsS2CPayload> ID = new Type<>(sid);
+        
+        /*public static final Type<StarsS2CPayload> ID = new Type<>(sid);
         public static final StreamCodec<RegistryFriendlyByteBuf, StarsS2CPayload> CODEC = StreamCodec.unit(INSTANCE);
         @Override
         public @NotNull Type<? extends CustomPacketPayload> type() {
@@ -218,8 +218,8 @@ public class ModPayloads {
     public record SoundPackS2CPayload(CompoundTag songIds) implements FriendlyPacketS2C {
         static ResourceLocation sid = getId("download_sound_pack");
         //? if >1.21 {
-        /*
-        public static final Type<SoundPackS2CPayload> ID = new Type<>(sid);
+        
+        /*public static final Type<SoundPackS2CPayload> ID = new Type<>(sid);
         public static final StreamCodec<RegistryFriendlyByteBuf, SoundPackS2CPayload> CODEC = StreamCodec.composite(
                 ByteBufCodecs.COMPOUND_TAG, SoundPackS2CPayload::songIds, SoundPackS2CPayload::new);
         @Override
@@ -251,8 +251,8 @@ public class ModPayloads {
         static ResourceLocation sid = getId("deploy_f4");
         public static final F4DeployC2SPayload INSTANCE = new F4DeployC2SPayload();
         //? if >1.21 {
-        /*
-        public static final Type<F4DeployC2SPayload> ID = new Type<>(sid);
+        
+        /*public static final Type<F4DeployC2SPayload> ID = new Type<>(sid);
         public static final StreamCodec<RegistryFriendlyByteBuf, F4DeployC2SPayload> CODEC = StreamCodec.unit(INSTANCE);
         @Override
         public @NotNull Type<? extends CustomPacketPayload> type() {
@@ -284,8 +284,8 @@ public class ModPayloads {
     public record F4UpdateC2SPayload(int slot, int width, int height) implements FriendlyPacketC2S {
         static ResourceLocation sid = getId("update_f4");
         //? if >1.21 {
-        /*
-        public static final Type<F4UpdateC2SPayload> ID = new Type<>(InfinityMethods.getId("receive_f4"));
+        
+        /*public static final Type<F4UpdateC2SPayload> ID = new Type<>(InfinityMethods.getId("receive_f4"));
         public static final StreamCodec<RegistryFriendlyByteBuf, F4UpdateC2SPayload> CODEC = StreamCodec.composite(
                 ByteBufCodecs.VAR_INT, F4UpdateC2SPayload::slot,
                 ByteBufCodecs.VAR_INT, F4UpdateC2SPayload::width,

@@ -1,6 +1,6 @@
 package net.lerariemann.infinity.entity.client;
 
-//? if >1.21
+//? if >1.21 {
 /*import net.lerariemann.infinity.entity.custom.ChaosSkeleton;
 *///?}
 import net.minecraft.client.model.SkeletonModel;
@@ -9,7 +9,7 @@ import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.SkeletonRenderer;
 
 public class ChaosSkeletonRenderer extends SkeletonRenderer
-        //? if >1.21
+        //? if >1.21 {
         /*<ChaosSkeleton>
         *///?}
 {

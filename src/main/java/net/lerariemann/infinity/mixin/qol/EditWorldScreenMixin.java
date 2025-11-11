@@ -21,7 +21,13 @@ public class EditWorldScreenMixin {
     @Shadow @Final private BooleanConsumer callback;
 
     @Inject(method = "<init>", at = @At(value = "RETURN", target = "Lnet/minecraft/world/level/GameRules;getBoolean(Lnet/minecraft/world/level/GameRules$Key;)Z"))
-    void addButton(Minecraft client, LevelStorageSource.LevelStorageAccess session, String levelName, BooleanConsumer callback, CallbackInfo ci) {
+            void addButton(
+    //? if >1.21 {
+    /*Minecraft client, LevelStorageSource.LevelStorageAccess session, String levelName, BooleanConsumer callback
+    *///?} else {
+    BooleanConsumer booleanConsumer, LevelStorageSource.LevelStorageAccess session
+    //?}
+    , CallbackInfo ci) {
         var screen = (EditWorldScreen) (Object) this;
         screen.addRenderableWidget(Button.builder(Component.translatable("screen.infinity.delete_datapacks"), button -> {
             boolean bl = InfinityMethods.deleteLevel(session);

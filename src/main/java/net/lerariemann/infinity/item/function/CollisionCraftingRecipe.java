@@ -18,22 +18,22 @@ import net.minecraft.util.GsonHelper;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.*;
 //? if >1.21 {
-import net.minecraft.world.item.crafting.SingleRecipeInput;
+/*import net.minecraft.world.item.crafting.SingleRecipeInput;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
-//?} else {
-/*import net.minecraft.world.ticks.ContainerSingleItem;
-*///?}
+*///?} else {
+import net.minecraft.world.ticks.ContainerSingleItem;
+//?}
 import net.minecraft.world.level.Level;
 
 @MethodsReturnNonnullByDefault
 public abstract class CollisionCraftingRecipe implements Recipe<
         //? if >1.21 {
-        SingleRecipeInput
-        //?} else {
-        /*ContainerSingleItem
-        *///?}
+        /*SingleRecipeInput
+        *///?} else {
+        ContainerSingleItem
+        //?}
         > {
     private final Ingredient input;
     private final ItemStack output;
@@ -48,34 +48,34 @@ public abstract class CollisionCraftingRecipe implements Recipe<
     @Override
     public boolean matches(
             //? if >1.21 {
-            SingleRecipeInput
-             //?} else {
-            /*ContainerSingleItem
-            *///?}
+            /*SingleRecipeInput
+             *///?} else {
+            ContainerSingleItem
+            //?}
             input, Level world) {
         if (world.isClientSide()) return false;
         return this.input.test(input.
                 //? if >1.21 {
-                item
-                //?} else {
-                /*getFirstItem
-                *///?}
+                /*item
+                *///?} else {
+                getFirstItem
+                //?}
                 ());
     }
 
     @Override
     public ItemStack assemble(
             //? if >1.21 {
-            SingleRecipeInput
-             //?} else {
-            /*ContainerSingleItem
-            *///?}
+            /*SingleRecipeInput
+             *///?} else {
+            ContainerSingleItem
+            //?}
             input,
             //? if >1.21 {
-            HolderLookup.Provider
-             //?} else {
-            /*RegistryAccess
-            *///?}
+            /*HolderLookup.Provider
+             *///?} else {
+            RegistryAccess
+            //?}
             lookup) {
         return output;
     }
@@ -88,10 +88,10 @@ public abstract class CollisionCraftingRecipe implements Recipe<
     @Override
     public ItemStack getResultItem(
             //? if >1.21 {
-            HolderLookup.Provider registriesLookup
-            //?} else {
-            /*RegistryAccess registryAccess
-            *///?}
+            /*HolderLookup.Provider registriesLookup
+            *///?} else {
+            RegistryAccess registryAccess
+            //?}
     ) {
         return output.copy();
     }
@@ -110,7 +110,7 @@ public abstract class CollisionCraftingRecipe implements Recipe<
             implements RecipeSerializer<CollisionCraftingRecipe> {
 
         //? if >1.21 {
-        @Override
+        /*@Override
         public MapCodec<CollisionCraftingRecipe> codec() {
             return RecordCodecBuilder.mapCodec(instance -> instance.group(
                             Ingredient.CODEC_NONEMPTY.fieldOf("input").forGetter(recipe -> recipe.input),
@@ -136,8 +136,8 @@ public abstract class CollisionCraftingRecipe implements Recipe<
             ItemStack.STREAM_CODEC.encode(buf, recipe.output);
             ByteBufCodecs.STRING_UTF8.encode(buf, recipe.lore);
         }
-        //?} else {
-        /*@Override
+        *///?} else {
+        @Override
         public CollisionCraftingRecipe fromJson(ResourceLocation id, JsonObject json) {
             Ingredient input = Ingredient.fromJson(GsonHelper.getNonNull(json, "input"));
             ItemStack output = ShapedRecipe.itemStackFromJson(GsonHelper.getAsJsonObject(json, "output"));
@@ -159,7 +159,7 @@ public abstract class CollisionCraftingRecipe implements Recipe<
             buf.writeItem(recipe.output);
             buf.writeUtf(recipe.lore);
         }
-        *///?}
+        //?}
     }
 
     public static class OfPortal extends CollisionCraftingRecipe {
@@ -169,13 +169,13 @@ public abstract class CollisionCraftingRecipe implements Recipe<
             this.output = output;
         }
 
-        //? if <1.20 {
-        /*@Override
+        //? if <1.21 {
+        @Override
         public ResourceLocation getId() {
             ResourceLocation id = BuiltInRegistries.ITEM.getKey(output.getItem());
             return VersionMethods.id(id.getNamespace(), id.getPath()+"_of_iridescence");
         }
-        *///?}
+        //?}
 
         @Override
         public RecipeSerializer<?> getSerializer() {
@@ -194,13 +194,13 @@ public abstract class CollisionCraftingRecipe implements Recipe<
             this.output = output;
         }
 
-        //? if <1.20 {
-        /*@Override
+        //? if <1.21 {
+        @Override
         public ResourceLocation getId() {
             ResourceLocation id = BuiltInRegistries.ITEM.getKey(output.getItem());
             return VersionMethods.id(id.getNamespace(), id.getPath()+"_of_iridescence");
         }
-        *///?}
+        //?}
 
         @Override
         public RecipeSerializer<?> getSerializer() {

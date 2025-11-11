@@ -8,6 +8,7 @@ import net.lerariemann.infinity.util.var.ColorLogic;
 import net.minecraft.Util;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.Style;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.crafting.Ingredient;
@@ -46,7 +47,7 @@ public class ChromaticEmiRecipe extends BasicEmiRecipe {
         for (int i = 0; i < len; i++) {
             MutableComponent ch = chars.get(i);
             if (ch == null) continue;
-            finalText.append(ch.withColor(getCharColor(i, len)));
+            finalText.append(ch.withStyle(Style.EMPTY.withColor(getCharColor(i, len))));
         }
         if (infoId != null)
             EmiCompat.addInfo(widgets, 128, 5, Component.translatable(Util.makeDescriptionId("recipe_info.chromatic", this.infoId)));

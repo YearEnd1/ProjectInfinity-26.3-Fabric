@@ -24,9 +24,11 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent;
 import net.minecraft.core.RegistryAccess;
 //? if >1.21 {
-import net.minecraft.core.component.DataComponents;
+/*import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.item.alchemy.PotionContents;
 import net.minecraft.world.item.crafting.RecipeHolder;
+*///?} else {
+import net.minecraft.world.item.alchemy.PotionUtils;
 //?}
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -64,31 +66,31 @@ public class EmiCompat implements EmiPlugin {
         registry.addWorkstation(PORTAL_CRAFTING, PORTAL_WORKSTATION);
         for (
                 //? if >1.21 {
-                RecipeHolder<CollisionCraftingRecipe>
-                //?} else {
-                /*CollisionCraftingRecipe
-                *///?}
+                /*RecipeHolder<CollisionCraftingRecipe>
+                *///?} else {
+                CollisionCraftingRecipe
+                //?}
                 recipe : manager.getAllRecipesFor(ModItemFunctions.PORTAL_CRAFTING_TYPE.get())) {
             //? if >1.21 {
-            registry.addRecipe(new PortalCraftingEmiRecipe(recipe.id(), recipe.value(), registryManager));
-            //?} else {
-            /*registry.addRecipe(new PortalCraftingEmiRecipe(recipe.getId(), recipe, registryManager));
-            *///?}
+            /*registry.addRecipe(new PortalCraftingEmiRecipe(recipe.id(), recipe.value(), registryManager));
+            *///?} else {
+            registry.addRecipe(new PortalCraftingEmiRecipe(recipe.getId(), recipe, registryManager));
+            //?}
         }
         registry.addCategory(IRIDESCENCE_CRAFTING);
         registry.addWorkstation(IRIDESCENCE_CRAFTING, IRIDESCENCE_WORKSTATION);
         for (
             //? if >1.21 {
-            RecipeHolder<CollisionCraftingRecipe>
-            //?} else {
-            /*CollisionCraftingRecipe
-            *///?}
+            /*RecipeHolder<CollisionCraftingRecipe>
+            *///?} else {
+            CollisionCraftingRecipe
+            //?}
                 recipe : manager.getAllRecipesFor(ModItemFunctions.IRIDESCENCE_CRAFTING_TYPE.get())) {
             //? if >1.21 {
-            registry.addRecipe(new IridesenceCraftingEmiRecipe(recipe.id(), recipe.value(), registryManager));
-            //?} else {
-            /*registry.addRecipe(new IridesenceCraftingEmiRecipe(recipe.getId(), recipe, registryManager));
-            *///?}
+            /*registry.addRecipe(new IridesenceCraftingEmiRecipe(recipe.id(), recipe.value(), registryManager));
+            *///?} else {
+            registry.addRecipe(new IridesenceCraftingEmiRecipe(recipe.getId(), recipe, registryManager));
+            //?}
         }
 
         //item interactions when clicked on chromatic blocks
@@ -105,13 +107,28 @@ public class EmiCompat implements EmiPlugin {
         //recoloring with chroma matter in the crafting grid
         EmiStack matter = EmiStack.of(ModItems.CHROMATIC_MATTER.get());
         EmiStack matter_catalyst = matter.copy().setRemainder(matter);
-        for (RecipeHolder<ChromaticColoringRecipe> recipe : manager.getAllRecipesFor(ModItemFunctions.CHROMATIC_COLORING_TYPE.get())) {
+        for (
+            //? if >1.21 {
+            /*RecipeHolder<ChromaticColoringRecipe> recipeHolder
+             *///?} else {
+                ChromaticColoringRecipe recipe
+                        //?}
+                        : manager.getAllRecipesFor(ModItemFunctions.CHROMATIC_COLORING_TYPE.get())) {
+
+            //? if >1.21 {
+            /*var id = recipeHolder.id();
+            var recipe = recipeHolder.value()
+             *///?} else {
+            var id = recipe.getId();
+            //?}
+
             List<EmiIngredient> input = new ArrayList<>();
             input.add(matter_catalyst);
-            input.add(EmiIngredient.of(recipe.value().getInput()));
+            input.add(EmiIngredient.of(recipe.getInput()));
+
             registry.addRecipe(new EmiCraftingRecipe(input,
-                    EmiStack.of(recipe.value().getResultItem(registryManager)),
-                    recipe.id()));
+                    EmiStack.of(recipe.getResultItem(registryManager)),
+                    id));
         }
 
         //chroma carpet from wool
@@ -124,10 +141,14 @@ public class EmiCompat implements EmiPlugin {
 
         //brewing iridescence
         ItemStack awkward = Items.POTION.getDefaultInstance();
-        awkward.update(DataComponents.POTION_CONTENTS,
+        //? if >1.21 {
+        /*awkward.update(DataComponents.POTION_CONTENTS,
                 PotionContents.EMPTY,
                 Potions.AWKWARD,
                 PotionContents::withPotion);
+        *///?} else {
+        PotionUtils.setPotion(awkward, Potions.AWKWARD);
+        //?}
         EmiRecipe chromaBrew = new EmiBrewingRecipe(EmiStack.of(awkward),
                 EmiIngredient.of(Ingredient.of(ModItems.CHROMATIC_MATTER.get())),
                 EmiStack.of(ModItems.CHROMATIC_POTION.get().getDefaultInstance()),

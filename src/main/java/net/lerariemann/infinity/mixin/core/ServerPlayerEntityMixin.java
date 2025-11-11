@@ -23,8 +23,8 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 //? if >1.21 {
-/*
-import net.lerariemann.infinity.util.InfinityMethods;
+
+/*import net.lerariemann.infinity.util.InfinityMethods;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
@@ -60,8 +60,8 @@ public abstract class ServerPlayerEntityMixin extends Player implements ServerPl
     }
 
     //? if >1.21 {
-    /*
-    @Inject(method="findRespawnAndUseSpawnBlock", at = @At("HEAD"), cancellable = true)
+    
+    /*@Inject(method="findRespawnAndUseSpawnBlock", at = @At("HEAD"), cancellable = true)
     private static void injected(ServerLevel world, BlockPos pos, float angle, boolean forced, boolean alive, CallbackInfoReturnable<Optional<Vec3>> cir) {
         if (InfinityMethods.isTimebombed(world)) cir.setReturnValue(Optional.empty());
     }

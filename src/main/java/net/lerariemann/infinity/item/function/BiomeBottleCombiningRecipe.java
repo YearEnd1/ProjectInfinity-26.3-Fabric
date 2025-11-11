@@ -9,9 +9,9 @@ import net.minecraft.world.inventory.CraftingContainer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.CraftingBookCategory;
 //? if >1.21 {
-import net.minecraft.world.item.crafting.CraftingInput;
+/*import net.minecraft.world.item.crafting.CraftingInput;
 import net.minecraft.core.HolderLookup;
-//?}
+*///?}
 import net.minecraft.world.item.crafting.CustomRecipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.Level;
@@ -21,31 +21,31 @@ import org.jetbrains.annotations.NotNull;
 public class BiomeBottleCombiningRecipe extends CustomRecipe {
     public BiomeBottleCombiningRecipe(
             //? if <1.21
-            /*ResourceLocation id,*/
+            ResourceLocation id,
             CraftingBookCategory craftingRecipeCategory) {
         super(
                 //? if <1.21
-                /*id,*/
+                id,
                 craftingRecipeCategory);
     }
 
     @Override
     public boolean matches(
             //? if >1.21 {
-            CraftingInput
-             //?} else {
-            /*CraftingContainer
-            *///?}
+            /*CraftingInput
+             *///?} else {
+            CraftingContainer
+            //?}
             craftingRecipeInput, Level world) {
         ItemStack stack1 = null;
         boolean bl = true;
         int charge = 0;
         for (int k = 0; k < craftingRecipeInput.
                 //? if >1.21 {
-                size
-                 //?} else {
-                /*getContainerSize
-                *///?}
+                /*size
+                 *///?} else {
+                getContainerSize
+                //?}
              (); k++) {
             if (!bl) return false;
             ItemStack itemStack = craftingRecipeInput.getItem(k);
@@ -68,16 +68,16 @@ public class BiomeBottleCombiningRecipe extends CustomRecipe {
     @Override
     public @NotNull ItemStack assemble(
             //? if >1.21 {
-            CraftingInput
-             //?} else {
-            /*CraftingContainer
-            *///?}
+            /*CraftingInput
+             *///?} else {
+            CraftingContainer
+            //?}
             craftingRecipeInput,
             //? if >1.21 {
-            HolderLookup.Provider
-            //?} else {
-            /*RegistryAccess
-            *///?}
+            /*HolderLookup.Provider
+            *///?} else {
+            RegistryAccess
+            //?}
             registryAccess
             ) {
         ItemStack stack1 = ItemStack.EMPTY;
@@ -85,10 +85,10 @@ public class BiomeBottleCombiningRecipe extends CustomRecipe {
         int charge = 0;
         for (int k = 0; k < craftingRecipeInput.
                 //? if >1.21 {
-                size
-                 //?} else {
-                /*getContainerSize
-                *///?}
+                /*size
+                 *///?} else {
+                getContainerSize
+                //?}
              (); k++) {
             ItemStack itemStack = craftingRecipeInput.getItem(k);
             if (!itemStack.isEmpty()) {

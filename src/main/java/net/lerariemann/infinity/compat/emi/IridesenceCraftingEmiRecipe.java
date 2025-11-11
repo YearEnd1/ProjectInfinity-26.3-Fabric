@@ -9,7 +9,9 @@ import net.lerariemann.infinity.item.function.CollisionCraftingRecipe;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.crafting.RecipeHolder;
+//? if >1.21 {
+/*import net.minecraft.world.item.crafting.RecipeHolder;
+*///?}
 import java.util.Objects;
 
 public class IridesenceCraftingEmiRecipe extends BasicEmiRecipe {

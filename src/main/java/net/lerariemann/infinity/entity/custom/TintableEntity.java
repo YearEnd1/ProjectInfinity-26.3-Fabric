@@ -1,5 +1,6 @@
 package net.lerariemann.infinity.entity.custom;
 
+import net.lerariemann.infinity.util.VersionMethods;
 import org.joml.Vector3f;
 
 import java.awt.*;
@@ -21,8 +22,13 @@ public interface TintableEntity {
         int p = n % o;
         int q = (n + 1) % o;
         float r = (float)(age % 25) / 25.0F;
-        int s = Sheep.getColor(DyeColor.byId(p));
+        //? if >1.21 {
+        /*int s = Sheep.getColor(DyeColor.byId(p));
         int t = Sheep.getColor(DyeColor.byId(q));
+        *///?} else {
+        int s = DyeColor.byId(p).getFireworkColor();
+        int t = DyeColor.byId(q).getFireworkColor();
+        //?}
         return FastColor.ARGB32.lerp(r, s, t);
     }
 
@@ -43,7 +49,7 @@ public interface TintableEntity {
     default int getColorForRender() {
         int v = getColorNamed();
         if (v!=-1) return v;
-        return FastColor.ARGB32.opaque(this.getColor());
+        return VersionMethods.opaque(this.getColor());
     }
 
     default int getColor() {

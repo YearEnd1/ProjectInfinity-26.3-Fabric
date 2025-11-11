@@ -8,14 +8,14 @@ import net.lerariemann.infinity.item.function.*;
 import net.lerariemann.infinity.util.InfinityMethods;
 import net.minecraft.core.BlockPos;
 //? if >1.21 {
-import net.minecraft.core.component.DataComponentPatch;
+/*import net.minecraft.core.component.DataComponentPatch;
 import net.minecraft.core.dispenser.BlockSource;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.SingleRecipeInput;
-//?} else {
-/*import net.minecraft.core.BlockSource;
+*///?} else {
+import net.minecraft.core.BlockSource;
 import net.minecraft.world.ticks.ContainerSingleItem;
-*///?}
+//?}
 import net.minecraft.core.dispenser.DefaultDispenseItemBehavior;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
@@ -95,22 +95,22 @@ public class ModItemFunctions {
             public ItemStack execute(BlockSource pointer, ItemStack stack) {
                 DispensibleContainerItem fluidModificationItem = (DispensibleContainerItem)stack.getItem();
                 //? if >1.21 {
-                Level world = pointer.level();
+                /*Level world = pointer.level();
                 BlockPos pos = pointer.pos();
                 BlockState state = pointer.state();
-                //?} else {
-                /*Level world = pointer.getLevel();
+                *///?} else {
+                Level world = pointer.getLevel();
                 BlockPos pos = pointer.getPos();
                 BlockState state = pointer.getBlockState();
-                *///?}
+                //?}
                 BlockPos blockPos = pos.relative(state.getValue(DispenserBlock.FACING));
                 if (fluidModificationItem.emptyContents(null, world, blockPos, null)) {
                     fluidModificationItem.checkExtraContent(null, world, stack, blockPos);
                     //? if >1.21 {
-                    return this.consumeWithRemainder(pointer, stack, Items.BUCKET.getDefaultInstance());
-                    //?} else {
-                    /*return Items.BUCKET.getDefaultInstance();
-                    *///?}
+                    /*return this.consumeWithRemainder(pointer, stack, Items.BUCKET.getDefaultInstance());
+                    *///?} else {
+                    return Items.BUCKET.getDefaultInstance();
+                    //?}
                 } else {
                     return new DefaultDispenseItemBehavior().dispense(pointer, stack);
                 }
@@ -121,20 +121,20 @@ public class ModItemFunctions {
     public static void checkCollisionRecipes(ServerLevel w, ItemEntity itemEntity,
                                              RecipeType<CollisionCraftingRecipe> recipeType,
                                              //? if >1.21 {
-                                             Function<Item, Optional<DataComponentPatch>> componentFunction
-                                             //?} else {
-                                             /*CompoundTag compound
-                                             *///?}
+                                             /*Function<Item, Optional<DataComponentPatch>> componentFunction
+                                             *///?} else {
+                                             CompoundTag compound
+                                             //?}
     ) {
         if (itemEntity.isRemoved()) return;
         ItemStack itemStack = itemEntity.getItem();
         //? if >1.21 {
-        Optional<RecipeHolder<CollisionCraftingRecipe>> match = w.getRecipeManager()
+        /*Optional<RecipeHolder<CollisionCraftingRecipe>> match = w.getRecipeManager()
                 .getRecipeFor(recipeType, new SingleRecipeInput(itemStack), w);
         if (match.isEmpty()) return;
         var value = match.get().value();
-        //?} else {
-        /*Optional<CollisionCraftingRecipe> match = w.getRecipeManager()
+        *///?} else {
+        Optional<CollisionCraftingRecipe> match = w.getRecipeManager()
                 .getRecipeFor(recipeType, new ContainerSingleItem() {
 
                     @Override
@@ -160,15 +160,15 @@ public class ModItemFunctions {
                 }, w);
         if (match.isEmpty()) return;
         var value = match.get();
-        *///?}
+        //?}
 
         ItemStack resStack = value.getResultItem(w.registryAccess());
         if (resStack.is(itemStack.getItem())) resStack = itemStack.copy();
         //? if >1.21 {
-        componentFunction.apply(resStack.getItem()).ifPresent(resStack::applyComponentsAndValidate);
-        //?} else {
-        /*resStack.setTag(compound);
-        *///?}
+        /*componentFunction.apply(resStack.getItem()).ifPresent(resStack::applyComponentsAndValidate);
+        *///?} else {
+        resStack.setTag(compound);
+        //?}
 
         Vec3 v = itemEntity.getDeltaMovement();
         ItemEntity result = new ItemEntity(w, itemEntity.getX(), itemEntity.getY(), itemEntity.getZ(),

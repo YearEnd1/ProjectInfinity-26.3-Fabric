@@ -1,6 +1,7 @@
 package net.lerariemann.infinity.mixin.mobs;
 
 import net.lerariemann.infinity.util.InfinityMethods;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.damagesource.DamageSource;
@@ -35,14 +36,24 @@ public abstract class SheepEntityMixin extends LivingEntityMixin implements Shea
     protected void injected_sheep(DamageSource source, float amount, CallbackInfoReturnable<Boolean> cir) {
         if(cir.getReturnValue() && !this.isSheared() && source.getEntity() != null &&
                 source.getEntity() instanceof Player &&
-                level().getBiome(blockPosition()).getRegisteredName().equals("infinity:classic")) {
+                level().getBiome(blockPosition())
+                        //? if >1.21 {
+                        /*.getRegisteredName().equals("infinity:classic"))
+        *///?} else {
+                        .is(InfinityMethods.getId("classic")))
+        //?}
+        {
             this.shear(SoundSource.AMBIENT);
         }
     }
 
     /* Controls wool color with which sheep spawn based on the biome. */
     @Inject(method = "finalizeSpawn", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/animal/Sheep;setColor(Lnet/minecraft/world/item/DyeColor;)V", shift = At.Shift.AFTER))
-    private void injected(ServerLevelAccessor world, DifficultyInstance difficulty, MobSpawnType spawnReason, SpawnGroupData entityData, CallbackInfoReturnable<SpawnGroupData> cir) {
+    private void injected(ServerLevelAccessor world, DifficultyInstance difficulty, MobSpawnType spawnReason, SpawnGroupData entityData,
+    //? if <1.21 {
+    CompoundTag compoundTag,
+    //?}
+    CallbackInfoReturnable<SpawnGroupData> cir) {
         if (world.getBiome(blockPosition()).is(InfinityMethods.getId("classic"))) {
             setColor(DyeColor.WHITE);
         }

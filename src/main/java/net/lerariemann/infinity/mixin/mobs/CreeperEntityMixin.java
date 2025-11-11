@@ -20,7 +20,7 @@ public abstract class CreeperEntityMixin {
         if (((Creeper)(Object)this) instanceof ChaosCreeper) {
             ChaosCreeper e = (ChaosCreeper)(Object)this;
             Level w = e.level();
-            if (!w.isClientSide) {
+            if (!w.isClientSide()) {
                 e.blow_up();
                 spawnLingeringCloud();
                 ci.cancel();

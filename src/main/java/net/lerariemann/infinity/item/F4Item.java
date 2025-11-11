@@ -30,14 +30,12 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.NetherPortalBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 
-//? if >1.21 {
-/*import javax.annotation.ParametersAreNonnullByDefault;
-import javax.annotation.Nullable;
-
-@ParametersAreNonnullByDefault
+//? if neoforge {
+/*@ParametersAreNonnullByDefault
 *///?}
 @MethodsReturnNonnullByDefault
 public class F4Item extends Item implements PortalDataHolder.Destinable {
@@ -47,11 +45,7 @@ public class F4Item extends Item implements PortalDataHolder.Destinable {
         super(settings);
     }
 
-    public static MutableComponent getDimensionTooltip(
-            //? if >1.21 {
-            /*@Nullable
-            *///?}
-            ResourceLocation dimension) {
+    public static MutableComponent getDimensionTooltip(@Nullable ResourceLocation dimension) {
         if (dimension == null) return Component.translatable(Blocks.NETHER_PORTAL.getDescriptionId());
         String name = dimension.toString();
         MutableComponent text = InfinityMethods.getDimensionNameAsText(dimension);
@@ -228,11 +222,7 @@ public class F4Item extends Item implements PortalDataHolder.Destinable {
         return InteractionResult.CONSUME;
     }
 
-    public static boolean checkIfValidAxis(Direction.Axis axisFound, Direction.Axis axisBeingChecked,
-                                           //? if >1.21 {
-                                           /*@Nullable
-                                           *///?}
-                                           Direction.Axis forceAxis) {
+    public static boolean checkIfValidAxis(Direction.Axis axisFound, Direction.Axis axisBeingChecked, @Nullable Direction.Axis forceAxis) {
         if (forceAxis == null) {
             return axisBeingChecked.isVertical() || axisFound.equals(axisBeingChecked);
         }
@@ -242,11 +232,7 @@ public class F4Item extends Item implements PortalDataHolder.Destinable {
     public static boolean checkNeighbors(Level world, BlockPos bp,
                                          Collection<Direction> primaryOffsets, //possible directions in which blocks of other portals may be
                                          Collection<Direction> secondaryOffsets, //possible secondary directions from a neighboring obsidian in case we found a corner
-                                         int max,
-                                         //? if >1.21 {
-                                         /*@Nullable
-                                         *///?}
-                                         Direction.Axis forcePrimaryAxis) {
+                                         int max, @Nullable Direction.Axis forcePrimaryAxis) {
         int i = 0;
         boolean checkCorners = !secondaryOffsets.isEmpty();
         for (Direction dir : primaryOffsets) {

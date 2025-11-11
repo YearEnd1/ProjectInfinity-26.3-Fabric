@@ -28,6 +28,11 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.LegacyRandomSource;
 import net.minecraft.world.level.levelgen.synth.NormalNoise;
+//? if <1.21 {
+import net.minecraft.world.level.storage.LevelResource;
+import net.minecraft.core.registries.Registries;
+import net.lerariemann.infinity.registry.core.ModItems;
+//?}
 import net.minecraft.world.level.storage.LevelStorageSource;
 import org.apache.commons.io.FileUtils;
 
@@ -203,7 +208,7 @@ public interface InfinityMethods {
                     return stack.getTag().getCompound("BlockEntityTag").getInt("Color");
                 }
                 else if (stack.is(ModItems.F4.get())) {
-                    return BackportMethods.getOrDefaultInt(stack, ModComponentTypes.COLOR, 10879231);
+                    return VersionMethods.getOrDefaultInt(stack, ModComponentTypes.COLOR, 10879231);
                 }
             }
             else if (stack.is(ModItems.CHROMATIC_MATTER.get()) || stack.is(ModItems.CHROMATIC_WOOL.get()) || stack.is(ModItems.CHROMATIC_CARPET.get()))
@@ -213,8 +218,8 @@ public interface InfinityMethods {
         //?}
     }
     static int getItemColorFromComponents(ItemStack stack, int layer) {
-        int color = stack.getComponents().getOrDefault(ModComponentTypes.COLOR.get(), 0xFFFFFF);
-        return FastColor.ARGB32.opaque(color);
+        int color = VersionMethods.getOrDefaultInt(stack, ModComponentTypes.COLOR, 0xFFFFFF);
+        return VersionMethods.opaque(color);
     }
     static int getDiscColorFromComponents(ItemStack stack, int layer) {
         int color = getItemColorFromComponents(stack, layer);

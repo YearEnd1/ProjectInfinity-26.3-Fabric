@@ -8,7 +8,6 @@ import net.lerariemann.infinity.util.core.NbtUtils;
 import net.lerariemann.infinity.util.platform.PlatformMethods;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.Holder;
-import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
@@ -33,18 +32,27 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ItemUtils;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.item.alchemy.PotionContents;
+//? if >1.21 {
+/*import net.minecraft.world.item.alchemy.PotionContents;
+import net.minecraft.core.component.DataComponents;
+*///?} else {
+import net.minecraft.world.item.alchemy.PotionUtils;
+//?}
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import org.jetbrains.annotations.Nullable;
 
-import javax.annotation.ParametersAreNonnullByDefault;
+//? if neoforge {
+/*import javax.annotation.ParametersAreNonnullByDefault;
+*///?}
 import java.util.*;
 
 @MethodsReturnNonnullByDefault
-@ParametersAreNonnullByDefault
+//? if neoforge {
+/*@ParametersAreNonnullByDefault
+*///?}
 public class ChaosSkeleton extends Skeleton implements TintableEntity {
     private static final EntityDataAccessor<String> effect = SynchedEntityData.defineId(ChaosSkeleton.class, EntityDataSerializers.STRING);
     private static final EntityDataAccessor<Integer> color = SynchedEntityData.defineId(ChaosSkeleton.class, EntityDataSerializers.INT);
@@ -94,8 +102,19 @@ public class ChaosSkeleton extends Skeleton implements TintableEntity {
     }
 
     @Override
-    protected void defineSynchedData(SynchedEntityData.Builder builder) {
-        super.defineSynchedData(builder);
+    protected void defineSynchedData(
+            //? if >1.21 {
+            /*SynchedEntityData.Builder builder
+             *///?}
+    ) {
+        super.defineSynchedData(
+                //? if >1.21 {
+                /*builder
+                 *///?}
+        );
+        //? if <1.21 {
+        var builder = this.entityData;
+        //?}
         builder.define(effect, "luck");
         builder.define(duration, 200);
         builder.define(color, 0x00FF00);
@@ -191,8 +210,13 @@ public class ChaosSkeleton extends Skeleton implements TintableEntity {
         potionEffect.putInt("duration", duration);
         List<MobEffectInstance> customEffects = new ArrayList<>();
         customEffects.add(MobEffectInstance.load(potionEffect));
-        stack.set(DataComponents.POTION_CONTENTS, new PotionContents(Optional.empty(), Optional.of(color), customEffects));
+        //? if >1.21 {
+        /*stack.set(DataComponents.POTION_CONTENTS, new PotionContents(Optional.empty(), Optional.of(color), customEffects));
         stack.set(DataComponents.ITEM_NAME, Component.translatable("potion.infinity.skeleton"));
+        *///?} else {
+        PotionUtils.setCustomEffects(stack, customEffects);
+        stack.setHoverName(Component.translatable("potion.infinity.skeleton"));
+        //?}
         return stack;
     }
 
