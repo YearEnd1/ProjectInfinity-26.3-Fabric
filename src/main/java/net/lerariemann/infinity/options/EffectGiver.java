@@ -1,6 +1,6 @@
 package net.lerariemann.infinity.options;
 
-import net.lerariemann.infinity.util.Methods;
+import net.lerariemann.infinity.util.VersionMethods;
 import net.lerariemann.infinity.util.core.NbtUtils;
 import net.minecraft.core.Holder;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -12,11 +12,13 @@ import net.minecraft.world.effect.InstantenousMobEffect;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 
+import java.util.Optional;
+
 public record EffectGiver(Holder<MobEffect> id, int duration, int amplifier, int cooldown) {
     public static Holder<MobEffect> effectOf(String id) {
-        Holder<MobEffect> entry = BuiltInRegistries.MOB_EFFECT.getHolderOrThrow(ResourceKey.create(Registries.MOB_EFFECT, Methods.id(id)));
-        if (entry == null || entry.value() instanceof InstantenousMobEffect) return null;
-        return entry;
+        Optional<Holder.Reference<MobEffect>> entry = BuiltInRegistries.MOB_EFFECT.getHolder(ResourceKey.create(Registries.MOB_EFFECT, VersionMethods.id(id)));
+        if (entry.isEmpty() || entry.get().value() instanceof InstantenousMobEffect) return null;
+        return entry.get();
     }
 
     public static EffectGiver of(CompoundTag data) {

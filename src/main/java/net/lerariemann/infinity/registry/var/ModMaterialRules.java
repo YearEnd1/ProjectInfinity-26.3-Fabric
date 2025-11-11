@@ -7,9 +7,10 @@ import dev.architectury.registry.registries.DeferredRegister;
 import net.lerariemann.infinity.iridescence.Iridescence;
 import net.lerariemann.infinity.registry.core.ModBlocks;
 import net.lerariemann.infinity.util.InfinityMethods;
-import net.lerariemann.infinity.util.Methods;
+import net.lerariemann.infinity.util.VersionMethods;
 import net.lerariemann.infinity.util.core.ConfigType;
 import net.lerariemann.infinity.util.core.RandomProvider;
+import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.Direction;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
@@ -22,8 +23,12 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.Half;
 import net.minecraft.world.level.levelgen.SurfaceRules;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+
 import static net.lerariemann.infinity.InfinityMod.MOD_ID;
 
+@MethodsReturnNonnullByDefault
+@ParametersAreNonnullByDefault
 public class ModMaterialRules {
     static int normalize(int x, int size) {
         int a = Math.abs(x < 0 ? x+1 : x) % size;
@@ -37,7 +42,7 @@ public class ModMaterialRules {
             long seed = Mth.getSeed(i, j, k);
             double d = (seed & 0xFFFL) / (double)0xFFFL;
             d = d - Math.floor(d);
-            BlockState st = BuiltInRegistries.BLOCK.get(Methods.id(prov.randomName(d, ConfigType.FULL_BLOCKS_WG))).defaultBlockState();
+            BlockState st = BuiltInRegistries.BLOCK.get(VersionMethods.id(prov.randomName(d, ConfigType.FULL_BLOCKS_WG))).defaultBlockState();
             if(st.hasProperty(BlockStateProperties.PERSISTENT)) st = st.setValue(BlockStateProperties.PERSISTENT, Boolean.TRUE);
             return st;
         }

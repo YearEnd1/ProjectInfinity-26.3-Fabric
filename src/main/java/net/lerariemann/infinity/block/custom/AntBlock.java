@@ -2,7 +2,8 @@ package net.lerariemann.infinity.block.custom;
 
 import com.mojang.serialization.MapCodec;
 import net.lerariemann.infinity.util.platform.PlatformMethods;
-import net.lerariemann.infinity.util.Methods;
+import net.lerariemann.infinity.util.VersionMethods;
+import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -17,8 +18,14 @@ import net.minecraft.world.level.block.HorizontalDirectionalBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.phys.BlockHitResult;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+import java.util.Objects;
+
+@MethodsReturnNonnullByDefault
+@ParametersAreNonnullByDefault
 public class AntBlock extends HorizontalDirectionalBlock {
     //? if >1.21 {
     public static final MapCodec<AntBlock> CODEC = simpleCodec(AntBlock::new);
@@ -31,7 +38,7 @@ public class AntBlock extends HorizontalDirectionalBlock {
 
     //? if >1.21 {
     @Override
-    protected MapCodec<? extends HorizontalDirectionalBlock> codec() {
+    protected @NotNull MapCodec<? extends HorizontalDirectionalBlock> codec() {
         return CODEC;
     }
     //?}
@@ -40,10 +47,10 @@ public class AntBlock extends HorizontalDirectionalBlock {
         var s = BuiltInRegistries.BLOCK.getKey(down);
         var state = down.defaultBlockState();
         if (PlatformMethods.isInBlack(state)) {
-            return BuiltInRegistries.BLOCK.containsKey(Methods.id(s.replace("black", "white")));
+            return BuiltInRegistries.BLOCK.containsKey(VersionMethods.id(s.toString().replace("black", "white")));
         }
         if (PlatformMethods.isInWhite(state)) {
-            return BuiltInRegistries.BLOCK.containsKey(Methods.id(s.replace("white", "black")));
+            return BuiltInRegistries.BLOCK.containsKey(VersionMethods.id(s.toString().replace("white", "black")));
         }
         return false;
     }
@@ -51,14 +58,15 @@ public class AntBlock extends HorizontalDirectionalBlock {
         return inverseExists(world.getBlockState(pos).getBlock()) && (world.getBlockEntity(pos) == null);
     }
 
+    @Nullable
     public static Block recolor(Block down, boolean toWhite) {
         String s = BuiltInRegistries.BLOCK.wrapAsHolder(down).getRegisteredName();
         var state = down.defaultBlockState();
         if (PlatformMethods.isInBlack(state)) {
-            return toWhite ? BuiltInRegistries.BLOCK.get(Methods.id(s.replace("black", "white"))) : down;
+            return toWhite ? BuiltInRegistries.BLOCK.get(VersionMethods.id(s.replace("black", "white"))) : down;
         }
         if (PlatformMethods.isInWhite(state)) {
-            return toWhite ? down : BuiltInRegistries.BLOCK.get(Methods.id(s.replace("white", "black")));
+            return toWhite ? down : BuiltInRegistries.BLOCK.get(VersionMethods.id(s.replace("white", "black")));
         }
         return null;
     }
@@ -103,12 +111,12 @@ public class AntBlock extends HorizontalDirectionalBlock {
         if (world.isLoaded(blockPos) && world.getBlockState(blockPos).canBeReplaced()) {
             switch (clockwiseness) {
                 case CW:
-                    world.setBlock(pos.below(), recolor(down.getBlock(), false).withPropertiesOf(down), 19);
+                    world.setBlock(pos.below(), Objects.requireNonNull(recolor(down.getBlock(), false)).withPropertiesOf(down), 19);
                     world.setBlock(pos, Blocks.AIR.defaultBlockState(), 3);
                     world.setBlock(blockPos, blockState.setValue(FACING, direction2), 3);
                     break;
                 case CCW:
-                    world.setBlock(pos.below(), recolor(down.getBlock(), true).withPropertiesOf(down), 19);
+                    world.setBlock(pos.below(), Objects.requireNonNull(recolor(down.getBlock(), true)).withPropertiesOf(down), 19);
                     world.setBlock(pos, Blocks.AIR.defaultBlockState(), 3);
                     world.setBlock(blockPos, blockState.setValue(FACING, direction2), 3);
             }

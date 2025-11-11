@@ -4,10 +4,12 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.lerariemann.infinity.registry.core.ModStructureTypes;
-import net.lerariemann.infinity.util.Methods;
+import net.lerariemann.infinity.util.VersionMethods;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.level.levelgen.structure.Structure;
 import net.minecraft.world.level.levelgen.structure.StructureType;
+import org.jetbrains.annotations.NotNull;
+
 import java.util.Optional;
 
 public class SetupperStructure extends Structure {
@@ -22,13 +24,13 @@ public class SetupperStructure extends Structure {
     }
 
     @Override
-    public Optional<GenerationStub> findGenerationPoint(GenerationContext context) {
-        Structure shadow = context.registryAccess().registryOrThrow(Registries.STRUCTURE).get(Methods.id(id));
+    public @NotNull Optional<GenerationStub> findGenerationPoint(GenerationContext context) {
+        Structure shadow = context.registryAccess().registryOrThrow(Registries.STRUCTURE).get(VersionMethods.id(id));
         return shadow == null ? Optional.empty() : shadow.findGenerationPoint(context);
     }
 
     @Override
-    public StructureType<?> type() {
+    public @NotNull StructureType<?> type() {
         return ModStructureTypes.SETUPPER.get();
     }
 }

@@ -2,7 +2,7 @@ package net.lerariemann.infinity.util.config;
 
 import dev.architectury.platform.Platform;
 import net.lerariemann.infinity.InfinityMod;
-import net.lerariemann.infinity.util.Methods;
+import net.lerariemann.infinity.util.VersionMethods;
 import net.lerariemann.infinity.util.core.CommonIO;
 import net.lerariemann.infinity.util.core.ConfigType;
 import net.lerariemann.infinity.util.core.NbtUtils;
@@ -121,11 +121,11 @@ public record Amendment(ConfigType area, ModSelector modSelector, Selector selec
     }
     public record MatchingBlockTagSelector(TagKey<Block> tag) implements Selector {
         public MatchingBlockTagSelector(String key) {
-            this(TagKey.create(Registries.BLOCK, Methods.id(key)));
+            this(TagKey.create(Registries.BLOCK, VersionMethods.id(key)));
         }
 
         public boolean applies(String key) {
-            Block b = BuiltInRegistries.BLOCK.get(ResourceKey.create(Registries.BLOCK, Methods.id(key)));
+            Block b = BuiltInRegistries.BLOCK.get(ResourceKey.create(Registries.BLOCK, VersionMethods.id(key)));
             if (b != null) {
                 return b.defaultBlockState().is(this.tag);
             }

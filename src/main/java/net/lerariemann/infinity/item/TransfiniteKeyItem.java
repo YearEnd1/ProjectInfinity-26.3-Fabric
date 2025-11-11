@@ -3,9 +3,8 @@ package net.lerariemann.infinity.item;
 import net.lerariemann.infinity.block.entity.InfinityPortalBlockEntity;
 import net.lerariemann.infinity.options.PortalColorApplier;
 import net.lerariemann.infinity.registry.core.ModComponentTypes;
-import net.lerariemann.infinity.util.BackportMethods;
+import net.lerariemann.infinity.util.VersionMethods;
 import net.lerariemann.infinity.util.InfinityMethods;
-import net.lerariemann.infinity.util.Methods;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 //? if >1.21 {
@@ -19,13 +18,14 @@ import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
-import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
+@ParametersAreNonnullByDefault
 public class TransfiniteKeyItem extends Item implements PortalDataHolder.Destinable {
     public TransfiniteKeyItem(Properties settings) {
         super(settings);
@@ -54,8 +54,8 @@ public class TransfiniteKeyItem extends Item implements PortalDataHolder.Destina
     @NotNull
     @Override
     public ResourceLocation getDestination(ItemStack stack) {
-        return Objects.requireNonNullElse(BackportMethods.getDimensionIdentifier(stack),
-                Methods.id(InfinityMethods.ofRandomDim)); // no destination component -> randomize
+        return Objects.requireNonNullElse(VersionMethods.getDimensionIdentifier(stack),
+                VersionMethods.id(InfinityMethods.ofRandomDim)); // no destination component -> randomize
     }
 
     @Override
@@ -72,7 +72,7 @@ public class TransfiniteKeyItem extends Item implements PortalDataHolder.Destina
                                 *///?}
                                         context, List<Component> tooltip, TooltipFlag type) {
         super.appendHoverText(stack, context, tooltip, type);
-        ResourceLocation dimension = BackportMethods.getDimensionIdentifier(stack);
+        ResourceLocation dimension = VersionMethods.getDimensionIdentifier(stack);
         MutableComponent mutableText = (dimension != null)
                 ? InfinityMethods.getDimensionNameAsText(dimension)
                 : Component.translatable("tooltip.infinity.key.randomise");

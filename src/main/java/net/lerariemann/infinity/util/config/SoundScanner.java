@@ -5,7 +5,7 @@ import net.lerariemann.infinity.access.MinecraftServerAccess;
 import net.lerariemann.infinity.mixin.SoundListMixin;
 import net.lerariemann.infinity.registry.var.ModPayloads;
 import net.lerariemann.infinity.util.InfinityMethods;
-import net.lerariemann.infinity.util.Methods;
+import net.lerariemann.infinity.util.VersionMethods;
 import net.lerariemann.infinity.util.core.CommonIO;
 import net.lerariemann.infinity.util.core.ConfigType;
 import net.lerariemann.infinity.util.core.NbtUtils;
@@ -55,7 +55,7 @@ public record SoundScanner(Map<ResourceLocation, Resource> soundIds) {
         //the client unpacks a non-empty payload only when needed, meaning only if it doesn't have necessary files yet
         if (!songIds.isEmpty() && !Files.exists(cl.getResourcePackDirectory().resolve("infinity/assets/infinity/sounds.json"))) {
             cl.execute(() -> saveResourcePack(cl, NbtUtils.getList(songIds, "entries", Tag.TAG_STRING).stream()
-                    .map(Tag::getAsString).map(Methods::id), false));
+                    .map(Tag::getAsString).map(VersionMethods::id), false));
         }
         else if (isPreloaded()) {
             cl.execute(() -> {
@@ -126,7 +126,7 @@ public record SoundScanner(Map<ResourceLocation, Resource> soundIds) {
 
         data.remove("jukeboxes");
         CompoundTag packData = new CompoundTag();
-        packData.put("entries", data.get("entries"));
+        packData.put("entries", NbtUtils.getList(data, "entries", new ListTag(), Tag.TAG_STRING));
         CommonIO.write(packData, server.getWorldPath(LevelResource.DATAPACK_DIR), "client_sound_pack_data.json");
     }
     /** Injects freshly received jukebox song definitions into the server's registries, config files and {@link RandomProvider}. */

@@ -2,7 +2,7 @@ package net.lerariemann.infinity.item;
 
 import net.lerariemann.infinity.block.entity.InfinityPortalBlockEntity;
 import net.lerariemann.infinity.registry.core.ModComponentTypes;
-import net.lerariemann.infinity.util.BackportMethods;
+import net.lerariemann.infinity.util.VersionMethods;
 import net.lerariemann.infinity.util.InfinityMethods;
 import net.minecraft.core.component.DataComponentPatch;
 import net.minecraft.resources.ResourceLocation;
@@ -17,7 +17,7 @@ import java.util.Optional;
 public interface PortalDataHolder {
     @Nullable
     default ResourceLocation getDestination(ItemStack stack) {
-        return BackportMethods.getDimensionIdentifier(stack);
+        return VersionMethods.getDimensionIdentifier(stack);
     }
 
     static boolean isDestinationRandom(ResourceLocation id) {

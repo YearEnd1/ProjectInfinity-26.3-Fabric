@@ -5,7 +5,8 @@ import net.lerariemann.infinity.item.F4Item;
 import net.lerariemann.infinity.registry.core.ModComponentTypes;
 import net.lerariemann.infinity.registry.var.ModPayloads;
 import net.lerariemann.infinity.registry.var.ModScreenHandlers;
-import net.lerariemann.infinity.util.Methods;
+import net.lerariemann.infinity.util.VersionMethods;
+import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.core.component.DataComponentMap;
 import net.minecraft.network.FriendlyByteBuf;
@@ -19,8 +20,11 @@ import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.Nullable;
 
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.concurrent.atomic.AtomicInteger;
 
+@MethodsReturnNonnullByDefault
+@ParametersAreNonnullByDefault
 public class F4ScreenHandler extends AbstractContainerMenu {
     public final Inventory playerInventory;
     public final ItemStack stack;
@@ -92,7 +96,7 @@ public class F4ScreenHandler extends AbstractContainerMenu {
 
         @Override
         public Component getDisplayName() {
-            return F4Item.getDimensionTooltip(destination.isEmpty() ? null : Methods.id(destination));
+            return F4Item.getDimensionTooltip(destination.isEmpty() ? null : VersionMethods.id(destination));
         }
 
         @Override

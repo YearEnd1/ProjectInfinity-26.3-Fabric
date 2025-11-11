@@ -4,7 +4,8 @@ import com.mojang.serialization.MapCodec;
 import net.lerariemann.infinity.block.entity.BiomeBottleBlockEntity;
 import net.lerariemann.infinity.registry.core.ModBlockEntities;
 import net.lerariemann.infinity.registry.core.ModComponentTypes;
-import net.lerariemann.infinity.util.Methods;
+import net.lerariemann.infinity.util.VersionMethods;
+import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.QuartPos;
@@ -42,9 +43,12 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.Nullable;
 
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.*;
 import java.util.stream.Collectors;
 
+@MethodsReturnNonnullByDefault
+@ParametersAreNonnullByDefault
 public class BiomeBottleBlock extends BaseEntityBlock {
     //? if >1.21 {
     public static final MapCodec<BiomeBottleBlock> CODEC = simpleCodec(BiomeBottleBlock::new);
@@ -88,9 +92,10 @@ public class BiomeBottleBlock extends BaseEntityBlock {
     public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
         return new BiomeBottleBlockEntity(pos, state);
     }
+    @Nullable
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level world, BlockState state, BlockEntityType<T> type) {
-        return createTickerHelper(type, ModBlockEntities.BIOME_BOTTLE.get(), world.isClientSide ? null : BiomeBottleBlockEntity::serverTick);
+        return world.isClientSide ? null : createTickerHelper(type, ModBlockEntities.BIOME_BOTTLE.get(), BiomeBottleBlockEntity::serverTick);
     }
 
 
@@ -110,7 +115,7 @@ public class BiomeBottleBlock extends BaseEntityBlock {
     public static final int maxAllowedCharge = 10000;
 
     public static ResourceLocation defaultBiome() {
-        return Methods.id("plains");
+        return VersionMethods.id("plains");
     }
 
     public static Rarity getRarity(int charge) {
@@ -194,6 +199,7 @@ public class BiomeBottleBlock extends BaseEntityBlock {
     }
     //?}
 
+    @Nullable
     public static Holder<Biome> biomeFromId(ServerLevel world, ResourceLocation id) {
         //? if >1.21 {
         Optional<Holder.Reference<Biome>> entry = world.getServer().registryAccess().registryOrThrow(Registries.BIOME).getHolder(id);
@@ -226,7 +232,7 @@ public class BiomeBottleBlock extends BaseEntityBlock {
         spread(world, set, posSet, biomeFromId(world, biomeId));
     }
 
-    public static void spread(ServerLevel world, Set<ChunkAccess> set, Set<BlockPos> posSet, Holder<Biome> biome) {
+    public static void spread(ServerLevel world, Set<ChunkAccess> set, Set<BlockPos> posSet, @Nullable Holder<Biome> biome) {
         if (biome == null) return;
         set.forEach(chunk -> {
             if (chunk != null) {

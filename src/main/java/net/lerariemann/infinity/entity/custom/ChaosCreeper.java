@@ -6,9 +6,10 @@ import net.lerariemann.infinity.registry.core.ModComponentTypes;
 import net.lerariemann.infinity.registry.core.ModEntities;
 import net.lerariemann.infinity.registry.core.ModItems;
 import net.lerariemann.infinity.util.InfinityMethods;
-import net.lerariemann.infinity.util.Methods;
+import net.lerariemann.infinity.util.VersionMethods;
 import net.lerariemann.infinity.util.core.ConfigType;
 import net.lerariemann.infinity.util.core.NbtUtils;
+import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.component.DataComponentMap;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.Registries;
@@ -39,6 +40,10 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import org.jetbrains.annotations.Nullable;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+
+@MethodsReturnNonnullByDefault
+@ParametersAreNonnullByDefault
 public class ChaosCreeper extends Creeper implements TintableEntity {
     public static EntityDataAccessor<Integer> color = SynchedEntityData.defineId(ChaosCreeper.class, EntityDataSerializers.INT);
     public static EntityDataAccessor<Float> range = SynchedEntityData.defineId(ChaosCreeper.class, EntityDataSerializers.FLOAT);
@@ -119,13 +124,17 @@ public class ChaosCreeper extends Creeper implements TintableEntity {
         float f = 3 * this.getRange() / 16;
         this.dead = true;
         MinecraftServer s = this.getServer();
-        if (s != null) {
-            ServerLevel serverWorld = s.getLevel(this.level().dimension());
-            if (serverWorld != null) {
-                BiomeBottleBlock.spreadCircle(serverWorld, blockPosition(), Methods.id(getBiome()), getCharge());
+        try (Level level = this.level()) {
+            if (s != null) {
+                ServerLevel serverWorld = s.getLevel(level.dimension());
+                if (serverWorld != null) {
+                    BiomeBottleBlock.spreadCircle(serverWorld, blockPosition(), VersionMethods.id(getBiome()), getCharge());
+                }
             }
+            level.explode(this, this.getX(), this.getY(), this.getZ(), f, Level.ExplosionInteraction.NONE);
         }
-        this.level().explode(this, this.getX(), this.getY(), this.getZ(), f, Level.ExplosionInteraction.NONE);
+        catch (Exception ignored) {
+        }
         this.discard();
     }
 
@@ -140,15 +149,19 @@ public class ChaosCreeper extends Creeper implements TintableEntity {
             ItemStack itemStack2 = new ItemStack(itemStack.getItem());
             this.playSound(SoundEvents.BOTTLE_FILL, 1.0f, 1.0f);
             Creeper newCreeper;
-            if (!this.level().isClientSide() && (newCreeper = EntityType.CREEPER.create(this.level())) != null) {
-                itemStack2.applyComponents(BiomeBottleBlock.addComponents(DataComponentMap.builder(),
-                        Methods.id(getBiome()), getColor(), getCharge()).build());
-                ItemStack itemStack3 = ItemUtils.createFilledResult(itemStack, player, itemStack2, false);
-                player.setItemInHand(hand, itemStack3);
-                this.discard();
-                ModEntities.copy(this, newCreeper);
-                this.level().addFreshEntity(newCreeper);
-                return InteractionResult.SUCCESS;
+            try (Level level = this.level()) {
+                if (!level.isClientSide() && (newCreeper = EntityType.CREEPER.create(this.level())) != null) {
+                    itemStack2.applyComponents(BiomeBottleBlock.addComponents(DataComponentMap.builder(),
+                            VersionMethods.id(getBiome()), getColor(), getCharge()).build());
+                    ItemStack itemStack3 = ItemUtils.createFilledResult(itemStack, player, itemStack2, false);
+                    player.setItemInHand(hand, itemStack3);
+                    this.discard();
+                    ModEntities.copy(this, newCreeper);
+                    level.addFreshEntity(newCreeper);
+                    return InteractionResult.SUCCESS;
+                }
+            }
+            catch (Exception ignored) {
             }
         }
         return super.mobInteract(player, hand);
@@ -158,7 +171,7 @@ public class ChaosCreeper extends Creeper implements TintableEntity {
     protected void dropCustomDeathLoot(ServerLevel world, DamageSource source, boolean causedByPlayer) {
         if (source.getEntity() != null && source.getEntity().getType().is(EntityTypeTags.SKELETONS)) {
             ItemStack stack = ModItems.DISC.get().getDefaultInstance();
-            ResourceLocation song = Methods.id(InfinityMod.provider.randomName(world.random, ConfigType.JUKEBOXES));
+            ResourceLocation song = VersionMethods.id(InfinityMod.provider.randomName(world.random, ConfigType.JUKEBOXES));
             stack.applyComponents(DataComponentMap.builder()
                     .set(DataComponents.JUKEBOX_PLAYABLE, new JukeboxPlayable(new EitherHolder<>(
                             ResourceKey.create(Registries.JUKEBOX_SONG, song)), true))

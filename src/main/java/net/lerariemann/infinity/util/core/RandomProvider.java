@@ -1,7 +1,7 @@
 package net.lerariemann.infinity.util.core;
 
 import net.lerariemann.infinity.InfinityMod;
-import net.lerariemann.infinity.util.Methods;
+import net.lerariemann.infinity.util.VersionMethods;
 import net.lerariemann.infinity.util.var.ColorLogic;
 import net.minecraft.core.Registry;
 import net.minecraft.core.RegistryAccess;
@@ -42,7 +42,7 @@ public class RandomProvider {
 
     public Optional<Item> getPortalKeyAsItem() {
         if (portalKey.isBlank()) return Optional.empty();
-        return BuiltInRegistries.ITEM.getOptional(Methods.id(portalKey));
+        return BuiltInRegistries.ITEM.getOptional(VersionMethods.id(portalKey));
     }
     public boolean isPortalKeyBlank() {
         return getPortalKeyAsItem().isEmpty();
@@ -222,7 +222,7 @@ public class RandomProvider {
 
     public CompoundTag blockToProvider(CompoundTag block, Random random) {
         CompoundTag res = new CompoundTag();
-        boolean isRotatable = BuiltInRegistries.BLOCK.get(Methods.id(NbtUtils.getString(block, "Name"))).defaultBlockState().getProperties().contains(BlockStateProperties.AXIS);
+        boolean isRotatable = BuiltInRegistries.BLOCK.get(VersionMethods.id(NbtUtils.getString(block, "Name"))).defaultBlockState().getProperties().contains(BlockStateProperties.AXIS);
         res.putString("type", isRotatable && roll(random, "rotate_blocks") ?
                 "minecraft:rotated_block_provider" : "minecraft:simple_state_provider");
         res.put("state", block);
@@ -261,6 +261,6 @@ public class RandomProvider {
         registry.remove(ConfigType.BIOMES);
         List<CompoundTag> biomes = CommonIO.readCategory(ConfigType.BIOMES);
         Registry<Biome> reg = s.registryOrThrow(Registries.BIOME);
-        registerCategory(ConfigType.BIOMES, biomes.stream().filter(comp -> reg.containsKey(Methods.id(NbtUtils.getString(comp,"key")))).toList());
+        registerCategory(ConfigType.BIOMES, biomes.stream().filter(comp -> reg.containsKey(VersionMethods.id(NbtUtils.getString(comp,"key")))).toList());
     }
 }

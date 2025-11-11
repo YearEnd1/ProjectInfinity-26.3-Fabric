@@ -1,7 +1,7 @@
 package net.lerariemann.infinity.dimensions;
 
 import net.lerariemann.infinity.InfinityMod;
-import net.lerariemann.infinity.util.Methods;
+import net.lerariemann.infinity.util.VersionMethods;
 import net.lerariemann.infinity.util.core.CommonIO;
 import net.lerariemann.infinity.util.core.ConfigType;
 import net.lerariemann.infinity.util.core.NbtUtils;
@@ -32,7 +32,7 @@ public class RandomStructure {
         data = parent.PROVIDER.randomElement(random, ConfigType.STRUCTURES);
         assert data.contains("id");
         type = NbtUtils.getString(data,"id");
-        name = Methods.id(type).getPath().replace("/", "_").replace("\\", "_") + "_" + id;
+        name = VersionMethods.id(type).getPath().replace("/", "_").replace("\\", "_") + "_" + id;
 
         data.putString("type", "infinity:setupper");
         data.putString("biomes", parent.fullname);

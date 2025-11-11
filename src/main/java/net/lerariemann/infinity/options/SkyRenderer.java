@@ -10,7 +10,7 @@ import com.mojang.blaze3d.vertex.Tesselator;
 import com.mojang.blaze3d.vertex.VertexBuffer;
 import com.mojang.blaze3d.vertex.VertexFormat;
 import com.mojang.math.Axis;
-import net.lerariemann.infinity.util.Methods;
+import net.lerariemann.infinity.util.VersionMethods;
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
@@ -51,7 +51,7 @@ public record SkyRenderer(InfinityOptions options, Minecraft client, ClientLevel
     
     public boolean testAndRenderNonOverworldySkies() {
         if (client.level!=null && client.level.effects().skyType() == DimensionSpecialEffects.SkyType.END) {
-            renderSkybox(Methods.id("textures/environment/end_sky.png"), 16.0f, 40, 255);
+            renderSkybox(VersionMethods.id("textures/environment/end_sky.png"), 16.0f, 40, 255);
             return true;
         }
         if (options.endSkyLike()) {

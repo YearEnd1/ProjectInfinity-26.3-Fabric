@@ -3,9 +3,10 @@ package net.lerariemann.infinity.block.entity;
 import net.lerariemann.infinity.options.PortalColorApplier;
 import net.lerariemann.infinity.util.InfinityMethods;
 import net.lerariemann.infinity.registry.core.ModBlockEntities;
-import net.lerariemann.infinity.util.Methods;
+import net.lerariemann.infinity.util.VersionMethods;
 import net.lerariemann.infinity.util.core.NbtUtils;
 import net.lerariemann.infinity.util.teleport.InfinityPortal;
+import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.Registries;
@@ -20,8 +21,11 @@ import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
 
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.Random;
 
+@MethodsReturnNonnullByDefault
+@ParametersAreNonnullByDefault
 public class InfinityPortalBlockEntity extends TintableBlockEntity {
     private final ContainerData propertyDelegate;
     private ResourceLocation dimension;
@@ -98,7 +102,7 @@ public class InfinityPortalBlockEntity extends TintableBlockEntity {
         setChanged();
     }
 
-    public void setData(MinecraftServer server, ResourceLocation i) {
+    public void setData(@Nullable MinecraftServer server, ResourceLocation i) {
         if (server == null) {
             setData(i);
             return;
@@ -113,6 +117,7 @@ public class InfinityPortalBlockEntity extends TintableBlockEntity {
         setOpen(false);
     }
 
+    @Nullable
     public ServerLevel getDimensionAsWorld() {
         if (getLevel() instanceof ServerLevel serverWorld)
             return serverWorld.getServer().getLevel(ResourceKey.create(Registries.DIMENSION, getDimension()));
@@ -158,12 +163,12 @@ public class InfinityPortalBlockEntity extends TintableBlockEntity {
         if (tag.getTagType("Dimension") == Tag.TAG_ANY_NUMERIC) { //conversion from legacy formats
             this.portalColor = NbtUtils.getInt(tag, "Dimension") & 0xFFFFFF;
             if (tag.contains("DimensionName")) {
-                this.dimension = Methods.id(NbtUtils.getString(tag, "DimensionName"));
+                this.dimension = VersionMethods.id(NbtUtils.getString(tag, "DimensionName"));
             }
             else this.dimension = InfinityMethods.getDimId(this.portalColor);
         }
         else if (tag.getTagType("Dimension") == Tag.TAG_STRING) { //new better format
-            this.dimension = Methods.id(NbtUtils.getString(tag, "Dimension"));
+            this.dimension = VersionMethods.id(NbtUtils.getString(tag, "Dimension"));
             if (level != null && level.getServer() != null)
                 this.portalColor = NbtUtils.getInt(tag, "Color", PortalColorApplier.of(dimension, level.getServer()).apply(worldPosition) & 0xFFFFFF);
             else

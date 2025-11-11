@@ -2,9 +2,11 @@ package net.lerariemann.infinity.entity.custom;
 
 import net.lerariemann.infinity.InfinityMod;
 import net.lerariemann.infinity.registry.core.ModEntities;
-import net.lerariemann.infinity.util.Methods;
+import net.lerariemann.infinity.util.VersionMethods;
 import net.lerariemann.infinity.util.core.ConfigType;
 import net.lerariemann.infinity.util.core.NbtUtils;
+import net.lerariemann.infinity.util.platform.PlatformMethods;
+import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.Holder;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.particles.ParticleTypes;
@@ -38,8 +40,11 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import org.jetbrains.annotations.Nullable;
 
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.*;
 
+@MethodsReturnNonnullByDefault
+@ParametersAreNonnullByDefault
 public class ChaosSkeleton extends Skeleton implements TintableEntity {
     private static final EntityDataAccessor<String> effect = SynchedEntityData.defineId(ChaosSkeleton.class, EntityDataSerializers.STRING);
     private static final EntityDataAccessor<Integer> color = SynchedEntityData.defineId(ChaosSkeleton.class, EntityDataSerializers.INT);
@@ -109,7 +114,7 @@ public class ChaosSkeleton extends Skeleton implements TintableEntity {
             }
             if (player.level().getRandom().nextFloat() < 0.5) {
                 String i = effect_lookup.get(this.getEffect());
-                MobEffect newEffect = BuiltInRegistries.MOB_EFFECT.get(Methods.id(i));
+                MobEffect newEffect = BuiltInRegistries.MOB_EFFECT.get(VersionMethods.id(i));
                 if (newEffect != null) {
                     ChaosSkeleton newSkeleton;
                     if (!this.level().isClientSide() && (newSkeleton = ModEntities.CHAOS_SKELETON.get().create(this.level())) != null) {
@@ -205,7 +210,7 @@ public class ChaosSkeleton extends Skeleton implements TintableEntity {
         super.dropCustomDeathLoot(world, source, causedByPlayer);
         ItemStack weapon = source.getWeaponItem();
         Holder<Enchantment> looting = world.getServer().registryAccess().registryOrThrow(Registries.ENCHANTMENT).getHolderOrThrow(Enchantments.LOOTING);
-        int lootingLevel = weapon == null ? 0 : weapon.getEnchantments().getLevel(looting);
+        int lootingLevel = weapon == null ? 0 : PlatformMethods.getEnchantments(weapon, world.getServer()).getLevel(looting);
         int count = world.random.nextIntBetweenInclusive(0, 2 + lootingLevel);
         this.spawnAtLocation(getProjectileType().copyWithCount(count));
     }

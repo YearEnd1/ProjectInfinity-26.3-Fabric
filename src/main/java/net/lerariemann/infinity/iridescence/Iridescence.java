@@ -8,7 +8,7 @@ import net.lerariemann.infinity.registry.core.ModStatusEffects;
 import net.lerariemann.infinity.registry.var.ModCriteria;
 import net.lerariemann.infinity.registry.var.ModStats;
 import net.lerariemann.infinity.registry.var.ModTags;
-import net.lerariemann.infinity.util.Methods;
+import net.lerariemann.infinity.util.VersionMethods;
 import net.lerariemann.infinity.util.core.CommonIO;
 import net.lerariemann.infinity.util.platform.PlatformMethods;
 import net.lerariemann.infinity.entity.custom.ChaosCreeper;
@@ -46,6 +46,7 @@ import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.phys.AABB;
+import net.neoforged.neoforge.event.EventHooks;
 import org.jetbrains.annotations.Nullable;
 
 import java.nio.file.Files;
@@ -105,10 +106,10 @@ public interface Iridescence {
             DyeColor.PINK);
 
     static Block getRandomColorBlock(LevelAccessor world, String str) {
-        return BuiltInRegistries.BLOCK.get(Methods.id(dyeColors.get(world.getRandom().nextInt(dyeColors.size())).getName() + "_" + str));
+        return BuiltInRegistries.BLOCK.get(VersionMethods.id(dyeColors.get(world.getRandom().nextInt(dyeColors.size())).getName() + "_" + str));
     }
     static Block getRandomColorBlock(double d, String str) {
-        return BuiltInRegistries.BLOCK.get(Methods.id(dyeColors.get((int)(d* dyeColors.size())).getName() + "_" + str));
+        return BuiltInRegistries.BLOCK.get(VersionMethods.id(dyeColors.get((int)(d* dyeColors.size())).getName() + "_" + str));
     }
 
     static int getAmplifierOnApply(LivingEntity entity, int original, boolean willingly) {
@@ -240,13 +241,11 @@ public interface Iridescence {
                         getAfterglowDuration(), 0, true, true));
         }
         Path cookie = InfinityMod.provider.savingPath.resolve(player.getStringUUID() + ".json");
-        try {
-            CompoundTag comp = CommonIO.read(cookie);
-            player.teleportTo(player.server.getLevel(ResourceKey.create(Registries.DIMENSION, Methods.id(NbtUtils.getString(comp,"dim")))),
-                    comp.getDouble("x"), comp.getDouble("y"), comp.getDouble("z"), player.getYRot(), player.getXRot());
-        } catch (Exception e) {
-            WarpLogic.respawnAlive(player);
-        }
+        CompoundTag comp = CommonIO.read(cookie);
+        ServerLevel level = player.server.getLevel(ResourceKey.create(Registries.DIMENSION, VersionMethods.id(NbtUtils.getString(comp,"dim"))));
+        if (level != null)
+            player.teleportTo(level, comp.getDouble("x"), comp.getDouble("y"), comp.getDouble("z"), player.getYRot(), player.getXRot());
+        else WarpLogic.respawnAlive(player);
         try {
             Files.deleteIfExists(cookie);
         } catch (Exception ignored) {
@@ -295,7 +294,14 @@ public interface Iridescence {
                     creeper.setRandomCharge();
                 }
                 else if (currEntity.level() instanceof ServerLevel w)
-                    newEntity.finalizeSpawn(w, w.getCurrentDifficultyAt(currEntity.blockPosition()), MobSpawnType.CONVERSION, null);
+
+                //? fabric {
+                /*newEntity.finalizeSpawn(
+                 *///?}
+                //? neoforge {
+                EventHooks.finalizeMobSpawn(newEntity,
+                //?}
+                w, w.getCurrentDifficultyAt(currEntity.blockPosition()), MobSpawnType.CONVERSION, null);
                 if (currEntity instanceof Slime e1 && newEntity instanceof Slime e2) {
                     e2.setSize(e1.getSize(), true);
                 }

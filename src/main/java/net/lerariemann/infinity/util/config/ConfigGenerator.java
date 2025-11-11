@@ -3,7 +3,7 @@ package net.lerariemann.infinity.util.config;
 import net.lerariemann.infinity.InfinityMod;
 import net.lerariemann.infinity.access.BlockEntityTypeAccess;
 import net.lerariemann.infinity.block.entity.CosmicAltarBlockEntity;
-import net.lerariemann.infinity.util.Methods;
+import net.lerariemann.infinity.util.VersionMethods;
 import net.lerariemann.infinity.util.core.ConfigType;
 import net.lerariemann.infinity.util.var.ColorLogic;
 import net.minecraft.core.BlockPos;
@@ -160,7 +160,7 @@ public interface ConfigGenerator {
         Arrays.stream(ColorLogic.vanillaColors).forEach(color -> {
             int i = block.lastIndexOf("magenta");
             String blockColored = block.substring(0, i) + color + block.substring(i+7);
-            if (BuiltInRegistries.BLOCK.containsKey(Methods.id(blockColored))) {
+            if (BuiltInRegistries.BLOCK.containsKey(VersionMethods.id(blockColored))) {
                 successCounter.addAndGet(1);
             }
         });

@@ -1,6 +1,6 @@
 package net.lerariemann.infinity.util.var;
 
-import net.lerariemann.infinity.util.Methods;
+import net.lerariemann.infinity.util.VersionMethods;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
@@ -55,7 +55,7 @@ public interface ColorLogic {
             Map.entry(BlockTags.WOOL_CARPETS, "$_carpet"));
 
     static Block getBlockByColor(String color, TagKey<Block> type) {
-        return BuiltInRegistries.BLOCK.get(Methods.id(supportedBlockTypes.get(type)
+        return BuiltInRegistries.BLOCK.get(VersionMethods.id(supportedBlockTypes.get(type)
                 .replace("$", color)));
     }
     static Block getBlockByColor(DyeColor color, TagKey<Block> type) {

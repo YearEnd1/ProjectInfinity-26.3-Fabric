@@ -7,15 +7,28 @@ import net.minecraft.core.component.DataComponentMap;
 import net.minecraft.core.component.DataComponentType;
 //?}
 import net.minecraft.core.BlockPos;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.WorldGenLevel;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Objects;
+public class VersionMethods {
+    public static ResourceLocation id(String s) {
+        //? if >1.21 {
+        return ResourceLocation.parse(s);
+        //?} else {
+        /*return ResourceLocation.tryParse(s);
+         *///?}
+    }
 
-public class BackportMethods {
+    public static ResourceLocation id(String namespace, String path) {
+        //? if >=1.21 {
+        return ResourceLocation.fromNamespaceAndPath(namespace, path);
+        //?} else {
+        /*return new ResourceLocation(namespace, path);
+         *///?}
+    }
+
     //? if <1.21 {
     /*public static int getOrDefaultInt(ItemStack stack, String key, int i) {
         if (stack.hasTag()) {

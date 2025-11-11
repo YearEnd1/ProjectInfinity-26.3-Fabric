@@ -4,8 +4,9 @@ import net.lerariemann.infinity.block.custom.BiomeBottleBlock;
 import net.lerariemann.infinity.registry.core.ModBlockEntities;
 import net.lerariemann.infinity.registry.core.ModComponentTypes;
 import net.lerariemann.infinity.registry.core.ModItems;
-import net.lerariemann.infinity.util.Methods;
+import net.lerariemann.infinity.util.VersionMethods;
 import net.lerariemann.infinity.util.core.NbtUtils;
+import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup;
@@ -19,9 +20,12 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.state.BlockState;
-import org.intellij.lang.annotations.Identifier;
 import org.jetbrains.annotations.Nullable;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+
+@MethodsReturnNonnullByDefault
+@ParametersAreNonnullByDefault
 public class BiomeBottleBlockEntity extends TintableBlockEntity {
     private final ContainerData propertyDelegate;
     private ResourceLocation biome;
@@ -73,7 +77,7 @@ public class BiomeBottleBlockEntity extends TintableBlockEntity {
     public void loadAdditional(CompoundTag tag, HolderLookup.Provider registryLookup) {
         super.loadAdditional(tag, registryLookup);
         this.charge = NbtUtils.getInt(tag, "Charge");
-        this.biome = Methods.id(NbtUtils.getString(tag, "Biome"));
+        this.biome = VersionMethods.id(NbtUtils.getString(tag, "Biome"));
         this.color = NbtUtils.getInt(tag, "Color");
         this.from_charge = NbtUtils.getInt(tag, "from_charge", 0);
     }

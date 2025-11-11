@@ -3,7 +3,7 @@ package net.lerariemann.infinity.features;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.lerariemann.infinity.InfinityMod;
-import net.lerariemann.infinity.util.Methods;
+import net.lerariemann.infinity.util.VersionMethods;
 import net.lerariemann.infinity.util.core.ConfigType;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -39,7 +39,7 @@ public class RandomBonusChestFeature extends Feature<RandomBonusChestFeature.Con
             BlockState state = context.config().block.orElseGet(Blocks.CHEST::defaultBlockState);
             structureWorldAccess.setBlock(blockPos, state, 2);
             ResourceLocation id = context.config().loot;
-            if (id.toString().equals("infinity:random")) id = Methods.id(InfinityMod.provider.randomName(context.random(), ConfigType.LOOT_TABLES));
+            if (id.toString().equals("infinity:random")) id = VersionMethods.id(InfinityMod.provider.randomName(context.random(), ConfigType.LOOT_TABLES));
             //? if >1.21 {
             RandomizableContainer.setBlockEntityLootTable(structureWorldAccess, random, blockPos, ResourceKey.create(Registries.LOOT_TABLE, id));
             //?} else {

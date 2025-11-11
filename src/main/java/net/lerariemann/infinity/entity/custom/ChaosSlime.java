@@ -2,9 +2,10 @@ package net.lerariemann.infinity.entity.custom;
 
 import net.lerariemann.infinity.InfinityMod;
 import net.lerariemann.infinity.util.InfinityMethods;
-import net.lerariemann.infinity.util.Methods;
+import net.lerariemann.infinity.util.VersionMethods;
 import net.lerariemann.infinity.util.core.ConfigType;
 import net.lerariemann.infinity.util.core.NbtUtils;
+import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.DustParticleOptions;
 import net.minecraft.core.particles.ParticleOptions;
@@ -34,8 +35,11 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.loot.LootTable;
 import org.jetbrains.annotations.Nullable;
 
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.Random;
 
+@MethodsReturnNonnullByDefault
+@ParametersAreNonnullByDefault
 public class ChaosSlime extends Slime implements TintableEntity {
     public static final EntityDataAccessor<BlockState> core = SynchedEntityData.defineId(ChaosSlime.class, EntityDataSerializers.BLOCK_STATE);
     public static final EntityDataAccessor<Integer> color = SynchedEntityData.defineId(ChaosSlime.class, EntityDataSerializers.INT);
@@ -64,7 +68,7 @@ public class ChaosSlime extends Slime implements TintableEntity {
     @Nullable
     public SpawnGroupData finalizeSpawn(ServerLevelAccessor world, DifficultyInstance difficulty, MobSpawnType spawnReason, @Nullable SpawnGroupData entityData) {
         Random r = new Random();
-        this.entityData.set(core, BuiltInRegistries.BLOCK.get(Methods.id(InfinityMod.provider.randomName(r, ConfigType.ALL_BLOCKS))).defaultBlockState());
+        this.entityData.set(core, BuiltInRegistries.BLOCK.get(VersionMethods.id(InfinityMod.provider.randomName(r, ConfigType.ALL_BLOCKS))).defaultBlockState());
         this.entityData.set(color, r.nextInt(16777216));
         return super.finalizeSpawn(world, difficulty, spawnReason, entityData);
     }
@@ -128,7 +132,7 @@ public class ChaosSlime extends Slime implements TintableEntity {
     public void readAdditionalSaveData(CompoundTag nbt) {
         super.readAdditionalSaveData(nbt);
         this.setColor(NbtUtils.getInt(nbt, "color"));
-        Block b = BuiltInRegistries.BLOCK.get(Methods.id(NbtUtils.getString(nbt,"core")));
+        Block b = BuiltInRegistries.BLOCK.get(VersionMethods.id(NbtUtils.getString(nbt,"core")));
         this.setCore(b.defaultBlockState());
     }
 

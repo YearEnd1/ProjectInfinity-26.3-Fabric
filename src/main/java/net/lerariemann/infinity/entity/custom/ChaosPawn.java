@@ -3,10 +3,11 @@ package net.lerariemann.infinity.entity.custom;
 import net.lerariemann.infinity.InfinityMod;
 import net.lerariemann.infinity.iridescence.Iridescence;
 import net.lerariemann.infinity.util.InfinityMethods;
-import net.lerariemann.infinity.util.Methods;
+import net.lerariemann.infinity.util.VersionMethods;
 import net.lerariemann.infinity.util.core.ConfigType;
 import net.lerariemann.infinity.util.core.RandomProvider;
 //? if >1.21 {
+import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.component.DataComponentMap;
 import net.minecraft.core.component.DataComponents;
 //?}
@@ -37,9 +38,12 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.loot.LootTable;
 import org.jetbrains.annotations.Nullable;
 
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.*;
 import java.util.function.Supplier;
 
+@MethodsReturnNonnullByDefault
+@ParametersAreNonnullByDefault
 public class ChaosPawn extends AbstractChessFigure {
     public static final EntityDataAccessor<CompoundTag> colors = SynchedEntityData.defineId(ChaosPawn.class, EntityDataSerializers.COMPOUND_TAG);
     public static final EntityDataAccessor<Integer> special_case = SynchedEntityData.defineId(ChaosPawn.class, EntityDataSerializers.INT);
@@ -119,8 +123,8 @@ public class ChaosPawn extends AbstractChessFigure {
             case 1 -> InfinityMethods.getId("entities/chaos_pawn_white");
             default -> {
                 boolean bl = RandomProvider.rule("pawnsCanDropIllegalItems");
-                if (bl) yield Methods.id(""); //loot is defined in dropEquipment instead
-                else yield Methods.id(InfinityMod.provider.randomName(random, ConfigType.LOOT_TABLES));
+                if (bl) yield VersionMethods.id(""); //loot is defined in dropEquipment instead
+                else yield VersionMethods.id(InfinityMod.provider.randomName(random, ConfigType.LOOT_TABLES));
             }
         };
         //? if >1.21 {
@@ -186,7 +190,7 @@ public class ChaosPawn extends AbstractChessFigure {
         if (!this.isBlackOrWhite() && RandomProvider.rule("pawnsCanDropIllegalItems")) {
             String s = InfinityMod.provider.randomName(random, ConfigType.ITEMS);
             double i = Objects.requireNonNull(this.getAttribute(Attributes.MAX_HEALTH)).getBaseValue() / 10;
-            ItemStack stack = BuiltInRegistries.ITEM.get(Methods.id(s)).getDefaultInstance().copyWithCount((int) (i * i));
+            ItemStack stack = BuiltInRegistries.ITEM.get(VersionMethods.id(s)).getDefaultInstance().copyWithCount((int) (i * i));
             stack.applyComponents(DataComponentMap.builder().set(DataComponents.MAX_STACK_SIZE, 64).build());
             this.spawnAtLocation(stack);
         }

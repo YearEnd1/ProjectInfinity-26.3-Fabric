@@ -3,23 +3,22 @@ package net.lerariemann.infinity.item;
 import net.lerariemann.infinity.block.entity.InfinityPortalBlockEntity;
 import net.lerariemann.infinity.registry.core.ModBlocks;
 import net.lerariemann.infinity.registry.core.ModComponentTypes;
-import net.lerariemann.infinity.util.BackportMethods;
+import net.lerariemann.infinity.util.VersionMethods;
 import net.lerariemann.infinity.util.ClientMethods;
 import net.lerariemann.infinity.util.InfinityMethods;
 import net.lerariemann.infinity.util.teleport.InfinityPortal;
 import net.minecraft.BlockUtil;
 import net.minecraft.ChatFormatting;
+import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 //? if >1.21 {
-import net.minecraft.core.component.DataComponentMap;
 //?}
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.util.*;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.InteractionResultHolder;
@@ -33,8 +32,13 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.NetherPortalBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+
+import javax.annotation.Nullable;
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.*;
 
+@MethodsReturnNonnullByDefault
+@ParametersAreNonnullByDefault
 public class F4Item extends Item implements PortalDataHolder.Destinable {
     static final BlockState OBSIDIAN = Blocks.OBSIDIAN.defaultBlockState();
 
@@ -42,7 +46,7 @@ public class F4Item extends Item implements PortalDataHolder.Destinable {
         super(settings);
     }
 
-    public static MutableComponent getDimensionTooltip(ResourceLocation dimension) {
+    public static MutableComponent getDimensionTooltip(@Nullable ResourceLocation dimension) {
         if (dimension == null) return Component.translatable(Blocks.NETHER_PORTAL.getDescriptionId());
         String name = dimension.toString();
         MutableComponent text = InfinityMethods.getDimensionNameAsText(dimension);
@@ -52,7 +56,7 @@ public class F4Item extends Item implements PortalDataHolder.Destinable {
     }
 
     public static int getCharge(ItemStack f4) {
-        return BackportMethods.getOrDefaultInt(f4, ModComponentTypes.CHARGE, 0);
+        return VersionMethods.getOrDefaultInt(f4, ModComponentTypes.CHARGE, 0);
     }
 
     @Override
@@ -69,13 +73,14 @@ public class F4Item extends Item implements PortalDataHolder.Destinable {
                                 *///?}
                                             context, List<Component> tooltip, TooltipFlag type) {
         super.appendHoverText(stack, context, tooltip, type);
-        ResourceLocation dimension = BackportMethods.getDimensionIdentifier(stack);
+        ResourceLocation dimension = VersionMethods.getDimensionIdentifier(stack);
         MutableComponent mutableText = getDimensionTooltip(dimension);
         tooltip.add(mutableText.withStyle(ChatFormatting.GRAY));
         MutableComponent mutableText2 = Component.translatable("tooltip.infinity.f4.charges", getCharge(stack));
         tooltip.add(mutableText2.withStyle(ChatFormatting.GRAY));
     }
 
+    @Nullable
     public static ItemStack placePortal(Level world, Player player, ItemStack stack, BlockPos lowerCenter,
                                     int size_x, int size_y) {
         Direction.Axis dir2 = player.getDirection().getClockWise(Direction.Axis.Y).getAxis();
@@ -88,7 +93,7 @@ public class F4Item extends Item implements PortalDataHolder.Destinable {
             return null;
         }
         BlockPos lowerLeft = lowerCenter.relative(dir2, -(size_x/2));
-        ResourceLocation id = BackportMethods.getDimensionIdentifier(stack);
+        ResourceLocation id = VersionMethods.getDimensionIdentifier(stack);
         boolean doNotRenderPortal = (world.isClientSide && (id == null || !id.getPath().contains("generated_")));
         if (PortalDataHolder.isDestinationRandom(id))
             id = InfinityMethods.getRandomId(world.random);
@@ -115,7 +120,7 @@ public class F4Item extends Item implements PortalDataHolder.Destinable {
         useCharges -= obsNotReplaced;
 
         world.playSound(player, player.blockPosition(), SoundEvents.BELL_BLOCK, SoundSource.BLOCKS, 1, 0.75f);
-        return BackportMethods.apply(stack, ModComponentTypes.CHARGE, charges-useCharges);
+        return VersionMethods.apply(stack, ModComponentTypes.CHARGE, charges-useCharges);
 
     }
 
@@ -132,8 +137,8 @@ public class F4Item extends Item implements PortalDataHolder.Destinable {
         BlockPos lowerCenter = player.blockPosition().relative(dir, 4);
         ItemStack stack = player.getItemInHand(hand);
 
-        int size_x = BackportMethods.getOrDefaultInt(stack, ModComponentTypes.SIZE_X, 3);
-        int size_y = BackportMethods.getOrDefaultInt(stack, ModComponentTypes.SIZE_Y, 3);
+        int size_x = VersionMethods.getOrDefaultInt(stack, ModComponentTypes.SIZE_X, 3);
+        int size_y = VersionMethods.getOrDefaultInt(stack, ModComponentTypes.SIZE_Y, 3);
         if (size_y % 2 == 0) {
             double d = dir2.equals(Direction.Axis.X) ? player.position().x : player.position().z;
             if (d % 1 > 0.5) { //player on the positive side of the block
@@ -197,8 +202,8 @@ public class F4Item extends Item implements PortalDataHolder.Destinable {
         Direction.Axis dir2 =
                 player.getDirection().getAxis().equals(Direction.Axis.X) ? Direction.Axis.Z : Direction.Axis.X;
 
-        int size_x = BackportMethods.getOrDefaultInt(stack, ModComponentTypes.SIZE_X, 3);
-        int size_y = BackportMethods.getOrDefaultInt(stack, ModComponentTypes.SIZE_Y, 3);
+        int size_x = VersionMethods.getOrDefaultInt(stack, ModComponentTypes.SIZE_X, 3);
+        int size_y = VersionMethods.getOrDefaultInt(stack, ModComponentTypes.SIZE_Y, 3);
 
         //validating the place position
         for (int j = -1; j <= size_y; j++) for (int k = -1; k <= size_x; k++) {
@@ -216,7 +221,7 @@ public class F4Item extends Item implements PortalDataHolder.Destinable {
         return InteractionResult.CONSUME;
     }
 
-    public static boolean checkIfValidAxis(Direction.Axis axisFound, Direction.Axis axisBeingChecked, Direction.Axis forceAxis) {
+    public static boolean checkIfValidAxis(Direction.Axis axisFound, Direction.Axis axisBeingChecked, @Nullable Direction.Axis forceAxis) {
         if (forceAxis == null) {
             return axisBeingChecked.isVertical() || axisFound.equals(axisBeingChecked);
         }
@@ -227,7 +232,7 @@ public class F4Item extends Item implements PortalDataHolder.Destinable {
                                          Collection<Direction> primaryOffsets, //possible directions in which blocks of other portals may be
                                          Collection<Direction> secondaryOffsets, //possible secondary directions from a neighboring obsidian in case we found a corner
                                          int max,
-                                         Direction.Axis forcePrimaryAxis) {
+                                         @Nullable Direction.Axis forcePrimaryAxis) {
         int i = 0;
         boolean checkCorners = !secondaryOffsets.isEmpty();
         for (Direction dir : primaryOffsets) {
@@ -287,7 +292,7 @@ public class F4Item extends Item implements PortalDataHolder.Destinable {
         for (int i = 0; i < portal.axis1Size; i++) for (int j = 0; j < portal.axis2Size; j++)
             world.setBlock(portal.minCorner.relative(axis, i).above(j), Blocks.AIR.defaultBlockState(), 3, 0);
         world.playSound(null, origin, SoundEvents.GLASS_BREAK, SoundSource.BLOCKS, 1, 0.75f);
-        return BackportMethods.apply(stack, ModComponentTypes.CHARGE, getCharge(stack)+obsidian);
+        return VersionMethods.apply(stack, ModComponentTypes.CHARGE, getCharge(stack)+obsidian);
 
     }
 }
