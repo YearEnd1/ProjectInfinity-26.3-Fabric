@@ -38,12 +38,16 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.loot.LootTable;
 import org.jetbrains.annotations.Nullable;
 
+//? if neoforge {
 import javax.annotation.ParametersAreNonnullByDefault;
+//?}
 import java.util.*;
 import java.util.function.Supplier;
 
+//? if neoforge {
 @MethodsReturnNonnullByDefault
 @ParametersAreNonnullByDefault
+//?}
 public class ChaosPawn extends AbstractChessFigure {
     public static final EntityDataAccessor<CompoundTag> colors = SynchedEntityData.defineId(ChaosPawn.class, EntityDataSerializers.COMPOUND_TAG);
     public static final EntityDataAccessor<Integer> special_case = SynchedEntityData.defineId(ChaosPawn.class, EntityDataSerializers.INT);

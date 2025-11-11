@@ -14,6 +14,7 @@ import net.lerariemann.infinity.util.var.ColorLogic;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.component.DataComponentPatch;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import java.util.Objects;
@@ -21,9 +22,8 @@ import java.util.Objects;
 public class PortalCraftingEmiRecipe extends BasicEmiRecipe {
     String lore;
 
-    public PortalCraftingEmiRecipe(RecipeHolder<CollisionCraftingRecipe> recipeEntry, RegistryAccess registryManager) {
-        super(EmiCompat.PORTAL_CRAFTING, recipeEntry.id(), 118, 18);
-        CollisionCraftingRecipe recipe = recipeEntry.value();
+    public PortalCraftingEmiRecipe(ResourceLocation id, CollisionCraftingRecipe recipe, RegistryAccess registryManager) {
+        super(EmiCompat.PORTAL_CRAFTING, id, 118, 18);
         this.inputs.add(EmiIngredient.of(recipe.getInput()));
         ItemStack out = recipe.getResultItem(registryManager);
         DataComponentPatch.Builder b = DataComponentPatch.builder();
@@ -35,7 +35,7 @@ public class PortalCraftingEmiRecipe extends BasicEmiRecipe {
         }
         out.applyComponentsAndValidate(b.build());
         this.outputs.add(EmiStack.of(out));
-        this.lore = recipeEntry.value().getLore();
+        this.lore = recipe.getLore();
         if (!Objects.equals(lore, "empty")) {
             this.width = 130;
         }

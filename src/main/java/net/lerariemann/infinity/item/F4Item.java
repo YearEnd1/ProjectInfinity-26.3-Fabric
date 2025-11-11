@@ -12,8 +12,6 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-//? if >1.21 {
-//?}
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
@@ -32,13 +30,16 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.NetherPortalBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
-
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.Nullable;
+//? if neoforge {
 import javax.annotation.ParametersAreNonnullByDefault;
+//?}
 import java.util.*;
 
-@MethodsReturnNonnullByDefault
+//? if neoforge {
 @ParametersAreNonnullByDefault
+//?}
+@MethodsReturnNonnullByDefault
 public class F4Item extends Item implements PortalDataHolder.Destinable {
     static final BlockState OBSIDIAN = Blocks.OBSIDIAN.defaultBlockState();
 
@@ -126,7 +127,7 @@ public class F4Item extends Item implements PortalDataHolder.Destinable {
 
     @Override
     public InteractionResultHolder<ItemStack> use(Level world, Player player, InteractionHand hand) {
-        if (world.isClientSide)
+        if (world.isClientSide())
             ClientMethods.setF4Screen(player);
         return InteractionResultHolder.success(player.getItemInHand(hand));
     }

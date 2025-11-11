@@ -1,20 +1,26 @@
 package net.lerariemann.infinity.item.function;
 
+import com.google.gson.JsonObject;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.lerariemann.infinity.registry.core.ModItemFunctions;
 import net.lerariemann.infinity.registry.core.ModItems;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
+//? if >1.21 {
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.CraftingBookCategory;
 import net.minecraft.world.item.crafting.CraftingInput;
-import net.minecraft.world.item.crafting.CraftingRecipe;
-import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.item.crafting.RecipeSerializer;
-import net.minecraft.world.item.crafting.RecipeType;
+//?} else {
+/*import net.minecraft.core.RegistryAccess;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.GsonHelper;
+import net.minecraft.world.inventory.CraftingContainer;
+*///?}
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 
@@ -34,9 +40,21 @@ public class ChromaticColoringRecipe implements CraftingRecipe {
     }
 
     @Override
-    public boolean matches(CraftingInput input, Level world) {
+    public boolean matches(
+            //? if >1.21 {
+            CraftingInput
+            //?} else {
+            /*CraftingContainer
+            *///?}
+                    input, Level world) {
         boolean foundChroma = false;
-        for (int k = 0; k < input.size(); k++) {
+        for (int k = 0; k < input.
+                //? if >1.21 {
+                size
+                //?} else {
+                /*getContainerSize
+                 *///?}
+                (); k++) {
             ItemStack itemStack = input.getItem(k);
             if (itemStack.is(ModItems.CHROMATIC_MATTER.get())) {
                 if (foundChroma) return false;
@@ -58,10 +76,28 @@ public class ChromaticColoringRecipe implements CraftingRecipe {
     }
 
     @Override
-    public @NotNull ItemStack assemble(CraftingInput input, HolderLookup.Provider lookup) {
+    public @NotNull ItemStack assemble(
+            //? if >1.21 {
+            CraftingInput
+             //?} else {
+            /*CraftingContainer
+            *///?}
+            input,
+            //? if >1.21 {
+            HolderLookup.Provider
+            //?} else {
+            /*RegistryAccess
+            *///?}
+            lookup) {
         ItemStack chroma = ItemStack.EMPTY;
         int i = 0;
-        for (int k = 0; k < input.size(); k++) {
+        for (int k = 0; k < input.
+                //? if >1.21 {
+                size
+                 //?} else {
+                /*getContainerSize
+                *///?}
+                (); k++) {
             ItemStack itemStack = input.getItem(k);
             if (itemStack.is(ModItems.CHROMATIC_MATTER.get())) chroma = itemStack;
             else if (!itemStack.isEmpty()) {
@@ -71,24 +107,49 @@ public class ChromaticColoringRecipe implements CraftingRecipe {
         assert !chroma.isEmpty();
         if (i > 0) {
             ItemStack result = output.copyWithCount(i);
+            //? if >1.21 {
             result.applyComponents(chroma.getComponents());
+            //?} else {
+            /*result.setTag(chroma.getTag());
+            *///?}
             return result;
         }
         else return chroma.getItem().getDefaultInstance();
     }
 
     @Override
-    public @NotNull NonNullList<ItemStack> getRemainingItems(CraftingInput craftingRecipeInput) {
-        NonNullList<ItemStack> defaultedList = NonNullList.withSize(craftingRecipeInput.size(), ItemStack.EMPTY);
+    public @NotNull NonNullList<ItemStack> getRemainingItems(
+            //? if >1.21 {
+            CraftingInput
+            //?} else {
+            /*CraftingContainer
+            *///?}
+            input) {
+        int size = input.
+                //? if >1.21 {
+                size
+                 //?} else {
+                /*getContainerSize
+                *///?}
+                ();
+        NonNullList<ItemStack> defaultedList = NonNullList.withSize(size, ItemStack.EMPTY);
         int j = 0;
         for (int i = 0; i < defaultedList.size(); i++) {
-            ItemStack itemStack = craftingRecipeInput.getItem(i);
+            ItemStack itemStack = input.getItem(i);
             if (itemStack.is(ModItems.CHROMATIC_MATTER.get()))
                 defaultedList.set(i, itemStack.copyWithCount(1));
             else if (!itemStack.isEmpty()) j++;
         }
-        return j > 0 ? defaultedList : NonNullList.withSize(craftingRecipeInput.size(), ItemStack.EMPTY);
+        return j > 0 ? defaultedList : NonNullList.withSize(size, ItemStack.EMPTY);
     }
+
+    //? if <1.21 {
+    /*@Override
+    public ResourceLocation getId() {
+        ResourceLocation id = BuiltInRegistries.ITEM.getKey(output.getItem());
+        return new ResourceLocation(id.getNamespace(), id.getPath()+"_chromatic");
+    }
+    *///?}
 
     @Override
     public boolean canCraftInDimensions(int width, int height) {
@@ -100,7 +161,13 @@ public class ChromaticColoringRecipe implements CraftingRecipe {
     }
 
     @Override
-    public @NotNull ItemStack getResultItem(HolderLookup.Provider registriesLookup) {
+    public @NotNull ItemStack getResultItem(
+            //? if >1.21 {
+            HolderLookup.Provider registriesLookup
+            //?} else {
+            /*RegistryAccess registryAccess
+            *///?}
+    ) {
         return output;
     }
 
@@ -112,6 +179,7 @@ public class ChromaticColoringRecipe implements CraftingRecipe {
     public record Serializer(BiFunction<Ingredient, ItemStack, ChromaticColoringRecipe> func)
             implements RecipeSerializer<ChromaticColoringRecipe> {
 
+        //? if >1.21 {
         @Override
         public @NotNull MapCodec<ChromaticColoringRecipe> codec() {
             return RecordCodecBuilder.mapCodec(instance -> instance.group(
@@ -135,5 +203,26 @@ public class ChromaticColoringRecipe implements CraftingRecipe {
             Ingredient.CONTENTS_STREAM_CODEC.encode(buf, recipe.input);
             ItemStack.STREAM_CODEC.encode(buf, recipe.output);
         }
+        //?} else {
+        /*@Override
+        public ChromaticColoringRecipe fromJson(ResourceLocation id, JsonObject json) {
+            Ingredient input = Ingredient.fromJson(GsonHelper.getNonNull(json, "input"));
+            ItemStack output = ShapedRecipe.itemStackFromJson(GsonHelper.getAsJsonObject(json, "output"));
+            return func.apply(input, output);
+        }
+
+        @Override
+        public ChromaticColoringRecipe fromNetwork(ResourceLocation id, FriendlyByteBuf buf) {
+            Ingredient input = Ingredient.fromNetwork(buf);
+            ItemStack output = buf.readItem();
+            return func.apply(input, output);
+        }
+
+        @Override
+        public void toNetwork(FriendlyByteBuf buf, ChromaticColoringRecipe recipe) {
+            recipe.input.toNetwork(buf);
+            buf.writeItem(recipe.output);
+        }
+        *///?}
     }
 }

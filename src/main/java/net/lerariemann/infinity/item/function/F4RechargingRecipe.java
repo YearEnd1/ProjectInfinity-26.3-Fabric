@@ -4,26 +4,50 @@ import net.lerariemann.infinity.item.F4Item;
 import net.lerariemann.infinity.registry.core.ModComponentTypes;
 import net.lerariemann.infinity.registry.core.ModItemFunctions;
 import net.lerariemann.infinity.registry.core.ModItems;
-import net.minecraft.core.HolderLookup;
+import net.lerariemann.infinity.util.VersionMethods;
+
 import net.minecraft.core.NonNullList;
+import net.minecraft.core.RegistryAccess;
+//? if >1.21 {
 import net.minecraft.core.component.DataComponentMap;
+import net.minecraft.world.item.crafting.CraftingInput;
+import net.minecraft.core.HolderLookup;
+//?}
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.inventory.CraftingContainer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.CraftingBookCategory;
-import net.minecraft.world.item.crafting.CraftingInput;
 import net.minecraft.world.item.crafting.CustomRecipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 
 public class F4RechargingRecipe extends CustomRecipe {
-    public F4RechargingRecipe(CraftingBookCategory craftingRecipeCategory) {
-        super(craftingRecipeCategory);
+    public F4RechargingRecipe(
+            //? if <1.21
+            /*ResourceLocation id,*/
+            CraftingBookCategory craftingRecipeCategory) {
+        super(
+                //? if <1.21
+                /*id,*/
+                craftingRecipeCategory);
     }
 
-    public boolean matches(CraftingInput craftingRecipeInput, Level world) {
+    public boolean matches(
+            //? if >1.21 {
+            CraftingInput
+             //?} else {
+            /*CraftingContainer
+            *///?}
+            craftingRecipeInput, Level world) {
         boolean foundF4 = false;
-        for (int k = 0; k < craftingRecipeInput.size(); k++) {
+        //? if >1.21 {
+        int size = craftingRecipeInput.size();
+         //?} else {
+        /*int size = craftingRecipeInput.getContainerSize();
+        *///?}
+        for (int k = 0; k < size; k++) {
             ItemStack itemStack = craftingRecipeInput.getItem(k);
             if (itemStack.is(ModItems.F4.get())) {
                 if (foundF4) return false;
@@ -34,10 +58,27 @@ public class F4RechargingRecipe extends CustomRecipe {
         return foundF4;
     }
 
-    public @NotNull ItemStack assemble(CraftingInput craftingRecipeInput, HolderLookup.Provider wrapperLookup) {
+    public @NotNull ItemStack assemble(
+            //? if >1.21 {
+            CraftingInput
+             //?} else {
+            /*CraftingContainer
+            *///?}
+            craftingRecipeInput,
+            //? if >1.21 {
+            HolderLookup.Provider
+            //?} else {
+            /*RegistryAccess
+            *///?}
+            wrapperLookup) {
         ItemStack f4 = null;
         int i = 0;
-        for (int k = 0; k < craftingRecipeInput.size(); k++) {
+        //? if >1.21 {
+        int size = craftingRecipeInput.size();
+         //?} else {
+        /*int size = craftingRecipeInput.getContainerSize();
+        *///?}
+        for (int k = 0; k < size; k++) {
             ItemStack itemStack = craftingRecipeInput.getItem(k);
             if (itemStack.is(ModItems.F4.get())) f4 = itemStack;
             else if (!itemStack.isEmpty()) i++;
@@ -48,19 +89,28 @@ public class F4RechargingRecipe extends CustomRecipe {
             if (charge > 0) return Items.OBSIDIAN.getDefaultInstance().copyWithCount(Math.min(charge, 64)); //"removing obsidian" recipe
         }
         ItemStack result = f4.copyWithCount(1);
-        result.applyComponents(DataComponentMap.builder() //"adding obsidian" recipe
-                .set(ModComponentTypes.CHARGE.get(), charge + i)
-                .build());
+        VersionMethods.apply(result, ModComponentTypes.CHARGE, charge+i);
         if (charge + i == 0) { //"clearing data" recipe
-            result.remove(ModComponentTypes.DESTINATION.get());
-            result.remove(ModComponentTypes.COLOR.get());
+            VersionMethods.remove(result, ModComponentTypes.DESTINATION);
+            VersionMethods.remove(result, ModComponentTypes.COLOR);
         }
         return result;
     }
 
     @Override
-    public @NotNull NonNullList<ItemStack> getRemainingItems(CraftingInput craftingRecipeInput) {
-        NonNullList<ItemStack> defaultedList = NonNullList.withSize(craftingRecipeInput.size(), ItemStack.EMPTY);
+    public @NotNull NonNullList<ItemStack> getRemainingItems(
+            //? if >1.21 {
+            CraftingInput
+             //?} else {
+            /*CraftingContainer
+            *///?}
+            craftingRecipeInput) {
+        //? if >1.21 {
+        int size = craftingRecipeInput.size();
+        //?} else {
+        /*int size = craftingRecipeInput.getContainerSize();
+        *///?}
+        NonNullList<ItemStack> defaultedList = NonNullList.withSize(size, ItemStack.EMPTY);
         ItemStack f4 = null;
         int f4pos = 0;
         for (int i = 0; i < defaultedList.size(); i++) {
@@ -76,9 +126,7 @@ public class F4RechargingRecipe extends CustomRecipe {
         if (charge == 0) return defaultedList; //"clearing data" recipe
         charge = Math.max(charge - 64, 0);
         ItemStack result = f4.copyWithCount(1);
-        result.applyComponents(DataComponentMap.builder()
-                .set(ModComponentTypes.CHARGE.get(), charge)
-                .build());
+        VersionMethods.apply(result, ModComponentTypes.CHARGE, charge);
         defaultedList.set(f4pos, result);//"adding obsidian" recipe
         return defaultedList;
     }

@@ -7,27 +7,37 @@ import net.lerariemann.infinity.block.custom.BiomeBottleBlock;
 import net.lerariemann.infinity.item.function.*;
 import net.lerariemann.infinity.util.InfinityMethods;
 import net.minecraft.core.BlockPos;
+//? if >1.21 {
 import net.minecraft.core.component.DataComponentPatch;
 import net.minecraft.core.dispenser.BlockSource;
+import net.minecraft.world.item.crafting.RecipeHolder;
+import net.minecraft.world.item.crafting.SingleRecipeInput;
+//?} else {
+/*import net.minecraft.core.BlockSource;
+import net.minecraft.world.ticks.ContainerSingleItem;
+*///?}
 import net.minecraft.core.dispenser.DefaultDispenseItemBehavior;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.Mth;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.DispensibleContainerItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.item.crafting.SimpleCraftingRecipeSerializer;
-import net.minecraft.world.item.crafting.SingleRecipeInput;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.DispenserBlock;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.loot.functions.LootItemFunctionType;
 import net.minecraft.world.phys.Vec3;
+
 import java.util.Optional;
 import java.util.function.Function;
 
@@ -84,11 +94,23 @@ public class ModItemFunctions {
         DispenserBlock.registerBehavior(ModItems.IRIDESCENCE_BUCKET.get(), new DefaultDispenseItemBehavior() {
             public ItemStack execute(BlockSource pointer, ItemStack stack) {
                 DispensibleContainerItem fluidModificationItem = (DispensibleContainerItem)stack.getItem();
-                BlockPos blockPos = pointer.pos().relative(pointer.state().getValue(DispenserBlock.FACING));
+                //? if >1.21 {
                 Level world = pointer.level();
+                BlockPos pos = pointer.pos();
+                BlockState state = pointer.state();
+                //?} else {
+                /*Level world = pointer.getLevel();
+                BlockPos pos = pointer.getPos();
+                BlockState state = pointer.getBlockState();
+                *///?}
+                BlockPos blockPos = pos.relative(state.getValue(DispenserBlock.FACING));
                 if (fluidModificationItem.emptyContents(null, world, blockPos, null)) {
                     fluidModificationItem.checkExtraContent(null, world, stack, blockPos);
+                    //? if >1.21 {
                     return this.consumeWithRemainder(pointer, stack, Items.BUCKET.getDefaultInstance());
+                    //?} else {
+                    /*return Items.BUCKET.getDefaultInstance();
+                    *///?}
                 } else {
                     return new DefaultDispenseItemBehavior().dispense(pointer, stack);
                 }
@@ -98,16 +120,55 @@ public class ModItemFunctions {
 
     public static void checkCollisionRecipes(ServerLevel w, ItemEntity itemEntity,
                                              RecipeType<CollisionCraftingRecipe> recipeType,
-                                             Function<Item, Optional<DataComponentPatch>> componentFunction) {
+                                             //? if >1.21 {
+                                             Function<Item, Optional<DataComponentPatch>> componentFunction
+                                             //?} else {
+                                             /*CompoundTag compound
+                                             *///?}
+    ) {
         if (itemEntity.isRemoved()) return;
         ItemStack itemStack = itemEntity.getItem();
+        //? if >1.21 {
         Optional<RecipeHolder<CollisionCraftingRecipe>> match = w.getRecipeManager()
                 .getRecipeFor(recipeType, new SingleRecipeInput(itemStack), w);
         if (match.isEmpty()) return;
+        var value = match.get().value();
+        //?} else {
+        /*Optional<CollisionCraftingRecipe> match = w.getRecipeManager()
+                .getRecipeFor(recipeType, new ContainerSingleItem() {
 
-        ItemStack resStack = match.get().value().getResultItem(w.registryAccess());
+                    @Override
+                    public ItemStack getItem(int i) {
+                        return itemStack;
+                    }
+
+                    @Override
+                    public ItemStack removeItem(int i, int j) {
+                        return null;
+                    }
+
+                    @Override
+                    public void setItem(int i, ItemStack itemStack) {}
+
+                    @Override
+                    public void setChanged() {}
+
+                    @Override
+                    public boolean stillValid(Player player) {
+                        return false;
+                    }
+                }, w);
+        if (match.isEmpty()) return;
+        var value = match.get();
+        *///?}
+
+        ItemStack resStack = value.getResultItem(w.registryAccess());
         if (resStack.is(itemStack.getItem())) resStack = itemStack.copy();
+        //? if >1.21 {
         componentFunction.apply(resStack.getItem()).ifPresent(resStack::applyComponentsAndValidate);
+        //?} else {
+        /*resStack.setTag(compound);
+        *///?}
 
         Vec3 v = itemEntity.getDeltaMovement();
         ItemEntity result = new ItemEntity(w, itemEntity.getX(), itemEntity.getY(), itemEntity.getZ(),
@@ -132,7 +193,7 @@ public class ModItemFunctions {
         ItemPropertiesRegistry.register(ModItems.BIOME_BOTTLE_ITEM.get(), InfinityMethods.getId("bottle"),
                 (stack, world, entity, seed) -> {
                     int charge = BiomeBottleBlock.getCharge(stack);
-                    return Math.clamp(charge / 1000.0f, 0f, 1f);
+                    return Mth.clamp(charge / 1000.0f, 0f, 1f);
                 });
         ItemPropertiesRegistry.register(ModItems.F4.get(), InfinityMethods.getId("f4"),
                 (stack, world, entity, seed) -> {

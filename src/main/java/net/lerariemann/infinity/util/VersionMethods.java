@@ -5,12 +5,16 @@ import net.lerariemann.infinity.registry.core.ModComponentTypes;
 //? if >1.21 {
 import net.minecraft.core.component.DataComponentMap;
 import net.minecraft.core.component.DataComponentType;
-//?}
+//?} else {
+/*import net.minecraft.nbt.CompoundTag;
+*///?}
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.WorldGenLevel;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.function.Supplier;
 
 public class VersionMethods {
     public static ResourceLocation id(String s) {
@@ -101,6 +105,12 @@ public class VersionMethods {
         if (dimension != null) return ResourceLocation.tryParse(dimension);
         else return null;
     }
+
+    public static void remove(ItemStack stack, String key) {
+        if (stack.hasTag()) {
+            stack.removeTagKey(key);
+        }
+    }
     *///?} else {
 
     public static int getOrDefaultInt(ItemStack stack, RegistrySupplier<DataComponentType<Integer>> charge, int i) {
@@ -115,6 +125,10 @@ public class VersionMethods {
                 .set(charge, i).build());
         return stack;
 
+    }
+
+    public static <T> T remove(ItemStack stack, Supplier<? extends DataComponentType<? extends T>> componentType) {
+        return stack.remove(componentType);
     }
     //?}
 
