@@ -3,6 +3,7 @@ package net.lerariemann.infinity.dimensions;
 import net.lerariemann.infinity.InfinityMod;
 import net.lerariemann.infinity.util.core.CommonIO;
 import net.lerariemann.infinity.util.core.ConfigType;
+import net.lerariemann.infinity.util.core.NbtUtils;
 import net.lerariemann.infinity.util.core.RandomProvider;
 import net.minecraft.nbt.*;
 
@@ -41,14 +42,13 @@ public class RandomDimensionType {
         data.putInt("monster_spawn_block_light_limit", random.nextInt(16));
         CompoundTag lightLevel = new CompoundTag();
         lightLevel.putString("type", "uniform");
-        lightLevel.putInt("min_inclusive", 0);
-        lightLevel.putInt("max_inclusive", random.nextInt(16));
+        NbtUtils.addBounds(lightLevel, 0, random.nextInt(16));
         data.put("monster_spawn_light_level", lightLevel);
         data.putString("infiniburn", "#" + dim.PROVIDER.randomName(random, ConfigType.TAGS));
         String s = dim.PROVIDER.randomName(random, ConfigType.DIMENSION_EFFECTS);
         data.putString("effects", s);
         data.putBoolean("has_skylight", s.equals("minecraft:overworld"));
-        CommonIO.write(data, dim.getStoragePath() + "/dimension_type", name + ".json");
+        CommonIO.write(data, dim.getStoragePath() + "/data/dimension_type", name + ".json");
     }
 
     boolean roll(String key) {

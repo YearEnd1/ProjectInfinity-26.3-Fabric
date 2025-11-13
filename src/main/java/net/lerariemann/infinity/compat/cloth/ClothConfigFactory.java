@@ -11,7 +11,7 @@ import me.shedaniel.clothconfig2.impl.builders.SubCategoryBuilder;
 import net.lerariemann.infinity.dimensions.RandomDimensionType;
 import net.lerariemann.infinity.util.core.CommonIO;
 import net.lerariemann.infinity.util.core.NbtUtils;
-import net.lerariemann.infinity.util.platform.Platform;
+import net.lerariemann.infinity.util.platform.InfinityPlatform;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.nbt.CompoundTag;
@@ -312,7 +312,7 @@ public class ClothConfigFactory {
     }
 
     static Path configPath() {
-        return Path.of(Platform.INSTANCE.getConfigFolder() + "/infinity");
+        return Path.of(InfinityPlatform.INSTANCE.getConfigFolder() + "/infinity");
     }
 
     public static CompoundTag readRootConfigNbt() {

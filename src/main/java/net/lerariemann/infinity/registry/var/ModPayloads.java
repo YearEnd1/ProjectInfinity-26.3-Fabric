@@ -203,10 +203,9 @@ public class ModPayloads {
         //?}
         @Override
         public void receive(Minecraft client) {
-            ((WorldRendererAccess)(client.levelRenderer)).infinity$setNeedsStars(true);
+            client.execute(() -> ((WorldRendererAccess)(client.levelRenderer)).infinity$setNeedsStars(true));
         }
     }
-
 
     public record SoundPackS2CPayload(CompoundTag songIds) implements FriendlyPacketS2C {
         static ResourceLocation sid = getId("download_sound_pack");

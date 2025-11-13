@@ -21,6 +21,8 @@ import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 import net.minecraft.world.level.levelgen.structure.Structure;
 import net.minecraft.world.level.levelgen.structure.StructureSet;
+import org.jetbrains.annotations.NotNull;
+
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
@@ -108,7 +110,7 @@ public class DimensionGrabber {
         buildGrabber(Structure.DIRECT_CODEC, Registries.STRUCTURE).grabAll(rootdir.resolve("worldgen/structure"));
         buildGrabber(StructureSet.DIRECT_CODEC, Registries.STRUCTURE_SET).grabAll(rootdir.resolve("worldgen/structure_set"));
         buildGrabber(NoiseGeneratorSettings.DIRECT_CODEC, Registries.NOISE_SETTINGS).grabAll(rootdir.resolve("worldgen/noise_settings"));
-        buildGrabber(DimensionType.DIRECT_CODEC, Registries.DIMENSION_TYPE).grabAll(rootdir.resolve("dimension_type"));
+        buildGrabber(DimensionType.DIRECT_CODEC, Registries.DIMENSION_TYPE).grabAll(rootdir.resolve("data/dimension_type"));
     }
 
     private LevelStem grabDimension(Path rootdir, String i) {
@@ -138,7 +140,7 @@ public class DimensionGrabber {
         baseRegistryManager.registries().forEach((entry) -> map.put(entry.key(), createInfo(entry.value())));
         mutableRegistries.forEach(registry -> map.put(registry.key(), createMutableInfo(registry)));
         return new RegistryOps.RegistryInfoLookup() {
-            public <T> Optional<RegistryOps.RegistryInfo<T>> lookup(ResourceKey<? extends Registry<? extends T>> registryRef) {
+            public <T> @NotNull Optional<RegistryOps.RegistryInfo<T>> lookup(ResourceKey<? extends Registry<? extends T>> registryRef) {
                 return Optional.ofNullable((RegistryOps.RegistryInfo<T>)map.get(registryRef));
             }
         };

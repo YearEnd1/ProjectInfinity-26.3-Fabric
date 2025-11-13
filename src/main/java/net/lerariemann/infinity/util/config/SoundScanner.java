@@ -7,7 +7,7 @@ import net.lerariemann.infinity.util.VersionMethods;
 import net.lerariemann.infinity.util.core.CommonIO;
 import net.lerariemann.infinity.util.core.NbtUtils;
 import net.lerariemann.infinity.util.core.RandomProvider;
-import net.lerariemann.infinity.util.platform.Platform;
+import net.lerariemann.infinity.util.platform.InfinityPlatform;
 import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
@@ -62,7 +62,7 @@ public record SoundScanner(Map<ResourceLocation, Resource> soundIds) {
         }
         else if (isPreloaded()) {
             cl.execute(() -> {
-                CompoundTag jukeboxes = saveResourcePack(cl, getMatchingLoadedIds(), Platform.above21);
+                CompoundTag jukeboxes = saveResourcePack(cl, getMatchingLoadedIds(), InfinityPlatform.above21);
                 CompoundTag res = new CompoundTag();
                 ListTag songIdsList = new ListTag();
                 getMatchingLoadedIds().forEach(id -> songIdsList.add(StringTag.valueOf(id.toString())));

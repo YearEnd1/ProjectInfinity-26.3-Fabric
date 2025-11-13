@@ -8,26 +8,6 @@ import java.util.Random;
 
 /** Contains various common use methods for working with {@link CompoundTag} objects. */
 public interface NbtUtils {
-
-    static String test(CompoundTag data, String key, String def) {
-        return data.contains(key, Tag.TAG_STRING) ? data.getString(key) : def;
-    }
-    static CompoundTag test(CompoundTag data, String key, CompoundTag def) {
-        return data.contains(key, Tag.TAG_COMPOUND) ? data.getCompound(key) : def;
-    }
-    static float test(CompoundTag data, String key, float def) {
-        return data.contains(key, Tag.TAG_DOUBLE) ? data.getFloat(key) : def;
-    }
-    static int test(CompoundTag data, String key, int def) {
-        return data.contains(key, Tag.TAG_INT) ? data.getInt(key) : def;
-    }
-    static double test(CompoundTag data, String key, double def) {
-        return data.contains(key, Tag.TAG_DOUBLE) ? data.getDouble(key) : def;
-    }
-    static boolean test(CompoundTag data, String key, boolean def) {
-        return data.contains(key) ? data.getBoolean(key) : def;
-    }
-    
     static String getString(CompoundTag data, String key, String def) {
         return data.contains(key, Tag.TAG_STRING) ? data.getString(key) : def;
     }
@@ -101,9 +81,22 @@ public interface NbtUtils {
         return res;
     }
 
+    //? if <1.21 {
+    static CompoundTag genBounds(int lbound, int bound) {
+        CompoundTag value = new CompoundTag();
+        value.putInt("min_inclusive", lbound);
+        value.putInt("max_inclusive", bound);
+        return value;
+    }
+    //?}
+
     static void addBounds(CompoundTag res, int lbound, int bound) {
-        res.putInt("min_inclusive", lbound);
+        //? if >1.21 {
+        /*res.putInt("min_inclusive", lbound);
         res.putInt("max_inclusive", bound);
+        *///?} else {
+        res.put("value", genBounds(lbound, bound));
+        //?}
     }
 
     static void addBounds(CompoundTag res, Random random, int lbound, int bound) {
@@ -132,15 +125,28 @@ public interface NbtUtils {
             }
             case 4 -> {
                 res.putString("type", "clamped");
-                addBounds(res, random, lbound, bound);
+                //? if >1.21 {
+                /*addBounds(res, random, lbound, bound);
                 res.put("source", randomIntProvider(random, lbound, bound, false));
+                *///?} else {
+                CompoundTag value = genBounds(lbound, bound);
+                value.put("source", randomIntProvider(random, lbound, bound, false));
+                res.put("value", value);
+                //?}
                 return res;
             }
             case 3 -> {
                 res.putString("type", "clamped_normal");
-                addBounds(res, random, lbound, bound);
+                //? if >1.21 {
+                /*addBounds(res, random, lbound, bound);
                 res.putDouble("mean", lbound + random.nextDouble()*(bound-lbound));
                 res.putDouble("deviation", random.nextExponential());
+                *///?} else {
+                CompoundTag value = genBounds(lbound, bound);
+                value.putDouble("mean", lbound + random.nextDouble()*(bound-lbound));
+                value.putDouble("deviation", random.nextExponential());
+                res.put("value", value);
+                //?}
                 return res;
             }
             case 5 -> {
@@ -223,23 +229,32 @@ public interface NbtUtils {
         float b = random.nextFloat(lbound, bound);
         float min = Math.min(a, b);
         float max = Math.max(a, b);
+        CompoundTag value =
+                //? if >1.21 {
+                /*res;
+                *///?} else {
+                new CompoundTag();
+                //?}
         switch (i) {
             case 0 -> {
-                res.putFloat("max_exclusive", max);
-                res.putFloat("min_inclusive", min);
+                value.putFloat("max_exclusive", max);
+                value.putFloat("min_inclusive", min);
             }
             case 1 -> {
-                res.putFloat("max", max);
-                res.putFloat("min", min);
-                res.putFloat("mean", random.nextFloat(min, max));
-                res.putFloat("deviation", random.nextFloat(max - min));
+                value.putFloat("max", max);
+                value.putFloat("min", min);
+                value.putFloat("mean", random.nextFloat(min, max));
+                value.putFloat("deviation", random.nextFloat(max - min));
             }
             case 2 -> {
-                res.putFloat("max", max);
-                res.putFloat("min", min);
-                res.putFloat("plateau", random.nextFloat(max - min));
+                value.putFloat("max", max);
+                value.putFloat("min", min);
+                value.putFloat("plateau", random.nextFloat(max - min));
             }
         }
+        //? if <1.21 {
+        res.put("value", value);
+        //?}
         return res;
     }
 }

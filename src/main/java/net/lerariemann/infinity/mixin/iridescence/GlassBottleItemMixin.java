@@ -20,9 +20,15 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public abstract class GlassBottleItemMixin {
     @Shadow protected abstract ItemStack turnBottleIntoItem(ItemStack stack, Player player, ItemStack outputStack);
 
-    @Inject(method="use", at = @At(value = "INVOKE",
+    //? if >1.21 {
+    /*@Inject(method="use", at = @At(value = "INVOKE",
             target = "Lnet/minecraft/world/level/Level;gameEvent(Lnet/minecraft/world/entity/Entity;Lnet/minecraft/core/Holder;Lnet/minecraft/core/BlockPos;)V",
             shift = At.Shift.AFTER), cancellable = true)
+    *///?} else {
+    @Inject(method="use", at = @At(value = "INVOKE",
+            target = "Lnet/minecraft/world/level/Level;gameEvent(Lnet/minecraft/world/entity/Entity;Lnet/minecraft/world/level/gameevent/GameEvent;Lnet/minecraft/core/BlockPos;)V",
+            shift = At.Shift.AFTER), cancellable = true)
+    //?}
     void inj(Level world, Player user, InteractionHand hand, CallbackInfoReturnable<InteractionResultHolder<ItemStack>> cir, @Local ItemStack itemStack, @Local BlockPos pos) {
         if (Iridescence.isIridescence(world, pos))
             cir.setReturnValue(InteractionResultHolder.sidedSuccess(turnBottleIntoItem(itemStack, user,

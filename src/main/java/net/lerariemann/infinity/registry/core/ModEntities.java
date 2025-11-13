@@ -9,22 +9,20 @@ import dev.architectury.registry.registries.RegistrySupplier;
 import net.lerariemann.infinity.entity.client.*;
 import net.lerariemann.infinity.entity.custom.*;
 import net.lerariemann.infinity.util.InfinityMethods;
+import net.lerariemann.infinity.util.platform.InfinityPlatform;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.MobCategory;
-import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.*;
 //? if >1.21 {
 /*import net.minecraft.world.entity.SpawnPlacementType;
 import static net.minecraft.world.entity.SpawnPlacementTypes.*;
 *///?} else {
+import net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityTypeBuilder;
 import static net.minecraft.world.entity.SpawnPlacements.Type.*;
 //?}
-import net.minecraft.world.entity.SpawnPlacements;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.monster.AbstractSkeleton;
 import net.minecraft.world.entity.monster.Monster;
@@ -56,10 +54,20 @@ public class ModEntities {
     public static final DeferredRegister<EntityType<?>> INFINITY_ENTITIES = DeferredRegister.create(MOD_ID, Registries.ENTITY_TYPE);
 
     public static final RegistrySupplier<EntityType<ChaosSlime>> CHAOS_SLIME = INFINITY_ENTITIES
-            .register("chaos_slime", () -> EntityType.Builder.of(ChaosSlime::new, MobCategory.MONSTER)
+            .register("chaos_slime", () ->
+                    //? if >1.21 {
+                    /*
+                    EntityType.Builder.of(ChaosSlime::new, MobCategory.MONSTER)
                     .sized(0.52f, 0.52f)
                     .clientTrackingRange(10)
-                    .build(type("chaos_slime")));
+                    .build(type("chaos_slime"))
+                     *///?} else {
+                    FabricEntityTypeBuilder.create(MobCategory.MONSTER, ChaosSlime::new)
+                    .dimensions(EntityDimensions.scalable(0.52f, 0.52f))
+                    .trackRangeBlocks(10)
+                    .build()
+                    //?}
+            );
     public static final RegistrySupplier<EntityType<ChaosSkeleton>> CHAOS_SKELETON = INFINITY_ENTITIES
             .register("chaos_skeleton", () -> EntityType.Builder.of(ChaosSkeleton::new, MobCategory.MONSTER)
                     .sized(0.6f, 1.99f)
@@ -101,10 +109,10 @@ public class ModEntities {
     }
 
     public static String type(String id) {
-        if (!Platform.isFabric()) {
-            return "infinity:"+id;
+        if (Platform.isFabric() && InfinityPlatform.above21) {
+            return null;
         }
-        else return null;
+        else return "infinity:"+id;
     }
 
     public static void registerAttributes() {

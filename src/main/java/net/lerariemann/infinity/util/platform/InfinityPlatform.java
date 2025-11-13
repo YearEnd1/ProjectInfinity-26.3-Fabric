@@ -9,7 +9,7 @@ import net.lerariemann.infinity.util.platform.fabric.FabricPlatformImpl;
 
 import java.nio.file.Path;
 
-public interface Platform {
+public interface InfinityPlatform {
     boolean above21 =
             //? if >1.21 {
             /*true;
@@ -18,7 +18,7 @@ public interface Platform {
     //?}
 
     //? fabric {
-    Platform INSTANCE = new FabricPlatformImpl();
+    InfinityPlatform INSTANCE = new FabricPlatformImpl();
     //?}
     //? neoforge {
     /*Platform INSTANCE = new NeoForgePlatformImpl();

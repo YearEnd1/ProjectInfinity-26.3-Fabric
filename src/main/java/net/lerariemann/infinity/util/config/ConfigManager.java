@@ -1,7 +1,7 @@
 package net.lerariemann.infinity.util.config;
 
 import net.lerariemann.infinity.InfinityMod;
-import net.lerariemann.infinity.util.platform.Platform;
+import net.lerariemann.infinity.util.platform.InfinityPlatform;
 import net.lerariemann.infinity.util.core.CommonIO;
 import net.lerariemann.infinity.util.core.NbtUtils;
 import net.minecraft.nbt.CompoundTag;
@@ -27,7 +27,7 @@ import static net.lerariemann.infinity.InfinityMod.configPath;
  */
 public interface ConfigManager {
     /** Allows to bypass inability to read files directly from the jar by first copying them to here. */
-    Path tempFile = Platform.INSTANCE.getConfigFolder().resolve(".infinity-temp.json");
+    Path tempFile = InfinityPlatform.INSTANCE.getConfigFolder().resolve(".infinity-temp.json");
 
     /** If the game was last started in a version of the mod that uses a different modular config format,
      * this deletes the old configs ensuring they will be regenerated in the correct format
@@ -80,7 +80,7 @@ public interface ConfigManager {
         try {
             if (!endfile.toFile().exists()) {
                 String separator;
-                if (Platform.INSTANCE.isDevelopment()) {
+                if (InfinityPlatform.INSTANCE.isDevelopment()) {
                     separator = File.separator;
                 }
                 else {

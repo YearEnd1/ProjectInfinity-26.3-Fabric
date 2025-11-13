@@ -1,6 +1,7 @@
 package net.lerariemann.infinity.mixin.iridescence;
 
 import net.lerariemann.infinity.registry.core.ModStatusEffects;
+import net.lerariemann.infinity.util.VersionMethods;
 import net.minecraft.core.Holder;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -13,7 +14,11 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(MobEffectInstance.class)
 public abstract class StatusEffectInstanceMixin {
-    @Shadow public abstract Holder<MobEffect> getEffect();
+    //? if >1.21 {
+    /*@Shadow public abstract Holder<MobEffect> getEffect();
+    *///?} else {
+    @Shadow public abstract MobEffect getEffect();
+    //?}
 
     @Shadow private int duration;
 
@@ -22,7 +27,7 @@ public abstract class StatusEffectInstanceMixin {
     /* Hook for unconventional status effect ticking logic */
     @Inject(method = "tick", at = @At(target = "Lnet/minecraft/world/effect/MobEffectInstance;tickDownDuration()I", value = "INVOKE"))
     void inj(LivingEntity entity, Runnable overwriteCallback, CallbackInfoReturnable<Boolean> cir) {
-        if (getEffect().value() instanceof ModStatusEffects.SpecialEffect eff) {
+        if (VersionMethods.unholdEffect(getEffect()) instanceof ModStatusEffects.SpecialEffect eff) {
             eff.tryApplySpecial(entity, duration, amplifier);
         }
     }
