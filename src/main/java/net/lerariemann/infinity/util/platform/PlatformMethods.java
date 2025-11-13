@@ -2,52 +2,54 @@ package net.lerariemann.infinity.util.platform;
 
 import dev.architectury.registry.registries.RegistrySupplier;
 
-import net.fabricmc.fabric.api.networking.v1.FabricPacket;
 import net.lerariemann.infinity.registry.core.ModBlocks;
+import net.lerariemann.infinity.registry.var.ModPayloads;
 import net.lerariemann.infinity.util.InfinityMethods;
-import net.minecraft.core.component.DataComponentType;
+import net.lerariemann.infinity.util.VersionMethods;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.tags.BlockTags;
-import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.enchantment.ItemEnchantments;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.FireBlock;
 import net.minecraft.world.level.block.LiquidBlock;
-import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.FlowingFluid;
 import net.minecraft.world.level.material.MapColor;
 import java.nio.file.Path;
 import java.util.function.Supplier;
 
+//? if >1.21 {
+/*import net.minecraft.core.component.DataComponentType;
+import net.minecraft.world.item.enchantment.ItemEnchantments;
+import net.minecraft.world.item.ItemStack;
+*///?}
+//? if >1.21 && fabric {
+/*import net.fabricmc.fabric.api.event.lifecycle.v1.DimensionTransitionEvents;
+import net.fabricmc.fabric.api.tag.convention.v2.ConventionalBlockTags;
+*///?}
+//? if <1.21 && fabric {
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerWorldEvents;
+//?}
+
 //? fabric {
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
-import net.fabricmc.fabric.api.event.lifecycle.v1.DimensionTransitionEvents;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.fabricmc.fabric.api.registry.FlammableBlockRegistry;
-import net.fabricmc.fabric.api.tag.convention.v2.ConventionalBlockTags;
 import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.api.ModContainer;
 import net.lerariemann.infinity.InfinityMod;
 import net.lerariemann.infinity.iridescence.IridescenceLiquidBlock;
-import net.lerariemann.infinity.item.StarOfLangItem;
 import net.lerariemann.infinity.util.platform.fabric.ModFluidsFabric;
-import net.minecraft.core.registries.Registries;
 //?}
 //? neoforge {
 /*import io.netty.buffer.Unpooled;
@@ -59,6 +61,11 @@ import net.neoforged.neoforge.network.PacketDistributor;
 import net.lerariemann.infinity.util.platform.neoforge.FluidTypes;
 import net.lerariemann.infinity.util.platform.neoforge.IridescenceLiquidBlockNeoforge;
 import net.lerariemann.infinity.util.platform.neoforge.ModFluidsNeoforge;
+import net.minecraft.tags.BlockTags;
+import net.minecraft.tags.ItemTags;
+import net.minecraft.world.level.block.FireBlock;
+import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.entity.player.Player;
 *///?}
 /**
  * Methods that require different implementations to work on Fabric vs. NeoForge.
@@ -78,13 +85,7 @@ public interface PlatformMethods {
         *///?}
     }
 
-    static void sendS2CPayload(ServerPlayer entity,
-                               //? if >1.21 {
-                               /*CustomPacketPayload
-                               *///?} else {
-                               FabricPacket
-                               //?}
-                                       payload) {
+    static void sendS2CPayload(ServerPlayer entity, ModPayloads.FriendlyPacket payload) {
         //? fabric {
         ServerPlayNetworking.send(entity, payload);
         //?}
@@ -92,13 +93,7 @@ public interface PlatformMethods {
         /*PacketDistributor.sendToPlayer(entity, payload);
         *///?}
     }
-    static void sendC2SPayload(
-            //? if >1.21 {
-            /*CustomPacketPayload
-             *///?} else {
-            FabricPacket
-            //?}
-                    payload) {
+    static void sendC2SPayload(ModPayloads.FriendlyPacket payload) {
         //? fabric {
         ClientPlayNetworking.send(payload);
         //?}
@@ -112,8 +107,11 @@ public interface PlatformMethods {
      * On Fabric, this invokes a server world event in Fabric API.
      */
     static void onWorldLoad(Object mixin, ServerLevel world) {
-        //? fabric {
-        DimensionTransitionEvents.LOAD.invoker().onWorldLoad((MinecraftServer)mixin, world);
+        //? if >1.21 && fabric {
+        /*DimensionTransitionEvents.LOAD.invoker().onWorldLoad((MinecraftServer)mixin, world);
+        *///?}
+        //? if <1.21 && fabric {
+        ServerWorldEvents.LOAD.invoker().onWorldLoad((MinecraftServer) mixin, world);
         //?}
         //? neoforge {
         /*MinecraftServer server = world.getServer();
@@ -142,9 +140,12 @@ public interface PlatformMethods {
      * Check if a block is in the Black Dyed Conventional Tag.
      */
     static boolean isInBlack(BlockState state) {
-        //? fabric {
-        return state.is(ConventionalBlockTags.BLACK_DYED);
+        //? if <1.21 {
+        return BuiltInRegistries.BLOCK.getKey(state.getBlock()).getPath().contains("black_");
         //?}
+        //? if >1.21 && fabric {
+        /*return state.is(ConventionalBlockTags.BLACK_DYED);
+        *///?}
         //? neoforge {
         /*return state.is(Tags.Blocks.DYED_BLACK);
         *///?}
@@ -154,9 +155,12 @@ public interface PlatformMethods {
      * Check if a block is in the White Dyed Conventional Tag.
      */
     static boolean isInWhite(BlockState state) {
-        //? fabric {
-        return state.is(ConventionalBlockTags.WHITE_DYED);
+        //? if <1.21 {
+        return BuiltInRegistries.BLOCK.getKey(state.getBlock()).getPath().contains("white_");
         //?}
+        //? if >1.21 && fabric {
+        /*return state.is(ConventionalBlockTags.WHITE_DYED);
+        *///?}
         //? neoforge {
         /*return state.is(Tags.Blocks.DYED_WHITE);
         *///?}
@@ -192,7 +196,7 @@ public interface PlatformMethods {
         //? fabric {
         return ModBlocks.BLOCKS.register("iridescence", () ->
                 new IridescenceLiquidBlock(PlatformMethods.getIridescenceStill(),
-                        BlockBehaviour.Properties.ofFullCopy(Blocks.WATER).mapColor(MapColor.COLOR_MAGENTA)));
+                        VersionMethods.copyBlockProperties(Blocks.WATER).mapColor(MapColor.COLOR_MAGENTA)));
         //?}
         //? neoforge {
         /*return ModBlocks.BLOCKS.register("iridescence", () ->
@@ -278,21 +282,21 @@ public interface PlatformMethods {
          *///?}
     }
 
-    static Item.Properties deferredIntComponent(Supplier<DataComponentType<Integer>> componentTypeSupplier, int i) {
-        //? fabric {
+    //? if >1.21 && fabric {
+    /*static Item.Properties deferredIntComponent(Supplier<DataComponentType<Integer>> componentTypeSupplier, int i) {
         return new Item.Properties().component(componentTypeSupplier.get(), i);
-        //?}
-        //? neoforge {
-        /*return new Item.Properties().component(componentTypeSupplier, i);
-        *///?}
     }
-
     static ItemEnchantments getEnchantments(ItemStack weapon, MinecraftServer s) {
-        //? fabric {
         return weapon.getEnchantments();
-         //?}
-        //? neoforge {
-        /*return weapon.getAllEnchantments(s.registryAccess().lookupOrThrow(Registries.ENCHANTMENT));
-        *///?}
     }
+    *///?}
+
+    //? if >1.21 && neoforge {
+    /*static Item.Properties deferredIntComponent(Supplier<DataComponentType<Integer>> componentTypeSupplier, int i) {
+        return new Item.Properties().component(componentTypeSupplier, i);
+    }
+    static ItemEnchantments getEnchantments(ItemStack weapon, MinecraftServer s) {
+        return weapon.getAllEnchantments(s.registryAccess().lookupOrThrow(Registries.ENCHANTMENT));
+    }
+    *///?}
 }

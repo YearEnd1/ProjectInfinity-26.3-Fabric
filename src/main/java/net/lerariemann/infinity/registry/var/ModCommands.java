@@ -17,12 +17,20 @@ import static net.minecraft.commands.Commands.argument;
 import static net.minecraft.commands.Commands.literal;
 
 public class ModCommands {
-    public static final DynamicCommandExceptionType MALFORM_IDENTIFIER_EXCEPTION = new DynamicCommandExceptionType(
-            id -> Component.translatableEscape("error.infinity.warp.malformed_identifier", id)
-    );
-    public static final DynamicCommandExceptionType TIMEBOMBED_EXCEPTION = new DynamicCommandExceptionType(
-            id -> Component.translatableEscape("error.infinity.warp.timebombed", id)
-    );
+    public static final DynamicCommandExceptionType MALFORM_IDENTIFIER_EXCEPTION = makeException("error.infinity.warp.malformed_identifier");
+    public static final DynamicCommandExceptionType TIMEBOMBED_EXCEPTION = makeException("error.infinity.warp.timebombed");
+
+    public static DynamicCommandExceptionType makeException(String key) {
+        return new DynamicCommandExceptionType(
+                id -> Component.
+                        //? if >1.21 {
+                        /*translatableEscape
+                        *///?} else {
+                        translatable
+                //?}
+                ("error.infinity.warp.malformed_identifier", id)
+        );
+    }
 
     public static void registerCommands() {
         String warp;

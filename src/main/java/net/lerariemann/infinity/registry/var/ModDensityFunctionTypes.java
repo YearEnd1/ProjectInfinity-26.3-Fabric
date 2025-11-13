@@ -5,6 +5,7 @@ import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.architectury.registry.registries.DeferredRegister;
 import net.lerariemann.infinity.util.InfinityMethods;
+import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.util.KeyDispatchDataCodec;
 import net.minecraft.world.level.levelgen.DensityFunction;
@@ -13,6 +14,7 @@ import net.minecraft.world.level.levelgen.synth.NormalNoise;
 
 import static net.lerariemann.infinity.InfinityMod.MOD_ID;
 
+@MethodsReturnNonnullByDefault
 public class ModDensityFunctionTypes {
     interface Nonbinary extends DensityFunction {
         DensityFunction input();
@@ -297,8 +299,13 @@ public class ModDensityFunctionTypes {
         public KeyDispatchDataCodec<? extends DensityFunction> codec() { return CODEC_HOLDER; }
     }
 
-
-    public static final DeferredRegister<MapCodec<? extends DensityFunction>> DENSITY_FUNCTION_TYPES = DeferredRegister.create(MOD_ID, Registries.DENSITY_FUNCTION_TYPE);
+    public static final DeferredRegister<
+            //? if >1.21 {
+            /*MapCodec
+             *///?} else {
+            Codec
+            //?}
+            <? extends DensityFunction>> DENSITY_FUNCTION_TYPES = DeferredRegister.create(MOD_ID, Registries.DENSITY_FUNCTION_TYPE);
 
     public static <T extends DensityFunction> void register(String name, KeyDispatchDataCodec<T> holder) {
         DENSITY_FUNCTION_TYPES.register(name, holder::codec);

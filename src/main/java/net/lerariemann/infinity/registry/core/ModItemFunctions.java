@@ -37,6 +37,7 @@ import net.minecraft.world.level.block.DispenserBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.loot.functions.LootItemFunctionType;
 import net.minecraft.world.phys.Vec3;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
 import java.util.function.Function;
@@ -44,17 +45,41 @@ import java.util.function.Function;
 import static net.lerariemann.infinity.InfinityMod.MOD_ID;
 
 public class ModItemFunctions {
-    public static final DeferredRegister<LootItemFunctionType<?>> LOOT_FUNCTION_TYPES =
+    public static final DeferredRegister<LootItemFunctionType
+            //? if >1.21 {
+            /*<?>
+             *///?}
+            > LOOT_FUNCTION_TYPES =
             DeferredRegister.create(MOD_ID, Registries.LOOT_FUNCTION_TYPE);
     public static final DeferredRegister<RecipeSerializer<?>> RECIPE_SERIALIZERS =
             DeferredRegister.create(MOD_ID, Registries.RECIPE_SERIALIZER);
     public static final DeferredRegister<RecipeType<?>> RECIPE_TYPES =
             DeferredRegister.create(MOD_ID, Registries.RECIPE_TYPE);
 
-    public static RegistrySupplier<LootItemFunctionType<SetLevelLootFunction>> SET_BIOME_BOTTLE_LEVEL =
-            LOOT_FUNCTION_TYPES.register("set_biome_bottle_level", () -> new LootItemFunctionType<>(SetLevelLootFunction.CODEC));
-    public static RegistrySupplier<LootItemFunctionType<SetAltarStateLootFunction>> SET_ALTAR_STATE =
-            LOOT_FUNCTION_TYPES.register("set_altar_state", () -> new LootItemFunctionType<>(SetAltarStateLootFunction.CODEC));
+    public static RegistrySupplier<LootItemFunctionType
+            //? if >1.21 {
+            /*<SetLevelLootFunction>
+             *///?}
+            > SET_BIOME_BOTTLE_LEVEL =
+            LOOT_FUNCTION_TYPES.register("set_biome_bottle_level", () -> new LootItemFunctionType
+                    //? if >1.21 {
+                    /*<>(SetLevelLootFunction.CODEC)
+                    *///?} else {
+                    (new SetLevelLootFunction.Serializer())
+                    //?}
+                    );
+    public static RegistrySupplier<LootItemFunctionType
+            //? if >1.21 {
+            /*<SetAltarStateLootFunction>
+             *///?}
+            > SET_ALTAR_STATE =
+            LOOT_FUNCTION_TYPES.register("set_altar_state", () -> new LootItemFunctionType
+                            //? if >1.21 {
+                            /*<>(SetAltarStateLootFunction.CODEC)
+                             *///?} else {
+                            (new SetAltarStateLootFunction.Serializer())
+                    //?}
+            );
 
     //special recipe serializers
     public static RegistrySupplier<RecipeSerializer<BiomeBottleCombiningRecipe>> BIOME_BOTTLE_COMBINING =
@@ -92,7 +117,7 @@ public class ModItemFunctions {
 
     public static void registerDispenserBehaviour() {
         DispenserBlock.registerBehavior(ModItems.IRIDESCENCE_BUCKET.get(), new DefaultDispenseItemBehavior() {
-            public ItemStack execute(BlockSource pointer, ItemStack stack) {
+            public @NotNull ItemStack execute(BlockSource pointer, ItemStack stack) {
                 DispensibleContainerItem fluidModificationItem = (DispensibleContainerItem)stack.getItem();
                 //? if >1.21 {
                 /*Level world = pointer.level();

@@ -209,25 +209,23 @@ public class ChaosPawn extends AbstractChessFigure {
     /*@Override
     protected void dropCustomDeathLoot(ServerLevel world, DamageSource source, boolean causedByPlayer) {
         super.dropCustomDeathLoot(world, source, causedByPlayer);
-        if (!this.isBlackOrWhite() && RandomProvider.rule("pawnsCanDropIllegalItems")) {
-            String s = InfinityMod.provider.randomName(random, ConfigType.ITEMS);
-            double i = Objects.requireNonNull(this.getAttribute(Attributes.MAX_HEALTH)).getBaseValue() / 10;
-            ItemStack stack = BuiltInRegistries.ITEM.get(VersionMethods.id(s)).getDefaultInstance().copyWithCount((int) (i * i));
-            stack.applyComponents(DataComponentMap.builder().set(DataComponents.MAX_STACK_SIZE, 64).build());
-            this.spawnAtLocation(stack);
-        }
-    }
     *///?} else {
     @Override
     protected void dropCustomDeathLoot(DamageSource source, int lootingMultiplier, boolean allowDrops) {
         super.dropCustomDeathLoot(source, lootingMultiplier, allowDrops);
+        //?}
+        dropLootInternal();
+    }
+
+    protected void dropLootInternal() {
         if (!this.isBlackOrWhite() && RandomProvider.rule("pawnsCanDropIllegalItems")) {
             String s = InfinityMod.provider.randomName(random, ConfigType.ITEMS);
             double i = Objects.requireNonNull(this.getAttribute(Attributes.MAX_HEALTH)).getBaseValue() / 10;
             ItemStack stack = BuiltInRegistries.ITEM.get(VersionMethods.id(s)).getDefaultInstance().copyWithCount((int) (i * i));
-//            stack.applyComponentsFrom(ComponentMap.builder().add(DataComponentTypes.MAX_STACK_SIZE, 64).build());
+            //? if >1.21 {
+            /*stack.applyComponents(DataComponentMap.builder().set(DataComponents.MAX_STACK_SIZE, 64).build());
+             *///?}
             this.spawnAtLocation(stack);
         }
     }
-    //?}
 }

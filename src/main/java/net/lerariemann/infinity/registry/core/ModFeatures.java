@@ -1,5 +1,7 @@
 package net.lerariemann.infinity.registry.core;
 
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import dev.architectury.registry.registries.DeferredRegister;
 import dev.architectury.registry.registries.RegistrySupplier;
 import net.lerariemann.infinity.InfinityMod;
@@ -47,8 +49,23 @@ public class ModFeatures {
         PORTAL_SETUPPER = register("portal_setupper", new RandomPortalSetupper((RandomPortalSetupper.Config.CODEC)));
         RANDOM_BONUS_CHEST = register("bonus_chest", new RandomBonusChestFeature(RandomBonusChestFeature.Config.CODEC));
         RANDOM_END_GATEWAY = register("end_gateway", new RandomEndGatewayFeature(RandomEndGatewayFeature.Config.CODEC));
-        WONKY_TRUNK = TRUNKS.register("wonky", () -> new TrunkPlacerType<>(WonkyTrunkPlacer.CODEC));
+        WONKY_TRUNK = TRUNKS.register("wonky", () -> new TrunkPlacerType<>(codecOrCodec(WonkyTrunkPlacer.CODEC)));
         FEATURES.register();
         TRUNKS.register();
+    }
+
+
+    static <T>
+    //? if >1.21 {
+    /*MapCodec<T>
+     *///?} else {
+    Codec<T>
+    //?}
+    codecOrCodec(MapCodec<T> codec) {
+        //? if >1.21 {
+        /*return codec;
+         *///?} else {
+        return codec.codec();
+        //?}
     }
 }

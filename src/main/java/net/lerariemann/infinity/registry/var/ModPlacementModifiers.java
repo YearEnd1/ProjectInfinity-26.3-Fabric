@@ -11,6 +11,7 @@ import net.minecraft.world.level.levelgen.placement.PlacementContext;
 import net.minecraft.world.level.levelgen.placement.PlacementFilter;
 import net.minecraft.world.level.levelgen.placement.PlacementModifier;
 import net.minecraft.world.level.levelgen.placement.PlacementModifierType;
+import org.jetbrains.annotations.NotNull;
 
 import static net.lerariemann.infinity.InfinityMod.MOD_ID;
 
@@ -34,7 +35,7 @@ public class ModPlacementModifiers {
         }
 
         @Override
-        public PlacementModifierType<?> type() {
+        public @NotNull PlacementModifierType<?> type() {
             return PlacementModifierType.RARITY_FILTER;
         }
     }
@@ -44,7 +45,11 @@ public class ModPlacementModifiers {
             CenterProximityPlacementModifier.MODIFIER_CODEC);
 
     static <P extends PlacementModifier> PlacementModifierType<P> getType(MapCodec<P> codec) {
-        return () -> codec;
+        //? if >1.21 {
+        /*return () -> codec;
+         *///?} else {
+        return codec::codec;
+        //?}
     }
     static RegistrySupplier<PlacementModifierType<?>> register(String id, MapCodec<? extends PlacementModifier> codec) {
             return PLACEMENT_MODIFIER_TYPES.register(id, () -> getType(codec));

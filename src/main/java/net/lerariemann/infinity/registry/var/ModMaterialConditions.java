@@ -5,6 +5,7 @@ import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.architectury.registry.registries.DeferredRegister;
 import net.lerariemann.infinity.util.var.TextData;
+import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.util.KeyDispatchDataCodec;
 import net.minecraft.world.level.levelgen.SurfaceRules;
@@ -14,6 +15,7 @@ import java.util.*;
 
 import static net.lerariemann.infinity.InfinityMod.MOD_ID;
 
+@MethodsReturnNonnullByDefault
 public class ModMaterialConditions {
     public record LinearCondition(double k_x, double k_y, double k_z, double min, double max, int separation) implements SurfaceRules.ConditionSource
     {
@@ -141,7 +143,13 @@ public class ModMaterialConditions {
         }
     }
 
-    public static final DeferredRegister<MapCodec<? extends SurfaceRules.ConditionSource>> MATERIAL_CONDITIONS = DeferredRegister.create(MOD_ID, Registries.MATERIAL_CONDITION);
+    public static final DeferredRegister<
+            //? if >1.21 {
+            /*MapCodec
+             *///?} else {
+            Codec
+            //?}
+            <? extends SurfaceRules.ConditionSource>> MATERIAL_CONDITIONS = DeferredRegister.create(MOD_ID, Registries.MATERIAL_CONDITION);
 
 
     public static void registerConditions() {
