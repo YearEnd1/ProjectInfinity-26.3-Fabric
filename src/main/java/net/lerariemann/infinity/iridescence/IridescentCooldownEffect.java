@@ -1,6 +1,7 @@
 package net.lerariemann.infinity.iridescence;
 
 import net.lerariemann.infinity.registry.core.ModStatusEffects;
+import net.lerariemann.infinity.util.VersionMethods;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -12,16 +13,30 @@ public class IridescentCooldownEffect extends MobEffect {
     }
 
     @Override
-    public boolean applyEffectTick(LivingEntity entity, int amplifier) {
+    public
+    //? if >1.21 {
+    /*boolean
+     *///?} else {
+    void
+    //?}
+    applyEffectTick(LivingEntity entity, int amplifier) {
         int cooldownDuration = Iridescence.getCooldownDuration();
         if (cooldownDuration > 0)
-            entity.addEffect(new MobEffectInstance(ModStatusEffects.IRIDESCENT_COOLDOWN,
+            entity.addEffect(new MobEffectInstance(VersionMethods.effectOrHolder(ModStatusEffects.IRIDESCENT_COOLDOWN),
                     cooldownDuration, 0, true, false));
-        return true;
+        //? if >1.21 {
+        /*return true;
+        *///?}
     }
 
     @Override
-    public boolean shouldApplyEffectTickThisTick(int duration, int amplifier) {
+    public boolean
+    //? if >1.21 {
+    /*shouldApplyEffectTickThisTick
+     *///?} else {
+    isDurationEffectTick
+    //?}
+            (int duration, int amplifier) {
         return amplifier != 0 && duration < 2;
     }
 }

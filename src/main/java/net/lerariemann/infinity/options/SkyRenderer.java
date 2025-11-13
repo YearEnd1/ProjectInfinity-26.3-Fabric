@@ -2,13 +2,7 @@ package net.lerariemann.infinity.options;
 
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.BufferBuilder;
-import com.mojang.blaze3d.vertex.BufferUploader;
-import com.mojang.blaze3d.vertex.DefaultVertexFormat;
-import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.Tesselator;
-import com.mojang.blaze3d.vertex.VertexBuffer;
-import com.mojang.blaze3d.vertex.VertexFormat;
+import com.mojang.blaze3d.vertex.*;
 import com.mojang.math.Axis;
 import net.lerariemann.infinity.util.VersionMethods;
 import net.minecraft.client.Camera;
@@ -27,7 +21,7 @@ import org.joml.Vector3f;
 import java.awt.Color;
 
 public record SkyRenderer(InfinityOptions options, Minecraft client, ClientLevel world,
-                          PoseStack matrices, Tesselator tessellator, float tickDelta, Matrix4f projectionMatrix,
+                          PoseStack matrices, Tesselator tesselator, float tickDelta, Matrix4f projectionMatrix,
                           VertexBuffer lightSkyBuffer, VertexBuffer starsBuffer) {
     
     public SkyRenderer(InfinityOptions options, Minecraft client, ClientLevel world,
@@ -107,7 +101,7 @@ public record SkyRenderer(InfinityOptions options, Minecraft client, ClientLevel
         matrices.mulPose(Axis.ZP.rotationDegrees(i - options.getSolarTilt()));
 
         Matrix4f matrix4f = matrices.last().pose();
-        BufferBuilder bufferBuilder = tessellator.begin(VertexFormat.Mode.TRIANGLE_FAN, DefaultVertexFormat.POSITION_COLOR);
+        FriendlyBuilder bufferBuilder = new FriendlyBuilder(tesselator, VertexFormat.Mode.TRIANGLE_FAN, DefaultVertexFormat.POSITION_COLOR);
         bufferBuilder.addVertex(matrix4f, 0.0f, 100.0f, 0.0f).setColor(fs[0], fs[1], fs[2], fs[3]);
         for (int n = 0; n <= 16; ++n) {
             float o = (float)n * ((float)Math.PI * 2) / 16.0f;
@@ -117,6 +111,56 @@ public record SkyRenderer(InfinityOptions options, Minecraft client, ClientLevel
         }
         BufferUploader.drawWithShader(bufferBuilder.buildOrThrow());
         matrices.popPose();
+    }
+
+    public record FriendlyVertexConsumer(VertexConsumer vc) {
+        void setColor(float r, float g, float b, float a) {
+            //? if >1.21 {
+            /*vc.setColor(r, g, b, a);
+             *///?} else {
+            vc.color(r, g, b, a);
+            //?}
+        }
+
+        FriendlyVertexConsumer setUv(float u, float v) {
+            //? if >1.21 {
+            /*vc.setUv(u, v);
+             *///?} else {
+            vc.uv(u, v);
+            //?}
+            return this;
+        }
+    }
+
+    public static class FriendlyBuilder {
+        BufferBuilder bufferBuilder;
+
+        FriendlyBuilder(Tesselator tesselator, VertexFormat.Mode mode, VertexFormat format) {
+            //? if >1.21 {
+            /*bufferBuilder = tesselator.begin(mode, format);
+             *///?} else {
+            bufferBuilder = tesselator.getBuilder();
+            bufferBuilder.begin(mode, format);
+            //?}
+        }
+
+        FriendlyVertexConsumer addVertex(Matrix4f m4f, float x, float y, float z) {
+            return new FriendlyVertexConsumer(
+            //? if >1.21 {
+            /*bufferBuilder.addVertex(m4f, x, y, z)
+             *///?} else {
+            bufferBuilder.vertex(m4f, x, y, z)
+            //?}
+            );
+        }
+
+        BufferBuilder.RenderedBuffer buildOrThrow() {
+            //? if >1.21 {
+            /*return bufferBuilder.buildOrThrow();
+             *///?} else {
+            return bufferBuilder.end();
+            //?}
+        }
     }
 
     public void renderAllCelestialBodies(Runnable fogCallback) {
@@ -180,7 +224,7 @@ public record SkyRenderer(InfinityOptions options, Minecraft client, ClientLevel
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
         RenderSystem.setShaderTexture(0, texture);
         RenderSystem.setShaderColor(tint.x, tint.y, tint.z, 1.0f);
-        BufferBuilder bufferBuilder = tessellator.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX);
+        FriendlyBuilder bufferBuilder = new FriendlyBuilder(tesselator, VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX);
         bufferBuilder.addVertex(matrix4f2, -k, y, -k).setUv(0.0f, 0.0f);
         bufferBuilder.addVertex(matrix4f2, k, y, -k).setUv(1.0f, 0.0f);
         bufferBuilder.addVertex(matrix4f2, k, y, k).setUv(1.0f, 1.0f);
@@ -208,7 +252,7 @@ public record SkyRenderer(InfinityOptions options, Minecraft client, ClientLevel
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
         RenderSystem.setShaderTexture(0, texture);
         RenderSystem.setShaderColor(tint.x, tint.y, tint.z, 1.0f);
-        BufferBuilder bufferBuilder = tessellator.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX);
+        FriendlyBuilder bufferBuilder = new FriendlyBuilder(tesselator, VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX);
         bufferBuilder.addVertex(matrix4f2, -k, y, k).setUv(p, q);
         bufferBuilder.addVertex(matrix4f2, k, y, k).setUv(t, q);
         bufferBuilder.addVertex(matrix4f2, k, y, -k).setUv(t, o);
@@ -262,7 +306,7 @@ public record SkyRenderer(InfinityOptions options, Minecraft client, ClientLevel
         RenderSystem.depthMask(false);
         RenderSystem.setShader(GameRenderer::getPositionTexColorShader);
         RenderSystem.setShaderTexture(0, texture);
-        Tesselator tessellator = Tesselator.getInstance();
+        Tesselator tesselator = Tesselator.getInstance();
 
         for (int i = 0; i < 6; ++i) {
             matrices.pushPose();
@@ -283,7 +327,7 @@ public record SkyRenderer(InfinityOptions options, Minecraft client, ClientLevel
             }
 
             Matrix4f matrix4f = matrices.last().pose();
-            BufferBuilder bufferBuilder = tessellator.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX_COLOR);
+            FriendlyBuilder bufferBuilder = new FriendlyBuilder(tesselator, VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX_COLOR);
             bufferBuilder.addVertex(matrix4f, -100.0f, -100.0f, -100.0f).setUv(0.0f, 0.0f).setColor(r, g, b, alpha);
             bufferBuilder.addVertex(matrix4f, -100.0f, -100.0f, 100.0f).setUv(0.0f, copies).setColor(r, g, b, alpha);
             bufferBuilder.addVertex(matrix4f, 100.0f, -100.0f, 100.0f).setUv(copies, copies).setColor(r, g, b, alpha);

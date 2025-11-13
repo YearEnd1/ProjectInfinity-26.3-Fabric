@@ -32,7 +32,7 @@ public class InfinityModClient {
         ClientTickEvent.CLIENT_POST.register(client -> {
             while (f4ConfigKey.consumeClick()) if (client.player != null
                     && client.player.getItemInHand(InteractionHand.MAIN_HAND).is(ModItems.F4.get())) {
-                ModPayloads.sendF4DeployPayload();
+                ModPayloads.F4DeployC2SPayload.INSTANCE.send();
                 InteractionResultHolder<ItemStack> result = F4Item.deploy(client.level, client.player, InteractionHand.MAIN_HAND);
                 client.player.setItemInHand(InteractionHand.MAIN_HAND, result.getObject());
             }

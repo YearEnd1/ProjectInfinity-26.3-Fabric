@@ -50,21 +50,6 @@ import java.nio.file.Path;
 
 public class ModPayloads {
     public static boolean resourcesReloaded = Path.of(Platform.getGameFolder() + "/resourcepacks/infinity/assets/infinity/shaders").toFile().exists();
-    //? if >1.21 {
-    
-    /*public record JukeboxesC2SPayload(CompoundTag data) implements CustomPacketPayload {
-        public static final Type<JukeboxesC2SPayload> ID = new Type<>(InfinityMethods.getId("upload_jukeboxes"));
-        public static final StreamCodec<RegistryFriendlyByteBuf, JukeboxesC2SPayload> CODEC = StreamCodec.composite(
-                ByteBufCodecs.COMPOUND_TAG, JukeboxesC2SPayload::data, JukeboxesC2SPayload::new);
-        @Override
-        public @NotNull Type<? extends CustomPacketPayload> type() {
-            return ID;
-        }
-    }
-    public static void sendJukeboxesPayload(CompoundTag data) {
-        PlatformMethods.sendC2SPayload(new JukeboxesC2SPayload(data));
-    }
-    *///?}
     public interface FriendlyPacket extends
     //? if >1.21 {
     /*CustomPacketPayload {
@@ -75,13 +60,21 @@ public class ModPayloads {
 
     public interface FriendlyPacketS2C extends FriendlyPacket {
         void receive(Minecraft client);
+
+        default void send(ServerPlayer player) {
+            PlatformMethods.sendS2CPayload(player, this);
+        }
     }
 
     public interface FriendlyPacketC2S extends FriendlyPacket {
         void receive(ServerPlayer player);
+
+        default void send() {
+            PlatformMethods.sendC2SPayload(this);
+        }
     }
 
-    public record WorldAddS2CPayload(ResourceLocation id, CompoundTag data) implements FriendlyPacket {
+    public record WorldAddS2CPayload(ResourceLocation id, CompoundTag data) implements FriendlyPacketS2C {
         static ResourceLocation sid = getId("add_world");
         //? if >1.21 {
         
@@ -114,7 +107,7 @@ public class ModPayloads {
         }
     }
 
-    public record BiomeAddS2CPayload(ResourceLocation id, CompoundTag data) implements FriendlyPacket {
+    public record BiomeAddS2CPayload(ResourceLocation id, CompoundTag data) implements FriendlyPacketS2C {
         static ResourceLocation sid = getId("add_biome");
         //? if >1.21 {
         
@@ -284,7 +277,6 @@ public class ModPayloads {
     public record F4UpdateC2SPayload(int slot, int width, int height) implements FriendlyPacketC2S {
         static ResourceLocation sid = getId("update_f4");
         //? if >1.21 {
-        
         /*public static final Type<F4UpdateC2SPayload> ID = new Type<>(InfinityMethods.getId("receive_f4"));
         public static final StreamCodec<RegistryFriendlyByteBuf, F4UpdateC2SPayload> CODEC = StreamCodec.composite(
                 ByteBufCodecs.VAR_INT, F4UpdateC2SPayload::slot,
@@ -333,6 +325,38 @@ public class ModPayloads {
         }
     }
 
+    public record JukeboxesC2SPayload(CompoundTag data) implements FriendlyPacketC2S {
+        static ResourceLocation sid = getId("upload_jukeboxes");
+        //? if >1.21 {
+        /*
+        public static final Type<JukeboxesC2SPayload> ID = new Type<>(InfinityMethods.getId("upload_jukeboxes"));
+        public static final StreamCodec<RegistryFriendlyByteBuf, JukeboxesC2SPayload> CODEC = StreamCodec.composite(
+                ByteBufCodecs.COMPOUND_TAG, JukeboxesC2SPayload::data, JukeboxesC2SPayload::new);
+        @Override
+        public @NotNull Type<? extends CustomPacketPayload> type() {
+            return ID;
+        }
+        *///?} else {
+        @Override
+        public void write(FriendlyByteBuf buf) {
+            buf.writeNbt(data);
+        }
+        public static PacketType<JukeboxesC2SPayload> type =
+                PacketType.create(sid, buf -> new JukeboxesC2SPayload(buf.readNbt()));
+        @Override
+        public PacketType<?> getType() {
+            return type;
+        }
+        public static void receive(JukeboxesC2SPayload packet, ServerPlayer player, PacketSender responceSenser) {
+            packet.receive(player);
+        }
+        //?}
+        @Override
+        public void receive(ServerPlayer player) {
+            SoundScanner.unpackUploadedJukeboxes(player.server, data);
+        }
+    }
+
     public static void registerC2SPacketsReceivers() {
         //? if >1.21 {
         /*net.lerariemann.infinity.util.platform.Platform.INSTANCE.registerPayloadsServer();
@@ -354,12 +378,6 @@ public class ModPayloads {
         //?}
     }
 
-    public static void sendWorldAddPayload(ServerPlayer player, ResourceLocation id, CompoundTag data) {
-        PlatformMethods.sendS2CPayload(player, new WorldAddS2CPayload(id, data));
-    }
-    public static void sendBiomeAddPayload(ServerPlayer player, ResourceLocation id, CompoundTag data) {
-        PlatformMethods.sendS2CPayload(player, new BiomeAddS2CPayload(id, data));
-    }
     public static void sendShaderPayload(ServerPlayer player) {
         sendShaderPayload(player, player.serverLevel(), Iridescence.shouldApplyShader(player));
     }
@@ -367,19 +385,10 @@ public class ModPayloads {
         sendShaderPayload(player, world, Iridescence.shouldApplyShader(player));
     }
     public static void sendShaderPayload(ServerPlayer player, ServerLevel world, boolean iridescence) {
-        PlatformMethods.sendS2CPayload(player, new ShaderS2CPayload(iridescence,
-                world == null ? new CompoundTag() : InfinityOptions.access(world).data()));
+        new ShaderS2CPayload(iridescence,
+                world == null ? new CompoundTag() : InfinityOptions.access(world).data()).send(player);
     }
     public static void sendStarsPayload(ServerPlayer player) {
-        PlatformMethods.sendS2CPayload(player, StarsS2CPayload.INSTANCE);
-    }
-    public static void sendSoundPackPayload(ServerPlayer player, CompoundTag data) {
-        PlatformMethods.sendS2CPayload(player, new SoundPackS2CPayload(data));
-    }
-    public static void sendF4UpdatePayload(int slot, int width, int height) {
-        PlatformMethods.sendC2SPayload(new F4UpdateC2SPayload(slot, width, height));
-    }
-    public static void sendF4DeployPayload() {
-        PlatformMethods.sendC2SPayload(F4DeployC2SPayload.INSTANCE);
+        StarsS2CPayload.INSTANCE.send(player);
     }
 }

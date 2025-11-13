@@ -1,6 +1,8 @@
 package net.lerariemann.infinity.block.custom;
 
 import net.lerariemann.infinity.options.InfinityOptions;
+import net.lerariemann.infinity.util.VersionMethods;
+import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
@@ -13,12 +15,13 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
+@MethodsReturnNonnullByDefault
 @Deprecated
 public class HauntedBlock extends Block {
     BlockState original;
 
     public HauntedBlock(Block original) {
-        super(Properties.ofFullCopy(original));
+        super(VersionMethods.copyBlockProperties(original));
         this.original = original.defaultBlockState();
     }
 
@@ -27,11 +30,11 @@ public class HauntedBlock extends Block {
         return original.getCollisionShape(world, pos);
     }
     @Override
-    protected VoxelShape getShape(BlockState state, BlockGetter world, BlockPos pos, CollisionContext context) {
+    public VoxelShape getShape(BlockState state, BlockGetter world, BlockPos pos, CollisionContext context) {
         return original.getShape(world, pos);
     }
     @Override
-    protected RenderShape getRenderShape(BlockState state) {
+    public RenderShape getRenderShape(BlockState state) {
         return original.getRenderShape();
     }
 
@@ -56,7 +59,7 @@ public class HauntedBlock extends Block {
         return 15;
     }
     @Override
-    protected boolean isSignalSource(BlockState state) {
+    public boolean isSignalSource(BlockState state) {
         return true;
     }
 }

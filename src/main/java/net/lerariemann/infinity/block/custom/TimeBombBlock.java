@@ -6,6 +6,8 @@ import net.lerariemann.infinity.registry.var.ModCriteria;
 import net.lerariemann.infinity.registry.core.ModItems;
 import net.lerariemann.infinity.registry.var.ModSounds;
 import net.lerariemann.infinity.registry.var.ModStats;
+import net.lerariemann.infinity.util.teleport.PortalCreator;
+import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.network.chat.Component;
@@ -39,6 +41,7 @@ import org.apache.commons.io.FileUtils;
 import java.io.IOException;
 import java.nio.file.Path;
 
+@MethodsReturnNonnullByDefault
 public class TimeBombBlock extends Block {
     public static  final BooleanProperty ACTIVE = BooleanProperty.create("active");
     public static final VoxelShape TOP_SHAPE = Block.box(3, 0, 3, 13, 2, 13);
@@ -117,7 +120,7 @@ public class TimeBombBlock extends Block {
                     return InteractionResult.SUCCESS;
                 }
                 else if (world instanceof ServerLevel) {
-                    world.playSound(null, pos, SoundEvents.VAULT_REJECT_REWARDED_PLAYER, SoundSource.BLOCKS, 1f, 1f);
+                    world.playSound(null, pos, ModSounds.portalFail, SoundSource.BLOCKS, 1f, 1f);
                     player.sendSystemMessage(Component.translatable("error.infinity.timebomb.fail"));
                 }
             }

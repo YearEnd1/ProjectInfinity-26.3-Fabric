@@ -4,6 +4,7 @@ import net.lerariemann.infinity.InfinityMod;
 import net.lerariemann.infinity.util.core.ConfigType;
 import net.lerariemann.infinity.util.core.NbtUtils;
 import net.lerariemann.infinity.util.var.BishopBattle;
+import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
@@ -32,6 +33,7 @@ import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.pathfinder.PathFinder;
 import org.jetbrains.annotations.Nullable;
 
+@MethodsReturnNonnullByDefault
 public class BishopEntity extends AbstractChessFigure implements RangedAttackMob {
     @Nullable
     public BishopBattle battle;
@@ -155,9 +157,15 @@ public class BishopEntity extends AbstractChessFigure implements RangedAttackMob
         this.battle = battle;
         battle.addEntity(this);
     }
-    @Override
+    //? if >1.21 {
+    /*@Override
     protected void triggerOnDeathMobEffects(RemovalReason reason) {
         super.triggerOnDeathMobEffects(reason);
+     *///?} else {
+    @Override
+    public void onClientRemoval() {
+        super.onClientRemoval();
+    //?}
         if (battle != null) battle.stop();
     }
 
@@ -176,9 +184,12 @@ public class BishopEntity extends AbstractChessFigure implements RangedAttackMob
 
     @Override
     public void performRangedAttack(LivingEntity target, float pullProgress) {
-        ItemStack bow = Items.BOW.getDefaultInstance();
         AbstractArrow persistentProjectileEntity =
-                ProjectileUtil.getMobArrow(this, getProjectileType(), pullProgress, bow);
+                ProjectileUtil.getMobArrow(this, getProjectileType(), pullProgress
+                        //? if >1.21 {
+                        /*, Items.BOW.getDefaultInstance()
+                        *///?}
+                        );
         double d = target.getX() - this.getX();
         double e = target.getY(0.333) - persistentProjectileEntity.getY();
         double f = target.getZ() - this.getZ();

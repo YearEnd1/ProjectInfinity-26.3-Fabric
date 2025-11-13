@@ -232,6 +232,20 @@ public interface VersionMethods {
         //?}
     }
 
+    static MobEffect unholdEffect(
+            //? if >1.21 {
+            /*Holder<MobEffect>
+             *///?} else {
+            MobEffect
+            //?}
+            holder) {
+        //? if >1.21 {
+        /*return holder.value();
+         *///?} else {
+        return holder;
+        //?}
+    }
+
     static int opaque(int color) {
         return color | -16777216;
     }
@@ -246,6 +260,10 @@ public interface VersionMethods {
             stack.setCount(stack.getCount()-1);
             player.getInventory().add(new ItemStack(Items.GLASS_BOTTLE));
         }
-
     }
 }
+
+//? if >1.21 {
+/*
+*///?} else {
+//?}

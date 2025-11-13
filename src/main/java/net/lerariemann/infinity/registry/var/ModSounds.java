@@ -21,6 +21,19 @@ public class ModSounds {
     public static SoundEvent BACKPORT_VAULT_EVENT = SoundEvent.createVariableRangeEvent(BACKPORT_VAULT);
     //?}
 
+    public static SoundEvent portalFail =
+            //? if >1.21 {
+            /*SoundEvents.VAULT_REJECT_REWARDED_PLAYER;
+             *///?} else {
+            ModSounds.BACKPORT_VAULT_EVENT;
+    //?}
+    public static SoundEvent portalOpen =
+            //? if >1.21 {
+            /*SoundEvents.VAULT_OPEN_SHUTTER;
+             *///?} else {
+            ModSounds.BACKPORT_VAULT_EVENT;
+    //?}
+
     public static final DeferredRegister<SoundEvent> SOUNDS = DeferredRegister.create(MOD_ID, Registries.SOUND_EVENT);
 
     public static void registerSounds() {

@@ -1,11 +1,9 @@
 package net.lerariemann.infinity.util.teleport;
 
 import dev.architectury.platform.Platform;
-import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.lerariemann.infinity.InfinityMod;
 import net.lerariemann.infinity.access.MinecraftServerAccess;
 import net.lerariemann.infinity.block.custom.Boopable;
-//import net.lerariemann.infinity.compat.CreateCompat;
 import net.lerariemann.infinity.compat.CreateCompat;
 import net.lerariemann.infinity.compat.DimLibCompat;
 import net.lerariemann.infinity.registry.core.ModBlocks;
@@ -22,7 +20,6 @@ import net.lerariemann.infinity.options.PortalColorApplier;
 import net.lerariemann.infinity.registry.var.ModCriteria;
 import net.lerariemann.infinity.registry.var.ModPayloads;
 import net.lerariemann.infinity.registry.var.ModStats;
-import net.lerariemann.infinity.util.platform.PlatformMethods;
 import net.minecraft.BlockUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -36,7 +33,6 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.StringTag;
 import net.minecraft.nbt.Tag;
-import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
@@ -57,7 +53,6 @@ import net.minecraft.world.level.block.NetherPortalBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.LevelResource;
-import oshi.util.tuples.Pair;
 
 import java.nio.file.Path;
 import java.util.*;
@@ -113,7 +108,6 @@ public interface PortalCreator {
                 content = parseComponents(compound, itemStack.getItem());
             }
             else content = "";
-            MinecraftServer server = world.getServer();
             var id = InfinityMethods.dimTextToId(content);
             boolean bl = modifyOnInitialCollision(id, world, pos);
             if (bl) entity.remove(Entity.RemovalReason.CHANGED_DIMENSION);
@@ -123,7 +117,6 @@ public interface PortalCreator {
             try {
                 String content;
                 content = checkPrintedPage(itemStack);
-                MinecraftServer server = world.getServer();
                 var id = InfinityMethods.dimTextToId(content);
                 boolean bl = modifyOnInitialCollision(id, world, pos);
                 if (bl) entity.remove(Entity.RemovalReason.CHANGED_DIMENSION);
@@ -324,29 +317,17 @@ public interface PortalCreator {
      * Create and send S2C packets necessary for the client to process a freshly added dimension.
      */
     static void sendNewWorld(ServerPlayer player, ResourceLocation id, RandomDimension d) {
-        d.random_biomes.forEach(b -> ModPayloads.sendBiomeAddPayload(player, InfinityMethods.getId(b.name), b.data));
-        ModPayloads.sendWorldAddPayload(player, id, d.type != null ? d.type.data : new CompoundTag());
+        d.random_biomes.forEach(b -> new ModPayloads.BiomeAddS2CPayload(InfinityMethods.getId(b.name), b.data).send(player));
+        new ModPayloads.WorldAddS2CPayload(id, d.type != null ? d.type.data : new CompoundTag()).send(player);
     }
 
     /**
      * Jingle signaling if the portal is usable or not.
      */
     static void runAfterEffects(ServerLevel world, BlockPos pos, boolean dimensionIsNew, boolean portalWorks) {
-        SoundEvent fail =
-        //? if >1.21 {
-        /*SoundEvents.VAULT_REJECT_REWARDED_PLAYER;
-         *///?} else {
-        ModSounds.BACKPORT_VAULT_EVENT;
-        //?}
-        SoundEvent open =
-                //? if >1.21 {
-                /*SoundEvents.VAULT_OPEN_SHUTTER;
-                 *///?} else {
-                ModSounds.BACKPORT_VAULT_EVENT;
-        //?}
-        if (!portalWorks) playSound(world, pos, fail);
+        if (!portalWorks) playSound(world, pos, ModSounds.portalFail);
         else {
-            if (dimensionIsNew) playSound(world, pos, open);
+            if (dimensionIsNew) playSound(world, pos, ModSounds.portalOpen);
             playSound(world, pos, SoundEvents.BEACON_ACTIVATE);
         }
     }

@@ -75,7 +75,7 @@ public class F4ScreenHandler extends AbstractContainerMenu {
         playerInventory.setItem(slot, st);
         super.removed(player);
         if (player instanceof LocalPlayer) {
-            ModPayloads.sendF4UpdatePayload(slot, width.get(), height.get());
+            new ModPayloads.F4UpdateC2SPayload(slot, width.get(), height.get()).send();
         }
     }
 

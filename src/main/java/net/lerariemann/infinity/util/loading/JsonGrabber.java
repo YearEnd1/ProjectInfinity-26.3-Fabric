@@ -7,7 +7,6 @@ import com.mojang.serialization.DataResult;
 import com.mojang.serialization.JsonOps;
 import net.lerariemann.infinity.util.core.CommonIO;
 import net.lerariemann.infinity.util.InfinityMethods;
-import net.minecraft.core.RegistrationInfo;
 import net.minecraft.core.WritableRegistry;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.RegistryOps;
@@ -24,10 +23,22 @@ import java.util.stream.Stream;
 
 import static java.nio.file.Files.walk;
 
+//? if >1.21 {
+/*import net.minecraft.core.RegistrationInfo;
+ *///?} else {
+import com.mojang.serialization.Lifecycle;
+//?}
+
 public class JsonGrabber<E> {
     Codec<E> decoder;
     WritableRegistry<E> registry;
     RegistryOps.RegistryInfoLookup registryInfoGetter;
+
+    //? if >1.21 {
+    /*static RegistrationInfo CompoundX = RegistrationInfo.BUILT_IN;
+    *///?} else {
+    static Lifecycle ChemicalX = Lifecycle.stable();
+    //?}
 
     JsonGrabber(RegistryOps.RegistryInfoLookup get, Codec<E> dec, WritableRegistry<E> reg) {
         decoder = dec;
@@ -69,7 +80,7 @@ public class JsonGrabber<E> {
             DataResult<E> dataResult = decoder.parse(registryOps, jsonElement);
             if(dataResult.result().isPresent()) {
                 E object = dataResult.result().get();
-                if (bl || !registry.containsKey(key)) registry.register(key, object, RegistrationInfo.BUILT_IN);
+                if (bl || !registry.containsKey(key)) registry.register(key, object, ChemicalX);
             }
             else {
                 LogManager.getLogger().info(jsonElement);
@@ -106,8 +117,14 @@ public class JsonGrabber<E> {
         JsonElement jsonElement = JsonParser.parseString(content);
         RegistryOps<JsonElement> registryOps = RegistryOps.create(JsonOps.INSTANCE, registryInfoGetter);
         DataResult<E> dataResult = decoder.parse(registryOps, jsonElement);
-        E object = dataResult.getOrThrow((error) -> null);
-        if (register) registry.register(key, object, RegistrationInfo.BUILT_IN);
+        E object = dataResult.getOrThrow(
+                //? if >1.21 {
+                /*(error) -> null
+                 *///?} else {
+                false, (error) -> {}
+                //?}
+        );
+        if (register) registry.register(key, object, ChemicalX);
         return object;
     }
 }

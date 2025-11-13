@@ -29,7 +29,7 @@ import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.phys.AABB;
-import net.minecraft.world.scores.PlayerTeam;
+import net.minecraft.world.scores.Team;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.EnumSet;
@@ -95,7 +95,7 @@ public abstract class AbstractChessFigure extends Monster implements NeutralMob 
         return isInBattle("battle");
     }
     public boolean isInBattle(String battleName) {
-        PlayerTeam t = getTeam();
+        Team t = getTeam();
         return (t != null && t.getName().contains(battleName));
     }
 
@@ -233,8 +233,8 @@ public abstract class AbstractChessFigure extends Monster implements NeutralMob 
             this.getOthersInRange().stream().filter(entity -> {
                 if (entity == mob) return false;
                 if (Iridescence.isUnderEffect(entity)) return false;
-                if (entity instanceof AbstractChessFigure pawn) {
-                    return isAngerCompatible(mob, pawn);
+                if (entity instanceof AbstractChessFigure) {
+                    return isAngerCompatible(mob, entity);
                 }
                 return true;
             }).map(entity -> (NeutralMob)entity).forEach(NeutralMob::forgetCurrentTargetAndRefreshUniversalAnger);

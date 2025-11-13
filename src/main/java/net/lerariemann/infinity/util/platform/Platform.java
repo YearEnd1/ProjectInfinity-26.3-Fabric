@@ -2,7 +2,6 @@ package net.lerariemann.infinity.util.platform;
 
 //? fabric {
 import net.lerariemann.infinity.util.platform.fabric.FabricPlatformImpl;
-import net.lerariemann.infinity.util.platform.fabric.ModPayloadsFabric;
 //?}
 //? neoforge {
 /*import net.lerariemann.infinity.util.platform.neoforge.NeoForgePlatformImpl;
@@ -11,6 +10,12 @@ import net.lerariemann.infinity.util.platform.fabric.ModPayloadsFabric;
 import java.nio.file.Path;
 
 public interface Platform {
+    boolean above21 =
+            //? if >1.21 {
+            /*true;
+             *///?} else {
+            false;
+    //?}
 
     //? fabric {
     Platform INSTANCE = new FabricPlatformImpl();

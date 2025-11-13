@@ -30,11 +30,15 @@ public class FabricPlatformImpl implements Platform {
 
     @Override
     public void registerPayloadsServer() {
-        ModPayloadsFabric.registerPayloadsServer();
+        //? if >1.21 {
+        /*ModPayloadsFabric.registerPayloadsServer();
+        *///?}
     }
     @Override
     public void registerPayloadsClient() {
-        ModPayloadsFabric.registerPayloadsClient();
+        //? if >1.21 {
+        /*ModPayloadsFabric.registerPayloadsClient();
+        *///?}
     }
 }
 //?}

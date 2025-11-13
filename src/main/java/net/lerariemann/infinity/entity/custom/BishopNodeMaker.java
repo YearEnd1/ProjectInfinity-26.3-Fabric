@@ -50,6 +50,9 @@ public class BishopNodeMaker extends WalkNodeEvaluator {
         for (Direction directionx : Direction.Plane.HORIZONTAL) {
             Direction direction2 = directionx.getClockWise();
             if (this.isDiagonalValid(node,
+                    //? if <1.21 {
+                    node,
+                    //?}
                     succ[directionx.get2DDataValue()],
                     succ[direction2.get2DDataValue()])) {
                 Node pathNode2 = this.findAcceptedNode(
@@ -61,7 +64,11 @@ public class BishopNodeMaker extends WalkNodeEvaluator {
                         directionx,
                         pathNodeType2
                 );
-                if (this.isDiagonalValid(pathNode2)) {
+                if (this.isDiagonalValid(pathNode2
+                        //? if <1.21 {
+                        , null, null, null
+                        //?}
+                )) {
                     successors[i++] = pathNode2;
                 }
             }
@@ -70,31 +77,23 @@ public class BishopNodeMaker extends WalkNodeEvaluator {
         return i;
     }
 
-
-
     //? if >1.21 {
-    /*@Override
-    protected boolean isDiagonalValid(Node xNode, @Nullable Node zNode, @Nullable Node xDiagNode) {
-        if (xDiagNode == null || zNode == null || (xDiagNode.y > xNode.y && zNode.y > xNode.y)) {
-            return false;
-        } else if (zNode.type != PathType.WALKABLE_DOOR && xDiagNode.type != PathType.WALKABLE_DOOR) {
-            boolean bl = xDiagNode.type == PathType.FENCE && zNode.type == PathType.FENCE && (double)this.mob.getBbWidth() < 0.5;
-            return (xDiagNode.y < xNode.y || xDiagNode.costMalus >= 0.0F || bl) && (zNode.y < xNode.y || zNode.costMalus >= 0.0F || bl);
-        } else {
-            return false;
-        }
-    }
-    *///?} else {
+    /*static final PathType door = PathType.WALKABLE_DOOR;
+    static final PathType fence = PathType.FENCE;
+     *///?} else {
+    static final BlockPathTypes door = BlockPathTypes.WALKABLE_DOOR;
+    static final BlockPathTypes fence = BlockPathTypes.FENCE;
+    //?}
+
     @Override
     protected boolean isDiagonalValid(Node xNode, @Nullable Node zNode, @Nullable Node xDiagNode, @Nullable Node zDiagNode) {
         if (xDiagNode == null || zNode == null || (xDiagNode.y > xNode.y && zNode.y > xNode.y)) {
             return false;
-        } else if (zNode.type != BlockPathTypes.WALKABLE_DOOR && xDiagNode.type != BlockPathTypes.WALKABLE_DOOR) {
-            boolean bl = xDiagNode.type == BlockPathTypes.FENCE && zNode.type == BlockPathTypes.FENCE && (double)this.mob.getBbWidth() < 0.5;
+        } else if (zNode.type != door && xDiagNode.type != door) {
+            boolean bl = xDiagNode.type == fence && zNode.type == fence && (double)this.mob.getBbWidth() < 0.5;
             return (xDiagNode.y < xNode.y || xDiagNode.costMalus >= 0.0F || bl) && (zNode.y < xNode.y || zNode.costMalus >= 0.0F || bl);
         } else {
             return false;
         }
     }
-    //?}
 }
