@@ -311,7 +311,8 @@ public class ModCriteria {
         //? if >1.21 {
         /*return CRITERIA.register(id.getPath(), getter);
          *///?} else {
-        return () -> CriteriaTriggers.register(getter.get());
+        T criterion = CriteriaTriggers.register(getter.get());
+        return () -> criterion;
         //?}
     }
 }

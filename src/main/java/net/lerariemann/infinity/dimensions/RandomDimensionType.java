@@ -48,7 +48,7 @@ public class RandomDimensionType {
         String s = dim.PROVIDER.randomName(random, ConfigType.DIMENSION_EFFECTS);
         data.putString("effects", s);
         data.putBoolean("has_skylight", s.equals("minecraft:overworld"));
-        CommonIO.write(data, dim.getStoragePath() + "/data/dimension_type", name + ".json");
+        CommonIO.write(data, dim.getStoragePath() + "/dimension_type", name + ".json");
     }
 
     boolean roll(String key) {

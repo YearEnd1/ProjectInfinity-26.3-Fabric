@@ -110,7 +110,7 @@ public class DimensionGrabber {
         buildGrabber(Structure.DIRECT_CODEC, Registries.STRUCTURE).grabAll(rootdir.resolve("worldgen/structure"));
         buildGrabber(StructureSet.DIRECT_CODEC, Registries.STRUCTURE_SET).grabAll(rootdir.resolve("worldgen/structure_set"));
         buildGrabber(NoiseGeneratorSettings.DIRECT_CODEC, Registries.NOISE_SETTINGS).grabAll(rootdir.resolve("worldgen/noise_settings"));
-        buildGrabber(DimensionType.DIRECT_CODEC, Registries.DIMENSION_TYPE).grabAll(rootdir.resolve("data/dimension_type"));
+        buildGrabber(DimensionType.DIRECT_CODEC, Registries.DIMENSION_TYPE).grabAll(rootdir.resolve("dimension_type"));
     }
 
     private LevelStem grabDimension(Path rootdir, String i) {
