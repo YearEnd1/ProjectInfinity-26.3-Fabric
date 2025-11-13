@@ -45,8 +45,13 @@ public class ChromaticBlock extends BaseEntityBlock implements Boopable {
             //?}
             world, BlockPos pos, BlockState state) {
         ItemStack res = super.getCloneItemStack(world, pos, state);
-        if (!res.isEmpty() && world.getBlockEntity(pos) instanceof ChromaticBlockEntity cbe)
-            res.applyComponents(cbe.asMap());
+        if (!res.isEmpty() && world.getBlockEntity(pos) instanceof ChromaticBlockEntity cbe) {
+            //? if >1.21 {
+            /*res.applyComponents(cbe.asMap());
+            *///?} else {
+            res.setTag(cbe.asMap());
+            //?}
+        }
         return res;
     }
 
@@ -77,19 +82,34 @@ public class ChromaticBlock extends BaseEntityBlock implements Boopable {
         }
 
         @Override
-        protected VoxelShape getShape(BlockState state, BlockGetter world, BlockPos pos, CollisionContext context) {
+        //? if >1.21 {
+        /*protected
+        *///?} else {
+        public
+        //?}
+        VoxelShape getShape(BlockState state, BlockGetter world, BlockPos pos, CollisionContext context) {
             return SHAPE;
         }
 
         @Override
-        protected BlockState updateShape(BlockState state, Direction direction, BlockState neighborState, LevelAccessor world, BlockPos pos, BlockPos neighborPos) {
+        //? if >1.21 {
+        /*protected
+        *///?} else {
+        public
+            //?}
+         BlockState updateShape(BlockState state, Direction direction, BlockState neighborState, LevelAccessor world, BlockPos pos, BlockPos neighborPos) {
             return !state.canSurvive(world, pos)
                     ? Blocks.AIR.defaultBlockState()
                     : super.updateShape(state, direction, neighborState, world, pos, neighborPos);
         }
 
         @Override
-        protected boolean canSurvive(BlockState state, LevelReader world, BlockPos pos) {
+        //? if >1.21 {
+        /*protected
+        *///?} else {
+        public
+            //?}
+         boolean canSurvive(BlockState state, LevelReader world, BlockPos pos) {
             return !world.isEmptyBlock(pos.below());
         }
     }

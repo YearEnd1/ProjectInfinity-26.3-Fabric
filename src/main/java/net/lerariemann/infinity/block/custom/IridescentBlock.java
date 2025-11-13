@@ -28,17 +28,20 @@ import org.jetbrains.annotations.Nullable;
 public class IridescentBlock extends Block {
     public static int num_models = 24;
     public static final IntegerProperty COLOR_OFFSET = IntegerProperty.create("color", 0, num_models - 1);
-    public static final MapCodec<IridescentBlock> CODEC = simpleCodec(IridescentBlock::new);
+    //? if >1.21
+    /*public static final MapCodec<IridescentBlock> CODEC = simpleCodec(IridescentBlock::new);*/
 
     public IridescentBlock(Properties settings) {
         super(settings);
         this.registerDefaultState(defaultBlockState().setValue(COLOR_OFFSET, 0));
     }
 
-    @Override
+    //? if >1.21 {
+    /*@Override
     public MapCodec<? extends IridescentBlock> codec() {
         return CODEC;
     }
+    *///?}
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
@@ -68,7 +71,11 @@ public class IridescentBlock extends Block {
                 return InteractionResult.SUCCESS;
             }
         }
-        return super.useWithoutItem(state, world, pos, player, hit);
+        //? if <1.21 {
+        return super.use(state, world, pos, player, hand, hit);
+        //?} else {
+        /*return super.useWithoutItem(state, world, pos, player, hit);
+         *///?}
     }
 
     public static class Carpet extends IridescentBlock {
@@ -79,19 +86,34 @@ public class IridescentBlock extends Block {
         }
 
         @Override
-        protected VoxelShape getShape(BlockState state, BlockGetter world, BlockPos pos, CollisionContext context) {
+        //? if >1.21 {
+        /*protected
+        *///?} else {
+        public
+            //?}
+         VoxelShape getShape(BlockState state, BlockGetter world, BlockPos pos, CollisionContext context) {
             return SHAPE;
         }
 
         @Override
-        protected BlockState updateShape(BlockState state, Direction direction, BlockState neighborState, LevelAccessor world, BlockPos pos, BlockPos neighborPos) {
+        //? if >1.21 {
+        /*protected
+        *///?} else {
+        public
+            //?}
+         BlockState updateShape(BlockState state, Direction direction, BlockState neighborState, LevelAccessor world, BlockPos pos, BlockPos neighborPos) {
             return !state.canSurvive(world, pos)
                     ? Blocks.AIR.defaultBlockState()
                     : super.updateShape(state, direction, neighborState, world, pos, neighborPos);
         }
 
         @Override
-        protected boolean canSurvive(BlockState state, LevelReader world, BlockPos pos) {
+        //? if >1.21 {
+        /*protected
+        *///?} else {
+        public
+            //?}
+         boolean canSurvive(BlockState state, LevelReader world, BlockPos pos) {
             return !world.isEmptyBlock(pos.below());
         }
 

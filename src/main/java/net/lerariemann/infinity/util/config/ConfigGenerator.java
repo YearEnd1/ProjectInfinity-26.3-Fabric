@@ -73,11 +73,7 @@ public interface ConfigGenerator {
         ConfigFactory.of(manager.registryOrThrow(Registries.BIOME), ConfigGenerator::extractBiome).generate(ConfigType.BIOMES);
         ConfigFactory.of(manager.registryOrThrow(Registries.STRUCTURE), ConfigGenerator::extractStructure).generate(ConfigType.STRUCTURES);
         ConfigFactory.of(manager.registryOrThrow(Registries.CONFIGURED_FEATURE), ConfigGenerator::extractFeature).generate(ConfigType.TREES);
-        //? if =1.21.1 {
-        /*ConfigFactory.of(server.reloadableRegistries().get().registryOrThrow(Registries.LOOT_TABLE), ConfigGenerator::extractLootTable)
-                .generate(ConfigType.LOOT_TABLES);
-        *///?}
-        ConfigFactory.of(server.getLootData(), ConfigGenerator::extractLootTable).generate(ConfigType.LOOT_TABLES);
+        generateLootTables(server);
     }
 
     static void generateSounds() {
@@ -97,6 +93,25 @@ public interface ConfigGenerator {
         DataCollection tagMap = new DataCollection.Logged(ConfigType.TAGS, "block tags");
         BuiltInRegistries.BLOCK.getTagNames().forEach(tagKey -> tagMap.addIdentifier(tagKey.location()));
         tagMap.save();
+    }
+
+    static void generateLootTables(MinecraftServer server) {
+        //? if =1.21.1 {
+        /*ConfigFactory.of(server.reloadableRegistries().get().registryOrThrow(Registries.LOOT_TABLE), ConfigGenerator::extractLootTable)
+                .generate(ConfigType.LOOT_TABLES);
+        *///?} else {
+        DataCollection lootTables = new DataCollection.Logged(ConfigType.LOOT_TABLES, "loot tables");
+        server.getLootData().getKeys(LootDataType.TABLE).forEach((key)->{
+            LootTable table = server.getLootData().getLootTable(key);
+            ResourceLocation type = LootContextParamSets.REGISTRY.inverse().get(table.getParamSet());
+            if (type == null) return;
+            CompoundTag res = new CompoundTag();
+            res.putString("Type", type.getPath()); //this data is unused for now but might be important later
+            lootTables.add(key.getNamespace(), key.getPath(), res);
+        });
+        lootTables.save();
+        //?}
+
     }
 
     static Set<String> generateFluids() {

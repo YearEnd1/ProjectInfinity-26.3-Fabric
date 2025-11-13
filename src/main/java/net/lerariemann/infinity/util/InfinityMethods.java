@@ -103,8 +103,8 @@ public interface InfinityMethods {
         //? if fabric {
         else return Platform.isFabric()
                 && world.hasBiomes()
-                && world.getBiomeFabric(pos) instanceof Holder<Biome> biome
-                && InfinityMethods.isBiomeInfinity(biome);
+                && world.getBiomeFabric(pos) != null
+                && InfinityMethods.isBiomeInfinity(world.getBiomeFabric(pos));
         //?} else {
         /*return false;
         *///?}
