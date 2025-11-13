@@ -9,7 +9,10 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 //? if >1.21 {
 /*import net.minecraft.core.component.DataComponentPatch;
-*///?}
+*///?} else {
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.level.Level;
+//?}
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
@@ -18,7 +21,6 @@ import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
-import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 
 //? if neoforge {
@@ -35,7 +37,8 @@ public class TransfiniteKeyItem extends Item implements PortalDataHolder.Destina
         super(settings);
     }
 
-    @Override
+    //? if >1.21 {
+    /*@Override
     public DataComponentPatch getPortalComponents(InfinityPortalBlockEntity ipbe) {
         ResourceLocation id = ipbe.getDimension();
         int color = (ipbe.getLevel() instanceof ServerLevel w) ?
@@ -54,6 +57,24 @@ public class TransfiniteKeyItem extends Item implements PortalDataHolder.Destina
                 .remove(ModComponentTypes.COLOR.get())
                 .build());
     }
+    *///?} else {
+    @Override
+    public CompoundTag getPortalComponents(InfinityPortalBlockEntity ipbe) {
+        ResourceLocation id = ipbe.getDimension();
+        int color = (ipbe.getLevel() instanceof ServerLevel w) ?
+                PortalColorApplier.of(id, w.getServer()).apply(BlockPos.ZERO) :
+                (int)InfinityMethods.getNumericFromId(id);
+        var c = new CompoundTag();
+        c.putString(ModComponentTypes.DESTINATION, id.toString());
+        c.putInt(ModComponentTypes.COLOR, color & 0xFFFFFF);
+        return c;
+    }
+
+    @Override
+    public Optional<CompoundTag> getIridComponents(ItemEntity entity) {
+        return Optional.of(new CompoundTag());
+    }
+    //?}
 
     @NotNull
     @Override

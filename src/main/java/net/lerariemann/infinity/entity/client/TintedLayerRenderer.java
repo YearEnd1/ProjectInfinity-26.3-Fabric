@@ -10,6 +10,7 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
+import net.minecraft.util.FastColor;
 import net.minecraft.world.entity.Mob;
 
 public class TintedLayerRenderer<T extends Mob, S extends EntityModel<T>> extends RenderLayer<T, S> {
@@ -34,6 +35,10 @@ public class TintedLayerRenderer<T extends Mob, S extends EntityModel<T>> extend
         if (livingEntity instanceof TintableEntity ent) {
             color = ent.getColorForRender();
         }
-        this.model.renderToBuffer(matrixStack, vertexConsumer, i, LivingEntityRenderer.getOverlayCoords(livingEntity, 0.0f), color);
+        //? if >1.21 {
+        /*this.model.renderToBuffer(matrixStack, vertexConsumer, i, LivingEntityRenderer.getOverlayCoords(livingEntity, 0.0f), color);
+        *///?} else {
+        this.model.renderToBuffer(matrixStack, vertexConsumer, i, LivingEntityRenderer.getOverlayCoords(livingEntity, 0.0f), FastColor.ARGB32.red(color), FastColor.ARGB32.green(color), FastColor.ARGB32.blue(color), 1.0f);
+        //?}
     }
 }

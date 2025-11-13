@@ -28,8 +28,9 @@ public interface TintableEntity {
         *///?} else {
         int s = DyeColor.byId(p).getFireworkColor();
         int t = DyeColor.byId(q).getFireworkColor();
-        //?}
         return FastColor.ARGB32.lerp(r, s, t);
+        //?}
+
     }
 
     int getColorNamed();

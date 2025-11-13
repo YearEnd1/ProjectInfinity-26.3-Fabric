@@ -5,6 +5,7 @@ import net.lerariemann.infinity.item.PortalDataHolder;
 import net.lerariemann.infinity.registry.core.ModItemFunctions;
 import net.lerariemann.infinity.util.core.RandomProvider;
 import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -35,7 +36,13 @@ public class IridescenceLiquidBlock extends ArchitecturyLiquidBlock {
                 if (!Iridescence.isIridescentItem(item.getItem()) && item.getOwner() instanceof LivingEntity le &&
                         !Iridescence.getPhase(le).equals(Iridescence.Phase.INITIAL))
                     ModItemFunctions.checkCollisionRecipes(w, item, ModItemFunctions.IRIDESCENCE_CRAFTING_TYPE.get(),
-                            i -> PortalDataHolder.getIridComponents(i, item));
+                            //? if >1.21 {
+                            /*i -> PortalDataHolder.getIridComponents(i, item)
+                            *///?} else {
+                            new CompoundTag()
+                            //?}
+                            //FIXME - this matches current 1.20 behaviour, but might be wrong
+                    );
             }
     }
 }

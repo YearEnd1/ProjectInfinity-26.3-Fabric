@@ -6,6 +6,7 @@ import net.lerariemann.infinity.registry.core.ModComponentTypes;
 import net.minecraft.core.component.DataComponentMap;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.world.item.alchemy.PotionContents;
+import net.minecraft.core.component.DataComponents;
 *///?} else {
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.alchemy.PotionUtils;
@@ -13,7 +14,6 @@ import net.minecraft.world.item.alchemy.PotionUtils;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
-import net.minecraft.core.component.DataComponents;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.entity.player.Player;
@@ -61,6 +61,10 @@ public interface VersionMethods {
                 return stack.getTag().getString(key);
         }
         return i;
+    }
+
+    static String getOrNullString(ItemStack stack, String key) {
+        return getOrDefaultString(stack, key, null);
     }
 
     static boolean contains(ItemStack stack, String key) {
@@ -128,6 +132,13 @@ public interface VersionMethods {
     /*static int getOrDefaultInt(ItemStack stack, RegistrySupplier<DataComponentType<Integer>> component, int i) {
         return stack.getOrDefault(component.get(), i);
     }
+    static String getOrDefaultString(ItemStack stack, RegistrySupplier<DataComponentType<String>> component, String s) {
+        return stack.getOrDefault(component.get(), s);
+    }
+
+    static String getOrNullString(ItemStack stack, RegistrySupplier<DataComponentType<String>> component) {
+        return stack.get(component.get());
+    }
 
     static @Nullable ResourceLocation getDimensionIdentifier(ItemStack stack) {
          return stack.getComponents().get(ModComponentTypes.DESTINATION.get());
@@ -145,6 +156,10 @@ public interface VersionMethods {
 
     static boolean isPotion(Holder<Potion> input, Holder<Potion> awkward) {
         return input.value().equals(awkward.value());
+    }
+
+    static boolean contains(ItemStack currStack, RegistrySupplier<DataComponentType<String>> dyeColor) {
+        return currStack.has(dyeColor.get());
     }
     *///?}
 

@@ -23,14 +23,23 @@ public class SetAltarStateLootFunction extends LootItemConditionalFunction {
     }
 
     @Override
-    public LootItemFunctionType<? extends LootItemConditionalFunction> getType() {
+    public LootItemFunctionType
+            //? if >1.21
+            /*<? extends LootItemConditionalFunction>*/
+    getType() {
         return ModItemFunctions.SET_ALTAR_STATE.get();
     }
 
     @Override
     protected ItemStack run(ItemStack stack, LootContext context) {
         BlockState st = context.getParamOrNull(LootContextParams.BLOCK_STATE);
-        if (st != null) stack.applyComponentsAndValidate(AltarBlock.toComponentChanges(st));
+        if (st != null) {
+            //? if >1.21 {
+            /*stack.applyComponentsAndValidate(AltarBlock.toComponentChanges(st));
+            *///?} else {
+            stack.setTag(AltarBlock.toComponentChanges(st));
+            //?}
+        }
         return stack;
     }
 }

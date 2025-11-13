@@ -21,11 +21,13 @@ import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
 
-import javax.annotation.ParametersAreNonnullByDefault;
+//? if neoforge
+/*import javax.annotation.ParametersAreNonnullByDefault;*/
 import java.util.Random;
 
 @MethodsReturnNonnullByDefault
-@ParametersAreNonnullByDefault
+//? if neoforge
+/*@ParametersAreNonnullByDefault*/
 public class InfinityPortalBlockEntity extends TintableBlockEntity {
     private final ContainerData propertyDelegate;
     private ResourceLocation dimension;

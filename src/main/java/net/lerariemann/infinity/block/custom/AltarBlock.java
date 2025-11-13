@@ -5,8 +5,13 @@ import net.lerariemann.infinity.registry.core.ModBlocks;
 import net.lerariemann.infinity.registry.var.ModCriteria;
 import net.lerariemann.infinity.util.var.BishopBattle;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.component.DataComponentPatch;
+//? if >1.21 {
+/*import net.minecraft.core.component.DataComponentPatch;
 import net.minecraft.core.component.DataComponents;
+import net.minecraft.world.item.component.BlockItemStateProperties;
+import net.minecraft.world.item.component.CustomModelData;
+*///?}
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
@@ -17,8 +22,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.DyeItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.item.component.BlockItemStateProperties;
-import net.minecraft.world.item.component.CustomModelData;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
@@ -69,7 +72,8 @@ public class AltarBlock extends Block {
         world.setBlockAndUpdate(pos, state.setValue(COLOR, i));
     }
 
-    public static DataComponentPatch toComponentChanges(BlockState state) {
+    //? if >1.21 {
+    /*public static DataComponentPatch toComponentChanges(BlockState state) {
         int color = state.getValue(AltarBlock.COLOR);
         boolean flower = state.getValue(AltarBlock.FLOWER);
         if (color > 0 || flower) return DataComponentPatch.builder().set(DataComponents.BLOCK_STATE,
@@ -81,6 +85,20 @@ public class AltarBlock extends Block {
                 .build();
         return DataComponentPatch.EMPTY;
     }
+    *///?} else {
+    public static CompoundTag toComponentChanges(BlockState state) {
+        CompoundTag compoundTag = new CompoundTag();
+        int color = state.getValue(AltarBlock.COLOR);
+        boolean flower = state.getValue(AltarBlock.FLOWER);
+        if (color > 0 || flower) {
+            compoundTag.putInt("CustomModelData", color +
+                    (flower ? AltarBlock.numColors : 0));
+            compoundTag.putInt(AltarBlock.COLOR.getName(), color);
+            compoundTag.putBoolean(AltarBlock.FLOWER.getName(), flower);
+        }
+        return compoundTag;
+    }
+    //?}
 
     @Override
     public ItemStack getCloneItemStack(
@@ -91,7 +109,11 @@ public class AltarBlock extends Block {
                     //?}
             world, BlockPos pos, BlockState state) {
         ItemStack res = super.getCloneItemStack(world, pos, state);
-        res.applyComponentsAndValidate(toComponentChanges(state));
+        //? if >1.21 {
+        /*res.applyComponentsAndValidate(toComponentChanges(state));*/
+        //?} else {
+        res.setTag(toComponentChanges(state));
+        //?}
         return res;
     }
 
@@ -109,7 +131,11 @@ public class AltarBlock extends Block {
     }
 
     @Override
-    public InteractionResult useWithoutItem(BlockState state, Level world, BlockPos pos, Player player, BlockHitResult hit) {
+    //? if >1.21 {
+    /*public InteractionResult useWithoutItem(BlockState state, Level world, BlockPos pos, Player player, BlockHitResult hit) {
+    *///?} else {
+    public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
+    //?}
         ItemStack itemStack = player.getItemInHand(InteractionHand.MAIN_HAND);
         //rituals
         if (world instanceof ServerLevel serverWorld) {
@@ -129,7 +155,11 @@ public class AltarBlock extends Block {
             world.playSound(null, pos, SoundEvents.AZALEA_LEAVES_PLACE, SoundSource.BLOCKS, 1f, 1f);
             return InteractionResult.SUCCESS;
         }
-        return super.useWithoutItem(state, world, pos, player, hit);
+        //? if >1.21 {
+        /*return super.useWithoutItem(state, world, pos, player, hit);
+        *///?} else {
+        return super.use(state, world, pos, player, hand, hit);
+        //?}
     }
 
     public static int getColor(ItemStack itemStack, BlockState oldState) {

@@ -45,7 +45,9 @@ public class BishopBattle {
         AntEntity ant = ModEntities.ANT.get().spawn(serverWorld, pos, MobSpawnType.MOB_SUMMONED);
         BishopEntity bishop = ModEntities.BISHOP.get().spawn(serverWorld, pos, MobSpawnType.MOB_SUMMONED);
         if (ant != null && bishop != null) {
-            Objects.requireNonNull(ant.getAttribute(Attributes.SCALE)).setBaseValue(3.0);
+            //FIXME - is there a good way to do scale on 1.20? pekhui?
+            //? if >1.21
+            /*Objects.requireNonNull(ant.getAttribute(Attributes.SCALE)).setBaseValue(3.0);*/
             Objects.requireNonNull(ant.getAttribute(Attributes.MAX_HEALTH)).setBaseValue(20);
             Objects.requireNonNull(ant.getAttribute(Attributes.MOVEMENT_SPEED)).setBaseValue(0.25f);
             ant.setHealth(20);

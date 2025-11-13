@@ -80,11 +80,18 @@ public class AntModel<T extends AntEntity> extends HierarchicalModel<T> {
 
 		return LayerDefinition.create(modelData, 64, 64);
 	}
+    
+    @Override
+    //? if >1.21 {
+    /*public void renderToBuffer(PoseStack matrices, VertexConsumer vertices, int light, int overlay, int color) {
+        body.render(matrices, vertices, light, overlay, color);
+    }
+    *///?} else {
+    public void renderToBuffer(PoseStack poseStack, VertexConsumer buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
+        super.renderToBuffer(poseStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
+    }
+    //?}
 
-	@Override
-	public void renderToBuffer(PoseStack matrices, VertexConsumer vertices, int light, int overlay, int color) {
-		body.render(matrices, vertices, light, overlay, color);
-	}
 
 	@Override
 	public @NotNull ModelPart root() {

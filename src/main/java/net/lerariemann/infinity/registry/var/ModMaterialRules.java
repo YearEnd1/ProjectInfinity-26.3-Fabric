@@ -23,12 +23,14 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.Half;
 import net.minecraft.world.level.levelgen.SurfaceRules;
 
-import javax.annotation.ParametersAreNonnullByDefault;
+//? if neoforge
+/*import javax.annotation.ParametersAreNonnullByDefault;*/
 
 import static net.lerariemann.infinity.InfinityMod.MOD_ID;
 
 @MethodsReturnNonnullByDefault
-@ParametersAreNonnullByDefault
+//? if neoforge
+/*@ParametersAreNonnullByDefault*/
 public class ModMaterialRules {
     static int normalize(int x, int size) {
         int a = Math.abs(x < 0 ? x+1 : x) % size;
@@ -394,7 +396,13 @@ public class ModMaterialRules {
         }
     }
 
-    public static final DeferredRegister<MapCodec<? extends SurfaceRules.RuleSource>> MATERIAL_RULES =
+    public static final DeferredRegister<
+            //? if >1.21 {
+            /*MapCodec
+            *///?} else {
+            Codec
+            //?}
+                    <? extends SurfaceRules.RuleSource>> MATERIAL_RULES =
             DeferredRegister.create(MOD_ID, Registries.MATERIAL_RULE);
 
     public static <R extends SurfaceRules.RuleSource, T extends KeyDispatchDataCodec<R>> void register(String name, T holder) {

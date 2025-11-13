@@ -18,8 +18,12 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.MobSpawnType;
-import net.minecraft.world.entity.SpawnPlacementType;
-import net.minecraft.world.entity.SpawnPlacementTypes;
+//? if >1.21 {
+/*import net.minecraft.world.entity.SpawnPlacementType;
+import static net.minecraft.world.entity.SpawnPlacementTypes.*;
+*///?} else {
+import static net.minecraft.world.entity.SpawnPlacements.Type.*;
+//?}
 import net.minecraft.world.entity.SpawnPlacements;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.monster.AbstractSkeleton;
@@ -60,7 +64,8 @@ public class ModEntities {
             .register("chaos_skeleton", () -> EntityType.Builder.of(ChaosSkeleton::new, MobCategory.MONSTER)
                     .sized(0.6f, 1.99f)
                     .clientTrackingRange(8)
-                    .ridingOffset(-0.7F)
+                    //? if >1.21
+                    /*.ridingOffset(-0.7F)*/
                     .build(type("chaos_skeleton")));
     public static final RegistrySupplier<EntityType<ChaosCreeper>> CHAOS_CREEPER = INFINITY_ENTITIES
             .register("chaos_creeper", () -> EntityType.Builder.of(ChaosCreeper::new, MobCategory.MONSTER)
@@ -71,7 +76,8 @@ public class ModEntities {
             .register("chaos_pawn", () -> EntityType.Builder.of(ChaosPawn::new, MobCategory.MONSTER)
                     .sized(0.6f, 2.0f)
                     .clientTrackingRange(10)
-                    .ridingOffset(-0.7F)
+                    //? if >1.21
+                    /*.ridingOffset(-0.7F)*/
                     .build(type("chaos_pawn")));
     public static final RegistrySupplier<EntityType<AntEntity>> ANT = INFINITY_ENTITIES
             .register("ant", () -> EntityType.Builder.of(AntEntity::new, MobCategory.CREATURE)
@@ -81,9 +87,11 @@ public class ModEntities {
     public static final RegistrySupplier<EntityType<BishopEntity>> BISHOP = INFINITY_ENTITIES
             .register("bishop", () -> EntityType.Builder.of(BishopEntity::new, MobCategory.MONSTER)
                     .sized(0.6f, 2.7f)
-                    .eyeHeight(1.75f)
+                    //? if >1.21 {
+                    /*eyeHeight(1.75f)
                     .nameTagOffset(2.05F)
                     .ridingOffset(-0.7F)
+                    *///?}
                     .clientTrackingRange(10)
                     .build(type("bishop")));
 
@@ -108,7 +116,13 @@ public class ModEntities {
         EntityAttributeRegistry.register(BISHOP, BishopEntity::createAttributes);
     }
 
-    public static <T extends Mob> void registerSafe(EntityType<T> type, SpawnPlacementType location, Heightmap.Types heightmapType, SpawnPlacements.SpawnPredicate<T> predicate,
+    public static <T extends Mob> void registerSafe(EntityType<T> type,
+                                                    //? if >1.21 {
+                                                    /*SpawnPlacementType
+                                                    *///?} else {
+                                                    SpawnPlacements.Type
+                                                    //?}
+                                                    location, Heightmap.Types heightmapType, SpawnPlacements.SpawnPredicate<T> predicate,
                                                     //? if neoforge {
                                                     /*RegisterSpawnPlacementsEvent event
                                                     *///?} else {
@@ -130,25 +144,26 @@ public class ModEntities {
     ) {
         //? if fabric {
         Object event = null;
-        SpawnPlacements.register(CHAOS_SLIME.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, ChaosSlime::canSpawn);
-        SpawnPlacements.register(CHAOS_SKELETON.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, ModEntities::canChaosMonsterSpawn);
-        SpawnPlacements.register(CHAOS_CREEPER.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, ModEntities::canChaosMonsterSpawn);
-        SpawnPlacements.register(CHAOS_PAWN.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, ModEntities::canChessFigureSpawn);
-        SpawnPlacements.register(ANT.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, ModEntities::canChessFigureSpawn);
-        SpawnPlacements.register(BISHOP.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, ModEntities::canChessFigureSpawn);
+        SpawnPlacements.register(CHAOS_SLIME.get(), ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, ChaosSlime::canSpawn);
+        SpawnPlacements.register(CHAOS_SKELETON.get(), ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, ModEntities::canChaosMonsterSpawn);
+        SpawnPlacements.register(CHAOS_CREEPER.get(), ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, ModEntities::canChaosMonsterSpawn);
+        SpawnPlacements.register(CHAOS_PAWN.get(), ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, ModEntities::canChessFigureSpawn);
+        SpawnPlacements.register(ANT.get(), ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, ModEntities::canChessFigureSpawn);
+        SpawnPlacements.register(BISHOP.get(), ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, ModEntities::canChessFigureSpawn);
         //?} else {
-        /*event.register(CHAOS_SLIME.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, ChaosSlime::canSpawn, RegisterSpawnPlacementsEvent.Operation.REPLACE);
-        event.register(CHAOS_SKELETON.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, ModEntities::canChaosMonsterSpawn, RegisterSpawnPlacementsEvent.Operation.REPLACE);
-        event.register(CHAOS_CREEPER.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, ModEntities::canChaosMonsterSpawn, RegisterSpawnPlacementsEvent.Operation.REPLACE);
-        event.register(CHAOS_PAWN.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, ModEntities::canChessFigureSpawn, RegisterSpawnPlacementsEvent.Operation.REPLACE);
-        event.register(ANT.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, ModEntities::canChessFigureSpawn, RegisterSpawnPlacementsEvent.Operation.REPLACE);
-        event.register(BISHOP.get(), SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, ModEntities::canChessFigureSpawn, RegisterSpawnPlacementsEvent.Operation.REPLACE);
+        /*event.register(CHAOS_SLIME.get(), ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, ChaosSlime::canSpawn, RegisterSpawnPlacementsEvent.Operation.REPLACE);
+        event.register(CHAOS_SKELETON.get(), ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, ModEntities::canChaosMonsterSpawn, RegisterSpawnPlacementsEvent.Operation.REPLACE);
+        event.register(CHAOS_CREEPER.get(), ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, ModEntities::canChaosMonsterSpawn, RegisterSpawnPlacementsEvent.Operation.REPLACE);
+        event.register(CHAOS_PAWN.get(), ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, ModEntities::canChessFigureSpawn, RegisterSpawnPlacementsEvent.Operation.REPLACE);
+        event.register(ANT.get(), ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, ModEntities::canChessFigureSpawn, RegisterSpawnPlacementsEvent.Operation.REPLACE);
+        event.register(BISHOP.get(), ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, ModEntities::canChessFigureSpawn, RegisterSpawnPlacementsEvent.Operation.REPLACE);
         *///?}
 
-        registerSafe(EntityType.SNIFFER, SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Animal::checkAnimalSpawnRules, event);
-        registerSafe(EntityType.CAMEL, SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Animal::checkAnimalSpawnRules, event);
-        registerSafe(EntityType.ZOGLIN, SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Monster::checkMonsterSpawnRules, event);
-        registerSafe(EntityType.BREEZE, SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Monster::checkMonsterSpawnRules, event);
+        registerSafe(EntityType.SNIFFER, ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Animal::checkAnimalSpawnRules, event);
+        registerSafe(EntityType.CAMEL, ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Animal::checkAnimalSpawnRules, event);
+        registerSafe(EntityType.ZOGLIN, ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Monster::checkMonsterSpawnRules, event);
+        //? if >1.21
+        /*registerSafe(EntityType.BREEZE, ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Monster::checkMonsterSpawnRules, event);*/
     }
 
     public static boolean canChaosMonsterSpawn(EntityType<? extends Monster> type, ServerLevelAccessor world, MobSpawnType spawnReason, BlockPos pos, RandomSource random) {
