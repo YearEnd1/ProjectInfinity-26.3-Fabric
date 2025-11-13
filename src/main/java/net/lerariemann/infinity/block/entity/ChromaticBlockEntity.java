@@ -7,10 +7,14 @@ import net.lerariemann.infinity.registry.core.ModItems;
 import net.lerariemann.infinity.util.core.NbtUtils;
 import net.lerariemann.infinity.util.var.ColorLogic;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.HolderLookup;
+//? if >1.21 {
+/*import net.minecraft.core.HolderLookup;
 import net.minecraft.core.component.DataComponentMap;
+import net.lerariemann.infinity.registry.core.ModComponentTypes;
+*///?}
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
+import net.minecraft.network.chat.contents.NbtContents;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
@@ -73,7 +77,8 @@ public class ChromaticBlockEntity extends TintableBlockEntity {
         color = Color.HSBtoRGB(hue / 360f, saturation / 255f, brightness / 255f) & 0xFFFFFF;
     }
 
-    @Override
+    //? if >1.21 {
+    /*@Override
     protected void collectImplicitComponents(DataComponentMap.Builder componentMapBuilder) {
         super.collectImplicitComponents(componentMapBuilder);
         componentMapBuilder.set(ModComponentTypes.COLOR.get(), color);
@@ -92,6 +97,13 @@ public class ChromaticBlockEntity extends TintableBlockEntity {
     public DataComponentMap asMap() {
         return asMap(getTint());
     }
+    *///?} else {
+    public CompoundTag asMap() {
+        CompoundTag compoundTag = new CompoundTag();
+        compoundTag.putInt(ModComponentTypes.COLOR, getTint());
+        return compoundTag;
+    }
+    //?}
     public short offset(short orig, short amount, AtomicBoolean cancel) {
         if (amount < 0 ? orig == 0 : orig == 255) {
             cancel.set(true);
@@ -158,8 +170,13 @@ public class ChromaticBlockEntity extends TintableBlockEntity {
     }
 
     @Override
-    public void loadAdditional(CompoundTag nbt, HolderLookup.Provider registryLookup) {
-        super.loadAdditional(nbt, registryLookup);
+    //? if >1.21 {
+    /*public void loadAdditional(CompoundTag nbt, HolderLookup.Provider registryLookup) {
+        super.loadAdditional(tag, registryLookup);
+    *///?} else {
+    public void load(CompoundTag nbt) {
+        super.load(nbt);
+        //?}
         if (nbt.getTagType("color") == Tag.TAG_INT)
             setColor(nbt.getInt("color"));
         else if (nbt.getTagType("color") == Tag.TAG_COMPOUND) {
@@ -171,8 +188,14 @@ public class ChromaticBlockEntity extends TintableBlockEntity {
         }
     }
     @Override
-    protected void saveAdditional(CompoundTag nbt, HolderLookup.Provider registryLookup) {
-        super.saveAdditional(nbt, registryLookup);
+    protected void saveAdditional(CompoundTag nbt
+            //? if >1.21
+            /*, HolderLookup.Provider registryLookup*/
+    ) {
+        super.saveAdditional(nbt
+                //? if >1.21
+                /*, registryLookup*/
+        );
         CompoundTag color = new CompoundTag();
         color.putShort("h", hue);
         color.putShort("s", saturation);
@@ -190,7 +213,13 @@ public class ChromaticBlockEntity extends TintableBlockEntity {
         return ClientboundBlockEntityDataPacket.create(this);
     }
     @Override
-    public CompoundTag getUpdateTag(HolderLookup.Provider registryLookup) {
-        return saveWithoutMetadata(registryLookup);
+    public CompoundTag getUpdateTag(
+            //? if >1.21
+            /*HolderLookup.Provider registryLookup*/
+    ) {
+        return saveWithoutMetadata(
+                //? if >1.21
+                /*registryLookup*/
+        );
     }
 }

@@ -25,11 +25,16 @@ public abstract class PostEffectProcessorMixin {
     @Shadow
     private List<PostPass> passes;
 
-    @Shadow protected abstract void setFilterMode(int texFilter);
+
+    @Shadow
+    private float lastStamp;
+
+    //? if =1.21.1 {
+    /*@Shadow protected abstract void setFilterMode(int texFilter);
 
     @Shadow public abstract void setUniform(String name, float value);
 
-    /* Hook for the iridescence shader to receive the time uniform */
+    /^ Hook for the iridescence shader to receive the time uniform ^/
     @Inject(method="process", at = @At("HEAD"), cancellable = true)
     void inj(float tickDelta, CallbackInfo ci) {
         if (name.contains("infinity")) {
@@ -60,4 +65,24 @@ public abstract class PostEffectProcessorMixin {
             ci.cancel();
         }
     }
+    *///?} else {
+    /* Hook for the iridescence shader to receive the time uniform */
+    @Inject(method="process", at = @At("HEAD"), cancellable = true)
+    void inj(float tickDelta, CallbackInfo ci) {
+        if (name.contains("infinity")) {
+            if (tickDelta < this.lastStamp) {
+                this.time += 1.0F - this.lastStamp;
+                this.time += tickDelta;
+            } else {
+                this.time += tickDelta - this.lastStamp;
+            }
+
+            for(this.lastStamp = tickDelta; this.time > 2.0F; this.time -= 4000.0F) {
+            }
+
+            this.passes.forEach(postEffectPass -> postEffectPass.process(this.time / 4000.0F));
+            ci.cancel();
+        }
+    }
+    //?}
 }

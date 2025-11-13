@@ -16,23 +16,38 @@ public class CosmicAltarBlockEntity extends BlockEntity {
         super(ModBlockEntities.COSMIC_ALTAR.get(), pos, state);
     }
 
-    @Override
+    //? if >1.21 {
+    /*@Override
     public boolean isValidBlockState(BlockState state) {
         return true;
     }
-
+    *///?}
+    
     @Deprecated
     public static void serverTick(Level world, BlockPos pos, BlockState state, CosmicAltarBlockEntity be) {
     }
 
-    @Override
+    //? if >1.21 {
+    /*@Override
     public void loadAdditional(CompoundTag nbt, HolderLookup.Provider registryLookup) {
         super.loadAdditional(nbt, registryLookup);
     }
+    *///?} else {
+    @Override
+    public void load(CompoundTag tag) {
+        super.load(tag);
+    }
+    //?}
 
     @Override
-    protected void saveAdditional(CompoundTag nbt, HolderLookup.Provider registryLookup) {
-        super.saveAdditional(nbt, registryLookup);
+    protected void saveAdditional(CompoundTag nbt
+            //? if >1.21
+            /*, HolderLookup.Provider registryLookup*/
+    ) {
+        super.saveAdditional(nbt
+                //? if >1.21
+                /*, registryLookup*/
+        );
     }
 
     @Nullable
@@ -42,7 +57,13 @@ public class CosmicAltarBlockEntity extends BlockEntity {
     }
 
     @Override
-    public CompoundTag getUpdateTag(HolderLookup.Provider registryLookup) {
-        return saveWithoutMetadata(registryLookup);
+    public CompoundTag getUpdateTag(
+            //? if >1.21
+            /*HolderLookup.Provider registryLookup*/
+    ) {
+        return saveWithoutMetadata(
+                //? if >1.21
+                /*registryLookup*/
+        );
     }
 }

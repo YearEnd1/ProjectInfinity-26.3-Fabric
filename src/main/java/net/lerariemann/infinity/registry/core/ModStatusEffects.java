@@ -7,6 +7,7 @@ import net.lerariemann.infinity.util.InfinityMethods;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.entity.LivingEntity;
@@ -31,16 +32,26 @@ public class ModStatusEffects {
     }
 
     public static MobEffect getAfterglowInstanceForReg() {
+        //? if >1.21 {
+        /*var add = AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL;
+        ResourceLocation afterglow = InfinityMethods.getId("effect.afterglow");
+        *///?} else {
+        var add = AttributeModifier.Operation.ADDITION;
+        String afterglow =  "AF8B6E3F-3328-4C0A-AA36-5BA2BB9DBEF4";
+        //?}
         return new AccessibleEffect(MobEffectCategory.BENEFICIAL, 0xAA77DD)
                 .addAttributeModifier(Attributes.ATTACK_SPEED,
-                        InfinityMethods.getId("effect.afterglow"), 0.1F,
-                        AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL)
+                        afterglow, 0.1F,
+                        add)
                 .addAttributeModifier(Attributes.MOVEMENT_SPEED,
-                        InfinityMethods.getId("effect.afterglow"), 0.2F,
-                        AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL)
-                .addAttributeModifier(Attributes.GRAVITY,
-                        InfinityMethods.getId("effect.afterglow"), -0.1F,
-                        AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL);
+                        afterglow, 0.2F,
+                        add)
+                //? if >1.21 {
+                /*.addAttributeModifier(Attributes.GRAVITY,
+                        afterglow, -0.1F,
+                        add)
+               *///?}
+                ;
     }
 
     public static void registerModEffects() {

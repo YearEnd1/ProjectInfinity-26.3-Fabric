@@ -8,6 +8,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
@@ -39,12 +40,22 @@ public class NotesBlock extends Block {
     }
 
     @Override
-    protected boolean isRandomlyTicking(BlockState state) {
+    //? if >1.21 {
+    /*protected
+    *///?} else {
+    public
+    //?}
+    boolean isRandomlyTicking(BlockState state) {
         return state.hasProperty(TICKING) && state.getValue(TICKING);
     }
 
     @Override
-    protected void neighborChanged(BlockState state, Level world, BlockPos pos, Block sourceBlock, BlockPos sourcePos, boolean notify) {
+    //? if >1.21 {
+    /*protected
+     *///?} else {
+    public
+        //?}
+    void neighborChanged(BlockState state, Level world, BlockPos pos, Block sourceBlock, BlockPos sourcePos, boolean notify) {
         boolean bl = world.hasNeighborSignal(pos);
         if (bl != state.getValue(POWERED)) {
             if (bl) this.play(null, world, pos);
@@ -57,15 +68,24 @@ public class NotesBlock extends Block {
     }
 
     @Override
-    protected void randomTick(BlockState state, ServerLevel world, BlockPos pos, RandomSource random) {
+    //? if >1.21 {
+    /*protected
+     *///?} else {
+    public
+    //?}
+     void randomTick(BlockState state, ServerLevel world, BlockPos pos, RandomSource random) {
         if (isTicking(world, state) && random.nextInt(115) == 0) {
             this.play(null, world, pos);
         }
     }
-
+    
     @Override
-    protected InteractionResult useWithoutItem(BlockState state, Level world, BlockPos pos, Player player, BlockHitResult hit) {
-        if (world.isClientSide) {
+    //? if <1.21 {
+    public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
+        //?} else {
+    /*protected InteractionResult useWithoutItem(BlockState state, Level world, BlockPos pos, Player player, BlockHitResult hit) {
+        *///?}
+        if (world.isClientSide()) {
             return InteractionResult.SUCCESS;
         } else {
             boolean bl = state.getValue(TICKING);
@@ -77,8 +97,13 @@ public class NotesBlock extends Block {
     }
 
     @Override
-    protected void attack(BlockState state, Level world, BlockPos pos, Player player) {
-        if (!world.isClientSide) {
+    //? if >1.21 {
+    /*protected
+     *///?} else {
+    public
+        //?}
+     void attack(BlockState state, Level world, BlockPos pos, Player player) {
+        if (!world.isClientSide()) {
             play(player, world, pos);
             player.awardStat(Stats.PLAY_NOTEBLOCK);
         }
@@ -92,7 +117,12 @@ public class NotesBlock extends Block {
     }
 
     @Override
-    protected boolean triggerEvent(BlockState state, Level world, BlockPos pos, int type, int data) {
+    //? if >1.21 {
+    /*protected
+     *///?} else {
+    public
+        //?}
+     boolean triggerEvent(BlockState state, Level world, BlockPos pos, int type, int data) {
         NoteBlockInstrument noteBlockInstrument;
         float f;
         if (world.getBlockEntity(pos.below()) instanceof ChromaticBlockEntity e) {

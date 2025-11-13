@@ -25,7 +25,8 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.Nullable;
 
 public class ChromaticBlock extends BaseEntityBlock implements Boopable {
-    public static final MapCodec<ChromaticBlock> CODEC = simpleCodec(ChromaticBlock::new);
+    //? if >1.21
+    /*public static final MapCodec<ChromaticBlock> CODEC = simpleCodec(ChromaticBlock::new);*/
     public ChromaticBlock(Properties settings) {
         super(settings);
     }
@@ -50,14 +51,22 @@ public class ChromaticBlock extends BaseEntityBlock implements Boopable {
     }
 
     @Override
-    public InteractionResult useWithoutItem(BlockState state, Level world, BlockPos pos, Player player, BlockHitResult hit) {
+    //? if <1.21 {
+    public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
+     //?} else {
+    /*protected InteractionResult useWithoutItem(BlockState state, Level world, BlockPos pos, Player player, BlockHitResult hit) {
+        *///?}
         if (world.getBlockEntity(pos) instanceof ChromaticBlockEntity cbe) {
             ItemStack stack = player.getItemInHand(InteractionHand.MAIN_HAND);
             if (cbe.onUse(world, pos, stack)) {
                 return InteractionResult.SUCCESS;
             }
         }
-        return super.useWithoutItem(state, world, pos, player, hit);
+        //? if <1.21 {
+        return super.use(state, world, pos, player, hand, hit);
+        //?} else {
+        /*return super.useWithoutItem(state, world, pos, player, hit);
+        *///?}
     }
 
     public static class Carpet extends ChromaticBlock {
@@ -88,10 +97,12 @@ public class ChromaticBlock extends BaseEntityBlock implements Boopable {
     public RenderShape getRenderShape(BlockState state) {
         return RenderShape.MODEL;
     }
-    @Override
+    //? if >1.21 {
+    /*@Override
     protected MapCodec<? extends BaseEntityBlock> codec() {
         return CODEC;
     }
+    *///?}
     @Override
     public @Nullable BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
         return new ChromaticBlockEntity(pos, state);

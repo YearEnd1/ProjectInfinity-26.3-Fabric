@@ -1,6 +1,12 @@
 accessWidener v2 named
-accessible method net/minecraft/client/gui/screens/Screen addRenderableWidget (Lnet/minecraft/client/gui/components/events/GuiEventListener;)Lnet/minecraft/client/gui/components/events/GuiEventListener;
-accessible class net/minecraft/world/entity/animal/AbstractFish$FishMoveControl
-accessible class net/minecraft/world/level/levelgen/SurfaceRules$SurfaceRule
-accessible class net/minecraft/world/level/levelgen/SurfaceRules$Context
+
+accessible field net/minecraft/world/level/storage/loot/parameters/LootContextParamSets REGISTRY Lcom/google/common/collect/BiMap;
 accessible field net/minecraft/world/entity/SpawnPlacements DATA_BY_TYPE Ljava/util/Map;
+accessible class net/minecraft/world/level/levelgen/SurfaceRules$Condition
+accessible class net/minecraft/world/level/levelgen/SurfaceRules$Context
+accessible class net/minecraft/world/level/levelgen/SurfaceRules$LazyYCondition
+accessible class net/minecraft/world/level/levelgen/SurfaceRules$SurfaceRule
+accessible class net/minecraft/world/entity/animal/AbstractFish$FishMoveControl
+accessible method net/minecraft/client/gui/screens/Screen addRenderableWidget (Lnet/minecraft/client/gui/components/events/GuiEventListener;)Lnet/minecraft/client/gui/components/events/GuiEventListener;
+accessible method net/minecraft/world/entity/Entity getRelativePortalPosition (Lnet/minecraft/core/Direction$Axis;Lnet/minecraft/BlockUtil$FoundRectangle;)Lnet/minecraft/world/phys/Vec3;
+accessible method net/minecraft/world/level/levelgen/structure/Structure findGenerationPoint (Lnet/minecraft/world/level/levelgen/structure/Structure$GenerationContext;)Ljava/util/Optional;

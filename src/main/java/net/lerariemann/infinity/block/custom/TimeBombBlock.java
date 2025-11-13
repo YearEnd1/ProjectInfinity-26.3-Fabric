@@ -89,7 +89,11 @@ public class TimeBombBlock extends Block {
     }
 
     @Override
-    public InteractionResult useWithoutItem(BlockState state, Level world, BlockPos pos, Player player, BlockHitResult hit) {
+    //? if <1.21 {
+    public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
+     //?} else {
+    /*protected InteractionResult useWithoutItem(BlockState state, Level world, BlockPos pos, Player player, BlockHitResult hit) {
+        *///?}
         if (state.getValue(ACTIVE)) {
             if (world instanceof ServerLevel w && !InfinityMethods.isTimebombed(w)) {
                 world.setBlockAndUpdate(pos, Blocks.AIR.defaultBlockState());

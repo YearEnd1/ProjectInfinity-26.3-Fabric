@@ -146,8 +146,15 @@ public class InfinityPortalBlockEntity extends TintableBlockEntity {
     }
 
 
-    public void saveAdditional(CompoundTag tag, HolderLookup.Provider registryLookup) {
-        super.saveAdditional(tag, registryLookup);
+    @Override
+    public void saveAdditional(CompoundTag tag
+                               //? if >1.21
+                               /*,HolderLookup.Provider registryLookup*/
+    ) {
+        super.saveAdditional(tag
+                //? if >1.21
+                /*, registryLookup*/
+        );
         tag.putInt("Color", this.portalColor);
         tag.putString("Dimension", this.dimension.toString());
         tag.putBoolean("Open", this.isOpen);
@@ -160,8 +167,14 @@ public class InfinityPortalBlockEntity extends TintableBlockEntity {
         }
     }
 
-    public void loadAdditional(CompoundTag tag, HolderLookup.Provider registryLookup) {
+    @Override
+    //? if >1.21 {
+    /*public void loadAdditional(CompoundTag tag, HolderLookup.Provider registryLookup) {
         super.loadAdditional(tag, registryLookup);
+    *///?} else {
+    public void load(CompoundTag tag) {
+        super.load(tag);
+    //?}
         if (tag.getTagType("Dimension") == Tag.TAG_ANY_NUMERIC) { //conversion from legacy formats
             this.portalColor = NbtUtils.getInt(tag, "Dimension") & 0xFFFFFF;
             if (tag.contains("DimensionName")) {
@@ -193,8 +206,14 @@ public class InfinityPortalBlockEntity extends TintableBlockEntity {
     }
 
     @Override
-    public CompoundTag getUpdateTag(HolderLookup.Provider registryLookup) {
-        return saveWithoutMetadata(registryLookup);
+    public CompoundTag getUpdateTag(
+            //? if >1.21
+            /*HolderLookup.Provider registryLookup*/
+    ) {
+        return saveWithoutMetadata(
+                //? if >1.21
+                /*registryLookup*/
+        );
     }
 
 //    @Override

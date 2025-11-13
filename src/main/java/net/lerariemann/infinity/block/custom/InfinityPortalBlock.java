@@ -47,6 +47,7 @@ import net.minecraft.world.level.block.state.StateDefinition;
 /*import net.minecraft.world.level.portal.DimensionTransition;
 *///?} else {
 import net.minecraft.world.level.portal.PortalInfo;
+import net.minecraft.nbt.CompoundTag;
 //?}
 import net.minecraft.world.level.storage.LevelResource;
 import net.minecraft.world.phys.BlockHitResult;
@@ -183,7 +184,11 @@ public class InfinityPortalBlock extends NetherPortalBlock implements EntityBloc
             MinecraftServer server = world.getServer();
             if (entity instanceof ItemEntity e) {
                 ModItemFunctions.checkCollisionRecipes(world, e, ModItemFunctions.PORTAL_CRAFTING_TYPE.get(),
-                        item -> PortalDataHolder.addPortalComponents(item, ipbe));
+                        //? if >1.21 {
+                        /*item -> PortalDataHolder.addPortalComponents(item, ipbe));
+                        *///?} else {
+                        PortalDataHolder.addPortalComponents(e.getItem().getItem(), ipbe).orElse(new CompoundTag()));
+                        //?}
                 InfinityMod.provider.getPortalKeyAsItem().ifPresent(item -> { //opening a portal by tossing a key in
                     if (e.getItem().is(item)) {
                         InfinityPortal.tryUpdateOpenStatus(ipbe, world, pos, server);

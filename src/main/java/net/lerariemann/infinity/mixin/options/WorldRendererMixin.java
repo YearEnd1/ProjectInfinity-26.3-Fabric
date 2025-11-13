@@ -7,7 +7,9 @@ import net.lerariemann.infinity.options.InfinityOptions;
 import net.lerariemann.infinity.options.SkyRenderer;
 import net.lerariemann.infinity.util.InfinityMethods;
 import net.minecraft.client.Camera;
-import net.minecraft.client.DeltaTracker;
+//? if >1.21 {
+/*import net.minecraft.client.DeltaTracker;
+*///?}
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.GameRenderer;

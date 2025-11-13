@@ -17,6 +17,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.Mth;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -25,7 +26,10 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.dimension.DimensionType;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
-import net.minecraft.world.level.portal.DimensionTransition;
+//? if >1.21 {
+/*import net.minecraft.world.level.portal.DimensionTransition;
+*///?}
+import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -108,8 +112,20 @@ public interface WarpLogic {
      */
     static void respawnAlive(@Nullable ServerPlayer player) {
         if (player == null) return;
-        DimensionTransition targ = player.findRespawnPositionAndUseSpawnBlock(true, DimensionTransition.DO_NOTHING);
+        //? if >1.21 {
+        /*DimensionTransition targ = player.findRespawnPositionAndUseSpawnBlock(true, DimensionTransition.DO_NOTHING);
         player.teleportTo(targ.newLevel(), targ.pos().x, targ.pos().y, targ.pos().z, targ.yRot(), targ.xRot());
+        *///?} else {
+        BlockPos targ = player.getRespawnPosition();
+        var serverWorld = player.server.getLevel(player.getRespawnDimension());
+        if (targ == null || serverWorld == null) {
+            serverWorld = player.server.overworld();
+            targ = serverWorld.getSharedSpawnPos();
+        }
+        player.teleportTo(serverWorld, targ.getX() + 0.5, targ.getY(), targ.getZ() + 0.5,
+                new HashSet<>(), player.getYRot(), player.getXRot());
+        //?}
+
     }
     /* will implement a proper end-of-time dimension later */
     static void sendToMissingno(ServerPlayer player) {

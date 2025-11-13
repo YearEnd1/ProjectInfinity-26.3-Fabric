@@ -13,15 +13,18 @@ import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
 
 public class CosmicAltarBlock extends BaseEntityBlock {
-    public static final MapCodec<CosmicAltarBlock> CODEC = simpleCodec(CosmicAltarBlock::new);
+    //? if >1.21
+    /*public static final MapCodec<CosmicAltarBlock> CODEC = simpleCodec(CosmicAltarBlock::new);*/
     public CosmicAltarBlock(Properties settings) {
         super(settings);
     }
 
-    @Override
+    //? if >1.21 {
+    /*@Override
     protected MapCodec<? extends BaseEntityBlock> codec() {
         return CODEC;
     }
+    *///?}
 
     @Override
     public RenderShape getRenderShape(BlockState state) {

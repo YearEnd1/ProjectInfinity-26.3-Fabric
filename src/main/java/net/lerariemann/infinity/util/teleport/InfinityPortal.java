@@ -16,10 +16,12 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.server.level.TicketType;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.ai.village.poi.PoiManager;
 import net.minecraft.world.entity.ai.village.poi.PoiRecord;
 import net.minecraft.world.entity.ai.village.poi.PoiTypes;
+import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.NetherPortalBlock;
 import net.minecraft.world.level.block.state.BlockState;
@@ -31,6 +33,7 @@ import net.minecraft.world.level.dimension.DimensionType;
 *///?} else {
 import net.minecraft.world.level.portal.PortalInfo;
 //?}
+import net.minecraft.world.level.portal.PortalShape;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Comparator;
@@ -107,8 +110,15 @@ public class InfinityPortal {
     //?}
     getTeleportTarget(Entity entity) {
         if (portalShouldWork() && portalTo != null && worldTo != null) {
-            return NetherPortalBlock.getDimensionTransitionFromExit(entity, posTo, portalTo, worldTo,
+            //? if >1.21 {
+            /*return NetherPortalBlock.getDimensionTransitionFromExit(entity, posTo, portalTo, worldTo,
                     DimensionTransition.PLAY_PORTAL_SOUND.then(entityx -> entityx.placePortalTicket(posTo)));
+            *///?} else {
+            var axisFrom = getAxisOrDefault(worldFrom.getBlockState(posFrom));
+            createTicket(worldTo, posTo);
+            return PortalShape.createPortalInfo(worldTo, portalTo, axisFrom, entity.getRelativePortalPosition(axisFrom, portalFrom),
+                    entity, entity.getDeltaMovement(), entity.getYRot(), entity.getXRot());
+            //?}
         }
         //below this point is error handling. note that not all such errors are bugs
         if (entity instanceof ServerPlayer player) {
@@ -140,6 +150,15 @@ public class InfinityPortal {
                             ((MutableComponent)item.getDescription()).withStyle(ChatFormatting.AQUA))));
         else player.sendSystemMessage(Component.translatable("error.infinity.portal.null"));
     }
+
+    /**
+     * Loads the other side of the portal for 300 ticks like nether portals do.
+     */
+    //? if <1.21 {
+    public static void createTicket(ServerLevel worldTo, BlockPos posTo) {
+        worldTo.getChunkSource().addRegionTicket(TicketType.PORTAL, new ChunkPos(posTo), 3, posTo);
+    }
+    //?}
 
     public static Direction.Axis getAxisOrDefault(BlockState state) {
         if (state.getProperties().contains(BlockStateProperties.HORIZONTAL_AXIS))

@@ -23,7 +23,11 @@ public interface InfinitySpawnHelper {
             bl = world.getFluidState(pos).is(FluidTags.WATER);
         else bl = (world.getBlockState(pos.below()).isValidSpawn(world, pos.below(), type));
 
-        bl = bl || MobSpawnType.isSpawner(spawnReason);
+        //? if >1.21 {
+        /*bl = bl || MobSpawnType.isSpawner(spawnReason);
+        *///?} else {
+        bl = bl || spawnReason.equals(MobSpawnType.SPAWNER);
+        //?}
 
         if (sg.equals(MobCategory.MONSTER))
             bl = bl && (Monster.isDarkEnoughToSpawn(world, pos, random) && world.getDifficulty() != Difficulty.PEACEFUL);

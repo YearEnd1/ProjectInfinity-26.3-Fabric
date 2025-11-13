@@ -43,6 +43,7 @@ import net.minecraft.world.level.levelgen.structure.Structure;
 import net.minecraft.world.level.levelgen.structure.StructureSpawnOverride;
 import net.minecraft.world.level.material.FlowingFluid;
 import net.minecraft.world.level.material.Fluid;
+import net.minecraft.world.level.storage.loot.LootDataType;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import java.util.*;
@@ -66,12 +67,17 @@ public interface ConfigGenerator {
         generateBEs();
         SurfaceRuleScanner.scan(server);
         RegistryAccess manager = server.registryAccess();
-        ConfigFactory.of(manager.registryOrThrow(Registries.JUKEBOX_SONG)).generate(ConfigType.JUKEBOXES);
+        //? if >1.21 {
+        /*ConfigFactory.of(manager.registryOrThrow(Registries.JUKEBOX_SONG)).generate(ConfigType.JUKEBOXES);
+        *///?}
         ConfigFactory.of(manager.registryOrThrow(Registries.BIOME), ConfigGenerator::extractBiome).generate(ConfigType.BIOMES);
         ConfigFactory.of(manager.registryOrThrow(Registries.STRUCTURE), ConfigGenerator::extractStructure).generate(ConfigType.STRUCTURES);
         ConfigFactory.of(manager.registryOrThrow(Registries.CONFIGURED_FEATURE), ConfigGenerator::extractFeature).generate(ConfigType.TREES);
-        ConfigFactory.of(server.reloadableRegistries().get().registryOrThrow(Registries.LOOT_TABLE), ConfigGenerator::extractLootTable)
+        //? if =1.21.1 {
+        /*ConfigFactory.of(server.reloadableRegistries().get().registryOrThrow(Registries.LOOT_TABLE), ConfigGenerator::extractLootTable)
                 .generate(ConfigType.LOOT_TABLES);
+        *///?}
+        ConfigFactory.of(server.getLootData(), ConfigGenerator::extractLootTable).generate(ConfigType.LOOT_TABLES);
     }
 
     static void generateSounds() {
