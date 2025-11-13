@@ -88,6 +88,12 @@ public interface NbtUtils {
         value.putInt("max_inclusive", bound);
         return value;
     }
+
+    static CompoundTag genBounds(Random random, int lbound, int bound) {
+        int a = random.nextInt(lbound, bound);
+        int b = random.nextInt(lbound, bound);
+        return genBounds(Math.min(a, b), Math.max(a, b));
+    }
     //?}
 
     static void addBounds(CompoundTag res, int lbound, int bound) {
@@ -129,7 +135,7 @@ public interface NbtUtils {
                 /*addBounds(res, random, lbound, bound);
                 res.put("source", randomIntProvider(random, lbound, bound, false));
                 *///?} else {
-                CompoundTag value = genBounds(lbound, bound);
+                CompoundTag value = genBounds(random, lbound, bound);
                 value.put("source", randomIntProvider(random, lbound, bound, false));
                 res.put("value", value);
                 //?}
@@ -142,7 +148,7 @@ public interface NbtUtils {
                 res.putDouble("mean", lbound + random.nextDouble()*(bound-lbound));
                 res.putDouble("deviation", random.nextExponential());
                 *///?} else {
-                CompoundTag value = genBounds(lbound, bound);
+                CompoundTag value = genBounds(random, lbound, bound);
                 value.putDouble("mean", lbound + random.nextDouble()*(bound-lbound));
                 value.putDouble("deviation", random.nextExponential());
                 res.put("value", value);
