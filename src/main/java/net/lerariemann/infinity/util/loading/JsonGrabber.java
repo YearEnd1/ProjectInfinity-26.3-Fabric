@@ -35,7 +35,7 @@ public class JsonGrabber<E> {
     RegistryOps.RegistryInfoLookup registryInfoGetter;
 
     //? if >1.21 {
-    /*static RegistrationInfo CompoundX = RegistrationInfo.BUILT_IN;
+    /*static RegistrationInfo ChemicalX = RegistrationInfo.BUILT_IN;
     *///?} else {
     static Lifecycle ChemicalX = Lifecycle.stable();
     //?}

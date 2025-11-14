@@ -256,4 +256,7 @@ tasks.processResources {
             "aw_file" to accesswidener,
         ))
     }
+    from(rootProject.file("src/${minecraft}/resources")) {
+        include("/*")
+    }
 }

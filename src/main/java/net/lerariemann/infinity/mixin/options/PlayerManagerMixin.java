@@ -63,6 +63,7 @@ public class PlayerManagerMixin {
     /*private void injected(Connection connection, ServerPlayer player, CommonListenerCookie clientData, CallbackInfo ci, @Local(ordinal=0) ServerLevel serverWorld2) {
     *///?} else {
     private void injected(Connection connection, ServerPlayer player, CallbackInfo ci, @Local(ordinal=0) ServerLevel serverWorld2) {
+    //?}
         if (serverWorld2 == null) return;
         ModPayloads.sendShaderPayload(player, serverWorld2);
         ModPayloads.sendStarsPayload(player);

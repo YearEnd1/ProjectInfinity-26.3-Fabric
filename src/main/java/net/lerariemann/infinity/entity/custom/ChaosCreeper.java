@@ -70,7 +70,7 @@ public class ChaosCreeper extends Creeper implements TintableEntity {
     public SpawnGroupData finalizeSpawn(ServerLevelAccessor world, DifficultyInstance difficulty, MobSpawnType spawnReason, @Nullable SpawnGroupData entityData
                                         //? if <1.21 {
                                          , @Nullable CompoundTag entityNbt
-                                        //}
+                                        //?}
     ) {
         CompoundTag biome = InfinityMod.provider.randomElement(world.getRandom(), ConfigType.BIOMES);
         this.setColor(NbtUtils.getInt(biome, "Color", 7842607));
@@ -79,7 +79,7 @@ public class ChaosCreeper extends Creeper implements TintableEntity {
         return super.finalizeSpawn(world, difficulty, spawnReason, entityData
                 //? if <1.21 {
                 , entityNbt
-                //}
+                //?}
                 );
     }
 

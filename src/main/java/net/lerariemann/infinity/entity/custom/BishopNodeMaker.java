@@ -85,6 +85,20 @@ public class BishopNodeMaker extends WalkNodeEvaluator {
     static final BlockPathTypes fence = BlockPathTypes.FENCE;
     //?}
 
+
+    //? if >1.21 {
+    /*@Override
+    protected boolean isDiagonalValid(Node xNode, @Nullable Node xDiagNode, @Nullable Node zNode) {
+        if (xDiagNode == null || zNode == null || (xDiagNode.y > xNode.y && zNode.y > xNode.y)) {
+            return false;
+        } else if (zNode.type != door && xDiagNode.type != door) {
+            boolean bl = xDiagNode.type == fence && zNode.type == fence && (double)this.mob.getBbWidth() < 0.5;
+            return (xDiagNode.y < xNode.y || xDiagNode.costMalus >= 0.0F || bl) && (zNode.y < xNode.y || zNode.costMalus >= 0.0F || bl);
+        } else {
+            return false;
+        }
+    }
+    *///?} else {
     @Override
     protected boolean isDiagonalValid(Node xNode, @Nullable Node zNode, @Nullable Node xDiagNode, @Nullable Node zDiagNode) {
         if (xDiagNode == null || zNode == null || (xDiagNode.y > xNode.y && zNode.y > xNode.y)) {
@@ -96,4 +110,5 @@ public class BishopNodeMaker extends WalkNodeEvaluator {
             return false;
         }
     }
+    //?}
 }

@@ -172,7 +172,7 @@ public class ChromaticBlockEntity extends TintableBlockEntity {
     @Override
     //? if >1.21 {
     /*public void loadAdditional(CompoundTag nbt, HolderLookup.Provider registryLookup) {
-        super.loadAdditional(tag, registryLookup);
+        super.loadAdditional(nbt, registryLookup);
     *///?} else {
     public void load(CompoundTag nbt) {
         super.load(nbt);

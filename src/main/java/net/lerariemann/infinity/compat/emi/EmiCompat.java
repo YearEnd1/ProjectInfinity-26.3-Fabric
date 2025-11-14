@@ -117,7 +117,7 @@ public class EmiCompat implements EmiPlugin {
 
             //? if >1.21 {
             /*var id = recipeHolder.id();
-            var recipe = recipeHolder.value()
+            var recipe = recipeHolder.value();
              *///?} else {
             var id = recipe.getId();
             //?}

@@ -25,7 +25,9 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 //? if >1.21 {
 /*import net.minecraft.core.component.DataComponentMap;
-import javax.annotation.ParametersAreNonnullByDefault;
+*///?}
+//? if neoforge {
+/*import javax.annotation.ParametersAreNonnullByDefault;
 
 @ParametersAreNonnullByDefault
 *///?}

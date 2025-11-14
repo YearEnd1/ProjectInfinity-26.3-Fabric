@@ -18,17 +18,20 @@ import net.minecraft.world.level.block.HorizontalDirectionalBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.phys.BlockHitResult;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 //? if >1.21 {
 /*import com.mojang.serialization.MapCodec;
-import javax.annotation.ParametersAreNonnullByDefault;
+*///?}
+//? if neoforge {
+/*import javax.annotation.ParametersAreNonnullByDefault;
 *///?}
 import java.util.Objects;
 import java.util.logging.Handler;
 
 @MethodsReturnNonnullByDefault
-//? if >1.21 {
+//? if neoforge {
 /*@ParametersAreNonnullByDefault
  *///?}
 public class AntBlock extends HorizontalDirectionalBlock {

@@ -161,6 +161,11 @@ public interface VersionMethods {
     static boolean contains(ItemStack currStack, RegistrySupplier<DataComponentType<String>> dyeColor) {
         return currStack.has(dyeColor.get());
     }
+
+    static <T> T remove(ItemStack stack, RegistrySupplier<DataComponentType<T>> component) {
+        return stack.remove(component.get());
+    }
+
     *///?}
 
     static BlockPos clampToBounds(WorldGenLevel structureWorldAccess, BlockPos destination) {
@@ -264,6 +269,6 @@ public interface VersionMethods {
 }
 
 //? if >1.21 {
-/*
-*///?} else {
+
+//?} else {
 //?}

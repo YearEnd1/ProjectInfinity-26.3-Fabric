@@ -56,8 +56,8 @@ public class ModEntities {
     public static final RegistrySupplier<EntityType<ChaosSlime>> CHAOS_SLIME = INFINITY_ENTITIES
             .register("chaos_slime", () ->
                     //? if >1.21 {
-                    /*
-                    EntityType.Builder.of(ChaosSlime::new, MobCategory.MONSTER)
+                    
+                    /*EntityType.Builder.of(ChaosSlime::new, MobCategory.MONSTER)
                     .sized(0.52f, 0.52f)
                     .clientTrackingRange(10)
                     .build(type("chaos_slime"))
@@ -96,7 +96,7 @@ public class ModEntities {
             .register("bishop", () -> EntityType.Builder.of(BishopEntity::new, MobCategory.MONSTER)
                     .sized(0.6f, 2.7f)
                     //? if >1.21 {
-                    /*eyeHeight(1.75f)
+                    /*.eyeHeight(1.75f)
                     .nameTagOffset(2.05F)
                     .ridingOffset(-0.7F)
                     *///?}

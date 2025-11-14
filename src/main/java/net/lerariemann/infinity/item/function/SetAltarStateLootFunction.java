@@ -55,6 +55,7 @@ public class SetAltarStateLootFunction extends LootItemConditionalFunction {
         return stack;
     }
 
+    //? if <1.21 {
     public static class Serializer extends LootItemConditionalFunction.Serializer<SetAltarStateLootFunction> {
         public Serializer() {
         }
@@ -62,5 +63,6 @@ public class SetAltarStateLootFunction extends LootItemConditionalFunction {
             return new SetAltarStateLootFunction(new LootItemCondition[0]);
         }
     }
+    //?}
 }
 

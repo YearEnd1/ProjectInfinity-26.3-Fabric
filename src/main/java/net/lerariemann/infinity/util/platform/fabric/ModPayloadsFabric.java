@@ -28,22 +28,22 @@ public class ModPayloadsFabric {
         PayloadTypeRegistry.playC2S().register(JukeboxesC2SPayload.ID, JukeboxesC2SPayload.CODEC);
 
         ServerPlayNetworking.registerGlobalReceiver(F4UpdateC2SPayload.ID, (payload, context) ->
-                receiveF4UpdatePayload(context.player(), payload.slot(), payload.width(), payload.height()));
+                payload.receive(context.player()));
         ServerPlayNetworking.registerGlobalReceiver(F4DeployC2SPayload.ID, (payload, context) ->
-                receiveF4DeployPayload(context.player()));
+                payload.receive(context.player()));
         ServerPlayNetworking.registerGlobalReceiver(JukeboxesC2SPayload.ID, (payload, context) ->
                 SoundScanner.unpackUploadedJukeboxes(context.server(), payload.data()));
     }
 
     public static void registerPayloadsClient() {
         ClientPlayNetworking.registerGlobalReceiver(WorldAddS2CPayload.ID, (payload, context) ->
-                receiveWorldAddPayload(client(context), payload.world_id(), payload.world_data()));
+                payload.receive(client(context)));
         ClientPlayNetworking.registerGlobalReceiver(BiomeAddS2CPayload.ID, (payload, context) ->
-                receiveBiomeAddPayload(client(context), payload.biome_id(), payload.biome_data()));
+                payload.receive(client(context)));
         ClientPlayNetworking.registerGlobalReceiver(ShaderS2CPayload.ID, (payload, context) ->
-                receiveShaderPayload(client(context), payload.shader_data(), payload.iridescence()));
+                payload.receive(client(context)));
         ClientPlayNetworking.registerGlobalReceiver(StarsS2CPayload.ID, (payload, context) ->
-                receiveStarsPayload(client(context)));
+                payload.receive(client(context)));
         ClientPlayNetworking.registerGlobalReceiver(SoundPackS2CPayload.ID, (payload, context) ->
                 SoundScanner.unpackDownloadedPack(payload.songIds(), client(context)));
     }

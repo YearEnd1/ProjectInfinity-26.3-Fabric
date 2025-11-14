@@ -3,6 +3,7 @@ package net.lerariemann.infinity.registry.var;
 import net.lerariemann.infinity.block.entity.BiomeBottleBlockEntity;
 import net.lerariemann.infinity.util.InfinityMethods;
 import net.minecraft.MethodsReturnNonnullByDefault;
+import net.minecraft.advancements.CriterionTriggerInstance;
 import net.minecraft.advancements.critereon.*;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
@@ -11,12 +12,15 @@ import net.minecraft.world.entity.LivingEntity;
 import java.util.function.Supplier;
 
 //? if >1.21 {
-/*import net.minecraft.core.registries.Registries;
+/*import java.util.Optional;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.advancements.CriterionTrigger;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.architectury.registry.registries.DeferredRegister;
 import dev.architectury.registry.registries.RegistrySupplier;
+
+import static net.lerariemann.infinity.InfinityMod.MOD_ID;
 *///?} else {
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
@@ -306,7 +310,13 @@ public class ModCriteria {
         *///?}
     }
 
-    public static <S extends AbstractCriterionTriggerInstance, T extends SimpleCriterionTrigger<S>>
+    public static <S extends
+            //? if >1.21 {
+            /*SimpleCriterionTrigger.SimpleInstance
+            *///?} else {
+            AbstractCriterionTriggerInstance
+            //?}
+            , T extends SimpleCriterionTrigger<S>>
     Supplier<T> register(ResourceLocation id, Supplier<T> getter) {
         //? if >1.21 {
         /*return CRITERIA.register(id.getPath(), getter);

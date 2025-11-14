@@ -23,6 +23,7 @@ import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.dimension.DimensionType;
+import static net.lerariemann.infinity.util.InfinityMethods.getId;
 
 
 //? if >1.21 {
@@ -43,7 +44,6 @@ import net.fabricmc.fabric.api.networking.v1.FabricPacket;
 import net.fabricmc.fabric.api.networking.v1.PacketSender;
 import net.fabricmc.fabric.api.networking.v1.PacketType;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
-import static net.lerariemann.infinity.util.InfinityMethods.getId;
 //?}
 
 import java.nio.file.Path;
@@ -327,8 +327,8 @@ public class ModPayloads {
     public record JukeboxesC2SPayload(CompoundTag data) implements FriendlyPacketC2S {
         static ResourceLocation sid = getId("upload_jukeboxes");
         //? if >1.21 {
-        /*
-        public static final Type<JukeboxesC2SPayload> ID = new Type<>(InfinityMethods.getId("upload_jukeboxes"));
+        
+        /*public static final Type<JukeboxesC2SPayload> ID = new Type<>(InfinityMethods.getId("upload_jukeboxes"));
         public static final StreamCodec<RegistryFriendlyByteBuf, JukeboxesC2SPayload> CODEC = StreamCodec.composite(
                 ByteBufCodecs.COMPOUND_TAG, JukeboxesC2SPayload::data, JukeboxesC2SPayload::new);
         @Override
@@ -358,7 +358,7 @@ public class ModPayloads {
 
     public static void registerC2SPacketsReceivers() {
         //? if >1.21 {
-        /*net.lerariemann.infinity.util.platform.Platform.INSTANCE.registerPayloadsServer();
+        /*net.lerariemann.infinity.util.platform.InfinityPlatform.INSTANCE.registerPayloadsServer();
         *///?} else {
         ServerPlayNetworking.registerGlobalReceiver(F4UpdateC2SPayload.type, F4UpdateC2SPayload::receive);
         ServerPlayNetworking.registerGlobalReceiver(F4DeployC2SPayload.type, F4DeployC2SPayload::receive);
@@ -367,7 +367,7 @@ public class ModPayloads {
 
     public static void registerS2CPacketsReceivers() {
         //? if >1.21 {
-        /*net.lerariemann.infinity.util.platform.Platform.INSTANCE.registerPayloadsClient();
+        /*net.lerariemann.infinity.util.platform.InfinityPlatform.INSTANCE.registerPayloadsClient();
         *///?} else {
         ClientPlayNetworking.registerGlobalReceiver(WorldAddS2CPayload.sid, WorldAddS2CPayload::receive);
         ClientPlayNetworking.registerGlobalReceiver(BiomeAddS2CPayload.sid, BiomeAddS2CPayload::receive);

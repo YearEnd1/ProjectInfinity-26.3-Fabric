@@ -46,6 +46,7 @@ public class SetLevelLootFunction extends LootItemConditionalFunction {
         return ModItemFunctions.SET_BIOME_BOTTLE_LEVEL.get();
     }
 
+    //? if <1.21 {
     public static class Serializer extends LootItemConditionalFunction.Serializer<SetLevelLootFunction> {
         public Serializer() {
         }
@@ -53,4 +54,5 @@ public class SetLevelLootFunction extends LootItemConditionalFunction {
             return new SetLevelLootFunction(new LootItemCondition[0]);
         }
     }
+    //?}
 }

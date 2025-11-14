@@ -32,7 +32,7 @@ import net.minecraft.world.item.enchantment.ItemEnchantments;
 import net.minecraft.world.item.ItemStack;
 *///?}
 //? if >1.21 && fabric {
-/*import net.fabricmc.fabric.api.event.lifecycle.v1.DimensionTransitionEvents;
+/*import net.fabricmc.fabric.api.event.lifecycle.v1.ServerWorldEvents;
 import net.fabricmc.fabric.api.tag.convention.v2.ConventionalBlockTags;
 *///?}
 //? if <1.21 && fabric {
@@ -108,7 +108,7 @@ public interface PlatformMethods {
      */
     static void onWorldLoad(Object mixin, ServerLevel world) {
         //? if >1.21 && fabric {
-        /*DimensionTransitionEvents.LOAD.invoker().onWorldLoad((MinecraftServer)mixin, world);
+        /*ServerWorldEvents.LOAD.invoker().onWorldLoad((MinecraftServer)mixin, world);
         *///?}
         //? if <1.21 && fabric {
         ServerWorldEvents.LOAD.invoker().onWorldLoad((MinecraftServer) mixin, world);

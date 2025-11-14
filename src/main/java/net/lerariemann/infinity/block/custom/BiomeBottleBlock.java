@@ -13,7 +13,6 @@ import net.lerariemann.infinity.registry.core.ModComponentTypes;
 import net.minecraft.core.component.DataComponentMap;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.item.component.BlockItemStateProperties;
-import javax.annotation.ParametersAreNonnullByDefault;
 import net.minecraft.world.level.LevelReader;
 *///?}
 import net.minecraft.core.Registry;
@@ -44,14 +43,17 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.Nullable;
+//? if neoforge {
+/*import javax.annotation.ParametersAreNonnullByDefault;
+*///?}
 
 import java.util.*;
 import java.util.stream.Collectors;
 
 @MethodsReturnNonnullByDefault
-//? if >1.21 {
+//? if neoforge {
 /*@ParametersAreNonnullByDefault
- *///?}
+*///?}
 public class BiomeBottleBlock extends BaseEntityBlock {
     //? if >1.21 {
     /*public static final MapCodec<BiomeBottleBlock> CODEC = simpleCodec(BiomeBottleBlock::new);

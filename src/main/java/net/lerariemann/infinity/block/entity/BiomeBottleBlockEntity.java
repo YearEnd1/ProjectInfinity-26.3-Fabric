@@ -23,13 +23,15 @@ import org.jetbrains.annotations.Nullable;
 /*import net.lerariemann.infinity.registry.core.ModComponentTypes;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.component.DataComponentMap;
-import javax.annotation.ParametersAreNonnullByDefault;
+*///?}
+//? if neoforge {
+/*import javax.annotation.ParametersAreNonnullByDefault;
 *///?}
 
 @MethodsReturnNonnullByDefault
-//? if >1.21 {
+//? if neoforge {
 /*@ParametersAreNonnullByDefault
- *///?}
+*///?}
 public class BiomeBottleBlockEntity extends TintableBlockEntity {
     private final ContainerData propertyDelegate;
     private ResourceLocation biome;

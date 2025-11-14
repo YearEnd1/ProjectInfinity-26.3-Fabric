@@ -154,13 +154,15 @@ public record SkyRenderer(InfinityOptions options, Minecraft client, ClientLevel
             );
         }
 
-        BufferBuilder.RenderedBuffer buildOrThrow() {
-            //? if >1.21 {
-            /*return bufferBuilder.buildOrThrow();
-             *///?} else {
-            return bufferBuilder.end();
-            //?}
+        //? if >1.21 {
+        /*MeshData buildOrThrow() {
+            return bufferBuilder.buildOrThrow();
         }
+        *///?} else {
+        BufferBuilder.RenderedBuffer buildOrThrow() {
+            return bufferBuilder.end();
+        }
+        //?}
     }
 
     public void renderAllCelestialBodies(Runnable fogCallback) {
