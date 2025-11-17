@@ -297,7 +297,7 @@ public interface Iridescence {
                 }
                 else if (currEntity.level() instanceof ServerLevel w)
 
-                //? fabric {
+                //? fabric || forge {
                 newEntity.finalizeSpawn(
                  //?}
                 //? neoforge {

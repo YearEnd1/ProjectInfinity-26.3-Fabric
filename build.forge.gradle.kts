@@ -126,6 +126,14 @@ repositories {
             includeGroupAndSubgroups("dev.su5ed")
         }
     }
+    maven {
+        name = "Sinytra"
+        url = uri("https://maven.su5ed.dev/releases")
+        content {
+            includeGroupAndSubgroups("org.sinytra")
+            includeGroupAndSubgroups("dev.su5ed")
+        }
+    }
 }
 
 legacyForge {
@@ -175,7 +183,14 @@ dependencies {
 
     // https://maven.su5ed.dev/#/releases/dev/su5ed/sinytra/fabric-api
     // Add modules as needed - Forge backport currently has a hard dependency on FFAPI, considering including the relevant modules instead of requiring the entire mod.
+    modImplementation("dev.su5ed.sinytra:fabric-loader:2.7.11+0.16.5+1.20.1")
+    modImplementation("dev.su5ed.sinytra.fabric-api:fabric-api-base:0.4.32+ef105b4977")
     modImplementation("dev.su5ed.sinytra.fabric-api:fabric-networking-api-v1:1.3.14+fb7c822677")
+    modImplementation("dev.su5ed.sinytra.fabric-api:fabric-object-builder-api-v1:11.1.5+f8c414ce77")
+    jarJar("dev.su5ed.sinytra:fabric-loader:2.7.11+0.16.5+1.20.1")
+    jarJar("dev.su5ed.sinytra.fabric-api:fabric-api-base:0.4.32+ef105b4977")
+    jarJar("dev.su5ed.sinytra.fabric-api:fabric-networking-api-v1:1.3.14+fb7c822677")
+    jarJar("dev.su5ed.sinytra.fabric-api:fabric-object-builder-api-v1:11.1.5+f8c414ce77")
 
 
     compileOnly("io.github.llamalad7:mixinextras-common:0.5.0")

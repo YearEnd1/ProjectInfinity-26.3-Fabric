@@ -57,11 +57,11 @@ public class PortalCraftingEmiRecipe extends BasicEmiRecipe {
 
     @Override
     public void addWidgets(WidgetHolder widgets) {
-        widgets.addSlot(inputs.getFirst(), 0, 0);
+        widgets.addSlot(inputs.get(0), 0, 0);
         widgets.addTexture(EmiTexture.PLUS, 26, 2);
         widgets.add(new SlotWidget(EmiCompat.PORTAL_WORKSTATION, 48, 0));
         widgets.addTexture(EmiTexture.EMPTY_ARROW, 70, 0);
-        widgets.addSlot(outputs.getFirst(), 100, 0).recipeContext(this);
+        widgets.addSlot(outputs.get(0), 100, 0).recipeContext(this);
 
         // lore handling
         if (!Objects.equals(lore, "empty")) {

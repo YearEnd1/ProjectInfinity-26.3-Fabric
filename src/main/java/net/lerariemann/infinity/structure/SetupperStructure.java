@@ -3,6 +3,7 @@ package net.lerariemann.infinity.structure;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import net.lerariemann.infinity.access.StructureAccess;
 import net.lerariemann.infinity.registry.core.ModStructureTypes;
 import net.lerariemann.infinity.util.VersionMethods;
 import net.minecraft.core.registries.Registries;
@@ -26,7 +27,7 @@ public class SetupperStructure extends Structure {
     @Override
     public @NotNull Optional<GenerationStub> findGenerationPoint(GenerationContext context) {
         Structure shadow = context.registryAccess().registryOrThrow(Registries.STRUCTURE).get(VersionMethods.id(id));
-        return shadow == null ? Optional.empty() : shadow.findGenerationPoint(context);
+        return shadow == null ? Optional.empty() : ((StructureAccess) shadow).invokeFindGenerationPoint(context);
     }
 
     @Override

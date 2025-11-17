@@ -206,7 +206,7 @@ public class AmendmentConfigFactory {
 
         private void addListOption(String name, Requirement req) {
             List<String> current = getSafeList(name);
-            if (!Objects.equals(current.getLast(), "")) current.add("");
+            if (!Objects.equals(current.get(current.size()-1), "")) current.add("");
             subCategory.add(parent.builder.entryBuilder().startStrList(
                             Component.translatable("config.infinity.amendments."+name),
                             current)

@@ -65,7 +65,7 @@ public record CorePack(RandomProvider provider, Path savingPath) {
         double size = trees.size();
         CompoundTag c = new CompoundTag();
         ListTag l = new ListTag();
-        c.put("default", treePlacement(trees.getFirst(), "minecraft:grass_block"));
+        c.put("default", treePlacement(trees.get(0), "minecraft:grass_block"));
         for (int i = 1; i < size; i++) {
             CompoundTag c1 = new CompoundTag();
             c1.put("feature", treePlacement(trees.get(i), "minecraft:grass_block"));

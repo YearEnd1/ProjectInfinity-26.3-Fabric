@@ -5,6 +5,7 @@ import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.lerariemann.infinity.registry.core.ModItemFunctions;
 import net.lerariemann.infinity.registry.core.ModItems;
+import net.lerariemann.infinity.util.VersionMethods;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
 //? if >1.21 {
@@ -147,7 +148,7 @@ public class ChromaticColoringRecipe implements CraftingRecipe {
     @Override
     public ResourceLocation getId() {
         ResourceLocation id = BuiltInRegistries.ITEM.getKey(output.getItem());
-        return new ResourceLocation(id.getNamespace(), id.getPath()+"_chromatic");
+        return VersionMethods.id(id.getNamespace(), id.getPath()+"_chromatic");
     }
     //?}
 

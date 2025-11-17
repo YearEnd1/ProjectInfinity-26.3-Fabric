@@ -6,8 +6,7 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.material.Fluid;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.*;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 //? if <1.21 {
@@ -23,7 +22,6 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.portal.PortalInfo;
 import org.spongepowered.asm.mixin.Shadow;
-import org.spongepowered.asm.mixin.injection.ModifyArg;
 //?}
 
 @Mixin(Entity.class)
@@ -67,7 +65,7 @@ public abstract class EntityMixin {
     }
     //?}
 
-    /* Neoforge-exclusive mixins working around its code (which causes mobs to be unable to swim in iridescence) */
+    /* (Neo)forge-exclusive mixins working around its code (which causes mobs to be unable to swim in iridescence) */
     @Inject(method="updateFluidHeightAndDoFluidPushing", at = @At(value = "RETURN"), cancellable = true)
     void inj(TagKey<Fluid> tag, double speed, CallbackInfoReturnable<Boolean> cir) {
         if (tag.equals(FluidTags.WATER))
@@ -87,5 +85,20 @@ public abstract class EntityMixin {
         if (fluid.equals(FluidTags.WATER))
             cir.setReturnValue(Math.max(cir.getReturnValue(), PlatformMethods.acidHeightTest((Entity)(Object)this)));
     }
+
+    //? if forge {
+    /*@Shadow
+    private Level level;
+
+    @Redirect(method = "findDimensionEntryPoint",
+            at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/Level;dimension()Lnet/minecraft/resources/ResourceKey;"),
+            slice = @Slice(from = @At(
+                    value = "INVOKE", target = "Lnet/minecraft/world/level/Level;dimension()Lnet/minecraft/resources/ResourceKey;"
+            ), to = @At("TAIL")))
+    ResourceKey<Level> smuggle(Level w) {
+        if (w == this.level) return Level.NETHER;
+        return w.dimension();
+    }
+    *///?}
 }
 

@@ -20,6 +20,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.LiquidBlock;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.FlowingFluid;
 import net.minecraft.world.level.material.MapColor;
@@ -67,6 +68,18 @@ import net.minecraft.world.level.block.FireBlock;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.entity.player.Player;
 *///?}
+//? forge {
+/*import net.minecraft.world.entity.player.Player;
+import net.lerariemann.infinity.util.platform.forge.ModFluidsForge;
+import io.netty.buffer.Unpooled;
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.level.LevelEvent;
+import net.minecraftforge.fml.ModLoadingContext;
+import net.lerariemann.infinity.util.platform.forge.IridescenceLiquidBlockForge;
+import net.lerariemann.infinity.util.platform.forge.FluidTypes;
+*///?}
 /**
  * Methods that require different implementations to work on Fabric vs. NeoForge.
  * @see InfinityMethods
@@ -80,13 +93,13 @@ public interface PlatformMethods {
         //? fabric {
         return PacketByteBufs.create();
         //?}
-        //? neoforge {
+        //? neoforge || forge {
         /*return new FriendlyByteBuf(Unpooled.buffer());
         *///?}
     }
 
     static void sendS2CPayload(ServerPlayer entity, ModPayloads.FriendlyPacket payload) {
-        //? fabric {
+        //? fabric || forge {
         ServerPlayNetworking.send(entity, payload);
         //?}
         //? neoforge {
@@ -94,7 +107,7 @@ public interface PlatformMethods {
         *///?}
     }
     static void sendC2SPayload(ModPayloads.FriendlyPacket payload) {
-        //? fabric {
+        //? fabric || forge {
         ClientPlayNetworking.send(payload);
         //?}
         //? neoforge {
@@ -118,6 +131,12 @@ public interface PlatformMethods {
         server.forgeGetWorldMap().put(world.dimension(),world);
         server.markWorldsDirty();
         NeoForge.EVENT_BUS.post(new LevelEvent.Load(world));
+        *///?}
+        //? forge {
+        /*MinecraftServer server = world.getServer();
+        server.forgeGetWorldMap().put(world.dimension(),world);
+        server.markWorldsDirty();
+        MinecraftForge.EVENT_BUS.post(new LevelEvent.Load(world));
         *///?}
     }
 
@@ -176,6 +195,9 @@ public interface PlatformMethods {
         //? neoforge {
         /*return ModFluidsNeoforge.IRIDESCENCE_STILL;
         *///?}
+        //? forge {
+        /*return ModFluidsForge.IRIDESCENCE_STILL;
+         *///?}
     }
     /**
      * Get the flowing variant of Iridescence fluid.
@@ -186,6 +208,9 @@ public interface PlatformMethods {
         //?}
         //? neoforge {
         /*return ModFluidsNeoforge.IRIDESCENCE_FLOWING;
+         *///?}
+        //? forge {
+        /*return ModFluidsForge.IRIDESCENCE_FLOWING;
          *///?}
     }
 
@@ -203,20 +228,42 @@ public interface PlatformMethods {
                 new IridescenceLiquidBlockNeoforge(PlatformMethods.getIridescenceStill(), BlockBehaviour.Properties.ofFullCopy(Blocks.WATER)
                                 .mapColor(MapColor.COLOR_MAGENTA)));
         *///?}
+        //? forge {
+        /*return ModBlocks.BLOCKS.register("iridescence", () ->
+                new IridescenceLiquidBlockForge(PlatformMethods.getIridescenceStill(), BlockBehaviour.Properties.copy(Blocks.WATER)
+                                .mapColor(MapColor.COLOR_MAGENTA)));
+        *///?}
     }
 
     /**
      * Read from the config path inside the mod JAR.
      */
+    @SuppressWarnings("for removal")
     static Path getRootPathInJar() {
         //? fabric {
         ModContainer mc = FabricLoader.getInstance().getModContainer(InfinityMod.MOD_ID).orElse(null);
         assert mc != null;
         return mc.getRootPaths().getFirst();
         //?}
-        //? neoforge {
-        
-        /*return ModLoadingContext.get().getActiveContainer().getModInfo().getOwningFile().getFile();
+        //? neoforge || forge {
+        /*return ModLoadingContext.get().getActiveContainer().getModInfo().getOwningFile().getFile().getFilePath();
+        *///?}
+    }
+
+    /**
+     * Read from the config path inside the mod JAR.
+     */
+    @SuppressWarnings("for removal")
+    static Path getRootPathInJar(String path) {
+        //? fabric {
+        ModContainer mc = FabricLoader.getInstance().getModContainer(InfinityMod.MOD_ID).orElse(null);
+        assert mc != null;
+        return mc.getRootPaths().getFirst();
+        //?}
+        //? neoforge || forge {
+
+        /*return ModLoadingContext.get().getActiveContainer().getModInfo().getOwningFile().getFile()
+                .findResource(path);
         *///?}
     }
 
@@ -224,7 +271,7 @@ public interface PlatformMethods {
      * Create an Item Tag.
      */
     static TagKey<Item> createItemTag(String id) {
-        //? fabric {
+        //? fabric || forge {
         return TagKey.create(Registries.ITEM, InfinityMethods.getId(id));
         //?}
         //? neoforge {
@@ -233,7 +280,7 @@ public interface PlatformMethods {
          *///?}
     }
     static TagKey<Block> createBlockTag(String id) {
-        //? fabric {
+        //? fabric || forge {
         return TagKey.create(Registries.BLOCK, InfinityMethods.getId(id));
         //?}
         //? neoforge {
@@ -261,24 +308,23 @@ public interface PlatformMethods {
      * On Fabric, returns false.
      */
     static boolean acidTest(Entity entity, boolean eyes) {
-        //? fabric {
+        //? if fabric {
         return false;
-        //?}
-        //? neoforge {
+        //?} else if neoforge || forge {
         
         /*if (entity instanceof Player) return false;
-        if (eyes) return entity.isEyeInFluidType(FluidTypes.IRIDESCENCE_TYPE.value());
-        return entity.isInFluidType(FluidTypes.IRIDESCENCE_TYPE.value());
+        if (eyes) return entity.isEyeInFluidType(FluidTypes.IRIDESCENCE_TYPE.get());
+        return entity.isInFluidType(FluidTypes.IRIDESCENCE_TYPE.get());
          *///?}
     }
     static double acidHeightTest(Entity entity) {
         //? fabric {
         return -1;
         //?}
-        //? neoforge {
+        //? neoforge || forge {
         
         /*if (entity instanceof Player) return -1;
-        return entity.getFluidTypeHeight(FluidTypes.IRIDESCENCE_TYPE.value());
+        return entity.getFluidTypeHeight(FluidTypes.IRIDESCENCE_TYPE.get());
          *///?}
     }
 

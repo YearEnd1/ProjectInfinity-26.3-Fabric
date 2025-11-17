@@ -28,6 +28,7 @@
     "fixes.PointOfInterestStorageMixin",
     "fixes.SpawnHelperMixin",
     "fixes.WorldChunkMixin",
+    "fixes.WorldMixin",
     "iridescence.BrewingRecipeRegistryMixin",
     "iridescence.ConcretePowderBlockMixin",
     "iridescence.FishEntityMixin",
@@ -60,6 +61,7 @@
   ],
   "client": [
     "SoundListMixin",
+    "core.ScreenMixin",
     "iridescence.LivingEntityRendererMixin",
     "iridescence.PostEffectProcessorMixin",
     "options.BackgroundRendererMixin",

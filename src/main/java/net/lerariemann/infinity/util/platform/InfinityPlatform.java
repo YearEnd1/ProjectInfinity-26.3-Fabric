@@ -6,6 +6,9 @@ import net.lerariemann.infinity.util.platform.fabric.FabricPlatformImpl;
 //? neoforge {
 /*import net.lerariemann.infinity.util.platform.neoforge.NeoForgePlatformImpl;
 *///?}
+//? forge {
+/*import net.lerariemann.infinity.util.platform.forge.ForgePlatformImpl;
+ *///?}
 
 import java.nio.file.Path;
 
@@ -21,8 +24,11 @@ public interface InfinityPlatform {
     InfinityPlatform INSTANCE = new FabricPlatformImpl();
     //?}
     //? neoforge {
-    /*Platform INSTANCE = new NeoForgePlatformImpl();
+    /*InfinityPlatform INSTANCE = new NeoForgePlatformImpl();
     *///?}
+    //? forge {
+    /*InfinityPlatform INSTANCE = new ForgePlatformImpl();
+     *///?}
 
     boolean isModLoaded(String modid);
     String loader();

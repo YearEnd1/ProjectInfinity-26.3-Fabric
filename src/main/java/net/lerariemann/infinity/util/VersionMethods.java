@@ -28,6 +28,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Optional;
 
 public interface VersionMethods {
+    @SuppressWarnings("for removal")
     static ResourceLocation id(String s) {
         //? if >1.21 {
         /*return ResourceLocation.parse(s);
@@ -36,6 +37,7 @@ public interface VersionMethods {
          //?}
     }
 
+    @SuppressWarnings("for removal")
     static ResourceLocation id(String namespace, String path) {
         //? if >=1.21 {
         /*return ResourceLocation.fromNamespaceAndPath(namespace, path);
@@ -223,19 +225,26 @@ public interface VersionMethods {
         //?}
     }
 
+    //? if forge {
+    /*static MobEffect effectOrHolder(Holder<? extends MobEffect> holder) {
+        return holder.value();
+    }
+    *///?} else {
     static
     //? if >1.21 {
     /*Holder<MobEffect>
      *///?} else {
     MobEffect
     //?}
-    effectOrHolder(Holder<MobEffect> holder) {
+    effectOrHolder(Holder<
+            MobEffect> holder) {
         //? if >1.21 {
         /*return holder;
          *///?} else {
         return holder.value();
         //?}
     }
+    //?}
 
     static MobEffect unholdEffect(
             //? if >1.21 {
@@ -268,6 +277,6 @@ public interface VersionMethods {
     }
 }
 //? if >1.21 {
-/*
-*///?} else {
+
+//?} else {
 //?}

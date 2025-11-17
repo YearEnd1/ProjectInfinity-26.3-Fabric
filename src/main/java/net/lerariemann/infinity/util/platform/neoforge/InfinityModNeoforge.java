@@ -72,22 +72,22 @@ public class InfinityModNeoforge {
         registrar.playToClient(
                 ModPayloads.WorldAddS2CPayload.ID,
                 ModPayloads.WorldAddS2CPayload.CODEC,
-                (payload, context) -> receiveWorldAddPayload(client(), payload.id(), payload.world_data())
+                (payload, context) -> payload.receive(client())
         );
         registrar.playToClient(
                 ModPayloads.BiomeAddS2CPayload.ID,
                 ModPayloads.BiomeAddS2CPayload.CODEC,
-                (payload, context) -> receiveBiomeAddPayload(client(), payload.biome_id(), payload.biome_data())
+                (payload, context) -> payload.receive(client())
         );
         registrar.playToClient(
                 ModPayloads.ShaderS2CPayload.ID,
                 ModPayloads.ShaderS2CPayload.CODEC,
-                (payload, context) -> receiveShaderPayload(client(), payload.shader_data(), payload.iridescence())
+                (payload, context) -> payload.receive(client())
         );
         registrar.playToClient(
                 ModPayloads.StarsS2CPayload.ID,
                 ModPayloads.StarsS2CPayload.CODEC,
-                (payload, context) -> receiveStarsPayload(client())
+                (payload, context) -> payload.receive(client())
         );
         registrar.playToClient(
                 ModPayloads.SoundPackS2CPayload.ID,
@@ -97,12 +97,12 @@ public class InfinityModNeoforge {
         registrar.playToServer(
                 ModPayloads.F4UpdateC2SPayload.ID,
                 ModPayloads.F4UpdateC2SPayload.CODEC,
-                (payload, context) -> receiveF4UpdatePayload(getPlayer(context), payload.slot(), payload.width(), payload.height())
+                (payload, context) -> payload.receive(getPlayer(context))
         );
         registrar.playToServer(
                 ModPayloads.F4DeployC2SPayload.ID,
                 ModPayloads.F4DeployC2SPayload.CODEC,
-                (payload, context) -> receiveF4DeployPayload(getPlayer(context))
+                (payload, context) -> payload.receive(getPlayer(context))
         );
         registrar.playToServer(
                 ModPayloads.JukeboxesC2SPayload.ID,

@@ -35,7 +35,7 @@ public class ChromaticEmiRecipe extends BasicEmiRecipe {
 
     @Override
     public void addWidgets(WidgetHolder widgets) {
-        widgets.addSlot(inputs.getFirst(), 0, 0);
+        widgets.addSlot(inputs.get(0), 0, 0);
         MutableComponent text = Component.translatable(Util.makeDescriptionId("chromatic", this.id));
         Map<Integer, MutableComponent> chars = new HashMap<>();
         text.getVisualOrderText().accept((index, style, codepoint) -> {

@@ -1,0 +1,71 @@
+package net.lerariemann.infinity.util.platform.forge;
+
+//? forge {
+/*import dev.architectury.platform.Platform;
+import dev.architectury.platform.forge.EventBuses;
+import net.lerariemann.infinity.InfinityMod;
+import net.lerariemann.infinity.compat.CreateCompat;
+import net.lerariemann.infinity.registry.core.ModBlocks;
+import net.lerariemann.infinity.registry.core.ModEntities;
+import net.lerariemann.infinity.registry.core.ModItemFunctions;
+import net.lerariemann.infinity.registry.core.ModStatusEffects;
+import net.lerariemann.infinity.registry.var.ModPayloads;
+import net.lerariemann.infinity.registry.var.ModStats;
+import net.lerariemann.infinity.util.config.SoundScanner;
+import net.minecraft.client.Minecraft;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.event.entity.SpawnPlacementRegisterEvent;
+import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.ModContainer;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.fml.loading.FMLEnvironment;
+
+import static net.lerariemann.infinity.InfinityMod.MOD_ID;
+
+@Mod(MOD_ID)
+@Mod.EventBusSubscriber(modid = MOD_ID)
+public class InfinityModForge {
+    @SuppressWarnings("for removal")
+    public InfinityModForge() {
+        FMLJavaModLoadingContext context = FMLJavaModLoadingContext.get();
+        IEventBus eventBus = context.getModEventBus();
+        // Submit our event bus to let Architectury API register our content on the right time.
+        EventBuses.registerModEventBus(InfinityMod.MOD_ID, context.getModEventBus());
+        // Run our common setup.
+        InfinityMod.init();
+        // Run our client setup.
+        if (FMLEnvironment.dist == Dist.CLIENT) InfinityModForgeClient.initializeClient(context);
+        // Run any remaining tasks that require waiting for the registry to freeze on MinecraftForge.
+        FluidTypes.registerFluidTypes(eventBus);
+        ModFluidsForge.registerModFluids(eventBus);
+        ModEffectsForge.register(eventBus);
+    }
+
+    @SubscribeEvent
+    public static void registerSpawns(SpawnPlacementRegisterEvent event) {
+        ModEntities.registerSpawnRestrictions(event);
+    }
+
+    @SubscribeEvent
+    public static void commonSetup(FMLCommonSetupEvent event) {
+        ModStats.load();
+        ModStatusEffects.IRIDESCENT_EFFECT = ModEffectsForge.IRIDESCENT_EFFECT.getHolder().get();
+        ModStatusEffects.IRIDESCENT_SETUP = ModEffectsForge.IRIDESCENT_SETUP.getHolder().get();
+        ModStatusEffects.IRIDESCENT_COOLDOWN = ModEffectsForge.IRIDESCENT_COOLDOWN.getHolder().get();
+        ModStatusEffects.AFTERGLOW = ModEffectsForge.AFTERGLOW.getHolder().get();
+        ModBlocks.registerFlammableBlocks();
+        ModItemFunctions.registerDispenserBehaviour();
+        if (Platform.isModLoaded("create")) {
+            CreateCompat.register();
+        }
+    }
+
+    public static Minecraft client() {
+        return Minecraft.getInstance();
+    }
+}
+*///?}

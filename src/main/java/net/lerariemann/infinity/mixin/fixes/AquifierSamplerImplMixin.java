@@ -18,7 +18,7 @@ public class AquifierSamplerImplMixin {
 
     /* for some reason minecraft's own code can fail with an array out of bounds exception if i don't clamp this */
     @Inject(method = "getIndex(III)I", at = @At("RETURN"), cancellable = true)
-    void inj2(int x, int y, int z, CallbackInfoReturnable<Integer> cir) {
+    void fixAquifers(int x, int y, int z, CallbackInfoReturnable<Integer> cir) {
         int i = cir.getReturnValue();
         if (i >= aquiferLocationCache.length) cir.setReturnValue(aquiferLocationCache.length - 1);
     }

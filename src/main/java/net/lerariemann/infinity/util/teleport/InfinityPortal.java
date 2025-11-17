@@ -116,7 +116,7 @@ public class InfinityPortal {
             *///?} else {
             var axisFrom = getAxisOrDefault(worldFrom.getBlockState(posFrom));
             createTicket(worldTo, posTo);
-            return PortalShape.createPortalInfo(worldTo, portalTo, axisFrom, entity.getRelativePortalPosition(axisFrom, portalFrom),
+            return PortalShape.createPortalInfo(worldTo, portalTo, axisFrom, PortalShape.getRelativePosition(portalFrom, axisFrom, entity.position(), entity.getDimensions(entity.getPose())),
                     entity, entity.getDeltaMovement(), entity.getYRot(), entity.getXRot());
             //?}
         }

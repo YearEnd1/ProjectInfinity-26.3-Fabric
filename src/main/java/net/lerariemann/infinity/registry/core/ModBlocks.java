@@ -61,7 +61,7 @@ public class ModBlocks {
             new HauntedBlock(Blocks.AIR));
     public static final RegistrySupplier<RailHelper> RAIL_HELPER = BLOCKS.register("rail_helper", () ->
             new RailHelper(BlockBehaviour.Properties.of().strength(-1.0F, 3600000.8F).mapColor(MapColor.NONE)
-                    .noLootTable().noOcclusion().isValidSpawn(Blocks::never).pushReaction(PushReaction.BLOCK)
+                    .noLootTable().noOcclusion().isValidSpawn((state, getter, pos, type)-> false).pushReaction(PushReaction.BLOCK)
                     //? if >1.21 {
                     /*.noTerrainParticles()
                     *///?}

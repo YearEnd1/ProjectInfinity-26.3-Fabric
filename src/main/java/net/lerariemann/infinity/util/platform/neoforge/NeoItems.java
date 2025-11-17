@@ -6,9 +6,11 @@ import net.lerariemann.infinity.registry.core.ModItems;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Items;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 import static net.minecraft.world.item.Items.*;
+import static net.minecraft.world.item.Items.OMINOUS_TRIAL_KEY;
 
 public class NeoItems {
     public static void addAfter(BuildCreativeModeTabContentsEvent event, Item itemBefore, Item itemAfter) {
@@ -28,7 +30,7 @@ public class NeoItems {
             addAfter(event, LODESTONE, ModItems.ANT_ITEM.get());
             addAfter(event, CHISELED_BOOKSHELF, ModItems.BOOK_BOX_ITEM.get());
             addAfter(event, NOTE_BLOCK, ModItems.NOTES_BLOCK_ITEM.get());
-            addAfter(event, VAULT, ModItems.TIME_BOMB_ITEM.get());
+            addAfter(event, Items.VAULT, ModItems.TIME_BOMB_ITEM.get());
         } else if (event.getTabKey() == CreativeModeTabs.INGREDIENTS) {
             addAfter(event, DISC_FRAGMENT_5, ModItems.FOOTPRINT.get());
             addAfter(event, OMINOUS_TRIAL_KEY, TRANSFINITE_KEY.get());

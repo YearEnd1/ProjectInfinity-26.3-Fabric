@@ -1,14 +1,14 @@
 package net.lerariemann.infinity.util.platform.neoforge;
 
 //? neoforge {
-/*import net.lerariemann.infinity.util.platform.Platform;
+/*import net.lerariemann.infinity.util.platform.InfinityPlatform;
 import net.neoforged.fml.ModList;
 import net.neoforged.fml.loading.FMLEnvironment;
 import net.neoforged.fml.loading.FMLPaths;
 
 import java.nio.file.Path;
 
-public class NeoForgePlatformImpl implements Platform {
+public class NeoForgePlatformImpl implements InfinityPlatform {
     @Override
     public boolean isModLoaded(String modid) {
         return ModList.get().isLoaded(modid);

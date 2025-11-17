@@ -103,7 +103,11 @@ public interface ConfigGenerator {
         DataCollection lootTables = new DataCollection.Logged(ConfigType.LOOT_TABLES, "loot tables");
         server.getLootData().getKeys(LootDataType.TABLE).forEach((key)->{
             LootTable table = server.getLootData().getLootTable(key);
-            ResourceLocation type = LootContextParamSets.REGISTRY.inverse().get(table.getParamSet());
+            //? if >1.21 {
+            /*ResourceLocation type = LootContextParamSets.REGISTRY.inverse().get(table.getParamSet());
+            *///?} else {
+            ResourceLocation type = LootContextParamSets.getKey(table.getParamSet());
+            //?}
             if (type == null) return;
             CompoundTag res = new CompoundTag();
             res.putString("Type", type.getPath()); //this data is unused for now but might be important later
@@ -332,7 +336,11 @@ public interface ConfigGenerator {
         Optional<LootTable> o = registry.getOptional(key);
         if (o.isEmpty()) return null;
         LootTable table = o.get();
-        ResourceLocation type = LootContextParamSets.REGISTRY.inverse().get(table.getParamSet());
+        //? if >1.21 {
+        /*ResourceLocation type = LootContextParamSets.REGISTRY.inverse().get(table.getParamSet());
+        *///?} else {
+        ResourceLocation type = LootContextParamSets.getKey(table.getParamSet());
+        //?}
         if (type == null) return null;
         CompoundTag res = new CompoundTag();
         res.putString("Type", type.getPath()); //this data is unused for now but might be important later

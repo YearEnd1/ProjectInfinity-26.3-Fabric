@@ -1,8 +1,11 @@
 package net.lerariemann.infinity.mixin.qol;
 
 import it.unimi.dsi.fastutil.booleans.BooleanConsumer;
+import net.lerariemann.infinity.access.ScreenAccess;
 import net.lerariemann.infinity.util.InfinityMethods;
-import net.minecraft.client.Minecraft;
+//? if >1.21 {
+/*import net.minecraft.client.Minecraft;
+*///?}
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.screens.worldselection.EditWorldScreen;
@@ -22,14 +25,14 @@ public class EditWorldScreenMixin {
 
     @Inject(method = "<init>", at = @At(value = "RETURN", target = "Lnet/minecraft/world/level/GameRules;getBoolean(Lnet/minecraft/world/level/GameRules$Key;)Z"))
             void addButton(
-    //? if >1.21 {
-    /*Minecraft client, LevelStorageSource.LevelStorageAccess session, String levelName, BooleanConsumer callback
-    *///?} else {
+            //? if >1.21 {
+            /*Minecraft client, LevelStorageSource.LevelStorageAccess session, String levelName, BooleanConsumer callback
+            *///?} else {
     BooleanConsumer booleanConsumer, LevelStorageSource.LevelStorageAccess session
     //?}
     , CallbackInfo ci) {
         var screen = (EditWorldScreen) (Object) this;
-        screen.addRenderableWidget(Button.builder(Component.translatable("screen.infinity.delete_datapacks"), button -> {
+        ((ScreenAccess) screen).addWidget(Button.builder(Component.translatable("screen.infinity.delete_datapacks"), button -> {
             boolean bl = InfinityMethods.deleteLevel(session);
             this.callback.accept(!bl);
         }).width(200).tooltip(Tooltip.create(Component.translatable("screen.infinity.delete_datapacks.tooltip"), null)).build());

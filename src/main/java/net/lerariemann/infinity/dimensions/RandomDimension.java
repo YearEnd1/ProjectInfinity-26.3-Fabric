@@ -15,6 +15,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.tags.BiomeTags;
 import net.minecraft.tags.TagKey;
+import net.minecraft.util.Mth;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.storage.LevelResource;
 import java.io.IOException;
@@ -97,9 +98,9 @@ public class RandomDimension {
 
     public void genBasics() {
         type_alike = PROVIDER.randomName(random, ConfigType.NOISE_PRESETS);
-        min_y = 16*Math.clamp((int)Math.floor(random.nextExponential() * 2), isOverworldLike() ? -125 : -3, 0);
-        int avgHeight = Math.clamp(RandomProvider.ruleInt("avgDimensionHeight"), 64, 1024);
-        int max_y = 16*Math.clamp((int)Math.floor(random.nextGaussian(avgHeight/16.0, avgHeight/64.0)), isOverworldLike() ? 1 : 5, 125);
+        min_y = 16*Mth.clamp((int)Math.floor(random.nextExponential() * 2), isOverworldLike() ? -125 : -3, 0);
+        int avgHeight = Mth.clamp(RandomProvider.ruleInt("avgDimensionHeight"), 64, 1024);
+        int max_y = 16*Mth.clamp((int)Math.floor(random.nextGaussian(avgHeight/16.0, avgHeight/64.0)), isOverworldLike() ? 1 : 5, 125);
         randomiseblocks = PROVIDER.roll(random, "randomise_blocks");
         int sea_level_default = 63;
         if (!isOverworldLike()) sea_level_default = switch(type_alike) {
@@ -272,7 +273,7 @@ public class RandomDimension {
     }
 
     int getBiomeCount() {
-        return random.nextInt(2, Math.clamp(RandomProvider.ruleInt("maxBiomeCount"), 2, 10));
+        return random.nextInt(2, Mth.clamp(RandomProvider.ruleInt("maxBiomeCount"), 2, 10));
     }
 
     ListTag randomBiomesCheckerboard() {

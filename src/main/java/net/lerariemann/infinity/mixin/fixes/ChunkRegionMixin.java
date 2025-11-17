@@ -10,7 +10,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public class ChunkRegionMixin {
     /* Silencing unnecessary log spam. */
     @Inject(method = "ensureCanWrite", at = @At(value = "INVOKE", target = "Lnet/minecraft/Util;logAndPauseIfInIde(Ljava/lang/String;)V"), cancellable = true)
-    private void injected(CallbackInfoReturnable<Boolean> cir) {
+    private void fixLogSpam(CallbackInfoReturnable<Boolean> cir) {
         cir.setReturnValue(false);
     }
 }

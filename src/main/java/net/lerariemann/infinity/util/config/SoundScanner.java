@@ -83,9 +83,9 @@ public record SoundScanner(Map<ResourceLocation, Resource> soundIds) {
         songIds.forEach(id -> {
             String str = id.toString().replace(".ogg", "").replace("sounds/", "");
             List<String> arr = Arrays.stream(str.split("[:/]")).toList(); //preloading IDs
-            String songID = "disc." + arr.getFirst() + "." + arr.getLast();
+            String songID = "disc." + arr.get(0) + "." + arr.get(arr.size()-1);
             String subtitleID = "infinity:subtitles." + songID;
-            String subtitleData = InfinityMethods.formatAsTitleCase(arr.getFirst() + " - " + arr.getLast());
+            String subtitleData = InfinityMethods.formatAsTitleCase(arr.get(0) + " - " + arr.get(arr.size()-1));
 
             ListTag soundForRPList = new ListTag();
             soundForRPList.add(StringTag.valueOf(str));
@@ -103,7 +103,7 @@ public record SoundScanner(Map<ResourceLocation, Resource> soundIds) {
                 } catch (IOException e) {
                     length = 600;
                 }
-                jukeboxes.put(arr.getLast(), getJukeboxDef(songID, subtitleID, length));
+                jukeboxes.put(arr.get(arr.size()-1), getJukeboxDef(songID, subtitleID, length));
             }
         });
         CommonIO.write(soundsForRP, client.getResourcePackDirectory().resolve("infinity/assets/infinity"), "sounds.json");

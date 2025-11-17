@@ -30,14 +30,14 @@ import static net.lerariemann.infinity.util.platform.PlatformMethods.*;
 @SuppressWarnings("unused")
 public class ModItems {
 
-    private static final Item OMINOUS_TRIAL_KEY =
+    public static final Item OMINOUS_TRIAL_KEY =
             //? if <1.21 {
             Items.AMETHYST_SHARD
             //?} else {
             /*Items.OMINOUS_TRIAL_KEY
              *///?}
     ;
-    private static final Item VAULT =
+    public static final Item VAULT =
             //? if <1.21 {
             Items.TNT
             //?} else {

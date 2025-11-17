@@ -13,14 +13,14 @@ import org.spongepowered.asm.mixin.injection.At;
 @Mixin(Bee.BeeGoToHiveGoal.class)
 public abstract class BeeGoalMixin {
     @WrapOperation(method = "<init>", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/RandomSource;nextInt(I)I"))
-    private int inj(RandomSource instance, int i, Operation<Integer> original) {
+    private int fixBeeCrash(RandomSource instance, int i, Operation<Integer> original) {
         return 10;
     }
 
     @Mixin(Bee.BeeGoToKnownFlowerGoal.class)
     public abstract static class BeeGoalMixin2 {
         @WrapOperation(method = "<init>", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/RandomSource;nextInt(I)I"))
-        private int inj(RandomSource instance, int i, Operation<Integer> original) {
+        private int fixBeeCrash(RandomSource instance, int i, Operation<Integer> original) {
             return 10;
         }
     }

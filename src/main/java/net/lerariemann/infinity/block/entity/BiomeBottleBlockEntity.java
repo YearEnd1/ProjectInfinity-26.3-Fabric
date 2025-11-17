@@ -12,6 +12,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.Mth;
 import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
@@ -171,7 +172,7 @@ public class BiomeBottleBlockEntity extends TintableBlockEntity {
                     int charge_new = be.charge - diff;
                     BiomeBottleBlock.spreadRing(w, pos, be.biome, be.from_charge - be.charge, be.from_charge - charge_new);
                     be.charge = charge_new;
-                    world.setBlockAndUpdate(pos, state.setValue(BiomeBottleBlock.LEVEL, Math.clamp(level - 1, 0, 10)));
+                    world.setBlockAndUpdate(pos, state.setValue(BiomeBottleBlock.LEVEL, Mth.clamp(level - 1, 0, 10)));
                     BiomeBottleBlock.playSploosh(w, pos);
                     be.setChanged();
                 }
