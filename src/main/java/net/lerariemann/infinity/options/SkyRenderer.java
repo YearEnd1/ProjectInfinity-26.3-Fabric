@@ -23,7 +23,7 @@ import java.awt.Color;
 public record SkyRenderer(InfinityOptions options, Minecraft client, ClientLevel world,
                           PoseStack matrices, Tesselator tesselator, float tickDelta, Matrix4f projectionMatrix,
                           VertexBuffer lightSkyBuffer, VertexBuffer starsBuffer) {
-    
+
     public SkyRenderer(InfinityOptions options, Minecraft client, ClientLevel world,
                 PoseStack matrices, float tickDelta, Matrix4f projectionMatrix,
                 VertexBuffer lightSkyBuffer, VertexBuffer starsBuffer) {
@@ -42,7 +42,7 @@ public record SkyRenderer(InfinityOptions options, Minecraft client, ClientLevel
         renderAllCelestialBodies(fogCallback);
         finish();
     }
-    
+
     public boolean testAndRenderNonOverworldySkies() {
         if (client.level!=null && client.level.effects().skyType() == DimensionSpecialEffects.SkyType.END) {
             renderSkybox(VersionMethods.id("textures/environment/end_sky.png"), 16.0f, 40, 255);
@@ -84,7 +84,7 @@ public record SkyRenderer(InfinityOptions options, Minecraft client, ClientLevel
         lightSkyBuffer.drawWithShader(matrices.last().pose(), projectionMatrix, RenderSystem.getShader());
         VertexBuffer.unbind();
     }
-    
+
     public void handleFog() {
         RenderSystem.enableBlend();
         float[] fs = this.world.effects().getSunriseColor(this.world.getTimeOfDay(tickDelta), tickDelta);
@@ -101,68 +101,30 @@ public record SkyRenderer(InfinityOptions options, Minecraft client, ClientLevel
         matrices.mulPose(Axis.ZP.rotationDegrees(i - options.getSolarTilt()));
 
         Matrix4f matrix4f = matrices.last().pose();
-        FriendlyBuilder bufferBuilder = new FriendlyBuilder(tesselator, VertexFormat.Mode.TRIANGLE_FAN, DefaultVertexFormat.POSITION_COLOR);
+        //? if >1.21 {
+        /*BufferBuilder bufferBuilder = tesselator.begin(VertexFormat.Mode.TRIANGLE_FAN, DefaultVertexFormat.POSITION_COLOR);
         bufferBuilder.addVertex(matrix4f, 0.0f, 100.0f, 0.0f).setColor(fs[0], fs[1], fs[2], fs[3]);
+        *///?} else {
+        BufferBuilder bufferBuilder = tesselator.getBuilder();
+        bufferBuilder.begin(VertexFormat.Mode.TRIANGLE_FAN, DefaultVertexFormat.POSITION_COLOR);
+        bufferBuilder.vertex(matrix4f, 0.0f, 100.0f, 0.0f).color(fs[0], fs[1], fs[2], fs[3]);
+        //?}
         for (int n = 0; n <= 16; ++n) {
             float o = (float)n * ((float)Math.PI * 2) / 16.0f;
             float p = Mth.sin(o);
             float q = Mth.cos(o);
-            bufferBuilder.addVertex(matrix4f, p * 120.0f, q * 120.0f, -q * 40.0f * fs[3]).setColor(fs[0], fs[1], fs[2], 0.0f);
-        }
-        BufferUploader.drawWithShader(bufferBuilder.buildOrThrow());
-        matrices.popPose();
-    }
-
-    public record FriendlyVertexConsumer(VertexConsumer vc) {
-        void setColor(float r, float g, float b, float a) {
             //? if >1.21 {
-            /*vc.setColor(r, g, b, a);
-             *///?} else {
-            vc.color(r, g, b, a);
+            /*bufferBuilder.addVertex(matrix4f, p * 120.0f, q * 120.0f, -q * 40.0f * fs[3]).setColor(fs[0], fs[1], fs[2], 0.0f);
+            *///?} else {
+            bufferBuilder.vertex(matrix4f, p * 120.0f, q * 120.0f, -q * 40.0f * fs[3]).color(fs[0], fs[1], fs[2], 0.0f);
             //?}
         }
-
-        FriendlyVertexConsumer setUv(float u, float v) {
-            //? if >1.21 {
-            /*vc.setUv(u, v);
-             *///?} else {
-            vc.uv(u, v);
-            //?}
-            return this;
-        }
-    }
-
-    public static class FriendlyBuilder {
-        BufferBuilder bufferBuilder;
-
-        FriendlyBuilder(Tesselator tesselator, VertexFormat.Mode mode, VertexFormat format) {
-            //? if >1.21 {
-            /*bufferBuilder = tesselator.begin(mode, format);
-             *///?} else {
-            bufferBuilder = tesselator.getBuilder();
-            bufferBuilder.begin(mode, format);
-            //?}
-        }
-
-        FriendlyVertexConsumer addVertex(Matrix4f m4f, float x, float y, float z) {
-            return new FriendlyVertexConsumer(
-            //? if >1.21 {
-            /*bufferBuilder.addVertex(m4f, x, y, z)
-             *///?} else {
-            bufferBuilder.vertex(m4f, x, y, z)
-            //?}
-            );
-        }
-
         //? if >1.21 {
-        /*MeshData buildOrThrow() {
-            return bufferBuilder.buildOrThrow();
-        }
+        /*BufferUploader.drawWithShader(bufferBuilder.buildOrThrow());
         *///?} else {
-        BufferBuilder.RenderedBuffer buildOrThrow() {
-            return bufferBuilder.end();
-        }
+        BufferUploader.drawWithShader(bufferBuilder.end());
         //?}
+        matrices.popPose();
     }
 
     public void renderAllCelestialBodies(Runnable fogCallback) {
@@ -187,7 +149,7 @@ public record SkyRenderer(InfinityOptions options, Minecraft client, ClientLevel
     public void rotate_with_velocity(float v, float offset) {
         matrices.mulPose(Axis.XP.rotationDegrees((world.getTimeOfDay(tickDelta) + offset) * 360.0f * v));
     }
-    
+
     public void renderSun() {
         renderSingleBody(
                 options.getSolarSize(),
@@ -210,7 +172,7 @@ public record SkyRenderer(InfinityOptions options, Minecraft client, ClientLevel
                 options.getLunarTexture(i),
                 false);
     }
-    
+
     public void renderSingleBody(float size, float tilt_y, float tilt_z, float velocity, float offset, Vector3f tint, ResourceLocation texture,
                                            boolean sun) {
         matrices.mulPose(Axis.YP.rotationDegrees(tilt_y));
@@ -226,12 +188,22 @@ public record SkyRenderer(InfinityOptions options, Minecraft client, ClientLevel
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
         RenderSystem.setShaderTexture(0, texture);
         RenderSystem.setShaderColor(tint.x, tint.y, tint.z, 1.0f);
-        FriendlyBuilder bufferBuilder = new FriendlyBuilder(tesselator, VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX);
+        //? if >1.21 {
+        /*BufferBuilder bufferBuilder = tesselator.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX);
         bufferBuilder.addVertex(matrix4f2, -k, y, -k).setUv(0.0f, 0.0f);
         bufferBuilder.addVertex(matrix4f2, k, y, -k).setUv(1.0f, 0.0f);
         bufferBuilder.addVertex(matrix4f2, k, y, k).setUv(1.0f, 1.0f);
         bufferBuilder.addVertex(matrix4f2, -k, y, k).setUv(0.0f, 1.0f);
         BufferUploader.drawWithShader(bufferBuilder.buildOrThrow());
+        *///?} else {
+        BufferBuilder bufferBuilder = tesselator.getBuilder();
+        bufferBuilder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX);
+        bufferBuilder.vertex(matrix4f2, -k, y, -k).uv(0.0f, 0.0f).endVertex();
+        bufferBuilder.vertex(matrix4f2, k, y, -k).uv(1.0f, 0.0f).endVertex();
+        bufferBuilder.vertex(matrix4f2, k, y, k).uv(1.0f, 1.0f).endVertex();
+        bufferBuilder.vertex(matrix4f2, -k, y, k).uv(0.0f, 1.0f).endVertex();
+        BufferUploader.drawWithShader(bufferBuilder.end());
+        //?}
     }
     public void renderMoon(Matrix4f matrix4f2, ResourceLocation texture, float k, float y, Vector3f tint) {
         float t, q, p, o;
@@ -254,12 +226,22 @@ public record SkyRenderer(InfinityOptions options, Minecraft client, ClientLevel
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
         RenderSystem.setShaderTexture(0, texture);
         RenderSystem.setShaderColor(tint.x, tint.y, tint.z, 1.0f);
-        FriendlyBuilder bufferBuilder = new FriendlyBuilder(tesselator, VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX);
+        //? if >1.21 {
+        /*BufferBuilder bufferBuilder = tesselator.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX);
         bufferBuilder.addVertex(matrix4f2, -k, y, k).setUv(p, q);
         bufferBuilder.addVertex(matrix4f2, k, y, k).setUv(t, q);
         bufferBuilder.addVertex(matrix4f2, k, y, -k).setUv(t, o);
         bufferBuilder.addVertex(matrix4f2, -k, y, -k).setUv(p, o);
         BufferUploader.drawWithShader(bufferBuilder.buildOrThrow());
+        *///?} else {
+        BufferBuilder bufferBuilder = tesselator.getBuilder();
+        bufferBuilder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX);
+        bufferBuilder.vertex(matrix4f2, -k, y, k).uv(p, q).endVertex();
+        bufferBuilder.vertex(matrix4f2, k, y, k).uv(t, q).endVertex();
+        bufferBuilder.vertex(matrix4f2, k, y, -k).uv(t, o).endVertex();
+        bufferBuilder.vertex(matrix4f2, -k, y, -k).uv(p, o).endVertex();
+        BufferUploader.drawWithShader(bufferBuilder.end());
+        //?}
     }
 
     public void renderStars(Runnable fogCallback, float rain_alpha) {
@@ -299,7 +281,7 @@ public record SkyRenderer(InfinityOptions options, Minecraft client, ClientLevel
         float night = options.getNightStarBrightness();
         return day + g*g*(night-day);
     }
-    
+
     public void renderSkybox(ResourceLocation texture, float copies, int brightness, int alpha) {
         renderSkybox(texture, copies, brightness, brightness, brightness, alpha);
     }
@@ -329,12 +311,22 @@ public record SkyRenderer(InfinityOptions options, Minecraft client, ClientLevel
             }
 
             Matrix4f matrix4f = matrices.last().pose();
-            FriendlyBuilder bufferBuilder = new FriendlyBuilder(tesselator, VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX_COLOR);
+            //? if >1.21 {
+            /*BufferBuilder bufferBuilder = tesselator.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX_COLOR);
             bufferBuilder.addVertex(matrix4f, -100.0f, -100.0f, -100.0f).setUv(0.0f, 0.0f).setColor(r, g, b, alpha);
             bufferBuilder.addVertex(matrix4f, -100.0f, -100.0f, 100.0f).setUv(0.0f, copies).setColor(r, g, b, alpha);
             bufferBuilder.addVertex(matrix4f, 100.0f, -100.0f, 100.0f).setUv(copies, copies).setColor(r, g, b, alpha);
             bufferBuilder.addVertex(matrix4f, 100.0f, -100.0f, -100.0f).setUv(copies, 0.0f).setColor(r, g, b, alpha);
             BufferUploader.drawWithShader(bufferBuilder.buildOrThrow());
+            *///?} else {
+            BufferBuilder bufferBuilder = tesselator.getBuilder();
+            bufferBuilder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX_COLOR);
+            bufferBuilder.vertex(matrix4f, -100.0f, -100.0f, -100.0f).uv(0.0f, 0.0f).color(r, g, b, alpha);
+            bufferBuilder.vertex(matrix4f, -100.0f, -100.0f, 100.0f).uv(0.0f, copies).color(r, g, b, alpha);
+            bufferBuilder.vertex(matrix4f, 100.0f, -100.0f, 100.0f).uv(copies, copies).color(r, g, b, alpha);
+            bufferBuilder.vertex(matrix4f, 100.0f, -100.0f, -100.0f).uv(copies, 0.0f).color(r, g, b, alpha);
+            BufferUploader.drawWithShader(bufferBuilder.end());
+            //?}
             matrices.popPose();
         }
         RenderSystem.depthMask(true);

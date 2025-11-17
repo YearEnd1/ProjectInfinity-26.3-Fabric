@@ -1,7 +1,6 @@
 package net.lerariemann.infinity.item;
 
 import net.lerariemann.infinity.iridescence.Iridescence;
-import net.lerariemann.infinity.registry.core.ModComponentTypes;
 import net.lerariemann.infinity.registry.core.ModStatusEffects;
 import net.lerariemann.infinity.util.VersionMethods;
 import net.minecraft.advancements.CriteriaTriggers;
@@ -21,6 +20,7 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.UseAnim;
 //? if >1.21 {
 /*import net.minecraft.world.item.alchemy.PotionContents;
+import net.lerariemann.infinity.registry.core.ModComponentTypes;
 *///?} else {
 import net.minecraft.world.item.alchemy.PotionUtils;
 //?}
@@ -29,13 +29,15 @@ import net.minecraft.world.level.gameevent.GameEvent;
 import java.util.List;
 
 public class IridescentPotionItem extends Item {
-    public IridescentPotionItem(Properties settings) {
+    int level;
+
+    public IridescentPotionItem(Properties settings, int level) {
         super(settings);
+        this.level = level;
     }
 
     @Override
     public ItemStack finishUsingItem(ItemStack stack, Level world, LivingEntity user) {
-        int level = VersionMethods.getOrDefaultInt(stack, ModComponentTypes.CHARGE, 0);
         if (!world.isClientSide()) Iridescence.tryBeginJourney(user, level, true);
         if (user instanceof Player player) {
             if (user instanceof ServerPlayer spe) {
@@ -77,7 +79,6 @@ public class IridescentPotionItem extends Item {
                                 Level
                                 //?}
                                         context, List<Component> tooltip, TooltipFlag type) {
-        int level = VersionMethods.getOrDefaultInt(stack, ModComponentTypes.CHARGE, 0);
         List<MobEffectInstance> effects = List.of(new MobEffectInstance(ModStatusEffects.IRIDESCENT_EFFECT
                 //? if <1.21
                 .value()

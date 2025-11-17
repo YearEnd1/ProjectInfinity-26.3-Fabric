@@ -69,7 +69,6 @@ public abstract class WorldRendererMixin implements WorldRendererAccess {
         return infinity$options().getNumStars();
     }
     //? if >1.21 {
-    
     /*@ModifyConstant(method = "drawStars(Lcom/mojang/blaze3d/vertex/Tesselator;)Lcom/mojang/blaze3d/vertex/MeshData;", constant = @Constant(floatValue = 0.15f))
     *///?} else {
     @ModifyConstant(method = "drawStars(Lcom/mojang/blaze3d/vertex/BufferBuilder;)Lcom/mojang/blaze3d/vertex/BufferBuilder$RenderedBuffer;", constant = @Constant(floatValue = 0.15f))
@@ -78,7 +77,6 @@ public abstract class WorldRendererMixin implements WorldRendererAccess {
         return infinity$options().getStarSizeBase();
     }
     //? if >1.21 {
-    
     /*@ModifyConstant(method = "drawStars(Lcom/mojang/blaze3d/vertex/Tesselator;)Lcom/mojang/blaze3d/vertex/MeshData;", constant = @Constant(floatValue = 0.1f))
     *///?} else {
     @ModifyConstant(method = "drawStars(Lcom/mojang/blaze3d/vertex/BufferBuilder;)Lcom/mojang/blaze3d/vertex/BufferBuilder$RenderedBuffer;", constant = @Constant(floatValue = 0.1f))

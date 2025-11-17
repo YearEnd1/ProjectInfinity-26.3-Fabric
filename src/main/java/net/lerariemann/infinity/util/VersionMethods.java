@@ -32,7 +32,7 @@ public interface VersionMethods {
         //? if >1.21 {
         /*return ResourceLocation.parse(s);
         *///?} else {
-        return ResourceLocation.tryParse(s);
+        return new ResourceLocation(s);
          //?}
     }
 
@@ -267,8 +267,7 @@ public interface VersionMethods {
         }
     }
 }
-
 //? if >1.21 {
-
-//?} else {
+/*
+*///?} else {
 //?}

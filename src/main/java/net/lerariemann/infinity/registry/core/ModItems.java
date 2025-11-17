@@ -11,6 +11,7 @@ import net.lerariemann.infinity.util.core.RandomProvider;
 import net.lerariemann.infinity.util.var.ColorLogic;
 //? if >1.21 {
 /*import net.minecraft.core.component.DataComponents;
+import java.util.List;
 *///?}
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
@@ -19,7 +20,6 @@ import net.minecraft.world.entity.Mob;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.block.Block;
-import java.util.List;
 import java.util.Optional;
 import java.util.function.BiFunction;
 import java.util.function.Function;
@@ -145,19 +145,11 @@ public class ModItems {
                     new Item.Properties().rarity(Rarity.RARE));
     public static final RegistrySupplier<Item> IRIDESCENT_POTION =
             registerItemAfter("iridescent_potion", CreativeModeTabs.FOOD_AND_DRINKS, Items.HONEY_BOTTLE, settings ->
-                            new IridescentPotionItem(
-                                    //? if >1.21
-                                    /*deferredIntComponent(ModComponentTypes.CHARGE, RandomProvider.ruleInt("iridescencePotionLevel"))),*/
-                           glintProperties().rarity(Rarity.UNCOMMON));
+                            new IridescentPotionItem(glintProperties().rarity(Rarity.UNCOMMON),
+                                    RandomProvider.ruleInt("iridescencePotionLevel")));
     public static final RegistrySupplier<Item> CHROMATIC_POTION =
             registerItemAfter("chromatic_potion", CreativeModeTabs.FOOD_AND_DRINKS, Items.HONEY_BOTTLE, settings ->
-                            new IridescentPotionItem(
-                                    //? if >1.21
-                                    /*deferredIntComponent(ModComponentTypes.CHARGE, 0)),*/
-                    new Item.Properties())
-        //? if <1.21
-        )
-    ;
+                            new IridescentPotionItem(new Item.Properties(), 0));
 
     private static Item.Properties glintProperties() {
         return new Item.Properties()
