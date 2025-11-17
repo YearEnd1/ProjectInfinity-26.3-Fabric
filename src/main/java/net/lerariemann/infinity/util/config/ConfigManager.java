@@ -63,7 +63,7 @@ public interface ConfigManager {
     static void unpackDefaultConfigs() {
         try(Stream<Path> files = Files.walk(InfinityMod.rootConfigPathInJar)) {
             if (!configPath.toFile().exists()) Files.createDirectories(configPath);
-            files.filter(p -> p.toString().endsWith(".json")).forEach(p -> registerConfig(p, configPath));
+            files.filter(p -> p.toString().endsWith(".json")).forEach(p -> registerConfig(p, configPath, "config"));
             Files.deleteIfExists(tempFile); //being a good method cleaning up after itself :3
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -73,9 +73,9 @@ public interface ConfigManager {
     /**
      * Creates or updates an individual config file.
      */
-    static boolean registerConfig(Path fromPath, Path toDirectory) {
+    static boolean registerConfig(Path fromPath, Path toDirectory, String fromDirectory) {
         String path1 = fromPath.toString();
-        String fullname = path1.substring(path1.lastIndexOf("config") + 6);
+        String fullname = path1.substring(path1.lastIndexOf(fromDirectory) + fromDirectory.length());
         Path endfile = Paths.get(toDirectory + fullname);
         try {
             if (!endfile.toFile().exists()) {
@@ -86,11 +86,10 @@ public interface ConfigManager {
                 else {
                     separator = "/";
                 }
-
                 int i = fullname.lastIndexOf(separator);
                 if (i>0) {
                     String directory_name = fullname.substring(0, i);
-                    Files.createDirectories(Paths.get(configPath + directory_name));
+                    Files.createDirectories(Paths.get(toDirectory + directory_name));
                 }
                 Files.copy(fromPath, endfile);
                 return true;
@@ -107,7 +106,7 @@ public interface ConfigManager {
 
     /**
      * If a config file that exists on the disk is in a deprecated format, this method detects that fact,
-     * allowing it to be updated by {@link ConfigManager#registerConfig(Path, Path)}.
+     * allowing it to be updated by {@link ConfigManager#registerConfig(Path, Path, String)}.
      */
     static boolean compareVersions(Path oldFile, Path newFile) throws IOException {
         int version_old = CommonIO.getVersion(oldFile.toFile());

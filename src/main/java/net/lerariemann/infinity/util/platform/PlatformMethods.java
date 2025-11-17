@@ -24,10 +24,10 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.FlowingFluid;
 import net.minecraft.world.level.material.MapColor;
 import java.nio.file.Path;
-import java.util.function.Supplier;
 
 //? if >1.21 {
 /*import net.minecraft.core.component.DataComponentType;
+import java.util.function.Supplier;
 import net.minecraft.world.item.enchantment.ItemEnchantments;
 import net.minecraft.world.item.ItemStack;
 *///?}
@@ -208,15 +208,15 @@ public interface PlatformMethods {
     /**
      * Read from the config path inside the mod JAR.
      */
-    static Path getRootConfigPath() {
+    static Path getRootPathInJar() {
         //? fabric {
         ModContainer mc = FabricLoader.getInstance().getModContainer(InfinityMod.MOD_ID).orElse(null);
         assert mc != null;
-        return mc.getRootPaths().getFirst().resolve("config");
+        return mc.getRootPaths().getFirst();
         //?}
         //? neoforge {
         
-        /*return ModLoadingContext.get().getActiveContainer().getModInfo().getOwningFile().getFile().findResource("config");
+        /*return ModLoadingContext.get().getActiveContainer().getModInfo().getOwningFile().getFile();
         *///?}
     }
 

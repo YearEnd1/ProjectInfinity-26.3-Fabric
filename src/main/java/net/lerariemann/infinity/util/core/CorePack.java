@@ -1,13 +1,22 @@
 package net.lerariemann.infinity.util.core;
 
 import net.lerariemann.infinity.InfinityMod;
+import net.lerariemann.infinity.util.config.ConfigManager;
+import net.lerariemann.infinity.util.platform.InfinityPlatform;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
+
+import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
+import java.util.stream.Stream;
+
+import static net.lerariemann.infinity.util.config.ConfigManager.tempFile;
 
 public record CorePack(RandomProvider provider, Path savingPath) {
     void generate() {
+        saveVersioned();
         saveTrees();
         saveEndOfTime();
         if (!savingPath.resolve("pack.mcmeta").toFile().exists()) savePackMcmeta();
@@ -24,6 +33,16 @@ public record CorePack(RandomProvider provider, Path savingPath) {
 
     public static CompoundTag treePlacement(String tree, String block) {
         return CommonIO.readAndFormat(InfinityMod.utilPath.resolve("placements/tree_vanilla.json").toString(), tree, block);
+    }
+
+    void saveVersioned() {
+        String dirName = "util" + (InfinityPlatform.above21 ? "21" : "20");
+        try (Stream<Path> files = Files.walk(InfinityMod.rootPathInJar.resolve(dirName))) {
+            files.filter(p -> p.toString().endsWith(".json")).forEach(p -> ConfigManager.registerConfig(p, savingPath, dirName));
+            Files.deleteIfExists(tempFile); //being a good method cleaning up after itself :3
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     void saveTrees() {

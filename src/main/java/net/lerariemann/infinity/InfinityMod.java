@@ -23,6 +23,7 @@ public class InfinityMod {
     public static Path invocationLock = configPath.resolve("modular/invocation.lock");
     public static Path amendmentPath = configPath.resolve("amendments.json");
 
+    public static Path rootPathInJar;
     public static Path rootConfigPathInJar;
     public static RandomProvider provider;
     public static Random random = new Random(); //do not use this in dimgen, only in emergent block behaviour
@@ -35,7 +36,8 @@ public class InfinityMod {
     }
 
     public static void init() {
-        rootConfigPathInJar = PlatformMethods.getRootConfigPath();
+        rootPathInJar = PlatformMethods.getRootPathInJar();
+        rootConfigPathInJar = rootPathInJar.resolve("config");
         ConfigManager.updateInvocationUnlock();
         ConfigManager.unpackDefaultConfigs();
         //? if >1.21 {
