@@ -20,6 +20,12 @@
     ],
     "client": [
       "net.lerariemann.infinity.util.platform.fabric.FabricClientEntrypoint"
+    ],
+    "modmenu": [
+      "net.lerariemann.infinity.util.platform.fabric.compat.ModMenuCompat"
+    ],
+    "emi": [
+      "net.lerariemann.infinity.compat.emi.EmiCompat"
     ]
   },
   "mixins": [
