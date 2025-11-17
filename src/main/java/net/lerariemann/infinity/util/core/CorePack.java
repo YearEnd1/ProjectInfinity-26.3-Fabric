@@ -2,9 +2,15 @@ package net.lerariemann.infinity.util.core;
 
 import net.lerariemann.infinity.InfinityMod;
 import net.lerariemann.infinity.util.config.ConfigManager;
+import net.lerariemann.infinity.util.loading.DimensionGrabber;
 import net.lerariemann.infinity.util.platform.InfinityPlatform;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.dimension.DimensionType;
+import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -20,6 +26,15 @@ public record CorePack(RandomProvider provider, Path savingPath) {
         saveTrees();
         saveEndOfTime();
         if (!savingPath.resolve("pack.mcmeta").toFile().exists()) savePackMcmeta();
+    }
+
+    void grab(MinecraftServer server) {
+        DimensionGrabber.readCategoryFromDisk(server, DimensionType.DIRECT_CODEC, Registries.DIMENSION_TYPE,
+                savingPath.resolve("data/infinity/dimension_type"));
+        DimensionGrabber.readCategoryFromDisk(server, Biome.DIRECT_CODEC, Registries.BIOME,
+                savingPath.resolve("data/infinity/worldgen/biome"));
+        DimensionGrabber.readCategoryFromDisk(server, ConfiguredFeature.DIRECT_CODEC, Registries.CONFIGURED_FEATURE,
+                savingPath.resolve("data/infinity/worldgen/configured_feature"));
     }
 
     void savePackMcmeta() {

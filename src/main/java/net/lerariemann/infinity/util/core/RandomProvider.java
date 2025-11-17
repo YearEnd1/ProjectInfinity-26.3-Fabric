@@ -8,9 +8,12 @@ import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.*;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.storage.LevelResource;
+
 import java.nio.file.Path;
 import java.util.*;
 import java.util.function.BiFunction;
@@ -34,10 +37,12 @@ public class RandomProvider {
         easterizer = new Easterizer();
     }
 
-    public RandomProvider(Path savingPath) {
+    public RandomProvider(MinecraftServer server) {
         this();
-        this.savingPath = savingPath;
-        (new CorePack(this, savingPath)).generate();
+        this.savingPath = server.getWorldPath(LevelResource.DATAPACK_DIR).resolve(InfinityMod.MOD_ID);
+        CorePack corePack = new CorePack(this, savingPath);
+        corePack.generate();
+        corePack.grab(server);
     }
 
     public Optional<Item> getPortalKeyAsItem() {
