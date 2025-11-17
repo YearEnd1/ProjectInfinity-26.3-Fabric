@@ -259,4 +259,7 @@ tasks.processResources {
     from(rootProject.file("src/${minecraft}/resources")) {
         include("/*")
     }
+    from(rootProject.file("src/${minecraft}/resources/data/infinity/dimension_type")) {
+        include("/*")
+    }
 }
