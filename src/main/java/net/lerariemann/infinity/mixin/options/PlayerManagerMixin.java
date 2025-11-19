@@ -16,6 +16,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 //? if >1.21
 import net.minecraft.server.network.CommonListenerCookie;
+import net.minecraft.server.notifications.NotificationService;
 import net.minecraft.server.players.PlayerList;
 import net.minecraft.world.level.storage.LevelResource;
 import net.minecraft.world.level.storage.PlayerDataStorage;
@@ -31,11 +32,20 @@ public class PlayerManagerMixin {
     public boolean infinity$needsTpOut;
 
     @Inject(method = "<init>", at = @At("TAIL"))
-    private void injected(MinecraftServer server, LayeredRegistryAccess<RegistryLayer> registryManager, PlayerDataStorage saveHandler, int maxPlayers, CallbackInfo ci) {
+    //? if >1.21.2 {
+    private void injected(MinecraftServer server, LayeredRegistryAccess<RegistryLayer> registries, PlayerDataStorage playerIo, NotificationService notificationService, CallbackInfo ci) {
+    //?} else {
+    /*private void injected(MinecraftServer server, LayeredRegistryAccess<RegistryLayer> registryManager, PlayerDataStorage saveHandler, int maxPlayers, CallbackInfo ci) {
+    *///?}
         infinity$needsTpOut = false;
     }
 
-    @Inject(method="placeNewPlayer", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/MinecraftServer;overworld()Lnet/minecraft/server/level/ServerLevel;"))
+    //FIXME 1.21.10 - check new target
+    //? if >1.21.2 {
+    @Inject(method="placeNewPlayer", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/level/ServerPlayer;level()Lnet/minecraft/server/level/ServerLevel;"))
+    //?} else {
+    /*@Inject(method="placeNewPlayer", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/MinecraftServer;overworld()Lnet/minecraft/server/level/ServerLevel;"))
+    *///?}
     //? if >1.21 {
     void inj(Connection connection, ServerPlayer player, CommonListenerCookie clientData, CallbackInfo ci) {
     //?} else {

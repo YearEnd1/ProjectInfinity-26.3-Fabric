@@ -17,6 +17,7 @@
     "core.PlayerMixin",
     "core.ServerPlayerEntityMixin",
     "core.SimpleRegistryMixin",
+    "core.StructureMixin",
     "fixes.AquifierSamplerImplMixin",
     "fixes.BeeGoalMixin",
     "fixes.BeeGoalMixin$BeeGoalMixin2",

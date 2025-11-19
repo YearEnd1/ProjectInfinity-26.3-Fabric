@@ -1,6 +1,7 @@
 package net.lerariemann.infinity.mixin.qol;
 
 import net.lerariemann.infinity.util.InfinityMethods;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.boss.enderdragon.EnderDragon;
@@ -19,7 +20,11 @@ public abstract class EnderDragonEntityMixin extends Mob {
     /* Don't destroy blocks in infdims */
     @Inject(method = "checkWalls", at = @At(value = "HEAD",
             target = "Lnet/minecraft/world/level/GameRules;getBoolean(Lnet/minecraft/world/level/GameRules$Key;)Z"), cancellable = true)
-    void inj(AABB box, CallbackInfoReturnable<Boolean> cir) {
+    void inj(
+            //? if >1.21.3 {
+            ServerLevel level,
+            //?}
+            AABB box, CallbackInfoReturnable<Boolean> cir) {
         if(InfinityMethods.isInfinity(level())) cir.setReturnValue(true);
     }
 }

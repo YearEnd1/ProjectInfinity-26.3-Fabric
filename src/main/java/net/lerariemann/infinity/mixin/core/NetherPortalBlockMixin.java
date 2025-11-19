@@ -10,6 +10,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.InsideBlockEffectApplier;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -30,8 +31,13 @@ public class NetherPortalBlockMixin extends AbstractBlockMixin {
 	@Shadow @Final public static EnumProperty<Direction.Axis> AXIS;
 
 	/* The root hook for "throw a book in the portal" logic. */
-	@Inject(at = @At("HEAD"), method = "entityInside(Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/world/level/Level;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/entity/Entity;)V")
-	private void injected(BlockState state, Level world, BlockPos pos, Entity entity, CallbackInfo info) {
+    //? if >1.21.2 {
+    @Inject(at = @At("HEAD"), method = "entityInside")
+    private void injected(BlockState state, Level world, BlockPos pos, Entity entity, InsideBlockEffectApplier applier, boolean intersects, CallbackInfo ci) {
+        //?} else {
+    /*@Inject(at = @At("HEAD"), method = "entityInside(Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/world/level/Level;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/entity/Entity;)V")
+    	private void injected(BlockState state, Level world, BlockPos pos, Entity entity, CallbackInfo info) {
+    *///?}
 		if (world instanceof ServerLevel w && entity instanceof ItemEntity e) {
 			PortalCreator.tryCreatePortalFromItem(w, pos, e);
 		}

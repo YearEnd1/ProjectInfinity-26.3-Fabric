@@ -22,6 +22,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 //? if >1.21 {
 import net.minecraft.world.entity.ai.attributes.Attributes;
+
+import java.util.Collection;
 //?}
 
 @Mixin(LivingEntity.class)
@@ -33,16 +35,29 @@ public abstract class LivingEntityMixin extends Entity {
     /* Hook to allow unconventional effect removal logic */
     //? if >1.21 {
     @Shadow public abstract double getAttributeValue(Holder<Attribute> attribute);
+    //?}
 
-    @Inject(method = "onEffectRemoved", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;refreshDirtyAttributes()V"))
-    //?} else {
+    //? if >1.21.2 {
+    @Inject(method = "onEffectsRemoved", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;refreshDirtyAttributes()V"))
+    void inj(Collection<MobEffectInstance> effects, CallbackInfo ci) {
+        effects.forEach(effect-> {
+            if (VersionMethods.unholdEffect(effect.getEffect()) instanceof ModStatusEffects.SpecialEffect eff) {
+                eff.onRemoved((LivingEntity)(Object)this);
+            }
+        });
+    }
+    //?} else if =1.21.1 {
+    /*@Inject(method = "onEffectRemoved", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;refreshDirtyAttributes()V"))
+    *///?} else if =1.20.1 {
     /*@Inject(method = "onEffectRemoved", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;getAttributes()Lnet/minecraft/world/entity/ai/attributes/AttributeMap;"))
     *///?}
-    void inj(MobEffectInstance effect, CallbackInfo ci) {
+    //? if <1.21.2 {
+    /*void inj(MobEffectInstance effect, CallbackInfo ci) {
         if (VersionMethods.unholdEffect(effect.getEffect()) instanceof ModStatusEffects.SpecialEffect eff) {
             eff.onRemoved((LivingEntity)(Object)this);
         }
     }
+    *///?}
 
     /* Hook for sheep dropping wool when punched */
     //? if >1.21.5 {
@@ -55,7 +70,13 @@ public abstract class LivingEntityMixin extends Entity {
 
     /* Handle fall damage in dimensions with custom mavity */
     @Inject(method = "calculateFallDamage", at = @At(value = "HEAD"), cancellable = true)
-    protected void inj2(float fallDistance, float damageMultiplier, CallbackInfoReturnable<Integer> cir) {
+    protected void inj2(
+            //? if >1.21.2 {
+            double
+            //?} else {
+            /*float
+            *///?}
+                    fallDistance, float damageMultiplier, CallbackInfoReturnable<Integer> cir) {
         InfinityOptions options = InfinityOptions.access(level());
         if (!options.isEmpty()) {
             if (this.getType().is(EntityTypeTags.FALL_DAMAGE_IMMUNE)) cir.setReturnValue(0);

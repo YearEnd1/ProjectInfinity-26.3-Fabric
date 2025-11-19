@@ -6,6 +6,7 @@ import net.lerariemann.infinity.registry.core.ModBlocks;
 import net.lerariemann.infinity.iridescence.Iridescence;
 import net.lerariemann.infinity.util.InfinityMethods;
 import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
@@ -21,7 +22,13 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class LavaFluidMixin {
     /* Disabling fire tick in infdims */
     @Inject(method = "randomTick", at = @At(value = "HEAD"), cancellable = true)
-    void inj(Level world, BlockPos pos, FluidState state, RandomSource random, CallbackInfo ci) {
+    void inj(
+            //? if >1.21.2 {
+            ServerLevel
+            //?} else {
+            /*Level
+            *///?}
+                    world, BlockPos pos, FluidState state, RandomSource random, CallbackInfo ci) {
         if (InfinityMethods.isInfinity(world)) ci.cancel();
     }
 
