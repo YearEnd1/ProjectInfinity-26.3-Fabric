@@ -96,7 +96,11 @@ public interface CommonIO {
         File file = new File(path);
         try {
             String content = String.valueOf((new Formatter(Locale.US)).format(FileUtils.readFileToString(file, StandardCharsets.UTF_8), args));
-            CompoundTag c = TagParser.parseTag(content);
+            //? if >1.21.2 {
+            CompoundTag c = TagParser.parseCompoundFully(content);
+            //?} else {
+            /*CompoundTag c = TagParser.parseTag(content);
+            *///?}
             c.remove("infinity_version");
             return c;
         } catch (IOException | CommandSyntaxException e) {
@@ -121,7 +125,11 @@ public interface CommonIO {
         int i = content.lastIndexOf("%");
         if (i == -1) {
             try {
-                return TagParser.parseTag(content);
+                //? if >1.21.2 {
+                return TagParser.parseCompoundFully(content);
+                //?} else {
+                /*return TagParser.parseTag(content);
+                *///?}
             } catch (CommandSyntaxException e) {
                 throw new RuntimeException(e);
             }
@@ -165,6 +173,24 @@ public interface CommonIO {
             return compoundToString(nbtCompound, t + 1);
         } else if (base instanceof ListTag nbtElements) {
             return listToString(nbtElements, t + 1);
+        //? if >1.21.2 {
+        } else if (base instanceof ByteTag nbtByte) {
+            return (nbtByte.byteValue() != 0) ? "true" : "false";
+        } else if (base instanceof DoubleTag nbtDouble) {
+            return String.valueOf(boundsCheck(nbtDouble.floatValue()));
+        } else if (base instanceof FloatTag nbtFloat) {
+            return String.valueOf(boundsCheck(nbtFloat.floatValue()));
+        } else if (base instanceof LongTag nbtLong) {
+            return String.valueOf(boundsCheck(nbtLong.longValue()));
+        } else if (base instanceof IntTag nbtInt) {
+            return String.valueOf(boundsCheck(nbtInt.intValue()));
+        } else if (base instanceof ShortTag nbtShort) {
+            return String.valueOf(boundsCheck(nbtShort.shortValue()));
+        } else if (base instanceof StringTag nbtString) {
+            return "\"" + nbtString.toString().replace("\"", "\\\"") + "\"";
+        }
+        //?} else {
+        /*
         } else if (base instanceof ByteTag nbtByte) {
             return (nbtByte.getAsByte() != 0) ? "true" : "false";
         } else if (base instanceof DoubleTag nbtDouble) {
@@ -180,6 +206,7 @@ public interface CommonIO {
         } else if (base instanceof StringTag nbtString) {
             return "\"" + nbtString.getAsString().replace("\"", "\\\"") + "\"";
         }
+        *///?}
         return base.toString();
     }
 
@@ -200,7 +227,13 @@ public interface CommonIO {
     static String compoundToString(CompoundTag base, int t) {
         String res = "{\n";
         int i = base.size() - 1;
-        for (String key: base.getAllKeys()) {
+        for (String key: base.
+                //? if <1.21.2 {
+                /*getAllKeys()
+                *///?} else {
+                keySet()
+                //?}
+        ) {
             Tag elem = base.get(key);
             res = appendTabs(res, t+1) + "\"" + key + "\": " + elementToString(elem, t);
             if (i!=0) res += ",";

@@ -23,7 +23,7 @@ import java.util.function.Supplier;
 public abstract class ClientWorldMixin extends Level implements InfinityOptionsAccess {
     @Unique
     public InfinityOptions infinity$options;
-    
+
     //? if >1.21.2 {
     protected ClientWorldMixin(WritableLevelData levelData, ResourceKey<Level> dimension, RegistryAccess registryAccess, Holder<DimensionType> dimensionTypeRegistration, boolean isClientSide, boolean isDebug, long biomeZoomSeed, int maxChainedNeighborUpdates) {
         super(levelData, dimension, registryAccess, dimensionTypeRegistration, isClientSide, isDebug, biomeZoomSeed, maxChainedNeighborUpdates);
