@@ -2,6 +2,7 @@ package net.lerariemann.infinity.iridescence;
 
 import net.lerariemann.infinity.registry.core.ModStatusEffects;
 import net.lerariemann.infinity.util.VersionMethods;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -19,7 +20,11 @@ public class IridescentCooldownEffect extends MobEffect {
      //?} else {
     /*void
     *///?}
-    applyEffectTick(LivingEntity entity, int amplifier) {
+    applyEffectTick(
+            //? if >1.21.2 {
+            ServerLevel serverLevel,
+            //?}
+            LivingEntity entity, int amplifier) {
         int cooldownDuration = Iridescence.getCooldownDuration();
         if (cooldownDuration > 0)
             entity.addEffect(new MobEffectInstance(VersionMethods.effectOrHolder(ModStatusEffects.IRIDESCENT_COOLDOWN),

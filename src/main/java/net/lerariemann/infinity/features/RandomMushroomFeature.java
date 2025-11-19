@@ -23,7 +23,10 @@ public abstract class RandomMushroomFeature
     protected void generateStem(LevelAccessor world, RandomSource random, BlockPos pos, Config config, int height, BlockPos.MutableBlockPos mutablePos) {
         for (int i = 0; i < height; ++i) {
             mutablePos.set(pos).move(Direction.UP, i);
-            if (world.getBlockState(mutablePos).isSolidRender(world, mutablePos)) continue;
+            if (world.getBlockState(mutablePos).isSolidRender(
+                    //? if <1.21.2
+                    /*world, mutablePos*/
+            )) continue;
             this.setBlock(world, mutablePos, config.stemProvider().getState(random, pos));
         }
     }
@@ -38,7 +41,14 @@ public abstract class RandomMushroomFeature
 
     protected boolean canGenerate(LevelAccessor world, BlockPos pos, int height, BlockPos.MutableBlockPos mutablePos, Config config) {
         int i = pos.getY();
-        if (i < world.getMinBuildHeight() + 1 || i + height + 1 >= world.getMaxBuildHeight()) {
+        //? if <1.21.2 {
+        /*var minY = world.getMinBuildHeight();
+        var maxY = world.getMaxBuildHeight();
+         *///?} else {
+        var minY = world.getMinY();
+        var maxY = world.getMaxY();
+        //?}
+        if (i < minY + 1 || i + height + 1 >= maxY) {
             return false;
         }
         BlockState blockState = world.getBlockState(pos.below());

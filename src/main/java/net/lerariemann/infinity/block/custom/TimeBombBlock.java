@@ -10,6 +10,9 @@ import net.lerariemann.infinity.util.teleport.PortalCreator;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
+//? if >1.21.2 {
+import net.minecraft.core.particles.PowerParticleOption;
+//?}
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -83,7 +86,11 @@ public class TimeBombBlock extends Block {
 
     static AreaEffectCloud genCloud(Level world, BlockPos pos) {
         AreaEffectCloud e = new AreaEffectCloud(world, pos.getCenter().x(), pos.getCenter().y(), pos.getCenter().z());
-        e.setParticle(ParticleTypes.DRAGON_BREATH);
+        //? if >1.21.2 {
+        e.setCustomParticle(PowerParticleOption.create(ParticleTypes.DRAGON_BREATH, 1));
+        //?} else {
+        /*e.setParticle(ParticleTypes.DRAGON_BREATH);
+        *///?}
         e.setRadius(1.0f);
         e.setDuration(3500);
         e.setRadiusPerTick(0.006f);
@@ -121,7 +128,7 @@ public class TimeBombBlock extends Block {
                 }
                 else if (world instanceof ServerLevel) {
                     world.playSound(null, pos, ModSounds.portalFail, SoundSource.BLOCKS, 1f, 1f);
-                    player.sendSystemMessage(Component.translatable("error.infinity.timebomb.fail"));
+                    player.displayClientMessage(Component.translatable("error.infinity.timebomb.fail"), false);
                 }
             }
             else {

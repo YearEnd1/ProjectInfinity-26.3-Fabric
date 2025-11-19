@@ -1,11 +1,9 @@
 package net.lerariemann.infinity.item.function;
 
-import com.google.gson.JsonObject;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.lerariemann.infinity.registry.core.ModItemFunctions;
 import net.lerariemann.infinity.registry.core.ModItems;
-import net.lerariemann.infinity.util.VersionMethods;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
 //? if >1.21 {
@@ -72,9 +70,17 @@ public class ChromaticColoringRecipe implements CraftingRecipe {
         INSTANCE
     }
     @Override
-    public @NotNull RecipeType<?> getType() {
+    public RecipeType<? extends Recipe<CraftingInput>>
+    getType() {
         return Type.INSTANCE;
     }
+
+    //? if >1.21.2 {
+    @Override
+    public PlacementInfo placementInfo() {
+        return PlacementInfo.create(input);
+    }
+    //?}
 
     @Override
     public @NotNull ItemStack assemble(
@@ -175,7 +181,7 @@ public class ChromaticColoringRecipe implements CraftingRecipe {
     }
 
     @Override
-    public @NotNull RecipeSerializer<ChromaticColoringRecipe> getSerializer() {
+    public RecipeSerializer<? extends Recipe<CraftingInput>> getSerializer() {
         return ModItemFunctions.CHROMATIC_COLORING.get();
     }
 
@@ -186,7 +192,12 @@ public class ChromaticColoringRecipe implements CraftingRecipe {
         @Override
         public @NotNull MapCodec<ChromaticColoringRecipe> codec() {
             return RecordCodecBuilder.mapCodec(instance -> instance.group(
-                            Ingredient.CODEC_NONEMPTY.fieldOf("input").forGetter(recipe -> recipe.input),
+                    //? if >1.21.2 {
+                            Ingredient.CODEC
+                    //?} else {
+                            /*Ingredient.CODEC_NONEMPTY
+                    *///?}
+                    .fieldOf("input").forGetter(recipe -> recipe.input),
                             ItemStack.STRICT_CODEC.fieldOf("output").forGetter(recipe -> recipe.output))
                     .apply(instance, func));
         }

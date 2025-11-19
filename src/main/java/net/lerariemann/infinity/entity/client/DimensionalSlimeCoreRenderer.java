@@ -1,17 +1,13 @@
 package net.lerariemann.infinity.entity.client;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
 //? if >1.21.2 {
 import net.fabricmc.fabric.api.renderer.v1.render.FabricBlockModelRenderer;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 //?} else {
 /*import net.minecraft.client.renderer.MultiBufferSource;
 *///?}
-import net.lerariemann.infinity.entity.custom.ChaosSlime;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.SlimeModel;
-import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.block.BlockRenderDispatcher;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.client.renderer.entity.RenderLayerParent;
@@ -72,16 +68,18 @@ public class DimensionalSlimeCoreRenderer extends RenderLayer<
 
     private void renderCore(PoseStack matrices,
                             //? if >1.21.2 {
-                            VertexConsumer
+                            SubmitNodeCollector
                             //?} else {
                             /*MultiBufferSource
                             *///?}
 
                                     vertexConsumers, int light, BlockState coreState, int overlay) {
         var coreModel = this.blockRenderManager.getBlockModel(coreState);
-        //? if >1.21.2 {
-        FabricBlockModelRenderer.render(matrices.last(), layer-> vertexConsumers, coreModel, 1.0f, 1.0f, 1.0f, light, overlay, null, BlockPos.ZERO, coreState);
-        //?} else {
+        //? if >1.21.9 {
+        vertexConsumers.submitBlock(matrices, coreState, light, overlay, 0);
+        //?} else if >1.21.8 {
+        /*FabricBlockModelRenderer.render(matrices.last(), layer-> vertexConsumers, coreModel, 1.0f, 1.0f, 1.0f, light, overlay, null, BlockPos.ZERO, coreState);
+        *///?} else {
         /*this.blockRenderManager.getModelRenderer().renderModel(matrices.last(), vertexConsumers.getBuffer(ItemBlockRenderTypes.getChunkRenderType(coreState)), coreState, coreModel, 1.0f, 1.0f, 1.0f, light, overlay);
         *///?}
     }

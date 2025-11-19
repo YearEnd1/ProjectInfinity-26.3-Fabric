@@ -21,6 +21,7 @@ import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.component.TooltipDisplay;
 import org.jetbrains.annotations.NotNull;
 
 //? if neoforge {
@@ -29,6 +30,8 @@ import org.jetbrains.annotations.NotNull;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.function.Consumer;
+
 //? if neoforge {
 /*@ParametersAreNonnullByDefault
 *///?}
@@ -92,15 +95,26 @@ public class TransfiniteKeyItem extends Item implements PortalDataHolder.Destina
     public void appendHoverText(ItemStack stack,
                                 //? if >1.21 {
                                 TooltipContext
+                                        //?} else {
+                                        /*Level
+                                         *///?}
+                                        context,
+                                //? if >1.21.2 {
+                                TooltipDisplay tooltipDisplay, Consumer<Component> tooltipAdder
                                 //?} else {
-                                /*Level
-                                *///?}
-                                        context, List<Component> tooltip, TooltipFlag type) {
-        super.appendHoverText(stack, context, tooltip, type);
+                                /*List<Component> tooltip
+                                 *///?}
+                                , TooltipFlag type) {
+        //? if >1.21.2 {
+        super.appendHoverText(stack, context, tooltipDisplay, tooltipAdder, type);
+        //?} else {
+        /*super.appendHoverText(stack, context, tooltip, type);
+        Consumer<Component> tooltipAdder = tooltip::add;
+        *///?}
         ResourceLocation dimension = VersionMethods.getDimensionIdentifier(stack);
         MutableComponent mutableText = (dimension != null)
                 ? InfinityMethods.getDimensionNameAsText(dimension)
                 : Component.translatable("tooltip.infinity.key.randomise");
-        tooltip.add(mutableText.withStyle(ChatFormatting.GRAY));
+        tooltipAdder.accept(mutableText.withStyle(ChatFormatting.GRAY));
     }
 }

@@ -8,6 +8,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.InsideBlockEffectApplier;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.item.ItemEntity;
@@ -25,8 +26,16 @@ public class IridescenceLiquidBlock extends ArchitecturyLiquidBlock {
     }
 
     @Override
-    public void entityInside(BlockState state, Level world, BlockPos pos, Entity entity) {
-        super.entityInside(state, world, pos, entity);
+    public void entityInside(BlockState state, Level world, BlockPos pos, Entity entity
+    //? if >1.21.2 {
+            , InsideBlockEffectApplier applier, boolean intersects
+    //?}
+    ) {
+        super.entityInside(state, world, pos, entity
+                //? if >1.21.2 {
+                , applier, intersects
+        //?}
+        );
         if (world.getFluidState(pos).getAmount() > 3 && world instanceof ServerLevel w)
             if (Objects.requireNonNull(entity) instanceof Player player) {
                 Iridescence.tryBeginJourney(player, RandomProvider.ruleInt("iridescenceContactLevel"), false);

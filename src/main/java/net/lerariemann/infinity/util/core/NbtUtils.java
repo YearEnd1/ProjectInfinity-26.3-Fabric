@@ -91,7 +91,13 @@ public interface NbtUtils {
         *///?}
     }
     static ListTag getList(CompoundTag data, String key, ListTag def, byte nbttype) {
-        return data.contains(key) ? data.getList(key, nbttype) : def;
+        return data.contains(key) ? data.getList(key
+                //? if <1.21.2
+                /*, nbttype*/
+        )
+                //? if <1.21.2
+                /*.orElse(def)*/
+                : def;
     }
 
     static String getString(CompoundTag data, String key) {

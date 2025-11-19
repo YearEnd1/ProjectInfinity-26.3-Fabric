@@ -71,10 +71,10 @@ public class AntBlock extends HorizontalDirectionalBlock {
         String s = VersionMethods.getNameAsString(BuiltInRegistries.BLOCK, down);
         var state = down.defaultBlockState();
         if (PlatformMethods.isInBlack(state)) {
-            return toWhite ? BuiltInRegistries.BLOCK.get(VersionMethods.id(s.replace("black", "white"))) : down;
+            return toWhite ? VersionMethods.getFromRegistry(BuiltInRegistries.BLOCK, VersionMethods.id(s.replace("black", "white"))) : down;
         }
         if (PlatformMethods.isInWhite(state)) {
-            return toWhite ? down : BuiltInRegistries.BLOCK.get(VersionMethods.id(s.replace("white", "black")));
+            return toWhite ? down : VersionMethods.getFromRegistry(BuiltInRegistries.BLOCK, VersionMethods.id(s.replace("white", "black")));
         }
         return null;
     }

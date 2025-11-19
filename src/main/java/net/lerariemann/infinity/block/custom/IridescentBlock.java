@@ -8,13 +8,11 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.level.BlockGetter;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.LevelAccessor;
-import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.*;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
@@ -100,11 +98,18 @@ public class IridescentBlock extends Block {
         protected
         //?} else {
         /*public
-            *///?}
-         BlockState updateShape(BlockState state, Direction direction, BlockState neighborState, LevelAccessor world, BlockPos pos, BlockPos neighborPos) {
-            return !state.canSurvive(world, pos)
-                    ? Blocks.AIR.defaultBlockState()
-                    : super.updateShape(state, direction, neighborState, world, pos, neighborPos);
+         *///?}
+        //? if >1.21.2 {
+        BlockState updateShape(BlockState state, LevelReader world, ScheduledTickAccess scheduledTickAccess, BlockPos pos, Direction direction, BlockPos neighborPos, BlockState neighborState, RandomSource random) {
+            //?} else {
+            /*BlockState updateShape(BlockState state, Direction direction, BlockState neighborState, LevelAccessor world, BlockPos pos, BlockPos neighborPos) {
+             *///?}
+            if (!state.canSurvive(world, pos)) return Blocks.AIR.defaultBlockState();
+            //? if >1.21.2 {
+            return super.updateShape(state, world, scheduledTickAccess, pos, direction, neighborPos, neighborState, random);
+            //?} else {
+            /*return super.updateShape(state, direction, neighborState, world, pos, neighborPos);
+             *///?}
         }
 
         @Override

@@ -100,7 +100,7 @@ public class BiomeBottleBlock extends BaseEntityBlock {
     @Nullable
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level world, BlockState state, BlockEntityType<T> type) {
-        return world.isClientSide ? null : createTickerHelper(type, ModBlockEntities.BIOME_BOTTLE.get(), BiomeBottleBlockEntity::serverTick);
+        return world.isClientSide() ? null : createTickerHelper(type, ModBlockEntities.BIOME_BOTTLE.get(), BiomeBottleBlockEntity::serverTick);
     }
 
 
@@ -111,10 +111,16 @@ public class BiomeBottleBlock extends BaseEntityBlock {
             //?} else {
             /*BlockGetter world
             *///?}
-            , BlockPos pos, BlockState state) {
+            , BlockPos pos, BlockState state
+            //? if >1.21.2
+            , boolean bl
+    ) {
         return world.getBlockEntity(pos) instanceof BiomeBottleBlockEntity bbbe
                 ? bbbe.asStack()
-                : super.getCloneItemStack(world, pos, state);
+                : super.getCloneItemStack(world, pos, state
+                //? if >1.21.2
+                , bl
+        );
     }
 
     public static final int maxAllowedCharge = 10000;
@@ -238,7 +244,11 @@ public class BiomeBottleBlock extends BaseEntityBlock {
                     }
                     return registryEntry2;
                 }, world.getChunkSource().randomState().sampler());
-                chunk.setUnsaved(true);
+                //? if >1.21.2 {
+                chunk.markUnsaved();
+                //?} else {
+                /*chunk.setUnsaved(true);
+                *///?}
             }
         });
         world.getChunkSource().chunkMap.resendBiomesForChunks(set.stream().toList());

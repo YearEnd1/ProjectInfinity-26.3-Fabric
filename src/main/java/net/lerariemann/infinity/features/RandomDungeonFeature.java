@@ -77,7 +77,12 @@ public class RandomDungeonFeature extends Feature<RandomDungeonFeature.Config> {
                     blockPos2 = blockPos.offset(s, t, u);
                     BlockState blockState = structureWorldAccess.getBlockState(blockPos2);
                     if (s == k || t == -1 || u == p || s == l || t == 4 || u == q) {
-                        if (blockPos2.getY() >= structureWorldAccess.getMinBuildHeight() && !structureWorldAccess.getBlockState(blockPos2.below()).isSolid()) {
+                        //? if <1.21.2 {
+                        /*var minY = structureWorldAccess.getMinBuildHeight();
+                         *///?} else {
+                        var minY = structureWorldAccess.getMinY();
+                        //?}
+                        if (blockPos2.getY() >= minY && !structureWorldAccess.getBlockState(blockPos2.below()).isSolid()) {
                             structureWorldAccess.setBlock(blockPos2, AIR, Block.UPDATE_CLIENTS);
                             continue;
                         }

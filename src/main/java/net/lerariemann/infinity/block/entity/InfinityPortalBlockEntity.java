@@ -19,6 +19,8 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import org.jetbrains.annotations.Nullable;
 
 //? if neoforge
@@ -147,42 +149,62 @@ public class InfinityPortalBlockEntity extends TintableBlockEntity {
 
 
     @Override
-    public void saveAdditional(CompoundTag tag
-                               //? if >1.21
-                               ,HolderLookup.Provider registryLookup
+    public void saveAdditional(
+            //? if >1.21.2 {
+            ValueOutput tag
+            //?} else {
+            /*CompoundTag tag
+            *///?}
+           //? if =1.21.1
+           /*,HolderLookup.Provider registryLookup*/
     ) {
         super.saveAdditional(tag
-                //? if >1.21
-                , registryLookup
+                //? if =1.21.1
+                /*, registryLookup*/
         );
         tag.putInt("Color", this.portalColor);
         tag.putString("Dimension", this.dimension.toString());
         tag.putBoolean("Open", this.isOpen);
         if (otherSidePos != null) {
-            CompoundTag pos = new CompoundTag();
+            //? if >1.21.2 {
+            tag.store("other_side", BlockPos.CODEC, otherSidePos);
+            //?} else {
+            /*CompoundTag pos = new CompoundTag();
             pos.putInt("x", otherSidePos.getX());
             pos.putInt("y", otherSidePos.getY());
             pos.putInt("z", otherSidePos.getZ());
             tag.put("other_side", pos);
+            *///?}
         }
     }
 
     @Override
     //? if >1.21 {
-    public void loadAdditional(CompoundTag tag, HolderLookup.Provider registryLookup) {
-        super.loadAdditional(tag, registryLookup);
-    //?} else {
-    /*public void load(CompoundTag tag) {
-        super.load(tag);
-    *///?}
-        if (tag.getTagType("Dimension") == Tag.TAG_ANY_NUMERIC) { //conversion from legacy formats
+    public void loadAdditional(
+            //? if >1.21.2 {
+            ValueInput tag
+            //?} else {
+            /*CompoundTag tag
+             *///?}
+            //? if =1.21.1
+            /*,HolderLookup.Provider registryLookup*/
+    ) {
+        super.loadAdditional(tag
+                //? if =1.21.1
+                /*, registryLookup*/
+                );
+        //? if <1.21.2 {
+        /*if (tag.getTagType("Dimension") == Tag.TAG_ANY_NUMERIC) { //conversion from legacy formats
             this.portalColor = NbtUtils.getInt(tag, "Dimension") & 0xFFFFFF;
             if (tag.contains("DimensionName")) {
                 this.dimension = VersionMethods.id(NbtUtils.getString(tag, "DimensionName"));
             }
             else this.dimension = InfinityMethods.getDimId(this.portalColor);
         }
-        else if (tag.getTagType("Dimension") == Tag.TAG_STRING) { //new better format
+        else         if (tag.getTagType("Dimension") == Tag.TAG_STRING) { //new better format
+        *///?} else {
+        if (tag.contains("Dimension")) {
+        //?}
             this.dimension = VersionMethods.id(NbtUtils.getString(tag, "Dimension"));
             if (level != null && level.getServer() != null)
                 this.portalColor = NbtUtils.getInt(tag, "Color", PortalColorApplier.of(dimension, level.getServer()).apply(worldPosition) & 0xFFFFFF);
@@ -194,8 +216,12 @@ public class InfinityPortalBlockEntity extends TintableBlockEntity {
         }
         this.isOpen = NbtUtils.getBoolean(tag, "Open", false);
         if (tag.contains("other_side")) {
-            CompoundTag pos = NbtUtils.getCompound(tag,"other_side");
+            //? if >1.21.2 {
+            otherSidePos = tag.read("other_side", BlockPos.CODEC).get();
+            //?} else {
+            /*CompoundTag pos = NbtUtils.getCompound(tag,"other_side");
             otherSidePos = new BlockPos(NbtUtils.getInt(pos, "x"), NbtUtils.getInt(pos, "y"), NbtUtils.getInt(pos, "z"));
+            *///?}
         }
     }
 

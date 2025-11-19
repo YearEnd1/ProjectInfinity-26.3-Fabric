@@ -77,7 +77,12 @@ public class RandomColumnsFeature
 
     @Nullable
     private static BlockPos moveDownToGround(LevelAccessor world, int seaLevel, BlockPos.MutableBlockPos mutablePos, int distance) {
-        while (mutablePos.getY() > world.getMinBuildHeight() + 1 && distance > 0) {
+        //? if <1.21.2 {
+        /*var minY = world.getMinBuildHeight();
+        *///?} else {
+        var minY = world.getMinY();
+        //?}
+        while (mutablePos.getY() > minY + 1 && distance > 0) {
             --distance;
             if (RandomColumnsFeature.canPlaceAt(world, seaLevel, mutablePos)) {
                 return mutablePos;
@@ -98,7 +103,12 @@ public class RandomColumnsFeature
 
     @Nullable
     private static BlockPos moveUpToAir(LevelAccessor world, BlockPos.MutableBlockPos mutablePos, int distance) {
-        while (mutablePos.getY() < world.getMaxBuildHeight() && distance > 0) {
+        //? if <1.21.2 {
+        /*var maxY = world.getMaxBuildHeight();
+        *///?} else {
+        var maxY = world.getMaxY();
+         //?}
+        while (mutablePos.getY() < maxY && distance > 0) {
             --distance;
             BlockState blockState = world.getBlockState(mutablePos);
             if (CANNOT_REPLACE_BLOCKS.contains(blockState.getBlock())) {

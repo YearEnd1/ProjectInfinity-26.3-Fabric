@@ -29,10 +29,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.EntitySpawnReason;
+import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.targeting.TargetingConditions;
 import net.minecraft.world.entity.animal.AbstractFish;
 import net.minecraft.world.entity.monster.Slime;
@@ -46,6 +43,7 @@ import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 //? neoforge {
 /*import net.neoforged.neoforge.event.EventHooks;
@@ -108,10 +106,10 @@ public interface Iridescence {
             DyeColor.PINK);
 
     static Block getRandomColorBlock(LevelAccessor world, String str) {
-        return BuiltInRegistries.BLOCK.get(VersionMethods.id(dyeColors.get(world.getRandom().nextInt(dyeColors.size())).getName() + "_" + str));
+        return VersionMethods.getFromRegistry(BuiltInRegistries.BLOCK, VersionMethods.id(dyeColors.get(world.getRandom().nextInt(dyeColors.size())).getName() + "_" + str));
     }
     static Block getRandomColorBlock(double d, String str) {
-        return BuiltInRegistries.BLOCK.get(VersionMethods.id(dyeColors.get((int)(d* dyeColors.size())).getName() + "_" + str));
+        return VersionMethods.getFromRegistry(BuiltInRegistries.BLOCK, VersionMethods.id(dyeColors.get((int)(d* dyeColors.size())).getName() + "_" + str));
     }
 
     static int getAmplifierOnApply(LivingEntity entity, int original, boolean willingly) {
@@ -195,10 +193,22 @@ public interface Iridescence {
     }
 
     static void loadShader(ServerPlayer player) {
-        ModPayloads.sendShaderPayload(player, player.serverLevel(), true);
+        ModPayloads.sendShaderPayload(player, player.
+                //? if >1.21.2 {
+                level()
+                //?} else {
+                /*serverLevel()
+                *///?}
+                , true);
     }
     static void unloadShader(ServerPlayer player) {
-        ModPayloads.sendShaderPayload(player, player.serverLevel(), false);
+        ModPayloads.sendShaderPayload(player, player.
+                //? if >1.21.2 {
+                level()
+                //?} else {
+                /*serverLevel()
+                *///?}
+                , false);
     }
 
     static boolean shouldApplyShader(@Nullable Player player) {
@@ -230,7 +240,7 @@ public interface Iridescence {
         compound.putDouble("x", player.position().x);
         compound.putDouble("y", player.position().y);
         compound.putDouble("z", player.position().z);
-        compound.putString("dim", player.serverLevel().dimension().location().toString());
+        compound.putString("dim", player.level().dimension().location().toString());
         CommonIO.write(compound, InfinityMod.provider.savingPath, player.getStringUUID() + ".json");
     }
 
@@ -244,9 +254,14 @@ public interface Iridescence {
         }
         Path cookie = InfinityMod.provider.savingPath.resolve(player.getStringUUID() + ".json");
         CompoundTag comp = CommonIO.read(cookie);
-        ServerLevel level = player.server.getLevel(ResourceKey.create(Registries.DIMENSION, VersionMethods.id(NbtUtils.getString(comp,"dim"))));
-        if (level != null)
-            player.teleportTo(level, comp.getDouble("x"), comp.getDouble("y"), comp.getDouble("z"), player.getYRot(), player.getXRot());
+        ServerLevel level = player.level().getServer().getLevel(ResourceKey.create(Registries.DIMENSION, VersionMethods.id(NbtUtils.getString(comp,"dim"))));
+        if (level != null) {
+            //? if >1.21.2 {
+            VersionMethods.teleportTo(player, level, new Vec3(comp.getDoubleOr("x", 0), comp.getDoubleOr("y", 0), comp.getDoubleOr("z", 0)), player.getYRot(), player.getXRot());
+            //?} else {
+            /*player.teleportTo(level, comp.getDouble("x"), comp.getDouble("y"), comp.getDouble("z"), player.getYRot(), player.getXRot());
+            *///?}
+        }
         else WarpLogic.respawnAlive(player);
         try {
             Files.deleteIfExists(cookie);
@@ -255,7 +270,7 @@ public interface Iridescence {
     }
 
     static ResourceLocation getIdForWarp(ServerPlayer player) {
-        ServerLevel w = player.serverLevel().getServer().overworld();
+        ServerLevel w = player.level().getServer().overworld();
         return InfinityMethods.getRandomId(new Random(w.getSeed() + w.getGameTime() / ticksInHour));
     }
 
@@ -285,7 +300,10 @@ public interface Iridescence {
         if (!convertibles.containsKey(type)) return;
         EntityType<? extends Mob> typeNew = convertibles.get(type).get();
         if (typeNew != null) {
-            Mob newEntity = typeNew.create(currEntity.level());
+            Mob newEntity = typeNew.create(currEntity.level()
+                    //? if >1.21.2
+                    , EntitySpawnReason.CONVERSION
+            );
             if (newEntity != null) {
                 currEntity.discard();
                 ModEntities.copy(currEntity, newEntity);
@@ -321,12 +339,18 @@ public interface Iridescence {
     static void convTriggers(LivingEntity entity) {
         triggerConversion(entity.level().getNearestPlayer(entity.getX(), entity.getY(), entity.getZ(),
                 50, false), entity);
-        entity.level().getNearbyPlayers(TargetingConditions.DEFAULT, entity, AABB.ofSize(entity.position(), 10,10, 10))
+        //? if >1.21.2 {
+        entity.level().getEntities(entity, AABB.ofSize(entity.position(), 10,10, 10))
                 .forEach(p -> triggerConversion(p, entity));
+        //?} else {
+        /*entity.level().getNearbyPlayers(TargetingConditions.DEFAULT, entity, AABB.ofSize(entity.position(), 10,10, 10))
+                .forEach(p -> triggerConversion(p, entity));
+        *///?}
+
     }
 
-    static void triggerConversion(Player player, LivingEntity entity) {
-        if (player instanceof ServerPlayer np) {
+    static void triggerConversion(Entity potentialPlayer, LivingEntity entity) {
+        if (potentialPlayer instanceof ServerPlayer np) {
             ModCriteria.CONVERT_MOB.get().trigger(np, entity);
         }
     }

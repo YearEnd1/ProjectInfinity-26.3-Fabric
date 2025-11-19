@@ -21,7 +21,12 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.tags.BlockTags;
-import net.minecraft.util.random.WeightedRandomList;
+//? if >1.21.2 {
+import net.minecraft.util.random.Weighted;
+import net.minecraft.util.random.WeightedList;
+//?} else {
+/*import net.minecraft.util.random.WeightedRandomList;
+*///?}
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
@@ -307,13 +312,31 @@ public interface ConfigGenerator {
         return res;
     }
 
-    static ListTag genSpawns(WeightedRandomList<MobSpawnSettings.SpawnerData> entries) {
+    static ListTag genSpawns(
+            //? if >1.21.2 {
+            WeightedList
+            //?} else {
+            /*WeightedRandomList
+            *///?}
+            <MobSpawnSettings.SpawnerData> entries) {
         ListTag lst = new ListTag();
         entries.unwrap().forEach((entry) -> lst.add(genEntry(entry)));
         return lst;
     }
 
-    static CompoundTag genEntry(MobSpawnSettings.SpawnerData entry) {
+    static CompoundTag genEntry(
+            //? if >1.21.2 {
+            Weighted<MobSpawnSettings.SpawnerData> spawnerDataWeighted
+            //?} else {
+            /*MobSpawnSettings.SpawnerData entry
+            *///?}
+             ) {
+        //? if >1.21.2 {
+        MobSpawnSettings.SpawnerData entry = spawnerDataWeighted.value();
+        var weight = spawnerDataWeighted.weight();
+        //?} else {
+        /*var weight = entry.getWeight().asInt();
+        *///?}
         CompoundTag res = new CompoundTag();
         res.putString("type", BuiltInRegistries.ENTITY_TYPE.getKey(entry.type
                 //? if >1.21.9
@@ -327,7 +350,7 @@ public interface ConfigGenerator {
                 //? if >1.21.9
                         ()
         );
-        res.putInt("weight", entry.getWeight().asInt());
+        res.putInt("weight", weight);
         return res;
     }
 

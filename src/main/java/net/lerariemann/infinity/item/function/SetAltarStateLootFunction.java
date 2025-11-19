@@ -44,7 +44,11 @@ public class SetAltarStateLootFunction extends LootItemConditionalFunction {
 
     @Override
     protected @NotNull ItemStack run(ItemStack stack, LootContext context) {
-        BlockState st = context.getParamOrNull(LootContextParams.BLOCK_STATE);
+        //? if >1.21.2 {
+        BlockState st = context.getOptionalParameter(LootContextParams.BLOCK_STATE);
+        //?} else {
+        /*BlockState st = context.getParamOrNull(LootContextParams.BLOCK_STATE);
+        *///?}
         if (st != null) {
             //? if >1.21 {
             stack.applyComponentsAndValidate(AltarBlock.toComponentChanges(st));

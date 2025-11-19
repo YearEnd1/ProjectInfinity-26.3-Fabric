@@ -24,7 +24,10 @@ public class RandomFlatMushroomFeature extends RandomMushroomFeature {
                 boolean bl6 = bl3 || bl4;
                 if (bl5 && bl6) continue;
                 mutable.setWithOffset(start, j, y, k);
-                if (world.getBlockState(mutable).isSolidRender(world, mutable)) continue;
+                if (world.getBlockState(mutable).isSolidRender(
+                        //? if <1.21.2
+                        world, mutable
+                )) continue;
                 BlockState blockState = config.capProvider().getState(random, start);
                 this.setBlock(world, mutable, blockState);
             }

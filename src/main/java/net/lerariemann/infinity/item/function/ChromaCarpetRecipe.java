@@ -100,10 +100,12 @@ public class ChromaCarpetRecipe extends CustomRecipe {
         return result.copyWithCount(3);
     }
 
-    @Override
+    //? if <1.21.2 {
+    /*@Override
     public boolean canCraftInDimensions(int width, int height) {
         return width >= 2 && height >= 1;
     }
+    *///?}
 
     @Override
     public RecipeSerializer<ChromaCarpetRecipe> getSerializer() {

@@ -75,21 +75,22 @@ public class F4Item extends Item implements PortalDataHolder.Destinable {
     public void appendHoverText(ItemStack stack,
                                 //? if >1.21 {
                                 TooltipContext
+                                        //?} else {
+                                        /*Level
+                                         *///?}
+                                        context,
+                                //? if >1.21.2 {
+                                TooltipDisplay tooltipDisplay, Consumer<Component> tooltipAdder
                                 //?} else {
-                                /*Level
-                                *///?}
-                                            context,
-                                //? if >1.21.4 {
-                                TooltipDisplay display, Consumer<Component>
-                                //?} else {
-                                /*List<Component>
-                                *///?}
-                                            tooltip, TooltipFlag type) {
-        super.appendHoverText(stack, context,
-                //? if >1.21.4 {
-                display,
-                //?}
-                tooltip, type);
+                                /*List<Component> tooltip
+                                 *///?}
+                                , TooltipFlag type) {
+        //? if >1.21.2 {
+        super.appendHoverText(stack, context, tooltipDisplay, tooltipAdder, type);
+        //?} else {
+        /*super.appendHoverText(stack, context, tooltip, type);
+        Consumer<Component> tooltipAdder = tooltip::add;
+        *///?}
         ResourceLocation dimension = VersionMethods.getDimensionIdentifier(stack);
         MutableComponent mutableText = getDimensionTooltip(dimension).withStyle(ChatFormatting.GRAY);
         //? if <1.21.2 {

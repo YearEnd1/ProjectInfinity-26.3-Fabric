@@ -8,6 +8,7 @@ import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 import org.jetbrains.annotations.Nullable;
 
@@ -30,8 +31,19 @@ public class CosmicAltarBlockEntity extends BlockEntity {
 
     //? if >1.21 {
     @Override
-    public void loadAdditional(CompoundTag nbt, HolderLookup.Provider registryLookup) {
-        super.loadAdditional(nbt, registryLookup);
+    public void loadAdditional(
+            //? if >1.21.2 {
+            ValueInput nbt
+            //?} else {
+            /*CompoundTag tag
+             *///?}
+            //? if =1.21.1
+            /*,HolderLookup.Provider registryLookup*/
+    ) {
+        super.loadAdditional(nbt
+                //? if =1.21.1
+                /*, registryLookup*/
+                );
     }
     //?} else {
     /*@Override

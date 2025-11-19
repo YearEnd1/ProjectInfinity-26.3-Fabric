@@ -143,7 +143,7 @@ stonecutter {
     }
     replacements.string {
         direction = eval(current.version, ">1.21.4")
-        replace("DimensionTransition", "TeleportTransition")
+        replace("DimensionTransition ", "TeleportTransition ")
     }
     replacements.string {
         direction = eval(current.version, ">1.21.4")

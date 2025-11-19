@@ -9,17 +9,36 @@ import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.NotNull;
 
-public class AntRenderer extends MobRenderer<AntEntity, AntModel<AntEntity>> {
+public class AntRenderer extends MobRenderer<AntEntity,
+        //? if >1.21.2 {
+        AntEntityRenderState, AntModel<AntEntityRenderState>
+        //?} else {
+        /*AntModel<AntEntity>
+        *///?}
+        > {
     private static final ResourceLocation TEXTURE = InfinityMethods.getId("textures/entity/ant.png");
 
     public AntRenderer(EntityRendererProvider.Context context) {
         super(context, new AntModel<>(context.bakeLayer(AntModel.MODEL_LAYER)), 0.6f);
     }
 
+    //? if >1.21.2 {
     @Override
-    public @NotNull ResourceLocation getTextureLocation(AntEntity entity) {
+    public AntEntityRenderState createRenderState() {
+        return new AntEntityRenderState();
+    }
+    @Override
+    public @NotNull ResourceLocation getTextureLocation(AntEntityRenderState entity) {
         return TEXTURE;
     }
+    //?} else {
+    /*@Override
+    public ResourceLocation getTextureLocation(AntEntity renderState) {
+        return TEXTURE;
+    }
+    *///?}
+
+
 
     @Override
     public void render(AntEntity mobEntity, float f, float g, PoseStack matrixStack,

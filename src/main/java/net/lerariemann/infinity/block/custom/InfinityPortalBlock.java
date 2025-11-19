@@ -29,6 +29,7 @@ import net.minecraft.util.*;
 import net.minecraft.world.*;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntitySpawnReason;
+import net.minecraft.world.entity.InsideBlockEffectApplier;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
@@ -168,7 +169,13 @@ public class InfinityPortalBlock extends NetherPortalBlock implements EntityBloc
                 int colorInt = npbe.getPortalColor();
                 Vec3 vec3d = Vec3.fromRGB24(colorInt);
                 double color = 1.0D + (colorInt >> 16 & 0xFF) / 255.0D;
-                eff = new DustParticleOptions(new Vector3f((float)vec3d.x, (float)vec3d.y, (float)vec3d.z), (float)color);
+                eff = new DustParticleOptions(
+                        //? if <1.21.2 {
+                        /*new Vector3f((float)vec3d.x, (float)vec3d.y, (float)vec3d.z), (float)color
+                        *///?} else {
+                        colorInt, 1
+                        //?}
+                );
             }
 
             world.addParticle(eff, d, e, f, g, h, j);
@@ -179,7 +186,11 @@ public class InfinityPortalBlock extends NetherPortalBlock implements EntityBloc
      * Adds logic for portal-based recipes.
      */
     @Override
-    public void entityInside(BlockState state, Level w, BlockPos pos, Entity entity) {
+    public void entityInside(BlockState state, Level w, BlockPos pos, Entity entity
+    //? if >1.21.2 {
+     ,InsideBlockEffectApplier insideBlockEffectApplier, boolean bl2
+     //?}
+    ) {
         AtomicBoolean bl = new AtomicBoolean(false);
         if (w instanceof ServerLevel world
                 && world.getBlockEntity(pos) instanceof InfinityPortalBlockEntity ipbe) {
@@ -219,7 +230,11 @@ public class InfinityPortalBlock extends NetherPortalBlock implements EntityBloc
                 }
             }
         }
-        if (!bl.get()) super.entityInside(state, w, pos, entity);
+        if (!bl.get()) super.entityInside(state, w, pos, entity
+                //? if >1.21.2 {
+                ,insideBlockEffectApplier, bl2
+                //?}
+        );
     }
     /**
      * Spawns chaos pawns in the portal.
@@ -254,9 +269,7 @@ public class InfinityPortalBlock extends NetherPortalBlock implements EntityBloc
     public
     //? if >1.21.2 {
     TeleportTransition
-    //?} else if >1.21 {
-    /*TeleportTransition
-    *///?} else {
+    //?} else {
     /*PortalInfo
     *///?}
     getPortalDestination(ServerLevel worldFrom, Entity entity, BlockPos posFrom) {

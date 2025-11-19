@@ -115,7 +115,7 @@ public class InfinityPortal {
     getTeleportTarget(Entity entity) {
         if (portalShouldWork() && portalTo != null && worldTo != null) {
             //? if >1.21.3 {
-            return NetherPortalBlock.getTeleportTransitionFromExit(entity, posTo, portalTo, worldTo,
+            return NetherPortalBlock.getDimensionTransitionFromExit(entity, posTo, portalTo, worldTo,
                     TeleportTransition.PLAY_PORTAL_SOUND.then(entityx -> entityx.placePortalTicket(posTo)));
             //?} else if >1.21 {
             /*return NetherPortalBlock.getTeleportTransitionFromExit(entity, posTo, portalTo, worldTo,

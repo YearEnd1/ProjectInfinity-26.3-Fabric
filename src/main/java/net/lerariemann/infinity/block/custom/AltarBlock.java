@@ -107,8 +107,14 @@ public class AltarBlock extends Block {
              //?} else {
             /*BlockGetter
                     *///?}
-            world, BlockPos pos, BlockState state) {
-        ItemStack res = super.getCloneItemStack(world, pos, state);
+            world, BlockPos pos, BlockState state
+            //? if >1.21.2
+            , boolean bl
+    ) {
+        ItemStack res = super.getCloneItemStack(world, pos, state
+        //? if >1.21.2
+        , bl
+        );
         //? if >1.21 {
         res.applyComponentsAndValidate(toComponentChanges(state));
         //?} else {

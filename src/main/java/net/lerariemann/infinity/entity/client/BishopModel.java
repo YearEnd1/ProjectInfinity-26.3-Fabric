@@ -17,7 +17,7 @@ public class BishopModel extends HumanoidModel<
         BishopEntityRenderState
         //?} else {
         /*BishopEntity
-        *///?}
+         *///?}
         > {
     public static final ModelLayerLocation MODEL_LAYER =
             new ModelLayerLocation(InfinityMethods.getId("bishop"), "main");

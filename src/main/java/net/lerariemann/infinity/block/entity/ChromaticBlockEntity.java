@@ -176,13 +176,31 @@ public class ChromaticBlockEntity extends TintableBlockEntity {
 
     @Override
     //? if >1.21 {
-    public void loadAdditional(CompoundTag nbt, HolderLookup.Provider registryLookup) {
-        super.loadAdditional(nbt, registryLookup);
-    //?} else {
-    /*public void load(CompoundTag nbt) {
-        super.load(nbt);
-        *///?}
-        if (nbt.getTagType("color") == Tag.TAG_INT)
+    public void loadAdditional(
+            //? if >1.21.2 {
+            ValueInput nbt
+            //?} else {
+            /*CompoundTag tag
+             *///?}
+            //? if =1.21.1
+            /*,HolderLookup.Provider registryLookup*/
+    ) {
+        super.loadAdditional(nbt
+                //? if =1.21.1
+                /*, registryLookup*/
+                );
+        //? if >1.21.2 {
+        if (nbt.contains("color")) {
+            nbt.getInt("color").ifPresent(this::setColor);
+        }
+        if (nbt.contains("h")) {
+            hue = (short) nbt.getShortOr("h", hue);
+            saturation = (short) nbt.getShortOr("s", saturation);
+            brightness = (short) nbt.getShortOr("b", brightness);
+            updateColor();
+        }
+        //?} else {
+        /*if (nbt.getTagType("color") == Tag.TAG_INT)
             setColor(nbt.getInt("color"));
         else if (nbt.getTagType("color") == Tag.TAG_COMPOUND) {
             CompoundTag color = NbtUtils.getCompound(nbt, "color");
@@ -191,6 +209,7 @@ public class ChromaticBlockEntity extends TintableBlockEntity {
             brightness = NbtUtils.getShort(color, "b");
             updateColor();
         }
+        *///?}
     }
     @Override
     protected void saveAdditional(
@@ -206,11 +225,18 @@ public class ChromaticBlockEntity extends TintableBlockEntity {
                 //? if =1.21.1
                 /*, registryLookup*/
         );
-        CompoundTag color = new CompoundTag();
+        //? if >1.21.2 {
+        nbt.putShort("h", hue);
+        nbt.putShort("s", saturation);
+        nbt.putShort("b", brightness);
+        //?} else {
+        /*CompoundTag color = new CompoundTag();
         color.putShort("h", hue);
         color.putShort("s", saturation);
         color.putShort("b", brightness);
         nbt.put("color", color);
+        *///?}
+
     }
 
     public int getTint() {

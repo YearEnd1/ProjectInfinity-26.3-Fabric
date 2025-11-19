@@ -131,10 +131,12 @@ public class F4RechargingRecipe extends CustomRecipe {
         return defaultedList;
     }
 
-    @Override
+    //? if <1.21.2 {
+    /*@Override
     public boolean canCraftInDimensions(int width, int height) {
         return width*height >= 2;
     }
+    *///?}
 
     @Override
     public @NotNull RecipeSerializer<F4RechargingRecipe> getSerializer() {

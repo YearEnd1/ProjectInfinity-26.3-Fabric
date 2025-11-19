@@ -17,7 +17,19 @@ import net.minecraft.client.model.geom.builders.PartDefinition;
 import net.minecraft.util.Mth;
 import org.jetbrains.annotations.NotNull;
 
-public class AntModel<T extends AntEntity> extends HierarchicalModel<T> {
+public class AntModel<T extends
+        //? if >1.21.2 {
+        AntEntityRenderState
+        //?} else {
+        /*AntEntity
+         *///?}
+        > extends
+        //? if >1.21.2 {
+        EntityModel
+        //?} else {
+        /*HierarchicalModel
+        *///?}
+                <T> {
 	public static final ModelLayerLocation MODEL_LAYER =
 		new ModelLayerLocation(InfinityMethods.getId("ant"), "main");
 
@@ -31,7 +43,9 @@ public class AntModel<T extends AntEntity> extends HierarchicalModel<T> {
 	private final ModelPart back_right_leg;
 
 	public AntModel(ModelPart root) {
-		this.body = root.getChild("body");
+        //? if >1.21.2
+        super(root);
+        this.body = root.getChild("body");
 		this.head = body.getChild("head");
 		this.front_left_leg = body.getChild("front_left_leg");
 		this.center_left_leg = body.getChild("center_left_leg");
@@ -81,25 +95,37 @@ public class AntModel<T extends AntEntity> extends HierarchicalModel<T> {
 		return LayerDefinition.create(modelData, 64, 64);
 	}
     
-    @Override
-    //? if >1.21 {
+    //? if =1.21.1 {
+    /*@Override
     public void renderToBuffer(PoseStack matrices, VertexConsumer vertices, int light, int overlay, int color) {
         body.render(matrices, vertices, light, overlay, color);
     }
-    //?} else {
+    *///?} else if =1.20.1 {
     /*public void renderToBuffer(PoseStack poseStack, VertexConsumer buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
         super.renderToBuffer(poseStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
     }
     *///?}
 
 
-	@Override
+    //? if <1.21.2 {
+	/*@Override
 	public @NotNull ModelPart root() {
 		return body;
 	}
+    *///?}
 
 	@Override
-	public void setupAnim(T entity, float limbAngle, float limbDistance, float animationProgress, float headYaw, float headPitch) {
+    public void setupAnim(T entity
+    //? if <1.21.2 {
+    /*, float limbAngle, float limbDistance, float animationProgress, float headYaw, float headPitch
+    *///?}
+    ) {
+        //? if >1.21.2 {
+        var headYaw = entity.headYaw;
+        var headPitch = entity.headPitch;
+        var limbAngle = entity.limbAngle;
+        var limbDistance = entity.limbDistance;
+        //?}
 		this.root().getAllParts().forEach(ModelPart::resetPose);
 
 		this.head.yRot = Mth.clamp(headYaw, -30.0F, 30.0F) * 0.017453292F;

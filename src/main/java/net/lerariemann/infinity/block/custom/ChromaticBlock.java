@@ -4,14 +4,12 @@ import com.mojang.serialization.MapCodec;
 import net.lerariemann.infinity.block.entity.ChromaticBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.BlockGetter;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.LevelAccessor;
-import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.*;
 import net.minecraft.world.level.block.BaseEntityBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -43,8 +41,16 @@ public class ChromaticBlock extends BaseEntityBlock implements Boopable {
              //?} else {
             /*BlockGetter
             *///?}
-            world, BlockPos pos, BlockState state) {
-        ItemStack res = super.getCloneItemStack(world, pos, state);
+            world, BlockPos pos, BlockState state
+    //? if >1.21.2 {
+            , boolean bl
+    //?}
+    ) {
+        ItemStack res = super.getCloneItemStack(world, pos, state
+        //? if >1.21.2 {
+        , true
+        //?}
+        );
         if (!res.isEmpty() && world.getBlockEntity(pos) instanceof ChromaticBlockEntity cbe) {
             //? if >1.21 {
             res.applyComponents(cbe.asMap());
@@ -97,10 +103,17 @@ public class ChromaticBlock extends BaseEntityBlock implements Boopable {
         //?} else {
         /*public
             *///?}
-         BlockState updateShape(BlockState state, Direction direction, BlockState neighborState, LevelAccessor world, BlockPos pos, BlockPos neighborPos) {
-            return !state.canSurvive(world, pos)
-                    ? Blocks.AIR.defaultBlockState()
-                    : super.updateShape(state, direction, neighborState, world, pos, neighborPos);
+        //? if >1.21.2 {
+        BlockState updateShape(BlockState state, LevelReader world, ScheduledTickAccess scheduledTickAccess, BlockPos pos, Direction direction, BlockPos neighborPos, BlockState neighborState, RandomSource random) {
+        //?} else {
+        /*BlockState updateShape(BlockState state, Direction direction, BlockState neighborState, LevelAccessor world, BlockPos pos, BlockPos neighborPos) {
+            *///?}
+             if (!state.canSurvive(world, pos)) return Blocks.AIR.defaultBlockState();
+             //? if >1.21.2 {
+             return super.updateShape(state, world, scheduledTickAccess, pos, direction, neighborPos, neighborState, random);
+             //?} else {
+             /*return super.updateShape(state, direction, neighborState, world, pos, neighborPos);
+             *///?}
         }
 
         @Override
