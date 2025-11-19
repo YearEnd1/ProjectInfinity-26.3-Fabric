@@ -1,7 +1,9 @@
 package net.lerariemann.infinity.dimensions;
 
 import net.lerariemann.infinity.InfinityMod;
+import net.lerariemann.infinity.util.VersionMethods;
 import net.lerariemann.infinity.util.core.*;
+import net.lerariemann.infinity.util.core.NbtUtils;
 import net.minecraft.nbt.*;
 
 import java.util.*;
@@ -44,7 +46,7 @@ public class RandomBiome {
 
     void rollAndPutSafe(CompoundTag res, String key, Tag randomSound) {
         if (roll(key)) {
-            if (randomSound != null && !randomSound.getAsString().isBlank())
+            if (randomSound != null && !NbtUtils.getAsString(randomSound).isBlank())
                 res.put(key, randomSound);
         }
     }
@@ -90,7 +92,7 @@ public class RandomBiome {
     CompoundTag randomMoodSound() {
         CompoundTag res = new CompoundTag();
         var sound = randomSound();
-        if (sound.getAsString().isEmpty()) {
+        if (NbtUtils.getAsString(sound).isEmpty()) {
             return null;
         }
         res.put("sound", sound);
@@ -103,7 +105,7 @@ public class RandomBiome {
     CompoundTag randomAdditionSound(){
         CompoundTag res = new CompoundTag();
         var sound = randomSound();
-        if (sound.getAsString().isEmpty()) {
+        if (NbtUtils.getAsString(sound).isEmpty()) {
             return null;
         }
         res.put("sound", sound);

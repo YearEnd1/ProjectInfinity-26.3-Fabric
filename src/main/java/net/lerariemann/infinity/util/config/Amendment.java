@@ -42,7 +42,7 @@ public record Amendment(ConfigType area, ModSelector modSelector, Selector selec
             case "matching" -> new MatchingSelector(NbtUtils.getString(data, "matching"));
             case "matching_block_tag" -> new MatchingBlockTagSelector(NbtUtils.getString(data, "matching_block_tag"));
             case "matching_any" -> new MatchingAnySelector(NbtUtils.getList(data, "matching_any", Tag.TAG_STRING)
-                    .stream().map(e->(StringTag)e).map(StringTag::getAsString).toList());
+                    .stream().map(e->(StringTag)e).map(NbtUtils::getAsString).toList());
             default -> {
                 InfinityMod.LOGGER.warn("Unknown amendment selector type: {}", selectorType);
                 yield null;
@@ -125,7 +125,7 @@ public record Amendment(ConfigType area, ModSelector modSelector, Selector selec
         }
 
         public boolean applies(String key) {
-            Block b = BuiltInRegistries.BLOCK.get(ResourceKey.create(Registries.BLOCK, VersionMethods.id(key)));
+            Block b = VersionMethods.getBlock((key));
             if (b != null) {
                 return b.defaultBlockState().is(this.tag);
             }

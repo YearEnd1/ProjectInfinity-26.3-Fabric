@@ -147,9 +147,18 @@ public class DimensionGrabber {
     }
 
     public static <T> RegistryOps.RegistryInfo<T> createMutableInfo(WritableRegistry<T> registry) {
-        return new RegistryOps.RegistryInfo<>(registry.asLookup(), registry.createRegistrationLookup(), registry.registryLifecycle());
+        //? if >1.21.2 {
+        return new RegistryOps.RegistryInfo<>(registry, registry.createRegistrationLookup(), registry.registryLifecycle());
+        //?} else {
+        /*return new RegistryOps.RegistryInfo<>(registry.asLookup(), registry.createRegistrationLookup(), registry.registryLifecycle());
+        *///?}
     }
     public static <T> RegistryOps.RegistryInfo<T> createInfo(Registry<T> registry) {
-        return new RegistryOps.RegistryInfo<>(registry.asLookup(), registry.asTagAddingLookup(), registry.registryLifecycle());
+        //? if >1.21.2 {
+        return new RegistryOps.RegistryInfo<>(registry, registry, registry.registryLifecycle());
+        //?} else {
+        /*return new RegistryOps.RegistryInfo<>(registry.asLookup(), registry.asTagAddingLookup(), registry.registryLifecycle());
+        *///?}
+
     }
 }

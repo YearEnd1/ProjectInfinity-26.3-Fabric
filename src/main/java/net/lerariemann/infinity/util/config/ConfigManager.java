@@ -133,10 +133,10 @@ public interface ConfigManager {
         ListTag l = NbtUtils.getList(c,"content", Tag.TAG_STRING);
         try {
             for (Tag e : l) {
-                Path path1 = configPath.resolve(e.getAsString());
+                Path path1 = configPath.resolve(NbtUtils.getAsString(e));
                 LogManager.getLogger().info(path1);
                 if (path1.toFile().exists()) {
-                    Path path2 = configPath.resolve("evicted").resolve(e.getAsString());
+                    Path path2 = configPath.resolve("evicted").resolve(NbtUtils.getAsString(e));
                     Files.createDirectories(path2);
                     Files.copy(path1, path2, REPLACE_EXISTING);
                     Files.delete(path1);

@@ -9,9 +9,9 @@ import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.SkeletonRenderer;
 
 public class ChaosSkeletonRenderer extends SkeletonRenderer
-        //? if >1.21 {
-        <ChaosSkeleton>
-        //?}
+        //? if <1.21.2 {
+        /*<ChaosSkeleton>
+        *///?}
 {
     public ChaosSkeletonRenderer(EntityRendererProvider.Context context) {
         super(context);

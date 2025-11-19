@@ -69,7 +69,7 @@ public class RandomProvider {
         return applier2.apply(rules, key);
     }
     public static boolean rule(String key) {
-        return getStaticRule((p, k) -> p.gameRules.getOrDefault(k, false), CompoundTag::getBoolean, key, false);
+        return getStaticRule((p, k) -> p.gameRules.getOrDefault(k, false), NbtUtils::getBoolean, key, false);
     }
     public static int ruleInt(String key) {
         return getStaticRule(RandomProvider::_ruleInt, (p, k) -> NbtUtils.getAsInt(Objects.requireNonNull(p.get(k))), key, -1);

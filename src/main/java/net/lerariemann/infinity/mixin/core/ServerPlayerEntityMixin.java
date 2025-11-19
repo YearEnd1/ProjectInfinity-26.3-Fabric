@@ -40,16 +40,19 @@ import java.util.Set;
 
 @Mixin(ServerPlayer.class)
 public abstract class ServerPlayerEntityMixin extends Player implements ServerPlayerEntityAccess {
-    //? if >1.21 {
-    @Shadow public abstract @Nullable Entity changeDimension(TeleportTransition teleportTarget);
-    //?} else {
+    //? if =1.21.1 {
+    /*@Shadow public abstract @Nullable Entity changeDimension(TeleportTransition teleportTarget);
+    *///?} else if =1.20.1 {
     /*@Shadow public ServerGamePacketListenerImpl connection;
     @Shadow private int lastSentExp;
     @Shadow private float lastSentHealth;
     @Shadow private int lastSentFood;
     *///?}
-    @Shadow public abstract boolean hurt(DamageSource source, float amount);
-
+    //? if >1.21.2 {
+    @Shadow public abstract boolean hurtServer(ServerLevel serverLevel, DamageSource source, float amount);
+    //?} else {
+    /*@Shadow public abstract boolean hurt(DamageSource source, float amount);
+    *///?}
     @Shadow
     public abstract Level level();
 
@@ -57,18 +60,30 @@ public abstract class ServerPlayerEntityMixin extends Player implements ServerPl
     @Unique private ResourceLocation infinity$idForWarp;
 
     public ServerPlayerEntityMixin(Level world, BlockPos pos, float yaw, GameProfile gameProfile) {
-        super(world, pos, yaw, gameProfile);
+        super(world,
+                //? if <1.21.2
+                /*pos, yaw,*/
+                 gameProfile);
     }
 
     //? if >1.21 {
     
     @Inject(method="findRespawnAndUseSpawnBlock", at = @At("HEAD"), cancellable = true)
-    private static void injected(ServerLevel world, BlockPos pos, float angle, boolean forced, boolean alive, CallbackInfoReturnable<Optional<Vec3>> cir) {
+    //? if >1.21.2 {
+    private static void noRespawningInTimebombedDimensions(ServerLevel world, ServerPlayer.RespawnConfig respawnConfig, boolean useCharge, CallbackInfoReturnable<Optional<ServerPlayer.RespawnPosAngle>> cir) {
+    //?} else {
+    /*private static void noRespawningInTimebombedDimensions(ServerLevel world, BlockPos pos, float angle, boolean forced, boolean alive, CallbackInfoReturnable<Optional<Vec3>> cir) {
+    *///?}
         if (InfinityMethods.isTimebombed(world)) cir.setReturnValue(Optional.empty());
     }
 
-    @Inject(method = "changeDimension",
+    //? if >1.21.2 {
+    @Inject(method = "teleport(Lnet/minecraft/world/level/portal/TeleportTransition;)Lnet/minecraft/server/level/ServerPlayer;",
             at = @At(value = "INVOKE", target = "Lnet/minecraft/server/MinecraftServer;getPlayerList()Lnet/minecraft/server/players/PlayerList;"))
+    //?} else {
+    /*@Inject(method = "changeDimension",
+            at = @At(value = "INVOKE", target = "Lnet/minecraft/server/MinecraftServer;getPlayerList()Lnet/minecraft/server/players/PlayerList;"))
+    *///?}
     private void injected3(TeleportTransition teleportTarget, CallbackInfoReturnable<Entity> cir) {
         ServerLevel targetWorld = teleportTarget.newLevel();
      //?} else {

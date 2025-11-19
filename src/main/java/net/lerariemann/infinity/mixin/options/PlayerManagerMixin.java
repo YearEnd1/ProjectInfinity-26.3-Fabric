@@ -73,7 +73,7 @@ public class PlayerManagerMixin {
         }
         InfinityMod.LOGGER.info("Sending sound pack to client");
         if (RandomProvider.rule("useSoundSyncPackets")) new ModPayloads.SoundPackS2CPayload(CommonIO.read(
-                player.server.getWorldPath(LevelResource.DATAPACK_DIR).resolve("client_sound_pack_data.json"))).send(player);
+                player.level().getServer().getWorldPath(LevelResource.DATAPACK_DIR).resolve("client_sound_pack_data.json"))).send(player);
     }
 
     @Inject(method="sendLevelInfo", at = @At("TAIL"))

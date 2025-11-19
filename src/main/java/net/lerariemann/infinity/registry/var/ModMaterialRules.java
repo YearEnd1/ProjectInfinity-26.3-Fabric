@@ -44,7 +44,7 @@ public class ModMaterialRules {
             long seed = Mth.getSeed(i, j, k);
             double d = (seed & 0xFFFL) / (double)0xFFFL;
             d = d - Math.floor(d);
-            BlockState st = BuiltInRegistries.BLOCK.get(VersionMethods.id(prov.randomName(d, ConfigType.FULL_BLOCKS_WG))).defaultBlockState();
+            BlockState st = VersionMethods.getBlock(VersionMethods.id(prov.randomName(d, ConfigType.FULL_BLOCKS_WG))).defaultBlockState();
             if(st.hasProperty(BlockStateProperties.PERSISTENT)) st = st.setValue(BlockStateProperties.PERSISTENT, Boolean.TRUE);
             return st;
         }

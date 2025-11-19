@@ -115,15 +115,6 @@ public interface NbtUtils {
         /*return data.contains(key) ? data.getBoolean(key) : def;
         *///?}
     }
-    static ListTag getList(CompoundTag data, String key, ListTag def, byte nbttype) {
-        return data.contains(key) ? data.getList(key
-                //? if <1.21.2
-                /*, nbttype*/
-        )
-                //? if <1.21.2
-                /*.orElse(def)*/
-                : def;
-    }
 
     static String getString(CompoundTag data, String key) {
         return data.getString(key)
@@ -189,6 +180,22 @@ public interface NbtUtils {
                 .orElse(0)
                 //?}
         ;
+    }
+
+    static boolean compoundHasString(CompoundTag compoundTag, String key) {
+        //? if >1.21.5 {
+        return compoundTag.getString(key).isPresent();
+        //?} else {
+        /*compoundTag.getTagType(key) == Tag.TAG_STRING
+        *///?}
+    }
+
+    static boolean compoundHasList(CompoundTag compoundTag, String key) {
+        //? if >1.21.5 {
+        return compoundTag.getList(key).isPresent();
+        //?} else {
+        /*compoundTag.getTagType(key) == Tag.TAG_STRING
+         *///?}
     }
 
     static String elementToName(Tag e) {

@@ -338,7 +338,11 @@ public class ClothConfigFactory {
      */
     public static CompoundTag readNbt(String file) {
         try {
-            return TagParser.parseTag(readConfig(file));
+            //? if >1.21.2 {
+            return TagParser.parseCompoundFully(readConfig(file));
+            //?} else {
+            /*return TagParser.parseTag(readConfig(file));
+            *///?}
         } catch (CommandSyntaxException e) {
             throw new RuntimeException(e);
         }

@@ -190,8 +190,8 @@ public interface CommonIO {
             return "\"" + nbtString.toString().replace("\"", "\\\"") + "\"";
         }
         //?} else {
-        /*
-        } else if (base instanceof ByteTag nbtByte) {
+        
+        /*} else if (base instanceof ByteTag nbtByte) {
             return (nbtByte.getAsByte() != 0) ? "true" : "false";
         } else if (base instanceof DoubleTag nbtDouble) {
             return String.valueOf(boundsCheck(nbtDouble.getAsFloat()));

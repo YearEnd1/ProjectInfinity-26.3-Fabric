@@ -53,7 +53,12 @@ public interface ShaderLoader {
             ((GameRendererAccess)(client.gameRenderer)).infinity$loadPP(InfinityMethods.getId("shaders/" + FILENAME));
             return;
         }
-        client.gameRenderer.shutdownEffect();
+        client.gameRenderer
+        //? if >1.21.2 {
+        .clearPostEffect();
+        //?} else {
+        /*.shutdownEffect();
+        *///?}
     }
 
     static void updateWorldShaderFromDisk(Minecraft client) throws IOException {

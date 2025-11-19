@@ -31,7 +31,7 @@ public class Easterizer {
                 CompoundTag compound = CommonIO.read(p.toFile());
                 if (compound.contains("name"))
                     name = NbtUtils.getString(compound, "name");
-                if (compound.getTagType("aliases") == Tag.TAG_LIST) {
+                if (NbtUtils.compoundHasList(compound, "aliases")) {
                     String finalName = name;
                     NbtUtils.getList(compound, "aliases", Tag.TAG_STRING)
                             .stream()
@@ -39,7 +39,7 @@ public class Easterizer {
                             .map(NbtUtils::getAsString)
                             .forEach(alias -> aliasMap.put(alias, finalName));
                 }
-                else if (compound.getTagType("aliases") == Tag.TAG_STRING)
+                else if (NbtUtils.compoundHasString(compound, "aliases"))
                     aliasMap.put(NbtUtils.getString(compound, "aliases"), name);
                 if (compound.contains("destination")) destinationMap.put(name, VersionMethods.id(NbtUtils.getString(compound, "destination")));
                 else {

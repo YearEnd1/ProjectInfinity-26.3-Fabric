@@ -372,7 +372,7 @@ public interface PortalCreator {
         String key = id.getPath();
         if (comp.contains(key)) {
             ListTag l;
-            if (comp.getTagType(key) == Tag.TAG_STRING) {
+            if (NbtUtils.compoundHasString(comp, key)) {
                 l = new ListTag();
                 l.add(comp.get(key));
             }

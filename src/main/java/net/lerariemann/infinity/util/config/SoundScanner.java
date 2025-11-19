@@ -131,7 +131,7 @@ public record SoundScanner(Map<ResourceLocation, Resource> soundIds) {
 
         data.remove("jukeboxes");
         CompoundTag packData = new CompoundTag();
-        packData.put("entries", NbtUtils.getList(data, "entries", new ListTag(), Tag.TAG_STRING));
+        packData.put("entries", NbtUtils.getList(data, "entries", Tag.TAG_STRING));
         CommonIO.write(packData, server.getWorldPath(LevelResource.DATAPACK_DIR), "client_sound_pack_data.json");
     }
 

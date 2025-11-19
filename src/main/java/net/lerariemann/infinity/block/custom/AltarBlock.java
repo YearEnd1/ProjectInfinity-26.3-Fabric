@@ -3,6 +3,7 @@ package net.lerariemann.infinity.block.custom;
 import net.lerariemann.infinity.block.entity.BiomeBottleBlockEntity;
 import net.lerariemann.infinity.registry.core.ModBlocks;
 import net.lerariemann.infinity.registry.var.ModCriteria;
+import net.lerariemann.infinity.util.VersionMethods;
 import net.lerariemann.infinity.util.var.BishopBattle;
 import net.minecraft.core.BlockPos;
 //? if >1.21 {
@@ -80,7 +81,7 @@ public class AltarBlock extends Block {
                         new BlockItemStateProperties(Map.of())
                                 .with(AltarBlock.COLOR, color)
                                 .with(AltarBlock.FLOWER, flower))
-                .set(DataComponents.CUSTOM_MODEL_DATA, new CustomModelData(color +
+                .set(DataComponents.CUSTOM_MODEL_DATA, VersionMethods.getColoredModel(color +
                         (flower ? AltarBlock.numColors : 0)))
                 .build();
         return DataComponentPatch.EMPTY;

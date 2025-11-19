@@ -29,12 +29,14 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.alchemy.Potion;
+import net.minecraft.world.item.component.CustomModelData;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -334,6 +336,10 @@ public interface VersionMethods {
         return null;
     }
 
+    static CustomModelData getColoredModel(int color) {
+        return new CustomModelData(List.of(), List.of(), List.of(), List.of(color));
+    }
+
     static <T> T getFromRegistry(Registry<T> registry, ResourceLocation name) {
         return registry.getValue(name);
     }
@@ -355,6 +361,9 @@ public interface VersionMethods {
     }
     static InteractionResultHolder<ItemStack> consume(ItemStack stack) {
         return InteractionResultHolder.consume(stack);
+    }
+    static CustomModelData getColoredModel(int color) {
+        return new CustomModelData(color);
     }
     static ItemStack getInteractionHolderResult(InteractionResultHolder<ItemStack> result) {
         return result.getObject();

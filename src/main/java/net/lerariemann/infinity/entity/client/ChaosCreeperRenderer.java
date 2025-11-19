@@ -5,6 +5,7 @@ import net.minecraft.client.model.CreeperModel;
 import net.minecraft.client.model.geom.ModelLayers;
 import net.minecraft.client.renderer.entity.CreeperRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
+import net.minecraft.client.renderer.entity.state.CreeperRenderState;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.monster.Creeper;
 
@@ -12,7 +13,13 @@ public class ChaosCreeperRenderer extends CreeperRenderer {
     private static final ResourceLocation TEXTURE2 = InfinityMethods.getId("textures/entity/creeper.png");
 
     @Override
-    public ResourceLocation getTextureLocation(Creeper creeperEntity) {
+    public ResourceLocation getTextureLocation(
+            //? if >1.21.2 {
+            CreeperRenderState
+            //?} else {
+            /*Creeper
+            *///?}
+                    creeperEntity) {
         return TEXTURE2;
     }
 

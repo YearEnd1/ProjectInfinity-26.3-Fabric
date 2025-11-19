@@ -15,8 +15,10 @@ import net.minecraft.world.level.chunk.storage.ChunkIOErrorReporter;
 //?}
 import net.minecraft.server.TickTask;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.server.level.progress.ChunkProgressListener;
+//? if <1.21.2 {
+/*import net.minecraft.server.level.progress.ChunkProgressListener;
 import net.minecraft.server.level.progress.ChunkProgressListenerFactory;
+*///?}
 import net.minecraft.util.thread.ReentrantBlockableEventLoop;
 import net.minecraft.world.RandomSequences;
 import net.minecraft.world.level.CustomSpawner;
@@ -57,8 +59,10 @@ public abstract class MinecraftServerMixin extends ReentrantBlockableEventLoop<T
     protected LevelStorageSource.LevelStorageAccess storageSource;
     @Final @Shadow
     protected WorldData worldData;
-    @Final @Shadow
+    //? if <1.21.2 {
+    /*@Final @Shadow
     private ChunkProgressListenerFactory progressListenerFactory;
+    *///?}
 
     public MinecraftServerMixin(String string) {
         super(string);
@@ -68,8 +72,14 @@ public abstract class MinecraftServerMixin extends ReentrantBlockableEventLoop<T
     public ServerLevel getLevel(ResourceKey<Level> key) {
         return null;
     }
+
     @Shadow
-    protected TickTask wrapRunnable(Runnable runnable) {
+    //? if >1.21.2 {
+    public
+    //?} else {
+    /*protected
+    *///?}
+    TickTask wrapRunnable(Runnable runnable) {
         return null;
     }
 
@@ -117,21 +127,30 @@ public abstract class MinecraftServerMixin extends ReentrantBlockableEventLoop<T
                 serverWorldProperties,
                 key,
                 options,
-                progressListenerFactory.create(
+                //? if <1.21.2 {
+                /*progressListenerFactory.create(
                         //? if >1.21 {
                         worldData.getGameRules().getInt(GameRules.RULE_SPAWN_CHUNK_RADIUS)
                         //?} else {
-                        /*2
-                        *///?}
+                        /^2
+                        ^///?}
                 ),
+                *///?}
                 worldData.isDebugWorld(),
                 BiomeManager.obfuscateSeed(worldData.worldGenOptions().seed()),
                 ImmutableList.of(),
                 false,
                 getLevel(Level.OVERWORLD).getRandomSequences());
-        getLevel(Level.OVERWORLD).getWorldBorder().addListener(new BorderChangeListener.DelegateBorderChangeListener(world.getWorldBorder()));
+        //? if <1.21.2 {
+        /*getLevel(Level.OVERWORLD).getWorldBorder().addListener(new BorderChangeListener.DelegateBorderChangeListener(world.getWorldBorder()));
+        *///?}
         infinity$worldsToAdd.put(key, world);
-        tell(wrapRunnable(() -> {
+        //? if >1.21.2 {
+        doRunTask
+        //?} else {
+        /*tell
+        *///?}
+                (wrapRunnable(() -> {
             levels.put(key, world);
             infinity$worldsToAdd.clear();
             PlatformMethods.onWorldLoad(this, world);
@@ -144,9 +163,20 @@ public abstract class MinecraftServerMixin extends ReentrantBlockableEventLoop<T
     }
 
     /* Makes weather properly work in infdims. */
-    @Redirect(method="createLevels", at=@At(value="NEW", target="(Lnet/minecraft/server/MinecraftServer;Ljava/util/concurrent/Executor;Lnet/minecraft/world/level/storage/LevelStorageSource$LevelStorageAccess;Lnet/minecraft/world/level/storage/ServerLevelData;Lnet/minecraft/resources/ResourceKey;Lnet/minecraft/world/level/dimension/LevelStem;Lnet/minecraft/server/level/progress/ChunkProgressListener;ZJLjava/util/List;ZLnet/minecraft/world/RandomSequences;)Lnet/minecraft/server/level/ServerLevel;"))
-    public ServerLevel create(MinecraftServer server, Executor workerExecutor, LevelStorageSource.LevelStorageAccess session, ServerLevelData properties, ResourceKey<Level> worldKey, LevelStem dimensionOptions, ChunkProgressListener worldGenerationProgressListener, boolean debugWorld, long seed, List<CustomSpawner> spawners, boolean shouldTickTime, RandomSequences randomSequencesState) {
+    //? if >1.21.2 {
+    @Redirect(method="createLevels", at=@At(value="NEW", target="(Lnet/minecraft/server/MinecraftServer;Ljava/util/concurrent/Executor;Lnet/minecraft/world/level/storage/LevelStorageSource$LevelStorageAccess;Lnet/minecraft/world/level/storage/ServerLevelData;Lnet/minecraft/resources/ResourceKey;Lnet/minecraft/world/level/dimension/LevelStem;ZJLjava/util/List;ZLnet/minecraft/world/RandomSequences;)Lnet/minecraft/server/level/ServerLevel;"))
+    //?} else {
+    /*@Redirect(method="createLevels", at=@At(value="NEW", target="(Lnet/minecraft/server/MinecraftServer;Ljava/util/concurrent/Executor;Lnet/minecraft/world/level/storage/LevelStorageSource$LevelStorageAccess;Lnet/minecraft/world/level/storage/ServerLevelData;Lnet/minecraft/resources/ResourceKey;Lnet/minecraft/world/level/dimension/LevelStem;Lnet/minecraft/server/level/progress/ChunkProgressListener;ZJLjava/util/List;ZLnet/minecraft/world/RandomSequences;)Lnet/minecraft/server/level/ServerLevel;"))
+    *///?}
+
+    public ServerLevel create(MinecraftServer server, Executor workerExecutor, LevelStorageSource.LevelStorageAccess session, ServerLevelData properties, ResourceKey<Level> worldKey, LevelStem dimensionOptions,
+                              //? if <1.21.2
+                              /*ChunkProgressListener worldGenerationProgressListener,*/
+                              boolean debugWorld, long seed, List<CustomSpawner> spawners, boolean shouldTickTime, RandomSequences randomSequencesState) {
         ServerLevelData prop = (worldKey.location().toString().contains("infinity")) ? worldData.overworldData() : properties;
-        return new ServerLevel(server, workerExecutor, session, prop, worldKey, dimensionOptions, worldGenerationProgressListener, debugWorld, seed, spawners, shouldTickTime, randomSequencesState);
+        return new ServerLevel(server, workerExecutor, session, prop, worldKey, dimensionOptions
+                //? if <1.21.2
+                /*, worldGenerationProgressListener*/
+                , debugWorld, seed, spawners, shouldTickTime, randomSequencesState);
     }
 }

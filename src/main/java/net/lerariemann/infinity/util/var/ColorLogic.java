@@ -55,7 +55,7 @@ public interface ColorLogic {
             Map.entry(BlockTags.WOOL_CARPETS, "$_carpet"));
 
     static Block getBlockByColor(String color, TagKey<Block> type) {
-        return BuiltInRegistries.BLOCK.get(VersionMethods.id(supportedBlockTypes.get(type)
+        return VersionMethods.getBlock(VersionMethods.id(supportedBlockTypes.get(type)
                 .replace("$", color)));
     }
     static Block getBlockByColor(DyeColor color, TagKey<Block> type) {

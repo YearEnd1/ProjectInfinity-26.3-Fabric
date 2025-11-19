@@ -7,6 +7,7 @@ import me.shedaniel.clothconfig2.api.ConfigBuilder;
 import me.shedaniel.clothconfig2.api.ConfigCategory;
 import net.lerariemann.infinity.InfinityMod;
 import net.lerariemann.infinity.util.InfinityMethods;
+import net.lerariemann.infinity.util.VersionMethods;
 import net.lerariemann.infinity.util.core.CommonIO;
 import net.lerariemann.infinity.util.core.NbtUtils;
 import net.minecraft.nbt.CompoundTag;
@@ -49,9 +50,9 @@ public class EasterConfigFactory {
         }
         // If a dimension should be disabled...
         else {
-            if (!rootConfig.getList("disabledDimensions", 8).contains(StringTag.valueOf(name))) {
+            if (!NbtUtils.getList(rootConfig, "disabledDimensions", Tag.TAG_STRING).contains(StringTag.valueOf(name))) {
                 // remove it from the list of disabled dimensions.
-                rootConfig.getList("disabledDimensions", 8).add(StringTag.valueOf(name));
+                NbtUtils.getList(rootConfig, "disabledDimensions", Tag.TAG_STRING).add(StringTag.valueOf(name));
 
                 CommonIO.write(rootConfig, configPath(), "infinity.json");
             }

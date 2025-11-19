@@ -69,11 +69,13 @@ public class ChromaticColoringRecipe implements CraftingRecipe {
     public enum Type implements RecipeType<ChromaticColoringRecipe> {
         INSTANCE
     }
-    @Override
+    //? if <1.21.2 {
+    /*@Override
     public RecipeType<? extends Recipe<CraftingInput>>
     getType() {
         return Type.INSTANCE;
     }
+    *///?}
 
     //? if >1.21.2 {
     @Override
@@ -181,7 +183,7 @@ public class ChromaticColoringRecipe implements CraftingRecipe {
     }
 
     @Override
-    public RecipeSerializer<? extends Recipe<CraftingInput>> getSerializer() {
+    public RecipeSerializer<? extends CraftingRecipe> getSerializer() {
         return ModItemFunctions.CHROMATIC_COLORING.get();
     }
 

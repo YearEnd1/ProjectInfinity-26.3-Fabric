@@ -7,6 +7,8 @@ import net.lerariemann.infinity.util.var.BishopBattle;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.FluidTags;
@@ -27,6 +29,7 @@ import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
@@ -35,12 +38,16 @@ import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 //?}
+import net.minecraft.world.level.storage.loot.LootParams;
+import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Optional;
+import java.util.function.BiConsumer;
+import java.util.function.Function;
 
 public class AntEntity extends AbstractChessFigure {
     @Nullable
@@ -58,10 +65,20 @@ public class AntEntity extends AbstractChessFigure {
     public boolean isBlackOrWhite() {
         return true;
     }
-    @Override
+    //? if <1.21.2 {
+    /*@Override
     public boolean shouldDropLoot() {
         return dropsLoot;
     }
+    *///?} else {
+    @Override
+    protected boolean dropFromLootTable(ServerLevel level, ResourceKey<LootTable> lootTable, Function<LootParams.Builder, LootParams> paramsBuilder, BiConsumer<ServerLevel, ItemStack> dropConsumer) {
+        if (dropsLoot)
+            return super.dropFromLootTable(level, lootTable, paramsBuilder, dropConsumer);
+        return false;
+    }
+    //?}
+
     public void addToBattle(BishopBattle battle) {
         battle.addEntity(this);
         dropsLoot = false;

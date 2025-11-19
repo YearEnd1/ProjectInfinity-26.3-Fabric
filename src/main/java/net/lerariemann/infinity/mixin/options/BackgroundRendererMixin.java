@@ -6,7 +6,11 @@ import net.lerariemann.infinity.options.InfinityOptions;
 import net.lerariemann.infinity.util.InfinityMethods;
 import net.minecraft.client.Camera;
 import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.client.renderer.FogRenderer;
+//? if >1.21.2 {
+import net.minecraft.client.renderer.fog.FogRenderer;
+//?} else {
+/*import net.minecraft.client.renderer.FogRenderer;
+*///?}
 import net.minecraft.util.Mth;
 import net.minecraft.world.level.material.FogType;
 import org.spongepowered.asm.mixin.Mixin;
@@ -20,7 +24,9 @@ import java.awt.Color;
 
 @Mixin(FogRenderer.class)
 public class BackgroundRendererMixin {
-    @Shadow
+    //FIXME 1.21.10
+    //? if <1.21.2 {
+    /*@Shadow
     private static float fogRed;
     @Shadow
     private static float fogGreen;
@@ -37,7 +43,7 @@ public class BackgroundRendererMixin {
         }
     }
 
-    /* Disable void fog in custom dimensions. */
+    /^ Disable void fog in custom dimensions. ^/
     @ModifyExpressionValue(method = "setupColor(Lnet/minecraft/client/Camera;FLnet/minecraft/client/multiplayer/ClientLevel;IF)V",
     at = @At(value = "INVOKE", target = "Lnet/minecraft/client/multiplayer/ClientLevel$ClientLevelData;getClearColorScale()F"))
     private static float inj(float original, @Local(argsOnly = true) ClientLevel world) {
@@ -55,4 +61,5 @@ public class BackgroundRendererMixin {
         fogGreen = f * (float)(color >> 8 & 0xFF) / 255.0f;
         fogBlue = f * (float)(color & 0xFF) / 255.0f;
     }
+    *///?}
 }

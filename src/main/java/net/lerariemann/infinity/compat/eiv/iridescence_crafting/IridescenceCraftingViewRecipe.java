@@ -11,6 +11,7 @@ import net.lerariemann.infinity.registry.core.ModBlocks;
 import net.lerariemann.infinity.registry.core.ModComponentTypes;
 import net.lerariemann.infinity.registry.core.ModItems;
 import net.lerariemann.infinity.util.InfinityMethods;
+import net.lerariemann.infinity.util.VersionMethods;
 import net.lerariemann.infinity.util.var.ColorLogic;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.core.component.DataComponentPatch;
@@ -31,7 +32,7 @@ public class IridescenceCraftingViewRecipe implements IEivViewRecipe {
         DataComponentPatch.Builder b = DataComponentPatch.builder();
         if (output.getItem() instanceof PortalDataHolder) {
             b = b.set(ModComponentTypes.COLOR.get(), ColorLogic.defaultPortal);
-            b = b.set(DataComponents.CUSTOM_MODEL_DATA, InfinityMethods.getColoredModel(ColorLogic.defaultPortal));
+            b = b.set(DataComponents.CUSTOM_MODEL_DATA, VersionMethods.getColoredModel(ColorLogic.defaultPortal));
         }
         if (output.getItem() instanceof PortalDataHolder.Destinable) {
             b = b.set(ModComponentTypes.DESTINATION.get(), ResourceLocation.parse("infinity:generated_0"));

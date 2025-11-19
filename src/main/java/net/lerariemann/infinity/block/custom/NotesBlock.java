@@ -21,6 +21,7 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
 import net.minecraft.world.level.gameevent.GameEvent;
+import net.minecraft.world.level.redstone.Orientation;
 import net.minecraft.world.phys.BlockHitResult;
 import org.jetbrains.annotations.Nullable;
 
@@ -55,7 +56,13 @@ public class NotesBlock extends Block {
      //?} else {
     /*public
         *///?}
-    void neighborChanged(BlockState state, Level world, BlockPos pos, Block sourceBlock, BlockPos sourcePos, boolean notify) {
+    void neighborChanged(BlockState state, Level world, BlockPos pos, Block sourceBlock,
+                         //? if >1.21.2 {
+                         Orientation orientation
+                         //?} else {
+                          /*BlockPos sourcePos
+                         *///?}
+            , boolean notify) {
         boolean bl = world.hasNeighborSignal(pos);
         if (bl != state.getValue(POWERED)) {
             if (bl) this.play(null, world, pos);

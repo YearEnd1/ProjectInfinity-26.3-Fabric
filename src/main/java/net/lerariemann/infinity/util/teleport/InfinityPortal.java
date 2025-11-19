@@ -154,7 +154,7 @@ public class InfinityPortal {
         else if (!ipbe.isOpen())
             InfinityMod.provider.getPortalKeyAsItem().ifPresent(item -> player.sendSystemMessage(
                     Component.translatable("error.infinity.portal.closed",
-                            ((MutableComponent)item.getDescription()).withStyle(ChatFormatting.AQUA))));
+                            Component.translatable(item.getDescriptionId()).withStyle(ChatFormatting.AQUA))));
         else player.sendSystemMessage(Component.translatable("error.infinity.portal.null"));
     }
 

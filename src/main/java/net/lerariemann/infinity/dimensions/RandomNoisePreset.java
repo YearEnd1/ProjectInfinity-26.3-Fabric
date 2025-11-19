@@ -177,7 +177,7 @@ public class RandomNoisePreset {
                     ListTag biomes = NbtUtils.getList(compound, "biomes", Tag.TAG_STRING);
                     ListTag biomestoadd = new ListTag();
                     for (Tag b : biomes) {
-                        if (parent.vanilla_biomes.contains(b.getAsString())) biomestoadd.add(b);
+                        if (parent.vanilla_biomes.contains(NbtUtils.getAsString(b))) biomestoadd.add(b);
                     }
                     if (!biomestoadd.isEmpty()) {
                         CompoundTag rule = NbtUtils.getCompound(compound, "rule");

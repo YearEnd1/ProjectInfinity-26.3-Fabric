@@ -36,8 +36,8 @@ public class AmendmentConfigFactory {
 
         ListTag list = readNbt(configPath()+"/amendments.json")
                 //? if <1.21.2 {
-                /*.getList("elements" , 10*/
-                //?} else {
+                /*.getList("elements" , 10
+                *///?} else {
                 .getListOrEmpty("elements"
                 //?}
         );
