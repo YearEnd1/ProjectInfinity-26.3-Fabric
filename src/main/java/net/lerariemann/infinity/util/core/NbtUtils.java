@@ -6,9 +6,9 @@ import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
 //? if >1.21.5 {
 import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 //?}
 
-import java.util.List;
 import java.util.Random;
 import java.util.Set;
 
@@ -69,6 +69,21 @@ public interface NbtUtils {
     }
     static boolean getBoolean(ValueInput data, String key) {
         return getBoolean(data, key, false);
+    }
+    static void putColors(ValueOutput nbt, String key, CompoundTag tag) {
+        ValueOutput child = nbt.child(key);
+        for (String s : tag.keySet()) {
+            child.putInt(s, tag.getIntOr(s, -1));
+        }
+    }
+    static CompoundTag getColors(ValueInput data, String key) {
+        var tag = new CompoundTag();
+        var child = data.child(key).orElseThrow();
+        for (String s : child.keys()) {
+            tag.putInt(s, child.getIntOr(s, -1));
+        }
+        return tag;
+
     }
     //?}
 

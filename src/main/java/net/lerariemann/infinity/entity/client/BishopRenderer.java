@@ -23,7 +23,7 @@ public class BishopRenderer extends HumanoidMobRenderer<BishopEntity,
         //? if >1.21.9 {
         this.addLayer(new HumanoidArmorLayer<>(this,
                 new BishopModel(context.bakeLayer(ModelLayers.SKELETON_ARMOR)),
-                new BishopModel(context.bakeLayer(ModelLayers.STRAY_OUTER_LAYER)),
+                new BishopModel(context.bakeLayer(ModelLayers.SKELETON_ARMOR)),
                 context.getEquipmentRenderer()));
         //?} else {
         /*this.addLayer(new HumanoidArmorLayer<>(this,

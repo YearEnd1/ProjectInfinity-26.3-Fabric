@@ -16,7 +16,9 @@ import java.util.List;
 
 @Mixin(PostChain.class)
 public abstract class PostEffectProcessorMixin {
-    @Shadow
+    //FIXME 1.21.10
+    //? if <1.21.2 {
+    /*@Shadow
     private float time;
     @Final
     @Shadow
@@ -28,6 +30,7 @@ public abstract class PostEffectProcessorMixin {
 
     @Shadow
     private float lastStamp;
+    *///?}
 
     //? if =1.21.1 {
     /*@Shadow protected abstract void setFilterMode(int texFilter);
@@ -65,8 +68,8 @@ public abstract class PostEffectProcessorMixin {
             ci.cancel();
         }
     }
-    *///?} else {
-    /* Hook for the iridescence shader to receive the time uniform */
+    *///?} else if =1.20.1 {
+    /*/^ Hook for the iridescence shader to receive the time uniform ^/
     @Inject(method="process", at = @At("HEAD"), cancellable = true)
     void inj(float tickDelta, CallbackInfo ci) {
         if (name.contains("infinity")) {
@@ -84,5 +87,5 @@ public abstract class PostEffectProcessorMixin {
             ci.cancel();
         }
     }
-    //?}
+    *///?}
 }

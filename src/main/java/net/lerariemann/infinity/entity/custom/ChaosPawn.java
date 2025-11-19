@@ -8,15 +8,15 @@ import net.lerariemann.infinity.util.core.ConfigType;
 import net.lerariemann.infinity.util.core.NbtUtils;
 import net.lerariemann.infinity.util.core.RandomProvider;
 //? if >1.21 {
-import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.component.DataComponentMap;
 import net.minecraft.core.component.DataComponents;
 //?}
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializer;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.resources.ResourceKey;
@@ -54,7 +54,7 @@ import java.util.function.Supplier;
 @ParametersAreNonnullByDefault
 *///?}
 public class ChaosPawn extends AbstractChessFigure {
-    public static final EntityDataAccessor<CompoundTag> colors = SynchedEntityData.defineId(ChaosPawn.class, EntityDataSerializers.COMPOUND_TAG);
+    public static final EntityDataAccessor<CompoundTag> colors = SynchedEntityData.defineId(ChaosPawn.class, EntityDataSerializer.forValueType(ByteBufCodecs.COMPOUND_TAG));
     public static final EntityDataAccessor<Integer> special_case = SynchedEntityData.defineId(ChaosPawn.class, EntityDataSerializers.INT);
 
     public ChaosPawn(EntityType<? extends ChaosPawn> entityType, Level world) {
@@ -126,7 +126,7 @@ public class ChaosPawn extends AbstractChessFigure {
              *///?}
             nbt) {
         super.addAdditionalSaveData(nbt);
-        nbt.put("colors", getColors());
+        NbtUtils.putColors(nbt, "colors", getColors());
         nbt.putInt("case", getCase());
     }
     @Override
@@ -138,7 +138,7 @@ public class ChaosPawn extends AbstractChessFigure {
              *///?}
             nbt) {
         super.readAdditionalSaveData(nbt);
-        this.setColors(NbtUtils.getCompound(nbt, "colors"));
+        this.setColors(NbtUtils.getColors(nbt, "colors"));
         this.entityData.set(special_case, NbtUtils.getInt(nbt, "case"));
     }
 

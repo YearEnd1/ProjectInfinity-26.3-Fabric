@@ -17,19 +17,7 @@ import net.minecraft.client.model.geom.builders.PartDefinition;
 import net.minecraft.util.Mth;
 import org.jetbrains.annotations.NotNull;
 
-public class AntModel<T extends
-        //? if >1.21.2 {
-        AntEntityRenderState
-        //?} else {
-        /*AntEntity
-         *///?}
-        > extends
-        //? if >1.21.2 {
-        EntityModel
-        //?} else {
-        /*HierarchicalModel
-        *///?}
-                <T> {
+public class AntModel extends EntityModel<AntEntityRenderState> {
 	public static final ModelLayerLocation MODEL_LAYER =
 		new ModelLayerLocation(InfinityMethods.getId("ant"), "main");
 
@@ -115,10 +103,12 @@ public class AntModel<T extends
     *///?}
 
 	@Override
-    public void setupAnim(T entity
+    public void setupAnim(
     //? if <1.21.2 {
-    /*, float limbAngle, float limbDistance, float animationProgress, float headYaw, float headPitch
-    *///?}
+    /*T entity, float limbAngle, float limbDistance, float animationProgress, float headYaw, float headPitch
+    *///?} else {
+    AntEntityRenderState entity
+    //?}
     ) {
         //? if >1.21.2 {
         var headYaw = entity.headYaw;
