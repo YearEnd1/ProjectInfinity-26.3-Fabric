@@ -27,18 +27,18 @@ import net.minecraft.world.level.material.MapColor;
 import java.nio.file.Path;
 
 //? if >1.21 {
-/*import net.minecraft.core.component.DataComponentType;
+import net.minecraft.core.component.DataComponentType;
 import java.util.function.Supplier;
 import net.minecraft.world.item.enchantment.ItemEnchantments;
 import net.minecraft.world.item.ItemStack;
-*///?}
-//? if >1.21 && fabric {
-/*import net.fabricmc.fabric.api.event.lifecycle.v1.ServerWorldEvents;
-import net.fabricmc.fabric.api.tag.convention.v2.ConventionalBlockTags;
-*///?}
-//? if <1.21 && fabric {
-import net.fabricmc.fabric.api.event.lifecycle.v1.ServerWorldEvents;
 //?}
+//? if >1.21 && fabric {
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerWorldEvents;
+import net.fabricmc.fabric.api.tag.convention.v2.ConventionalBlockTags;
+//?}
+//? if <1.21 && fabric {
+/*import net.fabricmc.fabric.api.event.lifecycle.v1.ServerWorldEvents;
+*///?}
 
 //? fabric {
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
@@ -121,11 +121,11 @@ public interface PlatformMethods {
      */
     static void onWorldLoad(Object mixin, ServerLevel world) {
         //? if >1.21 && fabric {
-        /*ServerWorldEvents.LOAD.invoker().onWorldLoad((MinecraftServer)mixin, world);
-        *///?}
-        //? if <1.21 && fabric {
-        ServerWorldEvents.LOAD.invoker().onWorldLoad((MinecraftServer) mixin, world);
+        ServerWorldEvents.LOAD.invoker().onWorldLoad((MinecraftServer)mixin, world);
         //?}
+        //? if <1.21 && fabric {
+        /*ServerWorldEvents.LOAD.invoker().onWorldLoad((MinecraftServer) mixin, world);
+        *///?}
         //? neoforge {
         /*MinecraftServer server = world.getServer();
         server.forgeGetWorldMap().put(world.dimension(),world);
@@ -160,11 +160,11 @@ public interface PlatformMethods {
      */
     static boolean isInBlack(BlockState state) {
         //? if <1.21 {
-        return BuiltInRegistries.BLOCK.getKey(state.getBlock()).getPath().contains("black_");
-        //?}
-        //? if >1.21 && fabric {
-        /*return state.is(ConventionalBlockTags.BLACK_DYED);
+        /*return BuiltInRegistries.BLOCK.getKey(state.getBlock()).getPath().contains("black_");
         *///?}
+        //? if >1.21 && fabric {
+        return state.is(ConventionalBlockTags.BLACK_DYED);
+        //?}
         //? neoforge {
         /*return state.is(Tags.Blocks.DYED_BLACK);
         *///?}
@@ -175,11 +175,11 @@ public interface PlatformMethods {
      */
     static boolean isInWhite(BlockState state) {
         //? if <1.21 {
-        return BuiltInRegistries.BLOCK.getKey(state.getBlock()).getPath().contains("white_");
-        //?}
-        //? if >1.21 && fabric {
-        /*return state.is(ConventionalBlockTags.WHITE_DYED);
+        /*return BuiltInRegistries.BLOCK.getKey(state.getBlock()).getPath().contains("white_");
         *///?}
+        //? if >1.21 && fabric {
+        return state.is(ConventionalBlockTags.WHITE_DYED);
+        //?}
         //? neoforge {
         /*return state.is(Tags.Blocks.DYED_WHITE);
         *///?}
@@ -329,13 +329,13 @@ public interface PlatformMethods {
     }
 
     //? if >1.21 && fabric {
-    /*static Item.Properties deferredIntComponent(Supplier<DataComponentType<Integer>> componentTypeSupplier, int i) {
+    static Item.Properties deferredIntComponent(Supplier<DataComponentType<Integer>> componentTypeSupplier, int i) {
         return new Item.Properties().component(componentTypeSupplier.get(), i);
     }
     static ItemEnchantments getEnchantments(ItemStack weapon, MinecraftServer s) {
         return weapon.getEnchantments();
     }
-    *///?}
+    //?}
 
     //? if >1.21 && neoforge {
     /*static Item.Properties deferredIntComponent(Supplier<DataComponentType<Integer>> componentTypeSupplier, int i) {

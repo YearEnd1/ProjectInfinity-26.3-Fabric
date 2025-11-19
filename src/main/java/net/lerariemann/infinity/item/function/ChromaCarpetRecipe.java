@@ -6,9 +6,9 @@ import net.lerariemann.infinity.registry.core.ModItems;
 import net.lerariemann.infinity.util.VersionMethods;
 import net.minecraft.core.RegistryAccess;
 //? if >1.21 {
-/*import net.minecraft.world.item.crafting.CraftingInput;
+import net.minecraft.world.item.crafting.CraftingInput;
 import net.minecraft.core.HolderLookup;
-*///?}
+//?}
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.inventory.CraftingContainer;
 import net.minecraft.world.item.ItemStack;
@@ -22,31 +22,31 @@ import org.jetbrains.annotations.NotNull;
 public class ChromaCarpetRecipe extends CustomRecipe {
     public ChromaCarpetRecipe(
             //? if <1.21
-            ResourceLocation id,
+            /*ResourceLocation id,*/
             CraftingBookCategory craftingRecipeCategory) {
         super(
                 //? if <1.21
-                id,
+                /*id,*/
                 craftingRecipeCategory);
     }
 
     public boolean matches(
             //? if >1.21 {
-            /*CraftingInput
-             *///?} else {
-            CraftingContainer
-            //?}
+            CraftingInput
+             //?} else {
+            /*CraftingContainer
+            *///?}
             craftingRecipeInput, Level world) {
         Integer color = null;
         int k_first = 0;
         boolean carpetDone = false;
         //? if >1.21 {
-        /*int w = craftingRecipeInput.width();
+        int w = craftingRecipeInput.width();
         int size = craftingRecipeInput.size();
-        *///?} else {
-        int w = craftingRecipeInput.getWidth();
+        //?} else {
+        /*int w = craftingRecipeInput.getWidth();
         int size = craftingRecipeInput.getContainerSize();
-        //?}
+        *///?}
         for (int k = 0; k < size; k++) {
             ItemStack itemStack = craftingRecipeInput.getItem(k);
             if (itemStack.is(ModItems.CHROMATIC_WOOL.get())) {
@@ -69,25 +69,25 @@ public class ChromaCarpetRecipe extends CustomRecipe {
 
     public @NotNull ItemStack assemble(
             //? if >1.21 {
-            /*CraftingInput
-             *///?} else {
-            CraftingContainer
-            //?}
+            CraftingInput
+             //?} else {
+            /*CraftingContainer
+            *///?}
             craftingRecipeInput,
             //? if >1.21 {
-            /*HolderLookup.Provider
-            *///?} else {
-            RegistryAccess
-            //?}
+            HolderLookup.Provider
+            //?} else {
+            /*RegistryAccess
+            *///?}
             registryAccess
     ) {
         int color = 0;
         //? if >1.21 {
         
-        /*int size = craftingRecipeInput.size();
-        *///?} else {
-        int size = craftingRecipeInput.getContainerSize();
-        //?}
+        int size = craftingRecipeInput.size();
+        //?} else {
+        /*int size = craftingRecipeInput.getContainerSize();
+        *///?}
         for (int k = 0; k < size; k++) {
             ItemStack itemStack = craftingRecipeInput.getItem(k);
             if (itemStack.is(ModItems.CHROMATIC_WOOL.get())) {
@@ -106,7 +106,7 @@ public class ChromaCarpetRecipe extends CustomRecipe {
     }
 
     @Override
-    public RecipeSerializer<?> getSerializer() {
+    public RecipeSerializer<ChromaCarpetRecipe> getSerializer() {
         return ModItemFunctions.CARPET.get();
     }
 }

@@ -41,8 +41,8 @@ public class InfinityMod {
         ConfigManager.updateInvocationUnlock();
         ConfigManager.unpackDefaultConfigs();
         //? if >1.21 {
-        /*ModComponentTypes.registerComponentTypes();
-        *///?}
+        ModComponentTypes.registerComponentTypes();
+        //?}
         ModStatusEffects.registerModEffects();
         ModItemFunctions.registerItemFunctions();
         ModEntities.registerEntities();

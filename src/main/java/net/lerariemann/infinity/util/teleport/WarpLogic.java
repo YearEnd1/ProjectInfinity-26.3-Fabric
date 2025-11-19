@@ -7,6 +7,7 @@ import net.lerariemann.infinity.access.ServerPlayerEntityAccess;
 import net.lerariemann.infinity.registry.var.ModCommands;
 import net.lerariemann.infinity.registry.var.ModStats;
 import net.lerariemann.infinity.util.InfinityMethods;
+import net.lerariemann.infinity.util.VersionMethods;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.Registries;
@@ -27,8 +28,8 @@ import net.minecraft.world.level.dimension.DimensionType;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
 //? if >1.21 {
-/*import net.minecraft.world.level.portal.DimensionTransition;
-*///?}
+import net.minecraft.world.level.portal.TeleportTransition;
+//?}
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -113,10 +114,17 @@ public interface WarpLogic {
     static void respawnAlive(@Nullable ServerPlayer player) {
         if (player == null) return;
         //? if >1.21 {
-        /*DimensionTransition targ = player.findRespawnPositionAndUseSpawnBlock(true, DimensionTransition.DO_NOTHING);
-        player.teleportTo(targ.newLevel(), targ.pos().x, targ.pos().y, targ.pos().z, targ.yRot(), targ.xRot());
+        TeleportTransition targ = player.findRespawnPositionAndUseSpawnBlock(true, TeleportTransition.DO_NOTHING);
+
+        //? if <1.21.4 {
+        /*var pos = targ.pos();
         *///?} else {
-        BlockPos targ = player.getRespawnPosition();
+        var pos = targ.position();
+        //?}
+
+        VersionMethods.teleportTo(player, targ.newLevel(), pos, targ.yRot(), targ.xRot());
+        //?} else {
+        /*BlockPos targ = player.getRespawnPosition();
         var serverWorld = player.server.getLevel(player.getRespawnDimension());
         if (targ == null || serverWorld == null) {
             serverWorld = player.server.overworld();
@@ -124,7 +132,7 @@ public interface WarpLogic {
         }
         player.teleportTo(serverWorld, targ.getX() + 0.5, targ.getY(), targ.getZ() + 0.5,
                 new HashSet<>(), player.getYRot(), player.getXRot());
-        //?}
+        *///?}
 
     }
     /* will implement a proper end-of-time dimension later */

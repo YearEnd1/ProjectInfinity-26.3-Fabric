@@ -120,11 +120,11 @@ public class DimensionGrabber {
     }
 
     private <T> JsonGrabber<T> buildGrabber(Codec<T> codec, ResourceKey<Registry<T>> key) {
-        return (new JsonGrabber<>(registryInfoGetter, codec, (WritableRegistry<T>) (baseRegistryManager.registryOrThrow(key))));
+        return (new JsonGrabber<>(registryInfoGetter, codec, (WritableRegistry<T>) (baseRegistryManager.lookupOrThrow(key))));
     }
 
     private <T> void grabObjectForClient(Codec<T> codec, ResourceKey<Registry<T>> key, ResourceLocation id, CompoundTag optiondata) {
-        if (!(baseRegistryManager.registryOrThrow(key).containsKey(ResourceKey.create(key, id)))) buildGrabber(codec, key).grab(id, optiondata, false);
+        if (!(baseRegistryManager.lookupOrThrow(key).containsKey(ResourceKey.create(key, id)))) buildGrabber(codec, key).grab(id, optiondata, false);
     }
 
     /** Freezes all the registries after the grabbing is done, since registries can't be left unfrozen when the game's running. */

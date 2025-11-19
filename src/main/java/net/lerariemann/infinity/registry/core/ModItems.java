@@ -1,24 +1,27 @@
 package net.lerariemann.infinity.registry.core;
 
 import dev.architectury.core.item.ArchitecturyBucketItem;
-import dev.architectury.core.item.ArchitecturySpawnEggItem;
 import dev.architectury.registry.registries.DeferredRegister;
 import dev.architectury.registry.registries.RegistrySupplier;
 import net.lerariemann.infinity.InfinityMod;
 import net.lerariemann.infinity.item.*;
+import net.lerariemann.infinity.util.InfinityMethods;
 import net.lerariemann.infinity.util.platform.PlatformMethods;
 import net.lerariemann.infinity.util.core.RandomProvider;
 import net.lerariemann.infinity.util.var.ColorLogic;
 //? if >1.21 {
-/*import net.minecraft.core.component.DataComponents;
+import net.minecraft.core.component.DataComponents;
 import java.util.List;
-*///?}
+//?}
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.*;
+//? if >1.21.4 {
+import net.minecraft.world.item.component.Consumable;
+//?}
 import net.minecraft.world.level.block.Block;
 import java.util.Optional;
 import java.util.function.BiFunction;
@@ -32,23 +35,23 @@ public class ModItems {
 
     public static final Item OMINOUS_TRIAL_KEY =
             //? if <1.21 {
-            Items.AMETHYST_SHARD
-            //?} else {
-            /*Items.OMINOUS_TRIAL_KEY
-             *///?}
+            /*Items.AMETHYST_SHARD
+            *///?} else {
+            Items.OMINOUS_TRIAL_KEY
+             //?}
     ;
     public static final Item VAULT =
             //? if <1.21 {
-            Items.TNT
-            //?} else {
-            /*Items.VAULT
-             *///?}
+            /*Items.TNT
+            *///?} else {
+            Items.VAULT
+             //?}
     ;
 
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(MOD_ID, Registries.ITEM);
     //block items
     public static final RegistrySupplier<Item> PORTAL_ITEM =
-            ITEMS.register(ModBlocks.PORTAL.getId(), () -> new BlockItem(ModBlocks.PORTAL.get(),
+            register(ModBlocks.PORTAL.getId().getPath(), new Item.Properties(), (properties) -> new BlockItem(ModBlocks.PORTAL.get(),
                             colorProperties(ColorLogic.defaultPortal)));
     public static final RegistrySupplier<Item> COSMIC_ALTAR_ITEM =
             registerBlockItemAfter(ModBlocks.COSMIC_ALTAR, CreativeModeTabs.FUNCTIONAL_BLOCKS, Items.LECTERN, BlockItem::new);
@@ -85,28 +88,28 @@ public class ModItems {
             registerBlockItemAfter(ModBlocks.BIOME_BOTTLE, CreativeModeTabs.INGREDIENTS, Items.EXPERIENCE_BOTTLE, BiomeBottleItem::new);
 
     //spawn eggs
-    public static final RegistrySupplier<ArchitecturySpawnEggItem> CHAOS_CREEPER_SPAWN_EGG =
+    public static final RegistrySupplier<InfinitySpawnEggItem> CHAOS_CREEPER_SPAWN_EGG =
             registerEgg("chaos_creeper_spawn_egg",  ModEntities.CHAOS_CREEPER, 0x91BD59, 0x78A7FF);
-    public static final RegistrySupplier<ArchitecturySpawnEggItem> CHAOS_SKELETON_SPAWN_EGG =
+    public static final RegistrySupplier<InfinitySpawnEggItem> CHAOS_SKELETON_SPAWN_EGG =
             registerEgg("chaos_skeleton_spawn_egg",  ModEntities.CHAOS_SKELETON, 0xF3CFB9, 0x87A363);
-    public static final RegistrySupplier<ArchitecturySpawnEggItem> CHAOS_SLIME_SPAWN_EGG =
+    public static final RegistrySupplier<InfinitySpawnEggItem> CHAOS_SLIME_SPAWN_EGG =
             registerEgg("chaos_slime_spawn_egg",  ModEntities.CHAOS_SLIME, 0xFF66FF, 0xAA77DD);
-    public static final RegistrySupplier<ArchitecturySpawnEggItem> CHAOS_PAWN_SPAWN_EGG =
+    public static final RegistrySupplier<InfinitySpawnEggItem> CHAOS_PAWN_SPAWN_EGG =
             registerEgg("chaos_pawn_spawn_egg",  ModEntities.CHAOS_PAWN, 0x222222, 0xFFFFFF);
-    public static final RegistrySupplier<ArchitecturySpawnEggItem> ANT_SPAWN_EGG =
+    public static final RegistrySupplier<InfinitySpawnEggItem> ANT_SPAWN_EGG =
             registerEgg("ant_spawn_egg",  ModEntities.ANT, 0x444444, 0xFFFFFF);
-    public static final RegistrySupplier<ArchitecturySpawnEggItem> BISHOP_SPAWN_EGG =
+    public static final RegistrySupplier<InfinitySpawnEggItem> BISHOP_SPAWN_EGG =
             registerEgg("bishop_spawn_egg",  ModEntities.BISHOP, 0, 0xFFFFFF);
 
-    public static RegistrySupplier<ArchitecturySpawnEggItem> registerEgg(String name, RegistrySupplier<? extends EntityType<? extends Mob>> eType, int backgroundColour, int colour) {
-        RegistrySupplier<ArchitecturySpawnEggItem> registeredItem = ITEMS.register(name,  () ->
-                new ArchitecturySpawnEggItem(eType, backgroundColour, colour, new Item.Properties()));
+    public static RegistrySupplier<InfinitySpawnEggItem> registerEgg(String name, RegistrySupplier<? extends EntityType<? extends Mob>> eType, int backgroundColour, int colour) {
+        RegistrySupplier<InfinitySpawnEggItem> registeredItem = register(name, new Item.Properties(), (properties) ->
+                new InfinitySpawnEggItem(eType, backgroundColour, colour, properties));
         addEnd(registeredItem, CreativeModeTabs.SPAWN_EGGS);
         return registeredItem;
     }
 
     //bucket
-    public static final RegistrySupplier<Item> IRIDESCENCE_BUCKET = ITEMS.register("iridescence_bucket", () ->
+    public static final RegistrySupplier<Item> IRIDESCENCE_BUCKET = register("iridescence_bucket", new Item.Properties() , (properties) ->
             new ArchitecturyBucketItem(PlatformMethods.getIridescenceStill(), new Item.Properties().craftRemainder(Items.BUCKET).stacksTo(1)));
 
     //misc
@@ -121,10 +124,10 @@ public class ModItems {
     public static final RegistrySupplier<ChromaticItem> CHROMATIC_MATTER =
             registerItemAfter("chromatic_matter", CreativeModeTabs.INGREDIENTS, Items.DISC_FRAGMENT_5, settings -> new ChromaticItem(
                     //? if >1.21
-                    /*deferredIntComponent(ModComponentTypes.COLOR, ColorLogic.defaultChromatic)),*/
+                    deferredIntComponent(ModComponentTypes.COLOR, ColorLogic.defaultChromatic)),
                     new Item.Properties()
             //? if <1.21
-            )
+            /*)*/
             );
     public static final RegistrySupplier<Item> WHITE_MATTER =
             registerItemAfter("white_matter", CreativeModeTabs.INGREDIENTS, Items.DISC_FRAGMENT_5, Item::new);
@@ -154,28 +157,33 @@ public class ModItems {
     private static Item.Properties glintProperties() {
         return new Item.Properties()
                 //? if >1.21
-                /*.component(DataComponents.ENCHANTMENT_GLINT_OVERRIDE, true)*/
+                .component(DataComponents.ENCHANTMENT_GLINT_OVERRIDE, true)
                 ;
     }
     private static Item.Properties colorProperties(int defaultChromatic) {
         return new Item.Properties()
                 //? if >1.21
-                /*.component(ModComponentTypes.COLOR.get(), defaultChromatic)*/
+                .component(ModComponentTypes.COLOR.get(), defaultChromatic)
                 ;
     }
 
     private static Item.Properties foodProperties(int nutrition, int saturation, boolean canAlwaysEat, float eatSeconds, Optional<ItemStack> usingConvertsTo) {
-        //? if >1.21 {
+        //? if >1.21.3 {
+        return new Item.Properties().food(new FoodProperties(nutrition ,saturation, canAlwaysEat), Consumable.builder().consumeSeconds(eatSeconds).build());
+        //?} else if >1.21 {
         /*return new Item.Properties().food(new FoodProperties(nutrition ,saturation, canAlwaysEat, eatSeconds, usingConvertsTo, List.of()));
          *///?} else {
-        var properties = new FoodProperties.Builder().nutrition(nutrition).saturationMod(saturation);
+        /*var properties = new FoodProperties.Builder().nutrition(nutrition).saturationMod(saturation);
         if (canAlwaysEat) properties = properties.alwaysEat();
         return new Item.Properties().food(properties.build());
-        //?}
+        *///?}
     }
 
     public static <T extends Item> RegistrySupplier<T> register(String item, Item.Properties settings, Function<Item.Properties, T> constructor) {
-        return ITEMS.register(item, () -> constructor.apply(settings));
+        return ITEMS.register(item, () -> constructor.apply(settings
+                //? if >1.21.2
+                .setId(ResourceKey.create(Registries.ITEM, InfinityMethods.getId(item)))
+                ));
     }
     /**
      * Registers an item via Architectury API.
@@ -193,7 +201,10 @@ public class ModItems {
 
     public static <T extends Item> RegistrySupplier<T> registerBlockItem(RegistrySupplier<Block> block, Item.Properties settings,
                                                            BiFunction<Block, Item.Properties, T> constructor) {
-        return ITEMS.register(block.getId(), () -> constructor.apply(block.get(), settings));
+        return register(block.getId().getPath(), new Item.Properties()
+                //? if >1.21.4
+                .useBlockDescriptionPrefix()
+                , (properties) -> constructor.apply(block.get(), settings));
     }
     /**
      * Registers a BlockItem via Architectury API.

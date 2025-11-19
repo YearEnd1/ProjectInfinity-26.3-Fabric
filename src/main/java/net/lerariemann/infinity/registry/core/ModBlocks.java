@@ -63,8 +63,8 @@ public class ModBlocks {
             new RailHelper(BlockBehaviour.Properties.of().strength(-1.0F, 3600000.8F).mapColor(MapColor.NONE)
                     .noLootTable().noOcclusion().isValidSpawn((state, getter, pos, type)-> false).pushReaction(PushReaction.BLOCK)
                     //? if >1.21 {
-                    /*.noTerrainParticles()
-                    *///?}
+                    .noTerrainParticles()
+                    //?}
                     ));
 
     public static void registerModBlocks() {

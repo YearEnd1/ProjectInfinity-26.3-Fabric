@@ -4,6 +4,7 @@ import net.lerariemann.infinity.util.InfinityMethods;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -75,7 +76,16 @@ public class F4Screen extends AbstractContainerScreen<F4ScreenHandler> {
 
     @Override
     protected void renderBg(GuiGraphics context, float delta, int mouseX, int mouseY) {
-        context.blit(InfinityMethods.getId("textures/gui/f4.png"),
-                leftPos, topPos, 0, 0, this.imageWidth, this.imageHeight);
+        context.blit(
+                //? if >1.21.4 {
+                RenderPipelines.GUI_TEXTURED,
+                //?}
+                InfinityMethods.getId("textures/gui/f4.png"),
+                leftPos, topPos,
+                0, 0,
+                //? if >1.21.4 {
+                this.imageWidth, this.imageHeight,
+                //?}
+                this.imageWidth, this.imageHeight);
     }
 }

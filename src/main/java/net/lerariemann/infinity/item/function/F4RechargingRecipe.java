@@ -9,10 +9,10 @@ import net.lerariemann.infinity.util.VersionMethods;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.RegistryAccess;
 //? if >1.21 {
-/*import net.minecraft.core.component.DataComponentMap;
+import net.minecraft.core.component.DataComponentMap;
 import net.minecraft.world.item.crafting.CraftingInput;
 import net.minecraft.core.HolderLookup;
-*///?}
+//?}
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.inventory.CraftingContainer;
 import net.minecraft.world.item.ItemStack;
@@ -26,27 +26,27 @@ import org.jetbrains.annotations.NotNull;
 public class F4RechargingRecipe extends CustomRecipe {
     public F4RechargingRecipe(
             //? if <1.21
-            ResourceLocation id,
+            /*ResourceLocation id,*/
             CraftingBookCategory craftingRecipeCategory) {
         super(
                 //? if <1.21
-                id,
+                /*id,*/
                 craftingRecipeCategory);
     }
 
     public boolean matches(
             //? if >1.21 {
-            /*CraftingInput
-             *///?} else {
-            CraftingContainer
-            //?}
+            CraftingInput
+             //?} else {
+            /*CraftingContainer
+            *///?}
             craftingRecipeInput, Level world) {
         boolean foundF4 = false;
         //? if >1.21 {
-        /*int size = craftingRecipeInput.size();
-         *///?} else {
-        int size = craftingRecipeInput.getContainerSize();
-        //?}
+        int size = craftingRecipeInput.size();
+         //?} else {
+        /*int size = craftingRecipeInput.getContainerSize();
+        *///?}
         for (int k = 0; k < size; k++) {
             ItemStack itemStack = craftingRecipeInput.getItem(k);
             if (itemStack.is(ModItems.F4.get())) {
@@ -60,24 +60,24 @@ public class F4RechargingRecipe extends CustomRecipe {
 
     public @NotNull ItemStack assemble(
             //? if >1.21 {
-            /*CraftingInput
-             *///?} else {
-            CraftingContainer
-            //?}
+            CraftingInput
+             //?} else {
+            /*CraftingContainer
+            *///?}
             craftingRecipeInput,
             //? if >1.21 {
-            /*HolderLookup.Provider
-            *///?} else {
-            RegistryAccess
-            //?}
+            HolderLookup.Provider
+            //?} else {
+            /*RegistryAccess
+            *///?}
             wrapperLookup) {
         ItemStack f4 = null;
         int i = 0;
         //? if >1.21 {
-        /*int size = craftingRecipeInput.size();
-         *///?} else {
-        int size = craftingRecipeInput.getContainerSize();
-        //?}
+        int size = craftingRecipeInput.size();
+         //?} else {
+        /*int size = craftingRecipeInput.getContainerSize();
+        *///?}
         for (int k = 0; k < size; k++) {
             ItemStack itemStack = craftingRecipeInput.getItem(k);
             if (itemStack.is(ModItems.F4.get())) f4 = itemStack;
@@ -100,16 +100,16 @@ public class F4RechargingRecipe extends CustomRecipe {
     @Override
     public @NotNull NonNullList<ItemStack> getRemainingItems(
             //? if >1.21 {
-            /*CraftingInput
-             *///?} else {
-            CraftingContainer
-            //?}
+            CraftingInput
+             //?} else {
+            /*CraftingContainer
+            *///?}
             craftingRecipeInput) {
         //? if >1.21 {
-        /*int size = craftingRecipeInput.size();
-        *///?} else {
-        int size = craftingRecipeInput.getContainerSize();
-        //?}
+        int size = craftingRecipeInput.size();
+        //?} else {
+        /*int size = craftingRecipeInput.getContainerSize();
+        *///?}
         NonNullList<ItemStack> defaultedList = NonNullList.withSize(size, ItemStack.EMPTY);
         ItemStack f4 = null;
         int f4pos = 0;
@@ -137,7 +137,7 @@ public class F4RechargingRecipe extends CustomRecipe {
     }
 
     @Override
-    public @NotNull RecipeSerializer<?> getSerializer() {
+    public @NotNull RecipeSerializer<F4RechargingRecipe> getSerializer() {
         return ModItemFunctions.F4_RECHARGING.get();
     }
 }

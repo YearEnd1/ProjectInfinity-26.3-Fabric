@@ -2,6 +2,7 @@ package net.lerariemann.infinity.dimensions;
 
 import net.lerariemann.infinity.InfinityMod;
 import net.lerariemann.infinity.options.RandomInfinityOptions;
+import net.lerariemann.infinity.util.VersionMethods;
 import net.lerariemann.infinity.util.core.CommonIO;
 import net.lerariemann.infinity.util.InfinityMethods;
 import net.lerariemann.infinity.util.core.ConfigType;
@@ -157,7 +158,7 @@ public class RandomDimension {
     }
 
     public <T> boolean doesNotContain(ResourceKey<? extends Registry<T>> key, String name) {
-        return !(server.registryAccess().registryOrThrow(key).containsKey(ResourceKey.create(key, InfinityMethods.getId(name))));
+        return !(server.registryAccess().lookupOrThrow(key).containsKey(ResourceKey.create(key, InfinityMethods.getId(name))));
     }
 
     boolean isOverworldLike() {
@@ -264,10 +265,10 @@ public class RandomDimension {
 
     void addPresetBiomes(String preset) {
         TagKey<Biome> tag = preset.equals("overworld") ? BiomeTags.IS_OVERWORLD : BiomeTags.IS_NETHER;
-        Registry<Biome> r = server.registryAccess().registryOrThrow(Registries.BIOME);
+        Registry<Biome> r = server.registryAccess().lookupOrThrow(Registries.BIOME);
         r.registryKeySet().forEach(key -> {
             if (!Objects.equals(key.location().getNamespace(), "infinity")) {
-                if (r.get(key) != null && r.wrapAsHolder(r.get(key)).is(tag)) vanilla_biomes.add(key.location().toString());
+                if (r.get(key) != null && r.wrapAsHolder(VersionMethods.getFromRegistry(r, key)).is(tag)) vanilla_biomes.add(key.location().toString());
             }
         });
     }
@@ -363,7 +364,13 @@ public class RandomDimension {
         }
         CompoundTag dictionary = CommonIO.read(InfinityMod.utilPath + "/structure_tags.json");
         Map<String, ListTag> tags = new HashMap<>();
-        for (String s : structure_ids.keySet()) for (String ss : dictionary.getAllKeys()) if (s.contains(ss)) {
+        for (String s : structure_ids.keySet()) for (String ss : dictionary.
+                //? if >1.21.2 {
+                keySet
+                //?} else {
+                /*getAllKeys
+                *///?}
+                ()) if (s.contains(ss)) {
             for (Tag e : (ListTag) Objects.requireNonNull(dictionary.get(ss))) {
                 String t = e.getAsString();
                 if (!tags.containsKey(t)) tags.put(t, new ListTag());

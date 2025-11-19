@@ -22,8 +22,8 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 //? if >1.21 {
-/*import com.mojang.serialization.MapCodec;
-*///?}
+import com.mojang.serialization.MapCodec;
+//?}
 //? if neoforge {
 /*import javax.annotation.ParametersAreNonnullByDefault;
 *///?}
@@ -36,8 +36,8 @@ import java.util.logging.Handler;
  *///?}
 public class AntBlock extends HorizontalDirectionalBlock {
     //? if >1.21 {
-    /*public static final MapCodec<AntBlock> CODEC = simpleCodec(AntBlock::new);
-    *///?}
+    public static final MapCodec<AntBlock> CODEC = simpleCodec(AntBlock::new);
+    //?}
 
     public AntBlock(Properties settings) {
         super(settings);
@@ -45,11 +45,11 @@ public class AntBlock extends HorizontalDirectionalBlock {
     }
 
     //? if >1.21 {
-    /*@Override
+    @Override
     protected @NotNull MapCodec<? extends HorizontalDirectionalBlock> codec() {
         return CODEC;
     }
-    *///?}
+    //?}
     
     private static boolean inverseExists(Block down) {
         var s = BuiltInRegistries.BLOCK.getKey(down);
@@ -102,14 +102,14 @@ public class AntBlock extends HorizontalDirectionalBlock {
     @Override
     public InteractionResult
     //? if >1.21 {
-     /*useWithoutItem
-    *///?} else {
-    use
-    //?}
+     useWithoutItem
+    //?} else {
+    /*use
+    *///?}
     (BlockState state, Level world, BlockPos pos, Player player,
                                             //? if <1.21 {
-                                            InteractionHand hand,
-                                            //?}
+                                            /*InteractionHand hand,
+                                            *///?}
                                             BlockHitResult hit) {
         return move(state, world, pos);
     }

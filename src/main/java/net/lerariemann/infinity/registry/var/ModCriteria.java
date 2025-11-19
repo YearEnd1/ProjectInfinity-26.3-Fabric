@@ -12,7 +12,7 @@ import net.minecraft.world.entity.LivingEntity;
 import java.util.function.Supplier;
 
 //? if >1.21 {
-/*import java.util.Optional;
+import java.util.Optional;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.advancements.CriterionTrigger;
 import com.mojang.serialization.Codec;
@@ -21,27 +21,27 @@ import dev.architectury.registry.registries.DeferredRegister;
 import dev.architectury.registry.registries.RegistrySupplier;
 
 import static net.lerariemann.infinity.InfinityMod.MOD_ID;
-*///?} else {
-import com.google.gson.JsonObject;
+//?} else {
+/*import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 import net.minecraft.advancements.CriteriaTriggers;
-//?}
+*///?}
 
 @MethodsReturnNonnullByDefault
 public class ModCriteria {
     public static abstract class FriendlyScoredCriterion extends SimpleCriterionTrigger<ScoredConditions> {
         //? if >1.21 {
-        /*@Override
+        @Override
         public Codec<ScoredConditions> codec() {
             return ScoredConditions.CODEC;
         }
-        *///?} else {
-        @Override
+        //?} else {
+        /*@Override
         public ScoredConditions createInstance(JsonObject jsonObject, ContextAwarePredicate lootContextPredicate, DeserializationContext advancementEntityPredicateDeserializer) {
             int score = jsonObject.getAsJsonPrimitive("amount").getAsInt();
             return new ScoredConditions(lootContextPredicate, score, getId());
         }
-        //?}
+        *///?}
     }
 
     public static class DimensionOpenedCriterion extends FriendlyScoredCriterion {
@@ -50,10 +50,10 @@ public class ModCriteria {
             this.trigger(player, (conditions) -> conditions.test(player.getStats().getValue(ModStats.DIMS_OPENED_STAT)));
         }
         //? if <1.21 {
-        public ResourceLocation getId() {
+        /*public ResourceLocation getId() {
             return ID;
         }
-        //?}
+        *///?}
     }
 
     public static class DimensionClosedCriterion extends FriendlyScoredCriterion {
@@ -62,10 +62,10 @@ public class ModCriteria {
             this.trigger(player, (conditions) -> conditions.test(player.getStats().getValue(ModStats.WORLDS_DESTROYED_STAT)));
         }
         //? if <1.21 {
-        public ResourceLocation getId() {
+        /*public ResourceLocation getId() {
             return ID;
         }
-        //?}
+        *///?}
     }
 
     public static class BiomeBottleCriterion extends FriendlyScoredCriterion {
@@ -74,10 +74,10 @@ public class ModCriteria {
             this.trigger(player, (conditions) -> conditions.test(be.charge));
         }
         //? if <1.21 {
-        public ResourceLocation getId() {
+        /*public ResourceLocation getId() {
             return ID;
         }
-        //?}
+        *///?}
     }
 
     public static class WhoRemainsCriterion extends SimpleCriterionTrigger<EmptyConditions> {
@@ -86,19 +86,19 @@ public class ModCriteria {
             this.trigger(player, (conditions) -> true);
         }
         //? if >1.21 {
-        /*@Override
+        @Override
         public Codec<EmptyConditions> codec() {
             return EmptyConditions.CODEC;
         }
-        *///?} else {
-        public ResourceLocation getId() {
+        //?} else {
+        /*public ResourceLocation getId() {
             return ID;
         }
         @Override
         public EmptyConditions createInstance(JsonObject jsonObject, ContextAwarePredicate lootContextPredicate, DeserializationContext advancementEntityPredicateDeserializer) {
             return new EmptyConditions(lootContextPredicate, ID);
         }
-        //?}
+        *///?}
     }
 
     public static class IridescentCriterion extends SimpleCriterionTrigger<IridescenceConditions> {
@@ -107,12 +107,12 @@ public class ModCriteria {
             this.trigger(player, (conditions) -> conditions.test(willing, level));
         }
         //? if >1.21 {
-        /*@Override
+        @Override
         public Codec<IridescenceConditions> codec() {
             return IridescenceConditions.CODEC;
         }
-        *///?} else {
-        public ResourceLocation getId() {
+        //?} else {
+        /*public ResourceLocation getId() {
             return ID;
         }
         @Override
@@ -122,7 +122,7 @@ public class ModCriteria {
             return new IridescenceConditions(lootContextPredicate, willing == null ? null : willing.getAsBoolean(),
                     minLevel == null ? null : minLevel.getAsInt(), getId());
         }
-        //?}
+        *///?}
     }
 
     public static class ConvertMobCriterion extends SimpleCriterionTrigger<DataConditions> {
@@ -131,12 +131,12 @@ public class ModCriteria {
             this.trigger(player, (conditions) -> conditions.test(BuiltInRegistries.ENTITY_TYPE.getKey(e.getType()).toString()));
         }
         //? if >1.21 {
-        /*@Override
+        @Override
         public Codec<DataConditions> codec() {
             return DataConditions.CODEC;
         }
-        *///?} else {
-        public ResourceLocation getId() {
+        //?} else {
+        /*public ResourceLocation getId() {
             return ID;
         }
         @Override
@@ -144,11 +144,11 @@ public class ModCriteria {
             String data = jsonObject.getAsJsonPrimitive("data").getAsString();
             return new DataConditions(lootContextPredicate, data, ID);
         }
-        //?}
+        *///?}
     }
 
     //? if >1.21 {
-    /*public record EmptyConditions(Optional<ContextAwarePredicate> player) implements SimpleCriterionTrigger.SimpleInstance {
+    public record EmptyConditions(Optional<ContextAwarePredicate> player) implements SimpleCriterionTrigger.SimpleInstance {
         public static final Codec<EmptyConditions> CODEC = RecordCodecBuilder.create(
                 instance -> instance.group(
                                 EntityPredicate.ADVANCEMENT_CODEC.optionalFieldOf("player").forGetter(EmptyConditions::player)
@@ -199,8 +199,8 @@ public class ModCriteria {
             return (willing.isEmpty() || isWilling == willing.get()) && (minLevel.isEmpty() || level >= minLevel.get());
         }
     }
-    *///?} else {
-    public static class EmptyConditions extends AbstractCriterionTriggerInstance {
+    //?} else {
+    /*public static class EmptyConditions extends AbstractCriterionTriggerInstance {
 
         public EmptyConditions(ContextAwarePredicate player, ResourceLocation ID) {
             super(ID, player);
@@ -285,7 +285,7 @@ public class ModCriteria {
             return jsonObject;
         }
     }
-    //?}
+    *///?}
 
     public static Supplier<DimensionOpenedCriterion> DIMS_OPENED;
     public static Supplier<DimensionClosedCriterion> DIMS_CLOSED;
@@ -295,8 +295,8 @@ public class ModCriteria {
     public static Supplier<ConvertMobCriterion> CONVERT_MOB;
 
     //? if >1.21 {
-    /*public static final DeferredRegister<CriterionTrigger<?>> CRITERIA = DeferredRegister.create(MOD_ID, Registries.TRIGGER_TYPE);
-     *///?}
+    public static final DeferredRegister<CriterionTrigger<?>> CRITERIA = DeferredRegister.create(MOD_ID, Registries.TRIGGER_TYPE);
+     //?}
 
     public static void registerCriteria() {
         DIMS_OPENED = register(DimensionOpenedCriterion.ID, DimensionOpenedCriterion::new);
@@ -306,23 +306,23 @@ public class ModCriteria {
         BIOME_BOTTLE = register(BiomeBottleCriterion.ID, BiomeBottleCriterion::new);
         CONVERT_MOB = register(ConvertMobCriterion.ID, ConvertMobCriterion::new);
         //? if >1.21 {
-        /*CRITERIA.register();
-        *///?}
+        CRITERIA.register();
+        //?}
     }
 
     public static <S extends
             //? if >1.21 {
-            /*SimpleCriterionTrigger.SimpleInstance
-            *///?} else {
-            AbstractCriterionTriggerInstance
-            //?}
+            SimpleCriterionTrigger.SimpleInstance
+            //?} else {
+            /*AbstractCriterionTriggerInstance
+            *///?}
             , T extends SimpleCriterionTrigger<S>>
     Supplier<T> register(ResourceLocation id, Supplier<T> getter) {
         //? if >1.21 {
-        /*return CRITERIA.register(id.getPath(), getter);
-         *///?} else {
-        T criterion = CriteriaTriggers.register(getter.get());
+        return CRITERIA.register(id.getPath(), getter);
+         //?} else {
+        /*T criterion = CriteriaTriggers.register(getter.get());
         return () -> criterion;
-        //?}
+        *///?}
     }
 }

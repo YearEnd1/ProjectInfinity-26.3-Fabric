@@ -31,14 +31,14 @@ public class FabricPlatformImpl implements InfinityPlatform {
     @Override
     public void registerPayloadsServer() {
         //? if >1.21 {
-        /*ModPayloadsFabric.registerPayloadsServer();
-        *///?}
+        ModPayloadsFabric.registerPayloadsServer();
+        //?}
     }
     @Override
     public void registerPayloadsClient() {
         //? if >1.21 {
-        /*ModPayloadsFabric.registerPayloadsClient();
-        *///?}
+        ModPayloadsFabric.registerPayloadsClient();
+        //?}
     }
 }
 //?}

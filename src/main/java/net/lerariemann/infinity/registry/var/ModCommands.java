@@ -24,10 +24,10 @@ public class ModCommands {
         return new DynamicCommandExceptionType(
                 id -> Component.
                         //? if >1.21 {
-                        /*translatableEscape
-                        *///?} else {
-                        translatable
-                //?}
+                        translatableEscape
+                        //?} else {
+                        /*translatable
+                *///?}
                 ("error.infinity.warp.malformed_identifier", id)
         );
     }

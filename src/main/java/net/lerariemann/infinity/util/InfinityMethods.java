@@ -18,7 +18,6 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.util.FastColor;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.ItemStack;
@@ -29,10 +28,10 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.LegacyRandomSource;
 import net.minecraft.world.level.levelgen.synth.NormalNoise;
 //? if <1.21 {
-import net.minecraft.world.level.storage.LevelResource;
+/*import net.minecraft.world.level.storage.LevelResource;
 import net.minecraft.core.registries.Registries;
 import net.lerariemann.infinity.registry.core.ModItems;
-//?}
+*///?}
 import net.minecraft.world.level.storage.LevelStorageSource;
 import org.apache.commons.io.FileUtils;
 
@@ -83,18 +82,18 @@ public interface InfinityMethods {
     }
     static boolean isBiomeInfinity(LevelAccessor world, BlockPos pos) {
         //? if >1.21 {
-        /*return world.getBiome(pos).getRegisteredName().contains("infinity");
-        *///?} else {
-        return world.registryAccess().registryOrThrow(Registries.BIOME).getKey(world.getBiome(pos).value()).getNamespace().contains("infinity");
-        //?}
+        return world.getBiome(pos).getRegisteredName().contains("infinity");
+        //?} else {
+        /*return world.registryAccess().lookupOrThrow(Registries.BIOME).getKey(world.getBiome(pos).value()).getNamespace().contains("infinity");
+        *///?}
 
     }
     static boolean isBiomeInfinity(Holder<Biome> b) {
         //? if >1.21 {
-        /*return b.getRegisteredName().contains("infinity");
-        *///?} else {
-        return false;
-        //?}
+        return b.getRegisteredName().contains("infinity");
+        //?} else {
+        /*return false;
+        *///?}
     }
     static boolean isBiomeInfinity(BlockGetter world, BlockPos pos) {
         if (world instanceof LevelAccessor acc) {
@@ -187,20 +186,25 @@ public interface InfinityMethods {
             float r = bookBoxSample(pos, -1000);
             float g = bookBoxSample(pos, 0);
             float b = bookBoxSample(pos, 1000);
-            return Mth.color(r, g, b);
+            //? if <1.21.2 {
+            /*return Mth.color(r, g, b);
+            *///?} else {
+            return Mth.hsvToRgb(r, g, b);
+            //?}
+
         }
         return 16777215;
     }
 
     static int getOverlayColorFromComponents(ItemStack stack, int layer) {
         //? if >1.21 {
-        /*int color = stack.getComponents().getOrDefault(ModComponentTypes.COLOR.get(), 0xFFFFFF);
+        int color = stack.getComponents().getOrDefault(ModComponentTypes.COLOR.get(), 0xFFFFFF);
         if (layer == 1) {
-            return FastColor.ARGB32.opaque(color);
+            return VersionMethods.opaque(color);
         }
-        return FastColor.ARGB32.opaque(0xFFFFFF);
-        *///?} else {
-        if (stack.getTag() != null) {
+        return VersionMethods.opaque(0xFFFFFF);
+        //?} else {
+        /*if (stack.getTag() != null) {
             if (layer == 1) {
                 if (stack.is(ModItems.TRANSFINITE_KEY.get()))
                     return stack.getTag().getInt(ModComponentTypes.COLOR);
@@ -215,7 +219,7 @@ public interface InfinityMethods {
                 return stack.getTag().getInt(ModComponentTypes.COLOR);
         }
         return 0xFFFFFF;
-        //?}
+        *///?}
     }
     static int getItemColorFromComponents(ItemStack stack, int layer) {
         int color = VersionMethods.getOrDefaultInt(stack, ModComponentTypes.COLOR, 0xFFFFFF);
@@ -302,10 +306,10 @@ public interface InfinityMethods {
     static boolean deleteLevel(LevelStorageSource.LevelStorageAccess session) {
         return FileUtils.deleteQuietly(
                 //? if >1.21 {
-                /*session.getLevelDirectory().path().resolve("datapacks")
-                *///?} else {
-                session.getLevelPath(LevelResource.DATAPACK_DIR)
-                //?}
+                session.getLevelDirectory().path().resolve("datapacks")
+                //?} else {
+                /*session.getLevelPath(LevelResource.DATAPACK_DIR)
+                *///?}
                 .toFile());
     }
 }

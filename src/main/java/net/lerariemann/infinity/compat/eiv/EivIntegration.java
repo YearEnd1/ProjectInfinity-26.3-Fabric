@@ -1,0 +1,33 @@
+package net.lerariemann.infinity.compat.eiv;
+
+//? if >1.21.4 {
+
+import de.crafty.eiv.common.api.IExtendedItemViewIntegration;
+import de.crafty.eiv.common.api.recipe.ItemView;
+import de.crafty.eiv.common.recipe.ServerRecipeManager;
+import net.lerariemann.infinity.compat.eiv.iridescence_crafting.IridescenceCraftingServerRecipe;
+import net.lerariemann.infinity.compat.eiv.iridescence_crafting.IridescenceCraftingViewRecipe;
+import net.lerariemann.infinity.compat.eiv.portal_crafting.PortalCraftingServerRecipe;
+import net.lerariemann.infinity.compat.eiv.portal_crafting.PortalCraftingViewRecipe;
+import net.lerariemann.infinity.item.function.CollisionCraftingRecipe;
+
+import java.util.Collections;
+import java.util.List;
+
+public class EivIntegration implements IExtendedItemViewIntegration {
+    @Override
+    public void onIntegrationInitialize() {
+        // Serverside recipes
+        ItemView.addRecipeProvider(recipeList -> {
+            // Portal Crafting - serverside
+            ServerRecipeManager.INSTANCE.getRecipesForType(CollisionCraftingRecipe.Type.PORTAL).forEach(recipe -> recipeList.add(new PortalCraftingServerRecipe(recipe.getInput(), recipe.getResultItem(), recipe.getLore())));
+            // Iridescence Crafting - serverside
+            ServerRecipeManager.INSTANCE.getRecipesForType(CollisionCraftingRecipe.Type.IRIDESCENCE).forEach(recipe -> recipeList.add(new IridescenceCraftingServerRecipe(recipe.getInput(), recipe.getResultItem(), recipe.getLore())));
+        });
+        // Portal Crafting - Clientside
+        ItemView.registerRecipeWrapper(PortalCraftingServerRecipe.TYPE, modRecipe -> Collections.singletonList(new PortalCraftingViewRecipe(modRecipe)));
+        // Iridescence Crafting - Clientside
+        ItemView.registerRecipeWrapper(IridescenceCraftingServerRecipe.TYPE, modRecipe -> Collections.singletonList(new IridescenceCraftingViewRecipe(modRecipe)));
+    }
+}
+//?}

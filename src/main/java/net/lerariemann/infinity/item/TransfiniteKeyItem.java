@@ -8,11 +8,11 @@ import net.lerariemann.infinity.util.InfinityMethods;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 //? if >1.21 {
-/*import net.minecraft.core.component.DataComponentPatch;
-*///?} else {
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.core.component.DataComponentPatch;
+//?} else {
+/*import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.Level;
-//?}
+*///?}
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
@@ -38,7 +38,7 @@ public class TransfiniteKeyItem extends Item implements PortalDataHolder.Destina
     }
 
     //? if >1.21 {
-    /*@Override
+    @Override
     public DataComponentPatch getPortalComponents(InfinityPortalBlockEntity ipbe) {
         ResourceLocation id = ipbe.getDimension();
         int color = (ipbe.getLevel() instanceof ServerLevel w) ?
@@ -57,8 +57,8 @@ public class TransfiniteKeyItem extends Item implements PortalDataHolder.Destina
                 .remove(ModComponentTypes.COLOR.get())
                 .build());
     }
-    *///?} else {
-    @Override
+    //?} else {
+    /*@Override
     public CompoundTag getPortalComponents(InfinityPortalBlockEntity ipbe) {
         ResourceLocation id = ipbe.getDimension();
         int color = (ipbe.getLevel() instanceof ServerLevel w) ?
@@ -74,7 +74,7 @@ public class TransfiniteKeyItem extends Item implements PortalDataHolder.Destina
     public Optional<CompoundTag> getIridComponents(ItemEntity entity) {
         return Optional.of(new CompoundTag());
     }
-    //?}
+    *///?}
 
     @NotNull
     @Override
@@ -91,10 +91,10 @@ public class TransfiniteKeyItem extends Item implements PortalDataHolder.Destina
     @Override
     public void appendHoverText(ItemStack stack,
                                 //? if >1.21 {
-                                /*TooltipContext
-                                *///?} else {
-                                Level
-                                //?}
+                                TooltipContext
+                                //?} else {
+                                /*Level
+                                *///?}
                                         context, List<Component> tooltip, TooltipFlag type) {
         super.appendHoverText(stack, context, tooltip, type);
         ResourceLocation dimension = VersionMethods.getDimensionIdentifier(stack);

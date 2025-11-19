@@ -24,7 +24,7 @@ public class RandomBonusChest extends RandomisedFeature {
         CompoundTag config = new CompoundTag();
         config.putString("loot", random.nextBoolean() ? BuiltInLootTables.SPAWN_BONUS_CHEST
                 //? if >1.21
-                /*.location()*/
+                .location()
                 .toString() :
                 random.nextBoolean() ? "infinity:random" : PROVIDER.randomName(random, ConfigType.LOOT_TABLES));
         config.put("block", NbtUtils.nameToElement(random.nextBoolean() ? "minecraft:chest" :

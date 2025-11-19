@@ -7,7 +7,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.scores.PlayerTeam;
@@ -42,12 +42,12 @@ public class BishopBattle {
     }
 
     public void start(BlockPos pos) {
-        AntEntity ant = ModEntities.ANT.get().spawn(serverWorld, pos, MobSpawnType.MOB_SUMMONED);
-        BishopEntity bishop = ModEntities.BISHOP.get().spawn(serverWorld, pos, MobSpawnType.MOB_SUMMONED);
+        AntEntity ant = ModEntities.ANT.get().spawn(serverWorld, pos, EntitySpawnReason.MOB_SUMMONED);
+        BishopEntity bishop = ModEntities.BISHOP.get().spawn(serverWorld, pos, EntitySpawnReason.MOB_SUMMONED);
         if (ant != null && bishop != null) {
             //FIXME - is there a good way to do scale on 1.20? pekhui?
             //? if >1.21
-            /*Objects.requireNonNull(ant.getAttribute(Attributes.SCALE)).setBaseValue(3.0);*/
+            Objects.requireNonNull(ant.getAttribute(Attributes.SCALE)).setBaseValue(3.0);
             Objects.requireNonNull(ant.getAttribute(Attributes.MAX_HEALTH)).setBaseValue(20);
             Objects.requireNonNull(ant.getAttribute(Attributes.MOVEMENT_SPEED)).setBaseValue(0.25f);
             ant.setHealth(20);

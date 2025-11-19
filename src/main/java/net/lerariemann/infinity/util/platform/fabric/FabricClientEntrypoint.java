@@ -1,7 +1,13 @@
 package net.lerariemann.infinity.util.platform.fabric;
 
 //? fabric {
-import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
+//? if >1.21.2 {
+import net.fabricmc.fabric.api.client.rendering.v1.BlockRenderLayerMap;
+import net.minecraft.client.renderer.chunk.ChunkSectionLayer;
+//?} else {
+/*import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
+import net.minecraft.client.renderer.RenderType;
+*///?}
 import net.fabricmc.fabric.api.client.render.fluid.v1.FluidRenderHandlerRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
 import net.fabricmc.fabric.api.transfer.v1.client.fluid.FluidVariantRendering;
@@ -13,7 +19,6 @@ import net.lerariemann.infinity.registry.core.ModItemFunctions;
 import net.lerariemann.infinity.registry.core.ModItems;
 import net.lerariemann.infinity.util.InfinityMethods;
 import net.lerariemann.infinity.util.platform.PlatformMethods;
-import net.minecraft.client.renderer.RenderType;
 
 public class FabricClientEntrypoint implements ClientModInitializer {
 
@@ -27,7 +32,8 @@ public class FabricClientEntrypoint implements ClientModInitializer {
                 ModBlocks.BIOME_BOTTLE.get(),
                 ModBlocks.CHROMATIC_WOOL.get(),
                 ModBlocks.CHROMATIC_CARPET.get());
-        ColorProviderRegistry.ITEM.register(InfinityMethods::getOverlayColorFromComponents,
+        //? if <1.21.4 {
+        /*ColorProviderRegistry.ITEM.register(InfinityMethods::getOverlayColorFromComponents,
                 ModItems.TRANSFINITE_KEY.get(),
                 ModItems.BIOME_BOTTLE_ITEM.get(),
                 ModItems.F4.get());
@@ -38,18 +44,31 @@ public class FabricClientEntrypoint implements ClientModInitializer {
                 ModItems.PORTAL_ITEM.get());
         ColorProviderRegistry.ITEM.register(InfinityMethods::getDiscColorFromComponents,
                 ModItems.DISC.get());
+        *///?}
 
         // Render layer maps
-        BlockRenderLayerMap.INSTANCE.putBlocks(RenderType.cutoutMipped(),
+        //? if >1.21.2 {
+        BlockRenderLayerMap.putBlocks(ChunkSectionLayer.CUTOUT_MIPPED,
+        //?} else {
+        /*BlockRenderLayerMap.INSTANCE.putBlocks(RenderType.cutoutMipped(),
+        *///?}
                 ModBlocks.BOOK_BOX.get(),
                 ModBlocks.IRIDESCENT_KELP.get(),
                 ModBlocks.IRIDESCENT_KELP_PLANT.get());
-        BlockRenderLayerMap.INSTANCE.putBlocks(RenderType.translucent(),
+        //? if >1.21.2 {
+        BlockRenderLayerMap.putBlocks(ChunkSectionLayer.TRANSLUCENT,
+        //?} else {
+        /*BlockRenderLayerMap.INSTANCE.putBlocks(RenderType.translucent(),
+         *///?}
                 ModBlocks.TIME_BOMB.get(),
                 ModBlocks.BIOME_BOTTLE.get(),
                 ModBlocks.CHROMATIC_WOOL.get(),
                 ModBlocks.CHROMATIC_CARPET.get());
-        BlockRenderLayerMap.INSTANCE.putFluids(RenderType.translucent(),
+        //? if >1.21.2 {
+        BlockRenderLayerMap.putFluids(ChunkSectionLayer.TRANSLUCENT,
+        //?} else {
+        /*BlockRenderLayerMap.INSTANCE.putFluids(RenderType.translucent(),
+         *///?}
                 PlatformMethods.getIridescenceStill().get(),
                 PlatformMethods.getIridescenceFlowing().get());
 

@@ -11,12 +11,12 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public class WorldMixin {
 
     //? if <1.21 {
-    /* for some reason minecraft's own code can softlock the game when beating the dragon without this check */
+    /*/^ for some reason minecraft's own code can softlock the game when beating the dragon without this check ^/
     @Inject(method = "getBlockEntity", at = @At(value = "HEAD"), cancellable = true)
     private void fixEnderDragonCrash(BlockPos pos, CallbackInfoReturnable<Boolean> cir) {
         if (pos == null) {
             cir.setReturnValue(null);
         }
     }
-    //?}
+    *///?}
 }

@@ -1,7 +1,7 @@
 package net.lerariemann.infinity.util.platform.fabric;
 
 //? if >1.21 && fabric {
-/*import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.lerariemann.infinity.registry.var.ModPayloads;
@@ -48,4 +48,4 @@ public class ModPayloadsFabric {
                 SoundScanner.unpackDownloadedPack(payload.songIds(), client(context)));
     }
 }
-*///?}
+//?}

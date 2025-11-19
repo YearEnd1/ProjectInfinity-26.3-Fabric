@@ -21,11 +21,11 @@ public class RailHelper extends BaseEntityBlock {
     }
 
     //? if >1.21 {
-    /*@Override
+    @Override
     protected MapCodec<? extends BaseEntityBlock> codec() {
         return null;
     }
-    *///?}
+    //?}
 
     @Override
     public void onPlace(BlockState state, Level world, BlockPos pos, BlockState oldState, boolean notify) {

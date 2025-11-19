@@ -28,11 +28,13 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.border.WorldBorder;
 import net.minecraft.world.level.dimension.DimensionType;
-//? if >1.21 {
-/*import net.minecraft.world.level.portal.DimensionTransition;
+//? if >1.21.3 {
+import net.minecraft.world.level.portal.TeleportTransition;
+//?} else if >1.21 {
+/*import net.minecraft.world.level.portal.TeleportTransition;
 *///?} else {
-import net.minecraft.world.level.portal.PortalInfo;
-//?}
+/*import net.minecraft.world.level.portal.PortalInfo;
+*///?}
 import net.minecraft.world.level.portal.PortalShape;
 import org.jetbrains.annotations.Nullable;
 
@@ -103,22 +105,27 @@ public class InfinityPortal {
 
     /** Finding where to teleport stuff. The constructor ensures all scanning is already done by this point */
     public
-    //? if >1.21 {
-    /*DimensionTransition
+    //? if >1.21.9 {
+    TeleportTransition
+    //?} else if >1.21 {
+    /*TeleportTransition
     *///?} else {
-    PortalInfo
-    //?}
+    /*PortalInfo
+    *///?}
     getTeleportTarget(Entity entity) {
         if (portalShouldWork() && portalTo != null && worldTo != null) {
-            //? if >1.21 {
-            /*return NetherPortalBlock.getDimensionTransitionFromExit(entity, posTo, portalTo, worldTo,
-                    DimensionTransition.PLAY_PORTAL_SOUND.then(entityx -> entityx.placePortalTicket(posTo)));
+            //? if >1.21.3 {
+            return NetherPortalBlock.getTeleportTransitionFromExit(entity, posTo, portalTo, worldTo,
+                    TeleportTransition.PLAY_PORTAL_SOUND.then(entityx -> entityx.placePortalTicket(posTo)));
+            //?} else if >1.21 {
+            /*return NetherPortalBlock.getTeleportTransitionFromExit(entity, posTo, portalTo, worldTo,
+                    TeleportTransition.PLAY_PORTAL_SOUND.then(entityx -> entityx.placePortalTicket(posTo)));
             *///?} else {
-            var axisFrom = getAxisOrDefault(worldFrom.getBlockState(posFrom));
+            /*var axisFrom = getAxisOrDefault(worldFrom.getBlockState(posFrom));
             createTicket(worldTo, posTo);
             return PortalShape.createPortalInfo(worldTo, portalTo, axisFrom, PortalShape.getRelativePosition(portalFrom, axisFrom, entity.position(), entity.getDimensions(entity.getPose())),
                     entity, entity.getDeltaMovement(), entity.getYRot(), entity.getXRot());
-            //?}
+            *///?}
         }
         //below this point is error handling. note that not all such errors are bugs
         if (entity instanceof ServerPlayer player) {
@@ -155,10 +162,10 @@ public class InfinityPortal {
      * Loads the other side of the portal for 300 ticks like nether portals do.
      */
     //? if <1.21 {
-    public static void createTicket(ServerLevel worldTo, BlockPos posTo) {
+    /*public static void createTicket(ServerLevel worldTo, BlockPos posTo) {
         worldTo.getChunkSource().addRegionTicket(TicketType.PORTAL, new ChunkPos(posTo), 3, posTo);
     }
-    //?}
+    *///?}
 
     public static Direction.Axis getAxisOrDefault(BlockState state) {
         if (state.getProperties().contains(BlockStateProperties.HORIZONTAL_AXIS))
@@ -168,19 +175,25 @@ public class InfinityPortal {
 
     /** If teleportation failed for any reason, this ensures the entity does not teleport anywhere. */
     public static
-    //? if >1.21 {
-    /*DimensionTransition
+    //? if >1.21.2 {
+    TeleportTransition
+    //?} else if >1.21 {
+    /*TeleportTransition
      *///?} else {
-    PortalInfo
-    //?}
+    /*PortalInfo
+     *///?}
     emptyTarget(Entity entity) {
-        //? if >1.21 {
-                /*return new DimensionTransition((ServerLevel)entity.level(), entity.position(),
+        //? if >1.21.2 {
+        return new TeleportTransition((ServerLevel)entity.level(), entity.position(),
                 entity.getDeltaMovement(), entity.getYRot(), entity.getXRot(),
-                DimensionTransition.DO_NOTHING);
+                TeleportTransition.DO_NOTHING);
+        //?} else if >1.21 {
+                /*return new TeleportTransition((ServerLevel)entity.level(), entity.position(),
+                entity.getDeltaMovement(), entity.getYRot(), entity.getXRot(),
+                TeleportTransition.DO_NOTHING);
          *///?} else {
-        return new PortalInfo(entity.position(), entity.getDeltaMovement(), entity.getYRot(), entity.getXRot());
-        //?}
+        /*return new PortalInfo(entity.position(), entity.getDeltaMovement(), entity.getYRot(), entity.getXRot());
+        *///?}
 
     }
 

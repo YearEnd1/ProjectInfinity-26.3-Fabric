@@ -15,27 +15,27 @@ public class IridescentCooldownEffect extends MobEffect {
     @Override
     public
     //? if >1.21 {
-    /*boolean
-     *///?} else {
-    void
-    //?}
+    boolean
+     //?} else {
+    /*void
+    *///?}
     applyEffectTick(LivingEntity entity, int amplifier) {
         int cooldownDuration = Iridescence.getCooldownDuration();
         if (cooldownDuration > 0)
             entity.addEffect(new MobEffectInstance(VersionMethods.effectOrHolder(ModStatusEffects.IRIDESCENT_COOLDOWN),
                     cooldownDuration, 0, true, false));
         //? if >1.21 {
-        /*return true;
-        *///?}
+        return true;
+        //?}
     }
 
     @Override
     public boolean
     //? if >1.21 {
-    /*shouldApplyEffectTickThisTick
-     *///?} else {
-    isDurationEffectTick
-    //?}
+    shouldApplyEffectTickThisTick
+     //?} else {
+    /*isDurationEffectTick
+    *///?}
             (int duration, int amplifier) {
         return amplifier != 0 && duration < 2;
     }

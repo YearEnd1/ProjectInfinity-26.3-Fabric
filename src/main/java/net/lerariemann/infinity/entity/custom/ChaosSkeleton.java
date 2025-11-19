@@ -7,6 +7,7 @@ import net.lerariemann.infinity.util.core.ConfigType;
 import net.lerariemann.infinity.util.core.NbtUtils;
 import net.lerariemann.infinity.util.platform.PlatformMethods;
 import net.minecraft.MethodsReturnNonnullByDefault;
+import net.minecraft.client.resources.language.I18n;
 import net.minecraft.core.Holder;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -26,7 +27,7 @@ import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.SpawnGroupData;
 import net.minecraft.world.entity.monster.Skeleton;
 import net.minecraft.world.entity.player.Player;
@@ -34,15 +35,19 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ItemUtils;
 import net.minecraft.world.item.Items;
 //? if >1.21 {
-/*import net.minecraft.world.item.alchemy.PotionContents;
+import net.minecraft.world.item.alchemy.PotionContents;
 import net.minecraft.core.component.DataComponents;
-*///?} else {
-import net.minecraft.world.item.alchemy.PotionUtils;
-//?}
+//?} else {
+/*import net.minecraft.world.item.alchemy.PotionUtils;
+*///?}
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
+//? if >1.21.4 {
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
+//?}
 import org.jetbrains.annotations.Nullable;
 
 //? if neoforge {
@@ -94,10 +99,10 @@ public class ChaosSkeleton extends Skeleton implements TintableEntity {
 
     @Override
     @Nullable
-    public SpawnGroupData finalizeSpawn(ServerLevelAccessor world, DifficultyInstance difficulty, MobSpawnType spawnReason, @Nullable SpawnGroupData entityData
+    public SpawnGroupData finalizeSpawn(ServerLevelAccessor world, DifficultyInstance difficulty, EntitySpawnReason spawnReason, @Nullable SpawnGroupData entityData
     //? if <1.21 {
-    ,CompoundTag tag
-    //?}
+    /*,CompoundTag tag
+    *///?}
     ) {
         Random r = new Random();
         CompoundTag effect = InfinityMod.provider.randomElement(r, ConfigType.EFFECTS);
@@ -105,24 +110,24 @@ public class ChaosSkeleton extends Skeleton implements TintableEntity {
         this.setDuration(r.nextInt(600));
         return super.finalizeSpawn(world, difficulty, spawnReason, entityData
         //? if <1.21
-        ,tag
+        /*,tag*/
         );
     }
 
     @Override
     protected void defineSynchedData(
             //? if >1.21 {
-            /*SynchedEntityData.Builder builder
-             *///?}
+            SynchedEntityData.Builder builder
+             //?}
     ) {
         super.defineSynchedData(
                 //? if >1.21 {
-                /*builder
-                 *///?}
+                builder
+                 //?}
         );
         //? if <1.21 {
-        var builder = this.entityData;
-        //?}
+        /*var builder = this.entityData;
+        *///?}
         builder.define(effect, "luck");
         builder.define(duration, 200);
         builder.define(color, 0x00FF00);
@@ -141,10 +146,14 @@ public class ChaosSkeleton extends Skeleton implements TintableEntity {
             }
             if (player.level().getRandom().nextFloat() < 0.5) {
                 String i = effect_lookup.get(this.getEffect());
-                MobEffect newEffect = BuiltInRegistries.MOB_EFFECT.get(VersionMethods.id(i));
+                MobEffect newEffect = VersionMethods.getFromRegistry(BuiltInRegistries.MOB_EFFECT, VersionMethods.id(i));
                 if (newEffect != null) {
                     ChaosSkeleton newSkeleton;
-                    if (!this.level().isClientSide() && (newSkeleton = ModEntities.CHAOS_SKELETON.get().create(this.level())) != null) {
+                    if (!this.level().isClientSide() && (newSkeleton = ModEntities.CHAOS_SKELETON.get().create(this.level()
+                            //? if >1.21.4 {
+                            ,EntitySpawnReason.CONVERSION
+                            //?}
+                            )) != null) {
                         ((ServerLevel) this.level()).sendParticles(ParticleTypes.HEART, this.getX(), this.getY(0.5), this.getZ(), 1, 0.0, 0.0, 0.0, 0.0);
                         this.discard();
                         ModEntities.copy(this, newSkeleton);
@@ -162,7 +171,11 @@ public class ChaosSkeleton extends Skeleton implements TintableEntity {
             player.setItemInHand(hand, itemStack3);
             this.playSound(SoundEvents.BOTTLE_FILL, 1.0f, 1.0f);
             Skeleton newSkeleton;
-            if (!this.level().isClientSide() && (newSkeleton = EntityType.SKELETON.create(this.level())) != null) {
+            if (!this.level().isClientSide() && (newSkeleton = EntityType.SKELETON.create(this.level()
+                    //? if >1.21.4 {
+                    , EntitySpawnReason.CONVERSION
+                    //?}
+            )) != null) {
                 this.discard();
                 ModEntities.copy(this, newSkeleton);
                 this.level().addFreshEntity(newSkeleton);
@@ -198,33 +211,58 @@ public class ChaosSkeleton extends Skeleton implements TintableEntity {
     public int getDuration() {
         return this.entityData.get(duration);
     }
+    //? if >1.21.4 {
+
     @Override
+    protected void addAdditionalSaveData(ValueOutput output) {
+        super.addAdditionalSaveData(output);
+        output.putString("effect", this.getEffect());
+        output.putInt("duration", this.getDuration());
+        output.putInt("color", this.getColor());
+    }
+
+    //?} else {
+    /*@Override
     public void addAdditionalSaveData(CompoundTag nbt) {
         super.addAdditionalSaveData(nbt);
         nbt.putString("effect", this.getEffect());
         nbt.putInt("duration", this.getDuration());
         nbt.putInt("color", this.getColor());
     }
+    *///?}
+
     @Override
-    public void readAdditionalSaveData(CompoundTag nbt) {
+    public void readAdditionalSaveData(
+            //? if >1.21.2 {
+            ValueInput
+            //?} else {
+            /*CompoundTag
+            *///?}
+            nbt) {
         super.readAdditionalSaveData(nbt);
         this.setEffect(NbtUtils.getString(nbt, "effect"), NbtUtils.getInt(nbt, "color"));
         this.setDuration(NbtUtils.getInt(nbt,"duration"));
     }
 
     public static ItemStack setPotion(ItemStack stack, int color, String effect, int duration) {
-        CompoundTag potionEffect = new CompoundTag();
+        List<MobEffectInstance> customEffects = new ArrayList<>();
+        //? if >1.21.4 {
+        customEffects.add(new MobEffectInstance(VersionMethods.getFromId(BuiltInRegistries.MOB_EFFECT, VersionMethods.id(effect)), duration));
+        //?} else {
+        /*CompoundTag potionEffect = new CompoundTag();
         potionEffect.putString("id", effect);
         potionEffect.putInt("duration", duration);
-        List<MobEffectInstance> customEffects = new ArrayList<>();
         customEffects.add(MobEffectInstance.load(potionEffect));
-        //? if >1.21 {
+        *///?}
+        //? if >1.21.4 {
+        stack.set(DataComponents.POTION_CONTENTS, new PotionContents(Optional.empty(), Optional.of(color), customEffects, Optional.of(I18n.get("potion.infinity.skeleton"))));
+        //?} else if >1.21 {
         /*stack.set(DataComponents.POTION_CONTENTS, new PotionContents(Optional.empty(), Optional.of(color), customEffects));
         stack.set(DataComponents.ITEM_NAME, Component.translatable("potion.infinity.skeleton"));
         *///?} else {
-        PotionUtils.setCustomEffects(stack, customEffects);
+        /*PotionUtils.setCustomEffects(stack, customEffects);
         stack.setHoverName(Component.translatable("potion.infinity.skeleton"));
-        //?}
+        *///?}
         return stack;
     }
 
@@ -238,24 +276,33 @@ public class ChaosSkeleton extends Skeleton implements TintableEntity {
     }
 
     //? if >1.21 {
-    /*@Override
+    @Override
     protected void dropCustomDeathLoot(ServerLevel world, DamageSource source, boolean causedByPlayer) {
         super.dropCustomDeathLoot(world, source, causedByPlayer);
         ItemStack weapon = source.getWeaponItem();
-        Holder<Enchantment> looting = world.getServer().registryAccess().registryOrThrow(Registries.ENCHANTMENT).getHolderOrThrow(Enchantments.LOOTING);
+        Holder<Enchantment> looting = world.getServer().registryAccess().lookupOrThrow(Registries.ENCHANTMENT).
+                //? if >1.21.4 {
+                getOrThrow
+                //?} else {
+                /*getHolderOrThrow
+                *///?}
+                (Enchantments.LOOTING);
         int lootingLevel = weapon == null ? 0 : PlatformMethods.getEnchantments(weapon, world.getServer()).getLevel(looting);
         dropEquipment(lootingLevel, world);
     }
-    *///?} else {
-    @Override
+    //?} else {
+    /*@Override
     protected void dropCustomDeathLoot(DamageSource source, int lootingLevel, boolean allowDrops) {
         super.dropCustomDeathLoot(source, lootingLevel, allowDrops);
         dropEquipment(lootingLevel, this.level());
     }
-    //?}
+    *///?}
 
-    private void dropEquipment(int lootingLevel, Level world) {
+    private void dropEquipment(int lootingLevel, ServerLevel world) {
         int count = world.random.nextIntBetweenInclusive(0, 2 + lootingLevel);
-        this.spawnAtLocation(getProjectileType().copyWithCount(count));
+        this.spawnAtLocation(
+                //? if >1.21.4
+                world,
+                getProjectileType().copyWithCount(count));
     }
 }

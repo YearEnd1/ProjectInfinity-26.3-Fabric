@@ -24,12 +24,11 @@ import net.lerariemann.infinity.registry.core.ModStatusEffects;
 import java.util.Objects;
 
 //? if >1.21 {
-/*import net.minecraft.core.particles.ColorParticleOption;
+import net.minecraft.core.particles.ColorParticleOption;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
-import net.minecraft.util.FastColor;
 import java.awt.Color;
- *///?}
+ //?}
 
 import static net.lerariemann.infinity.iridescence.Iridescence.*;
 
@@ -40,12 +39,12 @@ public class IridescentEffect extends MobEffect implements ModStatusEffects.Spec
 
     @Override
     //? if >1.21 {
-    /*public void onEffectStarted(LivingEntity entity, int amplifier) {
+    public void onEffectStarted(LivingEntity entity, int amplifier) {
         super.onEffectStarted(entity, amplifier);
-    *///?} else {
-    public void addAttributeModifiers(LivingEntity entity, AttributeMap attributes, int amplifier) {
+    //?} else {
+    /*public void addAttributeModifiers(LivingEntity entity, AttributeMap attributes, int amplifier) {
         super.addAttributeModifiers(entity, attributes, amplifier);
-    //?}
+    *///?}
         if (entity.hasEffect(VersionMethods.effectOrHolder(ModStatusEffects.IRIDESCENT_SETUP))) {
             entity.removeEffect(VersionMethods.effectOrHolder(ModStatusEffects.IRIDESCENT_SETUP));
         }
@@ -110,13 +109,13 @@ public class IridescentEffect extends MobEffect implements ModStatusEffects.Spec
     }
 
     //? if >1.21 {
-    /*@Override
+    @Override
     public ParticleOptions createParticleOptions(MobEffectInstance effect) {
         float hue = effect.getDuration() / 13.0f;
         return ColorParticleOption.create(
-                ParticleTypes.ENTITY_EFFECT, FastColor.ARGB32.opaque(Color.HSBtoRGB(hue - (int)hue, 1.0f, 1.0f)));
+                ParticleTypes.ENTITY_EFFECT, VersionMethods.opaque(Color.HSBtoRGB(hue - (int)hue, 1.0f, 1.0f)));
     }
-    *///?}
+    //?}
 
     public static class Setup extends InstantenousMobEffect {
         public Setup(MobEffectCategory category, int color) {
@@ -125,12 +124,12 @@ public class IridescentEffect extends MobEffect implements ModStatusEffects.Spec
 
         @Override
         //? if >1.21 {
-        /*public void onEffectStarted(LivingEntity entity, int amplifier) {
+        public void onEffectStarted(LivingEntity entity, int amplifier) {
             super.onEffectStarted(entity, amplifier);
-        *///?} else {
-        public void addAttributeModifiers(LivingEntity entity, AttributeMap attributes, int amplifier) {
+        //?} else {
+        /*public void addAttributeModifiers(LivingEntity entity, AttributeMap attributes, int amplifier) {
             super.addAttributeModifiers(entity, attributes, amplifier);
-        //?}
+        *///?}
             tryBeginJourney(entity, amplifier, true);
         }
     }

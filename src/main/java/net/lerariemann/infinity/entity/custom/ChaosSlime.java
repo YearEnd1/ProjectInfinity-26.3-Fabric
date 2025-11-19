@@ -20,7 +20,7 @@ import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.*;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.SpawnGroupData;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -33,6 +33,10 @@ import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
+//? if >1.21.4 {
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
+//?}
 import net.minecraft.world.level.storage.loot.LootTable;
 import org.jetbrains.annotations.Nullable;
 
@@ -61,17 +65,17 @@ public class ChaosSlime extends Slime implements TintableEntity {
     @Override
     protected void defineSynchedData(
             //? if >1.21 {
-            /*SynchedEntityData.Builder builder
-             *///?}
+            SynchedEntityData.Builder builder
+             //?}
     ) {
         super.defineSynchedData(
                 //? if >1.21 {
-                /*builder
-                 *///?}
+                builder
+                 //?}
         );
         //? if <1.21 {
-        var builder = this.entityData;
-        //?}
+        /*var builder = this.entityData;
+        *///?}
         builder.define(core, Blocks.STONE.defaultBlockState());
         builder.define(color, 0);
     }
@@ -82,17 +86,17 @@ public class ChaosSlime extends Slime implements TintableEntity {
 
     @Override
     @Nullable
-    public SpawnGroupData finalizeSpawn(ServerLevelAccessor world, DifficultyInstance difficulty, MobSpawnType spawnReason, @Nullable SpawnGroupData entityData
+    public SpawnGroupData finalizeSpawn(ServerLevelAccessor world, DifficultyInstance difficulty, EntitySpawnReason spawnReason, @Nullable SpawnGroupData entityData
     //? if <1.21 {
-    ,CompoundTag tag
-    //?}
+    /*,CompoundTag tag
+    *///?}
     ) {
         Random r = new Random();
-        this.entityData.set(core, BuiltInRegistries.BLOCK.get(VersionMethods.id(InfinityMod.provider.randomName(r, ConfigType.ALL_BLOCKS))).defaultBlockState());
+        this.entityData.set(core, VersionMethods.getFromRegistry(BuiltInRegistries.BLOCK, VersionMethods.id(InfinityMod.provider.randomName(r, ConfigType.ALL_BLOCKS))).defaultBlockState());
         this.entityData.set(color, r.nextInt(16777216));
         return super.finalizeSpawn(world, difficulty, spawnReason, entityData
         //? if <1.21
-                , tag
+                /*, tag*/
         );
     }
 
@@ -121,7 +125,13 @@ public class ChaosSlime extends Slime implements TintableEntity {
 
     @Override
     protected ParticleOptions getParticleType() {
-        return new DustParticleOptions(particleColorFromInt(this.getColorForRender()), 1.0f);
+        return new DustParticleOptions(
+                //? if >1.21.2 {
+                this.getColorForRender()
+                //?} else {
+                /*particleColorFromInt(this.getColorForRender())
+                *///?}
+                , 1.0f);
     }
     @Override
     protected SoundEvent getHurtSound(DamageSource source) {
@@ -139,33 +149,50 @@ public class ChaosSlime extends Slime implements TintableEntity {
     protected SoundEvent getJumpSound() {
         return this.getCore().getSoundType().getFallSound();
     }
-    @Override
+
+    //FIXME - this got removed without replacement, we'll probably need a data solution
+//    @Override
     public
     //? if >1.21 {
-    /*ResourceKey<LootTable>
-    *///?} else {
-    ResourceLocation
-    //?}
+    ResourceKey<LootTable>
+    //?} else {
+    /*ResourceLocation
+    *///?}
     getDefaultLootTable() {
-        return this.getCore().getBlock().getLootTable();
+        return this.getCore().getBlock().getLootTable()
+                //? if >1.21.4
+                .get()
+                ;
     }
 
     @Override
-    public void addAdditionalSaveData(CompoundTag nbt) {
+    public void addAdditionalSaveData(
+            //? if >1.21.2 {
+            ValueOutput
+            //?} else {
+            /*CompoundTag
+             *///?}
+            nbt) {
         super.addAdditionalSaveData(nbt);
         nbt.putInt("color", getColor());
         nbt.putString("core", BuiltInRegistries.BLOCK.getKey(this.getCore().getBlock()).toString());
     }
 
     @Override
-    public void readAdditionalSaveData(CompoundTag nbt) {
+    public void readAdditionalSaveData(
+            //? if >1.21.2 {
+            ValueInput
+            //?} else {
+            /*CompoundTag
+             *///?}
+            nbt) {
         super.readAdditionalSaveData(nbt);
         this.setColor(NbtUtils.getInt(nbt, "color"));
-        Block b = BuiltInRegistries.BLOCK.get(VersionMethods.id(NbtUtils.getString(nbt,"core")));
+        Block b = VersionMethods.getBlock(VersionMethods.id(NbtUtils.getString(nbt,"core")));
         this.setCore(b.defaultBlockState());
     }
 
-    public static boolean canSpawn(EntityType<ChaosSlime> type, ServerLevelAccessor world, MobSpawnType spawnReason, BlockPos pos, net.minecraft.util.RandomSource random) {
+    public static boolean canSpawn(EntityType<ChaosSlime> type, ServerLevelAccessor world, EntitySpawnReason spawnReason, BlockPos pos, net.minecraft.util.RandomSource random) {
         if (world.getDifficulty() != Difficulty.PEACEFUL && InfinityMethods.chaosMobsEnabled()) {
             if (!(world instanceof WorldGenLevel)) {
                 return false;

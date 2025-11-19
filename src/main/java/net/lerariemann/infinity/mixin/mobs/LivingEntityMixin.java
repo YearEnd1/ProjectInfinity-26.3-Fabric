@@ -3,6 +3,7 @@ package net.lerariemann.infinity.mixin.mobs;
 import net.lerariemann.infinity.registry.core.ModStatusEffects;
 import net.lerariemann.infinity.util.VersionMethods;
 import net.minecraft.core.Holder;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.tags.EntityTypeTags;
 import net.minecraft.util.Mth;
 import net.minecraft.world.damagesource.DamageSource;
@@ -20,8 +21,8 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 //? if >1.21 {
-/*import net.minecraft.world.entity.ai.attributes.Attributes;
-*///?}
+import net.minecraft.world.entity.ai.attributes.Attributes;
+//?}
 
 @Mixin(LivingEntity.class)
 public abstract class LivingEntityMixin extends Entity {
@@ -31,12 +32,12 @@ public abstract class LivingEntityMixin extends Entity {
 
     /* Hook to allow unconventional effect removal logic */
     //? if >1.21 {
-    /*@Shadow public abstract double getAttributeValue(Holder<Attribute> attribute);
+    @Shadow public abstract double getAttributeValue(Holder<Attribute> attribute);
 
     @Inject(method = "onEffectRemoved", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;refreshDirtyAttributes()V"))
-    *///?} else {
-    @Inject(method = "onEffectRemoved", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;getAttributes()Lnet/minecraft/world/entity/ai/attributes/AttributeMap;"))
-    //?}
+    //?} else {
+    /*@Inject(method = "onEffectRemoved", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;getAttributes()Lnet/minecraft/world/entity/ai/attributes/AttributeMap;"))
+    *///?}
     void inj(MobEffectInstance effect, CallbackInfo ci) {
         if (VersionMethods.unholdEffect(effect.getEffect()) instanceof ModStatusEffects.SpecialEffect eff) {
             eff.onRemoved((LivingEntity)(Object)this);
@@ -44,8 +45,13 @@ public abstract class LivingEntityMixin extends Entity {
     }
 
     /* Hook for sheep dropping wool when punched */
-    @Inject(method = "hurt", at = @At("RETURN"))
+    //? if >1.21.5 {
+    @Inject(method = "hurtServer", at = @At("RETURN"))
+    protected void injected_sheep(ServerLevel level, DamageSource damageSource, float amount, CallbackInfoReturnable<Boolean> cir) {}
+    //?} else {
+    /*@Inject(method = "hurt", at = @At("RETURN"))
     protected void injected_sheep(DamageSource source, float amount, CallbackInfoReturnable<Boolean> cir) {}
+    *///?}
 
     /* Handle fall damage in dimensions with custom mavity */
     @Inject(method = "calculateFallDamage", at = @At(value = "HEAD"), cancellable = true)
@@ -56,18 +62,18 @@ public abstract class LivingEntityMixin extends Entity {
             else {
                 double f =
                 //? if >1.21 {
-                /*getAttributeValue(Attributes.SAFE_FALL_DISTANCE);
-                *///?} else {
-                3.0;
-                //?}
+                getAttributeValue(Attributes.SAFE_FALL_DISTANCE);
+                //?} else {
+                /*3.0;
+                *///?}
                 double clampedMavity = Mth.clamp(options.getMavity(), 0.01, 2);
                 double g = fallDistance * clampedMavity - f;
                 double h =
                 //? if >1.21 {
-                /*getAttributeValue(Attributes.FALL_DAMAGE_MULTIPLIER);
-                *///?} else {
-                1.0;
-                //?}
+                getAttributeValue(Attributes.FALL_DAMAGE_MULTIPLIER);
+                //?} else {
+                /*1.0;
+                *///?}
                 cir.setReturnValue(Mth.ceil((g * damageMultiplier) * h));
             }
         }

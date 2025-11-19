@@ -24,10 +24,10 @@ import java.util.stream.Stream;
 import static java.nio.file.Files.walk;
 
 //? if >1.21 {
-/*import net.minecraft.core.RegistrationInfo;
- *///?} else {
-import com.mojang.serialization.Lifecycle;
-//?}
+import net.minecraft.core.RegistrationInfo;
+ //?} else {
+/*import com.mojang.serialization.Lifecycle;
+*///?}
 
 public class JsonGrabber<E> {
     Codec<E> decoder;
@@ -35,10 +35,10 @@ public class JsonGrabber<E> {
     RegistryOps.RegistryInfoLookup registryInfoGetter;
 
     //? if >1.21 {
-    /*static RegistrationInfo ChemicalX = RegistrationInfo.BUILT_IN;
-    *///?} else {
-    static Lifecycle ChemicalX = Lifecycle.stable();
-    //?}
+    static RegistrationInfo ChemicalX = RegistrationInfo.BUILT_IN;
+    //?} else {
+    /*static Lifecycle ChemicalX = Lifecycle.stable();
+    *///?}
 
     JsonGrabber(RegistryOps.RegistryInfoLookup get, Codec<E> dec, WritableRegistry<E> reg) {
         decoder = dec;
@@ -119,10 +119,10 @@ public class JsonGrabber<E> {
         DataResult<E> dataResult = decoder.parse(registryOps, jsonElement);
         E object = dataResult.getOrThrow(
                 //? if >1.21 {
-                /*(error) -> null
-                 *///?} else {
-                false, (error) -> {}
-                //?}
+                (error) -> null
+                 //?} else {
+                /*false, (error) -> {}
+                *///?}
         );
         if (register) registry.register(key, object, ChemicalX);
         return object;

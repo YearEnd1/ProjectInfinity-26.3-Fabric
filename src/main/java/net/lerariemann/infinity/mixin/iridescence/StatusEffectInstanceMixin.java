@@ -15,10 +15,10 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(MobEffectInstance.class)
 public abstract class StatusEffectInstanceMixin {
     //? if >1.21 {
-    /*@Shadow public abstract Holder<MobEffect> getEffect();
-    *///?} else {
-    @Shadow public abstract MobEffect getEffect();
-    //?}
+    @Shadow public abstract Holder<MobEffect> getEffect();
+    //?} else {
+    /*@Shadow public abstract MobEffect getEffect();
+    *///?}
 
     @Shadow private int duration;
 

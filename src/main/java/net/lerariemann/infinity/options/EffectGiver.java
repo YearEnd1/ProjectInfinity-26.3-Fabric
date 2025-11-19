@@ -16,7 +16,12 @@ import java.util.Optional;
 
 public record EffectGiver(Holder<MobEffect> id, int duration, int amplifier, int cooldown) {
     public static Holder<MobEffect> effectOf(String id) {
-        Optional<Holder.Reference<MobEffect>> entry = BuiltInRegistries.MOB_EFFECT.getHolder(ResourceKey.create(Registries.MOB_EFFECT, VersionMethods.id(id)));
+        Optional<Holder.Reference<MobEffect>> entry = BuiltInRegistries.MOB_EFFECT
+        //? if >1.21.2 {
+        .get(ResourceKey.create(Registries.MOB_EFFECT, VersionMethods.id(id)));
+        //?} else {
+        /*.getHolder(ResourceKey.create(Registries.MOB_EFFECT, VersionMethods.id(id)));
+        *///?}
         if (entry.isEmpty() || entry.get().value() instanceof InstantenousMobEffect) return null;
         return entry.get();
     }
@@ -33,7 +38,7 @@ public record EffectGiver(Holder<MobEffect> id, int duration, int amplifier, int
         if (!isEmpty() && player.level().getGameTime() % cooldown == 0) {
             player.addEffect(new MobEffectInstance(id
                     //? if <1.21
-                    .value()
+                    /*.value()*/
                     , duration, amplifier));
         }
     }

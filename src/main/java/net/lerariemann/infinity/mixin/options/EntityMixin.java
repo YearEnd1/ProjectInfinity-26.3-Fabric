@@ -18,12 +18,12 @@ public class EntityMixin {
 
     //FIXME - port mavity mixins from 1.20
     //? if >1.21 {
-    /*@Inject(method = "getGravity", at = @At("RETURN"), cancellable = true)
+    @Inject(method = "getGravity", at = @At("RETURN"), cancellable = true)
     private void injected(CallbackInfoReturnable<Double> cir) {
         if (Platform.isModLoaded("ponder") && PonderCompat.isPonderLevel(level))
             return;
         double mavity = InfinityOptions.access(level).getMavity();
         cir.setReturnValue(cir.getReturnValue() * mavity);
     }
-    *///?}
+    //?}
 }

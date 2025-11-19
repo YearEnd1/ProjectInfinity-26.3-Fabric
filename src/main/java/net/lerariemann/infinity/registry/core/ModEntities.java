@@ -11,18 +11,23 @@ import net.lerariemann.infinity.entity.custom.*;
 import net.lerariemann.infinity.util.InfinityMethods;
 import net.lerariemann.infinity.util.platform.InfinityPlatform;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Registry;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.*;
-//? if >1.21 {
-/*import net.minecraft.world.entity.SpawnPlacementType;
+//? if >1.21.9 {
+import net.minecraft.world.entity.EntitySpawnReason;
+import static net.minecraft.world.entity.EntitySpawnReason.*;
+//?} else if >1.21 {
+/*import net.minecraft.world.entity.EntitySpawnReason;
 import static net.minecraft.world.entity.SpawnPlacementTypes.*;
 *///?} else {
-import net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityTypeBuilder;
+/*import net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityTypeBuilder;
 import static net.minecraft.world.entity.SpawnPlacements.Type.*;
-//?}
+*///?}
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.monster.AbstractSkeleton;
 import net.minecraft.world.entity.monster.Monster;
@@ -62,23 +67,23 @@ public class ModEntities {
             .register("chaos_slime", () ->
                     //? if >1.21 {
                     
-                    /*EntityType.Builder.of(ChaosSlime::new, MobCategory.MONSTER)
+                    EntityType.Builder.of(ChaosSlime::new, MobCategory.MONSTER)
                     .sized(0.52f, 0.52f)
                     .clientTrackingRange(10)
                     .build(type("chaos_slime"))
-                     *///?} else {
-                    FabricEntityTypeBuilder.create(MobCategory.MONSTER, ChaosSlime::new)
+                     //?} else {
+                    /*FabricEntityTypeBuilder.create(MobCategory.MONSTER, ChaosSlime::new)
                     .dimensions(EntityDimensions.scalable(0.52f, 0.52f))
                     .trackRangeBlocks(10)
                     .build()
-                    //?}
+                    *///?}
             );
     public static final RegistrySupplier<EntityType<ChaosSkeleton>> CHAOS_SKELETON = INFINITY_ENTITIES
             .register("chaos_skeleton", () -> EntityType.Builder.of(ChaosSkeleton::new, MobCategory.MONSTER)
                     .sized(0.6f, 1.99f)
                     .clientTrackingRange(8)
                     //? if >1.21
-                    /*.ridingOffset(-0.7F)*/
+                    .ridingOffset(-0.7F)
                     .build(type("chaos_skeleton")));
     public static final RegistrySupplier<EntityType<ChaosCreeper>> CHAOS_CREEPER = INFINITY_ENTITIES
             .register("chaos_creeper", () -> EntityType.Builder.of(ChaosCreeper::new, MobCategory.MONSTER)
@@ -90,7 +95,7 @@ public class ModEntities {
                     .sized(0.6f, 2.0f)
                     .clientTrackingRange(10)
                     //? if >1.21
-                    /*.ridingOffset(-0.7F)*/
+                    .ridingOffset(-0.7F)
                     .build(type("chaos_pawn")));
     public static final RegistrySupplier<EntityType<AntEntity>> ANT = INFINITY_ENTITIES
             .register("ant", () -> EntityType.Builder.of(AntEntity::new, MobCategory.CREATURE)
@@ -101,10 +106,10 @@ public class ModEntities {
             .register("bishop", () -> EntityType.Builder.of(BishopEntity::new, MobCategory.MONSTER)
                     .sized(0.6f, 2.7f)
                     //? if >1.21 {
-                    /*.eyeHeight(1.75f)
+                    .eyeHeight(1.75f)
                     .nameTagOffset(2.05F)
                     .ridingOffset(-0.7F)
-                    *///?}
+                    //?}
                     .clientTrackingRange(10)
                     .build(type("bishop")));
 
@@ -113,12 +118,18 @@ public class ModEntities {
         registerAttributes();
     }
 
-    public static String type(String id) {
+    //? if >1.21.9 {
+    public static ResourceKey<EntityType<?>> type(String id) {
+        return ResourceKey.create(Registries.ENTITY_TYPE, InfinityMethods.getId(id));
+    }
+    //?} else {
+    /*public static String type(String id) {
         if (Platform.isFabric() && InfinityPlatform.above21) {
             return null;
         }
         else return "infinity:"+id;
     }
+    *///?}
 
     public static void registerAttributes() {
         EntityAttributeRegistry.register(CHAOS_SLIME, ChaosSlime::createAttributes);
@@ -131,10 +142,10 @@ public class ModEntities {
 
     public static <T extends Mob> void registerSafe(EntityType<T> type,
                                                     //? if >1.21 {
-                                                    /*SpawnPlacementType
-                                                    *///?} else {
-                                                    SpawnPlacements.Type
-                                                    //?}
+                                                    EntitySpawnReason
+                                                    //?} else {
+                                                    /*SpawnPlacements.Type
+                                                    *///?}
                                                     location, Heightmap.Types heightmapType, SpawnPlacements.SpawnPredicate<T> predicate,
                                                     //? if neoforge {
                                                     /*RegisterSpawnPlacementsEvent event
@@ -180,14 +191,14 @@ public class ModEntities {
         registerSafe(EntityType.CAMEL, ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Animal::checkAnimalSpawnRules, event);
         registerSafe(EntityType.ZOGLIN, ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Monster::checkMonsterSpawnRules, event);
         //? if >1.21
-        /*registerSafe(EntityType.BREEZE, ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Monster::checkMonsterSpawnRules, event);*/
+        registerSafe(EntityType.BREEZE, ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Monster::checkMonsterSpawnRules, event);
     }
 
-    public static boolean canChaosMonsterSpawn(EntityType<? extends Monster> type, ServerLevelAccessor world, MobSpawnType spawnReason, BlockPos pos, RandomSource random) {
+    public static boolean canChaosMonsterSpawn(EntityType<? extends Monster> type, ServerLevelAccessor world, EntitySpawnReason spawnReason, BlockPos pos, RandomSource random) {
         return Monster.checkMonsterSpawnRules(type, world, spawnReason, pos, random)
                 && InfinityMethods.chaosMobsEnabled();
     }
-    public static boolean canChessFigureSpawn(EntityType<? extends AbstractChessFigure> type, ServerLevelAccessor world, MobSpawnType spawnReason, BlockPos pos, RandomSource random) {
+    public static boolean canChessFigureSpawn(EntityType<? extends AbstractChessFigure> type, ServerLevelAccessor world, EntitySpawnReason spawnReason, BlockPos pos, RandomSource random) {
         return Mob.checkMobSpawnRules(type, world, spawnReason, pos, random)
                 && world.getDifficulty() != Difficulty.PEACEFUL
                 && InfinityMethods.chaosMobsEnabled();

@@ -37,10 +37,10 @@ public class IridescenceLiquidBlock extends ArchitecturyLiquidBlock {
                         !Iridescence.getPhase(le).equals(Iridescence.Phase.INITIAL))
                     ModItemFunctions.checkCollisionRecipes(w, item, ModItemFunctions.IRIDESCENCE_CRAFTING_TYPE.get(),
                             //? if >1.21 {
-                            /*i -> PortalDataHolder.getIridComponents(i, item)
-                            *///?} else {
-                            new CompoundTag()
-                            //?}
+                            i -> PortalDataHolder.getIridComponents(i, item)
+                            //?} else {
+                            /*new CompoundTag()
+                            *///?}
                             //FIXME - this matches current 1.20 behaviour, but might be wrong
                     );
             }

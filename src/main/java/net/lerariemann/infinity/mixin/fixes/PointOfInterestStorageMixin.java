@@ -20,21 +20,21 @@ import net.minecraft.world.level.LevelHeightAccessor;
 import net.minecraft.world.level.chunk.storage.SectionStorage;
 //? if >1.21 {
 
-/*import net.minecraft.world.level.chunk.storage.SimpleRegionStorage;
+import net.minecraft.world.level.chunk.storage.SimpleRegionStorage;
 import net.minecraft.world.level.chunk.storage.ChunkIOErrorReporter;
-*///?}
+//?}
 
 @Mixin(PoiManager.class)
 public abstract class PointOfInterestStorageMixin extends SectionStorage<PoiSection> {
     //? if >1.21 {
-    /*public PointOfInterestStorageMixin(SimpleRegionStorage storageAccess, Function<Runnable, Codec<PoiSection>> codecFactory, Function<Runnable, PoiSection> factory, RegistryAccess registryManager, ChunkIOErrorReporter errorHandler, LevelHeightAccessor world) {
+    public PointOfInterestStorageMixin(SimpleRegionStorage storageAccess, Function<Runnable, Codec<PoiSection>> codecFactory, Function<Runnable, PoiSection> factory, RegistryAccess registryManager, ChunkIOErrorReporter errorHandler, LevelHeightAccessor world) {
         super(storageAccess, codecFactory, factory, registryManager, errorHandler, world);
     }
-    *///?} else {
-    public PointOfInterestStorageMixin(Path folder, Function<Runnable, Codec<PoiSection>> codec, Function<Runnable, PoiSection> factory, DataFixer fixerUpper, DataFixTypes type, boolean sync, RegistryAccess registryAccess, LevelHeightAccessor levelHeightAccessor) {
+    //?} else {
+    /*public PointOfInterestStorageMixin(Path folder, Function<Runnable, Codec<PoiSection>> codec, Function<Runnable, PoiSection> factory, DataFixer fixerUpper, DataFixTypes type, boolean sync, RegistryAccess registryAccess, LevelHeightAccessor levelHeightAccessor) {
         super(folder, codec, factory, fixerUpper, type, sync, registryAccess, levelHeightAccessor);
     }
-    //?}
+    *///?}
 
     /* There's null-unsafe inner-minecraft code that can crash if we don't do this */
     @Inject(method = "add", at = @At("HEAD"), cancellable = true)

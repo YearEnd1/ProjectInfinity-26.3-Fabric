@@ -46,10 +46,10 @@ public class ModPlacementModifiers {
 
     static <P extends PlacementModifier> PlacementModifierType<P> getType(MapCodec<P> codec) {
         //? if >1.21 {
-        /*return () -> codec;
-         *///?} else {
-        return codec::codec;
-        //?}
+        return () -> codec;
+         //?} else {
+        /*return codec::codec;
+        *///?}
     }
     static RegistrySupplier<PlacementModifierType<?>> register(String id, MapCodec<? extends PlacementModifier> codec) {
             return PLACEMENT_MODIFIER_TYPES.register(id, () -> getType(codec));

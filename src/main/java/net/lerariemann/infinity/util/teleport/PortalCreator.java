@@ -24,10 +24,10 @@ import net.minecraft.BlockUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 //? if >1.21 {
-/*import net.minecraft.core.component.DataComponents;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.item.component.WritableBookContent;
 import net.minecraft.world.item.component.WrittenBookContent;
-*///?}
+//?}
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
@@ -81,7 +81,7 @@ public interface PortalCreator {
 
         /* Check if the item provided is a book of some kind. */
         //? if >1.21 {
-        /*WritableBookContent writableComponent = itemStack.getComponents().get(DataComponents.WRITABLE_BOOK_CONTENT);
+        WritableBookContent writableComponent = itemStack.getComponents().get(DataComponents.WRITABLE_BOOK_CONTENT);
         WrittenBookContent writtenComponent = itemStack.getComponents().get(DataComponents.WRITTEN_BOOK_CONTENT);
         String printedComponent = null;
         if (Platform.isModLoaded("computercraft")) {
@@ -100,8 +100,8 @@ public interface PortalCreator {
             if (bl) entity.remove(Entity.RemovalReason.CHANGED_DIMENSION);
             recordIdTranslation(world.getServer(), id, content);
         }
-        *///?} else {
-        else if (itemStack.getItem() == Items.WRITTEN_BOOK || itemStack.getItem() == Items.WRITABLE_BOOK) {
+        //?} else {
+        /*else if (itemStack.getItem() == Items.WRITTEN_BOOK || itemStack.getItem() == Items.WRITABLE_BOOK) {
             var compound = itemStack.getTag();
             String content;
             if (compound != null) {
@@ -125,14 +125,14 @@ public interface PortalCreator {
                 InfinityMod.LOGGER.warn("An incompatible version of ComputerCraft is present. Please update it to the latest version");
             }
         }
-        //?}
+        *///?}
     }
 
     /**
      * Extracts the string used to generate the dimension ID from component content.
      */
     //? if >1.21 {
-    /*static String parseComponents(WritableBookContent writableComponent, WrittenBookContent writtenComponent, String printedComponent) {
+    static String parseComponents(WritableBookContent writableComponent, WrittenBookContent writtenComponent, String printedComponent) {
         String content = "";
         try {
             if (writableComponent != null) {
@@ -151,8 +151,8 @@ public interface PortalCreator {
         }
         return content;
     }
-    *///?} else {
-    static String parseComponents(CompoundTag compound, Item item) {
+    //?} else {
+    /*static String parseComponents(CompoundTag compound, Item item) {
         ListTag pages = compound.getList("pages", Tag.TAG_STRING);
         if (pages.isEmpty()) {
             return "";
@@ -166,7 +166,7 @@ public interface PortalCreator {
         }
         else return "";
     }
-    //?}
+    *///?}
 
     /**
      * Sets the portal color and destination and calls to open the portal immediately if the portal key is blank.

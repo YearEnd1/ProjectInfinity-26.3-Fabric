@@ -1,6 +1,7 @@
 package net.lerariemann.infinity.entity.custom;
 
 import net.lerariemann.infinity.block.custom.AntBlock;
+import net.lerariemann.infinity.util.VersionMethods;
 import net.lerariemann.infinity.util.core.NbtUtils;
 import net.lerariemann.infinity.util.var.BishopBattle;
 import net.minecraft.core.BlockPos;
@@ -30,6 +31,10 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.FluidState;
+//? if >1.21.4 {
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
+//?}
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
@@ -96,7 +101,13 @@ public class AntEntity extends AbstractChessFigure {
     }
 
     @Override
-    public void readAdditionalSaveData(CompoundTag nbt) {
+    public void readAdditionalSaveData(
+            //? if >1.21.2 {
+            ValueInput
+            //?} else {
+            /*CompoundTag
+             *///?}
+            nbt) {
         super.readAdditionalSaveData(nbt);
         this.dropsLoot = NbtUtils.getBoolean(nbt, "dropsLoot", true);
         this.direction = switch(NbtUtils.getString(nbt, "direction")) {
@@ -106,13 +117,23 @@ public class AntEntity extends AbstractChessFigure {
             default -> Direction.EAST;
         };
         if (nbt.contains("last_changed_pos")) {
-            CompoundTag pos = NbtUtils.getCompound(nbt, "last_changed_pos");
+            //? if >1.21.2 {
+            this.lastChangedPos = nbt.read("last_changed_pos", BlockPos.CODEC).orElse(lastChangedPos);
+            //?} else {
+            /*CompoundTag pos = NbtUtils.getCompound(nbt, "last_changed_pos");
             this.lastChangedPos = new BlockPos(NbtUtils.getInt(pos, "x"), NbtUtils.getInt(nbt,"y"), NbtUtils.getInt(nbt, "z"));
+            *///?}
         }
     }
 
     @Override
-    public void addAdditionalSaveData(CompoundTag nbt) {
+    public void addAdditionalSaveData(
+            //? if >1.21.2 {
+            ValueOutput
+            //?} else {
+            /*CompoundTag
+             *///?}
+            nbt) {
         super.addAdditionalSaveData(nbt);
         nbt.putBoolean("dropsLoot", dropsLoot);
         nbt.putString("direction", switch(this.direction) {
@@ -122,11 +143,15 @@ public class AntEntity extends AbstractChessFigure {
                     default -> "E";
                 });
         if (lastChangedPos != null) {
-            CompoundTag pos = new CompoundTag();
+            //? if >1.21.2 {
+            nbt.store("last_changed_pos", BlockPos.CODEC, lastChangedPos);
+            //?} else {
+            /*CompoundTag pos = new CompoundTag();
             pos.putInt("x", lastChangedPos.getX());
             pos.putInt("y", lastChangedPos.getY());
             pos.putInt("z", lastChangedPos.getZ());
             nbt.put("last_changed_pos", pos);
+            *///?}
         }
     }
 
@@ -141,11 +166,11 @@ public class AntEntity extends AbstractChessFigure {
     }
 
     //? if >1.21 {
-    /*@Override
+    @Override
     public boolean canBeLeashed() {
         return !isInBattle();
     }
-    *///?}
+    //?}
     @Override
     public boolean canStandOnFluid(FluidState state) {
         return state.is(FluidTags.WATER);
@@ -174,15 +199,15 @@ public class AntEntity extends AbstractChessFigure {
     public InteractionResult mobInteract(Player player, InteractionHand hand) {
         if (!this.isVehicle()
                 //? if >1.21
-                /*&& this.getAttributeValue(Attributes.SCALE) > 2*/
+                && this.getAttributeValue(Attributes.SCALE) > 2
                 && player.getItemInHand(hand).isEmpty()) {
             this.putPlayerOnBack(player);
-            return InteractionResult.sidedSuccess(this.level().isClientSide());
+            return VersionMethods.sidedSuccess(this.level().isClientSide());
         }
         return super.mobInteract(player, hand);
     }
     protected void putPlayerOnBack(Player player) {
-        if (!this.level().isClientSide) {
+        if (!this.level().isClientSide()) {
             player.setYRot(this.getYRot());
             player.setXRot(this.getXRot());
             player.startRiding(this);
@@ -274,10 +299,10 @@ public class AntEntity extends AbstractChessFigure {
         public void start() {
             if (targetPos == null) return;
             //? if >1.21 {
-            /*Vec3 v = targetPos.getBottomCenter();
-            *///?} else {
-            Vec3 v = targetPos.getCenter();
-            //?}
+            Vec3 v = targetPos.getBottomCenter();
+            //?} else {
+            /*Vec3 v = targetPos.getCenter();
+            *///?}
             mob.randomTeleport(v.x, v.y, v.z, false);
             mob.setYRot(mob.direction.toYRot());
         }

@@ -10,7 +10,7 @@ import org.spongepowered.asm.mixin.injection.*;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 //? if <1.21 {
-import net.lerariemann.infinity.block.entity.InfinityPortalBlockEntity;
+/*import net.lerariemann.infinity.block.entity.InfinityPortalBlockEntity;
 import net.lerariemann.infinity.util.teleport.InfinityPortal;
 import net.lerariemann.infinity.util.teleport.PortalCreator;
 import net.lerariemann.infinity.util.InfinityMethods;
@@ -22,12 +22,12 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.portal.PortalInfo;
 import org.spongepowered.asm.mixin.Shadow;
-//?}
+*///?}
 
 @Mixin(Entity.class)
 public abstract class EntityMixin {
     //? if <1.21 {
-    @Shadow
+    /*@Shadow
     protected BlockPos portalEntrancePos;
 
     @Shadow public abstract Level level();
@@ -63,7 +63,7 @@ public abstract class EntityMixin {
             }
         }
     }
-    //?}
+    *///?}
 
     /* (Neo)forge-exclusive mixins working around its code (which causes mobs to be unable to swim in iridescence) */
     @Inject(method="updateFluidHeightAndDoFluidPushing", at = @At(value = "RETURN"), cancellable = true)

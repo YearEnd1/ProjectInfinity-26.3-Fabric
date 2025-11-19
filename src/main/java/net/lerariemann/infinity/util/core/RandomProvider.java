@@ -265,7 +265,7 @@ public class RandomProvider {
     public void kickGhostsOut(RegistryAccess s) {
         registry.remove(ConfigType.BIOMES);
         List<CompoundTag> biomes = CommonIO.readCategory(ConfigType.BIOMES);
-        Registry<Biome> reg = s.registryOrThrow(Registries.BIOME);
+        Registry<Biome> reg = s.lookupOrThrow(Registries.BIOME);
         registerCategory(ConfigType.BIOMES, biomes.stream().filter(comp -> reg.containsKey(VersionMethods.id(NbtUtils.getString(comp,"key")))).toList());
     }
 }

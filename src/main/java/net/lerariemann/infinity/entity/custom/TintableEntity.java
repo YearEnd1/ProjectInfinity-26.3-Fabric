@@ -1,11 +1,18 @@
 package net.lerariemann.infinity.entity.custom;
 
 import net.lerariemann.infinity.util.VersionMethods;
+import net.minecraft.util.ARGB;
+import net.minecraft.world.entity.animal.sheep.Sheep;
 import org.joml.Vector3f;
 
 import java.awt.*;
-import net.minecraft.util.FastColor;
+//? if <1.21.2 {
+/*import net.minecraft.util.FastColor;
 import net.minecraft.world.entity.animal.Sheep;
+*///?} else {
+import net.minecraft.util.ARGB;
+//?}
+
 import net.minecraft.world.item.DyeColor;
 
 public interface TintableEntity {
@@ -22,14 +29,21 @@ public interface TintableEntity {
         int p = n % o;
         int q = (n + 1) % o;
         float r = (float)(age % 25) / 25.0F;
-        //? if >1.21 {
+        //? if =1.21.1 {
         /*int s = Sheep.getColor(DyeColor.byId(p));
         int t = Sheep.getColor(DyeColor.byId(q));
         *///?} else {
         int s = DyeColor.byId(p).getFireworkColor();
         int t = DyeColor.byId(q).getFireworkColor();
         //?}
-        return FastColor.ARGB32.lerp(r, s, t);
+
+
+        //? if <1.21.2 {
+        /*return FastColor.ARGB32
+        *///?} else {
+        return ARGB
+        //?}
+        .lerp(r, s, t);
     }
 
     int getColorNamed();

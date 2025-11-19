@@ -1,6 +1,9 @@
 package net.lerariemann.infinity.options;
 
-import com.mojang.blaze3d.platform.GlStateManager;
+//FIXME 1.21.10
+//? if <1.21.2 {
+
+/*import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
 import com.mojang.math.Axis;
@@ -116,26 +119,26 @@ public record SkyRenderer(InfinityOptions options, Minecraft client, ClientLevel
     public record FriendlyVertexConsumer(VertexConsumer vc) {
         FriendlyVertexConsumer setColor(float r, float g, float b, float a) {
             //? if >1.21 {
-            /*vc.setColor(r, g, b, a);
-             *///?} else {
-            vc.color(r, g, b, a);
-            //?}
+            vc.setColor(r, g, b, a);
+             //?} else {
+            /^vc.color(r, g, b, a);
+            ^///?}
             return this;
         }
 
         FriendlyVertexConsumer setUv(float u, float v) {
             //? if >1.21 {
-            /*vc.setUv(u, v);
-             *///?} else {
-            vc.uv(u, v);
-            //?}
+            vc.setUv(u, v);
+             //?} else {
+            /^vc.uv(u, v);
+            ^///?}
             return this;
         }
 
         void endVertex() {
             //? if <1.21 {
-            vc.endVertex();
-            //?}
+            /^vc.endVertex();
+            ^///?}
         }
     }
 
@@ -144,32 +147,32 @@ public record SkyRenderer(InfinityOptions options, Minecraft client, ClientLevel
 
         FriendlyBuilder(Tesselator tesselator, VertexFormat.Mode mode, VertexFormat format) {
             //? if >1.21 {
-            /*bufferBuilder = tesselator.begin(mode, format);
-             *///?} else {
-            bufferBuilder = tesselator.getBuilder();
+            bufferBuilder = tesselator.begin(mode, format);
+             //?} else {
+            /^bufferBuilder = tesselator.getBuilder();
             bufferBuilder.begin(mode, format);
-            //?}
+            ^///?}
         }
 
         FriendlyVertexConsumer addVertex(Matrix4f m4f, float x, float y, float z) {
             return new FriendlyVertexConsumer(
                     //? if >1.21 {
-                    /*bufferBuilder.addVertex(m4f, x, y, z)
-                     *///?} else {
-                    bufferBuilder.vertex(m4f, x, y, z)
-                    //?}
+                    bufferBuilder.addVertex(m4f, x, y, z)
+                     //?} else {
+                    /^bufferBuilder.vertex(m4f, x, y, z)
+                    ^///?}
             );
         }
 
         //? if >1.21 {
-        /*MeshData buildOrThrow() {
+        MeshData buildOrThrow() {
             return bufferBuilder.buildOrThrow();
         }
-        *///?} else {
-        BufferBuilder.RenderedBuffer buildOrThrow() {
+        //?} else {
+        /^BufferBuilder.RenderedBuffer buildOrThrow() {
             return bufferBuilder.end();
         }
-        //?}
+        ^///?}
     }
 
     public void renderAllCelestialBodies(Runnable fogCallback) {
@@ -348,3 +351,5 @@ public record SkyRenderer(InfinityOptions options, Minecraft client, ClientLevel
         RenderSystem.disableBlend();
     }
 }
+
+*///?}

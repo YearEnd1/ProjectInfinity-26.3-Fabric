@@ -68,11 +68,11 @@ public interface ConfigGenerator {
         SurfaceRuleScanner.scan(server);
         RegistryAccess manager = server.registryAccess();
         //? if >1.21 {
-        /*ConfigFactory.of(manager.registryOrThrow(Registries.JUKEBOX_SONG)).generate(ConfigType.JUKEBOXES);
-        *///?}
-        ConfigFactory.of(manager.registryOrThrow(Registries.BIOME), ConfigGenerator::extractBiome).generate(ConfigType.BIOMES);
-        ConfigFactory.of(manager.registryOrThrow(Registries.STRUCTURE), ConfigGenerator::extractStructure).generate(ConfigType.STRUCTURES);
-        ConfigFactory.of(manager.registryOrThrow(Registries.CONFIGURED_FEATURE), ConfigGenerator::extractFeature).generate(ConfigType.TREES);
+        ConfigFactory.of(manager.lookupOrThrow(Registries.JUKEBOX_SONG)).generate(ConfigType.JUKEBOXES);
+        //?}
+        ConfigFactory.of(manager.lookupOrThrow(Registries.BIOME), ConfigGenerator::extractBiome).generate(ConfigType.BIOMES);
+        ConfigFactory.of(manager.lookupOrThrow(Registries.STRUCTURE), ConfigGenerator::extractStructure).generate(ConfigType.STRUCTURES);
+        ConfigFactory.of(manager.lookupOrThrow(Registries.CONFIGURED_FEATURE), ConfigGenerator::extractFeature).generate(ConfigType.TREES);
         generateLootTables(server);
     }
 
@@ -91,30 +91,41 @@ public interface ConfigGenerator {
 
     static void generateBlockTags() {
         DataCollection tagMap = new DataCollection.Logged(ConfigType.TAGS, "block tags");
-        BuiltInRegistries.BLOCK.getTagNames().forEach(tagKey -> tagMap.addIdentifier(tagKey.location()));
+        //? if >1.21.2 {
+        BuiltInRegistries.BLOCK.listTagIds().forEach(tagKey -> tagMap.addIdentifier(tagKey.location()));
+        //?} else {
+        /*BuiltInRegistries.BLOCK.getTagNames().forEach(tagKey -> tagMap.addIdentifier(tagKey.location()));
+        *///?}
         tagMap.save();
     }
 
     static void generateLootTables(MinecraftServer server) {
-        //? if =1.21.1 {
-        /*ConfigFactory.of(server.reloadableRegistries().get().registryOrThrow(Registries.LOOT_TABLE), ConfigGenerator::extractLootTable)
+        //? if >1.21.9 {
+        var r = server.reloadableRegistries().lookup().lookupOrThrow(Registries.LOOT_TABLE);
+        DataCollection lootTables = new DataCollection.Logged(ConfigType.LOOT_TABLES, "loot tables");
+        r.listElementIds().forEach(id -> {
+            lootTables.addIdentifier(id.location());
+        });
+        lootTables.save();
+        //?} else if =1.21.1 {
+        /*ConfigFactory.of(server.reloadableRegistries().get().lookupOrThrow(Registries.LOOT_TABLE), ConfigGenerator::extractLootTable)
                 .generate(ConfigType.LOOT_TABLES);
         *///?} else {
-        DataCollection lootTables = new DataCollection.Logged(ConfigType.LOOT_TABLES, "loot tables");
+        /*DataCollection lootTables = new DataCollection.Logged(ConfigType.LOOT_TABLES, "loot tables");
         server.getLootData().getKeys(LootDataType.TABLE).forEach((key)->{
             LootTable table = server.getLootData().getLootTable(key);
             //? if >1.21 {
-            /*ResourceLocation type = LootContextParamSets.REGISTRY.inverse().get(table.getParamSet());
-            *///?} else {
-            ResourceLocation type = LootContextParamSets.getKey(table.getParamSet());
-            //?}
+            ResourceLocation type = LootContextParamSets.REGISTRY.inverse().get(table.getParamSet());
+            //?} else {
+            /^ResourceLocation type = LootContextParamSets.getKey(table.getParamSet());
+            ^///?}
             if (type == null) return;
             CompoundTag res = new CompoundTag();
             res.putString("Type", type.getPath()); //this data is unused for now but might be important later
             lootTables.add(key.getNamespace(), key.getPath(), res);
         });
         lootTables.save();
-        //?}
+        *///?}
 
     }
 
@@ -123,13 +134,13 @@ public interface ConfigGenerator {
         Registry<Fluid> r = BuiltInRegistries.FLUID;
         Set<String> fluidBlockNames = new HashSet<>();
         r.registryKeySet().forEach(key -> {
-            Fluid b = BuiltInRegistries.FLUID.get(key);
+            Fluid b = VersionMethods.getFromRegistry(BuiltInRegistries.FLUID, key);
             assert b!= null;
             String name = BuiltInRegistries.BLOCK.getKey(b.defaultFluidState().createLegacyBlock().getBlock()).toString();
             CompoundTag data = new CompoundTag();
             data.putString("fluidName", key.location().toString());
             fluidBlockNames.add(name);
-            Fluid f = r.get(key.location());
+            Fluid f = VersionMethods.getFromRegistry(r, key.location());
             if (f instanceof FlowingFluid fl && fl.equals(fl.getSource())) {
                 String modId = key.location().getNamespace();
                 fluidMap.add(modId, name, data);
@@ -147,7 +158,7 @@ public interface ConfigGenerator {
         r.registryKeySet().forEach(key -> {
             String blockName = key.location().toString();
             if(excludedBlockNames.contains(blockName)) return;
-            Block block = r.get(key);
+            Block block = VersionMethods.getBlock(key);
             assert block != null;
             String modId = key.location().getNamespace();
             blockMap.add(modId, blockName, extractBlock(key, serverWorld, inAir, onAltar));
@@ -166,7 +177,7 @@ public interface ConfigGenerator {
         DataCollection chests = new DataCollection.Logged(ConfigType.CHESTS);
         Set<ResourceLocation> allBlocks = new HashSet<>();
         r.registryKeySet().forEach(key -> {
-            BlockEntityTypeAccess<? extends BlockEntity> bet = (BlockEntityTypeAccess<?>)(r.get(key));
+            BlockEntityTypeAccess<? extends BlockEntity> bet = (BlockEntityTypeAccess<?>)(VersionMethods.getFromRegistry(r, key));
             assert bet != null;
             Set<Block> blocks = bet.infinity$getBlocks();
             if (!blocks.isEmpty()) {
@@ -193,7 +204,7 @@ public interface ConfigGenerator {
     }
 
     static CompoundTag extractBlock(ResourceKey<Block> key, LevelReader w, BlockPos inAir, BlockPos onStone) {
-        Block b = BuiltInRegistries.BLOCK.get(key);
+        Block b = VersionMethods.getBlock(key);
         assert b!= null;
         BlockState bs = b.defaultBlockState();
         CompoundTag res = new CompoundTag();
@@ -238,12 +249,12 @@ public interface ConfigGenerator {
 
     static CompoundTag extractParticle(ResourceKey<ParticleType<?>> key) {
         ResourceLocation id = key.location();
-        if (!id.getNamespace().equals("minecraft") && !(BuiltInRegistries.PARTICLE_TYPE.get(id) instanceof SimpleParticleType)) return null;
+        if (!id.getNamespace().equals("minecraft") && !(VersionMethods.getFromRegistry(BuiltInRegistries.PARTICLE_TYPE, id) instanceof SimpleParticleType)) return null;
         return new CompoundTag();
     }
 
     static CompoundTag extractMob(ResourceKey<EntityType<?>> key) {
-        MobCategory sg = BuiltInRegistries.ENTITY_TYPE.get(key.location()).getCategory();
+        MobCategory sg = VersionMethods.getFromRegistry(BuiltInRegistries.ENTITY_TYPE, key.location()).getCategory();
         if (sg == MobCategory.MISC) return null; //minecarts n stuff
         CompoundTag mob = new CompoundTag();
         mob.putString("Category", sg.getSerializedName());
@@ -304,9 +315,18 @@ public interface ConfigGenerator {
 
     static CompoundTag genEntry(MobSpawnSettings.SpawnerData entry) {
         CompoundTag res = new CompoundTag();
-        res.putString("type", BuiltInRegistries.ENTITY_TYPE.getKey(entry.type).toString());
-        res.putInt("maxCount", entry.maxCount);
-        res.putInt("minCount", entry.minCount);
+        res.putString("type", BuiltInRegistries.ENTITY_TYPE.getKey(entry.type
+                //? if >1.21.9
+                ()
+        ).toString());
+        res.putInt("maxCount", entry.maxCount
+                //? if >1.21.9
+                        ()
+        );
+        res.putInt("minCount", entry.minCount
+                //? if >1.21.9
+                        ()
+        );
         res.putInt("weight", entry.getWeight().asInt());
         return res;
     }
@@ -337,10 +357,10 @@ public interface ConfigGenerator {
         if (o.isEmpty()) return null;
         LootTable table = o.get();
         //? if >1.21 {
-        /*ResourceLocation type = LootContextParamSets.REGISTRY.inverse().get(table.getParamSet());
-        *///?} else {
-        ResourceLocation type = LootContextParamSets.getKey(table.getParamSet());
-        //?}
+        ResourceLocation type = LootContextParamSets.REGISTRY.inverse().get(table.getParamSet());
+        //?} else {
+        /*ResourceLocation type = LootContextParamSets.getKey(table.getParamSet());
+        *///?}
         if (type == null) return null;
         CompoundTag res = new CompoundTag();
         res.putString("Type", type.getPath()); //this data is unused for now but might be important later

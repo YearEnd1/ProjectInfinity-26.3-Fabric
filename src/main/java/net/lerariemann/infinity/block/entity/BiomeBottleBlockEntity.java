@@ -8,6 +8,9 @@ import net.lerariemann.infinity.util.core.NbtUtils;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
+//? if >1.21.4 {
+import net.minecraft.core.component.DataComponentGetter;
+//?}
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.resources.ResourceLocation;
@@ -18,13 +21,15 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import org.jetbrains.annotations.Nullable;
 
 //? if >1.21 {
-/*import net.lerariemann.infinity.registry.core.ModComponentTypes;
+import net.lerariemann.infinity.registry.core.ModComponentTypes;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.component.DataComponentMap;
-*///?}
+//?}
 //? if neoforge {
 /*import javax.annotation.ParametersAreNonnullByDefault;
 *///?}
@@ -73,16 +78,36 @@ public class BiomeBottleBlockEntity extends TintableBlockEntity {
     }
 
     //? if >1.21 {
-    /*public void saveAdditional(CompoundTag tag, HolderLookup.Provider registryLookup) {
-        super.saveAdditional(tag, registryLookup);
+    public void saveAdditional(
+            //? if >1.21.4 {
+            ValueOutput tag
+            //?} else {
+            /*CompoundTag tag, HolderLookup.Provider registryLookup
+            *///?}
+    ) {
+        super.saveAdditional(tag
+                //? if <1.21.4 {
+                /*, registryLookup
+                *///?}
+                );
         tag.putString("Biome", biome.toString());
         tag.putInt("Color", color);
         tag.putInt("Charge", charge);
         if (from_charge > 0) tag.putInt("from_charge", from_charge);
     }
 
-    public void loadAdditional(CompoundTag tag, HolderLookup.Provider registryLookup) {
-        super.loadAdditional(tag, registryLookup);
+    public void loadAdditional(
+            //? if >1.21.4 {
+            ValueInput tag
+            //?} else {
+            /*CompoundTag tag, HolderLookup.Provider registryLookup
+            *///?}
+    ) {
+        super.loadAdditional(tag
+                //? if <1.21.4 {
+                /*, registryLookup
+                *///?}
+        );
         this.charge = NbtUtils.getInt(tag, "Charge");
         this.biome = VersionMethods.id(NbtUtils.getString(tag, "Biome"));
         this.color = NbtUtils.getInt(tag, "Color");
@@ -96,7 +121,7 @@ public class BiomeBottleBlockEntity extends TintableBlockEntity {
     }
 
     @Override
-    protected void applyImplicitComponents(DataComponentInput components) {
+    protected void applyImplicitComponents(DataComponentGetter components) {
         super.applyImplicitComponents(components);
         this.biome = components.getOrDefault(ModComponentTypes.BIOME_CONTENTS.get(), BiomeBottleBlock.defaultBiome());
         this.color = components.getOrDefault(ModComponentTypes.COLOR.get(), 0xFFFFFF);
@@ -106,8 +131,8 @@ public class BiomeBottleBlockEntity extends TintableBlockEntity {
     public CompoundTag getUpdateTag(HolderLookup.Provider registryLookup) {
         return saveWithoutMetadata(registryLookup);
     }
-    *///?} else {
-    public void saveAdditional(CompoundTag tag) {
+    //?} else {
+    /*public void saveAdditional(CompoundTag tag) {
         super.saveAdditional(tag);
         tag.putString("Biome", biome.toString());
         tag.putInt("Color", color);
@@ -122,7 +147,7 @@ public class BiomeBottleBlockEntity extends TintableBlockEntity {
         this.color = NbtUtils.getInt(tag, "Color");
         this.from_charge = NbtUtils.getInt(tag, "from_charge", 0);
     }
-    //?}
+    *///?}
 
     @Nullable
     @Override
@@ -139,7 +164,7 @@ public class BiomeBottleBlockEntity extends TintableBlockEntity {
     public ItemStack asStack() {
         ItemStack itemStack = ModItems.BIOME_BOTTLE_ITEM.get().getDefaultInstance();
         //? if >1.21
-        /*itemStack.applyComponents(this.collectComponents());*/
+        itemStack.applyComponents(this.collectComponents());
         return itemStack;
     }
 

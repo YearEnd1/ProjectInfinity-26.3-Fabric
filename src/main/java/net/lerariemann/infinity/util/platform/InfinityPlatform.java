@@ -15,10 +15,10 @@ import java.nio.file.Path;
 public interface InfinityPlatform {
     boolean above21 =
             //? if >1.21 {
-            /*true;
-             *///?} else {
-            false;
-    //?}
+            true;
+             //?} else {
+            /*false;
+    *///?}
 
     //? fabric {
     InfinityPlatform INSTANCE = new FabricPlatformImpl();

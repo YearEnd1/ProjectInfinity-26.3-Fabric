@@ -1,6 +1,8 @@
 package net.lerariemann.infinity.compat.emi;
 
-import dev.emi.emi.api.recipe.BasicEmiRecipe;
+//? if <1.21.2 {
+
+/*import dev.emi.emi.api.recipe.BasicEmiRecipe;
 import dev.emi.emi.api.render.EmiTexture;
 import dev.emi.emi.api.stack.EmiIngredient;
 import dev.emi.emi.api.stack.EmiStack;
@@ -13,9 +15,9 @@ import net.lerariemann.infinity.util.VersionMethods;
 import net.lerariemann.infinity.util.var.ColorLogic;
 import net.minecraft.core.RegistryAccess;
 //? if >1.21 {
-/*import net.minecraft.world.item.crafting.RecipeHolder;
+import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.core.component.DataComponentPatch;
-*///?}
+//?}
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -30,7 +32,7 @@ public class PortalCraftingEmiRecipe extends BasicEmiRecipe {
         this.inputs.add(EmiIngredient.of(recipe.getInput()));
         ItemStack out = recipe.getResultItem(registryManager);
         //? if >1.21 {
-        /*DataComponentPatch.Builder b = DataComponentPatch.builder();
+        DataComponentPatch.Builder b = DataComponentPatch.builder();
         if (out.getItem() instanceof PortalDataHolder) {
             b = b.set(ModComponentTypes.COLOR.get(), ColorLogic.defaultPortal);
         }
@@ -38,8 +40,8 @@ public class PortalCraftingEmiRecipe extends BasicEmiRecipe {
             b = b.set(ModComponentTypes.DESTINATION.get(), VersionMethods.id("infinity:generated_0"));
         }
         out.applyComponentsAndValidate(b.build());
-        *///?} else {
-        var b = new CompoundTag();
+        //?} else {
+        /^var b = new CompoundTag();
         if (out.getItem() instanceof PortalDataHolder) {
             b.putInt(ModComponentTypes.COLOR, ColorLogic.defaultPortal);
         }
@@ -47,7 +49,7 @@ public class PortalCraftingEmiRecipe extends BasicEmiRecipe {
             b.putString(ModComponentTypes.DESTINATION, VersionMethods.id("infinity:generated_0").toString());
         }
         out.setTag(b);
-        //?}
+        ^///?}
         this.outputs.add(EmiStack.of(out));
         this.lore = recipe.getLore();
         if (!Objects.equals(lore, "empty")) {
@@ -69,3 +71,4 @@ public class PortalCraftingEmiRecipe extends BasicEmiRecipe {
         }
     }
 }
+*///?}

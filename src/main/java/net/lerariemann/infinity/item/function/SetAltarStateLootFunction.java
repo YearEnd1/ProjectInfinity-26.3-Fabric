@@ -14,30 +14,30 @@ import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
 import org.jetbrains.annotations.NotNull;
 
 //? if >1.21 {
-/*import com.mojang.serialization.MapCodec;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import java.util.List;
-*///?}
+//?}
 
 public class SetAltarStateLootFunction extends LootItemConditionalFunction {
     //? if >1.21 {
-    /*public static final MapCodec<SetAltarStateLootFunction> CODEC = RecordCodecBuilder.mapCodec(
+    public static final MapCodec<SetAltarStateLootFunction> CODEC = RecordCodecBuilder.mapCodec(
             instance -> commonFields(instance).apply(instance, SetAltarStateLootFunction::new)
     );
     private SetAltarStateLootFunction(List<LootItemCondition> conditions) {
         super(conditions);
     }
-    *///?} else {
-    protected SetAltarStateLootFunction(LootItemCondition[] lootItemConditions) {
+    //?} else {
+    /*protected SetAltarStateLootFunction(LootItemCondition[] lootItemConditions) {
         super(lootItemConditions);
     }
-    //?}
+    *///?}
 
     @Override
     public @NotNull LootItemFunctionType
         //? if >1.21 {
-        /*<? extends LootItemConditionalFunction>
-         *///?}
+        <? extends LootItemConditionalFunction>
+         //?}
     getType() {
         return ModItemFunctions.SET_ALTAR_STATE.get();
     }
@@ -47,22 +47,22 @@ public class SetAltarStateLootFunction extends LootItemConditionalFunction {
         BlockState st = context.getParamOrNull(LootContextParams.BLOCK_STATE);
         if (st != null) {
             //? if >1.21 {
-            /*stack.applyComponentsAndValidate(AltarBlock.toComponentChanges(st));
-            *///?} else {
-            stack.setTag(AltarBlock.toComponentChanges(st));
-            //?}
+            stack.applyComponentsAndValidate(AltarBlock.toComponentChanges(st));
+            //?} else {
+            /*stack.setTag(AltarBlock.toComponentChanges(st));
+            *///?}
         }
         return stack;
     }
 
     //? if <1.21 {
-    public static class Serializer extends LootItemConditionalFunction.Serializer<SetAltarStateLootFunction> {
+    /*public static class Serializer extends LootItemConditionalFunction.Serializer<SetAltarStateLootFunction> {
         public Serializer() {
         }
         public @NotNull SetAltarStateLootFunction deserialize(JsonObject object, JsonDeserializationContext deserializationContext, LootItemCondition[] conditions) {
             return new SetAltarStateLootFunction(new LootItemCondition[0]);
         }
     }
-    //?}
+    *///?}
 }
 

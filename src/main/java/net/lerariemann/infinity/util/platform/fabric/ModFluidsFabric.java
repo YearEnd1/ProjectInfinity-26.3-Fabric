@@ -19,6 +19,7 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.BlockAndTintGetter;
 import net.minecraft.world.level.BlockGetter;
@@ -107,6 +108,14 @@ public class ModFluidsFabric {
         public boolean isSource(FluidState state) {
             return true;
         }
+
+        //? if >1.21.2 {
+        @Override
+        protected boolean canConvertToSource(ServerLevel level) {
+            return false;
+        }
+        //?}
+
         @Override
         public int getAmount(FluidState state) {
             return 8;
@@ -122,6 +131,13 @@ public class ModFluidsFabric {
             super.createFluidStateDefinition(builder);
             builder.add(LEVEL);
         }
+        //? if >1.21.2 {
+        @Override
+        protected boolean canConvertToSource(ServerLevel level) {
+            return false;
+        }
+        //?}
+
         @Override
         public int getAmount(FluidState state) {
             return state.getValue(LEVEL);

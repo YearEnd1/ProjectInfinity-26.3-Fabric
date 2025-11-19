@@ -124,7 +124,7 @@ public class RandomInfinityOptions {
     public static CompoundTag effect(Random r, RandomProvider provider) {
         CompoundTag res = new CompoundTag();
         CompoundTag effect = provider.randomElement(r, ConfigType.EFFECTS);
-        if (effect.getBoolean("Instant")) return new CompoundTag();
+        if (NbtUtils.getBoolean(effect, "Instant")) return new CompoundTag();
         int amplifier = Math.min(5, (int)(0.5*r.nextExponential()));
         res.putString("id", NbtUtils.getString(effect, "Name"));
         res.putInt("amplifier", amplifier);

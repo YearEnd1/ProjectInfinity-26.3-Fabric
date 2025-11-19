@@ -6,11 +6,11 @@ import net.lerariemann.infinity.registry.var.ModCriteria;
 import net.lerariemann.infinity.util.var.BishopBattle;
 import net.minecraft.core.BlockPos;
 //? if >1.21 {
-/*import net.minecraft.core.component.DataComponentPatch;
+import net.minecraft.core.component.DataComponentPatch;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.item.component.BlockItemStateProperties;
 import net.minecraft.world.item.component.CustomModelData;
-*///?}
+//?}
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -73,7 +73,7 @@ public class AltarBlock extends Block {
     }
 
     //? if >1.21 {
-    /*public static DataComponentPatch toComponentChanges(BlockState state) {
+    public static DataComponentPatch toComponentChanges(BlockState state) {
         int color = state.getValue(AltarBlock.COLOR);
         boolean flower = state.getValue(AltarBlock.FLOWER);
         if (color > 0 || flower) return DataComponentPatch.builder().set(DataComponents.BLOCK_STATE,
@@ -85,8 +85,8 @@ public class AltarBlock extends Block {
                 .build();
         return DataComponentPatch.EMPTY;
     }
-    *///?} else {
-    public static CompoundTag toComponentChanges(BlockState state) {
+    //?} else {
+    /*public static CompoundTag toComponentChanges(BlockState state) {
         CompoundTag compoundTag = new CompoundTag();
         int color = state.getValue(AltarBlock.COLOR);
         boolean flower = state.getValue(AltarBlock.FLOWER);
@@ -98,22 +98,22 @@ public class AltarBlock extends Block {
         }
         return compoundTag;
     }
-    //?}
+    *///?}
 
     @Override
     public ItemStack getCloneItemStack(
             //? if >1.21 {
-            /*LevelReader
-             *///?} else {
-            BlockGetter
-                    //?}
+            LevelReader
+             //?} else {
+            /*BlockGetter
+                    *///?}
             world, BlockPos pos, BlockState state) {
         ItemStack res = super.getCloneItemStack(world, pos, state);
         //? if >1.21 {
-        /*res.applyComponentsAndValidate(toComponentChanges(state));
-        *///?} else {
-        res.setTag(toComponentChanges(state));
-        //?}
+        res.applyComponentsAndValidate(toComponentChanges(state));
+        //?} else {
+        /*res.setTag(toComponentChanges(state));
+        *///?}
         return res;
     }
 
@@ -132,10 +132,10 @@ public class AltarBlock extends Block {
 
     @Override
     //? if >1.21 {
-    /*public InteractionResult useWithoutItem(BlockState state, Level world, BlockPos pos, Player player, BlockHitResult hit) {
-    *///?} else {
-    public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
-    //?}
+    public InteractionResult useWithoutItem(BlockState state, Level world, BlockPos pos, Player player, BlockHitResult hit) {
+    //?} else {
+    /*public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
+    *///?}
         ItemStack itemStack = player.getItemInHand(InteractionHand.MAIN_HAND);
         //rituals
         if (world instanceof ServerLevel serverWorld) {
@@ -156,10 +156,10 @@ public class AltarBlock extends Block {
             return InteractionResult.SUCCESS;
         }
         //? if >1.21 {
-        /*return super.useWithoutItem(state, world, pos, player, hit);
-        *///?} else {
-        return super.use(state, world, pos, player, hand, hit);
-        //?}
+        return super.useWithoutItem(state, world, pos, player, hit);
+        //?} else {
+        /*return super.use(state, world, pos, player, hand, hit);
+        *///?}
     }
 
     public static int getColor(ItemStack itemStack, BlockState oldState) {

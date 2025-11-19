@@ -301,10 +301,10 @@ public class ModDensityFunctionTypes {
 
     public static final DeferredRegister<
             //? if >1.21 {
-            /*MapCodec
-             *///?} else {
-            Codec
-            //?}
+            MapCodec
+             //?} else {
+            /*Codec
+            *///?}
             <? extends DensityFunction>> DENSITY_FUNCTION_TYPES = DeferredRegister.create(MOD_ID, Registries.DENSITY_FUNCTION_TYPE);
 
     public static <T extends DensityFunction> void register(String name, KeyDispatchDataCodec<T> holder) {

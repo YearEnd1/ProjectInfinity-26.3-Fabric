@@ -28,6 +28,10 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
+//? if >1.21.4 {
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
+//?}
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.scores.Team;
 import org.jetbrains.annotations.Nullable;
@@ -100,20 +104,43 @@ public abstract class AbstractChessFigure extends Monster implements NeutralMob 
     }
 
     @Override
-    public void addAdditionalSaveData(CompoundTag nbt) {
+    public void addAdditionalSaveData(
+            //? if >1.21.2 {
+            ValueOutput
+            //?} else {
+            /*CompoundTag
+             *///?}
+            nbt) {
         super.addAdditionalSaveData(nbt);
         this.addPersistentAngerSaveData(nbt);
     }
     @Override
-    public void readAdditionalSaveData(CompoundTag nbt) {
+    public void readAdditionalSaveData(
+            //? if >1.21.2 {
+            ValueInput
+            //?} else {
+            /*CompoundTag
+             *///?}
+            nbt) {
         super.readAdditionalSaveData(nbt);
         this.readPersistentAngerSaveData(this.level(), nbt);
     }
 
     @Override
-    protected void customServerAiStep() {
-        this.updatePersistentAnger((ServerLevel)this.level(), false);
-        super.customServerAiStep();
+    protected void customServerAiStep(
+            //? if >1.21.4 {
+            ServerLevel serverLevel
+            //?}
+    ) {
+        //? if <1.21.4 {
+        /*var serverLevel = (ServerLevel)this.level();
+        *///?}
+        this.updatePersistentAnger(serverLevel, false);
+        super.customServerAiStep(
+                //? if >1.21.4 {
+                serverLevel
+                //?}
+        );
     }
 
     @Override
@@ -216,7 +243,7 @@ public abstract class AbstractChessFigure extends Monster implements NeutralMob 
 
         @Override
         public boolean canUse() {
-            return this.mob.level().getGameRules().getBoolean(GameRules.RULE_UNIVERSAL_ANGER) && this.canStartUniversalAnger();
+            return ((ServerLevel) this.mob.level()).getGameRules().getBoolean(GameRules.RULE_UNIVERSAL_ANGER) && this.canStartUniversalAnger();
         }
 
         private boolean canStartUniversalAnger() {

@@ -1,6 +1,8 @@
 package net.lerariemann.infinity.compat.emi;
 
-import dev.emi.emi.api.recipe.BasicEmiRecipe;
+//? if <1.21.2 {
+
+/*import dev.emi.emi.api.recipe.BasicEmiRecipe;
 import dev.emi.emi.api.render.EmiTexture;
 import dev.emi.emi.api.stack.EmiIngredient;
 import dev.emi.emi.api.stack.EmiStack;
@@ -10,8 +12,8 @@ import net.minecraft.core.RegistryAccess;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 //? if >1.21 {
-/*import net.minecraft.world.item.crafting.RecipeHolder;
-*///?}
+import net.minecraft.world.item.crafting.RecipeHolder;
+//?}
 import java.util.Objects;
 
 public class IridesenceCraftingEmiRecipe extends BasicEmiRecipe {
@@ -41,3 +43,5 @@ public class IridesenceCraftingEmiRecipe extends BasicEmiRecipe {
         }
     }
 }
+
+*///?}

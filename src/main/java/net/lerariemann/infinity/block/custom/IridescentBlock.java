@@ -29,7 +29,7 @@ public class IridescentBlock extends Block {
     public static int num_models = 24;
     public static final IntegerProperty COLOR_OFFSET = IntegerProperty.create("color", 0, num_models - 1);
     //? if >1.21
-    /*public static final MapCodec<IridescentBlock> CODEC = simpleCodec(IridescentBlock::new);*/
+    public static final MapCodec<IridescentBlock> CODEC = simpleCodec(IridescentBlock::new);
 
     public IridescentBlock(Properties settings) {
         super(settings);
@@ -37,11 +37,11 @@ public class IridescentBlock extends Block {
     }
 
     //? if >1.21 {
-    /*@Override
+    @Override
     public MapCodec<? extends IridescentBlock> codec() {
         return CODEC;
     }
-    *///?}
+    //?}
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
@@ -56,10 +56,10 @@ public class IridescentBlock extends Block {
 
     @Override
     //? if <1.21 {
-    public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
-     //?} else {
-    /*protected InteractionResult useWithoutItem(BlockState state, Level world, BlockPos pos, Player player, BlockHitResult hit) {
-        *///?}
+    /*public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
+     *///?} else {
+    protected InteractionResult useWithoutItem(BlockState state, Level world, BlockPos pos, Player player, BlockHitResult hit) {
+        //?}
         if (player.getItemInHand(InteractionHand.MAIN_HAND).is(ModItems.STAR_OF_LANG.get())) {
             BlockState state1 = toStatic(state);
             if (state1 != null) {
@@ -72,10 +72,10 @@ public class IridescentBlock extends Block {
             }
         }
         //? if <1.21 {
-        return super.use(state, world, pos, player, hand, hit);
-        //?} else {
-        /*return super.useWithoutItem(state, world, pos, player, hit);
-         *///?}
+        /*return super.use(state, world, pos, player, hand, hit);
+        *///?} else {
+        return super.useWithoutItem(state, world, pos, player, hit);
+         //?}
     }
 
     public static class Carpet extends IridescentBlock {
@@ -87,20 +87,20 @@ public class IridescentBlock extends Block {
 
         @Override
         //? if >1.21 {
-        /*protected
-        *///?} else {
-        public
-            //?}
+        protected
+        //?} else {
+        /*public
+            *///?}
          VoxelShape getShape(BlockState state, BlockGetter world, BlockPos pos, CollisionContext context) {
             return SHAPE;
         }
 
         @Override
         //? if >1.21 {
-        /*protected
-        *///?} else {
-        public
-            //?}
+        protected
+        //?} else {
+        /*public
+            *///?}
          BlockState updateShape(BlockState state, Direction direction, BlockState neighborState, LevelAccessor world, BlockPos pos, BlockPos neighborPos) {
             return !state.canSurvive(world, pos)
                     ? Blocks.AIR.defaultBlockState()
@@ -109,10 +109,10 @@ public class IridescentBlock extends Block {
 
         @Override
         //? if >1.21 {
-        /*protected
-        *///?} else {
-        public
-            //?}
+        protected
+        //?} else {
+        /*public
+            *///?}
          boolean canSurvive(BlockState state, LevelReader world, BlockPos pos) {
             return !world.isEmptyBlock(pos.below());
         }

@@ -34,7 +34,7 @@ public interface Timebombable {
         }
         else if (i > 200) {
             if (i%4 == 0) {
-                Registry<DamageType> r = player.serverLevel().getServer().registryAccess().registryOrThrow(Registries.DAMAGE_TYPE);
+                Registry<DamageType> r = player.serverLevel().getServer().registryAccess().lookupOrThrow(Registries.DAMAGE_TYPE);
                 Holder<DamageType> entry = r.wrapAsHolder(r.get(InfinityMethods.getId("world_ceased")));
                 player.hurt(new DamageSource(entry), i > 400 ? 2.0f : 1.0f);
             }

@@ -32,7 +32,7 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.ai.targeting.TargetingConditions;
 import net.minecraft.world.entity.animal.AbstractFish;
 import net.minecraft.world.entity.monster.Slime;
@@ -303,10 +303,10 @@ public interface Iridescence {
                 //? neoforge {
                 /*EventHooks.finalizeMobSpawn(newEntity,
                 *///?}
-                w, w.getCurrentDifficultyAt(currEntity.blockPosition()), MobSpawnType.CONVERSION, null
+                w, w.getCurrentDifficultyAt(currEntity.blockPosition()), EntitySpawnReason.CONVERSION, null
                         //? if <1.21 {
-                        , null
-                        //?}
+                        /*, null
+                        *///?}
                 );
                 if (currEntity instanceof Slime e1 && newEntity instanceof Slime e2) {
                     e2.setSize(e1.getSize(), true);

@@ -24,10 +24,10 @@ public class BiomeBottleItem extends BlockItem {
     @Override
     public void appendHoverText(ItemStack stack,
             //? if >1.21 {
-            /*TooltipContext
-             *///?} else {
-            Level
-            //?}
+            TooltipContext
+             //?} else {
+            /*Level
+            *///?}
             context, List<Component> tooltip, TooltipFlag type) {
         super.appendHoverText(stack, context, tooltip, type);
         ResourceLocation biome = VersionMethods.getBiomeComponents(stack);

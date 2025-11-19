@@ -8,6 +8,7 @@ import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.storage.ValueOutput;
 import org.jetbrains.annotations.Nullable;
 
 /// This will be used later for player-performed invocations such as creating new biomes, but for now is kinda deprecated
@@ -17,35 +18,40 @@ public class CosmicAltarBlockEntity extends BlockEntity {
     }
 
     //? if >1.21 {
-    /*@Override
+    @Override
     public boolean isValidBlockState(BlockState state) {
         return true;
     }
-    *///?}
+    //?}
     
     @Deprecated
     public static void serverTick(Level world, BlockPos pos, BlockState state, CosmicAltarBlockEntity be) {
     }
 
     //? if >1.21 {
-    /*@Override
+    @Override
     public void loadAdditional(CompoundTag nbt, HolderLookup.Provider registryLookup) {
         super.loadAdditional(nbt, registryLookup);
     }
-    *///?} else {
-    @Override
+    //?} else {
+    /*@Override
     public void load(CompoundTag tag) {
         super.load(tag);
     }
-    //?}
+    *///?}
 
     @Override
-    protected void saveAdditional(CompoundTag nbt
-            //? if >1.21
+    protected void saveAdditional(
+            //? if =1.21.1 {
+            /*CompoundTag nbt
+             *///?} else {
+            ValueOutput nbt
+            //?}
+            //? if =1.21.1
             /*, HolderLookup.Provider registryLookup*/
     ) {
         super.saveAdditional(nbt
-                //? if >1.21
+                //? if =1.21.1
                 /*, registryLookup*/
         );
     }
@@ -59,11 +65,11 @@ public class CosmicAltarBlockEntity extends BlockEntity {
     @Override
     public CompoundTag getUpdateTag(
             //? if >1.21
-            /*HolderLookup.Provider registryLookup*/
+            HolderLookup.Provider registryLookup
     ) {
         return saveWithoutMetadata(
                 //? if >1.21
-                /*registryLookup*/
+                registryLookup
         );
     }
 }

@@ -11,10 +11,10 @@ import net.lerariemann.infinity.util.VersionMethods;
 import net.lerariemann.infinity.util.var.ColorLogic;
 import net.minecraft.core.BlockPos;
 //? if >1.21 {
-/*import net.minecraft.core.component.DataComponentPatch;
-*///?} else {
-import net.minecraft.nbt.CompoundTag;
-//?}
+import net.minecraft.core.component.DataComponentPatch;
+//?} else {
+/*import net.minecraft.nbt.CompoundTag;
+*///?}
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -37,20 +37,20 @@ public class ChromaticItem extends Item implements PortalDataHolder {
     @Override
     public
     //? if >1.21 {
-    /*DataComponentPatch
-    *///?} else {
-    CompoundTag
-    //?}
+    DataComponentPatch
+    //?} else {
+    /*CompoundTag
+    *///?}
     getPortalComponents(InfinityPortalBlockEntity ipbe) {
         return ofColor(ipbe.getPortalColor());
     }
     @Override
     public Optional<
             //? if >1.21 {
-            /*DataComponentPatch
-             *///?} else {
-            CompoundTag
-            //?}
+            DataComponentPatch
+             //?} else {
+            /*CompoundTag
+            *///?}
             > getIridComponents(ItemEntity entity) {
         Vec3 pos = entity.position();
         int hue = (int)(360*InfinityMethods.sampler.getValue(pos.x, pos.y, pos.z));
@@ -67,7 +67,7 @@ public class ChromaticItem extends Item implements PortalDataHolder {
     }
 
     //? if >1.21 {
-    /*static DataComponentPatch ofColor(int color) {
+    static DataComponentPatch ofColor(int color) {
         return DataComponentPatch.builder()
                 .set(ModComponentTypes.COLOR.get(), color)
                 .remove(ModComponentTypes.DYE_COLOR.get())
@@ -88,8 +88,8 @@ public class ChromaticItem extends Item implements PortalDataHolder {
                 .remove(ModComponentTypes.HUE.get())
                 .build();
     }
-    *///?} else {
-    static CompoundTag ofColor(int color) {
+    //?} else {
+    /*static CompoundTag ofColor(int color) {
         CompoundTag compoundTag = new CompoundTag();
         compoundTag.putInt(ModComponentTypes.COLOR, color);
         return compoundTag;
@@ -106,7 +106,7 @@ public class ChromaticItem extends Item implements PortalDataHolder {
         compoundTag.putString(ModComponentTypes.DYE_COLOR, dyeColor.getName());
         return compoundTag;
     }
-    //?}
+    *///?}
 
     @Override
     public InteractionResult useOn(UseOnContext context) {
@@ -131,10 +131,10 @@ public class ChromaticItem extends Item implements PortalDataHolder {
                     int hue = (altarState - 1) * (360 / (AltarBlock.numColors - 1));
                     if (!ColorLogic.matchesPureHue(currColor, hue)) {
                         //? if >1.21 {
-                        /*newStack.applyComponentsAndValidate(ofHue(hue));
-                        *///?} else {
-                        newStack.setTag(ofHue(hue));
-                        //?}
+                        newStack.applyComponentsAndValidate(ofHue(hue));
+                        //?} else {
+                        /*newStack.setTag(ofHue(hue));
+                        *///?}
                     } else return false;
                 }
             }
@@ -143,10 +143,10 @@ public class ChromaticItem extends Item implements PortalDataHolder {
                 if (dyeColor != null &&
                         !dyeColor.getName().equals(VersionMethods.getOrDefaultString(newStack, ModComponentTypes.DYE_COLOR, "null"))) {
                     //? if >1.21 {
-                    /*newStack.applyComponentsAndValidate(ofDye(dyeColor));
-                    *///?} else {
-                    newStack.setTag(ofDye(dyeColor));
-                    //?}
+                    newStack.applyComponentsAndValidate(ofDye(dyeColor));
+                    //?} else {
+                    /*newStack.setTag(ofDye(dyeColor));
+                    *///?}
                 }
                 else return false;
             }
@@ -154,17 +154,17 @@ public class ChromaticItem extends Item implements PortalDataHolder {
                 if (currHue > 0) {
                     if (ColorLogic.matchesPureHue(i, currHue)) return false;
                     //? if >1.21 {
-                    /*newStack.applyComponentsAndValidate(ofColor(i));
-                    *///?} else {
-                    newStack.setTag(ofColor(i));
-                    //?}
+                    newStack.applyComponentsAndValidate(ofColor(i));
+                    //?} else {
+                    /*newStack.setTag(ofColor(i));
+                    *///?}
                 }
                 else if (i != currColor) {
                     //? if >1.21 {
-                    /*newStack.applyComponentsAndValidate(ofColor(i));
-                    *///?} else {
-                    newStack.setTag(ofColor(i));
-                    //?}
+                    newStack.applyComponentsAndValidate(ofColor(i));
+                    //?} else {
+                    /*newStack.setTag(ofColor(i));
+                    *///?}
                 } else return false;
             }
             player.setItemInHand(hand, newStack);

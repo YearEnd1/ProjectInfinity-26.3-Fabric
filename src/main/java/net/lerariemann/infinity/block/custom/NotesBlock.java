@@ -41,20 +41,20 @@ public class NotesBlock extends Block {
 
     @Override
     //? if >1.21 {
-    /*protected
-    *///?} else {
-    public
-    //?}
+    protected
+    //?} else {
+    /*public
+    *///?}
     boolean isRandomlyTicking(BlockState state) {
         return state.hasProperty(TICKING) && state.getValue(TICKING);
     }
 
     @Override
     //? if >1.21 {
-    /*protected
-     *///?} else {
-    public
-        //?}
+    protected
+     //?} else {
+    /*public
+        *///?}
     void neighborChanged(BlockState state, Level world, BlockPos pos, Block sourceBlock, BlockPos sourcePos, boolean notify) {
         boolean bl = world.hasNeighborSignal(pos);
         if (bl != state.getValue(POWERED)) {
@@ -69,10 +69,10 @@ public class NotesBlock extends Block {
 
     @Override
     //? if >1.21 {
-    /*protected
-     *///?} else {
-    public
-    //?}
+    protected
+     //?} else {
+    /*public
+    *///?}
      void randomTick(BlockState state, ServerLevel world, BlockPos pos, RandomSource random) {
         if (isTicking(world, state) && random.nextInt(115) == 0) {
             this.play(null, world, pos);
@@ -81,10 +81,10 @@ public class NotesBlock extends Block {
     
     @Override
     //? if <1.21 {
-    public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
-        //?} else {
-    /*protected InteractionResult useWithoutItem(BlockState state, Level world, BlockPos pos, Player player, BlockHitResult hit) {
-        *///?}
+    /*public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
+        *///?} else {
+    protected InteractionResult useWithoutItem(BlockState state, Level world, BlockPos pos, Player player, BlockHitResult hit) {
+        //?}
         if (world.isClientSide()) {
             return InteractionResult.SUCCESS;
         } else {
@@ -98,10 +98,10 @@ public class NotesBlock extends Block {
 
     @Override
     //? if >1.21 {
-    /*protected
-     *///?} else {
-    public
-        //?}
+    protected
+     //?} else {
+    /*public
+        *///?}
      void attack(BlockState state, Level world, BlockPos pos, Player player) {
         if (!world.isClientSide()) {
             play(player, world, pos);
@@ -118,10 +118,10 @@ public class NotesBlock extends Block {
 
     @Override
     //? if >1.21 {
-    /*protected
-     *///?} else {
-    public
-        //?}
+    protected
+     //?} else {
+    /*public
+        *///?}
      boolean triggerEvent(BlockState state, Level world, BlockPos pos, int type, int data) {
         NoteBlockInstrument noteBlockInstrument;
         float f;

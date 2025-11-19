@@ -12,10 +12,10 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.RandomSource;
 //? if >1.21 {
-/*import net.minecraft.world.RandomizableContainer;
-*///?} else {
-import net.minecraft.world.level.block.entity.RandomizableContainerBlockEntity;
-//?}
+import net.minecraft.world.RandomizableContainer;
+//?} else {
+/*import net.minecraft.world.level.block.entity.RandomizableContainerBlockEntity;
+*///?}
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
@@ -41,10 +41,10 @@ public class RandomBonusChestFeature extends Feature<RandomBonusChestFeature.Con
             ResourceLocation id = context.config().loot;
             if (id.toString().equals("infinity:random")) id = VersionMethods.id(InfinityMod.provider.randomName(context.random(), ConfigType.LOOT_TABLES));
             //? if >1.21 {
-            /*RandomizableContainer.setBlockEntityLootTable(structureWorldAccess, random, blockPos, ResourceKey.create(Registries.LOOT_TABLE, id));
-            *///?} else {
-            RandomizableContainerBlockEntity.setLootTable(structureWorldAccess, random, blockPos, id);
-            //?}
+            RandomizableContainer.setBlockEntityLootTable(structureWorldAccess, random, blockPos, ResourceKey.create(Registries.LOOT_TABLE, id));
+            //?} else {
+            /*RandomizableContainerBlockEntity.setLootTable(structureWorldAccess, random, blockPos, id);
+            *///?}
             BlockState blockState = Blocks.TORCH.defaultBlockState();
 
             for (Direction direction : Direction.Plane.HORIZONTAL) {

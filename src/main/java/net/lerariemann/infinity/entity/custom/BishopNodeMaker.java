@@ -5,10 +5,10 @@ import net.minecraft.core.Direction;
 import net.minecraft.util.Mth;
 import net.minecraft.world.level.pathfinder.Node;
 //? if >1.21 {
-/*import net.minecraft.world.level.pathfinder.PathType;
-*///?} else {
-import net.minecraft.world.level.pathfinder.BlockPathTypes;
-//?}
+import net.minecraft.world.level.pathfinder.PathType;
+//?} else {
+/*import net.minecraft.world.level.pathfinder.BlockPathTypes;
+*///?}
 import net.minecraft.world.level.pathfinder.WalkNodeEvaluator;
 import org.jetbrains.annotations.Nullable;
 
@@ -18,18 +18,18 @@ public class BishopNodeMaker extends WalkNodeEvaluator {
         int i = 0;
         int j = 0;
         //? if >1.21 {
-        /*PathType pathNodeType = this.getCachedPathType(node.x, node.y + 1, node.z);
+        PathType pathNodeType = this.getCachedPathType(node.x, node.y + 1, node.z);
         PathType pathNodeType2 = this.getCachedPathType(node.x, node.y, node.z);
-        *///?} else {
-        BlockPathTypes pathNodeType = this.getCachedBlockType(this.mob, node.x, node.y + 1, node.z);
+        //?} else {
+        /*BlockPathTypes pathNodeType = this.getCachedBlockType(this.mob, node.x, node.y + 1, node.z);
         BlockPathTypes pathNodeType2 = this.getCachedBlockType(this.mob, node.x, node.y, node.z);
-        //?}
+        *///?}
         if (this.mob.getPathfindingMalus(pathNodeType) >= 0.0F && pathNodeType2 !=
                 //? if >1.21 {
-                /*PathType
-                *///?} else {
-                BlockPathTypes
-                //?}
+                PathType
+                //?} else {
+                /*BlockPathTypes
+                *///?}
                 .STICKY_HONEY) {
             j = Mth.floor(Math.max(1.0F, this.mob.maxUpStep()));
         }
@@ -38,10 +38,10 @@ public class BishopNodeMaker extends WalkNodeEvaluator {
 
         Node[] succ = new Node[Direction.Plane.HORIZONTAL
                 //? if >1.21 {
-                /*.length()
-                *///?} else {
-                .stream().toList().size()
-                //?}
+                .length()
+                //?} else {
+                /*.stream().toList().size()
+                *///?}
                 ];
         for (Direction direction : Direction.Plane.HORIZONTAL) {
             Node pathNode = this.findAcceptedNode(node.x + direction.getStepX(), node.y, node.z + direction.getStepZ(), j, d, direction, pathNodeType2);
@@ -51,8 +51,8 @@ public class BishopNodeMaker extends WalkNodeEvaluator {
             Direction direction2 = directionx.getClockWise();
             if (this.isDiagonalValid(node,
                     //? if <1.21 {
-                    node,
-                    //?}
+                    /*node,
+                    *///?}
                     succ[directionx.get2DDataValue()],
                     succ[direction2.get2DDataValue()])) {
                 Node pathNode2 = this.findAcceptedNode(
@@ -66,8 +66,8 @@ public class BishopNodeMaker extends WalkNodeEvaluator {
                 );
                 if (this.isDiagonalValid(pathNode2
                         //? if <1.21 {
-                        , null, null, null
-                        //?}
+                        /*, null, null, null
+                        *///?}
                 )) {
                     successors[i++] = pathNode2;
                 }
@@ -78,16 +78,16 @@ public class BishopNodeMaker extends WalkNodeEvaluator {
     }
 
     //? if >1.21 {
-    /*static final PathType door = PathType.WALKABLE_DOOR;
+    static final PathType door = PathType.WALKABLE_DOOR;
     static final PathType fence = PathType.FENCE;
-     *///?} else {
-    static final BlockPathTypes door = BlockPathTypes.WALKABLE_DOOR;
+     //?} else {
+    /*static final BlockPathTypes door = BlockPathTypes.WALKABLE_DOOR;
     static final BlockPathTypes fence = BlockPathTypes.FENCE;
-    //?}
+    *///?}
 
 
     //? if >1.21 {
-    /*@Override
+    @Override
     protected boolean isDiagonalValid(Node xNode, @Nullable Node xDiagNode, @Nullable Node zNode) {
         if (xDiagNode == null || zNode == null || (xDiagNode.y > xNode.y && zNode.y > xNode.y)) {
             return false;
@@ -98,8 +98,8 @@ public class BishopNodeMaker extends WalkNodeEvaluator {
             return false;
         }
     }
-    *///?} else {
-    @Override
+    //?} else {
+    /*@Override
     protected boolean isDiagonalValid(Node xNode, @Nullable Node zNode, @Nullable Node xDiagNode, @Nullable Node zDiagNode) {
         if (xDiagNode == null || zNode == null || (xDiagNode.y > xNode.y && zNode.y > xNode.y)) {
             return false;
@@ -110,5 +110,5 @@ public class BishopNodeMaker extends WalkNodeEvaluator {
             return false;
         }
     }
-    //?}
+    *///?}
 }

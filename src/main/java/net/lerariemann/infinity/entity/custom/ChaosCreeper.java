@@ -11,11 +11,11 @@ import net.lerariemann.infinity.util.core.ConfigType;
 import net.lerariemann.infinity.util.core.NbtUtils;
 import net.minecraft.MethodsReturnNonnullByDefault;
 //? if >1.21 {
-/*import net.minecraft.core.component.DataComponentMap;
+import net.minecraft.core.component.DataComponentMap;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.item.EitherHolder;
 import net.minecraft.world.item.JukeboxPlayable;
-*///?}
+//?}
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -32,7 +32,7 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.SpawnGroupData;
 import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.entity.player.Player;
@@ -42,6 +42,10 @@ import net.minecraft.world.item.ItemUtils;
 
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
+//? if >1.21.4 {
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
+//?}
 import org.jetbrains.annotations.Nullable;
 
 //? if neoforge {
@@ -67,10 +71,10 @@ public class ChaosCreeper extends Creeper implements TintableEntity {
 
     @Override
     @Nullable
-    public SpawnGroupData finalizeSpawn(ServerLevelAccessor world, DifficultyInstance difficulty, MobSpawnType spawnReason, @Nullable SpawnGroupData entityData
+    public SpawnGroupData finalizeSpawn(ServerLevelAccessor world, DifficultyInstance difficulty, EntitySpawnReason spawnReason, @Nullable SpawnGroupData entityData
                                         //? if <1.21 {
-                                         , @Nullable CompoundTag entityNbt
-                                        //?}
+                                         /*, @Nullable CompoundTag entityNbt
+                                        *///?}
     ) {
         CompoundTag biome = InfinityMod.provider.randomElement(world.getRandom(), ConfigType.BIOMES);
         this.setColor(NbtUtils.getInt(biome, "Color", 7842607));
@@ -78,25 +82,25 @@ public class ChaosCreeper extends Creeper implements TintableEntity {
         this.setBiome(NbtUtils.getString(biome, "Name"));
         return super.finalizeSpawn(world, difficulty, spawnReason, entityData
                 //? if <1.21 {
-                , entityNbt
-                //?}
+                /*, entityNbt
+                *///?}
                 );
     }
 
     @Override
     protected void defineSynchedData(
             //? if >1.21 {
-            /*SynchedEntityData.Builder builder
-            *///?}
+            SynchedEntityData.Builder builder
+            //?}
     ) {
         super.defineSynchedData(
                 //? if >1.21 {
-                /*builder
-                *///?}
+                builder
+                //?}
                 );
         //? if <1.21 {
-        SynchedEntityData builder = this.entityData;
-        //?}
+        /*SynchedEntityData builder = this.entityData;
+        *///?}
         builder.define(color, 7842607);
         builder.define(range, 16.0f);
         builder.define(biome, "minecraft:plains");
@@ -134,7 +138,13 @@ public class ChaosCreeper extends Creeper implements TintableEntity {
     }
 
     @Override
-    public void addAdditionalSaveData(CompoundTag nbt) {
+    public void addAdditionalSaveData(
+            //? if >1.21.2 {
+            ValueOutput
+            //?} else {
+            /*CompoundTag
+             *///?}
+            nbt) {
         super.addAdditionalSaveData(nbt);
         nbt.putFloat("range", this.getRange());
         nbt.putInt("color", this.getColor());
@@ -142,7 +152,13 @@ public class ChaosCreeper extends Creeper implements TintableEntity {
     }
 
     @Override
-    public void readAdditionalSaveData(CompoundTag nbt) {
+    public void readAdditionalSaveData(
+            //? if >1.21.2 {
+            ValueInput
+            //?} else {
+            /*CompoundTag
+            *///?}
+                    nbt) {
         super.readAdditionalSaveData(nbt);
         this.setRange(NbtUtils.getFloat(nbt, "range"));
         this.setColor(NbtUtils.getInt(nbt, "color"));
@@ -152,7 +168,7 @@ public class ChaosCreeper extends Creeper implements TintableEntity {
     public void blow_up() {
         float f = 3 * this.getRange() / 16;
         this.dead = true;
-        MinecraftServer s = this.getServer();
+        MinecraftServer s = this.level().getServer();
         try (Level level = this.level()) {
             if (s != null) {
                 ServerLevel serverWorld = s.getLevel(level.dimension());
@@ -182,17 +198,17 @@ public class ChaosCreeper extends Creeper implements TintableEntity {
                 if (!level.isClientSide() && (newCreeper = EntityType.CREEPER.create(this.level())) != null) {
                     //? if >1.21 {
                     
-                    /*itemStack2.applyComponents(BiomeBottleBlock.addComponents(DataComponentMap.builder(),
+                    itemStack2.applyComponents(BiomeBottleBlock.addComponents(DataComponentMap.builder(),
                             VersionMethods.id(getBiome()), getColor(), getCharge()).build());
-                    *///?} else {
-                    CompoundTag compound = new CompoundTag();
+                    //?} else {
+                    /*CompoundTag compound = new CompoundTag();
                     CompoundTag blockEntityTag = new CompoundTag();
                     blockEntityTag.putString("Biome", getBiomeId());
                     blockEntityTag.putInt("Color", getColor());
                     blockEntityTag.putInt("Charge", getCharge());
                     compound.put("BlockEntityTag", blockEntityTag);
                     itemStack2.setTag(compound);
-                    //?}
+                    *///?}
                     ItemStack itemStack3 = ItemUtils.createFilledResult(itemStack, player, itemStack2, false);
                     player.setItemInHand(hand, itemStack3);
                     this.discard();
@@ -208,7 +224,7 @@ public class ChaosCreeper extends Creeper implements TintableEntity {
     }
 
     //? if >1.21 {
-    /*@Override
+    @Override
     protected void dropCustomDeathLoot(ServerLevel world, DamageSource source, boolean causedByPlayer) {
         if (source.getEntity() != null && source.getEntity().getType().is(EntityTypeTags.SKELETONS)) {
             ItemStack stack = ModItems.DISC.get().getDefaultInstance();
@@ -220,5 +236,5 @@ public class ChaosCreeper extends Creeper implements TintableEntity {
             this.spawnAtLocation(stack);
         }
     }
-    *///?}
+    //?}
 }

@@ -145,10 +145,10 @@ public class ModMaterialConditions {
 
     public static final DeferredRegister<
             //? if >1.21 {
-            /*MapCodec
-             *///?} else {
-            Codec
-            //?}
+            MapCodec
+             //?} else {
+            /*Codec
+            *///?}
             <? extends SurfaceRules.ConditionSource>> MATERIAL_CONDITIONS = DeferredRegister.create(MOD_ID, Registries.MATERIAL_CONDITION);
 
 

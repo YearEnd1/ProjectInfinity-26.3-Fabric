@@ -12,7 +12,7 @@ import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.SpawnGroupData;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
@@ -31,6 +31,10 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.pathfinder.PathFinder;
+//? if >1.21.4 {
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
+//?}
 import org.jetbrains.annotations.Nullable;
 
 @MethodsReturnNonnullByDefault
@@ -54,14 +58,14 @@ public class BishopEntity extends AbstractChessFigure implements RangedAttackMob
 
     @Nullable
     @Override
-    public SpawnGroupData finalizeSpawn(ServerLevelAccessor world, DifficultyInstance difficulty, MobSpawnType spawnReason, @Nullable SpawnGroupData entityData
+    public SpawnGroupData finalizeSpawn(ServerLevelAccessor world, DifficultyInstance difficulty, EntitySpawnReason spawnReason, @Nullable SpawnGroupData entityData
         //? if <1.21 {
-        ,CompoundTag tag
-        //?}
+        /*,CompoundTag tag
+        *///?}
     ) {
         entityData = super.finalizeSpawn(world, difficulty, spawnReason, entityData
             //? if <1.21
-            ,tag
+            /*,tag*/
         );
         updateWeapon(random.nextBoolean(), true);
         updateAttackType();
@@ -98,7 +102,7 @@ public class BishopEntity extends AbstractChessFigure implements RangedAttackMob
         super.aiStep();
     }
     public void updateWeapon(boolean newAttackBow, boolean initial) {
-        if (this.level() != null && !this.level().isClientSide) {
+        if (this.level() != null && !this.level().isClientSide()) {
             boolean isHoldingBow = isHolding(Items.BOW);
             if (!newAttackBow && (isHoldingBow || initial)) {
                 setItemSlot(EquipmentSlot.MAINHAND, (random.nextBoolean() ? Items.IRON_SWORD : Items.IRON_AXE).getDefaultInstance());
@@ -111,7 +115,7 @@ public class BishopEntity extends AbstractChessFigure implements RangedAttackMob
     @Override
     public void setItemSlot(EquipmentSlot slot, ItemStack stack) {
         super.setItemSlot(slot, stack);
-        if (!this.level().isClientSide) {
+        if (!this.level().isClientSide()) {
             this.updateAttackType();
         }
     }
@@ -142,12 +146,24 @@ public class BishopEntity extends AbstractChessFigure implements RangedAttackMob
     }
 
     @Override
-    public void addAdditionalSaveData(CompoundTag nbt) {
+    public void addAdditionalSaveData(
+            //? if >1.21.2 {
+            ValueOutput
+            //?} else {
+            /*CompoundTag
+             *///?}
+            nbt) {
         super.addAdditionalSaveData(nbt);
         if (battle != null) nbt.putString("battle", battle.teamName);
     }
     @Override
-    public void readAdditionalSaveData(CompoundTag nbt) {
+    public void readAdditionalSaveData(
+            //? if >1.21.2 {
+            ValueInput
+            //?} else {
+            /*CompoundTag
+             *///?}
+            nbt) {
         super.readAdditionalSaveData(nbt);
         if (nbt.contains("battle") && level() instanceof ServerLevel w)
             battle = new BishopBattle(w, NbtUtils.getString(nbt, "battle"));
@@ -157,15 +173,18 @@ public class BishopEntity extends AbstractChessFigure implements RangedAttackMob
         this.battle = battle;
         battle.addEntity(this);
     }
-    //? if >1.21 {
-    /*@Override
-    protected void triggerOnDeathMobEffects(RemovalReason reason) {
+    @Override
+    //? if >1.21.9 {
+    protected void triggerOnDeathMobEffects(ServerLevel level, RemovalReason reason) {
+        super.triggerOnDeathMobEffects(level, reason);
+    //?} else if >1.21 {
+    /*protected void triggerOnDeathMobEffects(RemovalReason reason) {
         super.triggerOnDeathMobEffects(reason);
      *///?} else {
-    @Override
-    public void onClientRemoval() {
+    
+    /*public void onClientRemoval() {
         super.onClientRemoval();
-    //?}
+    *///?}
         if (battle != null) battle.stop();
     }
 
@@ -187,8 +206,8 @@ public class BishopEntity extends AbstractChessFigure implements RangedAttackMob
         AbstractArrow persistentProjectileEntity =
                 ProjectileUtil.getMobArrow(this, getProjectileType(), pullProgress
                         //? if >1.21 {
-                        /*, Items.BOW.getDefaultInstance()
-                        *///?}
+                        , Items.BOW.getDefaultInstance()
+                        //?}
                         );
         double d = target.getX() - this.getX();
         double e = target.getY(0.333) - persistentProjectileEntity.getY();

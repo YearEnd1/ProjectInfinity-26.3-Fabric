@@ -7,10 +7,8 @@ plugins {
 }
 
 val minecraft = stonecutter.current.version
-val accesswidener = when {
-    stonecutter.eval(minecraft, ">=1.21") -> "1.21.accesswidener"
-    else -> "1.20.accesswidener"
-}
+val accesswidener = "$minecraft.accesswidener"
+
 
 tasks.named<ProcessResources>("processResources") {
     fun prop(name: String) = project.property(name) as String
@@ -28,10 +26,6 @@ tasks.named<ProcessResources>("processResources") {
 
 version = "${property("mod.version")}+${property("deps.minecraft")}-fabric"
 base.archivesName = property("mod.id") as String
-
-loom {
-    accessWidenerPath = rootProject.file("src/main/resources/${property("mod.id")}.accesswidener")
-}
 
 jsonlang {
     languageDirectories = listOf("assets/${property("mod.id")}/lang")
@@ -149,11 +143,25 @@ dependencies {
             isTransitive = false
         }
     }
-    modCompileOnly("dev.emi:emi-fabric:${property("deps.emi")}+${property("deps.minecraft")}:api")
-    modLocalRuntime("dev.emi:emi-fabric:${property("deps.emi")}+${property("deps.minecraft")}")
+    if (hasProperty("deps.emi")) {
+        modCompileOnly("dev.emi:emi-fabric:${property("deps.emi")}+${property("deps.minecraft")}:api")
+        modLocalRuntime("dev.emi:emi-fabric:${property("deps.emi")}+${property("deps.minecraft")}")
+    }
+    if (hasProperty("deps.eiv")) {
+        modImplementation("maven.modrinth:eiv:${property("deps.eiv")}-fabric")
+    }
 
-    modImplementation("cc.tweaked:cc-tweaked-${property("deps.minecraft")}-fabric:${property("deps.cct")}")
-    modCompileOnly("net.createmod.ponder:Ponder-Fabric-${property("deps.minecraft")}:${property("deps.ponder")}")
+
+    if (hasProperty("deps.cct")) {
+        modImplementation("cc.tweaked:cc-tweaked-${property("deps.minecraft")}-fabric:${property("deps.cct")}")
+    } else {
+        modCompileOnly("cc.tweaked:cc-tweaked-1.21.1-fabric:1.115.0")
+    }
+    if (hasProperty("deps.ponder")) {
+        modCompileOnly("net.createmod.ponder:Ponder-Fabric-${property("deps.minecraft")}:${property("deps.ponder")}")
+    } else {
+        modCompileOnly("net.createmod.ponder:Ponder-Fabric-1.21.1:1.0.59")
+    }
 
     if (stonecutter.eval(stonecutter.current.version, ">=1.21")) {
         modCompileOnly("com.simibubi.create:create-fucked-up-1.21.1:6.0.6+053024d") { isTransitive = false }
@@ -164,6 +172,26 @@ dependencies {
 
     val modules = listOf("transitive-access-wideners-v1", "registry-sync-v0", "resource-loader-v0")
     for (it in modules) modImplementation(fabricApi.module("fabric-$it", property("deps.fabric_api") as String))
+}
+
+
+stonecutter {
+    replacements.string {
+        direction = eval(current.version, ">1.21.4")
+        replace("MobSpawnType", "EntitySpawnReason")
+    }
+    replacements.string {
+        direction = eval(current.version, ">1.21.4")
+        replace("registryOrThrow", "lookupOrThrow")
+    }
+    replacements.string {
+        direction = eval(current.version, ">1.21.4")
+        replace("DimensionTransition", "TeleportTransition")
+    }
+    replacements.string {
+        direction = eval(current.version, ">1.21.4")
+        replace("DataComponentInput", "DataComponentGetter")
+    }
 }
 
 

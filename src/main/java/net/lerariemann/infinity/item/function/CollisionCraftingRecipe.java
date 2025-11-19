@@ -1,39 +1,32 @@
 package net.lerariemann.infinity.item.function;
 
-import com.google.gson.JsonObject;
 import com.mojang.datafixers.util.Function3;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.lerariemann.infinity.registry.core.ModItemFunctions;
-import net.lerariemann.infinity.util.VersionMethods;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.HolderLookup;
-import net.minecraft.core.RegistryAccess;
 
-import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.ExtraCodecs;
-import net.minecraft.util.GsonHelper;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.*;
 //? if >1.21 {
-/*import net.minecraft.world.item.crafting.SingleRecipeInput;
+import net.minecraft.world.item.crafting.SingleRecipeInput;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
-*///?} else {
-import net.minecraft.world.ticks.ContainerSingleItem;
-//?}
+//?} else {
+/*import net.minecraft.world.ticks.ContainerSingleItem;
+*///?}
 import net.minecraft.world.level.Level;
 
 @MethodsReturnNonnullByDefault
 public abstract class CollisionCraftingRecipe implements Recipe<
         //? if >1.21 {
-        /*SingleRecipeInput
-        *///?} else {
-        ContainerSingleItem
-        //?}
+        SingleRecipeInput
+        //?} else {
+        /*ContainerSingleItem
+        *///?}
         > {
     private final Ingredient input;
     private final ItemStack output;
@@ -48,50 +41,53 @@ public abstract class CollisionCraftingRecipe implements Recipe<
     @Override
     public boolean matches(
             //? if >1.21 {
-            /*SingleRecipeInput
-             *///?} else {
-            ContainerSingleItem
-            //?}
+            SingleRecipeInput
+             //?} else {
+            /*ContainerSingleItem
+            *///?}
             input, Level world) {
         if (world.isClientSide()) return false;
         return this.input.test(input.
                 //? if >1.21 {
-                /*item
-                *///?} else {
-                getFirstItem
-                //?}
+                item
+                //?} else {
+                /*getFirstItem
+                *///?}
                 ());
     }
 
     @Override
     public ItemStack assemble(
             //? if >1.21 {
-            /*SingleRecipeInput
-             *///?} else {
-            ContainerSingleItem
-            //?}
+            SingleRecipeInput
+             //?} else {
+            /*ContainerSingleItem
+            *///?}
             input,
             //? if >1.21 {
-            /*HolderLookup.Provider
-             *///?} else {
-            RegistryAccess
-            //?}
+            HolderLookup.Provider
+             //?} else {
+            /*RegistryAccess
+            *///?}
             lookup) {
         return output;
     }
 
-    @Override
+    //? if <1.21.2 {
+    /*@Override
     public boolean canCraftInDimensions(int width, int height) {
         return true;
     }
+    *///?}
 
-    @Override
+    //? if <1.21.2
+    /*@Override*/
     public ItemStack getResultItem(
-            //? if >1.21 {
+            //? if =1.21.1 {
             /*HolderLookup.Provider registriesLookup
-            *///?} else {
-            RegistryAccess registryAccess
-            //?}
+            *///?} else if =1.20.1 {
+            /*RegistryAccess registryAccess
+            *///?}
     ) {
         return output.copy();
     }
@@ -110,10 +106,15 @@ public abstract class CollisionCraftingRecipe implements Recipe<
             implements RecipeSerializer<CollisionCraftingRecipe> {
 
         //? if >1.21 {
-        /*@Override
+        @Override
         public MapCodec<CollisionCraftingRecipe> codec() {
             return RecordCodecBuilder.mapCodec(instance -> instance.group(
-                            Ingredient.CODEC_NONEMPTY.fieldOf("input").forGetter(recipe -> recipe.input),
+                    //? if >1.21.2 {
+                            Ingredient.CODEC
+                    //?} else {
+                            /*Ingredient.CODEC_NONEMPTY
+                    *///?}
+                            .fieldOf("input").forGetter(recipe -> recipe.input),
                             ItemStack.STRICT_CODEC.fieldOf("output").forGetter(recipe -> recipe.output),
                             ExtraCodecs.NON_EMPTY_STRING.fieldOf("lore").forGetter(recipe -> recipe.lore))
                     .apply(instance, func));
@@ -136,8 +137,8 @@ public abstract class CollisionCraftingRecipe implements Recipe<
             ItemStack.STREAM_CODEC.encode(buf, recipe.output);
             ByteBufCodecs.STRING_UTF8.encode(buf, recipe.lore);
         }
-        *///?} else {
-        @Override
+        //?} else {
+        /*@Override
         public CollisionCraftingRecipe fromJson(ResourceLocation id, JsonObject json) {
             Ingredient input = Ingredient.fromJson(GsonHelper.getNonNull(json, "input"));
             ItemStack output = ShapedRecipe.itemStackFromJson(GsonHelper.getAsJsonObject(json, "output"));
@@ -159,7 +160,7 @@ public abstract class CollisionCraftingRecipe implements Recipe<
             buf.writeItem(recipe.output);
             buf.writeUtf(recipe.lore);
         }
-        //?}
+        *///?}
     }
 
     public static class OfPortal extends CollisionCraftingRecipe {
@@ -170,21 +171,36 @@ public abstract class CollisionCraftingRecipe implements Recipe<
         }
 
         //? if <1.21 {
-        @Override
+        /*@Override
         public ResourceLocation getId() {
             ResourceLocation id = BuiltInRegistries.ITEM.getKey(output.getItem());
             return VersionMethods.id(id.getNamespace(), id.getPath()+"_of_iridescence");
         }
-        //?}
+        *///?}
 
         @Override
-        public RecipeSerializer<?> getSerializer() {
+        public RecipeSerializer<? extends Recipe<SingleRecipeInput>> getSerializer() {
             return ModItemFunctions.PORTAL_CRAFTING.get();
         }
         @Override
-        public RecipeType<?> getType() {
+        public RecipeType<? extends Recipe<SingleRecipeInput>> getType() {
             return ModItemFunctions.PORTAL_CRAFTING_TYPE.get();
         }
+        //? if >1.21.2 {
+        @Override
+        public PlacementInfo placementInfo() {
+            return PlacementInfo.create(getInput());
+        }
+
+        @Override
+        public RecipeBookCategory recipeBookCategory() {
+            return RecipeBookCategories.CRAFTING_MISC;
+        }
+        @Override
+        public boolean isSpecial() {
+            return true;
+        }
+        //?}
     }
 
     public static class OfIridescence extends CollisionCraftingRecipe {
@@ -195,20 +211,38 @@ public abstract class CollisionCraftingRecipe implements Recipe<
         }
 
         //? if <1.21 {
-        @Override
+        /*@Override
         public ResourceLocation getId() {
             ResourceLocation id = BuiltInRegistries.ITEM.getKey(output.getItem());
             return VersionMethods.id(id.getNamespace(), id.getPath()+"_of_iridescence");
         }
-        //?}
+        *///?}
 
         @Override
-        public RecipeSerializer<?> getSerializer() {
+        public RecipeSerializer<CollisionCraftingRecipe> getSerializer() {
             return ModItemFunctions.IRIDESCENCE_CRAFTING.get();
         }
         @Override
-        public RecipeType<?> getType() {
+        public RecipeType<CollisionCraftingRecipe> getType() {
             return ModItemFunctions.IRIDESCENCE_CRAFTING_TYPE.get();
         }
+
+        //? if >1.21.2 {
+        @Override
+        public PlacementInfo placementInfo() {
+            return PlacementInfo.create(getInput());
+        }
+
+        @Override
+        public RecipeBookCategory recipeBookCategory() {
+            return RecipeBookCategories.CRAFTING_MISC;
+        }
+
+        @Override
+        public boolean isSpecial() {
+            return true;
+        }
+
+        //?}
     }
 }

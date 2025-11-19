@@ -170,7 +170,10 @@ public class InfinityOptions {
         return data.contains("moons") && ((CompoundTag)(NbtUtils.getList(data, "moons", Tag.TAG_COMPOUND).get(i))).contains(key);
     }
     public float fullLunarTest(String key, int i, float def) {
-        return lunarTest(key, i) ? ((CompoundTag)(NbtUtils.getList(data, "moons", Tag.TAG_COMPOUND).get(i))).getFloat(key) : def;
+        return lunarTest(key, i) ? ((CompoundTag)(NbtUtils.getList(data, "moons", Tag.TAG_COMPOUND).get(i))).getFloat(key)
+                //? if >1.21.5
+                .orElse(def)
+                : def;
     }
     public float getLunarSize(int i) {
         return fullLunarTest("lunar_size", i, 20.0f);
@@ -182,7 +185,10 @@ public class InfinityOptions {
         return fullLunarTest("lunar_tilt_z", i, 0.0f);
     }
     public Vector3f getLunarTint(int i) {
-        int color = lunarTest("lunar_tint", i) ? ((CompoundTag)(NbtUtils.getList(data, "moons", Tag.TAG_COMPOUND).get(i))).getInt("lunar_tint") : 16777215;
+        int color = lunarTest("lunar_tint", i) ? ((CompoundTag)(NbtUtils.getList(data, "moons", Tag.TAG_COMPOUND).get(i))).getInt("lunar_tint")
+                //? if >1.21.5
+                .orElse(16777215)
+                : 16777215;
         return new Vector3f((float)(color >> 16 & 0xFF) / 255.0f, (float)(color >> 8 & 0xFF) / 255.0f, (float)(color & 0xFF) / 255.0f);
     }
     public ResourceLocation getLunarTexture(int i) {

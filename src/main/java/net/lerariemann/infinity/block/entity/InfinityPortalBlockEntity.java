@@ -149,11 +149,11 @@ public class InfinityPortalBlockEntity extends TintableBlockEntity {
     @Override
     public void saveAdditional(CompoundTag tag
                                //? if >1.21
-                               /*,HolderLookup.Provider registryLookup*/
+                               ,HolderLookup.Provider registryLookup
     ) {
         super.saveAdditional(tag
                 //? if >1.21
-                /*, registryLookup*/
+                , registryLookup
         );
         tag.putInt("Color", this.portalColor);
         tag.putString("Dimension", this.dimension.toString());
@@ -169,12 +169,12 @@ public class InfinityPortalBlockEntity extends TintableBlockEntity {
 
     @Override
     //? if >1.21 {
-    /*public void loadAdditional(CompoundTag tag, HolderLookup.Provider registryLookup) {
+    public void loadAdditional(CompoundTag tag, HolderLookup.Provider registryLookup) {
         super.loadAdditional(tag, registryLookup);
-    *///?} else {
-    public void load(CompoundTag tag) {
+    //?} else {
+    /*public void load(CompoundTag tag) {
         super.load(tag);
-    //?}
+    *///?}
         if (tag.getTagType("Dimension") == Tag.TAG_ANY_NUMERIC) { //conversion from legacy formats
             this.portalColor = NbtUtils.getInt(tag, "Dimension") & 0xFFFFFF;
             if (tag.contains("DimensionName")) {
@@ -208,11 +208,11 @@ public class InfinityPortalBlockEntity extends TintableBlockEntity {
     @Override
     public CompoundTag getUpdateTag(
             //? if >1.21
-            /*HolderLookup.Provider registryLookup*/
+            HolderLookup.Provider registryLookup
     ) {
         return saveWithoutMetadata(
                 //? if >1.21
-                /*registryLookup*/
+                registryLookup
         );
     }
 

@@ -57,15 +57,15 @@ public class ModFeatures {
 
     static <T>
     //? if >1.21 {
-    /*MapCodec<T>
-     *///?} else {
-    Codec<T>
-    //?}
+    MapCodec<T>
+     //?} else {
+    /*Codec<T>
+    *///?}
     codecOrCodec(MapCodec<T> codec) {
         //? if >1.21 {
-        /*return codec;
-         *///?} else {
-        return codec.codec();
-        //?}
+        return codec;
+         //?} else {
+        /*return codec.codec();
+        *///?}
     }
 }

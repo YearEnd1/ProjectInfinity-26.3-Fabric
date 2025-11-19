@@ -17,14 +17,14 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.packs.resources.Resource;
 //? if >1.21 {
-/*import net.minecraft.world.item.JukeboxSong;
+import net.minecraft.world.item.JukeboxSong;
 import net.minecraft.core.registries.Registries;
 import net.lerariemann.infinity.util.core.ConfigType;
 import net.lerariemann.infinity.InfinityMod;
 import net.lerariemann.infinity.access.MinecraftServerAccess;
 import net.lerariemann.infinity.util.loading.DimensionGrabber;
 import java.nio.file.Path;
- *///?}
+ //?}
 import net.minecraft.world.level.storage.LevelResource;
 import org.jetbrains.annotations.NotNull;
 
@@ -119,7 +119,7 @@ public record SoundScanner(Map<ResourceLocation, Resource> soundIds) {
         if (Files.exists(server.getWorldPath(LevelResource.DATAPACK_DIR).resolve("client_sound_pack_data.json"))) return;
 
         //? if >1.21 {
-        /*CompoundTag allJukeboxes = NbtUtils.getCompound(data, "jukeboxes");
+        CompoundTag allJukeboxes = NbtUtils.getCompound(data, "jukeboxes");
         Path pathJukeboxes = server.getWorldPath(LevelResource.DATAPACK_DIR).resolve("infinity/data/infinity/jukebox_song");
         for (String key: allJukeboxes.getAllKeys()) {
             if (allJukeboxes.get(key) instanceof CompoundTag jukebox) {
@@ -127,7 +127,7 @@ public record SoundScanner(Map<ResourceLocation, Resource> soundIds) {
             }
         }
         grabJukeboxes(server);
-        *///?}
+        //?}
 
         data.remove("jukeboxes");
         CompoundTag packData = new CompoundTag();
@@ -137,16 +137,16 @@ public record SoundScanner(Map<ResourceLocation, Resource> soundIds) {
 
     /** Injects freshly received jukebox song definitions into the server's registries, config files and {@link RandomProvider}. */
     //? if >1.21 {
-    /*public static void grabJukeboxes(MinecraftServer server) {
+    public static void grabJukeboxes(MinecraftServer server) {
         Path pathJukeboxes = server.getWorldPath(LevelResource.DATAPACK_DIR).resolve("infinity/data/infinity/jukebox_song");
         InfinityMod.LOGGER.info("grabbing jukeboxes");
         DimensionGrabber.readCategoryFromDisk(server, JukeboxSong.DIRECT_CODEC, Registries.JUKEBOX_SONG, pathJukeboxes);
         if (!((MinecraftServerAccess)server).infinity$needsInvocation()) {
-            ConfigFactory.of(server.registryAccess().registryOrThrow(Registries.JUKEBOX_SONG)).generate(ConfigType.JUKEBOXES);
+            ConfigFactory.of(server.registryAccess().lookupOrThrow(Registries.JUKEBOX_SONG)).generate(ConfigType.JUKEBOXES);
             InfinityMod.updateProvider(server);
         }
     }
-    *///?}
+    //?}
 
     /**
      Getting a duration of an OGG file from its byte data; <a href="https://stackoverflow.com/a/44407355">implementation from StackOverflow</a>.

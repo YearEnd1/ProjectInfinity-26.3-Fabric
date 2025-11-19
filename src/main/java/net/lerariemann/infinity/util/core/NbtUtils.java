@@ -4,58 +4,160 @@ import net.lerariemann.infinity.InfinityMod;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
+//? if >1.21.5 {
+import net.minecraft.world.level.storage.ValueInput;
+//?}
+
 import java.util.Random;
 
 /** Contains various common use methods for working with {@link CompoundTag} objects. */
 public interface NbtUtils {
+
+    //? if >1.21.5 {
+    static String getString(ValueInput data, String key, String def) {
+        return data.getStringOr(key, def);
+    }
+    static float getFloat(ValueInput data, String key, float def) {
+        return data.getFloatOr(key, def);
+    }
+    static int getInt(ValueInput data, String key, int def) {
+        return data.getIntOr(key, def);
+    }
+    static double getDouble(ValueInput data, String key, double def) {
+        return data.getDoubleOr(key, def);
+    }
+    static boolean getBoolean(ValueInput data, String key, boolean def) {
+        return data.getBooleanOr(key, def);
+    }
+
+    static String getString(ValueInput data, String key) {
+        return getString(data, key, "");
+    }
+    static float getFloat(ValueInput data, String key) {
+        return getFloat(data, key, 0f);
+    }
+    static int getInt(ValueInput data, String key) {
+        return getInt(data, key, 0);
+    }
+    static double getDouble(ValueInput data, String key) {
+        return getDouble(data, key, 0d);
+    }
+    static boolean getBoolean(ValueInput data, String key) {
+        return getBoolean(data, key, false);
+    }
+    //?}
+
+
     static String getString(CompoundTag data, String key, String def) {
-        return data.contains(key, Tag.TAG_STRING) ? data.getString(key) : def;
+        //? if >1.21.5 {
+        return data.getStringOr(key, def);
+        //?} else {
+        /*return data.contains(key, Tag.TAG_STRING) ? data.getString(key) : def;
+        *///?}
     }
     static CompoundTag getCompound(CompoundTag data, String key, CompoundTag def) {
-        return data.contains(key, Tag.TAG_COMPOUND) ? data.getCompound(key) : def;
+        //? if >1.21.5 {
+        return data.getCompound(key).orElse(def);
+        //?} else {
+        /*return data.contains(key, Tag.TAG_COMPOUND) ? data.getCompound(key) : def;
+         *///?}
     }
     static float getFloat(CompoundTag data, String key, float def) {
-        return data.contains(key, Tag.TAG_DOUBLE) ? data.getFloat(key) : def;
+        //? if >1.21.5 {
+        return data.getFloatOr(key, def);
+        //?} else {
+        /*return data.contains(key, Tag.TAG_DOUBLE) ? data.getFloat(key) : def;
+        *///?}
     }
     static int getInt(CompoundTag data, String key, int def) {
-        return data.contains(key, Tag.TAG_INT) ? data.getInt(key) : def;
+        //? if >1.21.5 {
+        return data.getIntOr(key, def);
+        //?} else {
+        /*return data.contains(key, Tag.TAG_INT) ? data.getInt(key) : def;
+        *///?}
     }
     static double getDouble(CompoundTag data, String key, double def) {
-        return data.contains(key, Tag.TAG_DOUBLE) ? data.getDouble(key) : def;
+        //? if >1.21.5 {
+        return data.getDoubleOr(key, def);
+        //?} else {
+        /*return data.contains(key, Tag.TAG_DOUBLE) ? data.getDouble(key) : def;
+        *///?}
     }
     static boolean getBoolean(CompoundTag data, String key, boolean def) {
-        return data.contains(key) ? data.getBoolean(key) : def;
+        //? if >1.21.5 {
+        return data.getBooleanOr(key, def);
+        //?} else {
+        /*return data.contains(key) ? data.getBoolean(key) : def;
+        *///?}
     }
     static ListTag getList(CompoundTag data, String key, ListTag def, byte nbttype) {
         return data.contains(key) ? data.getList(key, nbttype) : def;
     }
 
     static String getString(CompoundTag data, String key) {
-        return data.getString(key);
+        return data.getString(key)
+                //? if >1.21.5 {
+                .orElse("")
+                //?}
+                ;
     }
     static CompoundTag getCompound(CompoundTag data, String key) {
-        return data.getCompound(key);
+        return data.getCompound(key)
+                //? if >1.21.5 {
+                .orElse(new CompoundTag())
+                //?}
+                ;
     }
     static float getFloat(CompoundTag data, String key) {
-        return data.getFloat(key);
+        return data.getFloat(key)
+                //? if >1.21.5 {
+                .orElse(0f)
+                //?}
+                ;
     }
     static int getInt(CompoundTag data, String key) {
-        return data.getInt(key);
+        return data.getInt(key)
+                //? if >1.21.5 {
+                .orElse(0)
+                //?}
+                ;
     }
     static double getDouble(CompoundTag data, String key) {
-        return data.getDouble(key);
+        return data.getDouble(key)
+                //? if >1.21.5 {
+                .orElse(0d)
+                //?}
+                ;
     }
     static boolean getBoolean(CompoundTag data, String key) {
-        return data.getBoolean(key);
+        return data.getBoolean(key)
+                //? if >1.21.5 {
+                .orElse(false)
+                //?}
+                ;
     }
     static short getShort(CompoundTag data, String key) {
-        return data.getShort(key);
+        return data.getShort(key)
+                //? if >1.21.5 {
+                .get()
+                //?}
+        ;
     }
     static ListTag getList(CompoundTag data, String key, byte nbttype) {
-        return data.getList(key, nbttype);
+        return data.getList(key
+                //? if <1.21.2
+                /*, nbttype*/
+        )
+                //? if >1.21.2
+                .orElse(new ListTag())
+        ;
     }
     static int getInt(ListTag data, int key) {
-        return data.getInt(key);
+        return data.getInt(key)
+                //? if >1.21.5 {
+                .orElse(0)
+                //?}
+        ;
     }
 
     static String elementToName(Tag e) {
@@ -82,7 +184,7 @@ public interface NbtUtils {
     }
 
     //? if <1.21 {
-    static CompoundTag genBounds(int lbound, int bound) {
+    /*static CompoundTag genBounds(int lbound, int bound) {
         CompoundTag value = new CompoundTag();
         value.putInt("min_inclusive", lbound);
         value.putInt("max_inclusive", bound);
@@ -94,15 +196,15 @@ public interface NbtUtils {
         int b = random.nextInt(lbound, bound);
         return genBounds(Math.min(a, b), Math.max(a, b));
     }
-    //?}
+    *///?}
 
     static void addBounds(CompoundTag res, int lbound, int bound) {
         //? if >1.21 {
-        /*res.putInt("min_inclusive", lbound);
+        res.putInt("min_inclusive", lbound);
         res.putInt("max_inclusive", bound);
-        *///?} else {
-        res.put("value", genBounds(lbound, bound));
-        //?}
+        //?} else {
+        /*res.put("value", genBounds(lbound, bound));
+        *///?}
     }
 
     static void addBounds(CompoundTag res, Random random, int lbound, int bound) {
@@ -132,27 +234,27 @@ public interface NbtUtils {
             case 4 -> {
                 res.putString("type", "clamped");
                 //? if >1.21 {
-                /*addBounds(res, random, lbound, bound);
+                addBounds(res, random, lbound, bound);
                 res.put("source", randomIntProvider(random, lbound, bound, false));
-                *///?} else {
-                CompoundTag value = genBounds(random, lbound, bound);
+                //?} else {
+                /*CompoundTag value = genBounds(random, lbound, bound);
                 value.put("source", randomIntProvider(random, lbound, bound, false));
                 res.put("value", value);
-                //?}
+                *///?}
                 return res;
             }
             case 3 -> {
                 res.putString("type", "clamped_normal");
                 //? if >1.21 {
-                /*addBounds(res, random, lbound, bound);
+                addBounds(res, random, lbound, bound);
                 res.putDouble("mean", lbound + random.nextDouble()*(bound-lbound));
                 res.putDouble("deviation", random.nextExponential());
-                *///?} else {
-                CompoundTag value = genBounds(random, lbound, bound);
+                //?} else {
+                /*CompoundTag value = genBounds(random, lbound, bound);
                 value.putDouble("mean", lbound + random.nextDouble()*(bound-lbound));
                 value.putDouble("deviation", random.nextExponential());
                 res.put("value", value);
-                //?}
+                *///?}
                 return res;
             }
             case 5 -> {
@@ -237,10 +339,10 @@ public interface NbtUtils {
         float max = Math.max(a, b);
         CompoundTag value =
                 //? if >1.21 {
-                /*res;
-                *///?} else {
-                new CompoundTag();
-                //?}
+                res;
+                //?} else {
+                /*new CompoundTag();
+                *///?}
         switch (i) {
             case 0 -> {
                 value.putFloat("max_exclusive", max);
@@ -259,8 +361,8 @@ public interface NbtUtils {
             }
         }
         //? if <1.21 {
-        res.put("value", value);
-        //?}
+        /*res.put("value", value);
+        *///?}
         return res;
     }
 }

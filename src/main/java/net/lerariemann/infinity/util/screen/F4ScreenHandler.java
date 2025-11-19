@@ -24,8 +24,8 @@ import org.jetbrains.annotations.Nullable;
 import java.util.concurrent.atomic.AtomicInteger;
 
 //? if >1.21 {
-/*import net.minecraft.core.component.DataComponentMap;
-*///?}
+import net.minecraft.core.component.DataComponentMap;
+//?}
 //? if neoforge {
 /*import javax.annotation.ParametersAreNonnullByDefault;
 
@@ -64,16 +64,16 @@ public class F4ScreenHandler extends AbstractContainerMenu {
     public void removed(Player player) {
         ItemStack st = stack.copy();
         //? if >1.21 {
-        /*st.applyComponents(DataComponentMap.builder()
+        st.applyComponents(DataComponentMap.builder()
                 .set(ModComponentTypes.SIZE_X.get(), Math.clamp(width.get(), 1, 21))
                 .set(ModComponentTypes.SIZE_Y.get(), Math.clamp(height.get(), 1, 21))
                 .build());
-         *///?} else {
-        CompoundTag nbtCompound = new CompoundTag();
+         //?} else {
+        /*CompoundTag nbtCompound = new CompoundTag();
         nbtCompound.putInt(ModComponentTypes.SIZE_X, Mth.clamp(width.get(), 1, 21));
         nbtCompound.putInt(ModComponentTypes.SIZE_Y, Mth.clamp(height.get(), 1, 21));
         stack.setTag(nbtCompound);
-        //?}
+        *///?}
         playerInventory.setItem(slot, st);
         super.removed(player);
         if (player instanceof LocalPlayer) {
@@ -97,7 +97,12 @@ public class F4ScreenHandler extends AbstractContainerMenu {
 
         public Factory(Player player) {
             f4 = player.getItemInHand(InteractionHand.MAIN_HAND);
-            slot = player.getInventory().selected;
+            slot = player.getInventory().
+            //? if >1.21.4 {
+            getSelectedSlot();
+            //?} else {
+            /*selected;
+            *///?}
             ResourceLocation id = VersionMethods.getDimensionIdentifier(f4);
             destination = id == null ? "" : id.toString();
         }

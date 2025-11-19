@@ -10,13 +10,13 @@ import net.minecraft.world.Difficulty;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
-import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.animal.WaterAnimal;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.level.ServerLevelAccessor;
 
 public interface InfinitySpawnHelper {
-    static <T extends Entity> boolean canSpawn(EntityType<T> type, ServerLevelAccessor world, MobSpawnType spawnReason, BlockPos pos, RandomSource random) {
+    static <T extends Entity> boolean canSpawn(EntityType<T> type, ServerLevelAccessor world, EntitySpawnReason spawnReason, BlockPos pos, RandomSource random) {
         boolean bl;
         MobCategory sg = type.getCategory();
         if (isSpawnGroupWater(sg) || (WaterAnimal.class.isAssignableFrom(type.getBaseClass())))
@@ -24,10 +24,10 @@ public interface InfinitySpawnHelper {
         else bl = (world.getBlockState(pos.below()).isValidSpawn(world, pos.below(), type));
 
         //? if >1.21 {
-        /*bl = bl || MobSpawnType.isSpawner(spawnReason);
-        *///?} else {
-        bl = bl || spawnReason.equals(MobSpawnType.SPAWNER);
-        //?}
+        bl = bl || EntitySpawnReason.isSpawner(spawnReason);
+        //?} else {
+        /*bl = bl || spawnReason.equals(EntitySpawnReason.SPAWNER);
+        *///?}
 
         if (sg.equals(MobCategory.MONSTER))
             bl = bl && (Monster.isDarkEnoughToSpawn(world, pos, random) && world.getDifficulty() != Difficulty.PEACEFUL);

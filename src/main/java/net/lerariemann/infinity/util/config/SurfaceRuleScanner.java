@@ -16,7 +16,7 @@ import java.util.*;
 public interface SurfaceRuleScanner {
     static void scan(MinecraftServer server) {
         Map<String, CompoundTag> map = new HashMap<>();
-        Registry<NoiseGeneratorSettings> registry = server.registryAccess().registryOrThrow(Registries.NOISE_SETTINGS);
+        Registry<NoiseGeneratorSettings> registry = server.registryAccess().lookupOrThrow(Registries.NOISE_SETTINGS);
         registry.registryKeySet().forEach(key -> {
             if (!key.location().getNamespace().contains("infinity")) {
                 Optional<NoiseGeneratorSettings> o = registry.getOptional(key);

@@ -14,17 +14,17 @@ import org.jetbrains.annotations.Nullable;
 
 public class CosmicAltarBlock extends BaseEntityBlock {
     //? if >1.21
-    /*public static final MapCodec<CosmicAltarBlock> CODEC = simpleCodec(CosmicAltarBlock::new);*/
+    public static final MapCodec<CosmicAltarBlock> CODEC = simpleCodec(CosmicAltarBlock::new);
     public CosmicAltarBlock(Properties settings) {
         super(settings);
     }
 
     //? if >1.21 {
-    /*@Override
+    @Override
     protected MapCodec<? extends BaseEntityBlock> codec() {
         return CODEC;
     }
-    *///?}
+    //?}
 
     @Override
     public RenderShape getRenderShape(BlockState state) {

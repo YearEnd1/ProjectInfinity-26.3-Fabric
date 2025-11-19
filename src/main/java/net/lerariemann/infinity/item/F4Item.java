@@ -19,7 +19,12 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.InteractionResultHolder;
+//? if >1.21.4 {
+import net.minecraft.world.item.component.TooltipDisplay;
+import java.util.function.Consumer;
+//?} else {
+/*import net.minecraft.world.InteractionResultHolder;
+*///?}
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -35,6 +40,7 @@ import org.jetbrains.annotations.Nullable;
 /*import javax.annotation.ParametersAreNonnullByDefault;
 *///?}
 import java.util.*;
+import java.util.function.Consumer;
 
 //? if neoforge {
 /*@ParametersAreNonnullByDefault
@@ -68,22 +74,35 @@ public class F4Item extends Item implements PortalDataHolder.Destinable {
     @Override
     public void appendHoverText(ItemStack stack,
                                 //? if >1.21 {
-                                /*TooltipContext
-                                *///?} else {
-                                Level
-                                //?}
-                                            context, List<Component> tooltip, TooltipFlag type) {
-        super.appendHoverText(stack, context, tooltip, type);
+                                TooltipContext
+                                //?} else {
+                                /*Level
+                                *///?}
+                                            context,
+                                //? if >1.21.4 {
+                                TooltipDisplay display, Consumer<Component>
+                                //?} else {
+                                /*List<Component>
+                                *///?}
+                                            tooltip, TooltipFlag type) {
+        super.appendHoverText(stack, context,
+                //? if >1.21.4 {
+                display,
+                //?}
+                tooltip, type);
         ResourceLocation dimension = VersionMethods.getDimensionIdentifier(stack);
-        MutableComponent mutableText = getDimensionTooltip(dimension);
-        tooltip.add(mutableText.withStyle(ChatFormatting.GRAY));
-        MutableComponent mutableText2 = Component.translatable("tooltip.infinity.f4.charges", getCharge(stack));
-        tooltip.add(mutableText2.withStyle(ChatFormatting.GRAY));
+        MutableComponent mutableText = getDimensionTooltip(dimension).withStyle(ChatFormatting.GRAY);
+        //? if <1.21.2 {
+        /*Consumer<Component> tooltipAdder = tooltip::add;
+        *///?}
+        tooltipAdder.accept(mutableText);
+        MutableComponent mutableText2 = Component.translatable("tooltip.infinity.f4.charges", getCharge(stack)).withStyle(ChatFormatting.GRAY);
+        tooltipAdder.accept(mutableText2);
     }
 
     //? if >1.21 {
-    /*@Nullable
-     *///?}
+    @Nullable
+     //?}
     public static ItemStack placePortal(Level world, Player player, ItemStack stack, BlockPos lowerCenter,
                                     int size_x, int size_y) {
         Direction.Axis dir2 = player.getDirection().getClockWise(Direction.Axis.Y).getAxis();
@@ -91,13 +110,18 @@ public class F4Item extends Item implements PortalDataHolder.Destinable {
         int charges = getCharge(stack);
         int useCharges = player.isCreative() ? 0 : 2*(2 + size_x + size_y);
         if (charges < useCharges) {
-            if (!world.isClientSide())
-                player.sendSystemMessage(Component.translatable("error.infinity.f4.no_charges", useCharges));
+            if (!world.isClientSide()) {
+                //? if >1.21.4 {
+                player.displayClientMessage(Component.translatable("error.infinity.f4.no_charges", useCharges), false);
+                //?} else {
+                /*player.sendSystemMessage(Component.translatable("error.infinity.f4.no_charges", useCharges));
+                *///?}
+            }
             return null;
         }
         BlockPos lowerLeft = lowerCenter.relative(dir2, -(size_x/2));
         ResourceLocation id = VersionMethods.getDimensionIdentifier(stack);
-        boolean doNotRenderPortal = (world.isClientSide && (id == null || !id.getPath().contains("generated_")));
+        boolean doNotRenderPortal = (world.isClientSide() && (id == null || !id.getPath().contains("generated_")));
         if (PortalDataHolder.isDestinationRandom(id))
             id = InfinityMethods.getRandomId(world.random);
         int obsNotReplaced = 0;
@@ -128,13 +152,25 @@ public class F4Item extends Item implements PortalDataHolder.Destinable {
     }
 
     @Override
-    public InteractionResultHolder<ItemStack> use(Level world, Player player, InteractionHand hand) {
-        if (world.isClientSide)
+    public
+    //? if <1.21.5 {
+    /*InteractionResultHolder<ItemStack>
+    *///?} else {
+    InteractionResult
+    //?}
+    use(Level world, Player player, InteractionHand hand) {
+        if (world.isClientSide())
             ClientMethods.setF4Screen(player);
-        return InteractionResultHolder.success(player.getItemInHand(hand));
+        return VersionMethods.success(player.getItemInHand(hand));
     }
 
-    public static InteractionResultHolder<ItemStack> deploy(Level world, Player player, InteractionHand hand) {
+    public static
+    //? if <1.21.5 {
+    /*InteractionResultHolder<ItemStack>
+     *///?} else {
+    InteractionResult
+    //?}
+    deploy(Level world, Player player, InteractionHand hand) {
         Direction dir = player.getDirection();
         Direction.Axis dir2 = dir.getClockWise(Direction.Axis.Y).getAxis();
         BlockPos lowerCenter = player.blockPosition().relative(dir, 4);
@@ -150,7 +186,7 @@ public class F4Item extends Item implements PortalDataHolder.Destinable {
         }
 
         int lowerY = lowerCenter.getY();
-        if (world.isOutsideBuildHeight(lowerY)) return InteractionResultHolder.pass(stack);
+        if (world.isOutsideBuildHeight(lowerY)) return VersionMethods.pass(stack);
 
         //finding a place position
         int i;
@@ -170,11 +206,11 @@ public class F4Item extends Item implements PortalDataHolder.Destinable {
             }
             if (positionFound) break;
         }
-        if (!positionFound) return InteractionResultHolder.pass(stack);
+        if (!positionFound) return VersionMethods.pass(stack);
 
         ItemStack newStack = placePortal(world, player, stack.copy(), lowerCenter.above(i), size_x, size_y);
-        if (newStack == null) return InteractionResultHolder.pass(stack);
-        return InteractionResultHolder.consume(player.isCreative() ? stack : newStack);
+        if (newStack == null) return VersionMethods.pass(stack);
+        return VersionMethods.consume(player.isCreative() ? stack : newStack);
     }
 
     public static boolean isPortal(BlockState state) {

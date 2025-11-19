@@ -10,9 +10,9 @@ import net.minecraft.core.RegistryAccess;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.MinecraftServer;
 //? if >1.21 {
-/*import net.minecraft.server.ServerInfo;
+import net.minecraft.server.ServerInfo;
 import net.minecraft.world.level.chunk.storage.ChunkIOErrorReporter;
-*///?}
+//?}
 import net.minecraft.server.TickTask;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.progress.ChunkProgressListener;
@@ -47,7 +47,7 @@ import java.util.concurrent.Executor;
 @Mixin(MinecraftServer.class)
 public abstract class MinecraftServerMixin extends ReentrantBlockableEventLoop<TickTask> implements
         //? if >1.21
-        /*ServerInfo, ChunkIOErrorReporter,*/
+        ServerInfo, ChunkIOErrorReporter,
         CommandSource, AutoCloseable, MinecraftServerAccess {
     @Final @Shadow
     private Map<ResourceKey<Level>, ServerLevel> levels;
@@ -119,10 +119,10 @@ public abstract class MinecraftServerMixin extends ReentrantBlockableEventLoop<T
                 options,
                 progressListenerFactory.create(
                         //? if >1.21 {
-                        /*worldData.getGameRules().getInt(GameRules.RULE_SPAWN_CHUNK_RADIUS)
-                        *///?} else {
-                        2
-                        //?}
+                        worldData.getGameRules().getInt(GameRules.RULE_SPAWN_CHUNK_RADIUS)
+                        //?} else {
+                        /*2
+                        *///?}
                 ),
                 worldData.isDebugWorld(),
                 BiomeManager.obfuscateSeed(worldData.worldGenOptions().seed()),

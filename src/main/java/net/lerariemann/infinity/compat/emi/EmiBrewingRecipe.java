@@ -1,6 +1,8 @@
 package net.lerariemann.infinity.compat.emi;
 
-import dev.emi.emi.api.recipe.EmiRecipe;
+//? if <1.21.2 {
+
+/*import dev.emi.emi.api.recipe.EmiRecipe;
 import dev.emi.emi.api.recipe.EmiRecipeCategory;
 import dev.emi.emi.api.recipe.VanillaEmiRecipeCategories;
 import dev.emi.emi.api.stack.EmiIngredient;
@@ -74,3 +76,4 @@ public class EmiBrewingRecipe implements EmiRecipe {
         widgets.addSlot(output, 85, 36).drawBack(false).recipeContext(this);
     }
 }
+*///?}

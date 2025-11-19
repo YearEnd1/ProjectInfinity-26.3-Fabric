@@ -17,33 +17,33 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 
 //? if >1.21 {
-/*import net.minecraft.world.level.pathfinder.PathType;
+import net.minecraft.world.level.pathfinder.PathType;
 import net.minecraft.world.level.pathfinder.PathfindingContext;
-*///?} else {
-import net.minecraft.world.level.BlockGetter;
+//?} else {
+/*import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.pathfinder.BlockPathTypes;
-//?}
+*///?}
 
 @Mixin(WalkNodeEvaluator.class)
 public abstract class LandPathNodeMakerMixin extends NodeEvaluator {
     /* Chess-type mobs avoid iridescence */
     //? if >1.21 {
-    /*@Inject(method = "getPathTypeOfMob(Lnet/minecraft/world/level/pathfinder/PathfindingContext;IIILnet/minecraft/world/entity/Mob;)Lnet/minecraft/world/level/pathfinder/PathType;",
+    @Inject(method = "getPathTypeOfMob(Lnet/minecraft/world/level/pathfinder/PathfindingContext;IIILnet/minecraft/world/entity/Mob;)Lnet/minecraft/world/level/pathfinder/PathType;",
             at = @At("HEAD"), cancellable = true)
     private void inj(PathfindingContext context, int x, int y, int z, Mob mob, CallbackInfoReturnable<PathType> cir) {
-     *///?} else {
-    @Inject(method = "getBlockPathType(Lnet/minecraft/world/level/BlockGetter;IIILnet/minecraft/world/entity/Mob;)Lnet/minecraft/world/level/pathfinder/BlockPathTypes;",
+     //?} else {
+    /*@Inject(method = "getBlockPathType(Lnet/minecraft/world/level/BlockGetter;IIILnet/minecraft/world/entity/Mob;)Lnet/minecraft/world/level/pathfinder/BlockPathTypes;",
                 at = @At("HEAD"), cancellable = true)
     private void inj(BlockGetter level, int x, int y, int z, Mob mob, CallbackInfoReturnable<BlockPathTypes> cir) {
-    //?}
+    *///?}
         if (mob != null && Iridescence.isIridescence(mob.level(), new BlockPos(x, y, z))) {
             if (mob instanceof AbstractChessFigure figure && figure.isBlackOrWhite())
                 cir.setReturnValue(
                         //? if >1.21 {
-                        /*PathType
-                        *///?} else {
-                        BlockPathTypes
-                        //?}
+                        PathType
+                        //?} else {
+                        /*BlockPathTypes
+                        *///?}
                         .BLOCKED);
         }
     }

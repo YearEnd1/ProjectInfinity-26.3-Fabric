@@ -11,7 +11,11 @@ import net.minecraft.client.renderer.entity.layers.HumanoidArmorLayer;
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.NotNull;
 
-public class BishopRenderer extends HumanoidMobRenderer<BishopEntity, BishopModel> {
+public class BishopRenderer extends HumanoidMobRenderer<BishopEntity,
+        //? if >1.21.2 {
+        BishopEntityRenderState,
+        //?}
+        BishopModel> {
     private static final ResourceLocation TEXTURE = InfinityMethods.getId("textures/entity/bishop.png");
 
     public BishopRenderer(EntityRendererProvider.Context context) {
@@ -23,9 +27,22 @@ public class BishopRenderer extends HumanoidMobRenderer<BishopEntity, BishopMode
     }
 
     @Override
-    public @NotNull ResourceLocation getTextureLocation(BishopEntity entity) {
+    public @NotNull ResourceLocation getTextureLocation(
+            //? if >1.21.2 {
+            BishopEntityRenderState
+            //?} else {
+            /*BishopEntity
+            *///?}
+                    entity) {
         return TEXTURE;
     }
+
+    //? if >1.21.2 {
+    @Override
+    public BishopEntityRenderState createRenderState() {
+        return new BishopEntityRenderState();
+    }
+    //?}
 
     @Override
     public void render(BishopEntity mobEntity, float f, float g, PoseStack matrixStack,

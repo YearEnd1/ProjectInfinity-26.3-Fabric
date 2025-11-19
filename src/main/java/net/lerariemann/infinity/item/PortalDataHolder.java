@@ -5,10 +5,10 @@ import net.lerariemann.infinity.registry.core.ModComponentTypes;
 import net.lerariemann.infinity.util.VersionMethods;
 import net.lerariemann.infinity.util.InfinityMethods;
 //? if >1.21 {
-/*import net.minecraft.core.component.DataComponentPatch;
-*///?} else {
-import net.minecraft.nbt.CompoundTag;
-//?}
+import net.minecraft.core.component.DataComponentPatch;
+//?} else {
+/*import net.minecraft.nbt.CompoundTag;
+*///?}
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.Item;
@@ -34,7 +34,7 @@ public interface PortalDataHolder {
     }
 
     //? if >1.21 {
-    /*static Optional<DataComponentPatch> addPortalComponents(Item item, InfinityPortalBlockEntity ipbe) {
+    static Optional<DataComponentPatch> addPortalComponents(Item item, InfinityPortalBlockEntity ipbe) {
         if (item instanceof PortalDataHolder pdh)
             return Optional.of(pdh.getPortalComponents(ipbe));
         return Optional.empty();
@@ -59,8 +59,8 @@ public interface PortalDataHolder {
         stack.applyComponentsAndValidate(getPortalComponents(ipbe));
         return stack;
     }
-    *///?} else {
-    static Optional<CompoundTag> addPortalComponents(Item item, InfinityPortalBlockEntity ipbe) {
+    //?} else {
+    /*static Optional<CompoundTag> addPortalComponents(Item item, InfinityPortalBlockEntity ipbe) {
         if (item instanceof PortalDataHolder pdh)
             return Optional.of(pdh.getPortalComponents(ipbe));
         return Optional.empty();
@@ -90,27 +90,27 @@ public interface PortalDataHolder {
             tag.putString(ModComponentTypes.DESTINATION, portalComponents.getString(ModComponentTypes.DESTINATION));
         return stack;
     }
-    //?}
+    *///?}
 
     ItemStack getStack();
 
     interface Destinable extends PortalDataHolder {
         //? if >1.21 {
-        /*@Override
+        @Override
         default DataComponentPatch getPortalComponents(InfinityPortalBlockEntity ipbe) {
             return DataComponentPatch.builder()
                     .set(ModComponentTypes.DESTINATION.get(), ipbe.getDimension())
                     .set(ModComponentTypes.COLOR.get(), ipbe.getPortalColor())
                     .build();
         }
-        *///?} else {
-        @Override
+        //?} else {
+        /*@Override
         default CompoundTag getPortalComponents(InfinityPortalBlockEntity ipbe) {
             var compound = new CompoundTag();
             compound.putInt(ModComponentTypes.COLOR, ipbe.getPortalColor());
             compound.putString(ModComponentTypes.DESTINATION, ipbe.getDimension().toString());
             return compound;
         }
-        //?}
+        *///?}
     }
 }

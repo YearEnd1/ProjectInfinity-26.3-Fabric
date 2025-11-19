@@ -1,13 +1,13 @@
 package net.lerariemann.infinity.compat;
 
 //? if <1.21 && fabric
-import gravity_changer.api.GravityChangerAPI;
+/*import gravity_changer.api.GravityChangerAPI;*/
 import net.lerariemann.infinity.access.InfinityOptionsAccess;
 import net.minecraft.server.level.ServerLevel;
 
 public class GravityChangerCompat  {
     //? if <1.21 && fabric {
-    public static void changeMavity(ServerLevel world) {
+    /*public static void changeMavity(ServerLevel world) {
         GravityChangerAPI.setDimensionGravityStrength(world, getMavity(world));
     }
 
@@ -20,5 +20,5 @@ public class GravityChangerCompat  {
         }
         return mavity;
     }
-    //?}
+    *///?}
 }
