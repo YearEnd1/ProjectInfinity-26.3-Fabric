@@ -42,11 +42,18 @@ import static net.minecraftforge.event.entity.SpawnPlacementRegisterEvent.Operat
 import static net.neoforged.neoforge.event.entity.RegisterSpawnPlacementsEvent.Operation.REPLACE;
 *///?}
 
+import java.util.Optional;
+
 import static net.lerariemann.infinity.InfinityMod.MOD_ID;
+import static net.minecraft.world.entity.SpawnPlacementTypes.ON_GROUND;
 
 public class ModEntities {
     public static void copy(Mob from, Mob e) {
-        e.moveTo(from.getX(), from.getY(), from.getZ(), from.getYRot(), from.getXRot());
+        //? if >1.21.2 {
+        e.moveOrInterpolateTo(from.position());
+        //?} else {
+        /*e.moveTo(from.getX(), from.getY(), from.getZ(), from.getYRot(), from.getXRot());
+         *///?}
         e.setHealth(from.getHealth());
         e.yBodyRot = from.yBodyRot;
         if (from.hasCustomName()) {
@@ -141,9 +148,11 @@ public class ModEntities {
     }
 
     public static <T extends Mob> void registerSafe(EntityType<T> type,
-                                                    //? if >1.21 {
-                                                    EntitySpawnReason
-                                                    //?} else {
+                                                    //? if >1.21.2 {
+                                                    SpawnPlacementType
+                                                    //?} else if >1.21 {
+                                                    /*EntitySpawnReason
+                                                    *///?} else {
                                                     /*SpawnPlacements.Type
                                                     *///?}
                                                     location, Heightmap.Types heightmapType, SpawnPlacements.SpawnPredicate<T> predicate,

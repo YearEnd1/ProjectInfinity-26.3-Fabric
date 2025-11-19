@@ -34,7 +34,13 @@ public class AmendmentConfigFactory {
     AmendmentConfigFactory(ConfigBuilder builder) {
         this.builder = builder;
 
-        ListTag list = readNbt(configPath()+"/amendments.json").getList("elements", 10);
+        ListTag list = readNbt(configPath()+"/amendments.json")
+                //? if <1.21.2 {
+                /*.getList("elements" , 10*/
+                //?} else {
+                .getListOrEmpty("elements"
+                //?}
+        );
         int N = list.size();
         for (int i = 0; i < N; i++) if (list.get(i) instanceof CompoundTag e) {
             amendments.put(i, e);
@@ -109,7 +115,7 @@ public class AmendmentConfigFactory {
                 var list = NbtUtils.getList(amendment, key, Tag.TAG_STRING);
                 StringBuilder a = new StringBuilder();
                 StringBuilder b = new StringBuilder();
-                for (Tag s: list) a.append(s.getAsString());
+                for (Tag s: list) a.append(NbtUtils.getAsString(s));
                 for (String s: value) b.append(s);
                 return !Objects.equals(a.toString(), b.toString());
             }
@@ -200,7 +206,13 @@ public class AmendmentConfigFactory {
 
         List<String> getSafeList(String name) {
             CompoundTag data = getData();
-            if (data.contains(name, Tag.TAG_LIST)) return convertNbtList(data.getList(name, Tag.TAG_STRING));
+            //? if >1.21.2 {
+            if (data.contains(name)) {
+                return convertNbtList(data.getListOrEmpty(name));
+            }
+            //?} else {
+            /*if (data.contains(name, Tag.TAG_LIST)) return convertNbtList(data.getList(name, Tag.TAG_STRING));
+            *///?}
             return List.of("");
         }
 
@@ -258,7 +270,7 @@ public class AmendmentConfigFactory {
     static List<String> convertNbtList(ListTag nbtList) {
         ArrayList<String> list = new ArrayList<>();
         for (Tag s : nbtList) {
-            list.add(s.getAsString());
+            list.add(NbtUtils.getAsString(s));
         }
         return list;
     }

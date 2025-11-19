@@ -58,7 +58,7 @@ public record SoundScanner(Map<ResourceLocation, Resource> soundIds) {
         //the client unpacks a non-empty payload only when needed, meaning only if it doesn't have necessary files yet
         if (!songIds.isEmpty() && !Files.exists(cl.getResourcePackDirectory().resolve("infinity/assets/infinity/sounds.json"))) {
             cl.execute(() -> saveResourcePack(cl, NbtUtils.getList(songIds, "entries", Tag.TAG_STRING).stream()
-                    .map(Tag::getAsString).map(VersionMethods::id), false));
+                    .map(NbtUtils::getAsString).map(VersionMethods::id), false));
         }
         else if (isPreloaded()) {
             cl.execute(() -> {
@@ -121,7 +121,7 @@ public record SoundScanner(Map<ResourceLocation, Resource> soundIds) {
         //? if >1.21 {
         CompoundTag allJukeboxes = NbtUtils.getCompound(data, "jukeboxes");
         Path pathJukeboxes = server.getWorldPath(LevelResource.DATAPACK_DIR).resolve("infinity/data/infinity/jukebox_song");
-        for (String key: allJukeboxes.getAllKeys()) {
+        for (String key : NbtUtils.keys(allJukeboxes)) {
             if (allJukeboxes.get(key) instanceof CompoundTag jukebox) {
                 CommonIO.write(jukebox, pathJukeboxes, key + ".json");
             }

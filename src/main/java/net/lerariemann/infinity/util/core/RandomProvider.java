@@ -72,7 +72,7 @@ public class RandomProvider {
         return getStaticRule((p, k) -> p.gameRules.getOrDefault(k, false), CompoundTag::getBoolean, key, false);
     }
     public static int ruleInt(String key) {
-        return getStaticRule(RandomProvider::_ruleInt, (p, k) -> ((NumericTag) Objects.requireNonNull(p.get(k))).getAsInt(), key, -1);
+        return getStaticRule(RandomProvider::_ruleInt, (p, k) -> NbtUtils.getAsInt(Objects.requireNonNull(p.get(k))), key, -1);
     }
     private int _ruleInt(String key) {
         if (gameRulesInt.containsKey(key)) return gameRulesInt.get(key);
@@ -124,7 +124,7 @@ public class RandomProvider {
         portalKey = NbtUtils.getString(rootConfig, "portalKey");
         salt = NbtUtils.getString(rootConfig, "salt");
         CompoundTag gameRules = NbtUtils.getCompound(rootConfig, "gameRules");
-        for (String s: gameRules.getAllKeys()) {
+        for (String s: NbtUtils.keys(gameRules)) {
             Tag elem = gameRules.get(s);
             if (elem!=null) {
                 if (elem.getId() == Tag.TAG_INT) gameRulesInt.put(s, NbtUtils.getInt(gameRules, s));
@@ -133,9 +133,9 @@ public class RandomProvider {
             }
         }
         CompoundTag rootChances = NbtUtils.getCompound(rootConfig, "rootChances");
-        for (String c: rootChances.getAllKeys()) {
+        for (String c: NbtUtils.keys(gameRules)) {
             var compound = NbtUtils.getCompound(rootChances, c);
-            for (String s: compound.getAllKeys()) {
+            for (String s: NbtUtils.keys(gameRules)) {
                 this.rootChances.put(s, NbtUtils.getDouble(compound, s));
             }
         }
@@ -227,7 +227,7 @@ public class RandomProvider {
 
     public CompoundTag blockToProvider(CompoundTag block, Random random) {
         CompoundTag res = new CompoundTag();
-        boolean isRotatable = BuiltInRegistries.BLOCK.get(VersionMethods.id(NbtUtils.getString(block, "Name"))).defaultBlockState().getProperties().contains(BlockStateProperties.AXIS);
+        boolean isRotatable = VersionMethods.getFromRegistry(BuiltInRegistries.BLOCK, VersionMethods.id(NbtUtils.getString(block, "Name"))).defaultBlockState().getProperties().contains(BlockStateProperties.AXIS);
         res.putString("type", isRotatable && roll(random, "rotate_blocks") ?
                 "minecraft:rotated_block_provider" : "minecraft:simple_state_provider");
         res.put("state", block);

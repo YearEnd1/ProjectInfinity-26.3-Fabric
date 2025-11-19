@@ -85,7 +85,7 @@ public interface SurfaceRuleScanner {
                     else {
                         TreeLeaf l = addOfRule(next, where, true);
                         if(Objects.requireNonNull(c.get("biome_is")).getType().equals(ListTag.TYPE)) {
-                            NbtUtils.getList(c, "biome_is", Tag.TAG_STRING).forEach(e -> addBiomeLoc(e.getAsString(), l.i));
+                            NbtUtils.getList(c, "biome_is", Tag.TAG_STRING).forEach(e -> addBiomeLoc(NbtUtils.getAsString(e), l.i));
                         }
                     }
                 }

@@ -70,7 +70,13 @@ public class ModFluidsFabric {
             return ModBlocks.IRIDESCENCE.get().defaultBlockState().setValue(LiquidBlock.LEVEL, getLegacyLevel(state));
         }
         @Override
-        protected boolean canConvertToSource(Level world) {
+        protected boolean canConvertToSource(
+                //? if >1.21.2 {
+                ServerLevel
+                //?} else {
+                /*Level
+                *///?}
+                        world) {
             return Iridescence.isInfinite(world);
         }
         @Override

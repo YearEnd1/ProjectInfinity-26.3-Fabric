@@ -17,13 +17,13 @@ import java.util.function.Consumer;
 @Mixin(PrimaryLevelData.class)
 public class LevelPropertiesMixin {
     @WrapOperation(method = "setTagData", at = @At(value = "INVOKE", target = "Ljava/util/Optional;ifPresent(Ljava/util/function/Consumer;)V"))
-    void inj(Optional<Tag> instance, Consumer<? super Tag> action, Operation<Void> original) {
+    void removeDimensionsFromLevelDat(Optional<Tag> instance, Consumer<? super Tag> action, Operation<Void> original) {
         if (instance.isEmpty()) return;
         CompoundTag c = ((CompoundTag) instance.get());
         if (c.contains("dimensions")) {
             CompoundTag d = NbtUtils.getCompound(c, "dimensions");
             CompoundTag newD = new CompoundTag();
-            d.getAllKeys().stream().filter(s -> !s.startsWith(InfinityMod.MOD_ID + ":")).forEach(key -> newD.put(key, d.get(key)));
+            NbtUtils.keys(d).stream().filter(s -> !s.startsWith(InfinityMod.MOD_ID + ":")).forEach(key -> newD.put(key, d.get(key)));
             c.put("dimensions", newD);
         }
         action.accept(c);

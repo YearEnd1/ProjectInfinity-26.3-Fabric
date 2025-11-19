@@ -36,7 +36,7 @@ public class Easterizer {
                     NbtUtils.getList(compound, "aliases", Tag.TAG_STRING)
                             .stream()
                             .map(e -> (StringTag)e)
-                            .map(StringTag::getAsString)
+                            .map(NbtUtils::getAsString)
                             .forEach(alias -> aliasMap.put(alias, finalName));
                 }
                 else if (compound.getTagType("aliases") == Tag.TAG_STRING)

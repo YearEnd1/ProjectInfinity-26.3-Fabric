@@ -8,10 +8,35 @@ import net.minecraft.nbt.Tag;
 import net.minecraft.world.level.storage.ValueInput;
 //?}
 
+import java.util.List;
 import java.util.Random;
+import java.util.Set;
 
 /** Contains various common use methods for working with {@link CompoundTag} objects. */
 public interface NbtUtils {
+
+    static Set<String> keys(CompoundTag tag) {
+        //? if >1.21.5 {
+        return tag.keySet();
+        //?} else {
+        /*return tag.getAllKeys();
+         *///?}
+    }
+
+    static String getAsString(Tag tag) {
+        //? if >1.21.5 {
+        return tag.asString().orElse("");
+        //?} else {
+        /*return tag.getAsString();
+        *///?}
+    }
+    static int getAsInt(Tag tag) {
+        //? if >1.21.5 {
+        return tag.asInt().orElse(0);
+        //?} else {
+        /*return tag.getAsInt();
+         *///?}
+    }
 
     //? if >1.21.5 {
     static String getString(ValueInput data, String key, String def) {
@@ -168,7 +193,7 @@ public interface NbtUtils {
 
     static String elementToName(Tag e) {
         if (e instanceof CompoundTag compound) return NbtUtils.getString(compound, "Name");
-        else return e.getAsString();
+        else return NbtUtils.getAsString(e);
     }
     static CompoundTag nameToElement(String block) {
         CompoundTag res = new CompoundTag();

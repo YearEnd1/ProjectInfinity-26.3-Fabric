@@ -227,13 +227,7 @@ public interface CommonIO {
     static String compoundToString(CompoundTag base, int t) {
         String res = "{\n";
         int i = base.size() - 1;
-        for (String key: base.
-                //? if <1.21.2 {
-                /*getAllKeys()
-                *///?} else {
-                keySet()
-                //?}
-        ) {
+        for (String key: NbtUtils.keys(base)) {
             Tag elem = base.get(key);
             res = appendTabs(res, t+1) + "\"" + key + "\": " + elementToString(elem, t);
             if (i!=0) res += ",";

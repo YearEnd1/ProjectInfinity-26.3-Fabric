@@ -195,7 +195,10 @@ public class ChaosCreeper extends Creeper implements TintableEntity {
             this.playSound(SoundEvents.BOTTLE_FILL, 1.0f, 1.0f);
             Creeper newCreeper;
             try (Level level = this.level()) {
-                if (!level.isClientSide() && (newCreeper = EntityType.CREEPER.create(this.level())) != null) {
+                if (!level.isClientSide() && (newCreeper = EntityType.CREEPER.create(this.level()
+                //? if >1.21.2
+                , EntitySpawnReason.CONVERSION
+                )) != null) {
                     //? if >1.21 {
                     
                     itemStack2.applyComponents(BiomeBottleBlock.addComponents(DataComponentMap.builder(),
@@ -231,9 +234,15 @@ public class ChaosCreeper extends Creeper implements TintableEntity {
             ResourceLocation song = VersionMethods.id(InfinityMod.provider.randomName(world.random, ConfigType.JUKEBOXES));
             stack.applyComponents(DataComponentMap.builder()
                     .set(DataComponents.JUKEBOX_PLAYABLE, new JukeboxPlayable(new EitherHolder<>(
-                            ResourceKey.create(Registries.JUKEBOX_SONG, song)), true))
+                            ResourceKey.create(Registries.JUKEBOX_SONG, song))
+                            //? if <1.21.2
+                            /*, true*/
+                    ))
                     .set(ModComponentTypes.COLOR.get(), (int)InfinityMethods.getNumericFromId(song)).build());
-            this.spawnAtLocation(stack);
+            this.spawnAtLocation(
+                    //? if >1.21.2
+                    (ServerLevel) level(),
+                    stack);
         }
     }
     //?}
