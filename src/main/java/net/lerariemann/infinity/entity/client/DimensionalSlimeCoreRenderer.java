@@ -15,13 +15,14 @@ import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.state.BlockState;
 
-public class DimensionalSlimeCoreRenderer extends RenderLayer<
+public class DimensionalSlimeCoreRenderer extends
+
         //? if >1.21.2 {
-        ChaosSlimeRenderState, SlimeModel
+        RenderLayer<ChaosSlimeRenderState, SlimeModel>
         //?} else {
-        /*ChaosSlime, SlimeModel<ChaosSlime>
+        /*RenderLayer<ChaosSlime, SlimeModel<ChaosSlime>>
         *///?}
-        > {
+         {
     private final BlockRenderDispatcher blockRenderManager;
 
     public DimensionalSlimeCoreRenderer(

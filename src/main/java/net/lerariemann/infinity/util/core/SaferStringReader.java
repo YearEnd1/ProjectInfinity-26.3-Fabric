@@ -12,9 +12,14 @@ public class SaferStringReader extends StringReader {
 
     public static CompoundTag parse(String string) throws CommandSyntaxException {
         SaferStringReader readerInner = new SaferStringReader(string);
-        TagParser reader = new TagParser(readerInner);
 
+        //? if >1.21.2 {
+        CompoundTag nbtCompound = TagParser.parseCompoundFully(string);
+        //?} else {
+        /*TagParser reader = new TagParser(readerInner);
         CompoundTag nbtCompound = reader.readStruct();
+        *///?}
+
         readerInner.skipWhitespace();
         if (readerInner.canRead()) {
             throw TagParser.ERROR_TRAILING_DATA.createWithContext(readerInner);

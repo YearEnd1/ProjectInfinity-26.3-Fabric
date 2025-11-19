@@ -5,6 +5,7 @@ import net.lerariemann.infinity.entity.custom.BishopEntity;
 import net.lerariemann.infinity.util.InfinityMethods;
 import net.minecraft.client.model.geom.ModelLayers;
 import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.entity.ArmorModelSet;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.HumanoidMobRenderer;
 import net.minecraft.client.renderer.entity.layers.HumanoidArmorLayer;
@@ -20,11 +21,8 @@ public class BishopRenderer extends HumanoidMobRenderer<BishopEntity,
 
     public BishopRenderer(EntityRendererProvider.Context context) {
         super(context, new BishopModel(context.bakeLayer(BishopModel.MODEL_LAYER)), 0.6f);
+        //FIXME 1.21.10
         //? if >1.21.9 {
-        this.addLayer(new HumanoidArmorLayer<>(this,
-                new BishopModel(context.bakeLayer(ModelLayers.SKELETON_ARMOR)),
-                new BishopModel(context.bakeLayer(ModelLayers.SKELETON_ARMOR)),
-                context.getEquipmentRenderer()));
         //?} else {
         /*this.addLayer(new HumanoidArmorLayer<>(this,
                 new BishopModel(context.bakeLayer(ModelLayers.SKELETON_INNER_ARMOR)),
@@ -50,11 +48,13 @@ public class BishopRenderer extends HumanoidMobRenderer<BishopEntity,
     public BishopEntityRenderState createRenderState() {
         return new BishopEntityRenderState();
     }
-    //?}
-
-    @Override
+    //?} else {
+    /*@Override
     public void render(BishopEntity mobEntity, float f, float g, PoseStack matrixStack,
                        MultiBufferSource vertexConsumerProvider, int i) {
         super.render(mobEntity, f, g, matrixStack, vertexConsumerProvider, i);
     }
+    *///?}
+
+
 }

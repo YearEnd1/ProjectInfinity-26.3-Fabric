@@ -18,7 +18,7 @@ public class ChaosSlimeRenderer extends MobRenderer<
         //? if >1.21.2 {
         ChaosSlime, ChaosSlimeRenderState, SlimeModel
         //?} else {
-                /*ChaosSlime, SlimeModel<ChaosSlime>
+        /*ChaosSlime, SlimeModel<ChaosSlime>
         *///?}
         > {
     private static final ResourceLocation TEXTURE = InfinityMethods.getId("textures/entity/slime.png");
@@ -26,7 +26,7 @@ public class ChaosSlimeRenderer extends MobRenderer<
     public ChaosSlimeRenderer(EntityRendererProvider.Context context) {
         super(context, new SlimeModel(context.bakeLayer(ModelLayers.SLIME)), 0.25f);
         this.addLayer(new DimensionalSlimeCoreRenderer(this, context.getBlockRenderDispatcher()));
-        this.addLayer(new TintedLayerRenderer<>(this, new SlimeModel(context.getModelSet().bakeLayer(ModelLayers.SLIME_OUTER))));
+        this.addLayer(new TintedLayerRenderer(this, new SlimeModel(context.getModelSet().bakeLayer(ModelLayers.SLIME_OUTER))));
     }
     //? if >1.21.2 {
 
