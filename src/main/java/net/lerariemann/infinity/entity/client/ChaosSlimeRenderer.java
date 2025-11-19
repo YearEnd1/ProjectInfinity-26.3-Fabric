@@ -6,21 +6,64 @@ import net.lerariemann.infinity.util.InfinityMethods;
 import net.minecraft.client.model.SlimeModel;
 import net.minecraft.client.model.geom.ModelLayers;
 import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
+import net.minecraft.client.renderer.state.CameraRenderState;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import org.jetbrains.annotations.NotNull;
 
-public class ChaosSlimeRenderer extends MobRenderer<ChaosSlime, SlimeModel<ChaosSlime>> {
+public class ChaosSlimeRenderer extends MobRenderer<
+        //? if >1.21.2 {
+        ChaosSlime, ChaosSlimeRenderState, SlimeModel
+        //?} else {
+                /*ChaosSlime, SlimeModel<ChaosSlime>
+        *///?}
+        > {
     private static final ResourceLocation TEXTURE = InfinityMethods.getId("textures/entity/slime.png");
 
     public ChaosSlimeRenderer(EntityRendererProvider.Context context) {
-        super(context, new SlimeModel<>(context.bakeLayer(ModelLayers.SLIME)), 0.25f);
+        super(context, new SlimeModel(context.bakeLayer(ModelLayers.SLIME)), 0.25f);
         this.addLayer(new DimensionalSlimeCoreRenderer(this, context.getBlockRenderDispatcher()));
-        this.addLayer(new TintedLayerRenderer<>(this, new SlimeModel<>(context.getModelSet().bakeLayer(ModelLayers.SLIME_OUTER))));
+        this.addLayer(new TintedLayerRenderer<>(this, new SlimeModel(context.getModelSet().bakeLayer(ModelLayers.SLIME_OUTER))));
     }
+    //? if >1.21.2 {
+
     @Override
+    public ResourceLocation getTextureLocation(ChaosSlimeRenderState renderState) {
+        return TEXTURE;
+    }
+
+    @Override
+    public void extractRenderState(ChaosSlime slime, ChaosSlimeRenderState state, float f) {
+        super.extractRenderState(slime, state, f);
+        state.core = slime.getCore();
+    }
+
+    @Override
+    public void submit(ChaosSlimeRenderState slimeEntity, PoseStack matrixStack, SubmitNodeCollector submitNodeCollector, CameraRenderState cameraRenderState) {
+        this.shadowRadius = 0.25f * (float)slimeEntity.size;
+    }
+
+    @Override
+    public ChaosSlimeRenderState createRenderState() {
+        return new ChaosSlimeRenderState();
+    }
+
+    @Override
+    protected void scale(ChaosSlimeRenderState slimeEntity, PoseStack matrixStack) {
+        float g = 0.999f;
+        matrixStack.scale(g, g, g);
+        matrixStack.translate(0.0f, 0.001f, 0.0f);
+        float h = slimeEntity.size;
+        float i = slimeEntity.squish / (g * 0.5F + 1.0F);
+        float j = 1.0f / (i + 1.0f);
+        matrixStack.scale(j * h, 1.0f / j * h, j * h);
+    }
+    //?} else {
+
+    /*@Override
     public @NotNull ResourceLocation getTextureLocation(ChaosSlime slimeEntity) {
         return TEXTURE;
     }
@@ -39,4 +82,5 @@ public class ChaosSlimeRenderer extends MobRenderer<ChaosSlime, SlimeModel<Chaos
         float j = 1.0f / (i + 1.0f);
         matrixStack.scale(j * h, 1.0f / j * h, j * h);
     }
+    *///?}
 }
