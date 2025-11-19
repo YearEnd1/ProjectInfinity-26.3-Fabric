@@ -23,7 +23,12 @@ public interface PortalColorApplier {
     }
     static PortalColorApplier of(CompoundTag data, int defaultColor) {
         if (!data.contains("portal_color")) return new Simple(defaultColor);
-        if (data.getTagType("portal_color") == Tag.TAG_INT) return new Simple(NbtUtils.getInt(data, "portal_color"));
+        //? if >1.21.2 {
+        if (data.getInt("portal_color").isPresent())
+        //?} else {
+        /*if (data.getTagType("portal_color") == Tag.TAG_INT)
+        *///?}
+            return new Simple(NbtUtils.getInt(data, "portal_color"));
         CompoundTag applierData = NbtUtils.getCompound(data, "portal_color");
         return switch (NbtUtils.getString(applierData, "type", "")) {
             case "simple" -> new Simple(NbtUtils.getInt(applierData, "value"));

@@ -70,7 +70,10 @@ public interface WarpLogic {
      */
     static void requestWarp(@Nullable ServerPlayer player, ResourceLocation value, boolean increaseStats) {
         if (player == null) return;
-        MinecraftServer s = player.getServer();
+        MinecraftServer s = player
+                //? if >1.21.2
+                .level()
+                .getServer();
         if (s == null) return;
         if (((MinecraftServerAccess)s).infinity$needsInvocation()) {
             PortalCreator.onInvocationNeedDetected(player);
@@ -88,7 +91,12 @@ public interface WarpLogic {
      * Moves the player to a specified existing dimension.
      */
     static void performWarp(ServerPlayer player, ResourceLocation idForWarp) {
-        MinecraftServer s = player.serverLevel().getServer();
+        //? if >1.21.2 {
+        ServerLevel level = player.level();
+        //?} else {
+        /*ServerLevel level = player.serverLevel();
+        *///?}
+        MinecraftServer s = level.getServer();
         ResourceKey<Level> key = ResourceKey.create(Registries.DIMENSION, idForWarp);
         ServerLevel w = s.getLevel(key);
         if (w==null) {
@@ -96,16 +104,24 @@ public interface WarpLogic {
             return;
         }
 
-        double d = DimensionType.getTeleportationScale(player.serverLevel().dimensionType(), w.dimensionType());
-        double y = Mth.clamp(player.getY(), w.getMinBuildHeight(), w.getMaxBuildHeight());
+        double d = DimensionType.getTeleportationScale(level.dimensionType(), w.dimensionType());
+        //? if >1.21.2 {
+        double y = Mth.clamp(player.getY(), w.getMinY(), w.getMaxY());
+        //?} else {
+        /*double y = Mth.clamp(player.getY(), w.getMinBuildHeight(), w.getMaxBuildHeight());
+        *///?}
 
         BlockPos blockPos2 = getPosForWarp(w.getWorldBorder().clampToBounds(player.getX() * d, y, player.getZ() * d), w);
 
         ensureSafety(w, blockPos2.below(), Blocks.OBSIDIAN);
         ensureSafety(w, blockPos2, Blocks.AIR);
         ensureSafety(w, blockPos2.above(), Blocks.AIR);
-        player.teleportTo(w, blockPos2.getX() + 0.5, blockPos2.getY(), blockPos2.getZ() + 0.5,
+        //? if >1.21.2 {
+        VersionMethods.teleportTo(player, w, blockPos2.getCenter(), player.getYRot(), player.getXRot());
+        //?} else {
+        /*player.teleportTo(w, blockPos2.getX() + 0.5, blockPos2.getY(), blockPos2.getZ() + 0.5,
                 new HashSet<>(), player.getYRot(), player.getXRot());
+        *///?}
     }
 
     /**
@@ -168,7 +184,11 @@ public interface WarpLogic {
         int z = orig.getZ();
         if (isPosViable(x, y1, z, world, strong)) return orig;
         int y2 = y1;
-        while (y1 > world.getMinBuildHeight() || y2 < world.getMaxBuildHeight()) {
+        //? if >1.21.2 {
+        while (y1 > world.getMinY() || y2 < world.getMaxY()) {
+        //?} else {
+        /*while (y1 > world.getMinBuildHeight() || y2 < world.getMaxBuildHeight()) {
+        *///?}
             y1-=1;
             if (isPosViable(x, y1, z, world, strong)) return new BlockPos(x, y1, z);
             y2+=1;

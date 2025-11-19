@@ -26,7 +26,10 @@ public abstract class KelpBlockMixin extends GrowingPlantHeadBlock {
             BlockState blockState = ctx.getLevel().getBlockState(ctx.getClickedPos().relative(this.growthDirection));
             if (blockState.is(ModBlocks.IRIDESCENT_KELP_PLANT.get()) || blockState.is(ModBlocks.IRIDESCENT_KELP.get()))
                 cir.setReturnValue(ModBlocks.IRIDESCENT_KELP_PLANT.get().defaultBlockState());
-            cir.setReturnValue(ModBlocks.IRIDESCENT_KELP.get().getStateForPlacement(ctx.getLevel()));
+            cir.setReturnValue(ModBlocks.IRIDESCENT_KELP.get().getStateForPlacement(ctx
+                    //? if <1.21.2
+                    /*.getLevel()*/
+            ));
         }
     }
 }

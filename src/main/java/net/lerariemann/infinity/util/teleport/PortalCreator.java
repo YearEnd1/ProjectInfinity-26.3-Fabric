@@ -217,7 +217,7 @@ public interface PortalCreator {
     }
 
     static void onInvocationNeedDetected(Player player) {
-        if (player != null) player.sendSystemMessage(Component.translatable("error.infinity.invocation_needed"));
+        if (player != null) player.displayClientMessage(Component.translatable("error.infinity.invocation_needed"), false);
     }
 
     /**

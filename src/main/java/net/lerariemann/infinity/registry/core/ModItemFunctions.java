@@ -1,6 +1,8 @@
 package net.lerariemann.infinity.registry.core;
 
-import dev.architectury.registry.item.ItemPropertiesRegistry;
+//? if <1.21.2 {
+/*import dev.architectury.registry.item.ItemPropertiesRegistry;
+*///?}
 import dev.architectury.registry.registries.DeferredRegister;
 import dev.architectury.registry.registries.RegistrySupplier;
 import net.lerariemann.infinity.block.custom.BiomeBottleBlock;
@@ -10,8 +12,7 @@ import net.minecraft.core.BlockPos;
 //? if >1.21 {
 import net.minecraft.core.component.DataComponentPatch;
 import net.minecraft.core.dispenser.BlockSource;
-import net.minecraft.world.item.crafting.RecipeHolder;
-import net.minecraft.world.item.crafting.SingleRecipeInput;
+import net.minecraft.world.item.crafting.*;
 //?} else {
 /*import net.minecraft.core.BlockSource;
 import net.minecraft.world.ticks.ContainerSingleItem;
@@ -29,9 +30,10 @@ import net.minecraft.world.item.DispensibleContainerItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.item.crafting.RecipeSerializer;
-import net.minecraft.world.item.crafting.RecipeType;
-import net.minecraft.world.item.crafting.SimpleCraftingRecipeSerializer;
+//? if >1.21.2 {
+//?} else {
+/*import net.minecraft.world.item.crafting.SimpleCraftingRecipeSerializer;
+*///?}
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.DispenserBlock;
 import net.minecraft.world.level.block.state.BlockState;
@@ -84,13 +86,28 @@ public class ModItemFunctions {
     //special recipe serializers
     public static RegistrySupplier<RecipeSerializer<BiomeBottleCombiningRecipe>> BIOME_BOTTLE_COMBINING =
             RECIPE_SERIALIZERS.register("biome_bottle_combining", () ->
-                    new SimpleCraftingRecipeSerializer<>(BiomeBottleCombiningRecipe::new));
+                    //? if >1.21.2 {
+                    new CustomRecipe.Serializer
+                    //?} else {
+                    /*new SimpleCraftingRecipeSerializer
+                    *///?}
+                    <>(BiomeBottleCombiningRecipe::new));
     public static RegistrySupplier<RecipeSerializer<F4RechargingRecipe>> F4_RECHARGING =
             RECIPE_SERIALIZERS.register("f4_recharging", () ->
-                    new SimpleCraftingRecipeSerializer<>(F4RechargingRecipe::new));
+                    //? if >1.21.2 {
+                    new CustomRecipe.Serializer
+                    //?} else {
+                    /*new SimpleCraftingRecipeSerializer
+                     *///?}
+                    <>(F4RechargingRecipe::new));
     public static RegistrySupplier<RecipeSerializer<ChromaCarpetRecipe>> CARPET =
             RECIPE_SERIALIZERS.register("chroma_carpet", () ->
-                    new SimpleCraftingRecipeSerializer<>(ChromaCarpetRecipe::new));
+                    //? if >1.21.2 {
+                    new CustomRecipe.Serializer
+                    //?} else {
+                    /*new SimpleCraftingRecipeSerializer
+                     *///?}
+                    <>(ChromaCarpetRecipe::new));
     //regular recipe serializers
     public static RegistrySupplier<RecipeSerializer<ChromaticColoringRecipe>> CHROMATIC_COLORING =
             RECIPE_SERIALIZERS.register("chromatic_coloring", () ->
@@ -154,7 +171,12 @@ public class ModItemFunctions {
         if (itemEntity.isRemoved()) return;
         ItemStack itemStack = itemEntity.getItem();
         //? if >1.21 {
-        Optional<RecipeHolder<CollisionCraftingRecipe>> match = w.getRecipeManager()
+        Optional<RecipeHolder<CollisionCraftingRecipe>> match = w.
+                //? if >1.21.2 {
+                        recipeAccess()
+                //?} else {
+                /*getRecipeManager()
+                *///?}
                 .getRecipeFor(recipeType, new SingleRecipeInput(itemStack), w);
         if (match.isEmpty()) return;
         var value = match.get().value();
@@ -187,7 +209,10 @@ public class ModItemFunctions {
         var value = match.get();
         *///?}
 
-        ItemStack resStack = value.getResultItem(w.registryAccess());
+        ItemStack resStack = value.getResultItem(
+                //? if <1.21.2
+                /*w.registryAccess()*/
+        );
         if (resStack.is(itemStack.getItem())) resStack = itemStack.copy();
         //? if >1.21 {
         componentFunction.apply(resStack.getItem()).ifPresent(resStack::applyComponentsAndValidate);
@@ -204,7 +229,8 @@ public class ModItemFunctions {
     }
 
     public static void registerModelPredicates() {
-        ItemPropertiesRegistry.register(ModItems.TRANSFINITE_KEY.get(), InfinityMethods.getId("key"), (stack, world, entity, seed) -> {
+        //? if <1.21.4 {
+        /*ItemPropertiesRegistry.register(ModItems.TRANSFINITE_KEY.get(), InfinityMethods.getId("key"), (stack, world, entity, seed) -> {
             ResourceLocation id = ModItems.TRANSFINITE_KEY.get().getDestination(stack);
             String s = id.toString();
             if (s.contains("infinity:generated_")) return 0.01f;
@@ -227,5 +253,6 @@ public class ModItemFunctions {
                     if (id.toString().equals(InfinityMethods.ofRandomDim)) return 0.02f;
                     return 0.01f;
                 });
+        *///?}
     }
 }
