@@ -105,7 +105,5 @@ public class ModBlocks {
         return ResourceKey.create(Registries.BLOCK, InfinityMethods.getId(name));
     }
 
-    public static ResourceKey<Item> keyOfItem(String name) {
-        return ResourceKey.create(Registries.ITEM, InfinityMethods.getId(name));
-    }
+
 }

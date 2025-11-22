@@ -3,6 +3,7 @@ package net.lerariemann.infinity.util.platform;
 import dev.architectury.registry.registries.RegistrySupplier;
 
 import net.lerariemann.infinity.registry.core.ModBlocks;
+import net.lerariemann.infinity.registry.core.ModItems;
 import net.lerariemann.infinity.registry.var.ModPayloads;
 import net.lerariemann.infinity.util.InfinityMethods;
 import net.lerariemann.infinity.util.VersionMethods;
@@ -333,8 +334,8 @@ public interface PlatformMethods {
     }
 
     //? if >1.21 && fabric {
-    static Item.Properties deferredIntComponent(Supplier<DataComponentType<Integer>> componentTypeSupplier, int i) {
-        return new Item.Properties().component(componentTypeSupplier.get(), i);
+    static Item.Properties deferredIntComponent(String chromaticMatter, Supplier<DataComponentType<Integer>> componentTypeSupplier, int i) {
+        return new Item.Properties().setId(ModItems.registryKey(chromaticMatter)).component(componentTypeSupplier.get(), i);
     }
     static ItemEnchantments getEnchantments(ItemStack weapon, MinecraftServer s) {
         return weapon.getEnchantments();

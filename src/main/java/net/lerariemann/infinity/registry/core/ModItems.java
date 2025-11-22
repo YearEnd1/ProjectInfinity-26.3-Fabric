@@ -50,7 +50,7 @@ public class ModItems {
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(MOD_ID, Registries.ITEM);
     //block items
     public static final RegistrySupplier<Item> PORTAL_ITEM =
-            register(ModBlocks.PORTAL.getId().getPath(), new Item.Properties().setId(ModBlocks.keyOfItem(ModBlocks.PORTAL.getId().getPath())), (properties) -> new BlockItem(ModBlocks.PORTAL.get(),
+            register(ModBlocks.PORTAL.getId().getPath(), new Item.Properties().setId(registryKey(ModBlocks.PORTAL.getId().getPath())), (properties) -> new BlockItem(ModBlocks.PORTAL.get(),
                             colorProperties(ColorLogic.defaultPortal, properties)));
     public static final RegistrySupplier<Item> COSMIC_ALTAR_ITEM =
             registerBlockItemAfter(ModBlocks.COSMIC_ALTAR, CreativeModeTabs.FUNCTIONAL_BLOCKS, Items.LECTERN, BlockItem::new);
@@ -107,7 +107,7 @@ public class ModItems {
 
     //bucket
     public static final RegistrySupplier<Item> IRIDESCENCE_BUCKET = register("iridescence_bucket", new Item.Properties() , (properties) ->
-            new ArchitecturyBucketItem(PlatformMethods.getIridescenceStill(), new Item.Properties().craftRemainder(Items.BUCKET).stacksTo(1)));
+            new ArchitecturyBucketItem(PlatformMethods.getIridescenceStill(), properties.craftRemainder(Items.BUCKET).stacksTo(1)));
 
     //misc
     public static final RegistrySupplier<Item> FOOTPRINT =
@@ -121,10 +121,7 @@ public class ModItems {
     public static final RegistrySupplier<ChromaticItem> CHROMATIC_MATTER =
             registerItemAfter("chromatic_matter", CreativeModeTabs.INGREDIENTS, Items.DISC_FRAGMENT_5, settings -> new ChromaticItem(
                     //? if >1.21
-                    deferredIntComponent(ModComponentTypes.COLOR, ColorLogic.defaultChromatic)),
-                    new Item.Properties()
-            //? if <1.21
-            /*)*/
+                    deferredIntComponent("chromatic_matter", ModComponentTypes.COLOR, ColorLogic.defaultChromatic))
             );
     public static final RegistrySupplier<Item> WHITE_MATTER =
             registerItemAfter("white_matter", CreativeModeTabs.INGREDIENTS, Items.DISC_FRAGMENT_5, Item::new);
@@ -194,7 +191,7 @@ public class ModItems {
     }
     public static <T extends Item> RegistrySupplier<T> registerItemAfter(String id, ResourceKey<CreativeModeTab> group, Item item,
                                                            Function<Item.Properties, T> constructor) {
-        return registerItemAfter(id, group, item, constructor, new Item.Properties().setId(ModBlocks.keyOfItem(id)));
+        return registerItemAfter(id, group, item, constructor, new Item.Properties().setId(registryKey(id)));
     }
 
     public static <T extends Item> RegistrySupplier<T> registerBlockItem(RegistrySupplier<Block> block, Item.Properties settings,
@@ -206,7 +203,7 @@ public class ModItems {
     public static Item.Properties blockItemProperties(String id) {
         return new Item.Properties()
                 //? if >1.21.4
-                .useBlockDescriptionPrefix().setId(ModBlocks.keyOfItem(id))
+                .useBlockDescriptionPrefix().setId(registryKey(id))
         ;
     }
     /**
@@ -231,5 +228,9 @@ public class ModItems {
         addAfter(IRIDESCENCE_BUCKET, CreativeModeTabs.TOOLS_AND_UTILITIES, Items.MILK_BUCKET);
         InfinityMod.LOGGER.debug("Registering items for " + MOD_ID);
         ITEMS.register();
+    }
+
+    public static ResourceKey<Item> registryKey(String name) {
+        return ResourceKey.create(Registries.ITEM, InfinityMethods.getId(name));
     }
 }
