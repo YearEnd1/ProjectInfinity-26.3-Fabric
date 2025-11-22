@@ -51,7 +51,7 @@ public class ModItems {
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(MOD_ID, Registries.ITEM);
     //block items
     public static final RegistrySupplier<Item> PORTAL_ITEM =
-            register(ModBlocks.PORTAL.getId().getPath(), new Item.Properties(), (properties) -> new BlockItem(ModBlocks.PORTAL.get(),
+            register(ModBlocks.PORTAL.getId().getPath(), new Item.Properties().setId(ModBlocks.keyOfItem(ModBlocks.PORTAL.getId().getPath())), (properties) -> new BlockItem(ModBlocks.PORTAL.get(),
                             colorProperties(ColorLogic.defaultPortal)));
     public static final RegistrySupplier<Item> COSMIC_ALTAR_ITEM =
             registerBlockItemAfter(ModBlocks.COSMIC_ALTAR, CreativeModeTabs.FUNCTIONAL_BLOCKS, Items.LECTERN, BlockItem::new);
@@ -180,6 +180,7 @@ public class ModItems {
     }
 
     public static <T extends Item> RegistrySupplier<T> register(String item, Item.Properties settings, Function<Item.Properties, T> constructor) {
+        System.out.println(item);
         return ITEMS.register(item, () -> constructor.apply(settings
                 //? if >1.21.2
                 .setId(ResourceKey.create(Registries.ITEM, InfinityMethods.getId(item)))

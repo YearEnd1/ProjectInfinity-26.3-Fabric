@@ -218,10 +218,14 @@ public interface PlatformMethods {
      * Get the registry supplier for Iridescence fluid.
      */
     static RegistrySupplier<LiquidBlock> getIridBlockForReg() {
+        var properties = VersionMethods.copyBlockProperties(Blocks.WATER).mapColor(MapColor.COLOR_MAGENTA)
+                //? if >1.21.2
+                .setId(ModBlocks.keyOfBlock("iridescence")
+                );
         //? fabric {
         return ModBlocks.BLOCKS.register("iridescence", () ->
                 new IridescenceLiquidBlock(PlatformMethods.getIridescenceStill(),
-                        VersionMethods.copyBlockProperties(Blocks.WATER).mapColor(MapColor.COLOR_MAGENTA)));
+                        properties));
         //?}
         //? neoforge {
         /*return ModBlocks.BLOCKS.register("iridescence", () ->
@@ -258,7 +262,7 @@ public interface PlatformMethods {
         //? fabric {
         ModContainer mc = FabricLoader.getInstance().getModContainer(InfinityMod.MOD_ID).orElse(null);
         assert mc != null;
-        return mc.getRootPaths().getFirst();
+        return mc.getRootPaths().getFirst().resolve(path);
         //?}
         //? neoforge || forge {
 
