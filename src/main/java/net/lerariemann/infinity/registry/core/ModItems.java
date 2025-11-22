@@ -11,7 +11,6 @@ import net.lerariemann.infinity.util.core.RandomProvider;
 import net.lerariemann.infinity.util.var.ColorLogic;
 //? if >1.21 {
 import net.minecraft.core.component.DataComponents;
-import java.util.List;
 //?}
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
@@ -52,7 +51,7 @@ public class ModItems {
     //block items
     public static final RegistrySupplier<Item> PORTAL_ITEM =
             register(ModBlocks.PORTAL.getId().getPath(), new Item.Properties().setId(ModBlocks.keyOfItem(ModBlocks.PORTAL.getId().getPath())), (properties) -> new BlockItem(ModBlocks.PORTAL.get(),
-                            colorProperties(ColorLogic.defaultPortal)));
+                            colorProperties(ColorLogic.defaultPortal, properties)));
     public static final RegistrySupplier<Item> COSMIC_ALTAR_ITEM =
             registerBlockItemAfter(ModBlocks.COSMIC_ALTAR, CreativeModeTabs.FUNCTIONAL_BLOCKS, Items.LECTERN, BlockItem::new);
     public static final RegistrySupplier<Item> ALTAR_ITEM =
@@ -77,13 +76,11 @@ public class ModItems {
             registerBlockItemAfter(ModBlocks.IRIDESCENT_CARPET, CreativeModeTabs.COLORED_BLOCKS, Items.PINK_CARPET, BlockItem::new);
     public static final RegistrySupplier<ChromaticBlockItem> CHROMATIC_WOOL  =
             registerBlockItemAfter(ModBlocks.CHROMATIC_WOOL, CreativeModeTabs.COLORED_BLOCKS, Items.PINK_WOOL,
-                    new Item.Properties(),
-                    (p, settings) -> new ChromaticBlockItem(p, colorProperties(ColorLogic.defaultChromatic)));
+                    (p, settings) -> new ChromaticBlockItem(p, colorProperties(ColorLogic.defaultChromatic, settings)));
 
     public static final RegistrySupplier<ChromaticBlockItem> CHROMATIC_CARPET  =
             registerBlockItemAfter(ModBlocks.CHROMATIC_CARPET, CreativeModeTabs.COLORED_BLOCKS, Items.PINK_CARPET,
-                    new Item.Properties(),
-                    (p, settings) -> new ChromaticBlockItem(p, colorProperties(ColorLogic.defaultChromatic)));
+                    (p, settings) -> new ChromaticBlockItem(p, colorProperties(ColorLogic.defaultChromatic, settings)));
     public static final RegistrySupplier<Item> BIOME_BOTTLE_ITEM =
             registerBlockItemAfter(ModBlocks.BIOME_BOTTLE, CreativeModeTabs.INGREDIENTS, Items.EXPERIENCE_BOTTLE, BiomeBottleItem::new);
 
@@ -135,10 +132,10 @@ public class ModItems {
             registerItemAfter("black_matter", CreativeModeTabs.INGREDIENTS, Items.DISC_FRAGMENT_5, Item::new);
     public static final RegistrySupplier<IridescentStarItem> IRIDESCENT_STAR =
             registerItemAfter("iridescent_star", CreativeModeTabs.INGREDIENTS, Items.NETHER_STAR, IridescentStarItem::new,
-                    glintProperties().rarity(Rarity.UNCOMMON));
+                    glintProperties(new Item.Properties()).rarity(Rarity.UNCOMMON));
     public static final RegistrySupplier<? extends StarOfLangItem> STAR_OF_LANG =
             registerItemAfter("star_of_lang", CreativeModeTabs.INGREDIENTS, Items.NETHER_STAR, StarOfLangItem::new,
-                    glintProperties());
+                    glintProperties(new Item.Properties()));
 
     public static final RegistrySupplier<F4Item> F4 =
             registerItemAfter("f4", CreativeModeTabs.TOOLS_AND_UTILITIES, Items.WRITABLE_BOOK, F4Item::new,
@@ -148,20 +145,20 @@ public class ModItems {
                     new Item.Properties().rarity(Rarity.RARE));
     public static final RegistrySupplier<Item> IRIDESCENT_POTION =
             registerItemAfter("iridescent_potion", CreativeModeTabs.FOOD_AND_DRINKS, Items.HONEY_BOTTLE, settings ->
-                            new IridescentPotionItem(glintProperties().rarity(Rarity.UNCOMMON),
+                            new IridescentPotionItem(glintProperties(settings).rarity(Rarity.UNCOMMON),
                                     RandomProvider.ruleInt("iridescencePotionLevel")));
     public static final RegistrySupplier<Item> CHROMATIC_POTION =
             registerItemAfter("chromatic_potion", CreativeModeTabs.FOOD_AND_DRINKS, Items.HONEY_BOTTLE, settings ->
-                            new IridescentPotionItem(new Item.Properties(), 0));
+                            new IridescentPotionItem(settings, 0));
 
-    private static Item.Properties glintProperties() {
-        return new Item.Properties()
+    private static Item.Properties glintProperties(Item.Properties settings) {
+        return settings
                 //? if >1.21
                 .component(DataComponents.ENCHANTMENT_GLINT_OVERRIDE, true)
                 ;
     }
-    private static Item.Properties colorProperties(int defaultChromatic) {
-        return new Item.Properties()
+    private static Item.Properties colorProperties(int defaultChromatic, Item.Properties properties) {
+        return properties
                 //? if >1.21
                 .component(ModComponentTypes.COLOR.get(), defaultChromatic)
                 ;
@@ -197,15 +194,20 @@ public class ModItems {
     }
     public static <T extends Item> RegistrySupplier<T> registerItemAfter(String id, ResourceKey<CreativeModeTab> group, Item item,
                                                            Function<Item.Properties, T> constructor) {
-        return registerItemAfter(id, group, item, constructor, new Item.Properties());
+        return registerItemAfter(id, group, item, constructor, new Item.Properties().setId(ModBlocks.keyOfItem(id)));
     }
 
     public static <T extends Item> RegistrySupplier<T> registerBlockItem(RegistrySupplier<Block> block, Item.Properties settings,
                                                            BiFunction<Block, Item.Properties, T> constructor) {
-        return register(block.getId().getPath(), new Item.Properties()
-                //? if >1.21.4
-                .useBlockDescriptionPrefix()
+        return register(block.getId().getPath(), blockItemProperties(block.getId().getPath())
                 , (properties) -> constructor.apply(block.get(), settings));
+    }
+
+    public static Item.Properties blockItemProperties(String id) {
+        return new Item.Properties()
+                //? if >1.21.4
+                .useBlockDescriptionPrefix().setId(ModBlocks.keyOfItem(id))
+        ;
     }
     /**
      * Registers a BlockItem via Architectury API.
@@ -222,7 +224,7 @@ public class ModItems {
      */
     public static <T extends Item> RegistrySupplier<T> registerBlockItemAfter(RegistrySupplier<Block> block, ResourceKey<CreativeModeTab> group, Item item,
                                                                 BiFunction<Block, Item.Properties, T> constructor) {
-        return registerBlockItemAfter(block, group, item, new Item.Properties(), constructor);
+        return registerBlockItemAfter(block, group, item, blockItemProperties(block.getId().getPath()), constructor);
     }
 
     public static void registerModItems() {

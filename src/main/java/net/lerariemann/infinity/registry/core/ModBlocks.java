@@ -61,15 +61,15 @@ public class ModBlocks {
             ChromaticBlock::new, (VersionMethods.copyBlockProperties(Blocks.MAGENTA_WOOL)));
     public static final RegistrySupplier<Block> CHROMATIC_CARPET = register("chromatic_carpet", 
             ChromaticBlock.Carpet::new, (VersionMethods.copyBlockProperties(Blocks.MAGENTA_CARPET)));
-    public static final RegistrySupplier<IridescentKelpBlock> IRIDESCENT_KELP = register("iridescent_kelp", 
+    public static final RegistrySupplier<IridescentKelpBlock> IRIDESCENT_KELP = register("iridescent_kelp",
             IridescentKelpBlock::new, (VersionMethods.copyBlockProperties(Blocks.KELP).mapColor(MapColor.COLOR_MAGENTA)));
-    public static final RegistrySupplier<IridescentKelpBlock.Plant> IRIDESCENT_KELP_PLANT = register("iridescent_kelp_plant", 
+    public static final RegistrySupplier<IridescentKelpBlock.Plant> IRIDESCENT_KELP_PLANT = register("iridescent_kelp_plant",
             IridescentKelpBlock.Plant::new, (VersionMethods.copyBlockProperties(Blocks.KELP).mapColor(MapColor.COLOR_MAGENTA)));
     public static final RegistrySupplier<Block> NOTES_BLOCK = register("notes_block", 
             NotesBlock::new, (VersionMethods.copyBlockProperties(Blocks.NOTE_BLOCK).randomTicks()));
     public static final RegistrySupplier<Block> HAUNTED_AIR = BLOCKS.register("haunted_air",
             ()-> new HauntedBlock(Blocks.AIR));
-    public static final RegistrySupplier<RailHelper> RAIL_HELPER = register("rail_helper", 
+    public static final RegistrySupplier<RailHelper> RAIL_HELPER = register("rail_helper",
             RailHelper::new, (BlockBehaviour.Properties.of().strength(-1.0F, 3600000.8F).mapColor(MapColor.NONE)
                     .noLootTable().noOcclusion().isValidSpawn((state, getter, pos, type)-> false).pushReaction(PushReaction.BLOCK)
                     //? if >1.21 {
@@ -98,18 +98,6 @@ public class ModBlocks {
         ResourceKey<Block> blockKey = keyOfBlock(name);
         // Create the block instance
         Supplier<Block> block = ()-> blockFactory.apply(settings.setId(blockKey));
-
-        // Sometimes, you may not want to register an item for the block.
-        // Eg: if it's a technical block like `minecraft:moving_piston` or `minecraft:end_gateway`
-        if (shouldRegisterItem) {
-            // Items need to be registered with a different type of registry key, but the ID
-            // can be the same.
-            ResourceKey<Item> itemKey = keyOfItem(name);
-
-            BlockItem blockItem = new BlockItem(block.get(), new Item.Properties().setId(itemKey).useBlockDescriptionPrefix());
-            Registry.register(BuiltInRegistries.ITEM, itemKey, blockItem);
-        }
-
         return (RegistrySupplier<T>) BLOCKS.register(name, block);
     }
 
