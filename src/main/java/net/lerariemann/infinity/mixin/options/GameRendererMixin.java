@@ -17,17 +17,31 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(GameRenderer.class)
 public abstract class GameRendererMixin implements GameRendererAccess {
-    @Shadow
+    //? if <1.21.2 {
+    /*@Shadow
     @Final
     private ResourceManager resourceManager;
     @Shadow
     protected abstract void loadEffect(ResourceLocation id);
+    *///?} else {
+    @Shadow
+    protected abstract void setPostEffect(ResourceLocation par1);
+
+    //?}
+
+
 
     @Override
     public void infinity$loadPP(ResourceLocation id) {
-        if (resourceManager.getResource(id).isPresent()) {
+        //? if >1.21.2 {
+        if (Minecraft.getInstance().getResourceManager().getResource(id).isPresent()) {
+            setPostEffect(id);
+        }
+        //?} else {
+        /*if (resourceManager.getResource(id).isPresent()) {
             loadEffect(id);
         }
+        *///?}
         else {
             Minecraft.getInstance().options.updateResourcePacks(Minecraft.getInstance().getResourcePackRepository());
         }
