@@ -6,7 +6,7 @@ import dev.architectury.registry.registries.RegistrySupplier;
 import net.lerariemann.infinity.InfinityMod;
 import net.lerariemann.infinity.item.*;
 import net.lerariemann.infinity.util.InfinityMethods;
-import net.lerariemann.infinity.util.platform.PlatformMethods;
+import net.lerariemann.infinity.util.platform.InfinityPlatform;
 import net.lerariemann.infinity.util.core.RandomProvider;
 import net.lerariemann.infinity.util.var.ColorLogic;
 //? if >1.21 {
@@ -29,7 +29,6 @@ import java.util.function.BiFunction;
 import java.util.function.Function;
 
 import static net.lerariemann.infinity.InfinityMod.MOD_ID;
-import static net.lerariemann.infinity.util.platform.PlatformMethods.*;
 
 @SuppressWarnings("unused")
 public class ModItems {
@@ -106,13 +105,13 @@ public class ModItems {
     public static RegistrySupplier<InfinitySpawnEggItem> registerEgg(String name, RegistrySupplier<? extends EntityType<? extends Mob>> eType, int backgroundColour, int colour) {
         RegistrySupplier<InfinitySpawnEggItem> registeredItem = register(name, new Item.Properties(), (properties) ->
                 new InfinitySpawnEggItem(eType, backgroundColour, colour, properties));
-        addEnd(registeredItem, CreativeModeTabs.SPAWN_EGGS);
+        InfinityPlatform.INSTANCE.addEnd(registeredItem, CreativeModeTabs.SPAWN_EGGS);
         return registeredItem;
     }
 
     //bucket
     public static final RegistrySupplier<Item> IRIDESCENCE_BUCKET = register("iridescence_bucket", new Item.Properties() , (properties) ->
-            new ArchitecturyBucketItem(PlatformMethods.getIridescenceStill(), properties.craftRemainder(Items.BUCKET).stacksTo(1)));
+            new ArchitecturyBucketItem(InfinityPlatform.INSTANCE.getIridescenceStill(), properties.craftRemainder(Items.BUCKET).stacksTo(1)));
 
     //misc
     public static final RegistrySupplier<Item> FOOTPRINT =
@@ -126,7 +125,7 @@ public class ModItems {
     public static final RegistrySupplier<ChromaticItem> CHROMATIC_MATTER =
             registerItemAfter("chromatic_matter", CreativeModeTabs.INGREDIENTS, Items.DISC_FRAGMENT_5, settings -> new ChromaticItem(
                     //? if >1.21
-                    deferredIntComponent("chromatic_matter", ModComponentTypes.COLOR, ColorLogic.defaultChromatic))
+                    InfinityPlatform.INSTANCE.deferredIntComponent("chromatic_matter", ModComponentTypes.COLOR, ColorLogic.defaultChromatic))
             );
     public static final RegistrySupplier<Item> WHITE_MATTER =
             registerItemAfter("white_matter", CreativeModeTabs.INGREDIENTS, Items.DISC_FRAGMENT_5, Item::new);
@@ -197,7 +196,7 @@ public class ModItems {
     public static <T extends Item> RegistrySupplier<T> registerItemAfter(String id, ResourceKey<CreativeModeTab> group, Item item,
                                                            Function<Item.Properties, T> constructor, Item.Properties settings) {
         RegistrySupplier<T> registeredItem = register(id, settings, constructor);
-        addAfter(registeredItem, group, item);
+        InfinityPlatform.INSTANCE.addAfter(registeredItem, group, item);
         return registeredItem;
     }
     public static <T extends Item> RegistrySupplier<T> registerItemAfter(String id, ResourceKey<CreativeModeTab> group, Item item,
@@ -227,7 +226,7 @@ public class ModItems {
                                                                 Item.Properties settings,
                                                                 BiFunction<Block, Item.Properties, T> constructor) {
         RegistrySupplier<T> registeredItem = registerBlockItem(block, settings, constructor);
-        addAfter(registeredItem, group, item);
+        InfinityPlatform.INSTANCE.addAfter(registeredItem, group, item);
         return registeredItem;
     }
     /**
@@ -239,7 +238,7 @@ public class ModItems {
     }
 
     public static void registerModItems() {
-        addAfter(IRIDESCENCE_BUCKET, CreativeModeTabs.TOOLS_AND_UTILITIES, Items.MILK_BUCKET);
+        InfinityPlatform.INSTANCE.addAfter(IRIDESCENCE_BUCKET, CreativeModeTabs.TOOLS_AND_UTILITIES, Items.MILK_BUCKET);
         InfinityMod.LOGGER.debug("Registering items for " + MOD_ID);
         ITEMS.register();
     }

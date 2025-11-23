@@ -2,7 +2,7 @@ package net.lerariemann.infinity.mixin.core;
 
 import com.google.common.collect.ImmutableList;
 import net.lerariemann.infinity.InfinityMod;
-import net.lerariemann.infinity.util.platform.PlatformMethods;
+import net.lerariemann.infinity.util.platform.InfinityPlatform;
 import net.lerariemann.infinity.access.MinecraftServerAccess;
 import net.lerariemann.infinity.util.config.ConfigManager;
 import net.minecraft.commands.CommandSource;
@@ -153,7 +153,7 @@ public abstract class MinecraftServerMixin extends ReentrantBlockableEventLoop<T
                 (wrapRunnable(() -> {
             levels.put(key, world);
             infinity$worldsToAdd.clear();
-            PlatformMethods.onWorldLoad(this, world);
+            InfinityPlatform.INSTANCE.onWorldLoad(this, world);
         }));
     }
 

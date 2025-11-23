@@ -5,7 +5,7 @@ import net.lerariemann.infinity.registry.core.ModEntities;
 import net.lerariemann.infinity.util.VersionMethods;
 import net.lerariemann.infinity.util.core.ConfigType;
 import net.lerariemann.infinity.util.core.NbtUtils;
-import net.lerariemann.infinity.util.platform.PlatformMethods;
+import net.lerariemann.infinity.util.platform.InfinityPlatform;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.core.Holder;
@@ -295,7 +295,7 @@ public class ChaosSkeleton extends Skeleton implements TintableEntity {
                 /*getHolderOrThrow
                 *///?}
                 (Enchantments.LOOTING);
-        int lootingLevel = weapon == null ? 0 : PlatformMethods.getEnchantments(weapon, world.getServer()).getLevel(looting);
+        int lootingLevel = weapon == null ? 0 : InfinityPlatform.INSTANCE.getEnchantments(weapon, world.getServer()).getLevel(looting);
         dropEquipment(lootingLevel, world);
     }
     //?} else {

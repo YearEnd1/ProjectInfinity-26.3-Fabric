@@ -133,8 +133,8 @@ dependencies {
     modImplementation("net.fabricmc.fabric-api:fabric-api:${property("deps.fabric_api")}")
     modImplementation("dev.architectury:architectury-fabric:${property("deps.architectury")}")
 
-    modCompileOnly("me.shedaniel.cloth:cloth-config-fabric:${property("deps.cloth")}")
-    modCompileOnly("com.terraformersmc:modmenu:${property("deps.modmenu")}")
+    modImplementation("me.shedaniel.cloth:cloth-config-fabric:${property("deps.cloth")}")
+    modImplementation("com.terraformersmc:modmenu:${property("deps.modmenu")}")
     if (hasProperty("deps.dimlib")) {
         modApi("com.github.iPortalTeam:DimLib:${property("deps.dimlib")}")
     }

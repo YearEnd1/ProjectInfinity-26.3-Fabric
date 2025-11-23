@@ -6,6 +6,7 @@ import net.fabricmc.fabric.api.client.rendering.v1.BlockRenderLayerMap;
 import net.minecraft.client.renderer.chunk.ChunkSectionLayer;
 //?} else {
 /^import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
+import net.lerariemann.infinity.util.platform.InfinityPlatform;
 import net.minecraft.client.renderer.RenderType;
 ^///?}
 import net.fabricmc.fabric.api.client.render.fluid.v1.FluidRenderHandlerRegistry;
@@ -18,7 +19,7 @@ import net.lerariemann.infinity.registry.core.ModBlocks;
 import net.lerariemann.infinity.registry.core.ModItemFunctions;
 import net.lerariemann.infinity.registry.core.ModItems;
 import net.lerariemann.infinity.util.InfinityMethods;
-import net.lerariemann.infinity.util.platform.PlatformMethods;
+import net.lerariemann.infinity.util.platform.InfinityPlatform;
 
 public class FabricClientEntrypoint implements ClientModInitializer {
 
@@ -69,20 +70,20 @@ public class FabricClientEntrypoint implements ClientModInitializer {
         //?} else {
         /^BlockRenderLayerMap.INSTANCE.putFluids(RenderType.translucent(),
          ^///?}
-                PlatformMethods.getIridescenceStill().get(),
-                PlatformMethods.getIridescenceFlowing().get());
+                InfinityPlatform.INSTANCE.getIridescenceStill().get(),
+                InfinityPlatform.INSTANCE.getIridescenceFlowing().get());
 
         // Common client setup tasks
         InfinityModClient.initializeClient();
         ModItemFunctions.registerModelPredicates();
 
         //Fluid stuff
-        FluidVariantAttributes.register(PlatformMethods.getIridescenceStill().get(), new ModFluidsFabric.IridescenceVariantAttributeHandler());
-        FluidVariantAttributes.register(PlatformMethods.getIridescenceFlowing().get(), new ModFluidsFabric.IridescenceVariantAttributeHandler());
-        FluidVariantRendering.register(PlatformMethods.getIridescenceStill().get(), new ModFluidsFabric.IridescenceVariantRenderHandler());
-        FluidVariantRendering.register(PlatformMethods.getIridescenceFlowing().get(), new ModFluidsFabric.IridescenceVariantRenderHandler());
-        FluidRenderHandlerRegistry.INSTANCE.register(PlatformMethods.getIridescenceStill().get(), new ModFluidsFabric.IridescenceRenderHandler());
-        FluidRenderHandlerRegistry.INSTANCE.register(PlatformMethods.getIridescenceFlowing().get(), new ModFluidsFabric.IridescenceRenderHandler());
+        FluidVariantAttributes.register(InfinityPlatform.INSTANCE.getIridescenceStill().get(), new ModFluidsFabric.IridescenceVariantAttributeHandler());
+        FluidVariantAttributes.register(InfinityPlatform.INSTANCE.getIridescenceFlowing().get(), new ModFluidsFabric.IridescenceVariantAttributeHandler());
+        FluidVariantRendering.register(InfinityPlatform.INSTANCE.getIridescenceStill().get(), new ModFluidsFabric.IridescenceVariantRenderHandler());
+        FluidVariantRendering.register(InfinityPlatform.INSTANCE.getIridescenceFlowing().get(), new ModFluidsFabric.IridescenceVariantRenderHandler());
+        FluidRenderHandlerRegistry.INSTANCE.register(InfinityPlatform.INSTANCE.getIridescenceStill().get(), new ModFluidsFabric.IridescenceRenderHandler());
+        FluidRenderHandlerRegistry.INSTANCE.register(InfinityPlatform.INSTANCE.getIridescenceFlowing().get(), new ModFluidsFabric.IridescenceRenderHandler());
     }
 }
 *///?}

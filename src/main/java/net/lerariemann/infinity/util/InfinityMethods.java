@@ -8,7 +8,7 @@ import net.lerariemann.infinity.access.Timebombable;
 import net.lerariemann.infinity.block.entity.TintableBlockEntity;
 import net.lerariemann.infinity.registry.core.ModComponentTypes;
 import net.lerariemann.infinity.util.core.RandomProvider;
-import net.lerariemann.infinity.util.platform.PlatformMethods;
+import net.lerariemann.infinity.util.platform.InfinityPlatform;
 import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
@@ -41,7 +41,7 @@ import java.util.Arrays;
 import static net.lerariemann.infinity.InfinityMod.MOD_ID;
 
 /** Common mod methods that work identically on Fabric and NeoForge.
- * @see PlatformMethods */
+ * @see InfinityPlatform.INSTANCE */
 @SuppressWarnings("unused")
 public interface InfinityMethods {
     String ofRandomDim = "infinity:random";

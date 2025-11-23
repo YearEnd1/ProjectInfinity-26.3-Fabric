@@ -20,7 +20,7 @@ import net.lerariemann.infinity.registry.core.ModItems;
 import net.lerariemann.infinity.item.function.CollisionCraftingRecipe;
 import net.lerariemann.infinity.registry.core.ModItemFunctions;
 import net.lerariemann.infinity.util.InfinityMethods;
-import net.lerariemann.infinity.util.platform.PlatformMethods;
+import net.lerariemann.infinity.util.platform.InfinityPlatform;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.inventory.tooltip.ClientTooltipComponent;
@@ -49,7 +49,7 @@ public class EmiCompat implements EmiPlugin {
     public static final EmiStack PORTAL_WORKSTATION = EmiStack.of(ModItems.PORTAL_ITEM.get());
     public static final EmiRecipeCategory PORTAL_CRAFTING
             = new EmiRecipeCategory(ModItemFunctions.PORTAL_CRAFTING.getId(), PORTAL_WORKSTATION, new EmiTexture(INFINITY_SPRITES, 0, 0, 16, 16));
-    public static EmiStack IRIDESCENCE_WORKSTATION = EmiStack.of(PlatformMethods.getIridescenceStill().get());
+    public static EmiStack IRIDESCENCE_WORKSTATION = EmiStack.of(InfinityPlatform.INSTANCE.getIridescenceStill().get());
     public static EmiStack IRIDESCENCE_CATALYST = IRIDESCENCE_WORKSTATION.copy().setRemainder(IRIDESCENCE_WORKSTATION);
 
     public static final EmiRecipeCategory IRIDESCENCE_CRAFTING

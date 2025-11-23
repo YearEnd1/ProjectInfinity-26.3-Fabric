@@ -6,7 +6,7 @@ import net.lerariemann.infinity.InfinityMod;
 import net.lerariemann.infinity.InfinityModClient;
 import net.lerariemann.infinity.registry.var.ModScreenHandlers;
 import net.lerariemann.infinity.util.VersionMethods;
-import net.lerariemann.infinity.util.platform.PlatformMethods;
+import net.lerariemann.infinity.util.platform.InfinityPlatform;
 import net.lerariemann.infinity.registry.core.ModBlocks;
 import net.lerariemann.infinity.iridescence.Iridescence;
 import net.lerariemann.infinity.registry.core.ModItemFunctions;
@@ -87,11 +87,11 @@ public class InfinityModNeoForgeClient {
     @SubscribeEvent
     public static void registerFluidRenderLayers(FMLClientSetupEvent event) {
         //? if >1.21.4 {
-        ItemBlockRenderTypes.setRenderLayer(PlatformMethods.getIridescenceStill().get(), ChunkSectionLayer.TRANSLUCENT);
-        ItemBlockRenderTypes.setRenderLayer(PlatformMethods.getIridescenceFlowing().get(), ChunkSectionLayer.TRANSLUCENT);
+        ItemBlockRenderTypes.setRenderLayer(InfinityPlatform.INSTANCE.getIridescenceStill().get(), ChunkSectionLayer.TRANSLUCENT);
+        ItemBlockRenderTypes.setRenderLayer(InfinityPlatform.INSTANCE.getIridescenceFlowing().get(), ChunkSectionLayer.TRANSLUCENT);
         //?} else {
-        /*ItemBlockRenderTypes.setRenderLayer(PlatformMethods.getIridescenceStill().get(), RenderType.translucent());
-        ItemBlockRenderTypes.setRenderLayer(PlatformMethods.getIridescenceFlowing().get(), RenderType.translucent());
+        /*ItemBlockRenderTypes.setRenderLayer(InfinityPlatform.INSTANCE.getIridescenceStill().get(), RenderType.translucent());
+        ItemBlockRenderTypes.setRenderLayer(InfinityPlatform.INSTANCE.getIridescenceFlowing().get(), RenderType.translucent());
         *///?}
     }
 

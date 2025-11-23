@@ -6,7 +6,6 @@ import net.lerariemann.infinity.registry.core.*;
 import net.lerariemann.infinity.registry.var.*;
 import net.lerariemann.infinity.util.InfinityMethods;
 import net.lerariemann.infinity.util.platform.InfinityPlatform;
-import net.lerariemann.infinity.util.platform.PlatformMethods;
 import net.lerariemann.infinity.util.config.ConfigManager;
 import net.lerariemann.infinity.util.core.RandomProvider;
 import net.minecraft.server.MinecraftServer;
@@ -36,7 +35,7 @@ public class InfinityMod {
     }
 
     public static void init() {
-        rootConfigPathInJar = PlatformMethods.getRootPathInJar("config" + InfinityPlatform.version);
+        rootConfigPathInJar = InfinityPlatform.INSTANCE.getRootPathInJar("config" + InfinityPlatform.version);
         ConfigManager.updateInvocationUnlock();
         ConfigManager.unpackDefaultConfigs();
         //? if >1.21 {

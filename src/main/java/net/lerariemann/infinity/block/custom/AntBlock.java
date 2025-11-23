@@ -1,6 +1,6 @@
 package net.lerariemann.infinity.block.custom;
 
-import net.lerariemann.infinity.util.platform.PlatformMethods;
+import net.lerariemann.infinity.util.platform.InfinityPlatform;
 import net.lerariemann.infinity.util.VersionMethods;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
@@ -54,10 +54,10 @@ public class AntBlock extends HorizontalDirectionalBlock {
     private static boolean inverseExists(Block down) {
         var s = BuiltInRegistries.BLOCK.getKey(down);
         var state = down.defaultBlockState();
-        if (PlatformMethods.isInBlack(state)) {
+        if (InfinityPlatform.INSTANCE.isInBlack(state)) {
             return BuiltInRegistries.BLOCK.containsKey(VersionMethods.id(s.toString().replace("black", "white")));
         }
-        if (PlatformMethods.isInWhite(state)) {
+        if (InfinityPlatform.INSTANCE.isInWhite(state)) {
             return BuiltInRegistries.BLOCK.containsKey(VersionMethods.id(s.toString().replace("white", "black")));
         }
         return false;
@@ -70,10 +70,10 @@ public class AntBlock extends HorizontalDirectionalBlock {
     public static Block recolor(Block down, boolean toWhite) {
         String s = VersionMethods.getNameAsString(BuiltInRegistries.BLOCK, down);
         var state = down.defaultBlockState();
-        if (PlatformMethods.isInBlack(state)) {
+        if (InfinityPlatform.INSTANCE.isInBlack(state)) {
             return toWhite ? VersionMethods.getFromRegistry(BuiltInRegistries.BLOCK, VersionMethods.id(s.replace("black", "white"))) : down;
         }
-        if (PlatformMethods.isInWhite(state)) {
+        if (InfinityPlatform.INSTANCE.isInWhite(state)) {
             return toWhite ? down : VersionMethods.getFromRegistry(BuiltInRegistries.BLOCK, VersionMethods.id(s.replace("white", "black")));
         }
         return null;

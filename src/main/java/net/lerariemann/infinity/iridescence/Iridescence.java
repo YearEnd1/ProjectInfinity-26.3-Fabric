@@ -10,7 +10,7 @@ import net.lerariemann.infinity.registry.var.ModStats;
 import net.lerariemann.infinity.registry.var.ModTags;
 import net.lerariemann.infinity.util.VersionMethods;
 import net.lerariemann.infinity.util.core.CommonIO;
-import net.lerariemann.infinity.util.platform.PlatformMethods;
+import net.lerariemann.infinity.util.platform.InfinityPlatform;
 import net.lerariemann.infinity.entity.custom.ChaosCreeper;
 import net.lerariemann.infinity.entity.custom.ChaosPawn;
 import net.lerariemann.infinity.util.InfinityMethods;
@@ -73,7 +73,7 @@ public interface Iridescence {
         };
     }
     static boolean isIridescence(FluidState st) {
-        return st.is(PlatformMethods.getIridescenceStill().get()) || st.is(PlatformMethods.getIridescenceFlowing().get());
+        return st.is(InfinityPlatform.INSTANCE.getIridescenceStill().get()) || st.is(InfinityPlatform.INSTANCE.getIridescenceFlowing().get());
     }
     static boolean isIridescence(BlockGetter world, BlockPos pos) {
         return Iridescence.isIridescence(world.getFluidState(pos));

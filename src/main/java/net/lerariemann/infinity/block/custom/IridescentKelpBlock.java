@@ -1,7 +1,7 @@
 package net.lerariemann.infinity.block.custom;
 
 import net.lerariemann.infinity.registry.core.ModBlocks;
-import net.lerariemann.infinity.util.platform.PlatformMethods;
+import net.lerariemann.infinity.util.platform.InfinityPlatform;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.GrowingPlantHeadBlock;
 import net.minecraft.world.level.block.KelpBlock;
@@ -41,7 +41,7 @@ public class IridescentKelpBlock extends KelpBlock {
         /*public
         *///?}
         FluidState getFluidState(BlockState state) {
-            return PlatformMethods.getIridescenceStill().get().getSource(false);
+            return InfinityPlatform.INSTANCE.getIridescenceStill().get().getSource(false);
         }
 
         @Override

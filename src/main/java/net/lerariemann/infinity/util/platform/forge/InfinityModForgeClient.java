@@ -3,7 +3,7 @@ package net.lerariemann.infinity.util.platform.forge;
 //? forge {
 /*import dev.architectury.platform.Platform;
 import net.lerariemann.infinity.InfinityModClient;
-import net.lerariemann.infinity.util.platform.PlatformMethods;
+import net.lerariemann.infinity.util.platform.InfinityPlatform;
 import net.lerariemann.infinity.registry.core.ModBlocks;
 import net.lerariemann.infinity.registry.core.ModItemFunctions;
 import net.lerariemann.infinity.registry.core.ModItems;
@@ -69,8 +69,8 @@ public class InfinityModForgeClient {
 
     @SubscribeEvent
     public static void registerFluidRenderLayers(FMLClientSetupEvent event) {
-        ItemBlockRenderTypes.setRenderLayer(PlatformMethods.getIridescenceStill().get(), RenderType.translucent());
-        ItemBlockRenderTypes.setRenderLayer(PlatformMethods.getIridescenceFlowing().get(), RenderType.translucent());
+        ItemBlockRenderTypes.setRenderLayer(InfinityPlatform.INSTANCE.getIridescenceStill().get(), RenderType.translucent());
+        ItemBlockRenderTypes.setRenderLayer(InfinityPlatform.INSTANCE.getIridescenceFlowing().get(), RenderType.translucent());
     }
 }
 *///?}

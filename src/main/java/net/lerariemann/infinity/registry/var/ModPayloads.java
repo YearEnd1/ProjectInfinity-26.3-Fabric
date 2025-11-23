@@ -9,7 +9,7 @@ import net.lerariemann.infinity.registry.core.ModComponentTypes;
 import net.lerariemann.infinity.registry.core.ModItems;
 import net.lerariemann.infinity.util.VersionMethods;
 import net.lerariemann.infinity.util.config.SoundScanner;
-import net.lerariemann.infinity.util.platform.PlatformMethods;
+import net.lerariemann.infinity.util.platform.InfinityPlatform;
 import net.lerariemann.infinity.util.loading.DimensionGrabber;
 import net.lerariemann.infinity.options.InfinityOptions;
 import net.lerariemann.infinity.util.loading.ShaderLoader;
@@ -62,7 +62,7 @@ public class ModPayloads {
         void receive(Minecraft client);
 
         default void send(ServerPlayer player) {
-            PlatformMethods.sendS2CPayload(player, this);
+            InfinityPlatform.INSTANCE.sendS2CPayload(player, this);
         }
     }
 
@@ -70,7 +70,7 @@ public class ModPayloads {
         void receive(ServerPlayer player);
 
         default void send() {
-            PlatformMethods.sendC2SPayload(this);
+            InfinityPlatform.INSTANCE.sendC2SPayload(this);
         }
     }
 

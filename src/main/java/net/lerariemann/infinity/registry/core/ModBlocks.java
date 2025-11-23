@@ -5,7 +5,7 @@ import dev.architectury.registry.registries.RegistrySupplier;
 import net.lerariemann.infinity.InfinityMod;
 import net.lerariemann.infinity.util.InfinityMethods;
 import net.lerariemann.infinity.util.VersionMethods;
-import net.lerariemann.infinity.util.platform.PlatformMethods;
+import net.lerariemann.infinity.util.platform.InfinityPlatform;
 import net.lerariemann.infinity.block.custom.*;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
@@ -44,7 +44,7 @@ public class ModBlocks {
             SlabBlock::new, (VersionMethods.copyBlockProperties(Blocks.NETHERITE_BLOCK)));
     public static final RegistrySupplier<Block> TIME_BOMB = register("timebomb", 
             TimeBombBlock::new, (VersionMethods.copyBlockProperties(Blocks.BEDROCK).noOcclusion().lightLevel(state -> 15)));
-    public static final RegistrySupplier<LiquidBlock> IRIDESCENCE = PlatformMethods.getIridBlockForReg();
+    public static final RegistrySupplier<LiquidBlock> IRIDESCENCE = InfinityPlatform.INSTANCE.getIridBlockForReg();
     public static final RegistrySupplier<Block> BIOME_BOTTLE = register("biome_bottle", 
             BiomeBottleBlock::new, (VersionMethods.copyBlockProperties(Blocks.BEACON).lightLevel(state -> state.getValue(BiomeBottleBlock.LEVEL))
                     .sound(SoundType.GLASS)));
@@ -78,10 +78,10 @@ public class ModBlocks {
     }
 
     public static void registerFlammableBlocks() {
-        PlatformMethods.registerFlammableBlock(ModBlocks.IRIDESCENT_WOOL, 60, 30);
-        PlatformMethods.registerFlammableBlock(ModBlocks.IRIDESCENT_CARPET, 20, 60);
-        PlatformMethods.registerFlammableBlock(ModBlocks.CHROMATIC_WOOL, 60, 30);
-        PlatformMethods.registerFlammableBlock(ModBlocks.CHROMATIC_CARPET, 20, 60);
+        InfinityPlatform.INSTANCE.registerFlammableBlock(ModBlocks.IRIDESCENT_WOOL, 60, 30);
+        InfinityPlatform.INSTANCE.registerFlammableBlock(ModBlocks.IRIDESCENT_CARPET, 20, 60);
+        InfinityPlatform.INSTANCE.registerFlammableBlock(ModBlocks.CHROMATIC_WOOL, 60, 30);
+        InfinityPlatform.INSTANCE.registerFlammableBlock(ModBlocks.CHROMATIC_CARPET, 20, 60);
     }
 
     private static <T extends Block> RegistrySupplier<T> register(String name, Function<BlockBehaviour.Properties, T> blockFactory, BlockBehaviour.Properties settings) {
