@@ -169,21 +169,21 @@ public class ModFluidsFabric {
     public static class IridescenceRenderHandler implements FluidRenderHandler {
         @Override
         public TextureAtlasSprite[] getFluidSprites(@Nullable BlockAndTintGetter view, @Nullable BlockPos pos, FluidState state) {
-            //? if >1.21.2 {
-            TextureAtlas atlas = Minecraft.getInstance().getAtlasManager().getAtlasOrThrow(TextureAtlas.LOCATION_BLOCKS);
+            //? if >1.21.8 {
+            /*TextureAtlas atlas = Minecraft.getInstance().getAtlasManager().getAtlasOrThrow(TextureAtlas.LOCATION_BLOCKS);
             TextureAtlasSprite overlaySprite = atlas.getSprite(Iridescence.OVERLAY_TEXTURE);
             TextureAtlasSprite[] sprites = new TextureAtlasSprite[3];
             sprites[0] = atlas.getSprite(Iridescence.TEXTURE);
             sprites[1] = atlas.getSprite(Iridescence.FLOWING_TEXTURE);
             sprites[2] = overlaySprite;
-            //?} else {
-            /*Function<ResourceLocation, TextureAtlasSprite> atlas = Minecraft.getInstance().getTextureAtlas(TextureAtlas.LOCATION_BLOCKS);
+            *///?} else {
+            Function<ResourceLocation, TextureAtlasSprite> atlas = Minecraft.getInstance().getTextureAtlas(TextureAtlas.LOCATION_BLOCKS);
             TextureAtlasSprite overlaySprite = atlas.apply(Iridescence.OVERLAY_TEXTURE);
             TextureAtlasSprite[] sprites = new TextureAtlasSprite[overlaySprite == null ? 2 : 3];
             sprites[0] = atlas.apply(Iridescence.TEXTURE);
             sprites[1] = atlas.apply(Iridescence.FLOWING_TEXTURE);
             if (overlaySprite != null) sprites[2] = overlaySprite;
-            *///?}
+            //?}
             return sprites;
         }
 

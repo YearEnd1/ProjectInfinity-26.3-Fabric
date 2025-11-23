@@ -174,7 +174,7 @@ public class BishopEntity extends AbstractChessFigure implements RangedAttackMob
         battle.addEntity(this);
     }
     @Override
-    //? if >1.21.9 {
+    //? if >1.21.4 {
     protected void triggerOnDeathMobEffects(ServerLevel level, RemovalReason reason) {
         super.triggerOnDeathMobEffects(level, reason);
     //?} else if >1.21 {

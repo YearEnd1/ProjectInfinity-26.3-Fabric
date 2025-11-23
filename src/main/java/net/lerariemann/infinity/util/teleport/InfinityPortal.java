@@ -106,10 +106,10 @@ public class InfinityPortal {
     /** Finding where to teleport stuff. The constructor ensures all scanning is already done by this point */
     public
     //? if >1.21.9 {
-    TeleportTransition
-    //?} else if >1.21 {
     /*TeleportTransition
-    *///?} else {
+    *///?} else if >1.21 {
+    TeleportTransition
+    //?} else {
     /*PortalInfo
     *///?}
     getTeleportTarget(Entity entity) {

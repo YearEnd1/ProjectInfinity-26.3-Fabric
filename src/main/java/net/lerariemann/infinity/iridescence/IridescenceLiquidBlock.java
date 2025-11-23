@@ -27,14 +27,20 @@ public class IridescenceLiquidBlock extends ArchitecturyLiquidBlock {
 
     @Override
     public void entityInside(BlockState state, Level world, BlockPos pos, Entity entity
-    //? if >1.21.2 {
-            , InsideBlockEffectApplier applier, boolean intersects
-    //?}
+            //? if >1.21.5 {
+            , InsideBlockEffectApplier applier
+            //?}
+             //? if >1.21.9 {
+            /*, boolean intersects
+             *///?}
     ) {
         super.entityInside(state, world, pos, entity
-                //? if >1.21.2 {
-                , applier, intersects
-        //?}
+                //? if >1.21.5 {
+                , applier
+                //?}
+                //? if >1.21.9 {
+                /*, intersects
+                 *///?}
         );
         if (world.getFluidState(pos).getAmount() > 3 && world instanceof ServerLevel w)
             if (Objects.requireNonNull(entity) instanceof Player player) {

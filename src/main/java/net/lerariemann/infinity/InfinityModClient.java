@@ -14,15 +14,15 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.item.ItemStack;
 import org.lwjgl.glfw.GLFW;
 
-//? if >1.21.2 {
-import static net.minecraft.client.KeyMapping.Category.MISC;
-//?}
+//? if >1.21.9 {
+/*import static net.minecraft.client.KeyMapping.Category.MISC;
+*///?}
 
 public class InfinityModClient {
 
-    //? if <1.21.2 {
-    /*public static String MISC = "key.categories.misc";
-    *///?}
+    //? if <1.21.9 {
+    public static String MISC = "key.categories.misc";
+    //?}
 
     public static KeyMapping f4ConfigKey = new KeyMapping("key.infinity.f4",
             InputConstants.Type.KEYSYM,

@@ -44,7 +44,7 @@ import net.minecraft.world.level.block.NetherPortalBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
-//? if =1.21.10 {
+//? if =1.21.10 || 1.21.8 {
 //?} else if =1.21.1 {
 /*import net.minecraft.world.level.portal.TeleportTransition;
 *///?} else {
@@ -188,8 +188,11 @@ public class InfinityPortalBlock extends NetherPortalBlock implements EntityBloc
     @Override
     public void entityInside(BlockState state, Level w, BlockPos pos, Entity entity
     //? if >1.21.2 {
-     ,InsideBlockEffectApplier insideBlockEffectApplier, boolean bl2
+     ,InsideBlockEffectApplier insideBlockEffectApplier
      //?}
+     //? if >1.21.9 {
+    /*,boolean intersects
+     *///?}
     ) {
         AtomicBoolean bl = new AtomicBoolean(false);
         if (w instanceof ServerLevel world
@@ -232,8 +235,11 @@ public class InfinityPortalBlock extends NetherPortalBlock implements EntityBloc
         }
         if (!bl.get()) super.entityInside(state, w, pos, entity
                 //? if >1.21.2 {
-                ,insideBlockEffectApplier, bl2
+                ,insideBlockEffectApplier
                 //?}
+                //? if >1.21.9 {
+                /*, intersects
+                *///?}
         );
     }
     /**

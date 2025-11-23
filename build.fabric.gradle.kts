@@ -133,8 +133,8 @@ dependencies {
     modImplementation("net.fabricmc.fabric-api:fabric-api:${property("deps.fabric_api")}")
     modImplementation("dev.architectury:architectury-fabric:${property("deps.architectury")}")
 
-    modApi("me.shedaniel.cloth:cloth-config-fabric:${property("deps.cloth")}")
-    modImplementation("com.terraformersmc:modmenu:${property("deps.modmenu")}")
+    modCompileOnly("me.shedaniel.cloth:cloth-config-fabric:${property("deps.cloth")}")
+    modCompileOnly("com.terraformersmc:modmenu:${property("deps.modmenu")}")
     if (hasProperty("deps.dimlib")) {
         modApi("com.github.iPortalTeam:DimLib:${property("deps.dimlib")}")
     }
@@ -148,7 +148,7 @@ dependencies {
         modLocalRuntime("dev.emi:emi-fabric:${property("deps.emi")}+${property("deps.minecraft")}")
     }
     if (hasProperty("deps.eiv")) {
-        modImplementation("maven.modrinth:eiv:${property("deps.eiv")}-fabric")
+        modCompileOnly("maven.modrinth:eiv:${property("deps.eiv")}-fabric")
     }
 
 
@@ -170,8 +170,8 @@ dependencies {
         { isTransitive = false }
     }
 
-    val modules = listOf("transitive-access-wideners-v1", "registry-sync-v0", "resource-loader-v0")
-    for (it in modules) modImplementation(fabricApi.module("fabric-$it", property("deps.fabric_api") as String))
+//    val modules = listOf("transitive-access-wideners-v1", "registry-sync-v0", "resource-loader-v0")
+//    for (it in modules) modImplementation(fabricApi.module("fabric-$it", property("deps.fabric_api") as String))
 }
 
 

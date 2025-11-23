@@ -19,12 +19,12 @@ import net.minecraft.world.Difficulty;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.*;
 //? if >1.21.9 {
-import net.minecraft.world.entity.EntitySpawnReason;
-import static net.minecraft.world.entity.EntitySpawnReason.*;
-//?} else if >1.21 {
 /*import net.minecraft.world.entity.EntitySpawnReason;
+import static net.minecraft.world.entity.EntitySpawnReason.*;
+*///?} else if >1.21 {
+import net.minecraft.world.entity.EntitySpawnReason;
 import static net.minecraft.world.entity.SpawnPlacementTypes.*;
-*///?} else {
+//?} else {
 /*import net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityTypeBuilder;
 import static net.minecraft.world.entity.SpawnPlacements.Type.*;
 *///?}
@@ -49,8 +49,10 @@ import static net.minecraft.world.entity.SpawnPlacementTypes.ON_GROUND;
 
 public class ModEntities {
     public static void copy(Mob from, Mob e) {
-        //? if >1.21.2 {
-        e.moveOrInterpolateTo(from.position());
+        //? if >1.21.9 {
+        /*e.moveOrInterpolateTo(from.position());
+        *///?} else if >1.21.6 {
+        e.moveOrInterpolateTo(from.position(), from.getYRot(), from.getXRot());
         //?} else {
         /*e.moveTo(from.getX(), from.getY(), from.getZ(), from.getYRot(), from.getXRot());
          *///?}
@@ -125,7 +127,7 @@ public class ModEntities {
         registerAttributes();
     }
 
-    //? if >1.21.9 {
+    //? if >1.21.4 {
     public static ResourceKey<EntityType<?>> type(String id) {
         return ResourceKey.create(Registries.ENTITY_TYPE, InfinityMethods.getId(id));
     }

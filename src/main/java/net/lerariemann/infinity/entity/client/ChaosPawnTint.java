@@ -1,17 +1,23 @@
 package net.lerariemann.infinity.entity.client;
 
+import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.lerariemann.infinity.entity.custom.ChaosPawn;
 import net.lerariemann.infinity.entity.custom.TintableEntity;
 import net.lerariemann.infinity.util.InfinityMethods;
 import net.lerariemann.infinity.util.VersionMethods;
 import net.lerariemann.infinity.util.core.NbtUtils;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.geom.ModelPart;
+import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.SubmitNodeCollector;
+//? if >1.21.9 {
+/*import net.minecraft.client.renderer.SubmitNodeCollector;
+import net.minecraft.client.renderer.feature.ModelFeatureRenderer;
+*///?}
+
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
-import net.minecraft.client.renderer.feature.ModelFeatureRenderer;
 import net.minecraft.resources.ResourceLocation;
 //? if <1.21.2 {
 /*import net.minecraft.util.FastColor;
@@ -20,13 +26,13 @@ import com.mojang.blaze3d.vertex.PoseStack;
 
 import java.awt.Color;
 
-public class ChaosPawnTint extends RenderLayer<
+public class ChaosPawnTint extends
         //? if <1.21.2 {
-        /*ChaosPawn, HumanoidModel<ChaosPawn>
+        /*RenderLayer<ChaosPawn, HumanoidModel<ChaosPawn>>
         *///?} else {
-        ChaosPawnRenderState, HumanoidModel<ChaosPawnRenderState>
+        RenderLayer<ChaosPawnRenderState, HumanoidModel<ChaosPawnRenderState>>
         //?}
-        > {
+         {
     private final HumanoidModel<
             //? if >1.21.2 {
             ChaosPawnRenderState
@@ -45,8 +51,8 @@ public class ChaosPawnTint extends RenderLayer<
         this.model = model;
     }
 
-    //? if >1.21.2 {
-    public void renderOneLayer(PoseStack matrixStack, SubmitNodeCollector vertexConsumer, int light, int overlay, ChaosPawnRenderState livingEntity, ModelPart part, String name) {
+    //? if >1.21.9 {
+    /*public void renderOneLayer(PoseStack matrixStack, SubmitNodeCollector vertexConsumer, int light, int overlay, ChaosPawnRenderState livingEntity, ModelPart part, String name) {
         int color;
         color = NbtUtils.getInt(livingEntity.colors, name);
         if (livingEntity.customName != null) {
@@ -66,17 +72,17 @@ public class ChaosPawnTint extends RenderLayer<
         //fixme 1.21.10 this probably shouldn't be null
         vertexConsumer.submitModelPart(part, matrixStack, RenderType.cutout(), light, overlay, null, color, null);
     }
-    //?} else {
-    /*public void renderOneLayer(PoseStack matrixStack, VertexConsumer vertexConsumer, int light, int overlay, ChaosPawn livingEntity, ModelPart part, String name) {
+    *///?} else if >1.21.5 {
+    public void renderOneLayer(PoseStack matrixStack, VertexConsumer vertexConsumer, int light, int overlay, ChaosPawnRenderState livingEntity, ModelPart part, String name) {
         int color;
-        color = NbtUtils.getInt(livingEntity.getColors(), name);
-        if (livingEntity.hasCustomName()) {
-            String s = livingEntity.getName().getString();
+        color = NbtUtils.getInt(livingEntity.colors, name);
+        if (livingEntity.customName != null) {
+            String s = livingEntity.customName;
             if ("jeb_".equals(s)) {
-                color = TintableEntity.getColorJeb(livingEntity.tickCount + (name.equals("hat") ? 200 : 0), livingEntity.getId());
+                color = TintableEntity.getColorJeb((int) (livingEntity.ageInTicks + (name.equals("hat") ? 200 : 0)), livingEntity.id);
             }
             if ("hue".equals(s)) {
-                int n = livingEntity.tickCount + (name.equals("hat") ? 200 : 0) + livingEntity.getId();
+                int n = (int) (livingEntity.ageInTicks + (name.equals("hat") ? 200 : 0) + livingEntity.id);
                 float hue = n/400.f;
                 hue = hue - (int)hue;
                 color = Color.getHSBColor(hue, 1.0f, 1.0f).getRGB();
@@ -88,13 +94,38 @@ public class ChaosPawnTint extends RenderLayer<
         //? if >1.21 {
         part.render(matrixStack, vertexConsumer, light, overlay, color);
         //?} else {
-        /^part.render(matrixStack, vertexConsumer, light, overlay, FastColor.ARGB32.red(color), FastColor.ARGB32.green(color), FastColor.ARGB32.blue(color), 1.0f);
-         ^///?}
+        /*part.render(matrixStack, vertexConsumer, light, overlay, FastColor.ARGB32.red(color), FastColor.ARGB32.green(color), FastColor.ARGB32.blue(color), 1.0f);
+         *///?}
     }
-    *///?}
+    //?} else {
+         /*public void renderOneLayer(PoseStack matrixStack, VertexConsumer vertexConsumer, int light, int overlay, ChaosPawn livingEntity, ModelPart part, String name) {
+             int color;
+             color = NbtUtils.getInt(livingEntity.getColors(), name);
+             if (livingEntity.hasCustomName()) {
+                 String s = livingEntity.getName().getString();
+                 if ("jeb_".equals(s)) {
+                     color = TintableEntity.getColorJeb(livingEntity.tickCount + (name.equals("hat") ? 200 : 0), livingEntity.getId());
+                 }
+                 if ("hue".equals(s)) {
+                     int n = livingEntity.tickCount + (name.equals("hat") ? 200 : 0) + livingEntity.getId();
+                     float hue = n/400.f;
+                     hue = hue - (int)hue;
+                     color = Color.getHSBColor(hue, 1.0f, 1.0f).getRGB();
+                 }
+             }
+             else {
+                 color = VersionMethods.opaque(color);
+             }
+             //? if >1.21 {
+             part.render(matrixStack, vertexConsumer, light, overlay, color);
+             //?} else {
+             /^part.render(matrixStack, vertexConsumer, light, overlay, FastColor.ARGB32.red(color), FastColor.ARGB32.green(color), FastColor.ARGB32.blue(color), 1.0f);
+              ^///?}
+         }
+             *///?}
 
-    //? if >1.21.2 {
-    @Override
+    //? if >1.21.9 {
+    /*@Override
     public void submit(PoseStack matrixStack, SubmitNodeCollector nodeCollector, int light, ChaosPawnRenderState state, float yRot, float xRot) {
         boolean bl = state.appearsGlowing() && state.isInvisible;
         if (state.isInvisible && !bl) {
@@ -115,6 +146,28 @@ public class ChaosPawnTint extends RenderLayer<
         renderOneLayer(matrixStack, nodeCollector, light, o, state, model.leftLeg, "left_leg");
         renderOneLayer(matrixStack, nodeCollector, light, o, state, model.rightLeg, "right_leg");
     }
+    *///?} else {
+         @Override
+         public void render(PoseStack matrixStack, MultiBufferSource vertexConsumerProvider, int light, ChaosPawnRenderState state, float limbAngle, float limbDistance) {
+             boolean bl = state.appearsGlowing && state.isInvisible;
+             if (state.isInvisible && !bl) {
+                 return;
+             }
+             ResourceLocation texture = InfinityMethods.getId("textures/entity/empty.png");
+             VertexConsumer vertexConsumer = bl ? vertexConsumerProvider.getBuffer(RenderType.outline(texture)) : vertexConsumerProvider.getBuffer(RenderType.entityTranslucent(texture));
+             // TODO 1.21.3 these were probably necessary
+             //        (this.getContextModel()).copyStateTo(this.model);
+             //        this.model.animateModel(e, f, g, h);
+             this.model.setupAnim(state);
+             int o = LivingEntityRenderer.getOverlayCoords(state, 0.0f);
+             renderOneLayer(matrixStack, vertexConsumer, light, o, state, model.body, "body");
+             renderOneLayer(matrixStack, vertexConsumer, light, o, state, model.head, "head");
+             renderOneLayer(matrixStack, vertexConsumer, light, o, state, model.hat, "hat");
+             renderOneLayer(matrixStack, vertexConsumer, light, o, state, model.leftArm, "left_arm");
+             renderOneLayer(matrixStack, vertexConsumer, light, o, state, model.rightArm, "right_arm");
+             renderOneLayer(matrixStack, vertexConsumer, light, o, state, model.leftLeg, "left_leg");
+             renderOneLayer(matrixStack, vertexConsumer, light, o, state, model.rightLeg, "right_leg");
+         }
     //?} else {
     /*@Override
     public void render(PoseStack matrixStack, MultiBufferSource vertexConsumerProvider, int i, ChaosPawn e, float f, float g, float h, float j, float k, float l) {

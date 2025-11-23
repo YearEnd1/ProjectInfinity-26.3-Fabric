@@ -2,6 +2,7 @@ package net.lerariemann.infinity.util.core;
 
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import dev.architectury.platform.Platform;
+import net.lerariemann.infinity.InfinityMod;
 import net.minecraft.nbt.*;
 import net.minecraft.util.Mth;
 import org.apache.commons.io.FileUtils;
@@ -88,8 +89,9 @@ public interface CommonIO {
             }
             return new CompoundTag();
         } catch (IOException | CommandSyntaxException e) {
-            throw new RuntimeException(e);
+            InfinityMod.LOGGER.info("Could not parse" + file.getAbsolutePath(), e);
         }
+        return new CompoundTag();
     }
 
     static CompoundTag readAndFormat(String path, Object... args) {

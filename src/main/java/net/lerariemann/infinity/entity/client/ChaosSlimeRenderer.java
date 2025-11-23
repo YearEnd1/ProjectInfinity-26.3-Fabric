@@ -6,10 +6,13 @@ import net.lerariemann.infinity.util.InfinityMethods;
 import net.minecraft.client.model.SlimeModel;
 import net.minecraft.client.model.geom.ModelLayers;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
-import net.minecraft.client.renderer.state.CameraRenderState;
+//? if >1.21.9 {
+/*import net.minecraft.client.renderer.state.CameraRenderState;
+import net.minecraft.client.renderer.SubmitNodeCollector;
+*///?}
+
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import org.jetbrains.annotations.NotNull;
@@ -41,10 +44,20 @@ public class ChaosSlimeRenderer extends MobRenderer<
         state.core = slime.getCore();
     }
 
-    @Override
+
+    //? if >1.21.8 {
+    /*@Override
     public void submit(ChaosSlimeRenderState slimeEntity, PoseStack matrixStack, SubmitNodeCollector submitNodeCollector, CameraRenderState cameraRenderState) {
         this.shadowRadius = 0.25f * (float)slimeEntity.size;
     }
+    *///?} else {
+
+    @Override
+    public void render(ChaosSlimeRenderState renderState, PoseStack poseStack, MultiBufferSource bufferSource, int packedLight) {
+        this.shadowRadius = 0.25f * (float)renderState.size;
+        super.render(renderState, poseStack, bufferSource, packedLight);
+    }
+    //?}
 
     @Override
     public ChaosSlimeRenderState createRenderState() {

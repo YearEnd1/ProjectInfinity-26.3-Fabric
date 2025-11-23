@@ -26,7 +26,6 @@ public abstract class GameRendererMixin implements GameRendererAccess {
     *///?} else {
     @Shadow
     protected abstract void setPostEffect(ResourceLocation par1);
-
     //?}
 
 

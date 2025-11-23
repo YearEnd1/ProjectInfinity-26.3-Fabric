@@ -31,12 +31,13 @@ public class NetherPortalBlockMixin extends AbstractBlockMixin {
 	@Shadow @Final public static EnumProperty<Direction.Axis> AXIS;
 
 	/* The root hook for "throw a book in the portal" logic. */
-    //? if >1.21.2 {
     @Inject(at = @At("HEAD"), method = "entityInside")
-    private void injected(BlockState state, Level world, BlockPos pos, Entity entity, InsideBlockEffectApplier applier, boolean intersects, CallbackInfo ci) {
+    //? if >1.21.9 {
+    /*private void injected(BlockState state, Level world, BlockPos pos, Entity entity, InsideBlockEffectApplier effectApplier, boolean bl, CallbackInfo ci) {
+    *///?} else if >1.21.5 {
+    private void injected(BlockState state, Level world, BlockPos pos, Entity entity, InsideBlockEffectApplier effectApplier, CallbackInfo ci) {
         //?} else {
-    /*@Inject(at = @At("HEAD"), method = "entityInside(Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/world/level/Level;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/entity/Entity;)V")
-    	private void injected(BlockState state, Level world, BlockPos pos, Entity entity, CallbackInfo info) {
+    	/*private void injected(BlockState state, Level world, BlockPos pos, Entity entity, CallbackInfo info) {
     *///?}
 		if (world instanceof ServerLevel w && entity instanceof ItemEntity e) {
 			PortalCreator.tryCreatePortalFromItem(w, pos, e);

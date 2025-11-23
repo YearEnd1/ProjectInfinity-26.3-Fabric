@@ -105,7 +105,7 @@ public interface ConfigGenerator {
     }
 
     static void generateLootTables(MinecraftServer server) {
-        //? if >1.21.9 {
+        //? if >1.21.7 {
         var r = server.reloadableRegistries().lookup().lookupOrThrow(Registries.LOOT_TABLE);
         DataCollection lootTables = new DataCollection.Logged(ConfigType.LOOT_TABLES, "loot tables");
         r.listElementIds().forEach(id -> {
@@ -339,15 +339,15 @@ public interface ConfigGenerator {
         *///?}
         CompoundTag res = new CompoundTag();
         res.putString("type", BuiltInRegistries.ENTITY_TYPE.getKey(entry.type
-                //? if >1.21.9
+                //? if >1.21.7
                 ()
         ).toString());
         res.putInt("maxCount", entry.maxCount
-                //? if >1.21.9
+                //? if >1.21.7
                         ()
         );
         res.putInt("minCount", entry.minCount
-                //? if >1.21.9
+                //? if >1.21.7
                         ()
         );
         res.putInt("weight", weight);

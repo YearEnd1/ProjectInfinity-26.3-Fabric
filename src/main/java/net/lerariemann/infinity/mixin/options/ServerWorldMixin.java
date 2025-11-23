@@ -13,9 +13,9 @@ import net.minecraft.core.RegistryAccess;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
-//? if <1.21.2 {
-/*import net.minecraft.server.level.progress.ChunkProgressListener;
-*///?}
+//? if <1.21.9 {
+import net.minecraft.server.level.progress.ChunkProgressListener;
+//?}
 import net.minecraft.util.profiling.ProfilerFiller;
 import net.minecraft.world.RandomSequences;
 import net.minecraft.world.level.CustomSpawner;
@@ -61,11 +61,11 @@ public abstract class ServerWorldMixin extends Level implements WorldGenLevel, I
     *///?}
 
     @Inject(method = "<init>", at = @At("TAIL"))
-    //? if >1.21.2 {
-    private void injected(MinecraftServer server, Executor dispatcher, LevelStorageSource.LevelStorageAccess storageSource, ServerLevelData levelData, ResourceKey<Level> worldKey, LevelStem levelStem, boolean isDebug, long biomeZoomSeed, List customSpawners, boolean tickTime, RandomSequences randomSequences, CallbackInfo ci) {
-    //?} else {
-    /*private void injected(MinecraftServer server, Executor workerExecutor, LevelStorageSource.LevelStorageAccess session, ServerLevelData properties, ResourceKey<Level> worldKey, LevelStem dimensionOptions, ChunkProgressListener worldGenerationProgressListener, boolean debugWorld, long seed, List<CustomSpawner> spawners, boolean shouldTickTime, RandomSequences randomSequencesState, CallbackInfo ci) {
-    *///?}
+    //? if >1.21.9 {
+    /*private void injected(MinecraftServer server, Executor dispatcher, LevelStorageSource.LevelStorageAccess storageSource, ServerLevelData levelData, ResourceKey<Level> worldKey, LevelStem levelStem, boolean isDebug, long biomeZoomSeed, List customSpawners, boolean tickTime, RandomSequences randomSequences, CallbackInfo ci) {
+    *///?} else {
+    private void injected(MinecraftServer server, Executor workerExecutor, LevelStorageSource.LevelStorageAccess session, ServerLevelData properties, ResourceKey<Level> worldKey, LevelStem dimensionOptions, ChunkProgressListener worldGenerationProgressListener, boolean debugWorld, long seed, List<CustomSpawner> spawners, boolean shouldTickTime, RandomSequences randomSequencesState, CallbackInfo ci) {
+    //?}
         infinity$options = InfinityOptions.generate(server, worldKey.location());
         DimensionType t = dimensionType();
         ((InfinityOptionsAccess)(Object)t).infinity$setOptions(infinity$options);

@@ -4,10 +4,12 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import net.lerariemann.infinity.entity.custom.AntEntity;
 import net.lerariemann.infinity.util.InfinityMethods;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.SubmitNodeCollector;
+//? if >1.21.9 {
+/*import net.minecraft.client.renderer.SubmitNodeCollector;
+import net.minecraft.client.renderer.state.CameraRenderState;
+*///?}
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
-import net.minecraft.client.renderer.state.CameraRenderState;
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.NotNull;
 
@@ -28,7 +30,8 @@ public class AntRenderer extends MobRenderer<AntEntity, AntEntityRenderState, An
         return TEXTURE;
     }
 
-    @Override
+    //? if >1.21.9 {
+    /*@Override
     public void submit(AntEntityRenderState ant, PoseStack matrixStack, SubmitNodeCollector submitNodeCollector, CameraRenderState cameraRenderState) {
         if(ant.isBaby) {
             matrixStack.scale(0.5f, 0.5f, 0.5f);
@@ -37,6 +40,18 @@ public class AntRenderer extends MobRenderer<AntEntity, AntEntityRenderState, An
         }
         super.submit(ant, matrixStack, submitNodeCollector, cameraRenderState);
     }
+    *///?} else {
+    public void render(AntEntityRenderState mobEntity, PoseStack matrixStack,
+                       MultiBufferSource vertexConsumerProvider, int i) {
+        if(mobEntity.isBaby) {
+            matrixStack.scale(0.5f, 0.5f, 0.5f);
+        } else {
+            matrixStack.scale(1f, 1f, 1f);
+        }
+
+        super.render(mobEntity, matrixStack, vertexConsumerProvider, i);
+    }
+    //?}
     //?} else {
     /*@Override
     public ResourceLocation getTextureLocation(AntEntity renderState) {
