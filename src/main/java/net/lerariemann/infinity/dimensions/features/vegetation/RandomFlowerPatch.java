@@ -47,7 +47,7 @@ public class RandomFlowerPatch extends RandomisedFeature {
         placement_inner.add(singleRule("block_predicate_filter", "predicate", matchingBlocks("minecraft:air")));
         CompoundTag config_inner = new CompoundTag();
         config_inner.put("to_place", singleRule("weighted_state_provider", "entries", flowerlist));
-        CompoundTag feature_inner = singleRule("simple_block", "config22", config_inner);
+        CompoundTag feature_inner = singleRule("simple_block", "config", config_inner);
         CompoundTag feature_outer = new CompoundTag();
         feature_outer.put("feature", feature_inner);
         feature_outer.put("placement", placement_inner);

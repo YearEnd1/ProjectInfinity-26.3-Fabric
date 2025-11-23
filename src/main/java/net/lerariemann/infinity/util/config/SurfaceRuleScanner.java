@@ -35,7 +35,7 @@ public interface SurfaceRuleScanner {
         map.forEach((biome, value) -> {
             String biomename = biome.substring(biome.lastIndexOf(":") + 1) + ".json";
             String modname = biome.substring(0, biome.lastIndexOf(":"));
-            String path = "config22/infinity/modular/" + modname + "/surface_rule";
+            String path = "config/infinity/modular/" + modname + "/surface_rule";
             CommonIO.writeSurfaceRule(value, path, biomename);
         });
         DataCollection.loggerOutput(map.size(), "surface rules");

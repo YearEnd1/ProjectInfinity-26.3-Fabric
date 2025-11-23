@@ -76,7 +76,7 @@ public record CorePack(RandomProvider provider, Path savingPath) {
         c.put("features", l);
         CompoundTag c2 = new CompoundTag();
         c2.putString("type", "minecraft:random_selector");
-        c2.put("config22", c);
+        c2.put("config", c);
         CommonIO.write(c2, savingPath.resolve("data/" + InfinityMod.MOD_ID + "/worldgen/configured_feature"), "all_trees.json");
     }
 

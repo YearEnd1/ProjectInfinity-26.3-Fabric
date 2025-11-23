@@ -82,7 +82,7 @@ public abstract class RandomisedFeature {
     public CompoundTag feature(CompoundTag config) {
         CompoundTag res = new CompoundTag();
         res.putString("type", id);
-        res.put("config22", config);
+        res.put("config", config);
         return res;
     }
 }

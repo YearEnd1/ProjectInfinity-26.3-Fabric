@@ -47,7 +47,7 @@ public class RandomCarver {
             shape.putInt("width_smoothness", 1 + random.nextInt(8));
             config.put("shape", shape);
         }
-        res.put("config22", config);
+        res.put("config", config);
         CommonIO.write(res, parent.parent.getStoragePath() + "/worldgen/configured_carver", name + ".json");
     }
 

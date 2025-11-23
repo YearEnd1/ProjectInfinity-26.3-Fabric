@@ -19,7 +19,7 @@ import java.util.Random;
 public class InfinityMod {
     public static final String MOD_ID = "infinity";
     public static final Logger LOGGER = LoggerFactory.getLogger("Infinite Dimensions");
-    public static Path configPath = Path.of("config22", MOD_ID);
+    public static Path configPath = InfinityPlatform.INSTANCE.getConfigFolder().resolve(MOD_ID);
     public static Path utilPath = configPath.resolve(".util");
     public static Path invocationLock = configPath.resolve("modular/invocation.lock");
     public static Path amendmentPath = configPath.resolve("amendments.json");
