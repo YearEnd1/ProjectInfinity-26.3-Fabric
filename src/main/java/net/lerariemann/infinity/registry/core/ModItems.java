@@ -144,11 +144,11 @@ public class ModItems {
             registerItemAfter("iridescent_potion", CreativeModeTabs.FOOD_AND_DRINKS, Items.HONEY_BOTTLE, settings ->
                             new IridescentPotionItem(glintProperties(settings).rarity(Rarity.UNCOMMON),
                                     //FIXME 1.21.8
-                                    //? if >1.21.8 {
-                                    /*4
-                                    *///?} else {
-                                    RandomProvider.ruleInt("iridescencePotionLevel")
-                                    //?}
+                                    //? if >1.21.2 {
+                                    4
+                                    //?} else {
+                                    /*RandomProvider.ruleInt("iridescencePotionLevel")
+                                    *///?}
 
                             ));
     public static final RegistrySupplier<Item> CHROMATIC_POTION =

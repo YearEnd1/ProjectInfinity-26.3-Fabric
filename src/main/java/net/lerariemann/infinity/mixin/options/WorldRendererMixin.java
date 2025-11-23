@@ -33,6 +33,13 @@ public abstract class WorldRendererMixin implements WorldRendererAccess {
     @Shadow private ClientLevel level;
     @Shadow private Minecraft minecraft;
 
+    @Override
+    public void infinity$setNeedsStars(boolean b) {
+        //? if <1.21.2 {
+        /*createStars();
+        *///?}
+    }
+
     //? if <1.21.2 {
 
     /*@Final
@@ -41,11 +48,6 @@ public abstract class WorldRendererMixin implements WorldRendererAccess {
 
     @Shadow protected abstract void createStars();
     @Shadow protected abstract boolean doesMobEffectBlockSky(Camera camera);
-
-    @Override
-    public void infinity$setNeedsStars(boolean b) {
-        createStars();
-    }
 
     //? if >1.21 {
     @Inject(method = "renderSky(Lorg/joml/Matrix4f;Lorg/joml/Matrix4f;FLnet/minecraft/client/Camera;ZLjava/lang/Runnable;)V",

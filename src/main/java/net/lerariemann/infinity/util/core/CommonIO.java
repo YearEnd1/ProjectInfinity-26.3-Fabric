@@ -107,14 +107,16 @@ public interface CommonIO {
         File file = new File(path);
         try {
             String content = String.valueOf((new Formatter(Locale.US)).format(FileUtils.readFileToString(file, StandardCharsets.UTF_8), args));
+            System.out.println(content);
             //? if >1.21.2 {
-            CompoundTag c = TagParser.parseCompoundFully(content);
+            JsonElement element = JsonParser.parseString(content);
+            CompoundTag c = JsonOps.INSTANCE.convertTo(NbtOps.INSTANCE, element).asCompound().orElse(new CompoundTag());
             //?} else {
             /*CompoundTag c = TagParser.parseTag(content);
             *///?}
             c.remove("infinity_version");
             return c;
-        } catch (IOException | CommandSyntaxException e) {
+        } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
@@ -137,11 +139,12 @@ public interface CommonIO {
         if (i == -1) {
             try {
                 //? if >1.21.2 {
-                return TagParser.parseCompoundFully(content);
+                JsonElement element = JsonParser.parseString(content);
+                return JsonOps.INSTANCE.convertTo(NbtOps.INSTANCE, element).asCompound().orElse(new CompoundTag());
                 //?} else {
                 /*return TagParser.parseTag(content);
                 *///?}
-            } catch (CommandSyntaxException e) {
+            } catch (Exception e) {
                 throw new RuntimeException(e);
             }
         }

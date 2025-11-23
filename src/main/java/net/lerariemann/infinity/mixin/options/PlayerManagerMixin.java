@@ -43,11 +43,11 @@ public class PlayerManagerMixin {
     }
 
     //FIXME 1.21.10 - check new target
-    //? if >1.21.2 {
-    @Inject(method="placeNewPlayer", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/level/ServerPlayer;level()Lnet/minecraft/server/level/ServerLevel;"))
-    //?} else {
-    /*@Inject(method="placeNewPlayer", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/MinecraftServer;overworld()Lnet/minecraft/server/level/ServerLevel;"))
-    *///?}
+    //? if >1.21.9 {
+    /*@Inject(method="placeNewPlayer", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/level/ServerPlayer;level()Lnet/minecraft/server/level/ServerLevel;"))
+    *///?} else {
+    @Inject(method="placeNewPlayer", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/MinecraftServer;overworld()Lnet/minecraft/server/level/ServerLevel;"))
+    //?}
     //? if >1.21 {
     void inj(Connection connection, ServerPlayer player, CommonListenerCookie clientData, CallbackInfo ci) {
     //?} else {

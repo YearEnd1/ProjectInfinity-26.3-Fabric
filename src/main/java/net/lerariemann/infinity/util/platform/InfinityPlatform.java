@@ -13,11 +13,13 @@ import net.lerariemann.infinity.util.platform.neoforge.NeoForgePlatformImpl;
 import java.nio.file.Path;
 
 public interface InfinityPlatform {
-    boolean above21 =
-            //? if >1.21 {
-            true;
-             //?} else {
-            /*false;
+    int version =
+            //? if >1.21.6 {
+            22;
+            //?} else if >1.21 {
+            /*21;
+             *///?} else {
+            /*20;
     *///?}
 
     //? fabric {

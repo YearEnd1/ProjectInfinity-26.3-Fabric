@@ -62,7 +62,7 @@ public record SoundScanner(Map<ResourceLocation, Resource> soundIds) {
         }
         else if (isPreloaded()) {
             cl.execute(() -> {
-                CompoundTag jukeboxes = saveResourcePack(cl, getMatchingLoadedIds(), InfinityPlatform.above21);
+                CompoundTag jukeboxes = saveResourcePack(cl, getMatchingLoadedIds(), InfinityPlatform.version > 20);
                 CompoundTag res = new CompoundTag();
                 ListTag songIdsList = new ListTag();
                 getMatchingLoadedIds().forEach(id -> songIdsList.add(StringTag.valueOf(id.toString())));

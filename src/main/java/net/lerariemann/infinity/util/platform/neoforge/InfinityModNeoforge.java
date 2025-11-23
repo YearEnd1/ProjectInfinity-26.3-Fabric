@@ -9,9 +9,15 @@ import net.lerariemann.infinity.registry.core.ModEntities;
 import net.lerariemann.infinity.registry.core.ModItemFunctions;
 import net.lerariemann.infinity.registry.var.ModPayloads;
 import net.lerariemann.infinity.registry.var.ModStats;
+import net.lerariemann.infinity.util.InfinityMethods;
 import net.lerariemann.infinity.util.config.SoundScanner;
+import net.lerariemann.infinity.util.platform.InfinityPlatform;
 import net.minecraft.client.Minecraft;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.server.packs.PackType;
+import net.minecraft.server.packs.repository.Pack;
+import net.minecraft.server.packs.repository.PackSource;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -20,6 +26,7 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.fml.loading.FMLEnvironment;
+import net.neoforged.neoforge.event.AddPackFindersEvent;
 import net.neoforged.neoforge.event.entity.RegisterSpawnPlacementsEvent;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 import net.neoforged.neoforge.network.handling.IPayloadContext;
@@ -47,6 +54,18 @@ public class InfinityModNeoforge {
     }
 
     @SubscribeEvent
+    private static void initCommonResources(AddPackFindersEvent event) {
+        event.addPackFinders(
+                InfinityMethods.getId("resourcepacks/" + InfinityPlatform.version),
+                PackType.SERVER_DATA,
+                Component.literal("Infinite Dimensions - Multiversioned Resources"),
+                PackSource.BUILT_IN,
+                true,
+                Pack.Position.TOP
+        );
+    }
+
+    @SubscribeEvent
     public static void registerSpawns(RegisterSpawnPlacementsEvent event) {
         ModEntities.registerSpawnRestrictions(event);
     }
@@ -56,9 +75,6 @@ public class InfinityModNeoforge {
         ModStats.load();
         ModBlocks.registerFlammableBlocks();
         ModItemFunctions.registerDispenserBehaviour();
-        if (Platform.isModLoaded("create")) {
-            //CreateCompat.register();
-        }
     }
 
     public static Minecraft client() {

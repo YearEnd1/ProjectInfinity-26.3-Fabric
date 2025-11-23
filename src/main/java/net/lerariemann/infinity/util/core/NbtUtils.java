@@ -147,39 +147,19 @@ public interface NbtUtils {
                 ;
     }
     static CompoundTag getCompound(CompoundTag data, String key) {
-        return data.getCompound(key)
-                //? if >1.21.5 {
-                .orElse(new CompoundTag())
-                //?}
-                ;
+        return getCompound(data, key, new CompoundTag());
     }
     static float getFloat(CompoundTag data, String key) {
-        return data.getFloat(key)
-                //? if >1.21.5 {
-                .orElse(0f)
-                //?}
-                ;
+        return getFloat(data, key, 0f);
     }
     static int getInt(CompoundTag data, String key) {
-        return data.getInt(key)
-                //? if >1.21.5 {
-                .orElse(0)
-                //?}
-                ;
+        return getInt(data, key, 0);
     }
     static double getDouble(CompoundTag data, String key) {
-        return data.getDouble(key)
-                //? if >1.21.5 {
-                .orElse(0d)
-                //?}
-                ;
+        return getDouble(data, key, 0d);
     }
     static boolean getBoolean(CompoundTag data, String key) {
-        return data.getBoolean(key)
-                //? if >1.21.5 {
-                .orElse(false)
-                //?}
-                ;
+        return getBoolean(data, key, false);
     }
     static short getShort(CompoundTag data, String key) {
         return data.getShort(key)

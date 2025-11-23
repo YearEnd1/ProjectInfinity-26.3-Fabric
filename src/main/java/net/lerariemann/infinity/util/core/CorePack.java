@@ -23,7 +23,7 @@ import static net.lerariemann.infinity.util.config.ConfigManager.tempFile;
 
 public record CorePack(RandomProvider provider, Path savingPath) {
     void generate() {
-        saveVersioned();
+//        saveVersioned();
         saveTrees();
         saveEndOfTime();
         if (!savingPath.resolve("pack.mcmeta").toFile().exists()) savePackMcmeta();
@@ -52,7 +52,7 @@ public record CorePack(RandomProvider provider, Path savingPath) {
     }
 
     void saveVersioned() {
-        String dirName = "util" + (InfinityPlatform.above21 ? "21" : "20");
+        String dirName = "util" + (InfinityPlatform.version);
         try (Stream<Path> files = Files.walk(PlatformMethods.getRootPathInJar(dirName))) {
             files.filter(p -> p.toString().endsWith(".json")).forEach(p -> ConfigManager.registerConfig(p, savingPath, dirName));
             Files.deleteIfExists(tempFile); //being a good method cleaning up after itself :3
