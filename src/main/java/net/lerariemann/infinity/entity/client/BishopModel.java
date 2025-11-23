@@ -26,7 +26,7 @@ public class BishopModel extends HumanoidModel<
     }
 
     public static LayerDefinition getTexturedModelData() {
-        MeshDefinition modelData = new MeshDefinition();
+        MeshDefinition modelData = HumanoidModel.createMesh(CubeDeformation.NONE, 0.0f);
         PartDefinition root = modelData.getRoot();
 
         root.addOrReplaceChild("body",

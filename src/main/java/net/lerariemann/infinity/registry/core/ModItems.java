@@ -143,7 +143,14 @@ public class ModItems {
     public static final RegistrySupplier<Item> IRIDESCENT_POTION =
             registerItemAfter("iridescent_potion", CreativeModeTabs.FOOD_AND_DRINKS, Items.HONEY_BOTTLE, settings ->
                             new IridescentPotionItem(glintProperties(settings).rarity(Rarity.UNCOMMON),
-                                    RandomProvider.ruleInt("iridescencePotionLevel")));
+                                    //FIXME 1.21.8
+                                    //? if >1.21.8 {
+                                    /*4
+                                    *///?} else {
+                                    RandomProvider.ruleInt("iridescencePotionLevel")
+                                    //?}
+
+                            ));
     public static final RegistrySupplier<Item> CHROMATIC_POTION =
             registerItemAfter("chromatic_potion", CreativeModeTabs.FOOD_AND_DRINKS, Items.HONEY_BOTTLE, settings ->
                             new IridescentPotionItem(settings, 0));
@@ -174,7 +181,6 @@ public class ModItems {
     }
 
     public static <T extends Item> RegistrySupplier<T> register(String item, Item.Properties settings, Function<Item.Properties, T> constructor) {
-        System.out.println(item);
         return ITEMS.register(item, () -> constructor.apply(settings
                 //? if >1.21.2
                 .setId(ResourceKey.create(Registries.ITEM, InfinityMethods.getId(item)))

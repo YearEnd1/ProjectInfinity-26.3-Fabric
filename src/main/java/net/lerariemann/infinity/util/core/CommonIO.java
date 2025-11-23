@@ -1,6 +1,10 @@
 package net.lerariemann.infinity.util.core;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
+import com.mojang.serialization.JsonOps;
 import dev.architectury.platform.Platform;
 import net.lerariemann.infinity.InfinityMod;
 import net.minecraft.nbt.*;
@@ -83,13 +87,18 @@ public interface CommonIO {
         try {
             if (file.exists()) {
                 content = FileUtils.readFileToString(file, StandardCharsets.UTF_8);
-                CompoundTag c = SaferStringReader.parse(content);
+                //? if >1.21.2 {
+                JsonObject object = JsonParser.parseString(content).getAsJsonObject();
+                CompoundTag c = JsonOps.INSTANCE.convertTo(NbtOps.INSTANCE, object).asCompound().orElse(new CompoundTag());
+                //?} else {
+                /*CompoundTag c = SaferStringReader.parse(content);
+                *///?}
                 c.remove("infinity_version");
                 return c;
             }
             return new CompoundTag();
-        } catch (IOException | CommandSyntaxException e) {
-            InfinityMod.LOGGER.info("Could not parse" + file.getAbsolutePath(), e);
+        } catch (IOException e) {
+            InfinityMod.LOGGER.warn("Could not parse {}", file.getAbsolutePath(), e);
         }
         return new CompoundTag();
     }
