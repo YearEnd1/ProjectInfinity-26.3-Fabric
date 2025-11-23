@@ -27,7 +27,6 @@ import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.SpawnGroupData;
 import net.minecraft.world.entity.monster.Skeleton;
 import net.minecraft.world.entity.player.Player;
@@ -47,6 +46,7 @@ import net.minecraft.world.level.ServerLevelAccessor;
 //? if >1.21.4 {
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
+import static net.minecraft.world.entity.EntitySpawnReason.CONVERSION;
 //?}
 import org.jetbrains.annotations.Nullable;
 
@@ -54,6 +54,8 @@ import org.jetbrains.annotations.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
 //?}
 import java.util.*;
+
+
 
 @MethodsReturnNonnullByDefault
 //? if neoforge {
@@ -99,7 +101,13 @@ public class ChaosSkeleton extends Skeleton implements TintableEntity {
 
     @Override
     @Nullable
-    public SpawnGroupData finalizeSpawn(ServerLevelAccessor world, DifficultyInstance difficulty, EntitySpawnReason spawnReason, @Nullable SpawnGroupData entityData
+    public SpawnGroupData finalizeSpawn(ServerLevelAccessor world, DifficultyInstance difficulty,
+                                        //? if >1.21.2 {
+                                        net.minecraft.world.entity.EntitySpawnReason
+                                        //?} else {
+                                        /*net.minecraft.world.entity.MobSpawnType
+                                         *///?}
+                                        spawnReason, @Nullable SpawnGroupData entityData
     //? if <1.21 {
     /*,CompoundTag tag
     *///?}
@@ -151,7 +159,7 @@ public class ChaosSkeleton extends Skeleton implements TintableEntity {
                     ChaosSkeleton newSkeleton;
                     if (!this.level().isClientSide() && (newSkeleton = ModEntities.CHAOS_SKELETON.get().create(this.level()
                             //? if >1.21.4 {
-                            ,EntitySpawnReason.CONVERSION
+                            ,CONVERSION
                             //?}
                             )) != null) {
                         ((ServerLevel) this.level()).sendParticles(ParticleTypes.HEART, this.getX(), this.getY(0.5), this.getZ(), 1, 0.0, 0.0, 0.0, 0.0);
@@ -173,7 +181,7 @@ public class ChaosSkeleton extends Skeleton implements TintableEntity {
             Skeleton newSkeleton;
             if (!this.level().isClientSide() && (newSkeleton = EntityType.SKELETON.create(this.level()
                     //? if >1.21.4 {
-                    , EntitySpawnReason.CONVERSION
+                    , CONVERSION
                     //?}
             )) != null) {
                 this.discard();
@@ -280,7 +288,7 @@ public class ChaosSkeleton extends Skeleton implements TintableEntity {
     protected void dropCustomDeathLoot(ServerLevel world, DamageSource source, boolean causedByPlayer) {
         super.dropCustomDeathLoot(world, source, causedByPlayer);
         ItemStack weapon = source.getWeaponItem();
-        Holder<Enchantment> looting = world.getServer().registryAccess().lookupOrThrow(Registries.ENCHANTMENT).
+        Holder<Enchantment> looting = VersionMethods.getRegistry(world.getServer().registryAccess(), Registries.ENCHANTMENT).
                 //? if >1.21.4 {
                 getOrThrow
                 //?} else {

@@ -5,7 +5,9 @@ import net.minecraft.client.model.CreeperModel;
 import net.minecraft.client.model.geom.ModelLayers;
 import net.minecraft.client.renderer.entity.CreeperRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
+//? if >1.21.4 {
 import net.minecraft.client.renderer.entity.state.CreeperRenderState;
+//?}
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.monster.Creeper;
 

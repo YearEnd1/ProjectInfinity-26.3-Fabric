@@ -97,7 +97,7 @@ public interface CommonIO {
                 return c;
             }
             return new CompoundTag();
-        } catch (IOException e) {
+        } catch (Exception e) {
             InfinityMod.LOGGER.warn("Could not parse {}", file.getAbsolutePath(), e);
         }
         return new CompoundTag();
@@ -116,7 +116,7 @@ public interface CommonIO {
             *///?}
             c.remove("infinity_version");
             return c;
-        } catch (IOException e) {
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }

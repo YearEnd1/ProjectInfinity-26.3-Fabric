@@ -1,5 +1,6 @@
 package net.lerariemann.infinity.entity.client;
 
+//? if >1.21.2 {
 import net.minecraft.client.renderer.entity.state.LivingEntityRenderState;
 
 public class AntEntityRenderState extends LivingEntityRenderState {
@@ -8,3 +9,4 @@ public class AntEntityRenderState extends LivingEntityRenderState {
     public float limbDistance;
     public int headPitch;
 }
+//?}

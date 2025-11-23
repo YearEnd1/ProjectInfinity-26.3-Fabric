@@ -145,25 +145,6 @@ dependencies {
 
 }
 
-stonecutter {
-    replacements.string {
-        direction = eval(current.version, ">1.21.4")
-        replace("MobSpawnType", "EntitySpawnReason")
-    }
-    replacements.string {
-        direction = eval(current.version, ">1.21.4")
-        replace("registryOrThrow", "lookupOrThrow")
-    }
-    replacements.string {
-        direction = eval(current.version, ">1.21.4")
-        replace("DimensionTransition ", "TeleportTransition ")
-    }
-    replacements.string {
-        direction = eval(current.version, ">1.21.4")
-        replace("DataComponentInput", "DataComponentGetter")
-    }
-}
-
 
 tasks {
     processResources {

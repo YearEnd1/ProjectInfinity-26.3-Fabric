@@ -30,8 +30,10 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+//? if >1.21.4 {
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
+//?}
 import org.jetbrains.annotations.Nullable;
 
 import java.awt.*;
@@ -89,7 +91,13 @@ public class ChromaticBlockEntity extends TintableBlockEntity {
         componentMapBuilder.set(ModComponentTypes.COLOR.get(), color);
     }
     @Override
-    protected void applyImplicitComponents(DataComponentGetter components) {
+    protected void applyImplicitComponents(
+            //? if >1.21.4 {
+            DataComponentGetter
+            //?} else {
+            /*DataComponentInput
+            *///?}
+             components) {
         super.applyImplicitComponents(components);
         setColor(components.getOrDefault(ModComponentTypes.COLOR.get(), 0xFFFFFF));
     }
@@ -180,7 +188,7 @@ public class ChromaticBlockEntity extends TintableBlockEntity {
             //? if >1.21.2 {
             ValueInput nbt
             //?} else {
-            /*CompoundTag tag
+            /*CompoundTag nbt
              *///?}
             //? if =1.21.1
             /*,HolderLookup.Provider registryLookup*/

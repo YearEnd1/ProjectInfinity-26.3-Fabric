@@ -84,7 +84,7 @@ public interface InfinityMethods {
         //? if >1.21 {
         return world.getBiome(pos).getRegisteredName().contains("infinity");
         //?} else {
-        /*return world.registryAccess().lookupOrThrow(Registries.BIOME).getKey(world.getBiome(pos).value()).getNamespace().contains("infinity");
+        /*return world.registryAccess().registryOrThrow(Registries.BIOME).getKey(world.getBiome(pos).value()).getNamespace().contains("infinity");
         *///?}
 
     }

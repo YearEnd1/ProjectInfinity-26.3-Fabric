@@ -19,10 +19,10 @@ import net.minecraft.world.Difficulty;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.*;
 //? if >1.21.9 {
-/*import net.minecraft.world.entity.EntitySpawnReason;
-import static net.minecraft.world.entity.EntitySpawnReason.*;
+/*import net.minecraft.world.entity.MobSpawnType;
+import static net.minecraft.world.entity.MobSpawnType.*;
 *///?} else if >1.21 {
-import net.minecraft.world.entity.EntitySpawnReason;
+import net.minecraft.world.entity.SpawnPlacementTypes;
 import static net.minecraft.world.entity.SpawnPlacementTypes.*;
 //?} else {
 /*import net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityTypeBuilder;
@@ -133,7 +133,7 @@ public class ModEntities {
     }
     //?} else {
     /*public static String type(String id) {
-        if (Platform.isFabric() && InfinityPlatform.above21) {
+        if (Platform.isFabric() && InfinityPlatform.version > 20) {
             return null;
         }
         else return "infinity:"+id;
@@ -150,11 +150,11 @@ public class ModEntities {
     }
 
     public static <T extends Mob> void registerSafe(EntityType<T> type,
-                                                    //? if >1.21.2 {
+                                                    //? if >1.21.9 {
+                                                    /*MobSpawnType
+                                                    *///?} else if >1.21 {
                                                     SpawnPlacementType
-                                                    //?} else if >1.21 {
-                                                    /*EntitySpawnReason
-                                                    *///?} else {
+                                                    //?} else {
                                                     /*SpawnPlacements.Type
                                                     *///?}
                                                     location, Heightmap.Types heightmapType, SpawnPlacements.SpawnPredicate<T> predicate,
@@ -205,11 +205,24 @@ public class ModEntities {
         registerSafe(EntityType.BREEZE, ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Monster::checkMonsterSpawnRules, event);
     }
 
-    public static boolean canChaosMonsterSpawn(EntityType<? extends Monster> type, ServerLevelAccessor world, EntitySpawnReason spawnReason, BlockPos pos, RandomSource random) {
+    public static boolean canChaosMonsterSpawn(EntityType<? extends Monster> type, ServerLevelAccessor world,
+
+                                               //? if >1.21.2 {
+                                               net.minecraft.world.entity.EntitySpawnReason
+                                                       //?} else {
+                                                       /*net.minecraft.world.entity.MobSpawnType
+                                                        *///?}
+                                               spawnReason, BlockPos pos, RandomSource random) {
         return Monster.checkMonsterSpawnRules(type, world, spawnReason, pos, random)
                 && InfinityMethods.chaosMobsEnabled();
     }
-    public static boolean canChessFigureSpawn(EntityType<? extends AbstractChessFigure> type, ServerLevelAccessor world, EntitySpawnReason spawnReason, BlockPos pos, RandomSource random) {
+    public static boolean canChessFigureSpawn(EntityType<? extends AbstractChessFigure> type, ServerLevelAccessor world,
+                                              //? if >1.21.2 {
+                                              net.minecraft.world.entity.EntitySpawnReason
+                                              //?} else {
+                                              /*net.minecraft.world.entity.MobSpawnType
+                                               *///?}
+                                              spawnReason, BlockPos pos, RandomSource random) {
         return Mob.checkMobSpawnRules(type, world, spawnReason, pos, random)
                 && world.getDifficulty() != Difficulty.PEACEFUL
                 && InfinityMethods.chaosMobsEnabled();

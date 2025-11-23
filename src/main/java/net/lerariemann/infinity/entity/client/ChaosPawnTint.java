@@ -146,7 +146,7 @@ public class ChaosPawnTint extends
         renderOneLayer(matrixStack, nodeCollector, light, o, state, model.leftLeg, "left_leg");
         renderOneLayer(matrixStack, nodeCollector, light, o, state, model.rightLeg, "right_leg");
     }
-    *///?} else {
+    *///?} else if >1.21.4 {
          @Override
          public void render(PoseStack matrixStack, MultiBufferSource vertexConsumerProvider, int light, ChaosPawnRenderState state, float limbAngle, float limbDistance) {
              boolean bl = state.appearsGlowing && state.isInvisible;

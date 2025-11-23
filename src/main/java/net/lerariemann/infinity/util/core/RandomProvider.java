@@ -72,7 +72,11 @@ public class RandomProvider {
         return getStaticRule((p, k) -> p.gameRules.getOrDefault(k, false), NbtUtils::getBoolean, key, false);
     }
     public static int ruleInt(String key) {
-        return getStaticRule(RandomProvider::_ruleInt, (p, k) -> NbtUtils.getAsInt(Objects.requireNonNull(p.get(k))), key, -1);
+        //? if >1.21.4 {
+        return getStaticRule(RandomProvider::_ruleInt, (p, k) -> ((NumericTag) Objects.requireNonNull(p.get(k))).intValue(), key, -1);
+        //?} else {
+        /*return getStaticRule(RandomProvider::_ruleInt, (p, k) -> ((NumericTag) Objects.requireNonNull(p.get(k))).getAsInt(), key, -1);
+        *///?}
     }
     private int _ruleInt(String key) {
         if (gameRulesInt.containsKey(key)) return gameRulesInt.get(key);
@@ -265,7 +269,11 @@ public class RandomProvider {
     public void kickGhostsOut(RegistryAccess s) {
         registry.remove(ConfigType.BIOMES);
         List<CompoundTag> biomes = CommonIO.readCategory(ConfigType.BIOMES);
+        //? if >1.21.4 {
         Registry<Biome> reg = s.lookupOrThrow(Registries.BIOME);
+        //?} else {
+        /*Registry<Biome> reg = s.registryOrThrow(Registries.BIOME);
+        *///?}
         registerCategory(ConfigType.BIOMES, biomes.stream().filter(comp -> reg.containsKey(VersionMethods.id(NbtUtils.getString(comp,"key")))).toList());
     }
 }

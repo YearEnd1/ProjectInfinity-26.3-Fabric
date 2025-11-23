@@ -16,6 +16,11 @@ import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.item.EitherHolder;
 import net.minecraft.world.item.JukeboxPlayable;
 //?}
+//? if >1.21.2 {
+import net.minecraft.world.entity.EntitySpawnReason;
+ //?} else {
+/*import net.minecraft.world.entity.MobSpawnType;
+*///?}
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
@@ -32,7 +37,6 @@ import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.SpawnGroupData;
 import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.entity.player.Player;
@@ -45,11 +49,14 @@ import net.minecraft.world.level.ServerLevelAccessor;
 //? if >1.21.4 {
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
+import static net.minecraft.world.entity.EntitySpawnReason.CONVERSION;
 //?}
 import org.jetbrains.annotations.Nullable;
 
 //? if neoforge {
 import javax.annotation.ParametersAreNonnullByDefault;
+
+
 //?}
 
 @MethodsReturnNonnullByDefault
@@ -71,7 +78,13 @@ public class ChaosCreeper extends Creeper implements TintableEntity {
 
     @Override
     @Nullable
-    public SpawnGroupData finalizeSpawn(ServerLevelAccessor world, DifficultyInstance difficulty, EntitySpawnReason spawnReason, @Nullable SpawnGroupData entityData
+    public SpawnGroupData finalizeSpawn(ServerLevelAccessor world, DifficultyInstance difficulty,
+                                        //? if >1.21.2 {
+                                        EntitySpawnReason
+                                        //?} else {
+                                        /*MobSpawnType
+                                        *///?}
+                                                spawnReason, @Nullable SpawnGroupData entityData
                                         //? if <1.21 {
                                          /*, @Nullable CompoundTag entityNbt
                                         *///?}
@@ -197,7 +210,7 @@ public class ChaosCreeper extends Creeper implements TintableEntity {
             try (Level level = this.level()) {
                 if (!level.isClientSide() && (newCreeper = EntityType.CREEPER.create(this.level()
                 //? if >1.21.2
-                , EntitySpawnReason.CONVERSION
+                , CONVERSION
                 )) != null) {
                     //? if >1.21 {
                     

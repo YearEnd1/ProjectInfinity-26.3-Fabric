@@ -380,7 +380,13 @@ public class ModPayloads {
     }
 
     public static void sendShaderPayload(ServerPlayer player) {
-        sendShaderPayload(player, player.level(), Iridescence.shouldApplyShader(player));
+        sendShaderPayload(player,
+                //? if >1.21.2 {
+                player.level()
+                //?} else {
+                /*player.serverLevel()
+                *///?}
+                , Iridescence.shouldApplyShader(player));
     }
     public static void sendShaderPayload(ServerPlayer player, ServerLevel world) {
         sendShaderPayload(player, world, Iridescence.shouldApplyShader(player));

@@ -8,7 +8,11 @@ import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
+//? if >1.21.2 {
 import net.minecraft.world.entity.EntitySpawnReason;
+//?} else {
+/*import net.minecraft.world.entity.MobSpawnType;
+ *///?}
 import net.minecraft.world.entity.Shearable;
 import net.minecraft.world.entity.SpawnGroupData;
 //? if >1.21.5 {
@@ -74,7 +78,13 @@ public abstract class SheepEntityMixin extends LivingEntityMixin implements Shea
     //?} else {
     /*@Inject(method = "finalizeSpawn", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/animal/Sheep;setColor(Lnet/minecraft/world/item/DyeColor;)V", shift = At.Shift.AFTER))
     *///?}
-    private void injected(ServerLevelAccessor world, DifficultyInstance difficulty, EntitySpawnReason spawnReason, SpawnGroupData entityData,
+    private void injected(ServerLevelAccessor world, DifficultyInstance difficulty,
+                          //? if >1.21.2 {
+                          net.minecraft.world.entity.EntitySpawnReason
+                          //?} else {
+                          /*net.minecraft.world.entity.MobSpawnType
+                           *///?}
+                          spawnReason, SpawnGroupData entityData,
     //? if <1.21 {
     /*CompoundTag compoundTag,
     *///?}

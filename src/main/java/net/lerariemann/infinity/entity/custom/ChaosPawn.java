@@ -26,8 +26,8 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.*;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.SpawnGroupData;
+import net.minecraft.world.entity.SpawnPlacementType;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.EatBlockGoal;
@@ -127,7 +127,11 @@ public class ChaosPawn extends AbstractChessFigure {
              *///?}
             nbt) {
         super.addAdditionalSaveData(nbt);
+        //? if >1.21.4 {
         NbtUtils.putColors(nbt, "colors", getColors());
+        //?} else {
+        /*nbt.put("colors", getColors());
+        *///?}
         nbt.putInt("case", getCase());
     }
     @Override
@@ -139,7 +143,11 @@ public class ChaosPawn extends AbstractChessFigure {
              *///?}
             nbt) {
         super.readAdditionalSaveData(nbt);
+        //? if >1.21.4 {
         this.setColors(NbtUtils.getColors(nbt, "colors"));
+        //?} else {
+        /*this.setColors(nbt.getCompound("colors"));
+        *///?}
         this.entityData.set(special_case, NbtUtils.getInt(nbt, "case"));
     }
 
@@ -208,8 +216,15 @@ public class ChaosPawn extends AbstractChessFigure {
 
     @Override
     @Nullable
-    public SpawnGroupData finalizeSpawn(ServerLevelAccessor world, DifficultyInstance difficulty, EntitySpawnReason spawnReason, @Nullable SpawnGroupData entityData
-            //? if <1.21 {
+    public SpawnGroupData finalizeSpawn(ServerLevelAccessor world, DifficultyInstance difficulty,
+
+                                        //? if >1.21.2 {
+                                        net.minecraft.world.entity.EntitySpawnReason
+                                         //?} else {
+                                        /*net.minecraft.world.entity.MobSpawnType
+                                            *///?}
+                                        spawnReason, @Nullable SpawnGroupData entityData
+                                        //? if <1.21 {
             /*,CompoundTag tag
             *///?}
     ) {

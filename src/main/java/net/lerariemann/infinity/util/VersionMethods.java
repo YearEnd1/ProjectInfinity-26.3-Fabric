@@ -3,6 +3,7 @@ package net.lerariemann.infinity.util;
 import net.lerariemann.infinity.registry.core.ModComponentTypes;
 //? if >1.21 {
 import dev.architectury.registry.registries.RegistrySupplier;
+import net.minecraft.core.*;
 import net.minecraft.core.component.DataComponentMap;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -10,6 +11,7 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.JukeboxSong;
 import net.minecraft.world.item.alchemy.PotionContents;
 import net.minecraft.core.component.DataComponents;
 //?} else {
@@ -20,9 +22,6 @@ import net.minecraft.world.item.alchemy.PotionUtils;
 //?} else {
 /*import net.minecraft.world.InteractionResultHolder;
 *///?}
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.Holder;
-import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.entity.player.Player;
@@ -33,6 +32,8 @@ import net.minecraft.world.item.component.CustomModelData;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.levelgen.NoiseGeneratorSettings;
+import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 
@@ -346,6 +347,11 @@ public interface VersionMethods {
     static <T> T getFromRegistry(Registry<T> registry, ResourceKey<T> name) {
         return registry.getValue(name);
     }
+
+    static <T> Registry<T> getRegistry(RegistryAccess access, ResourceKey<Registry<T>> jukeboxSong) {
+        return access.lookupOrThrow(jukeboxSong);
+    }
+
     //?} else {
     /*static InteractionResultHolder<ItemStack> sidedSuccess(ItemStack itemStack, boolean clientSide) {
         return InteractionResultHolder.sidedSuccess(itemStack, clientSide);
@@ -374,6 +380,13 @@ public interface VersionMethods {
     static <T> T getFromRegistry(Registry<T> registry, ResourceKey<T> name) {
         return registry.get(name);
     }
+
+    static <T> Registry<T> getRegistry(RegistryAccess access, ResourceKey<Registry<T>> jukeboxSong) {
+        return access.registryOrThrow(jukeboxSong);
+    }
     *///?}
+    static <T> HolderLookup.RegistryLookup<T> getRegistry(HolderLookup.Provider lookup, ResourceKey<Registry<T>> lootTable) {
+        return lookup.lookupOrThrow(lootTable);
+    }
 }
 

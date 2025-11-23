@@ -92,7 +92,11 @@ public class ModBlocks {
         // Create a registry key for the block
         ResourceKey<Block> blockKey = registryKey(name);
         // Create the block instance
-        Supplier<Block> block = ()-> blockFactory.apply(settings.setId(blockKey));
+        Supplier<Block> block = ()-> blockFactory.apply(settings
+                //? if >1.21.4 {
+                .setId(blockKey)
+                //?}
+        );
         return (RegistrySupplier<T>) BLOCKS.register(name, block);
     }
 

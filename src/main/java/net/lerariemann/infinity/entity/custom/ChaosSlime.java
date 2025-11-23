@@ -20,7 +20,6 @@ import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.*;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.SpawnGroupData;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -86,7 +85,13 @@ public class ChaosSlime extends Slime implements TintableEntity {
 
     @Override
     @Nullable
-    public SpawnGroupData finalizeSpawn(ServerLevelAccessor world, DifficultyInstance difficulty, EntitySpawnReason spawnReason, @Nullable SpawnGroupData entityData
+    public SpawnGroupData finalizeSpawn(ServerLevelAccessor world, DifficultyInstance difficulty,
+                                        //? if >1.21.2 {
+                                        net.minecraft.world.entity.EntitySpawnReason
+                                        //?} else {
+                                        /*net.minecraft.world.entity.MobSpawnType
+                                         *///?}
+                                        spawnReason, @Nullable SpawnGroupData entityData
     //? if <1.21 {
     /*,CompoundTag tag
     *///?}
@@ -192,7 +197,13 @@ public class ChaosSlime extends Slime implements TintableEntity {
         this.setCore(b.defaultBlockState());
     }
 
-    public static boolean canSpawn(EntityType<ChaosSlime> type, ServerLevelAccessor world, EntitySpawnReason spawnReason, BlockPos pos, net.minecraft.util.RandomSource random) {
+    public static boolean canSpawn(EntityType<ChaosSlime> type, ServerLevelAccessor world,
+                                   //? if >1.21.2 {
+                                   net.minecraft.world.entity.EntitySpawnReason
+                                   //?} else {
+                                   /*net.minecraft.world.entity.MobSpawnType
+                                    *///?}
+                                   spawnReason, BlockPos pos, net.minecraft.util.RandomSource random) {
         if (world.getDifficulty() != Difficulty.PEACEFUL && InfinityMethods.chaosMobsEnabled()) {
             if (!(world instanceof WorldGenLevel)) {
                 return false;

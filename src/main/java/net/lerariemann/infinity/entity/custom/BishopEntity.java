@@ -12,7 +12,11 @@ import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
+//? if >1.21.2 {
 import net.minecraft.world.entity.EntitySpawnReason;
+//?} else {
+/*import net.minecraft.world.entity.MobSpawnType;
+ *///?}
 import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.SpawnGroupData;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
@@ -58,7 +62,13 @@ public class BishopEntity extends AbstractChessFigure implements RangedAttackMob
 
     @Nullable
     @Override
-    public SpawnGroupData finalizeSpawn(ServerLevelAccessor world, DifficultyInstance difficulty, EntitySpawnReason spawnReason, @Nullable SpawnGroupData entityData
+    public SpawnGroupData finalizeSpawn(ServerLevelAccessor world, DifficultyInstance difficulty,
+                                        //? if >1.21.2 {
+                                        EntitySpawnReason
+                                        //?} else {
+                                        /*MobSpawnType
+                                         *///?}
+                                        spawnReason, @Nullable SpawnGroupData entityData
         //? if <1.21 {
         /*,CompoundTag tag
         *///?}

@@ -15,7 +15,9 @@ import net.lerariemann.infinity.util.InfinityMethods;
 import net.lerariemann.infinity.util.screen.F4Screen;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
+//? if >1.21.4 {
 import net.minecraft.client.renderer.chunk.ChunkSectionLayer;
+//?}
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.BlockAndTintGetter;

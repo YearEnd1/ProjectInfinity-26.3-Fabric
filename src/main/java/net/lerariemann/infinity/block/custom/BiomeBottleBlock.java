@@ -228,7 +228,7 @@ public class BiomeBottleBlock extends BaseEntityBlock {
                         .filter(Objects::nonNull).collect(Collectors.toSet()));
             }
         }
-        spread(world, set, posSet, VersionMethods.getFromId(world.getServer().registryAccess().lookupOrThrow(Registries.BIOME), biomeId));
+        spread(world, set, posSet, VersionMethods.getFromId(VersionMethods.getRegistry(world.getServer().registryAccess(), Registries.BIOME), biomeId));
     }
 
     public static void spread(ServerLevel world, Set<ChunkAccess> set, Set<BlockPos> posSet, @Nullable Holder<Biome> biome) {

@@ -55,6 +55,7 @@ import net.lerariemann.infinity.util.platform.fabric.ModFluidsFabric;
 //? neoforge {
 import io.netty.buffer.Unpooled;
 import net.neoforged.fml.ModLoadingContext;
+//? if >1.21.4
 import net.neoforged.neoforge.client.network.ClientPacketDistributor;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.common.Tags;
@@ -223,8 +224,8 @@ public interface PlatformMethods {
     static RegistrySupplier<LiquidBlock> getIridBlockForReg() {
         var properties = VersionMethods.copyBlockProperties(Blocks.WATER).mapColor(MapColor.COLOR_MAGENTA)
                 //? if >1.21.2
-                .setId(ModBlocks.registryKey("iridescence")
-                );
+                .setId(ModBlocks.registryKey("iridescence"))
+                ;
         //? fabric {
         /*return ModBlocks.BLOCKS.register("iridescence", () ->
                 new IridescenceLiquidBlock(PlatformMethods.getIridescenceStill(),
@@ -238,21 +239,6 @@ public interface PlatformMethods {
         /*return ModBlocks.BLOCKS.register("iridescence", () ->
                 new IridescenceLiquidBlockForge(PlatformMethods.getIridescenceStill(), properties));
         *///?}
-    }
-
-    /**
-     * Read from the config path inside the mod JAR.
-     */
-    @SuppressWarnings("for removal")
-    static Path getRootPathInJar() {
-        //? fabric {
-        /*ModContainer mc = FabricLoader.getInstance().getModContainer(InfinityMod.MOD_ID).orElse(null);
-        assert mc != null;
-        return mc.getRootPaths().getFirst();
-        *///?}
-        //? neoforge || forge {
-        return ModLoadingContext.get().getActiveContainer().getModInfo().getOwningFile().getFile().getFilePath();
-        //?}
     }
 
     /**
@@ -344,10 +330,18 @@ public interface PlatformMethods {
 
     //? if >1.21 && neoforge {
     static Item.Properties deferredIntComponent(String id, Supplier<DataComponentType<Integer>> componentTypeSupplier, int i) {
-        return new Item.Properties().component(componentTypeSupplier, i).setId(ModItems.registryKey(id));
+        return new Item.Properties().component(componentTypeSupplier, i)
+                //? if >1.21.4
+                .setId(ModItems.registryKey(id))
+                ;
     }
     static ItemEnchantments getEnchantments(ItemStack weapon, MinecraftServer s) {
-        return weapon.getAllEnchantments(s.registryAccess().lookupOrThrow(Registries.ENCHANTMENT));
+        return weapon.getAllEnchantments(s.registryAccess()
+        //? if >1.21.4 {
+                .lookupOrThrow(Registries.ENCHANTMENT));
+        //?} else {
+                /*.lookupOrThrow(Registries.ENCHANTMENT));
+        *///?}
     }
     //?}
 }

@@ -22,6 +22,8 @@ import net.minecraft.world.item.*;
 import net.minecraft.world.item.component.Consumable;
 //?}
 import net.minecraft.world.level.block.Block;
+
+import java.util.List;
 import java.util.Optional;
 import java.util.function.BiFunction;
 import java.util.function.Function;
@@ -50,7 +52,10 @@ public class ModItems {
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(MOD_ID, Registries.ITEM);
     //block items
     public static final RegistrySupplier<Item> PORTAL_ITEM =
-            register(ModBlocks.PORTAL.getId().getPath(), new Item.Properties().setId(registryKey(ModBlocks.PORTAL.getId().getPath())), (properties) -> new BlockItem(ModBlocks.PORTAL.get(),
+            register(ModBlocks.PORTAL.getId().getPath(), new Item.Properties()
+                    //? if >1.21.4
+                    .setId(registryKey(ModBlocks.PORTAL.getId().getPath()))
+                    , (properties) -> new BlockItem(ModBlocks.PORTAL.get(),
                             colorProperties(ColorLogic.defaultPortal, properties)));
     public static final RegistrySupplier<Item> COSMIC_ALTAR_ITEM =
             registerBlockItemAfter(ModBlocks.COSMIC_ALTAR, CreativeModeTabs.FUNCTIONAL_BLOCKS, Items.LECTERN, BlockItem::new);
@@ -197,7 +202,10 @@ public class ModItems {
     }
     public static <T extends Item> RegistrySupplier<T> registerItemAfter(String id, ResourceKey<CreativeModeTab> group, Item item,
                                                            Function<Item.Properties, T> constructor) {
-        return registerItemAfter(id, group, item, constructor, new Item.Properties().setId(registryKey(id)));
+        return registerItemAfter(id, group, item, constructor, new Item.Properties()
+                //? if >1.21.4
+                .setId(registryKey(id))
+        );
     }
 
     public static <T extends Item> RegistrySupplier<T> registerBlockItem(RegistrySupplier<Block> block, Item.Properties settings,

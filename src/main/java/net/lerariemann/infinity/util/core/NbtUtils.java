@@ -23,14 +23,6 @@ public interface NbtUtils {
          *///?}
     }
 
-    static Set<String> keys(ValueInput tag) {
-        //? if neoforge {
-        return tag.keySet();
-        //?} else {
-        /*return tag.getAllKeys();
-         *///?}
-    }
-
     static String getAsString(Tag tag) {
         //? if >1.21.5 {
         return tag.asString().orElse("");
@@ -38,15 +30,19 @@ public interface NbtUtils {
         /*return tag.getAsString();
         *///?}
     }
-    static int getAsInt(Tag tag) {
-        //? if >1.21.5 {
-        return tag.asInt().orElse(0);
-        //?} else {
-        /*return tag.getAsInt();
-         *///?}
-    }
 
     //? if >1.21.5 {
+
+    static Set<String> keys(ValueInput tag) {
+        //? if neoforge {
+        return tag.keySet();
+        //?} else {
+        /*return tag.getAllKeys();
+         *///?}
+    }
+    static boolean compoundHasString(ValueInput tag, String dimension) {
+        return tag.getString(dimension).isPresent();
+    }
     static String getString(ValueInput data, String key, String def) {
         return data.getStringOr(key, def);
     }
@@ -189,7 +185,7 @@ public interface NbtUtils {
         //? if >1.21.5 {
         return compoundTag.getString(key).isPresent();
         //?} else {
-        /*compoundTag.getTagType(key) == Tag.TAG_STRING
+        /*return compoundTag.getTagType(key) == Tag.TAG_STRING;
         *///?}
     }
 
@@ -197,7 +193,7 @@ public interface NbtUtils {
         //? if >1.21.5 {
         return compoundTag.getList(key).isPresent();
         //?} else {
-        /*compoundTag.getTagType(key) == Tag.TAG_STRING
+        /*return compoundTag.getTagType(key) == Tag.TAG_STRING;
          *///?}
     }
 
@@ -405,9 +401,5 @@ public interface NbtUtils {
         /*res.put("value", value);
         *///?}
         return res;
-    }
-
-    static boolean compoundHasString(ValueInput tag, String dimension) {
-        return tag.getString(dimension).isPresent();
     }
 }

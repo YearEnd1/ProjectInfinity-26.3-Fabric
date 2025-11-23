@@ -73,11 +73,11 @@ public interface ConfigGenerator {
         SurfaceRuleScanner.scan(server);
         RegistryAccess manager = server.registryAccess();
         //? if >1.21 {
-        ConfigFactory.of(manager.lookupOrThrow(Registries.JUKEBOX_SONG)).generate(ConfigType.JUKEBOXES);
+        ConfigFactory.of(VersionMethods.getRegistry(manager, Registries.JUKEBOX_SONG)).generate(ConfigType.JUKEBOXES);
         //?}
-        ConfigFactory.of(manager.lookupOrThrow(Registries.BIOME), ConfigGenerator::extractBiome).generate(ConfigType.BIOMES);
-        ConfigFactory.of(manager.lookupOrThrow(Registries.STRUCTURE), ConfigGenerator::extractStructure).generate(ConfigType.STRUCTURES);
-        ConfigFactory.of(manager.lookupOrThrow(Registries.CONFIGURED_FEATURE), ConfigGenerator::extractFeature).generate(ConfigType.TREES);
+        ConfigFactory.of(VersionMethods.getRegistry(manager, Registries.BIOME), ConfigGenerator::extractBiome).generate(ConfigType.BIOMES);
+        ConfigFactory.of(VersionMethods.getRegistry(manager, Registries.STRUCTURE), ConfigGenerator::extractStructure).generate(ConfigType.STRUCTURES);
+        ConfigFactory.of(VersionMethods.getRegistry(manager, Registries.CONFIGURED_FEATURE), ConfigGenerator::extractFeature).generate(ConfigType.TREES);
         generateLootTables(server);
     }
 
@@ -106,14 +106,14 @@ public interface ConfigGenerator {
 
     static void generateLootTables(MinecraftServer server) {
         //? if >1.21.7 {
-        var r = server.reloadableRegistries().lookup().lookupOrThrow(Registries.LOOT_TABLE);
+        var r = VersionMethods.getRegistry(server.reloadableRegistries().lookup(), Registries.LOOT_TABLE);
         DataCollection lootTables = new DataCollection.Logged(ConfigType.LOOT_TABLES, "loot tables");
         r.listElementIds().forEach(id -> {
             lootTables.addIdentifier(id.location());
         });
         lootTables.save();
         //?} else if =1.21.1 {
-        /*ConfigFactory.of(server.reloadableRegistries().get().lookupOrThrow(Registries.LOOT_TABLE), ConfigGenerator::extractLootTable)
+        /*ConfigFactory.of(server.reloadableRegistries().get().registryOrThrow(Registries.LOOT_TABLE), ConfigGenerator::extractLootTable)
                 .generate(ConfigType.LOOT_TABLES);
         *///?} else {
         /*DataCollection lootTables = new DataCollection.Logged(ConfigType.LOOT_TABLES, "loot tables");

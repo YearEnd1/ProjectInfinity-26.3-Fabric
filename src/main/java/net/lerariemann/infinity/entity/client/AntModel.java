@@ -17,7 +17,13 @@ import net.minecraft.client.model.geom.builders.PartDefinition;
 import net.minecraft.util.Mth;
 import org.jetbrains.annotations.NotNull;
 
-public class AntModel extends EntityModel<AntEntityRenderState> {
+public class AntModel
+        //? if >1.21.4 {
+        extends EntityModel<AntEntityRenderState>
+        //?} else {
+        /*extends EntityModel<AntEntity>
+        *///?}
+         {
 	public static final ModelLayerLocation MODEL_LAYER =
 		new ModelLayerLocation(InfinityMethods.getId("ant"), "main");
 
@@ -94,18 +100,17 @@ public class AntModel extends EntityModel<AntEntityRenderState> {
     }
     *///?}
 
-
-    //? if <1.21.2 {
-	/*@Override
-	public @NotNull ModelPart root() {
+     //? if <1.21.2 {
+	/*public @NotNull ModelPart root() {
 		return body;
 	}
     *///?}
 
-	@Override
+
+             @Override
     public void setupAnim(
     //? if <1.21.2 {
-    /*T entity, float limbAngle, float limbDistance, float animationProgress, float headYaw, float headPitch
+    /*AntEntity entity, float limbAngle, float limbDistance, float animationProgress, float headYaw, float headPitch
     *///?} else {
     AntEntityRenderState entity
     //?}

@@ -142,7 +142,7 @@ public record SoundScanner(Map<ResourceLocation, Resource> soundIds) {
         InfinityMod.LOGGER.info("grabbing jukeboxes");
         DimensionGrabber.readCategoryFromDisk(server, JukeboxSong.DIRECT_CODEC, Registries.JUKEBOX_SONG, pathJukeboxes);
         if (!((MinecraftServerAccess)server).infinity$needsInvocation()) {
-            ConfigFactory.of(server.registryAccess().lookupOrThrow(Registries.JUKEBOX_SONG)).generate(ConfigType.JUKEBOXES);
+            ConfigFactory.of(VersionMethods.getRegistry(server.registryAccess(), Registries.JUKEBOX_SONG)).generate(ConfigType.JUKEBOXES);
             InfinityMod.updateProvider(server);
         }
     }

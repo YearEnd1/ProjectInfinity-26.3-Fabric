@@ -55,6 +55,11 @@ import java.time.LocalTime;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+//? if >1.21.2 {
+import static net.minecraft.world.entity.EntitySpawnReason.CONVERSION;
+//?} else {
+/*import static net.minecraft.world.entity.MobSpawnType.CONVERSION;
+*///?}
 
 public interface Iridescence {
     ResourceLocation TEXTURE = InfinityMethods.getId("block/iridescence");
@@ -302,7 +307,7 @@ public interface Iridescence {
         if (typeNew != null) {
             Mob newEntity = typeNew.create(currEntity.level()
                     //? if >1.21.2
-                    , EntitySpawnReason.CONVERSION
+                    , CONVERSION
             );
             if (newEntity != null) {
                 currEntity.discard();
@@ -321,7 +326,7 @@ public interface Iridescence {
                 //? neoforge {
                 EventHooks.finalizeMobSpawn(newEntity,
                 //?}
-                w, w.getCurrentDifficultyAt(currEntity.blockPosition()), EntitySpawnReason.CONVERSION, null
+                w, w.getCurrentDifficultyAt(currEntity.blockPosition()), CONVERSION, null
                         //? if <1.21 {
                         /*, null
                         *///?}

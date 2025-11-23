@@ -4,11 +4,12 @@ import net.lerariemann.infinity.access.MinecraftServerAccess;
 import net.lerariemann.infinity.dimensions.RandomText;
 import net.lerariemann.infinity.registry.core.*;
 import net.lerariemann.infinity.registry.var.*;
+import net.lerariemann.infinity.util.InfinityMethods;
+import net.lerariemann.infinity.util.platform.InfinityPlatform;
 import net.lerariemann.infinity.util.platform.PlatformMethods;
 import net.lerariemann.infinity.util.config.ConfigManager;
 import net.lerariemann.infinity.util.core.RandomProvider;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.world.level.storage.LevelResource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -18,12 +19,11 @@ import java.util.Random;
 public class InfinityMod {
     public static final String MOD_ID = "infinity";
     public static final Logger LOGGER = LoggerFactory.getLogger("Infinite Dimensions");
-    public static Path configPath = Path.of("config", MOD_ID);
+    public static Path configPath = Path.of("config22", MOD_ID);
     public static Path utilPath = configPath.resolve(".util");
     public static Path invocationLock = configPath.resolve("modular/invocation.lock");
     public static Path amendmentPath = configPath.resolve("amendments.json");
 
-    public static Path rootPathInJar;
     public static Path rootConfigPathInJar;
     public static RandomProvider provider;
     public static Random random = new Random(); //do not use this in dimgen, only in emergent block behaviour
@@ -36,8 +36,7 @@ public class InfinityMod {
     }
 
     public static void init() {
-        rootPathInJar = PlatformMethods.getRootPathInJar();
-        rootConfigPathInJar = PlatformMethods.getRootPathInJar("config");
+        rootConfigPathInJar = PlatformMethods.getRootPathInJar("config" + InfinityPlatform.version);
         ConfigManager.updateInvocationUnlock();
         ConfigManager.unpackDefaultConfigs();
         //? if >1.21 {

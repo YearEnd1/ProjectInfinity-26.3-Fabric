@@ -16,8 +16,9 @@ import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
 //? if <1.21.2 {
 /*import net.minecraft.util.FastColor;
-*///?}
+*///?} else {
 import net.minecraft.client.renderer.entity.state.LivingEntityRenderState;
+//?}
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Mob;
 

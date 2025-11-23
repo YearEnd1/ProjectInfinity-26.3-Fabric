@@ -136,7 +136,7 @@ public class AntEntity extends AbstractChessFigure {
         //? if >1.21.2 {
         this.lastChangedPos = nbt.read("last_changed_pos", BlockPos.CODEC).orElse(lastChangedPos);
         //?} else {
-        /*        if (nbt.contains("last_changed_pos")) {
+                /*if (nbt.contains("last_changed_pos")) {
                     CompoundTag pos = NbtUtils.getCompound(nbt, "last_changed_pos");
                 this.lastChangedPos = new BlockPos(NbtUtils.getInt(pos, "x"), NbtUtils.getInt(nbt,"y"), NbtUtils.getInt(nbt, "z")); }
         *///?}

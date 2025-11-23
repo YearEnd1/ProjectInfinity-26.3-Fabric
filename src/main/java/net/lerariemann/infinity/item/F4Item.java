@@ -93,9 +93,6 @@ public class F4Item extends Item implements PortalDataHolder.Destinable {
         *///?}
         ResourceLocation dimension = VersionMethods.getDimensionIdentifier(stack);
         MutableComponent mutableText = getDimensionTooltip(dimension).withStyle(ChatFormatting.GRAY);
-        //? if <1.21.2 {
-        /*Consumer<Component> tooltipAdder = tooltip::add;
-        *///?}
         tooltipAdder.accept(mutableText);
         MutableComponent mutableText2 = Component.translatable("tooltip.infinity.f4.charges", getCharge(stack)).withStyle(ChatFormatting.GRAY);
         tooltipAdder.accept(mutableText2);

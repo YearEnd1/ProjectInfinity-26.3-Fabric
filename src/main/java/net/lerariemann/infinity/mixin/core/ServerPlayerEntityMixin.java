@@ -27,7 +27,13 @@ import net.lerariemann.infinity.util.InfinityMethods;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
+//? if >1.21.3 {
 import net.minecraft.world.level.portal.TeleportTransition;
+ //?} else if >1.21 {
+/*import net.minecraft.world.level.portal.DimensionTransition;
+*///?} else {
+/*import net.minecraft.world.level.portal.PortalInfo;
+ *///?}
 //?} else {
 /*import net.minecraft.server.network.ServerGamePacketListenerImpl;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -41,7 +47,7 @@ import java.util.Set;
 @Mixin(ServerPlayer.class)
 public abstract class ServerPlayerEntityMixin extends Player implements ServerPlayerEntityAccess {
     //? if =1.21.1 {
-    /*@Shadow public abstract @Nullable Entity changeDimension(TeleportTransition teleportTarget);
+    /*@Shadow public abstract @Nullable Entity changeDimension(DimensionTransition teleportTarget);
     *///?} else if =1.20.1 {
     /*@Shadow public ServerGamePacketListenerImpl connection;
     @Shadow private int lastSentExp;
@@ -50,11 +56,12 @@ public abstract class ServerPlayerEntityMixin extends Player implements ServerPl
     *///?}
     //? if >1.21.2 {
     @Shadow public abstract boolean hurtServer(ServerLevel serverLevel, DamageSource source, float amount);
+     @Shadow
+    public abstract Level level();
     //?} else {
     /*@Shadow public abstract boolean hurt(DamageSource source, float amount);
     *///?}
-    @Shadow
-    public abstract Level level();
+
 
     @Unique private long infinity$ticksUntilWarp;
     @Unique private ResourceLocation infinity$idForWarp;
@@ -84,7 +91,13 @@ public abstract class ServerPlayerEntityMixin extends Player implements ServerPl
     /*@Inject(method = "changeDimension",
             at = @At(value = "INVOKE", target = "Lnet/minecraft/server/MinecraftServer;getPlayerList()Lnet/minecraft/server/players/PlayerList;"))
     *///?}
-    private void injected3(TeleportTransition teleportTarget, CallbackInfoReturnable<Entity> cir) {
+    private void injected3(
+            //? if >1.21.4 {
+            TeleportTransition
+            //?} else {
+            /*DimensionTransition
+            *///?}
+                    teleportTarget, CallbackInfoReturnable<Entity> cir) {
         ServerLevel targetWorld = teleportTarget.newLevel();
      //?} else {
     /*@Inject(method= "teleportTo(Lnet/minecraft/server/level/ServerLevel;DDDFF)V", at = @At(value="INVOKE", target ="Lnet/minecraft/server/players/PlayerList;sendPlayerPermissionLevel(Lnet/minecraft/server/level/ServerPlayer;)V"))

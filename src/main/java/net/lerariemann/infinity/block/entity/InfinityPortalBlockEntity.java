@@ -19,8 +19,10 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.level.block.state.BlockState;
+//? if >1.21.4 {
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
+//?}
 import org.jetbrains.annotations.Nullable;
 
 //? if neoforge
@@ -218,7 +220,7 @@ public class InfinityPortalBlockEntity extends TintableBlockEntity {
         //? if >1.21.2 {
         otherSidePos = tag.read("other_side", BlockPos.CODEC).orElse(otherSidePos);
         //?} else {
-        /*        if (tag.contains("other_side")) {
+                /*if (tag.contains("other_side")) {
         CompoundTag pos = NbtUtils.getCompound(tag,"other_side");
         otherSidePos = new BlockPos(NbtUtils.getInt(pos, "x"), NbtUtils.getInt(pos, "y"), NbtUtils.getInt(pos, "z"));}
         *///?}

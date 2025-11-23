@@ -21,7 +21,9 @@ import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
+//? if >1.21.2 {
 import net.minecraft.world.item.component.TooltipDisplay;
+//?}
 import org.jetbrains.annotations.NotNull;
 
 //? if neoforge {

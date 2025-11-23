@@ -3,6 +3,7 @@ package net.lerariemann.infinity.util.loading;
 import com.mojang.serialization.Codec;
 import net.lerariemann.infinity.access.RegistryAccess;
 import net.lerariemann.infinity.dimensions.RandomDimension;
+import net.lerariemann.infinity.util.VersionMethods;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.Registry;
 import net.minecraft.core.WritableRegistry;
@@ -120,11 +121,11 @@ public class DimensionGrabber {
     }
 
     private <T> JsonGrabber<T> buildGrabber(Codec<T> codec, ResourceKey<Registry<T>> key) {
-        return (new JsonGrabber<>(registryInfoGetter, codec, (WritableRegistry<T>) (baseRegistryManager.lookupOrThrow(key))));
+        return (new JsonGrabber<>(registryInfoGetter, codec, (WritableRegistry<T>) (VersionMethods.getRegistry(baseRegistryManager, key))));
     }
 
     private <T> void grabObjectForClient(Codec<T> codec, ResourceKey<Registry<T>> key, ResourceLocation id, CompoundTag optiondata) {
-        if (!(baseRegistryManager.lookupOrThrow(key).containsKey(ResourceKey.create(key, id)))) buildGrabber(codec, key).grab(id, optiondata, false);
+        if (!(VersionMethods.getRegistry(baseRegistryManager, key).containsKey(ResourceKey.create(key, id)))) buildGrabber(codec, key).grab(id, optiondata, false);
     }
 
     /** Freezes all the registries after the grabbing is done, since registries can't be left unfrozen when the game's running. */

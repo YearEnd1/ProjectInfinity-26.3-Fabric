@@ -8,8 +8,10 @@ import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+//? if >1.21.4 {
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
+//?}
 import org.jetbrains.annotations.Nullable;
 
 /// This will be used later for player-performed invocations such as creating new biomes, but for now is kinda deprecated
@@ -35,7 +37,7 @@ public class CosmicAltarBlockEntity extends BlockEntity {
             //? if >1.21.2 {
             ValueInput nbt
             //?} else {
-            /*CompoundTag tag
+            /*CompoundTag nbt
              *///?}
             //? if =1.21.1
             /*,HolderLookup.Provider registryLookup*/

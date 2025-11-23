@@ -7,7 +7,13 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
+//? if >1.21.2 {
 import net.minecraft.world.entity.EntitySpawnReason;
+import static net.minecraft.world.entity.EntitySpawnReason.MOB_SUMMONED;
+//?} else {
+/*import net.minecraft.world.entity.MobSpawnType;
+import static net.minecraft.world.entity.MobSpawnType.MOB_SUMMONED;
+ *///?}
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.scores.PlayerTeam;
@@ -42,8 +48,8 @@ public class BishopBattle {
     }
 
     public void start(BlockPos pos) {
-        AntEntity ant = ModEntities.ANT.get().spawn(serverWorld, pos, EntitySpawnReason.MOB_SUMMONED);
-        BishopEntity bishop = ModEntities.BISHOP.get().spawn(serverWorld, pos, EntitySpawnReason.MOB_SUMMONED);
+        AntEntity ant = ModEntities.ANT.get().spawn(serverWorld, pos, MOB_SUMMONED);
+        BishopEntity bishop = ModEntities.BISHOP.get().spawn(serverWorld, pos, MOB_SUMMONED);
         if (ant != null && bishop != null) {
             //FIXME - is there a good way to do scale on 1.20? pekhui?
             //? if >1.21

@@ -21,8 +21,10 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.state.BlockState;
+//? if >1.21.4 {
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
+//?}
 import org.jetbrains.annotations.Nullable;
 
 //? if >1.21 {
@@ -121,7 +123,13 @@ public class BiomeBottleBlockEntity extends TintableBlockEntity {
     }
 
     @Override
-    protected void applyImplicitComponents(DataComponentGetter components) {
+    protected void applyImplicitComponents(
+            //? if >1.21.4 {
+            DataComponentGetter
+             //?} else {
+            /*DataComponentInput
+            *///?}
+            components) {
         super.applyImplicitComponents(components);
         this.biome = components.getOrDefault(ModComponentTypes.BIOME_CONTENTS.get(), BiomeBottleBlock.defaultBiome());
         this.color = components.getOrDefault(ModComponentTypes.COLOR.get(), 0xFFFFFF);

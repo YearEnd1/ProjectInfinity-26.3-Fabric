@@ -1,8 +1,7 @@
 package net.lerariemann.infinity.entity.custom;
 
 import net.lerariemann.infinity.util.VersionMethods;
-import net.minecraft.util.ARGB;
-import net.minecraft.world.entity.animal.sheep.Sheep;
+
 import org.joml.Vector3f;
 
 import java.awt.*;
@@ -11,6 +10,7 @@ import java.awt.*;
 import net.minecraft.world.entity.animal.Sheep;
 *///?} else {
 import net.minecraft.util.ARGB;
+import net.minecraft.world.entity.animal.sheep.Sheep;
 //?}
 
 import net.minecraft.world.item.DyeColor;

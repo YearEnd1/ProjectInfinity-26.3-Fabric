@@ -3,6 +3,7 @@ package net.lerariemann.infinity.entity.client;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.lerariemann.infinity.entity.custom.AntEntity;
 import net.lerariemann.infinity.util.InfinityMethods;
+import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.renderer.MultiBufferSource;
 //? if >1.21.9 {
 /*import net.minecraft.client.renderer.SubmitNodeCollector;
@@ -13,7 +14,13 @@ import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.NotNull;
 
-public class AntRenderer extends MobRenderer<AntEntity, AntEntityRenderState, AntModel> {
+public class AntRenderer
+        //? if >1.21.4 {
+        extends MobRenderer<AntEntity, AntEntityRenderState, AntModel>
+         //?} else {
+        /*extends MobRenderer<AntEntity, AntModel>
+        *///?}
+         {
     private static final ResourceLocation TEXTURE = InfinityMethods.getId("textures/entity/ant.png");
 
     public AntRenderer(EntityRendererProvider.Context context) {

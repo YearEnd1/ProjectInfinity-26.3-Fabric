@@ -27,9 +27,11 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.dimension.DimensionType;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
-//? if >1.21 {
+//? if >1.21.2 {
 import net.minecraft.world.level.portal.TeleportTransition;
-//?}
+//?} else if >1.21 {
+/*import net.minecraft.world.level.portal.DimensionTransition;
+*///?}
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -130,8 +132,13 @@ public interface WarpLogic {
     static void respawnAlive(@Nullable ServerPlayer player) {
         if (player == null) return;
         //? if >1.21 {
-        TeleportTransition targ = player.findRespawnPositionAndUseSpawnBlock(true, TeleportTransition.DO_NOTHING);
-
+        var targ = player.findRespawnPositionAndUseSpawnBlock(true,
+                //? if >1.21.2 {
+                TeleportTransition
+                //?} else if >1.21 {
+                 /*DimensionTransition
+                *///?}
+                .DO_NOTHING);
         //? if <1.21.4 {
         /*var pos = targ.pos();
         *///?} else {

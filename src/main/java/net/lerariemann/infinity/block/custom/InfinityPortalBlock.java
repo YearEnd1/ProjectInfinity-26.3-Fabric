@@ -28,8 +28,6 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.*;
 import net.minecraft.world.*;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EntitySpawnReason;
-import net.minecraft.world.entity.InsideBlockEffectApplier;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
@@ -45,13 +43,16 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 //? if =1.21.10 || 1.21.8 {
+import net.minecraft.world.level.portal.TeleportTransition;
+import net.minecraft.world.entity.InsideBlockEffectApplier;
+import static net.minecraft.world.entity.EntitySpawnReason.STRUCTURE;
 //?} else if =1.21.1 {
-/*import net.minecraft.world.level.portal.TeleportTransition;
+/*import net.minecraft.world.level.portal.DimensionTransition;
+import static net.minecraft.world.entity.MobSpawnType.STRUCTURE;
 *///?} else {
 /*import net.minecraft.world.level.portal.PortalInfo;
 import net.minecraft.nbt.CompoundTag;
 *///?}
-import net.minecraft.world.level.portal.TeleportTransition;
 import net.minecraft.world.level.storage.LevelResource;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
@@ -255,7 +256,7 @@ public class InfinityPortalBlock extends NetherPortalBlock implements EntityBloc
             }
             if (world.getBlockState(pos).isValidSpawn(world, pos, ModEntities.CHAOS_PAWN.get()) &&
                     InfinityMethods.chaosMobsEnabled() &&
-                    (entity = ModEntities.CHAOS_PAWN.get().spawn(world, pos.above(), EntitySpawnReason.STRUCTURE)) != null) {
+                    (entity = ModEntities.CHAOS_PAWN.get().spawn(world, pos.above(), STRUCTURE)) != null) {
                 entity.setPortalCooldown();
                 BlockEntity blockEntity = world.getBlockEntity(pos.above());
                 if (blockEntity instanceof InfinityPortalBlockEntity npbe) {
@@ -276,7 +277,7 @@ public class InfinityPortalBlock extends NetherPortalBlock implements EntityBloc
     //? if >1.21.2 {
     TeleportTransition
     //?} else {
-    /*PortalInfo
+    /*DimensionTransition
     *///?}
     getPortalDestination(ServerLevel worldFrom, Entity entity, BlockPos posFrom) {
         if (worldFrom.getBlockEntity(posFrom) instanceof InfinityPortalBlockEntity ipbe) {

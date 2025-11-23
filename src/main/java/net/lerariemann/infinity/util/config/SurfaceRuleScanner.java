@@ -2,6 +2,7 @@ package net.lerariemann.infinity.util.config;
 
 import net.lerariemann.infinity.InfinityMod;
 import net.lerariemann.infinity.dimensions.RandomNoisePreset;
+import net.lerariemann.infinity.util.VersionMethods;
 import net.lerariemann.infinity.util.core.CommonIO;
 import net.lerariemann.infinity.util.core.NbtUtils;
 import net.minecraft.core.Registry;
@@ -16,7 +17,7 @@ import java.util.*;
 public interface SurfaceRuleScanner {
     static void scan(MinecraftServer server) {
         Map<String, CompoundTag> map = new HashMap<>();
-        Registry<NoiseGeneratorSettings> registry = server.registryAccess().lookupOrThrow(Registries.NOISE_SETTINGS);
+        Registry<NoiseGeneratorSettings> registry = VersionMethods.getRegistry(server.registryAccess(), Registries.NOISE_SETTINGS);
         registry.registryKeySet().forEach(key -> {
             if (!key.location().getNamespace().contains("infinity")) {
                 Optional<NoiseGeneratorSettings> o = registry.getOptional(key);
@@ -34,7 +35,7 @@ public interface SurfaceRuleScanner {
         map.forEach((biome, value) -> {
             String biomename = biome.substring(biome.lastIndexOf(":") + 1) + ".json";
             String modname = biome.substring(0, biome.lastIndexOf(":"));
-            String path = "config/infinity/modular/" + modname + "/surface_rule";
+            String path = "config22/infinity/modular/" + modname + "/surface_rule";
             CommonIO.writeSurfaceRule(value, path, biomename);
         });
         DataCollection.loggerOutput(map.size(), "surface rules");

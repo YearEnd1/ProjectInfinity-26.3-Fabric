@@ -10,7 +10,8 @@ import net.minecraft.stats.Stats;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 //? if >1.21.4 {
-import java.util.function.Consumer;
+
+import net.minecraft.world.item.component.TooltipDisplay;
 //?} else {
 /*import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.item.UseAnim;
@@ -19,14 +20,13 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
-
+import java.util.function.Consumer;
 //? if >1.21 {
 import net.minecraft.world.item.alchemy.PotionContents;
 import net.lerariemann.infinity.registry.core.ModComponentTypes;
 //?} else {
 /*import net.minecraft.world.item.alchemy.PotionUtils;
 *///?}
-import net.minecraft.world.item.component.TooltipDisplay;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.gameevent.GameEvent;
 import java.util.List;
@@ -109,7 +109,7 @@ public class IridescentPotionItem extends Item {
                 ,
                 Iridescence.getFullEffectLength(level), level));
         //? if <1.21.4 {
-        /*Consumer<Component> tooltipAdder = tooltip::accept;
+        /*Consumer<Component> tooltipAdder = tooltip::add;
         *///?}
         //? if >1.21 {
         PotionContents.addPotionTooltip(effects, tooltipAdder, 1.0F, context.tickRate());

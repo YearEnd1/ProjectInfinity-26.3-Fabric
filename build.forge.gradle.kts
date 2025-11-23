@@ -198,25 +198,6 @@ dependencies {
     jarJar("io.github.llamalad7:mixinextras-forge:0.5.0")
 }
 
-stonecutter {
-    replacements.string {
-        direction = eval(current.version, ">1.21.4")
-        replace("MobSpawnType", "EntitySpawnReason")
-    }
-    replacements.string {
-        direction = eval(current.version, ">1.21.4")
-        replace("registryOrThrow", "lookupOrThrow")
-    }
-    replacements.string {
-        direction = eval(current.version, ">1.21.4")
-        replace("DimensionTransition ", "TeleportTransition ")
-    }
-    replacements.string {
-        direction = eval(current.version, ">1.21.4")
-        replace("DataComponentInput", "DataComponentGetter")
-    }
-}
-
 tasks {
     processResources {
         exclude("**/fabric.mod.json", "**/*.accesswidener", "**/neoforge.mods.toml")
