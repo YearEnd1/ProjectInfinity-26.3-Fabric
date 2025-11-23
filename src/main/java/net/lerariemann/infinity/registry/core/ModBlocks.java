@@ -7,13 +7,8 @@ import net.lerariemann.infinity.util.InfinityMethods;
 import net.lerariemann.infinity.util.VersionMethods;
 import net.lerariemann.infinity.util.platform.PlatformMethods;
 import net.lerariemann.infinity.block.custom.*;
-import net.minecraft.core.Registry;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.BlockItem;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.LiquidBlock;
@@ -95,13 +90,13 @@ public class ModBlocks {
 
     private static <T extends Block> RegistrySupplier<T> register(String name, Function<BlockBehaviour.Properties, T> blockFactory, BlockBehaviour.Properties settings, boolean shouldRegisterItem) {
         // Create a registry key for the block
-        ResourceKey<Block> blockKey = keyOfBlock(name);
+        ResourceKey<Block> blockKey = registryKey(name);
         // Create the block instance
         Supplier<Block> block = ()-> blockFactory.apply(settings.setId(blockKey));
         return (RegistrySupplier<T>) BLOCKS.register(name, block);
     }
 
-    public static ResourceKey<Block> keyOfBlock(String name) {
+    public static ResourceKey<Block> registryKey(String name) {
         return ResourceKey.create(Registries.BLOCK, InfinityMethods.getId(name));
     }
 

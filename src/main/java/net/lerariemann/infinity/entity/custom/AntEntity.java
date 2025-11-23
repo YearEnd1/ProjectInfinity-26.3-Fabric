@@ -133,14 +133,13 @@ public class AntEntity extends AbstractChessFigure {
             case "S" -> Direction.SOUTH;
             default -> Direction.EAST;
         };
-        if (nbt.contains("last_changed_pos")) {
-            //? if >1.21.2 {
-            this.lastChangedPos = nbt.read("last_changed_pos", BlockPos.CODEC).orElse(lastChangedPos);
-            //?} else {
-            /*CompoundTag pos = NbtUtils.getCompound(nbt, "last_changed_pos");
-            this.lastChangedPos = new BlockPos(NbtUtils.getInt(pos, "x"), NbtUtils.getInt(nbt,"y"), NbtUtils.getInt(nbt, "z"));
-            *///?}
-        }
+        //? if >1.21.2 {
+        this.lastChangedPos = nbt.read("last_changed_pos", BlockPos.CODEC).orElse(lastChangedPos);
+        //?} else {
+        /*        if (nbt.contains("last_changed_pos")) {
+                    CompoundTag pos = NbtUtils.getCompound(nbt, "last_changed_pos");
+                this.lastChangedPos = new BlockPos(NbtUtils.getInt(pos, "x"), NbtUtils.getInt(nbt,"y"), NbtUtils.getInt(nbt, "z")); }
+        *///?}
     }
 
     @Override

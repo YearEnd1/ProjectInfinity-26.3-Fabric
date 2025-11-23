@@ -8,6 +8,7 @@ import net.lerariemann.infinity.util.core.ConfigType;
 import net.lerariemann.infinity.util.core.NbtUtils;
 import net.lerariemann.infinity.util.core.RandomProvider;
 //? if >1.21 {
+import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.component.DataComponentMap;
 import net.minecraft.core.component.DataComponents;
 //?}
@@ -44,15 +45,15 @@ import net.minecraft.world.level.storage.loot.LootTable;
 import org.jetbrains.annotations.Nullable;
 
 //? if neoforge {
-/*import javax.annotation.ParametersAreNonnullByDefault;
-*///?}
+import javax.annotation.ParametersAreNonnullByDefault;
+//?}
 import java.util.*;
 import java.util.function.Supplier;
 
 //? if neoforge {
-/*@MethodsReturnNonnullByDefault
+@MethodsReturnNonnullByDefault
 @ParametersAreNonnullByDefault
-*///?}
+//?}
 public class ChaosPawn extends AbstractChessFigure {
     public static final EntityDataAccessor<CompoundTag> colors = SynchedEntityData.defineId(ChaosPawn.class, EntityDataSerializer.forValueType(ByteBufCodecs.COMPOUND_TAG));
     public static final EntityDataAccessor<Integer> special_case = SynchedEntityData.defineId(ChaosPawn.class, EntityDataSerializers.INT);

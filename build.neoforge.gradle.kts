@@ -118,17 +118,30 @@ neoForge {
 dependencies {
     implementation("dev.architectury:architectury-neoforge:${property("deps.architectury")}")
     api("me.shedaniel.cloth:cloth-config-neoforge:${property("deps.cloth")}")
-    implementation("cc.tweaked:cc-tweaked-${property("deps.minecraft")}-forge:${property("deps.cct")}")
-    compileOnly("dev.emi:emi-neoforge:${property("deps.emi")}+${property("deps.minecraft")}:api")
-    implementation("dev.emi:emi-neoforge:${property("deps.emi")}+${property("deps.minecraft")}")
+
+    if (hasProperty("deps.cct")) {
+        implementation("cc.tweaked:cc-tweaked-${property("deps.minecraft")}-forge:${property("deps.cct")}")
+    } else {
+        compileOnly("cc.tweaked:cc-tweaked-1.21.1-forge:1.115.0")
+    }
+    if (hasProperty("deps.emi")) {
+        compileOnly("dev.emi:emi-neoforge:${property("deps.emi")}+${property("deps.minecraft")}:api")
+        implementation("dev.emi:emi-neoforge:${property("deps.emi")}+${property("deps.minecraft")}")
+    }
+    if (hasProperty("deps.eiv")) {
+        compileOnly("maven.modrinth:eiv:${property("deps.eiv")}-neoforge")
+    }
 
 
-    // Create
-    compileOnly("com.simibubi.create:create-${property("deps.minecraft")}:${property("deps.create")}:slim") { isTransitive = false }
-    implementation("net.createmod.ponder:Ponder-NeoForge-${property("deps.minecraft")}:${property("deps.ponder")}")
-    compileOnly("dev.engine-room.flywheel:flywheel-neoforge-api-${property("deps.minecraft")}:${property("deps.flywheel")}")
-    runtimeOnly("dev.engine-room.flywheel:flywheel-neoforge-${property("deps.minecraft")}:${property("deps.flywheel")}")
-    implementation("com.tterrag.registrate:Registrate:${property("deps.registrate")}")
+    if (hasProperty("deps.create")) {
+        // Create
+        compileOnly("com.simibubi.create:create-${property("deps.minecraft")}:${property("deps.create")}:slim") { isTransitive = false }
+        implementation("net.createmod.ponder:Ponder-NeoForge-${property("deps.minecraft")}:${property("deps.ponder")}")
+        compileOnly("dev.engine-room.flywheel:flywheel-neoforge-api-${property("deps.minecraft")}:${property("deps.flywheel")}")
+        runtimeOnly("dev.engine-room.flywheel:flywheel-neoforge-${property("deps.minecraft")}:${property("deps.flywheel")}")
+        implementation("com.tterrag.registrate:Registrate:${property("deps.registrate")}")
+
+    }
 
 }
 

@@ -1,7 +1,7 @@
 package net.lerariemann.infinity.util.platform.neoforge;
 
 //? neoforge {
-/*import net.lerariemann.infinity.InfinityMod;
+import net.lerariemann.infinity.InfinityMod;
 import net.lerariemann.infinity.iridescence.Iridescence;
 import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundEvents;
@@ -85,4 +85,4 @@ public class FluidTypes {
         }
     }
 }
-*///?}
+//?}

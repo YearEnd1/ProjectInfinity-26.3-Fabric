@@ -1,7 +1,7 @@
 package net.lerariemann.infinity.util.platform.fabric;
 
 //? fabric {
-import dev.architectury.registry.registries.DeferredRegister;
+/*import dev.architectury.registry.registries.DeferredRegister;
 import dev.architectury.registry.registries.RegistrySupplier;
 import net.fabricmc.fabric.api.client.render.fluid.v1.FluidRenderHandler;
 import net.fabricmc.fabric.api.transfer.v1.client.fluid.FluidVariantRenderHandler;
@@ -74,8 +74,8 @@ public class ModFluidsFabric {
                 //? if >1.21.2 {
                 ServerLevel
                 //?} else {
-                /*Level
-                *///?}
+                /^Level
+                ^///?}
                         world) {
             return Iridescence.isInfinite(world);
         }
@@ -170,13 +170,13 @@ public class ModFluidsFabric {
         @Override
         public TextureAtlasSprite[] getFluidSprites(@Nullable BlockAndTintGetter view, @Nullable BlockPos pos, FluidState state) {
             //? if >1.21.8 {
-            /*TextureAtlas atlas = Minecraft.getInstance().getAtlasManager().getAtlasOrThrow(TextureAtlas.LOCATION_BLOCKS);
+            /^TextureAtlas atlas = Minecraft.getInstance().getAtlasManager().getAtlasOrThrow(TextureAtlas.LOCATION_BLOCKS);
             TextureAtlasSprite overlaySprite = atlas.getSprite(Iridescence.OVERLAY_TEXTURE);
             TextureAtlasSprite[] sprites = new TextureAtlasSprite[3];
             sprites[0] = atlas.getSprite(Iridescence.TEXTURE);
             sprites[1] = atlas.getSprite(Iridescence.FLOWING_TEXTURE);
             sprites[2] = overlaySprite;
-            *///?} else {
+            ^///?} else {
             Function<ResourceLocation, TextureAtlasSprite> atlas = Minecraft.getInstance().getTextureAtlas(TextureAtlas.LOCATION_BLOCKS);
             TextureAtlasSprite overlaySprite = atlas.apply(Iridescence.OVERLAY_TEXTURE);
             TextureAtlasSprite[] sprites = new TextureAtlasSprite[overlaySprite == null ? 2 : 3];
@@ -193,4 +193,4 @@ public class ModFluidsFabric {
         }
     }
 }
-//?}
+*///?}

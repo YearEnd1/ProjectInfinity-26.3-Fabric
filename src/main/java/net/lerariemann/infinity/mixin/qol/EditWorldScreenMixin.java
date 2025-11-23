@@ -32,7 +32,7 @@ public class EditWorldScreenMixin {
     *///?}
     , CallbackInfo ci) {
         var screen = (EditWorldScreen) (Object) this;
-        ((ScreenAccess) screen).addWidget(Button.builder(Component.translatable("screen.infinity.delete_datapacks"), button -> {
+        ((ScreenAccess) screen).infinity$addWidget(Button.builder(Component.translatable("screen.infinity.delete_datapacks"), button -> {
             boolean bl = InfinityMethods.deleteLevel(session);
             this.callback.accept(!bl);
         }).width(200).tooltip(Tooltip.create(Component.translatable("screen.infinity.delete_datapacks.tooltip"), null)).build());

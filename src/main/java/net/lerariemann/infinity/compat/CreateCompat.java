@@ -1,10 +1,12 @@
 package net.lerariemann.infinity.compat;
 
-import com.simibubi.create.api.contraption.train.PortalTrackProvider;
+//? if <1.21.2 {
+/*import com.simibubi.create.api.contraption.train.PortalTrackProvider;
 import com.simibubi.create.content.trains.track.AllPortalTracks;
 import com.simibubi.create.content.trains.track.TrackBlock;
 import com.simibubi.create.content.trains.track.TrackShape;
 import net.createmod.catnip.math.BlockFace;
+*///?}
 import net.lerariemann.infinity.block.custom.RailHelper;
 import net.lerariemann.infinity.block.entity.InfinityPortalBlockEntity;
 import net.lerariemann.infinity.registry.core.ModBlocks;
@@ -24,13 +26,14 @@ import java.util.Optional;
 import java.util.Set;
 
 public class CreateCompat {
-    private static PortalTrackProvider.Exit infinityPortalProvider(ServerLevel worldFrom, BlockFace blockFace) {
+    //? if <1.21.2 {
+    /*private static PortalTrackProvider.Exit infinityPortalProvider(ServerLevel worldFrom, BlockFace blockFace) {
         MinecraftServer server = worldFrom.getServer();
         //? if <1.21
-        /*if (!server.isNetherEnabled()) return null;*/
+        /^if (!server.isNetherEnabled()) return null;^/
         //? if >1.21.9 {
-        /*server.getGameRules().getRule(GameRules.RULE_ALLOW_NETHER);
-        *///?}
+        /^server.getGameRules().getRule(GameRules.RULE_ALLOW_NETHER);
+        ^///?}
         BlockPos posFrom = blockFace.getConnectedPos();
         if (worldFrom.getBlockEntity(posFrom) instanceof InfinityPortalBlockEntity ipbe
                 && ipbe.isConnectedBothSides()) { //we only allow trains through if portals are in sync
@@ -89,4 +92,5 @@ public class CreateCompat {
         else bs = b.get().defaultBlockState().setValue(TrackBlock.SHAPE, e.shape.equals("zo") ? TrackShape.ZO : TrackShape.XO);
         world.setBlockAndUpdate(pos, bs);
     }
+    *///?}
 }

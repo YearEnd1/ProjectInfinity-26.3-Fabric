@@ -1,10 +1,11 @@
 package net.lerariemann.infinity.util.platform.neoforge;
 
 //? neoforge {
-/*import dev.architectury.platform.Platform;
+import dev.architectury.platform.Platform;
 import net.lerariemann.infinity.InfinityMod;
 import net.lerariemann.infinity.InfinityModClient;
 import net.lerariemann.infinity.registry.var.ModScreenHandlers;
+import net.lerariemann.infinity.util.VersionMethods;
 import net.lerariemann.infinity.util.platform.PlatformMethods;
 import net.lerariemann.infinity.registry.core.ModBlocks;
 import net.lerariemann.infinity.iridescence.Iridescence;
@@ -14,9 +15,9 @@ import net.lerariemann.infinity.util.InfinityMethods;
 import net.lerariemann.infinity.util.screen.F4Screen;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.chunk.ChunkSectionLayer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.FastColor;
 import net.minecraft.world.level.BlockAndTintGetter;
 import net.minecraft.world.level.material.FluidState;
 import net.neoforged.api.distmarker.Dist;
@@ -56,7 +57,8 @@ public class InfinityModNeoForgeClient {
                 ModBlocks.CHROMATIC_CARPET.get());
         event.register(InfinityMethods::getBookBoxColor, ModBlocks.BOOK_BOX.get());
     }
-    @SubscribeEvent
+    //? if <1.21.4 {
+    /*@SubscribeEvent
     public static void registerItemColorHandlers(RegisterColorHandlersEvent.Item event) {
         event.register(InfinityMethods::getOverlayColorFromComponents,
                 ModItems.TRANSFINITE_KEY.get(),
@@ -70,6 +72,7 @@ public class InfinityModNeoForgeClient {
         event.register(InfinityMethods::getDiscColorFromComponents,
                 ModItems.DISC.get());
     }
+    *///?}
     @SubscribeEvent
     public static void registerMenuScreens(RegisterMenuScreensEvent event) {
         event.register(ModScreenHandlers.F4.get(), F4Screen::new);
@@ -81,8 +84,13 @@ public class InfinityModNeoForgeClient {
 
     @SubscribeEvent
     public static void registerFluidRenderLayers(FMLClientSetupEvent event) {
-        ItemBlockRenderTypes.setRenderLayer(PlatformMethods.getIridescenceStill().get(), RenderType.translucent());
+        //? if >1.21.4 {
+        ItemBlockRenderTypes.setRenderLayer(PlatformMethods.getIridescenceStill().get(), ChunkSectionLayer.TRANSLUCENT);
+        ItemBlockRenderTypes.setRenderLayer(PlatformMethods.getIridescenceFlowing().get(), ChunkSectionLayer.TRANSLUCENT);
+        //?} else {
+        /*ItemBlockRenderTypes.setRenderLayer(PlatformMethods.getIridescenceStill().get(), RenderType.translucent());
         ItemBlockRenderTypes.setRenderLayer(PlatformMethods.getIridescenceFlowing().get(), RenderType.translucent());
+        *///?}
     }
 
     @SubscribeEvent
@@ -103,14 +111,14 @@ public class InfinityModNeoForgeClient {
 
             @Override
             public int getTintColor() {
-                return FastColor.ARGB32.opaque(Iridescence.getTimeBasedColor());
+                return VersionMethods.opaque(Iridescence.getTimeBasedColor());
             }
             @Override
             public int getTintColor(@NotNull FluidState state, @NotNull BlockAndTintGetter getter, @NotNull BlockPos pos) {
-                return FastColor.ARGB32.opaque(Iridescence.getPosBasedColor(pos));
+                return VersionMethods.opaque(Iridescence.getPosBasedColor(pos));
             }
 
         }, FluidTypes.IRIDESCENCE_TYPE.value());
     }
 }
-*///?}
+//?}

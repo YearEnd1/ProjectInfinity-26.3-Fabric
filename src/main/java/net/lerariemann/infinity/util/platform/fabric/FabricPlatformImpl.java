@@ -1,7 +1,7 @@
 package net.lerariemann.infinity.util.platform.fabric;
 
 //? fabric {
-import net.lerariemann.infinity.util.platform.InfinityPlatform;
+/*import net.lerariemann.infinity.util.platform.InfinityPlatform;
 import net.fabricmc.loader.api.FabricLoader;
 
 import java.nio.file.Path;
@@ -41,4 +41,4 @@ public class FabricPlatformImpl implements InfinityPlatform {
         //?}
     }
 }
-//?}
+*///?}

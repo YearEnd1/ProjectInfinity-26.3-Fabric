@@ -1,7 +1,7 @@
 package net.lerariemann.infinity.util.platform.neoforge;
 
 //? neoforge {
-/*import dev.architectury.platform.Platform;
+import dev.architectury.platform.Platform;
 import net.lerariemann.infinity.InfinityMod;
 import net.lerariemann.infinity.compat.CreateCompat;
 import net.lerariemann.infinity.registry.core.ModBlocks;
@@ -40,8 +40,10 @@ public class InfinityModNeoforge {
         FluidTypes.registerFluidTypes(eventBus);
         ModFluidsNeoforge.registerModFluids();
         ModEffectsNeoforge.register(eventBus);
-        if (Platform.isModLoaded("create"))
+        //? if <1.21.2 {
+        /*if (Platform.isModLoaded("create"))
             CreateCompat.register();
+        *///?}
     }
 
     @SubscribeEvent
@@ -107,8 +109,8 @@ public class InfinityModNeoforge {
         registrar.playToServer(
                 ModPayloads.JukeboxesC2SPayload.ID,
                 ModPayloads.JukeboxesC2SPayload.CODEC,
-                (payload, context) -> SoundScanner.unpackUploadedJukeboxes(getPlayer(context).server, payload.data())
+                (payload, context) -> SoundScanner.unpackUploadedJukeboxes(getPlayer(context).getServer(), payload.data())
         );
     }
 }
-*///?}
+//?}

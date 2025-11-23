@@ -1,7 +1,7 @@
 package net.lerariemann.infinity.util.platform.fabric.compat;
 
 //? fabric {
-import com.terraformersmc.modmenu.api.ConfigScreenFactory;
+/*import com.terraformersmc.modmenu.api.ConfigScreenFactory;
 import net.lerariemann.infinity.compat.cloth.ClothConfigFactory;
 import net.minecraft.client.gui.screens.Screen;
 
@@ -11,4 +11,4 @@ public class ModConfigFactory implements ConfigScreenFactory<Screen> {
         return ClothConfigFactory.create(parent);
     }
 }
-//?}
+*///?}

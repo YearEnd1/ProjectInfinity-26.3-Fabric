@@ -31,13 +31,13 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.core.component.DataComponentMap;
 //?}
 //? if neoforge {
-/*import javax.annotation.ParametersAreNonnullByDefault;
-*///?}
+import javax.annotation.ParametersAreNonnullByDefault;
+//?}
 
 @MethodsReturnNonnullByDefault
 //? if neoforge {
-/*@ParametersAreNonnullByDefault
-*///?}
+@ParametersAreNonnullByDefault
+//?}
 public class BiomeBottleBlockEntity extends TintableBlockEntity {
     private final ContainerData propertyDelegate;
     private ResourceLocation biome;

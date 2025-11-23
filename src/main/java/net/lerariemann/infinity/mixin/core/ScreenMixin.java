@@ -14,7 +14,7 @@ public abstract class ScreenMixin implements ScreenAccess {
     protected abstract <T extends GuiEventListener & Renderable & NarratableEntry> T addRenderableWidget(T widget);
 
     @Override
-    public <T extends GuiEventListener & Renderable & NarratableEntry> T addWidget(T widget) {
+    public <T extends GuiEventListener & Renderable & NarratableEntry> T infinity$addWidget(T widget) {
         return addRenderableWidget(widget);
     }
 }

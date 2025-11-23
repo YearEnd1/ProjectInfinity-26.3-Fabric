@@ -1,11 +1,11 @@
 package net.lerariemann.infinity.util.platform;
 
 //? fabric {
-import net.lerariemann.infinity.util.platform.fabric.FabricPlatformImpl;
-//?}
-//? neoforge {
-/*import net.lerariemann.infinity.util.platform.neoforge.NeoForgePlatformImpl;
+/*import net.lerariemann.infinity.util.platform.fabric.FabricPlatformImpl;
 *///?}
+//? neoforge {
+import net.lerariemann.infinity.util.platform.neoforge.NeoForgePlatformImpl;
+//?}
 //? forge {
 /*import net.lerariemann.infinity.util.platform.forge.ForgePlatformImpl;
  *///?}
@@ -21,11 +21,11 @@ public interface InfinityPlatform {
     *///?}
 
     //? fabric {
-    InfinityPlatform INSTANCE = new FabricPlatformImpl();
-    //?}
-    //? neoforge {
-    /*InfinityPlatform INSTANCE = new NeoForgePlatformImpl();
+    /*InfinityPlatform INSTANCE = new FabricPlatformImpl();
     *///?}
+    //? neoforge {
+    InfinityPlatform INSTANCE = new NeoForgePlatformImpl();
+    //?}
     //? forge {
     /*InfinityPlatform INSTANCE = new ForgePlatformImpl();
      *///?}

@@ -25,15 +25,15 @@ import org.jetbrains.annotations.Nullable;
 import com.mojang.serialization.MapCodec;
 //?}
 //? if neoforge {
-/*import javax.annotation.ParametersAreNonnullByDefault;
-*///?}
+import javax.annotation.ParametersAreNonnullByDefault;
+//?}
 import java.util.Objects;
 import java.util.logging.Handler;
 
 @MethodsReturnNonnullByDefault
 //? if neoforge {
-/*@ParametersAreNonnullByDefault
- *///?}
+@ParametersAreNonnullByDefault
+ //?}
 public class AntBlock extends HorizontalDirectionalBlock {
     //? if >1.21 {
     public static final MapCodec<AntBlock> CODEC = simpleCodec(AntBlock::new);

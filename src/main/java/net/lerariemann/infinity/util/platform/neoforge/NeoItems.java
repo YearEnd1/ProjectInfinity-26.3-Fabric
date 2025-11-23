@@ -1,7 +1,7 @@
 package net.lerariemann.infinity.util.platform.neoforge;
 
 //? neoforge {
-/*import static net.lerariemann.infinity.registry.core.ModItems.*;
+import static net.lerariemann.infinity.registry.core.ModItems.*;
 import net.lerariemann.infinity.registry.core.ModItems;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.CreativeModeTabs;
@@ -57,4 +57,4 @@ public class NeoItems {
         }
     }
 }
-*///?}
+//?}

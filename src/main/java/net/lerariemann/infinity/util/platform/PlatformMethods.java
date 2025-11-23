@@ -7,7 +7,6 @@ import net.lerariemann.infinity.registry.core.ModItems;
 import net.lerariemann.infinity.registry.var.ModPayloads;
 import net.lerariemann.infinity.util.InfinityMethods;
 import net.lerariemann.infinity.util.VersionMethods;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceKey;
@@ -34,15 +33,15 @@ import net.minecraft.world.item.enchantment.ItemEnchantments;
 import net.minecraft.world.item.ItemStack;
 //?}
 //? if >1.21 && fabric {
-import net.fabricmc.fabric.api.event.lifecycle.v1.ServerWorldEvents;
+/*import net.fabricmc.fabric.api.event.lifecycle.v1.ServerWorldEvents;
 import net.fabricmc.fabric.api.tag.convention.v2.ConventionalBlockTags;
-//?}
+*///?}
 //? if <1.21 && fabric {
 /*import net.fabricmc.fabric.api.event.lifecycle.v1.ServerWorldEvents;
 *///?}
 
 //? fabric {
-import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
+/*import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
@@ -52,10 +51,11 @@ import net.fabricmc.loader.api.ModContainer;
 import net.lerariemann.infinity.InfinityMod;
 import net.lerariemann.infinity.iridescence.IridescenceLiquidBlock;
 import net.lerariemann.infinity.util.platform.fabric.ModFluidsFabric;
-//?}
+*///?}
 //? neoforge {
-/*import io.netty.buffer.Unpooled;
+import io.netty.buffer.Unpooled;
 import net.neoforged.fml.ModLoadingContext;
+import net.neoforged.neoforge.client.network.ClientPacketDistributor;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.common.Tags;
 import net.neoforged.neoforge.event.level.LevelEvent;
@@ -66,9 +66,8 @@ import net.lerariemann.infinity.util.platform.neoforge.ModFluidsNeoforge;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.level.block.FireBlock;
-import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.entity.player.Player;
-*///?}
+//?}
 //? forge {
 /*import net.minecraft.world.entity.player.Player;
 import net.lerariemann.infinity.util.platform.forge.ModFluidsForge;
@@ -92,28 +91,31 @@ public interface PlatformMethods {
      */
     static FriendlyByteBuf createPacketByteBufs() {
         //? fabric {
-        return PacketByteBufs.create();
-        //?}
-        //? neoforge || forge {
-        /*return new FriendlyByteBuf(Unpooled.buffer());
+        /*return PacketByteBufs.create();
         *///?}
+        //? neoforge || forge {
+        return new FriendlyByteBuf(Unpooled.buffer());
+        //?}
     }
 
     static void sendS2CPayload(ServerPlayer entity, ModPayloads.FriendlyPacket payload) {
         //? fabric || forge {
-        ServerPlayNetworking.send(entity, payload);
-        //?}
-        //? neoforge {
-        /*PacketDistributor.sendToPlayer(entity, payload);
+        /*ServerPlayNetworking.send(entity, payload);
         *///?}
+        //? neoforge {
+        PacketDistributor.sendToPlayer(entity, payload);
+        //?}
     }
     static void sendC2SPayload(ModPayloads.FriendlyPacket payload) {
         //? fabric || forge {
-        ClientPlayNetworking.send(payload);
-        //?}
-        //? neoforge {
+        /*ClientPlayNetworking.send(payload);
+        *///?}
+        //? neoforge && <1.21.2 {
         /*PacketDistributor.sendToServer(payload);
         *///?}
+        //? neoforge && >1.21.2 {
+        ClientPacketDistributor.sendToServer(payload);
+        //?}
     }
 
     /**
@@ -122,17 +124,17 @@ public interface PlatformMethods {
      */
     static void onWorldLoad(Object mixin, ServerLevel world) {
         //? if >1.21 && fabric {
-        ServerWorldEvents.LOAD.invoker().onWorldLoad((MinecraftServer)mixin, world);
-        //?}
+        /*ServerWorldEvents.LOAD.invoker().onWorldLoad((MinecraftServer)mixin, world);
+        *///?}
         //? if <1.21 && fabric {
         /*ServerWorldEvents.LOAD.invoker().onWorldLoad((MinecraftServer) mixin, world);
         *///?}
         //? neoforge {
-        /*MinecraftServer server = world.getServer();
+        MinecraftServer server = world.getServer();
         server.forgeGetWorldMap().put(world.dimension(),world);
         server.markWorldsDirty();
         NeoForge.EVENT_BUS.post(new LevelEvent.Load(world));
-        *///?}
+        //?}
         //? forge {
         /*MinecraftServer server = world.getServer();
         server.forgeGetWorldMap().put(world.dimension(),world);
@@ -147,13 +149,13 @@ public interface PlatformMethods {
      */
     static <T extends Item> void addAfter(RegistrySupplier<T> supplier, ResourceKey<CreativeModeTab> group, Item item) {
         //? fabric {
-        ItemGroupEvents.modifyEntriesEvent(group).register(content -> content.addAfter(item, supplier.get()));
-        //?}
+        /*ItemGroupEvents.modifyEntriesEvent(group).register(content -> content.addAfter(item, supplier.get()));
+        *///?}
     }
     static <T extends Item> void addEnd(RegistrySupplier<T> supplier, ResourceKey<CreativeModeTab> group) {
         //? fabric {
-        ItemGroupEvents.modifyEntriesEvent(group).register(content -> content.accept(supplier.get()));
-        //?}
+        /*ItemGroupEvents.modifyEntriesEvent(group).register(content -> content.accept(supplier.get()));
+        *///?}
     }
 
     /**
@@ -164,11 +166,11 @@ public interface PlatformMethods {
         /*return BuiltInRegistries.BLOCK.getKey(state.getBlock()).getPath().contains("black_");
         *///?}
         //? if >1.21 && fabric {
-        return state.is(ConventionalBlockTags.BLACK_DYED);
-        //?}
-        //? neoforge {
-        /*return state.is(Tags.Blocks.DYED_BLACK);
+        /*return state.is(ConventionalBlockTags.BLACK_DYED);
         *///?}
+        //? neoforge {
+        return state.is(Tags.Blocks.DYED_BLACK);
+        //?}
     }
 
     /**
@@ -179,11 +181,11 @@ public interface PlatformMethods {
         /*return BuiltInRegistries.BLOCK.getKey(state.getBlock()).getPath().contains("white_");
         *///?}
         //? if >1.21 && fabric {
-        return state.is(ConventionalBlockTags.WHITE_DYED);
-        //?}
-        //? neoforge {
-        /*return state.is(Tags.Blocks.DYED_WHITE);
+        /*return state.is(ConventionalBlockTags.WHITE_DYED);
         *///?}
+        //? neoforge {
+        return state.is(Tags.Blocks.DYED_WHITE);
+        //?}
     }
 
     /**
@@ -191,11 +193,11 @@ public interface PlatformMethods {
      */
     static RegistrySupplier<? extends FlowingFluid> getIridescenceStill() {
         //? fabric {
-        return ModFluidsFabric.IRIDESCENCE_STILL;
-        //?}
-        //? neoforge {
-        /*return ModFluidsNeoforge.IRIDESCENCE_STILL;
+        /*return ModFluidsFabric.IRIDESCENCE_STILL;
         *///?}
+        //? neoforge {
+        return ModFluidsNeoforge.IRIDESCENCE_STILL;
+        //?}
         //? forge {
         /*return ModFluidsForge.IRIDESCENCE_STILL;
          *///?}
@@ -205,11 +207,11 @@ public interface PlatformMethods {
      */
     static RegistrySupplier<? extends FlowingFluid> getIridescenceFlowing() {
         //? fabric {
-        return ModFluidsFabric.IRIDESCENCE_FLOWING;
-        //?}
+        /*return ModFluidsFabric.IRIDESCENCE_FLOWING;
+        *///?}
         //? neoforge {
-        /*return ModFluidsNeoforge.IRIDESCENCE_FLOWING;
-         *///?}
+        return ModFluidsNeoforge.IRIDESCENCE_FLOWING;
+         //?}
         //? forge {
         /*return ModFluidsForge.IRIDESCENCE_FLOWING;
          *///?}
@@ -221,22 +223,20 @@ public interface PlatformMethods {
     static RegistrySupplier<LiquidBlock> getIridBlockForReg() {
         var properties = VersionMethods.copyBlockProperties(Blocks.WATER).mapColor(MapColor.COLOR_MAGENTA)
                 //? if >1.21.2
-                .setId(ModBlocks.keyOfBlock("iridescence")
+                .setId(ModBlocks.registryKey("iridescence")
                 );
         //? fabric {
-        return ModBlocks.BLOCKS.register("iridescence", () ->
+        /*return ModBlocks.BLOCKS.register("iridescence", () ->
                 new IridescenceLiquidBlock(PlatformMethods.getIridescenceStill(),
                         properties));
-        //?}
-        //? neoforge {
-        /*return ModBlocks.BLOCKS.register("iridescence", () ->
-                new IridescenceLiquidBlockNeoforge(PlatformMethods.getIridescenceStill(), BlockBehaviour.Properties.ofFullCopy(Blocks.WATER)
-                                .mapColor(MapColor.COLOR_MAGENTA)));
         *///?}
+        //? neoforge {
+        return ModBlocks.BLOCKS.register("iridescence", () ->
+                new IridescenceLiquidBlockNeoforge(PlatformMethods.getIridescenceStill(), properties));
+        //?}
         //? forge {
         /*return ModBlocks.BLOCKS.register("iridescence", () ->
-                new IridescenceLiquidBlockForge(PlatformMethods.getIridescenceStill(), BlockBehaviour.Properties.copy(Blocks.WATER)
-                                .mapColor(MapColor.COLOR_MAGENTA)));
+                new IridescenceLiquidBlockForge(PlatformMethods.getIridescenceStill(), properties));
         *///?}
     }
 
@@ -246,13 +246,13 @@ public interface PlatformMethods {
     @SuppressWarnings("for removal")
     static Path getRootPathInJar() {
         //? fabric {
-        ModContainer mc = FabricLoader.getInstance().getModContainer(InfinityMod.MOD_ID).orElse(null);
+        /*ModContainer mc = FabricLoader.getInstance().getModContainer(InfinityMod.MOD_ID).orElse(null);
         assert mc != null;
         return mc.getRootPaths().getFirst();
-        //?}
-        //? neoforge || forge {
-        /*return ModLoadingContext.get().getActiveContainer().getModInfo().getOwningFile().getFile().getFilePath();
         *///?}
+        //? neoforge || forge {
+        return ModLoadingContext.get().getActiveContainer().getModInfo().getOwningFile().getFile().getFilePath();
+        //?}
     }
 
     /**
@@ -261,15 +261,15 @@ public interface PlatformMethods {
     @SuppressWarnings("for removal")
     static Path getRootPathInJar(String path) {
         //? fabric {
-        ModContainer mc = FabricLoader.getInstance().getModContainer(InfinityMod.MOD_ID).orElse(null);
+        /*ModContainer mc = FabricLoader.getInstance().getModContainer(InfinityMod.MOD_ID).orElse(null);
         assert mc != null;
         return mc.getRootPaths().getFirst().resolve(path);
-        //?}
+        *///?}
         //? neoforge || forge {
 
-        /*return ModLoadingContext.get().getActiveContainer().getModInfo().getOwningFile().getFile()
+        return ModLoadingContext.get().getActiveContainer().getModInfo().getOwningFile().getFile()
                 .findResource(path);
-        *///?}
+        //?}
     }
 
     /**
@@ -277,21 +277,21 @@ public interface PlatformMethods {
      */
     static TagKey<Item> createItemTag(String id) {
         //? fabric || forge {
-        return TagKey.create(Registries.ITEM, InfinityMethods.getId(id));
-        //?}
+        /*return TagKey.create(Registries.ITEM, InfinityMethods.getId(id));
+        *///?}
         //? neoforge {
         
-        /*return ItemTags.create(InfinityMethods.getId(id));
-         *///?}
+        return ItemTags.create(InfinityMethods.getId(id));
+         //?}
     }
     static TagKey<Block> createBlockTag(String id) {
         //? fabric || forge {
-        return TagKey.create(Registries.BLOCK, InfinityMethods.getId(id));
-        //?}
+        /*return TagKey.create(Registries.BLOCK, InfinityMethods.getId(id));
+        *///?}
         //? neoforge {
         
-        /*return BlockTags.create(InfinityMethods.getId(id));
-         *///?}
+        return BlockTags.create(InfinityMethods.getId(id));
+         //?}
     }
 
     /**
@@ -299,12 +299,12 @@ public interface PlatformMethods {
      */
     static void registerFlammableBlock(RegistrySupplier<Block> block, int burn, int spread) {
         //? fabric {
-        FlammableBlockRegistry.getDefaultInstance().add(block.get(), burn, spread);
-         //?}
+        /*FlammableBlockRegistry.getDefaultInstance().add(block.get(), burn, spread);
+         *///?}
         //? neoforge {
-        /*FireBlock fireblock = (FireBlock)Blocks.FIRE;
+        FireBlock fireblock = (FireBlock)Blocks.FIRE;
         fireblock.setFlammable(block.get(), burn, spread);
-        *///?}
+        //?}
     }
 
     /**
@@ -314,40 +314,40 @@ public interface PlatformMethods {
      */
     static boolean acidTest(Entity entity, boolean eyes) {
         //? if fabric {
-        return false;
-        //?} else if neoforge || forge {
+        /*return false;
+        *///?} else if neoforge || forge {
         
-        /*if (entity instanceof Player) return false;
+        if (entity instanceof Player) return false;
         if (eyes) return entity.isEyeInFluidType(FluidTypes.IRIDESCENCE_TYPE.get());
         return entity.isInFluidType(FluidTypes.IRIDESCENCE_TYPE.get());
-         *///?}
+         //?}
     }
     static double acidHeightTest(Entity entity) {
         //? fabric {
-        return -1;
-        //?}
+        /*return -1;
+        *///?}
         //? neoforge || forge {
         
-        /*if (entity instanceof Player) return -1;
+        if (entity instanceof Player) return -1;
         return entity.getFluidTypeHeight(FluidTypes.IRIDESCENCE_TYPE.get());
-         *///?}
+         //?}
     }
 
     //? if >1.21 && fabric {
-    static Item.Properties deferredIntComponent(String chromaticMatter, Supplier<DataComponentType<Integer>> componentTypeSupplier, int i) {
+    /*static Item.Properties deferredIntComponent(String chromaticMatter, Supplier<DataComponentType<Integer>> componentTypeSupplier, int i) {
         return new Item.Properties().setId(ModItems.registryKey(chromaticMatter)).component(componentTypeSupplier.get(), i);
     }
     static ItemEnchantments getEnchantments(ItemStack weapon, MinecraftServer s) {
         return weapon.getEnchantments();
     }
-    //?}
+    *///?}
 
     //? if >1.21 && neoforge {
-    /*static Item.Properties deferredIntComponent(Supplier<DataComponentType<Integer>> componentTypeSupplier, int i) {
-        return new Item.Properties().component(componentTypeSupplier, i);
+    static Item.Properties deferredIntComponent(String id, Supplier<DataComponentType<Integer>> componentTypeSupplier, int i) {
+        return new Item.Properties().component(componentTypeSupplier, i).setId(ModItems.registryKey(id));
     }
     static ItemEnchantments getEnchantments(ItemStack weapon, MinecraftServer s) {
         return weapon.getAllEnchantments(s.registryAccess().lookupOrThrow(Registries.ENCHANTMENT));
     }
-    *///?}
+    //?}
 }

@@ -46,8 +46,8 @@ import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 //? neoforge {
-/*import net.neoforged.neoforge.event.EventHooks;
- *///?}
+import net.neoforged.neoforge.event.EventHooks;
+ //?}
 
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -316,11 +316,11 @@ public interface Iridescence {
                 else if (currEntity.level() instanceof ServerLevel w)
 
                 //? fabric || forge {
-                newEntity.finalizeSpawn(
-                 //?}
+                /*newEntity.finalizeSpawn(
+                 *///?}
                 //? neoforge {
-                /*EventHooks.finalizeMobSpawn(newEntity,
-                *///?}
+                EventHooks.finalizeMobSpawn(newEntity,
+                //?}
                 w, w.getCurrentDifficultyAt(currEntity.blockPosition()), EntitySpawnReason.CONVERSION, null
                         //? if <1.21 {
                         /*, null

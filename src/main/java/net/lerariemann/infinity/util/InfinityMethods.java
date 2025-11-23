@@ -100,13 +100,13 @@ public interface InfinityMethods {
             return InfinityMethods.isBiomeInfinity(acc, pos);
         }
         //? if fabric {
-        else return Platform.isFabric()
+        /*else return Platform.isFabric()
                 && world.hasBiomes()
                 && world.getBiomeFabric(pos) != null
                 && InfinityMethods.isBiomeInfinity(world.getBiomeFabric(pos));
-        //?} else {
-        /*return false;
-        *///?}
+        *///?} else {
+        return false;
+        //?}
     }
 
     /**

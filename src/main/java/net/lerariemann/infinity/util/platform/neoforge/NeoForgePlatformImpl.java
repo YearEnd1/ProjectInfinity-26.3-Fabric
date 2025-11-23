@@ -1,7 +1,7 @@
 package net.lerariemann.infinity.util.platform.neoforge;
 
 //? neoforge {
-/*import net.lerariemann.infinity.util.platform.InfinityPlatform;
+import net.lerariemann.infinity.util.platform.InfinityPlatform;
 import net.neoforged.fml.ModList;
 import net.neoforged.fml.loading.FMLEnvironment;
 import net.neoforged.fml.loading.FMLPaths;
@@ -33,4 +33,4 @@ public class NeoForgePlatformImpl implements InfinityPlatform {
     @Override
     public void registerPayloadsClient() {};
 }
-*///?}
+//?}

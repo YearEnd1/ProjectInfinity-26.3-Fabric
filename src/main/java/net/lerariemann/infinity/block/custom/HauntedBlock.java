@@ -22,7 +22,7 @@ public class HauntedBlock extends Block {
     BlockState original;
 
     public HauntedBlock(Block original) {
-        super(VersionMethods.copyBlockProperties(original).setId(ModBlocks.keyOfBlock("haunted_air")));
+        super(VersionMethods.copyBlockProperties(original).setId(ModBlocks.registryKey("haunted_air")));
         this.original = original.defaultBlockState();
     }
 

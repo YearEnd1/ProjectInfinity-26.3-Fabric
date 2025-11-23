@@ -1,7 +1,7 @@
 package net.lerariemann.infinity.util.platform.neoforge;
 
 //? neoforge {
-/*import net.lerariemann.infinity.iridescence.IridescenceLiquidBlock;
+import net.lerariemann.infinity.iridescence.IridescenceLiquidBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.level.BlockGetter;
@@ -24,4 +24,4 @@ public class IridescenceLiquidBlockNeoforge extends IridescenceLiquidBlock imple
         return PathType.WATER;
     }
 }
-*///?}
+//?}

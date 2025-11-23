@@ -190,10 +190,8 @@ public class ChromaticBlockEntity extends TintableBlockEntity {
                 /*, registryLookup*/
                 );
         //? if >1.21.2 {
-        if (nbt.contains("color")) {
-            nbt.getInt("color").ifPresent(this::setColor);
-        }
-        if (nbt.contains("h")) {
+        nbt.getInt("color").ifPresent(this::setColor);
+        if (nbt.getInt("color").isEmpty()) {
             hue = (short) nbt.getShortOr("h", hue);
             saturation = (short) nbt.getShortOr("s", saturation);
             brightness = (short) nbt.getShortOr("b", brightness);

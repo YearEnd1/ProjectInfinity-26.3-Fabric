@@ -1,7 +1,7 @@
 package net.lerariemann.infinity.util.platform.neoforge;
 
 //? neoforge {
-/*import net.lerariemann.infinity.InfinityMod;
+import net.lerariemann.infinity.InfinityMod;
 import net.lerariemann.infinity.iridescence.IridescentCooldownEffect;
 import net.lerariemann.infinity.iridescence.IridescentEffect;
 import net.lerariemann.infinity.registry.core.ModStatusEffects;
@@ -26,4 +26,4 @@ public class ModEffectsNeoforge {
         EFFECTS.register(eventBus);
     }
 }
-*///?}
+//?}

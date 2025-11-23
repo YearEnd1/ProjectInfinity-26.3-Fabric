@@ -24,12 +24,12 @@ import net.minecraft.world.level.storage.ValueOutput;
 import org.jetbrains.annotations.Nullable;
 
 //? if neoforge
-/*import javax.annotation.ParametersAreNonnullByDefault;*/
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.Random;
 
 @MethodsReturnNonnullByDefault
 //? if neoforge
-/*@ParametersAreNonnullByDefault*/
+@ParametersAreNonnullByDefault
 public class InfinityPortalBlockEntity extends TintableBlockEntity {
     private final ContainerData propertyDelegate;
     private ResourceLocation dimension;
@@ -203,7 +203,7 @@ public class InfinityPortalBlockEntity extends TintableBlockEntity {
         }
         else         if (tag.getTagType("Dimension") == Tag.TAG_STRING) { //new better format
         *///?} else {
-        if (tag.contains("Dimension")) {
+        if (NbtUtils.compoundHasString(tag, "Dimension")) {
         //?}
             this.dimension = VersionMethods.id(NbtUtils.getString(tag, "Dimension"));
             if (level != null && level.getServer() != null)
@@ -215,14 +215,14 @@ public class InfinityPortalBlockEntity extends TintableBlockEntity {
             setDimension(InfinityMethods.getRandomSeed(new Random())); //random by default
         }
         this.isOpen = NbtUtils.getBoolean(tag, "Open", false);
-        if (tag.contains("other_side")) {
-            //? if >1.21.2 {
-            otherSidePos = tag.read("other_side", BlockPos.CODEC).get();
-            //?} else {
-            /*CompoundTag pos = NbtUtils.getCompound(tag,"other_side");
-            otherSidePos = new BlockPos(NbtUtils.getInt(pos, "x"), NbtUtils.getInt(pos, "y"), NbtUtils.getInt(pos, "z"));
-            *///?}
-        }
+        //? if >1.21.2 {
+        otherSidePos = tag.read("other_side", BlockPos.CODEC).orElse(otherSidePos);
+        //?} else {
+        /*        if (tag.contains("other_side")) {
+        CompoundTag pos = NbtUtils.getCompound(tag,"other_side");
+        otherSidePos = new BlockPos(NbtUtils.getInt(pos, "x"), NbtUtils.getInt(pos, "y"), NbtUtils.getInt(pos, "z"));}
+        *///?}
+
     }
 
     @Nullable

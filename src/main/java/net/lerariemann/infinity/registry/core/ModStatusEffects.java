@@ -31,7 +31,7 @@ public class ModStatusEffects {
 
     public static void registerModEffectsFabric() {
         //? if fabric {
-        IRIDESCENT_EFFECT = (Registry.registerForHolder(BuiltInRegistries.MOB_EFFECT, InfinityMethods.getId("iridescence"),
+        /*IRIDESCENT_EFFECT = (Registry.registerForHolder(BuiltInRegistries.MOB_EFFECT, InfinityMethods.getId("iridescence"),
                 new IridescentEffect(MobEffectCategory.NEUTRAL, 0xFF66FF)));
         IRIDESCENT_SETUP = (Registry.registerForHolder(BuiltInRegistries.MOB_EFFECT, InfinityMethods.getId("iridescent_setup"),
                 new IridescentEffect.Setup(MobEffectCategory.NEUTRAL, 0xFF00FF)));
@@ -39,7 +39,7 @@ public class ModStatusEffects {
                 new IridescentCooldownEffect(MobEffectCategory.NEUTRAL, 0x884488)));
         AFTERGLOW = (Registry.registerForHolder(BuiltInRegistries.MOB_EFFECT, InfinityMethods.getId("afterglow"),
                 getAfterglowInstanceForReg()));
-        //?}
+        *///?}
     }
 
     public static MobEffect getAfterglowInstanceForReg() {

@@ -23,6 +23,14 @@ public interface NbtUtils {
          *///?}
     }
 
+    static Set<String> keys(ValueInput tag) {
+        //? if neoforge {
+        return tag.keySet();
+        //?} else {
+        /*return tag.getAllKeys();
+         *///?}
+    }
+
     static String getAsString(Tag tag) {
         //? if >1.21.5 {
         return tag.asString().orElse("");
@@ -79,7 +87,7 @@ public interface NbtUtils {
     static CompoundTag getColors(ValueInput data, String key) {
         var tag = new CompoundTag();
         var child = data.child(key).orElseThrow();
-        for (String s : child.keys()) {
+        for (String s : keys(child)) {
             tag.putInt(s, child.getIntOr(s, -1));
         }
         return tag;
@@ -417,5 +425,9 @@ public interface NbtUtils {
         /*res.put("value", value);
         *///?}
         return res;
+    }
+
+    static boolean compoundHasString(ValueInput tag, String dimension) {
+        return tag.getString(dimension).isPresent();
     }
 }

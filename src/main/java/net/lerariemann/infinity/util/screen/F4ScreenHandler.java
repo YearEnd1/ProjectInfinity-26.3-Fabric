@@ -27,10 +27,10 @@ import java.util.concurrent.atomic.AtomicInteger;
 import net.minecraft.core.component.DataComponentMap;
 //?}
 //? if neoforge {
-/*import javax.annotation.ParametersAreNonnullByDefault;
+import javax.annotation.ParametersAreNonnullByDefault;
 
 @ParametersAreNonnullByDefault
-*///?}
+//?}
 @MethodsReturnNonnullByDefault
 public class F4ScreenHandler extends AbstractContainerMenu {
     public final Inventory playerInventory;

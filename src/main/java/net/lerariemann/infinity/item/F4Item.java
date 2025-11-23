@@ -37,14 +37,14 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import org.jetbrains.annotations.Nullable;
 //? if neoforge {
-/*import javax.annotation.ParametersAreNonnullByDefault;
-*///?}
+import javax.annotation.ParametersAreNonnullByDefault;
+//?}
 import java.util.*;
 import java.util.function.Consumer;
 
 //? if neoforge {
-/*@ParametersAreNonnullByDefault
-*///?}
+@ParametersAreNonnullByDefault
+//?}
 @MethodsReturnNonnullByDefault
 public class F4Item extends Item implements PortalDataHolder.Destinable {
     static final BlockState OBSIDIAN = Blocks.OBSIDIAN.defaultBlockState();

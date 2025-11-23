@@ -2,8 +2,8 @@ package net.lerariemann.infinity.registry.var;
 
 //? fabric {
 
-import net.fabricmc.fabric.api.object.builder.v1.world.poi.PointOfInterestHelper;
-//?}
+/*import net.fabricmc.fabric.api.object.builder.v1.world.poi.PointOfInterestHelper;
+*///?}
 import com.google.common.collect.ImmutableSet;
 import dev.architectury.platform.Platform;
 import dev.architectury.registry.registries.DeferredRegister;
@@ -38,8 +38,8 @@ public class ModPoi {
 
     public static void registerPoiFabric() {
         //? fabric {
-        PointOfInterestHelper.register(InfinityMethods.getId("neither_portal"), 0, 1,
+        /*PointOfInterestHelper.register(InfinityMethods.getId("neither_portal"), 0, 1,
                 ImmutableSet.copyOf(ModBlocks.PORTAL.get().getStateDefinition().getPossibleStates()));
-        //?}
+        *///?}
     }
 }

@@ -25,16 +25,16 @@ import net.minecraft.world.item.component.TooltipDisplay;
 import org.jetbrains.annotations.NotNull;
 
 //? if neoforge {
-/*import javax.annotation.ParametersAreNonnullByDefault;
-*///?}
+import javax.annotation.ParametersAreNonnullByDefault;
+//?}
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Consumer;
 
 //? if neoforge {
-/*@ParametersAreNonnullByDefault
-*///?}
+@ParametersAreNonnullByDefault
+//?}
 public class TransfiniteKeyItem extends Item implements PortalDataHolder.Destinable {
     public TransfiniteKeyItem(Properties settings) {
         super(settings);

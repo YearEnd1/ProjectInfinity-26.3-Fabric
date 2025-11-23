@@ -4,6 +4,7 @@ import net.lerariemann.infinity.InfinityMod;
 import net.lerariemann.infinity.util.config.ConfigManager;
 import net.lerariemann.infinity.util.loading.DimensionGrabber;
 import net.lerariemann.infinity.util.platform.InfinityPlatform;
+import net.lerariemann.infinity.util.platform.PlatformMethods;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
@@ -52,7 +53,7 @@ public record CorePack(RandomProvider provider, Path savingPath) {
 
     void saveVersioned() {
         String dirName = "util" + (InfinityPlatform.above21 ? "21" : "20");
-        try (Stream<Path> files = Files.walk(InfinityMod.rootPathInJar.resolve(dirName))) {
+        try (Stream<Path> files = Files.walk(PlatformMethods.getRootPathInJar(dirName))) {
             files.filter(p -> p.toString().endsWith(".json")).forEach(p -> ConfigManager.registerConfig(p, savingPath, dirName));
             Files.deleteIfExists(tempFile); //being a good method cleaning up after itself :3
         } catch (IOException e) {

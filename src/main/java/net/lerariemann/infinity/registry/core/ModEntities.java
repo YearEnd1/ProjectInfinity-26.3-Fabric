@@ -38,9 +38,9 @@ import net.minecraft.world.level.levelgen.Heightmap;
 import static net.minecraftforge.event.entity.SpawnPlacementRegisterEvent.Operation.REPLACE;
 *///?}
 //? if neoforge {
-/*import net.neoforged.neoforge.event.entity.RegisterSpawnPlacementsEvent;
+import net.neoforged.neoforge.event.entity.RegisterSpawnPlacementsEvent;
 import static net.neoforged.neoforge.event.entity.RegisterSpawnPlacementsEvent.Operation.REPLACE;
-*///?}
+//?}
 
 import java.util.Optional;
 
@@ -159,44 +159,44 @@ public class ModEntities {
                                                     *///?}
                                                     location, Heightmap.Types heightmapType, SpawnPlacements.SpawnPredicate<T> predicate,
                                                     //? if neoforge {
-                                                    /*RegisterSpawnPlacementsEvent event
-                                                     *///?} else if forge {
+                                                    RegisterSpawnPlacementsEvent event
+                                                     //?} else if forge {
                                                     /*SpawnPlacementRegisterEvent event
                                                     *///?} else {
-                                                    Object event
-                                                    //?}
+                                                    /*Object event
+                                                    *///?}
     ) {
         //? if fabric {
-        if (!SpawnPlacements.DATA_BY_TYPE.containsKey(type))
+        /*if (!SpawnPlacements.DATA_BY_TYPE.containsKey(type))
             SpawnPlacements.register(type, location, heightmapType, predicate);
-        //?} else {
-        /*event.register(type, location, heightmapType, predicate, REPLACE);
-        *///?}
+        *///?} else {
+        event.register(type, location, heightmapType, predicate, REPLACE);
+        //?}
     }
 
     public static void registerSpawnRestrictions(
             //? if neoforge {
-            /*RegisterSpawnPlacementsEvent event
-            *///?} else if forge {
+            RegisterSpawnPlacementsEvent event
+            //?} else if forge {
             /*SpawnPlacementRegisterEvent event
             *///?}
     ) {
         //? if fabric {
-        Object event = null;
+        /*Object event = null;
         SpawnPlacements.register(CHAOS_SLIME.get(), ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, ChaosSlime::canSpawn);
         SpawnPlacements.register(CHAOS_SKELETON.get(), ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, ModEntities::canChaosMonsterSpawn);
         SpawnPlacements.register(CHAOS_CREEPER.get(), ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, ModEntities::canChaosMonsterSpawn);
         SpawnPlacements.register(CHAOS_PAWN.get(), ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, ModEntities::canChessFigureSpawn);
         SpawnPlacements.register(ANT.get(), ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, ModEntities::canChessFigureSpawn);
         SpawnPlacements.register(BISHOP.get(), ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, ModEntities::canChessFigureSpawn);
-        //?} else {
-        /*event.register(CHAOS_SLIME.get(), ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, ChaosSlime::canSpawn, REPLACE);
+        *///?} else {
+        event.register(CHAOS_SLIME.get(), ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, ChaosSlime::canSpawn, REPLACE);
         event.register(CHAOS_SKELETON.get(), ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, ModEntities::canChaosMonsterSpawn, REPLACE);
         event.register(CHAOS_CREEPER.get(), ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, ModEntities::canChaosMonsterSpawn, REPLACE);
         event.register(CHAOS_PAWN.get(), ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, ModEntities::canChessFigureSpawn, REPLACE);
         event.register(ANT.get(), ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, ModEntities::canChessFigureSpawn, REPLACE);
         event.register(BISHOP.get(), ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, ModEntities::canChessFigureSpawn, REPLACE);
-        *///?}
+        //?}
 
         registerSafe(EntityType.SNIFFER, ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Animal::checkAnimalSpawnRules, event);
         registerSafe(EntityType.CAMEL, ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Animal::checkAnimalSpawnRules, event);
