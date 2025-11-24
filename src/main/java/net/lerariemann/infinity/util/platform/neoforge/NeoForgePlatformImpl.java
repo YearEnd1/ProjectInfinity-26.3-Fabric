@@ -218,5 +218,15 @@ public class NeoForgePlatformImpl implements InfinityPlatform {
                 /*.lookupOrThrow(Registries.ENCHANTMENT));
         *///?}
     }
+
+    @Override
+    public boolean isFabric() {
+        return false;
+    }
+
+    @Override
+    public Path getGameDir() {
+        return FMLPaths.GAMEDIR.get();
+    }
 }
 //?}

@@ -2,7 +2,6 @@ package net.lerariemann.infinity.util;
 
 import com.google.common.hash.HashCode;
 import com.google.common.hash.Hashing;
-import dev.architectury.platform.Platform;
 import net.lerariemann.infinity.InfinityMod;
 import net.lerariemann.infinity.access.Timebombable;
 import net.lerariemann.infinity.block.entity.TintableBlockEntity;
@@ -41,7 +40,7 @@ import java.util.Arrays;
 import static net.lerariemann.infinity.InfinityMod.MOD_ID;
 
 /** Common mod methods that work identically on Fabric and NeoForge.
- * @see InfinityPlatform.INSTANCE */
+ * @see InfinityPlatform */
 @SuppressWarnings("unused")
 public interface InfinityMethods {
     String ofRandomDim = "infinity:random";
@@ -100,7 +99,7 @@ public interface InfinityMethods {
             return InfinityMethods.isBiomeInfinity(acc, pos);
         }
         //? if fabric {
-        /*else return Platform.isFabric()
+        /*else return InfinityPlatform.INSTANCE.isFabric()
                 && world.hasBiomes()
                 && world.getBiomeFabric(pos) != null
                 && InfinityMethods.isBiomeInfinity(world.getBiomeFabric(pos));
@@ -115,8 +114,8 @@ public interface InfinityMethods {
      * like Item Descriptions or Cloth Config.
      */
     static boolean isFabricApiLoaded(String modID) {
-        if (Platform.isFabric()) return Platform.isModLoaded(modID.replace("_", "-"));
-        else return Platform.isModLoaded(modID.replace("-", "_"));
+        if (InfinityPlatform.INSTANCE.isFabric()) return InfinityPlatform.INSTANCE.isModLoaded(modID.replace("_", "-"));
+        else return InfinityPlatform.INSTANCE.isModLoaded(modID.replace("-", "_"));
     }
 
     static int properMod(int a, int b) {

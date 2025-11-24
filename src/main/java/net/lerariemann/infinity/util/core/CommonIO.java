@@ -2,7 +2,7 @@ package net.lerariemann.infinity.util.core;
 
 import com.mojang.brigadier.StringReader;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
-import dev.architectury.platform.Platform;
+import net.lerariemann.infinity.util.platform.InfinityPlatform;
 import net.minecraft.nbt.*;
 import net.minecraft.util.Mth;
 import org.apache.commons.io.FileUtils;
@@ -132,7 +132,11 @@ public interface CommonIO {
         int i = content.lastIndexOf("%");
         if (i == -1) {
             try {
+                //? if >1.21.4 {
                 return TagParser.parseCompoundFully(content);
+                //?} else {
+                /*return SaferStringReader.parse(content);
+                *///?}
             } catch (CommandSyntaxException e) {
                 throw new RuntimeException(e);
             }
@@ -148,7 +152,7 @@ public interface CommonIO {
     private static boolean _checkIfModLoaded(File path1) {
         if (!RandomProvider.rule("enforceModLoadedChecks")) return true;
         String modname = path1.toPath().getName(path1.toPath().getNameCount() - 1).toString();
-        return Platform.isModLoaded(modname);
+        return InfinityPlatform.INSTANCE.isModLoaded(modname);
     }
 
     static List<CompoundTag> readCategory(ConfigType type) {
@@ -184,7 +188,7 @@ public interface CommonIO {
             case StringTag nbtString -> "\"" + nbtString.asString().orElseThrow().replace("\"", "\\\"") + "\"";
             default -> base.toString();
         };
-        //?} else {
+        //?} else if >1.21 {
         /*return switch (base) {
             case null -> "!!NULL!!";
             case CompoundTag nbtCompound -> compoundToString(nbtCompound, t + 1);
@@ -198,6 +202,29 @@ public interface CommonIO {
             case StringTag nbtString -> "\"" + nbtString.getAsString().replace("\"", "\\\"") + "\"";
             default -> base.toString();
         };
+        *///?} else {
+        /*if (base == null) {
+            return "!!NULL!!";
+        } else if (base instanceof CompoundTag nbtCompound) {
+            return compoundToString(nbtCompound, t + 1);
+        } else if (base instanceof ListTag nbtElements) {
+            return listToString(nbtElements, t + 1);
+        } else if (base instanceof ByteTag nbtByte) {
+            return (nbtByte.getAsByte() != 0) ? "true" : "false";
+        } else if (base instanceof DoubleTag nbtDouble) {
+            return String.valueOf(boundsCheck(nbtDouble.getAsFloat()));
+        } else if (base instanceof FloatTag nbtFloat) {
+            return String.valueOf(boundsCheck(nbtFloat.getAsFloat()));
+        } else if (base instanceof LongTag nbtLong) {
+            return String.valueOf(boundsCheck(nbtLong.getAsLong()));
+        } else if (base instanceof IntTag nbtInt) {
+            return String.valueOf(boundsCheck(nbtInt.getAsInt()));
+        } else if (base instanceof ShortTag nbtShort) {
+            return String.valueOf(boundsCheck(nbtShort.getAsShort()));
+        } else if (base instanceof StringTag nbtString) {
+            return "\"" + nbtString.getAsString().replace("\"", "\\\"") + "\"";
+        }
+        return base.toString();
         *///?}
 
     }

@@ -15,8 +15,11 @@ import net.minecraft.core.dispenser.BlockSource;
 import net.minecraft.world.item.crafting.*;
 //?} else {
 /*import net.minecraft.core.BlockSource;
+
 import net.minecraft.world.ticks.ContainerSingleItem;
 *///?}
+import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.core.dispenser.DefaultDispenseItemBehavior;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;

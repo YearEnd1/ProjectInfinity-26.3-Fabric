@@ -87,8 +87,8 @@ public class TimeBombBlock extends Block {
     static AreaEffectCloud genCloud(Level world, BlockPos pos) {
         AreaEffectCloud e = new AreaEffectCloud(world, pos.getCenter().x(), pos.getCenter().y(), pos.getCenter().z());
         //? if >1.21.9 {
-        /*e.setCustomParticle(PowerParticleOption.create(ParticleTypes.DRAGON_BREATH, 1));*/
-        //?} else if >1.21.5 {
+        /*e.setCustomParticle(PowerParticleOption.create(ParticleTypes.DRAGON_BREATH, 1));
+        *///?} else if >1.21.5 {
         e.setCustomParticle(ParticleTypes.DRAGON_BREATH);
         //?} else {
         /*e.setParticle(ParticleTypes.DRAGON_BREATH);

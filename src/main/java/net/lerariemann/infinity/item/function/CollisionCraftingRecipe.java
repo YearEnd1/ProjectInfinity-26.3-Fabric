@@ -1,22 +1,28 @@
 package net.lerariemann.infinity.item.function;
 
+import com.google.gson.JsonObject;
 import com.mojang.datafixers.util.Function3;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.lerariemann.infinity.registry.core.ModItemFunctions;
+import net.lerariemann.infinity.util.VersionMethods;
 import net.minecraft.MethodsReturnNonnullByDefault;
-import net.minecraft.core.HolderLookup;
-
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.util.ExtraCodecs;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.*;
 //? if >1.21 {
 import net.minecraft.world.item.crafting.SingleRecipeInput;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 //?} else {
 /*import net.minecraft.world.ticks.ContainerSingleItem;
+import net.minecraft.core.RegistryAccess;
+import net.minecraft.util.GsonHelper;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.resources.ResourceLocation;
 *///?}
 import net.minecraft.world.level.Level;
 
@@ -179,11 +185,23 @@ public abstract class CollisionCraftingRecipe implements Recipe<
         *///?}
 
         @Override
-        public RecipeSerializer<? extends Recipe<SingleRecipeInput>> getSerializer() {
+        public RecipeSerializer<? extends Recipe<
+                //? if >1.21 {
+                SingleRecipeInput
+                 //?} else {
+                /*ContainerSingleItem
+                *///?}
+                >> getSerializer() {
             return ModItemFunctions.PORTAL_CRAFTING.get();
         }
         @Override
-        public RecipeType<? extends Recipe<SingleRecipeInput>> getType() {
+        public RecipeType<? extends Recipe<
+                //? if >1.21 {
+                SingleRecipeInput
+                 //?} else {
+                /*ContainerSingleItem
+                *///?}
+                >> getType() {
             return ModItemFunctions.PORTAL_CRAFTING_TYPE.get();
         }
         //? if >1.21.2 {

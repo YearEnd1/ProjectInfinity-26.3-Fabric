@@ -129,6 +129,12 @@ public interface InfinityPlatform {
     //? if >1.21 {
     Item.Properties deferredIntComponent(String id, RegistrySupplier<DataComponentType<Integer>> componentTypeSupplier, int i);
     ItemEnchantments getEnchantments(ItemStack weapon, MinecraftServer s);
+
     //?}
+
+
+    boolean isFabric();
+
+    Path getGameDir();
 
 }

@@ -1,11 +1,11 @@
 package net.lerariemann.infinity.util.config;
 
-import dev.architectury.platform.Platform;
 import net.lerariemann.infinity.InfinityMod;
 import net.lerariemann.infinity.util.VersionMethods;
 import net.lerariemann.infinity.util.core.CommonIO;
 import net.lerariemann.infinity.util.core.ConfigType;
 import net.lerariemann.infinity.util.core.NbtUtils;
+import net.lerariemann.infinity.util.platform.InfinityPlatform;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
@@ -32,7 +32,7 @@ public record Amendment(ConfigType area, ModSelector modSelector, Selector selec
         if (mod.equals("all")) {
             modSelector = new UniversalModSelector();
         }
-        else if (!Platform.isModLoaded(mod)) return null;
+        else if (!InfinityPlatform.INSTANCE.isModLoaded(mod)) return null;
         else modSelector = new MatchingModSelector(mod);
 
         String selectorType = NbtUtils.getString(data,"selector", "");

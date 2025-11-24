@@ -6,7 +6,6 @@ import dev.architectury.registry.registries.RegistrySupplier;
 import net.minecraft.core.*;
 import net.minecraft.core.component.DataComponentMap;
 import net.minecraft.core.component.DataComponentType;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionResult;
@@ -14,6 +13,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.JukeboxSong;
 import net.minecraft.world.item.alchemy.PotionContents;
 import net.minecraft.core.component.DataComponents;
+import net.minecraft.world.item.component.CustomModelData;
 //?} else {
 /*import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.item.alchemy.PotionUtils;
@@ -28,7 +28,12 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.alchemy.Potion;
-import net.minecraft.world.item.component.CustomModelData;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.*;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockBehaviour;
@@ -368,9 +373,11 @@ public interface VersionMethods {
     static InteractionResultHolder<ItemStack> consume(ItemStack stack) {
         return InteractionResultHolder.consume(stack);
     }
+    //? if >1.21 {
     static CustomModelData getColoredModel(int color) {
         return new CustomModelData(color);
     }
+    //?}
     static ItemStack getInteractionHolderResult(InteractionResultHolder<ItemStack> result) {
         return result.getObject();
     }

@@ -4,8 +4,8 @@ import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.exceptions.DynamicCommandExceptionType;
 import dev.architectury.event.events.common.CommandRegistrationEvent;
-import dev.architectury.platform.Platform;
 import net.lerariemann.infinity.util.InfinityMethods;
+import net.lerariemann.infinity.util.platform.InfinityPlatform;
 import net.lerariemann.infinity.util.teleport.WarpLogic;
 import net.minecraft.commands.Commands;
 import net.minecraft.commands.arguments.DimensionArgument;
@@ -34,7 +34,7 @@ public class ModCommands {
 
     public static void registerCommands() {
         String warp;
-        if (Platform.isModLoaded("ftbessentials") || Platform.isModLoaded("fabric-essentials")) // FTB/Fabric Essentials add their own warp command that plays havoc with ours.
+        if (InfinityPlatform.INSTANCE.isModLoaded("ftbessentials") || InfinityPlatform.INSTANCE.isModLoaded("fabric-essentials")) // FTB/Fabric Essentials add their own warp command that plays havoc with ours.
             warp = "dimwarp";
         else {
             warp = "warp";

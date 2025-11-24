@@ -170,6 +170,16 @@ public class ForgePlatformImpl implements InfinityPlatform {
         return entity.getFluidTypeHeight(FluidTypes.IRIDESCENCE_TYPE.get());
     }
 
+    @Override
+    public boolean isFabric() {
+        return false;
+    }
+
+    @Override
+    public Path getGameDir() {
+        return FMLPaths.GAMEDIR.get();
+    }
+
 
 }
 *///?}

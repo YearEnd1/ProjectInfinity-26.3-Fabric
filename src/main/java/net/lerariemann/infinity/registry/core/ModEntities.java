@@ -1,6 +1,5 @@
 package net.lerariemann.infinity.registry.core;
 
-import dev.architectury.platform.Platform;
 import dev.architectury.registry.client.level.entity.EntityModelLayerRegistry;
 import dev.architectury.registry.client.level.entity.EntityRendererRegistry;
 import dev.architectury.registry.level.entity.EntityAttributeRegistry;
@@ -45,7 +44,6 @@ import static net.neoforged.neoforge.event.entity.RegisterSpawnPlacementsEvent.O
 import java.util.Optional;
 
 import static net.lerariemann.infinity.InfinityMod.MOD_ID;
-import static net.minecraft.world.entity.SpawnPlacementTypes.ON_GROUND;
 
 public class ModEntities {
     public static void copy(Mob from, Mob e) {
@@ -133,7 +131,7 @@ public class ModEntities {
     }
     //?} else {
     /*public static String type(String id) {
-        if (Platform.isFabric() && InfinityPlatform.version > 20) {
+        if (InfinityPlatform.INSTANCE.isFabric() && InfinityPlatform.version > 20) {
             return null;
         }
         else return "infinity:"+id;

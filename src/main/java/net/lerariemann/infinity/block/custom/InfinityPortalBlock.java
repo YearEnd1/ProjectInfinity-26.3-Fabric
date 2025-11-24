@@ -51,6 +51,7 @@ import static net.minecraft.world.entity.EntitySpawnReason.STRUCTURE;
 import static net.minecraft.world.entity.MobSpawnType.STRUCTURE;
 *///?} else {
 /*import net.minecraft.world.level.portal.PortalInfo;
+import static net.minecraft.world.entity.MobSpawnType.STRUCTURE;
 import net.minecraft.nbt.CompoundTag;
 *///?}
 import net.minecraft.world.level.storage.LevelResource;
@@ -61,6 +62,8 @@ import org.joml.Vector3f;
 
 import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
+
+
 
 public class InfinityPortalBlock extends NetherPortalBlock implements EntityBlock, Boopable {
     public InfinityPortalBlock(Properties settings) {
@@ -268,6 +271,8 @@ public class InfinityPortalBlock extends NetherPortalBlock implements EntityBloc
         }
     }
 
+
+    //? if >1.21 {
     /**
      * This is called when something's trying to use the portal and returns the data on where they end up.
      */
@@ -287,4 +292,5 @@ public class InfinityPortalBlock extends NetherPortalBlock implements EntityBloc
             InfinityMethods.sendUnexpectedError(player, "portal");
         return InfinityPortal.emptyTarget(entity); //if anything goes wrong, don't teleport anywhere
     }
+    //?}
 }

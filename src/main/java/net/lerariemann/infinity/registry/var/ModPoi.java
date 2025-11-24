@@ -5,12 +5,12 @@ package net.lerariemann.infinity.registry.var;
 /*import net.fabricmc.fabric.api.object.builder.v1.world.poi.PointOfInterestHelper;
 *///?}
 import com.google.common.collect.ImmutableSet;
-import dev.architectury.platform.Platform;
 import dev.architectury.registry.registries.DeferredRegister;
 import dev.architectury.registry.registries.RegistrySupplier;
 import net.lerariemann.infinity.InfinityMod;
 import net.lerariemann.infinity.registry.core.ModBlocks;
 import net.lerariemann.infinity.util.InfinityMethods;
+import net.lerariemann.infinity.util.platform.InfinityPlatform;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.entity.ai.village.poi.PoiType;
@@ -23,7 +23,7 @@ public class ModPoi {
 
     public static void registerPoi() {
         InfinityMod.LOGGER.debug("Registering POI for " + InfinityMod.MOD_ID);
-        if (Platform.isFabric()) registerPoiFabric();
+        if (InfinityPlatform.INSTANCE.isFabric()) registerPoiFabric();
         else registerPoiArchitectury();
         NEITHER_PORTAL_KEY = ResourceKey.create(Registries.POINT_OF_INTEREST_TYPE, InfinityMethods.getId("neither_portal"));
 

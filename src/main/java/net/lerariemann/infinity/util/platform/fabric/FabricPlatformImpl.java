@@ -6,6 +6,8 @@ import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 //? if >1.21 {
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerWorldEvents;
 import net.fabricmc.fabric.api.tag.convention.v2.ConventionalBlockTags;
+import net.minecraft.core.component.DataComponentType;
+import net.minecraft.world.item.enchantment.ItemEnchantments;
 //?}
 //? if <1.21 {
 /^import net.fabricmc.fabric.api.event.lifecycle.v1.ServerWorldEvents;
@@ -23,7 +25,7 @@ import net.lerariemann.infinity.registry.var.ModPayloads;
 import net.lerariemann.infinity.util.InfinityMethods;
 import net.lerariemann.infinity.util.VersionMethods;
 import net.lerariemann.infinity.util.platform.InfinityPlatform;
-import net.minecraft.core.component.DataComponentType;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.MinecraftServer;
@@ -34,7 +36,6 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.enchantment.ItemEnchantments;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.LiquidBlock;
@@ -69,10 +70,12 @@ public class FabricPlatformImpl implements InfinityPlatform {
 
     @Override
     public void registerPayloadsServer() {
+        //? if >1.21
         ModPayloadsFabric.registerPayloadsServer();
     }
     @Override
     public void registerPayloadsClient() {
+        //? if >1.21
         ModPayloadsFabric.registerPayloadsClient();
     }
     public void sendS2CPayload(ServerPlayer entity, ModPayloads.FriendlyPacket payload) {
@@ -199,5 +202,16 @@ public class FabricPlatformImpl implements InfinityPlatform {
     public ItemEnchantments getEnchantments(ItemStack weapon, MinecraftServer s) {
         return weapon.getEnchantments();
     }
+    //?}
+
+    @Override
+    public boolean isFabric() {
+        return true;
+    }
+
+    @Override
+    public Path getGameDir() {
+        return FabricLoader.getInstance().getGameDir();
+    }
 }
-//?}*/
+*/

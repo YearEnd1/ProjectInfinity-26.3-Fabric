@@ -182,8 +182,9 @@ public class ChromaticBlockEntity extends TintableBlockEntity {
         }
     }
 
-    @Override
     //? if >1.21 {
+
+    @Override
     public void loadAdditional(
             //? if >1.21.2 {
             ValueInput nbt
@@ -197,6 +198,12 @@ public class ChromaticBlockEntity extends TintableBlockEntity {
                 //? if =1.21.1
                 /*, registryLookup*/
                 );
+    //?} else {
+
+    /*@Override
+    public void load(CompoundTag nbt) {
+        super.load(nbt);
+    *///?}
         //? if >1.21.2 {
         nbt.getInt("color").ifPresent(this::setColor);
         if (nbt.getInt("color").isEmpty()) {
@@ -219,7 +226,7 @@ public class ChromaticBlockEntity extends TintableBlockEntity {
     }
     @Override
     protected void saveAdditional(
-            //? if =1.21.1 {
+            //? if =1.21.1 || 1.20.1 {
             /*CompoundTag nbt
             *///?} else {
             ValueOutput nbt

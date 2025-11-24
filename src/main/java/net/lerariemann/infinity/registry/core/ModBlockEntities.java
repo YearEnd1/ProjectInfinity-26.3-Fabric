@@ -1,8 +1,6 @@
 package net.lerariemann.infinity.registry.core;
 
 import com.mojang.datafixers.types.Type;
-import dev.architectury.platform.Platform;
-import dev.architectury.registry.client.rendering.BlockEntityRendererRegistry;
 import dev.architectury.registry.registries.DeferredRegister;
 import dev.architectury.registry.registries.RegistrySupplier;
 //? if fabric && >1.21.2 {
@@ -12,6 +10,7 @@ import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityT
 import net.lerariemann.infinity.InfinityMod;
 import net.lerariemann.infinity.block.custom.RailHelper;
 import net.lerariemann.infinity.block.entity.*;
+import net.lerariemann.infinity.util.platform.InfinityPlatform;
 import net.minecraft.Util;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.util.datafix.fixes.References;
@@ -21,7 +20,7 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 
 public class ModBlockEntities {
     public static Type<?> type(String id) {
-        if (!Platform.isFabric())
+        if (!InfinityPlatform.INSTANCE.isFabric())
             return Util.fetchChoiceType(References.BLOCK_ENTITY, "infinity:"+ id);
         else return null;
     }

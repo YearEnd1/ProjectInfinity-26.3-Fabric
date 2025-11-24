@@ -15,8 +15,10 @@ import net.minecraft.world.entity.EntitySpawnReason;
 import static net.minecraft.world.entity.EntitySpawnReason.isSpawner;
 //?} else {
 /*import net.minecraft.world.entity.MobSpawnType;
-import static net.minecraft.world.entity.MobSpawnType.isSpawner;
  *///?}
+//? if =1.21.1 {
+/*import static net.minecraft.world.entity.MobSpawnType.isSpawner;
+*///?}
 import net.minecraft.world.entity.animal.WaterAnimal;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.level.ServerLevelAccessor;

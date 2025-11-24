@@ -1,8 +1,8 @@
 package net.lerariemann.infinity.mixin.options;
 
-import dev.architectury.platform.Platform;
 import net.lerariemann.infinity.compat.PonderCompat;
 import net.lerariemann.infinity.options.InfinityOptions;
+import net.lerariemann.infinity.util.platform.InfinityPlatform;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.Level;
 import org.spongepowered.asm.mixin.Mixin;
@@ -20,7 +20,7 @@ public class EntityMixin {
     //? if >1.21 {
     @Inject(method = "getGravity", at = @At("RETURN"), cancellable = true)
     private void injected(CallbackInfoReturnable<Double> cir) {
-        if (Platform.isModLoaded("ponder") && PonderCompat.isPonderLevel(level))
+        if (InfinityPlatform.INSTANCE.isModLoaded("ponder") && PonderCompat.isPonderLevel(level))
             return;
         double mavity = InfinityOptions.access(level).getMavity();
         cir.setReturnValue(cir.getReturnValue() * mavity);

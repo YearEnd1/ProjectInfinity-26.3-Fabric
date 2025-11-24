@@ -88,7 +88,8 @@ public class AntModel
 
 		return LayerDefinition.create(modelData, 64, 64);
 	}
-    
+
+
     //? if =1.21.1 {
     /*@Override
     public void renderToBuffer(PoseStack matrices, VertexConsumer vertices, int light, int overlay, int color) {
@@ -96,7 +97,7 @@ public class AntModel
     }
     *///?} else if =1.20.1 {
     /*public void renderToBuffer(PoseStack poseStack, VertexConsumer buffer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
-        super.renderToBuffer(poseStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
+        body.render(poseStack, buffer, packedLight, packedOverlay, red, green, blue, alpha);
     }
     *///?}
 
@@ -107,7 +108,7 @@ public class AntModel
     *///?}
 
 
-             @Override
+    @Override
     public void setupAnim(
     //? if <1.21.2 {
     /*AntEntity entity, float limbAngle, float limbDistance, float animationProgress, float headYaw, float headPitch

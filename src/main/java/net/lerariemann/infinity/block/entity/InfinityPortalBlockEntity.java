@@ -180,8 +180,9 @@ public class InfinityPortalBlockEntity extends TintableBlockEntity {
         }
     }
 
-    @Override
     //? if >1.21 {
+
+    @Override
     public void loadAdditional(
             //? if >1.21.2 {
             ValueInput tag
@@ -195,6 +196,15 @@ public class InfinityPortalBlockEntity extends TintableBlockEntity {
                 //? if =1.21.1
                 /*, registryLookup*/
                 );
+
+    //?} else {
+
+    /*@Override
+    public void load(CompoundTag tag) {
+        super.load(tag);
+    *///?}
+
+
         //? if <1.21.2 {
         /*if (tag.getTagType("Dimension") == Tag.TAG_ANY_NUMERIC) { //conversion from legacy formats
             this.portalColor = NbtUtils.getInt(tag, "Dimension") & 0xFFFFFF;

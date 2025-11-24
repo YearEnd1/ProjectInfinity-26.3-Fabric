@@ -124,8 +124,11 @@ public class ModItems {
 
     public static final RegistrySupplier<ChromaticItem> CHROMATIC_MATTER =
             registerItemAfter("chromatic_matter", CreativeModeTabs.INGREDIENTS, Items.DISC_FRAGMENT_5, settings -> new ChromaticItem(
-                    //? if >1.21
+                    //? if >1.21 {
                     InfinityPlatform.INSTANCE.deferredIntComponent("chromatic_matter", ModComponentTypes.COLOR, ColorLogic.defaultChromatic))
+                    //?} else {
+                    /*new Item.Properties())
+                    *///?}
             );
     public static final RegistrySupplier<Item> WHITE_MATTER =
             registerItemAfter("white_matter", CreativeModeTabs.INGREDIENTS, Items.DISC_FRAGMENT_5, Item::new);

@@ -1,6 +1,7 @@
 package net.lerariemann.infinity.item;
 
 import net.lerariemann.infinity.iridescence.Iridescence;
+import net.lerariemann.infinity.registry.core.ModComponentTypes;
 import net.lerariemann.infinity.registry.core.ModStatusEffects;
 import net.lerariemann.infinity.util.VersionMethods;
 import net.minecraft.advancements.CriteriaTriggers;
@@ -23,7 +24,6 @@ import net.minecraft.world.item.*;
 import java.util.function.Consumer;
 //? if >1.21 {
 import net.minecraft.world.item.alchemy.PotionContents;
-import net.lerariemann.infinity.registry.core.ModComponentTypes;
 //?} else {
 /*import net.minecraft.world.item.alchemy.PotionUtils;
 *///?}

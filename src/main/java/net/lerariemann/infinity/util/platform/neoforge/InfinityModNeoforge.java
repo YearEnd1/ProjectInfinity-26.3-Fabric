@@ -1,7 +1,6 @@
 package net.lerariemann.infinity.util.platform.neoforge;
 
 //? neoforge {
-import dev.architectury.platform.Platform;
 import net.lerariemann.infinity.InfinityMod;
 import net.lerariemann.infinity.compat.CreateCompat;
 import net.lerariemann.infinity.registry.core.ModBlocks;
@@ -48,7 +47,7 @@ public class InfinityModNeoforge {
         ModFluidsNeoforge.registerModFluids();
         ModEffectsNeoforge.register(eventBus);
         //? if <1.21.2 {
-        /*if (Platform.isModLoaded("create"))
+        /*if (InfinityPlatform.INSTANCE.isModLoaded("create"))
             CreateCompat.register();
         *///?}
     }

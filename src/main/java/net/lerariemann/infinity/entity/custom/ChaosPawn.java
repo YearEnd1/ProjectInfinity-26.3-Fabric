@@ -11,11 +11,12 @@ import net.lerariemann.infinity.util.core.RandomProvider;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.component.DataComponentMap;
 import net.minecraft.core.component.DataComponents;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.world.entity.SpawnPlacementType;
 //?}
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializer;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -27,7 +28,6 @@ import net.minecraft.world.*;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.SpawnGroupData;
-import net.minecraft.world.entity.SpawnPlacementType;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.EatBlockGoal;
@@ -55,7 +55,13 @@ import java.util.function.Supplier;
 @ParametersAreNonnullByDefault
 //?}
 public class ChaosPawn extends AbstractChessFigure {
-    public static final EntityDataAccessor<CompoundTag> colors = SynchedEntityData.defineId(ChaosPawn.class, EntityDataSerializer.forValueType(ByteBufCodecs.COMPOUND_TAG));
+    public static final EntityDataAccessor<CompoundTag> colors = SynchedEntityData.defineId(ChaosPawn.class,
+            //? if >1.21.4 {
+            EntityDataSerializer.forValueType(ByteBufCodecs.COMPOUND_TAG)
+            //?} else {
+            /*EntityDataSerializers.COMPOUND_TAG
+            *///?}
+    );
     public static final EntityDataAccessor<Integer> special_case = SynchedEntityData.defineId(ChaosPawn.class, EntityDataSerializers.INT);
 
     public ChaosPawn(EntityType<? extends ChaosPawn> entityType, Level world) {

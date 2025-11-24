@@ -1,9 +1,9 @@
 package net.lerariemann.infinity.registry.core;
 
-import dev.architectury.platform.Platform;
 import net.lerariemann.infinity.iridescence.IridescentCooldownEffect;
 import net.lerariemann.infinity.iridescence.IridescentEffect;
 import net.lerariemann.infinity.util.InfinityMethods;
+import net.lerariemann.infinity.util.platform.InfinityPlatform;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -66,7 +66,7 @@ public class ModStatusEffects {
     }
 
     public static void registerModEffects() {
-        if (Platform.isFabric()) registerModEffectsFabric();
+        if (InfinityPlatform.INSTANCE.isFabric()) registerModEffectsFabric();
     }
 
     public static class AccessibleEffect extends MobEffect {

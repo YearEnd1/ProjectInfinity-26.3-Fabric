@@ -1,6 +1,6 @@
 package net.lerariemann.infinity.util.teleport;
 
-import dev.architectury.platform.Platform;
+
 import net.lerariemann.infinity.InfinityMod;
 import net.lerariemann.infinity.access.MinecraftServerAccess;
 import net.lerariemann.infinity.block.custom.Boopable;
@@ -20,6 +20,7 @@ import net.lerariemann.infinity.options.PortalColorApplier;
 import net.lerariemann.infinity.registry.var.ModCriteria;
 import net.lerariemann.infinity.registry.var.ModPayloads;
 import net.lerariemann.infinity.registry.var.ModStats;
+import net.lerariemann.infinity.util.platform.InfinityPlatform;
 import net.minecraft.BlockUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -84,7 +85,7 @@ public interface PortalCreator {
         WritableBookContent writableComponent = itemStack.getComponents().get(DataComponents.WRITABLE_BOOK_CONTENT);
         WrittenBookContent writtenComponent = itemStack.getComponents().get(DataComponents.WRITTEN_BOOK_CONTENT);
         String printedComponent = null;
-        if (Platform.isModLoaded("computercraft")) {
+        if (InfinityPlatform.INSTANCE.isModLoaded("computercraft")) {
             try {
                 printedComponent = checkPrintedPage(itemStack);
             }
@@ -113,7 +114,7 @@ public interface PortalCreator {
             if (bl) entity.remove(Entity.RemovalReason.CHANGED_DIMENSION);
             recordIdTranslation(world.getServer(), id, content);
         }
-        else if (Platform.isModLoaded("computercraft")) {
+        else if (InfinityPlatform.INSTANCE.isModLoaded("computercraft")) {
             try {
                 String content;
                 content = checkPrintedPage(itemStack);
@@ -283,7 +284,7 @@ public interface PortalCreator {
                 .addModifier(npbe -> npbe.setOpen(open))
                 .addModifier(BlockEntity::setChanged);
         //? if <1.21.2 {
-        /*if (Platform.isModLoaded("create")) {
+        /*if (InfinityPlatform.INSTANCE.isModLoaded("create")) {
             union.addModifier(CreateCompat::tryModifyRails);
         }
         *///?}
@@ -305,7 +306,7 @@ public interface PortalCreator {
         RandomDimension d = new RandomDimension(id, server);
 
         // create the dimension
-        if (Platform.isModLoaded("dimlib")) {
+        if (InfinityPlatform.INSTANCE.isModLoaded("dimlib")) {
             DimLibCompat.add(server, id, DimensionGrabber.readDimensionFromDisk(d));
         } else {
             ((MinecraftServerAccess)(server)).infinity$addWorld(key, DimensionGrabber.readDimensionFromDisk(d));

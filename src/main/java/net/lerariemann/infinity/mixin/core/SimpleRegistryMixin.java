@@ -29,9 +29,11 @@ public abstract class SimpleRegistryMixin<T> implements RegistryAccess, Registry
     @Nullable
     private Map<T, Holder.Reference<T>> unregisteredIntrusiveHolders;
     @Mutable
+    //? if >1.21.4 {
     @Shadow @Final
     private Map<TagKey<T>, HolderSet.Named<T>> frozenTags;
     @Shadow private MappedRegistry.TagSet<T> allTags;
+    //?}
     @Unique
     private boolean infinity$intrusive;
 
@@ -43,7 +45,9 @@ public abstract class SimpleRegistryMixin<T> implements RegistryAccess, Registry
     @Override
     public void infinity$unfreeze() {
         frozen = false;
+        //? if >1.21.4 {
         allTags = MappedRegistry.TagSet.unbound();
+        //?}
         if (infinity$intrusive) this.unregisteredIntrusiveHolders = new IdentityHashMap<>();
     }
 }

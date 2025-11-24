@@ -1,9 +1,11 @@
 package net.lerariemann.infinity.item.function;
 
+import com.google.gson.JsonObject;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.lerariemann.infinity.registry.core.ModItemFunctions;
 import net.lerariemann.infinity.registry.core.ModItems;
+import net.lerariemann.infinity.util.VersionMethods;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
 //? if >1.21 {
@@ -71,7 +73,13 @@ public class ChromaticColoringRecipe implements CraftingRecipe {
     }
     //? if <1.21.2 {
     /*@Override
-    public RecipeType<? extends Recipe<CraftingInput>>
+    public RecipeType<? extends Recipe
+            //? if >1.21.4 {
+            <CraftingInput>
+            //?} else {
+            /^<?>
+            ^///?}
+            >
     getType() {
         return Type.INSTANCE;
     }

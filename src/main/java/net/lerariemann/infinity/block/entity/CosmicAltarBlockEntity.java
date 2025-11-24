@@ -56,7 +56,7 @@ public class CosmicAltarBlockEntity extends BlockEntity {
 
     @Override
     protected void saveAdditional(
-            //? if =1.21.1 {
+            //? if =1.21.1 || 1.20.1 {
             /*CompoundTag nbt
              *///?} else {
             ValueOutput nbt

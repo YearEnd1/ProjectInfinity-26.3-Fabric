@@ -302,7 +302,7 @@ public class ChaosSkeleton extends Skeleton implements TintableEntity {
     /*@Override
     protected void dropCustomDeathLoot(DamageSource source, int lootingLevel, boolean allowDrops) {
         super.dropCustomDeathLoot(source, lootingLevel, allowDrops);
-        dropEquipment(lootingLevel, this.level());
+        dropEquipment(lootingLevel, (ServerLevel) this.level());
     }
     *///?}
 

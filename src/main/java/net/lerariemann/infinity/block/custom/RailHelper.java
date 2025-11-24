@@ -1,9 +1,9 @@
 package net.lerariemann.infinity.block.custom;
 
 import com.mojang.serialization.MapCodec;
-import dev.architectury.platform.Platform;
 import net.lerariemann.infinity.compat.CreateCompat;
 import net.lerariemann.infinity.registry.core.ModBlockEntities;
+import net.lerariemann.infinity.util.platform.InfinityPlatform;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
@@ -35,7 +35,7 @@ public class RailHelper extends BaseEntityBlock {
     @Override
     public void tick(BlockState state, ServerLevel world, BlockPos pos, RandomSource random) {
         //? if <1.21.2 {
-        /*if (Platform.isModLoaded("create")) {
+        /*if (InfinityPlatform.INSTANCE.isModLoaded("create")) {
             CreateCompat.reattachRails(world, pos, getBlockEntity(world, pos));
         }else
         *///?}

@@ -1,6 +1,5 @@
 package net.lerariemann.infinity.registry.var;
 
-import dev.architectury.platform.Platform;
 import net.lerariemann.infinity.access.InfinityOptionsAccess;
 import net.lerariemann.infinity.access.WorldRendererAccess;
 import net.lerariemann.infinity.iridescence.Iridescence;
@@ -49,7 +48,7 @@ import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import java.nio.file.Path;
 
 public class ModPayloads {
-    public static boolean resourcesReloaded = Path.of(Platform.getGameFolder() + "/resourcepacks/infinity/assets/infinity/shaders").toFile().exists();
+    public static boolean resourcesReloaded = Path.of(InfinityPlatform.INSTANCE.getGameDir() + "/resourcepacks/infinity/assets/infinity/shaders").toFile().exists();
     public interface FriendlyPacket extends
     //? if >1.21 {
     CustomPacketPayload {

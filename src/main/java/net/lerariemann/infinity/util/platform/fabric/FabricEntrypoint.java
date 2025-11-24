@@ -1,14 +1,15 @@
 package net.lerariemann.infinity.util.platform.fabric;
 
 //? fabric {
-/*import dev.architectury.platform.Platform;
-import net.lerariemann.infinity.InfinityMod;
+
+/*import net.lerariemann.infinity.InfinityMod;
 import net.fabricmc.api.ModInitializer;
 import net.lerariemann.infinity.compat.CreateCompat;
 import net.lerariemann.infinity.registry.core.ModBlocks;
 import net.lerariemann.infinity.registry.core.ModEntities;
 import net.lerariemann.infinity.registry.core.ModItemFunctions;
 import net.lerariemann.infinity.registry.var.ModStats;
+import net.lerariemann.infinity.util.platform.InfinityPlatform;
 
 public class FabricEntrypoint implements ModInitializer {
 
@@ -28,7 +29,7 @@ public class FabricEntrypoint implements ModInitializer {
         ModItemFunctions.registerDispenserBehaviour();
         //FIXME - look into create fly?
         //? if <1.21.2 {
-        /^if (Platform.isModLoaded("create"))
+        /^if (InfinityPlatform.INSTANCE.isModLoaded("create"))
             CreateCompat.register();
         ^///?}
     }
