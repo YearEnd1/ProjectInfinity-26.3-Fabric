@@ -1,12 +1,8 @@
 package net.lerariemann.infinity.util.core;
 
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
+import com.mojang.brigadier.StringReader;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
-import com.mojang.serialization.JsonOps;
 import dev.architectury.platform.Platform;
-import net.lerariemann.infinity.InfinityMod;
 import net.minecraft.nbt.*;
 import net.minecraft.util.Mth;
 import org.apache.commons.io.FileUtils;
@@ -87,36 +83,34 @@ public interface CommonIO {
         try {
             if (file.exists()) {
                 content = FileUtils.readFileToString(file, StandardCharsets.UTF_8);
+                // TODO 1.21.5 reimplement saferstringreader
                 //? if >1.21.2 {
-                JsonObject object = JsonParser.parseString(content).getAsJsonObject();
-                CompoundTag c = JsonOps.INSTANCE.convertTo(NbtOps.INSTANCE, object).asCompound().orElse(new CompoundTag());
+                CompoundTag c = TagParser.parseCompoundFully(content);
                 //?} else {
                 /*CompoundTag c = SaferStringReader.parse(content);
-                *///?}
+                 *///?}
                 c.remove("infinity_version");
                 return c;
             }
             return new CompoundTag();
-        } catch (Exception e) {
-            InfinityMod.LOGGER.warn("Could not parse {}", file.getAbsolutePath(), e);
+        } catch (IOException | CommandSyntaxException e) {
+            throw new RuntimeException(e);
         }
-        return new CompoundTag();
     }
 
     static CompoundTag readAndFormat(String path, Object... args) {
         File file = new File(path);
         try {
             String content = String.valueOf((new Formatter(Locale.US)).format(FileUtils.readFileToString(file, StandardCharsets.UTF_8), args));
-            System.out.println(content);
+            // TODO 1.21.5 reimplement saferstringreader
             //? if >1.21.2 {
-            JsonElement element = JsonParser.parseString(content);
-            CompoundTag c = JsonOps.INSTANCE.convertTo(NbtOps.INSTANCE, element).asCompound().orElse(new CompoundTag());
+            CompoundTag c = TagParser.parseCompoundFully(content);
             //?} else {
-            /*CompoundTag c = TagParser.parseTag(content);
-            *///?}
+            /*CompoundTag c = SaferStringReader.parse(content);
+             *///?}
             c.remove("infinity_version");
             return c;
-        } catch (Exception e) {
+        } catch (IOException | CommandSyntaxException e) {
             throw new RuntimeException(e);
         }
     }
@@ -138,13 +132,8 @@ public interface CommonIO {
         int i = content.lastIndexOf("%");
         if (i == -1) {
             try {
-                //? if >1.21.2 {
-                JsonElement element = JsonParser.parseString(content);
-                return JsonOps.INSTANCE.convertTo(NbtOps.INSTANCE, element).asCompound().orElse(new CompoundTag());
-                //?} else {
-                /*return TagParser.parseTag(content);
-                *///?}
-            } catch (Exception e) {
+                return TagParser.parseCompoundFully(content);
+            } catch (CommandSyntaxException e) {
                 throw new RuntimeException(e);
             }
         }
@@ -181,47 +170,36 @@ public interface CommonIO {
     }
 
     static String elementToString(Tag base, int t) {
-        if (base == null) {
-            return "!!NULL!!";
-        } else if (base instanceof CompoundTag nbtCompound) {
-            return compoundToString(nbtCompound, t + 1);
-        } else if (base instanceof ListTag nbtElements) {
-            return listToString(nbtElements, t + 1);
-        //? if >1.21.2 {
-        } else if (base instanceof ByteTag nbtByte) {
-            return (nbtByte.byteValue() != 0) ? "true" : "false";
-        } else if (base instanceof DoubleTag nbtDouble) {
-            return String.valueOf(boundsCheck(nbtDouble.floatValue()));
-        } else if (base instanceof FloatTag nbtFloat) {
-            return String.valueOf(boundsCheck(nbtFloat.floatValue()));
-        } else if (base instanceof LongTag nbtLong) {
-            return String.valueOf(boundsCheck(nbtLong.longValue()));
-        } else if (base instanceof IntTag nbtInt) {
-            return String.valueOf(boundsCheck(nbtInt.intValue()));
-        } else if (base instanceof ShortTag nbtShort) {
-            return String.valueOf(boundsCheck(nbtShort.shortValue()));
-        } else if (base instanceof StringTag nbtString) {
-            return "\"" + nbtString.toString().replace("\"", "\\\"") + "\"";
-        }
+        //? if >1.21.5 {
+        return switch (base) {
+            case null -> "!!NULL!!";
+            case CompoundTag nbtCompound -> compoundToString(nbtCompound, t + 1);
+            case ListTag nbtElements -> listToString(nbtElements, t + 1);
+            case ByteTag nbtByte -> (nbtByte.byteValue() != 0) ? "true" : "false";
+            case DoubleTag nbtDouble -> String.valueOf(boundsCheck(nbtDouble.floatValue()));
+            case FloatTag nbtFloat -> String.valueOf(boundsCheck(nbtFloat.floatValue()));
+            case LongTag nbtLong -> String.valueOf(boundsCheck(nbtLong.longValue()));
+            case IntTag nbtInt -> String.valueOf(boundsCheck(nbtInt.intValue()));
+            case ShortTag nbtShort -> String.valueOf(boundsCheck(nbtShort.shortValue()));
+            case StringTag nbtString -> "\"" + nbtString.asString().orElseThrow().replace("\"", "\\\"") + "\"";
+            default -> base.toString();
+        };
         //?} else {
-        
-        /*} else if (base instanceof ByteTag nbtByte) {
-            return (nbtByte.getAsByte() != 0) ? "true" : "false";
-        } else if (base instanceof DoubleTag nbtDouble) {
-            return String.valueOf(boundsCheck(nbtDouble.getAsFloat()));
-        } else if (base instanceof FloatTag nbtFloat) {
-            return String.valueOf(boundsCheck(nbtFloat.getAsFloat()));
-        } else if (base instanceof LongTag nbtLong) {
-            return String.valueOf(boundsCheck(nbtLong.getAsLong()));
-        } else if (base instanceof IntTag nbtInt) {
-            return String.valueOf(boundsCheck(nbtInt.getAsInt()));
-        } else if (base instanceof ShortTag nbtShort) {
-            return String.valueOf(boundsCheck(nbtShort.getAsShort()));
-        } else if (base instanceof StringTag nbtString) {
-            return "\"" + nbtString.getAsString().replace("\"", "\\\"") + "\"";
-        }
+        /*return switch (base) {
+            case null -> "!!NULL!!";
+            case CompoundTag nbtCompound -> compoundToString(nbtCompound, t + 1);
+            case ListTag nbtElements -> listToString(nbtElements, t + 1);
+            case ByteTag nbtByte -> (nbtByte.getAsByte() != 0) ? "true" : "false";
+            case DoubleTag nbtDouble -> String.valueOf(boundsCheck(nbtDouble.getAsFloat()));
+            case FloatTag nbtFloat -> String.valueOf(boundsCheck(nbtFloat.getAsFloat()));
+            case LongTag nbtLong -> String.valueOf(boundsCheck(nbtLong.getAsLong()));
+            case IntTag nbtInt -> String.valueOf(boundsCheck(nbtInt.getAsInt()));
+            case ShortTag nbtShort -> String.valueOf(boundsCheck(nbtShort.getAsShort()));
+            case StringTag nbtString -> "\"" + nbtString.getAsString().replace("\"", "\\\"") + "\"";
+            default -> base.toString();
+        };
         *///?}
-        return base.toString();
+
     }
 
     int maxBound = 30000000;
@@ -241,7 +219,7 @@ public interface CommonIO {
     static String compoundToString(CompoundTag base, int t) {
         String res = "{\n";
         int i = base.size() - 1;
-        for (String key: NbtUtils.keys(base)) {
+        for (String key : NbtUtils.keys(base)) {
             Tag elem = base.get(key);
             res = appendTabs(res, t+1) + "\"" + key + "\": " + elementToString(elem, t);
             if (i!=0) res += ",";

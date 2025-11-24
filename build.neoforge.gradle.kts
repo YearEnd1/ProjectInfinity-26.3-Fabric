@@ -98,6 +98,9 @@ neoForge {
     }
 
     runs {
+        configureEach {
+            systemProperty("neoforge.warnings.onlyin.hide", "true")
+        }
         register("client") {
             gameDirectory = file("run/")
             client()

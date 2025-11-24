@@ -67,6 +67,18 @@ public class RandomBiome {
         return res;
     }
 
+    private ListTag zeroBlockPos() {
+        ListTag nbtElements = new ListTag();
+        nbtElements.add(FloatTag.valueOf(0));
+        nbtElements.add(FloatTag.valueOf(0));
+        nbtElements.add(FloatTag.valueOf(0));
+        return nbtElements;
+    }
+
+    private Tag randomBlockState() {
+        return InfinityMod.provider.randomBlockProvider(new Random(), ConfigType.ALL_BLOCKS);
+    }
+
     StringTag randomSound(){
         return StringTag.valueOf(PROVIDER.randomName(random, ConfigType.SOUNDS));
     }
@@ -185,6 +197,18 @@ public class RandomBiome {
                 res.putInt("arrival_in_ticks", random.nextInt(20000));
                 return res;
             }
+            //? if >1.21.4 {
+            case "minecraft:trail" -> {
+                res.put("color", randomColor());
+                res.put("target", zeroBlockPos());
+                res.putInt("duration", random.nextInt(500));
+                return res;
+            }
+            case "minecraft:block_crumble" -> {
+                res.put("block_state", randomBlockState());
+                return res;
+            }
+            //?}
         }
         return res;
     }
@@ -213,7 +237,8 @@ public class RandomBiome {
         return res;
     }
 
-    CompoundTag carvers() {
+    //? if <1.21.5 {
+    /*CompoundTag carvers() {
         CompoundTag res = new CompoundTag();
         ListTag air = new ListTag();
         if (PROVIDER.roll(random, "use_random_cave")) air.add(StringTag.valueOf((new RandomCarver(this, true)).fullname));
@@ -222,4 +247,14 @@ public class RandomBiome {
         res.put("air", air);
         return res;
     }
+    *///?} else {
+    ListTag carvers() {
+        ListTag air = new ListTag();
+        if (PROVIDER.roll(random, "use_random_cave")) air.add(StringTag.valueOf((new RandomCarver(this, true)).fullname));
+        if (PROVIDER.roll(random, "use_random_canyon")) air.add(StringTag.valueOf((new RandomCarver(this, false)).fullname));
+        PROVIDER.registry.get(ConfigType.CARVERS).getAllNames(random::nextDouble).forEach(s -> air.add(StringTag.valueOf(s)));
+        return air;
+    }
+    //?}
+
 }
