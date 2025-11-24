@@ -3,8 +3,10 @@ package net.lerariemann.infinity.util;
 import com.google.common.hash.HashCode;
 import com.google.common.hash.Hashing;
 import net.lerariemann.infinity.InfinityMod;
+import net.lerariemann.infinity.access.InfinityOptionsAccess;
 import net.lerariemann.infinity.access.Timebombable;
 import net.lerariemann.infinity.block.entity.TintableBlockEntity;
+import net.lerariemann.infinity.compat.PonderCompat;
 import net.lerariemann.infinity.registry.core.ModComponentTypes;
 import net.lerariemann.infinity.util.core.RandomProvider;
 import net.lerariemann.infinity.util.platform.InfinityPlatform;
@@ -310,5 +312,22 @@ public interface InfinityMethods {
                 /*session.getLevelPath(LevelResource.DATAPACK_DIR)
                 *///?}
                 .toFile());
+    }
+
+
+    static double getMavity(Level level) {
+        if (InfinityPlatform.INSTANCE.isModLoaded("ponder") && PonderCompat.isPonderLevel(level))
+            return 1;
+        do {
+            var infinityOptionsAccess = ((InfinityOptionsAccess) level);
+            if (infinityOptionsAccess == null)
+                break;
+            var infinityOptions = infinityOptionsAccess.infinity$getOptions();
+            if (infinityOptions == null)
+                break;
+            return infinityOptions.getMavity();
+        } while (false);
+
+        return 1.0;
     }
 }

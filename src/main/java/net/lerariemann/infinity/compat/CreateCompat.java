@@ -32,8 +32,8 @@ public class CreateCompat {
         //? if <1.21
         /^if (!server.isNetherEnabled()) return null;^/
         //? if >1.21.9 {
-        server.getGameRules().getRule(GameRules.RULE_ALLOW_NETHER);
-        //?}
+        /^server.getGameRules().getRule(GameRules.RULE_ALLOW_NETHER);
+        ^///?}
         BlockPos posFrom = blockFace.getConnectedPos();
         if (worldFrom.getBlockEntity(posFrom) instanceof InfinityPortalBlockEntity ipbe
                 && ipbe.isConnectedBothSides()) { //we only allow trains through if portals are in sync
