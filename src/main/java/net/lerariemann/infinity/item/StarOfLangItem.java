@@ -10,7 +10,7 @@ public class StarOfLangItem extends Item {
         super(settings);
     }
 
-    //? if >1.21.2 {
+    //? if >1.21.2 && neoforge {
     @Override
     public ItemStack getCraftingRemainder(ItemStack itemStack) {
         return new ItemStack(ModItems.STAR_OF_LANG.get());

@@ -9,6 +9,7 @@ import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 //?}
 
+import java.util.Collection;
 import java.util.Random;
 import java.util.Set;
 
@@ -33,11 +34,11 @@ public interface NbtUtils {
 
     //? if >1.21.5 {
 
-    static Set<String> keys(ValueInput tag) {
+    static Collection<String> keys(ValueInput tag) {
         //? if neoforge {
         return tag.keySet();
         //?} else {
-        /*return tag.getAllKeys();
+        /*return tag.keys();
          *///?}
     }
     static boolean compoundHasString(ValueInput tag, String dimension) {
