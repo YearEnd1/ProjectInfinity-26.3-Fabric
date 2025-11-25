@@ -74,7 +74,7 @@ public interface ConfigManager {
      * Creates or updates an individual config file.
      */
     static boolean registerConfig(Path fromPath, Path toDirectory, String fromDirectory) {
-        String path1 = fromPath.toString().replace("config"+InfinityPlatform.version, "config"); //fixme this is terrible
+        String path1 = fromPath.toString().replace("config/"+InfinityPlatform.version, "config"); //fixme this is terrible
         String fullname = path1.substring(path1.lastIndexOf(fromDirectory) + fromDirectory.length());
         Path endfile = Paths.get(toDirectory + fullname);
         try {

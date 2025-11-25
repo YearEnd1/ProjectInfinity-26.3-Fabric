@@ -35,7 +35,7 @@ public class InfinityMod {
     }
 
     public static void init() {
-        rootConfigPathInJar = InfinityPlatform.INSTANCE.getRootPathInJar("config" + InfinityPlatform.version);
+        rootConfigPathInJar = InfinityPlatform.INSTANCE.getRootPathInJar("config/" + InfinityPlatform.version);
         ConfigManager.updateInvocationUnlock();
         ConfigManager.unpackDefaultConfigs();
         //? if >1.21 {

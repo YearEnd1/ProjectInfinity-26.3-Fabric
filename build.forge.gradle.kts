@@ -219,6 +219,8 @@ tasks.named<Jar>("jar") {
 tasks {
     processResources {
         exclude("**/fabric.mod.json", "**/*.accesswidener", "**/neoforge.mods.toml")
+        exclude("**/config/21")
+        exclude("**/config/22")
     }
 
     named("createMinecraftArtifacts") {

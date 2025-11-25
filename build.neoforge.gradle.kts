@@ -150,7 +150,25 @@ dependencies {
 
 tasks {
     processResources {
-        exclude("**/fabric.mod.json", "**/*.accesswidener", "**/mods.toml")
+        exclude("**/fabric.mod.json", "infinity-forge.mixins.json", "**/*.accesswidener", "**/mods.toml")
+        if (stonecutter.eval(stonecutter.current.version, ">1.21.5")) {
+            exclude("**/resourcepacks/20")
+            exclude("**/resourcepacks/21")
+            exclude("**/config/20")
+            exclude("**/config/21")
+        }
+        else if (stonecutter.eval(stonecutter.current.version, "=1.21.1")) {
+            exclude("**/resourcepacks/20")
+            exclude("**/resourcepacks/22")
+            exclude("**/config/20")
+            exclude("**/config/22")
+        }
+        else {
+            exclude("**/resourcepacks/21")
+            exclude("**/resourcepacks/22")
+            exclude("**/config/21")
+            exclude("**/config/22")
+        }
     }
 
     named("createMinecraftArtifacts") {
