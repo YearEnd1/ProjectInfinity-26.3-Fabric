@@ -5,6 +5,7 @@ import net.lerariemann.infinity.InfinityMod;
 //? if <1.21 && fabric {
 /*import net.lerariemann.infinity.compat.GravityChangerCompat;
 *///?}
+import net.lerariemann.infinity.compat.ModCompat;
 import net.lerariemann.infinity.util.platform.InfinityPlatform;
 import net.lerariemann.infinity.access.MinecraftServerAccess;
 import net.lerariemann.infinity.util.config.ConfigManager;
@@ -157,7 +158,7 @@ public abstract class MinecraftServerMixin extends ReentrantBlockableEventLoop<T
             levels.put(key, world);
             infinity$worldsToAdd.clear();
             //? if <1.21 && fabric {
-            /*if (InfinityPlatform.INSTANCE.isModLoaded("gravity_changer_q"))
+            /*if (ModCompat.GRAVITY_CHANGER)
                 GravityChangerCompat.changeMavity(world);
             *///?}
             InfinityPlatform.INSTANCE.onWorldLoad(this, world);

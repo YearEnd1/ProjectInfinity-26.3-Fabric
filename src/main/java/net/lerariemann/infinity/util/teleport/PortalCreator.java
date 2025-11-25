@@ -6,6 +6,7 @@ import net.lerariemann.infinity.access.MinecraftServerAccess;
 import net.lerariemann.infinity.block.custom.Boopable;
 import net.lerariemann.infinity.compat.CreateCompat;
 import net.lerariemann.infinity.compat.DimLibCompat;
+import net.lerariemann.infinity.compat.ModCompat;
 import net.lerariemann.infinity.registry.core.ModBlocks;
 import net.lerariemann.infinity.block.custom.InfinityPortalBlock;
 import net.lerariemann.infinity.block.entity.InfinityPortalBlockEntity;
@@ -85,7 +86,7 @@ public interface PortalCreator {
         WritableBookContent writableComponent = itemStack.getComponents().get(DataComponents.WRITABLE_BOOK_CONTENT);
         WrittenBookContent writtenComponent = itemStack.getComponents().get(DataComponents.WRITTEN_BOOK_CONTENT);
         String printedComponent = null;
-        if (InfinityPlatform.INSTANCE.isModLoaded("computercraft")) {
+        if (ModCompat.COMPUTERCRAFT) {
             try {
                 printedComponent = checkPrintedPage(itemStack);
             }
@@ -114,7 +115,7 @@ public interface PortalCreator {
             if (bl) entity.remove(Entity.RemovalReason.CHANGED_DIMENSION);
             recordIdTranslation(world.getServer(), id, content);
         }
-        else if (InfinityPlatform.INSTANCE.isModLoaded("computercraft")) {
+        else if (ModCompat.COMPUTERCRAFT) {
             try {
                 String content;
                 content = checkPrintedPage(itemStack);
@@ -284,7 +285,7 @@ public interface PortalCreator {
                 .addModifier(npbe -> npbe.setOpen(open))
                 .addModifier(BlockEntity::setChanged);
         //? if <1.21.2 || fabric {
-        /*if (InfinityPlatform.INSTANCE.isModLoaded("create")) {
+        /*if (ModCompat.CREATE) {
             union.addModifier(CreateCompat::tryModifyRails);
         }
         *///?}
@@ -306,7 +307,7 @@ public interface PortalCreator {
         RandomDimension d = new RandomDimension(id, server);
 
         // create the dimension
-        if (InfinityPlatform.INSTANCE.isModLoaded("dimlib")) {
+        if (ModCompat.DIMLIB) {
             DimLibCompat.add(server, id, DimensionGrabber.readDimensionFromDisk(d));
         } else {
             ((MinecraftServerAccess)(server)).infinity$addWorld(key, DimensionGrabber.readDimensionFromDisk(d));

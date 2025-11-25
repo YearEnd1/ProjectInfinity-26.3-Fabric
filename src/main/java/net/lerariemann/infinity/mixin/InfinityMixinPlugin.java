@@ -21,11 +21,11 @@ public class InfinityMixinPlugin implements IMixinConfigPlugin {
 
     @Override
     public boolean shouldApplyMixin(String targetClassName, String mixinClassName) {
-        if (Platform.isFabric()) {
-            if (mixinClassName.contains("net.lerariemann.infinity.mixin.mavity") && InfinityPlatform.INSTANCE.isModLoaded("gravity_changer_q")){
-                return false;
-            }
+        //? if fabric {
+        /*if (mixinClassName.contains("net.lerariemann.infinity.mixin.mavity") && InfinityPlatform.INSTANCE.isModLoaded("gravity_changer_q")){
+            return false;
         }
+        *///?}
         return true;
     }
 

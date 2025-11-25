@@ -6,6 +6,7 @@ import net.lerariemann.infinity.InfinityMod;
 import net.lerariemann.infinity.access.InfinityOptionsAccess;
 import net.lerariemann.infinity.access.Timebombable;
 import net.lerariemann.infinity.block.entity.TintableBlockEntity;
+import net.lerariemann.infinity.compat.ModCompat;
 import net.lerariemann.infinity.compat.PonderCompat;
 import net.lerariemann.infinity.registry.core.ModComponentTypes;
 import net.lerariemann.infinity.util.core.RandomProvider;
@@ -108,16 +109,6 @@ public interface InfinityMethods {
         *///?} else {
         return false;
         //?}
-    }
-
-    /**
-     * Checks if a mod designed for Fabric (using - instead of _) is loaded.
-     * This is most commonly used for FFAPI modules, but also applies to mods
-     * like Item Descriptions or Cloth Config.
-     */
-    static boolean isFabricApiLoaded(String modID) {
-        if (InfinityPlatform.INSTANCE.isFabric()) return InfinityPlatform.INSTANCE.isModLoaded(modID.replace("_", "-"));
-        else return InfinityPlatform.INSTANCE.isModLoaded(modID.replace("-", "_"));
     }
 
     static int properMod(int a, int b) {
@@ -316,7 +307,7 @@ public interface InfinityMethods {
 
 
     static double getMavity(Level level) {
-        if (InfinityPlatform.INSTANCE.isModLoaded("ponder") && PonderCompat.isPonderLevel(level))
+        if (ModCompat.PONDER && PonderCompat.isPonderLevel(level))
             return 1;
         do {
             var infinityOptionsAccess = ((InfinityOptionsAccess) level);

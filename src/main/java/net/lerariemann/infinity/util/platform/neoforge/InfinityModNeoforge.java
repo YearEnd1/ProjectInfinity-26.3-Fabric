@@ -4,6 +4,7 @@ package net.lerariemann.infinity.util.platform.neoforge;
 import net.lerariemann.infinity.InfinityMod;
 import net.lerariemann.infinity.compat.CreateCompat;
 //? if >1.21.4 {
+import net.lerariemann.infinity.compat.ModCompat;
 import net.lerariemann.infinity.compat.eiv.EivIntegration;
 //?}
 import net.lerariemann.infinity.registry.core.ModBlocks;
@@ -94,7 +95,7 @@ public class InfinityModNeoforge {
         ModItemFunctions.registerDispenserBehaviour();
         // this is less than ideal but i cannot figure out why the proper solution isn't working
         //? if >1.21.4 {
-        if (InfinityPlatform.INSTANCE.isModLoaded("eiv"))
+        if (ModCompat.EIV)
             EivIntegration.initialize();
         //?}
     }

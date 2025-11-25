@@ -3,6 +3,7 @@ package net.lerariemann.infinity.util.platform.neoforge;
 //? neoforge {
 import net.lerariemann.infinity.InfinityMod;
 import net.lerariemann.infinity.InfinityModClient;
+import net.lerariemann.infinity.compat.ModCompat;
 import net.lerariemann.infinity.registry.var.ModScreenHandlers;
 import net.lerariemann.infinity.util.VersionMethods;
 import net.lerariemann.infinity.util.platform.InfinityPlatform;
@@ -47,7 +48,7 @@ public class InfinityModNeoForgeClient {
 
     //Integrate Cloth Config screen (if mod present) with NeoForge mod menu.
     public static void registerModsPage() {
-        if (InfinityPlatform.INSTANCE.isModLoaded("cloth_config"))
+        if (ModCompat.CLOTH_CONFIG)
             ModLoadingContext.get().registerExtensionPoint(IConfigScreenFactory.class, ModConfigFactory::new);
     }
 
