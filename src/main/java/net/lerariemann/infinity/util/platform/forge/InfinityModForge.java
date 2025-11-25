@@ -1,13 +1,13 @@
 package net.lerariemann.infinity.util.platform.forge;
 
 //? forge {
-/*import dev.architectury.platform.Platform;
-import dev.architectury.platform.forge.EventBuses;
+/*import dev.architectury.platform.forge.EventBuses;
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.fabricmc.fabric.api.resource.ResourcePackActivationType;
 import net.fabricmc.loader.api.FabricLoader;
 import net.lerariemann.infinity.InfinityMod;
 import net.lerariemann.infinity.compat.CreateCompat;
+import net.lerariemann.infinity.compat.ModCompat;
 import net.lerariemann.infinity.registry.core.ModBlocks;
 import net.lerariemann.infinity.registry.core.ModEntities;
 import net.lerariemann.infinity.registry.core.ModItemFunctions;
@@ -15,12 +15,15 @@ import net.lerariemann.infinity.registry.core.ModStatusEffects;
 import net.lerariemann.infinity.registry.var.ModStats;
 import net.lerariemann.infinity.util.InfinityMethods;
 import net.lerariemann.infinity.util.platform.InfinityPlatform;
+import net.lerariemann.infinity.util.platform.forge.compat.CanaryCompat;
+import net.lerariemann.infinity.util.platform.forge.compat.RadiumCompat;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.event.entity.SpawnPlacementRegisterEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
@@ -33,6 +36,12 @@ import static net.lerariemann.infinity.InfinityMod.MOD_ID;
 public class InfinityModForge {
     @SuppressWarnings("for removal")
     public InfinityModForge() {
+        // Register compat file ASAP to prevent a Canary crash.
+        if (ModList.get().isLoaded("canary"))
+            CanaryCompat.writeCompatFile();
+        // Register compat file ASAP to prevent a Radium crash.
+        if (ModList.get().isLoaded("radium"))
+            RadiumCompat.writeCompatFile();
         FMLJavaModLoadingContext context = FMLJavaModLoadingContext.get();
         IEventBus eventBus = context.getModEventBus();
         // Submit our event bus to let Architectury API register our content on the right time.
@@ -66,7 +75,7 @@ public class InfinityModForge {
         ModStatusEffects.AFTERGLOW = ModEffectsForge.AFTERGLOW.getHolder().get();
         ModBlocks.registerFlammableBlocks();
         ModItemFunctions.registerDispenserBehaviour();
-        if (Platform.isModLoaded("create")) {
+        if (ModCompat.CREATE) {
             CreateCompat.register();
         }
     }
