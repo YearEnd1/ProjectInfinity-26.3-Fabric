@@ -24,7 +24,7 @@ import java.awt.Color;
 
 @Mixin(FogRenderer.class)
 public class BackgroundRendererMixin {
-    //FIXME 1.21.10
+    //FIXME 1.21.8
     //? if <1.21.2 {
     /*@Shadow
     private static float fogRed;

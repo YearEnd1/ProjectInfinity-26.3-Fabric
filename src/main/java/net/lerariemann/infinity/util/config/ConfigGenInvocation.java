@@ -20,13 +20,12 @@ public class ConfigGenInvocation {
     public BlockPos pos;
 
     public static void invokeOn(ServerPlayer player) {
-        //FIXME - 1.21.10 height check
         //? if <1.21.2 {
         /*ServerLevel w = player.serverLevel();
         int y = w.getMaxBuildHeight() - 10;
         *///?} else {
         ServerLevel w = player.level();
-        int y = 256;
+        int y= w.getMaxY();
         //?}
         BlockPos pos = new BlockPos(player.getBlockX(), y, player.getBlockZ());
         (new ConfigGenInvocation(w, pos)).run();

@@ -147,13 +147,7 @@ public class ModItems {
     public static final RegistrySupplier<Item> IRIDESCENT_POTION =
             registerItemAfter("iridescent_potion", Items.HONEY_BOTTLE, settings ->
                             new IridescentPotionItem(glintProperties(settings).rarity(Rarity.UNCOMMON),
-                                    //FIXME 1.21.8
-                                    //? if >1.21.2 {
-                                    4
-                                    //?} else {
-                                    /*RandomProvider.ruleInt("iridescencePotionLevel")
-                                    *///?}
-
+                                    RandomProvider.ruleInt("iridescencePotionLevel")
                             ));
     public static final RegistrySupplier<Item> CHROMATIC_POTION =
             registerItemAfter("chromatic_potion", Items.HONEY_BOTTLE, settings ->
