@@ -4,11 +4,16 @@ plugins {
     id("me.modmuss50.mod-publish-plugin")
 }
 
+val minecraft = stonecutter.current.version
+val mcVersion = stonecutter.current.project.substringBeforeLast('-')
+version = "${property("mod.version")}+${property("deps.minecraft")}"
+if (property("mod.test_build") != "0") version = "$version-tb${property("mod.test_build")}"
+
 tasks.named<ProcessResources>("processResources") {
     fun prop(name: String) = project.property(name) as String
 
     val props = HashMap<String, String>().apply {
-        this["version"] = prop("mod.version") + "+" + prop("deps.minecraft")
+        this["version"] = "$version"
         this["minecraft"] = prop("mod.mc_dep_forgelike")
     }
 
@@ -17,14 +22,8 @@ tasks.named<ProcessResources>("processResources") {
     }
 }
 
-version = "${property("mod.version")}+${property("deps.minecraft")}-neoforge"
+version = "$version-neoforge"
 base.archivesName = property("mod.id") as String
-
-val minecraft = stonecutter.current.version
-val accesstransformer = when {
-    stonecutter.eval(minecraft, ">=1.21") -> "1.21.cfg"
-    else -> "1.20.cfg"
-}
 
 jsonlang {
     languageDirectories = listOf("assets/${property("mod.id")}/lang")
@@ -207,14 +206,5 @@ publishMods {
         accessToken = env.CURSEFORGE_API_KEY.orNull()
         minecraftVersions.add(stonecutter.current.version)
         minecraftVersions.addAll(additionalVersions)
-    }
-}
-
-tasks.processResources {
-    filesMatching("META-INF/neoforge.mods.toml") {
-        expand(mapOf(
-            // other properties
-            "at_file" to accesstransformer,
-        ))
     }
 }

@@ -7,12 +7,14 @@ plugins {
 
 val minecraft = stonecutter.current.version
 val mcVersion = stonecutter.current.project.substringBeforeLast('-')
+version = "${property("mod.version")}+${property("deps.minecraft")}"
+if (property("mod.test_build") != "0") version = "$version-tb${property("mod.test_build")}"
 
 tasks.named<ProcessResources>("processResources") {
     fun prop(name: String) = project.property(name) as String
 
     val props = HashMap<String, String>().apply {
-        this["version"] = prop("mod.version") + "+" + prop("deps.minecraft")
+        this["version"] = "$version"
         this["minecraft"] = prop("mod.mc_dep_forge")
     }
 
@@ -21,7 +23,7 @@ tasks.named<ProcessResources>("processResources") {
     }
 }
 
-version = "${property("mod.version")}+${property("deps.minecraft")}-forge"
+version = "$version-forge"
 base.archivesName = property("mod.id") as String
 
 jsonlang {
