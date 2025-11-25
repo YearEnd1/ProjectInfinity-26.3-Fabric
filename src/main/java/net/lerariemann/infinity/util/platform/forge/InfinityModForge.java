@@ -3,22 +3,24 @@ package net.lerariemann.infinity.util.platform.forge;
 //? forge {
 /*import dev.architectury.platform.Platform;
 import dev.architectury.platform.forge.EventBuses;
+import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
+import net.fabricmc.fabric.api.resource.ResourcePackActivationType;
+import net.fabricmc.loader.api.FabricLoader;
 import net.lerariemann.infinity.InfinityMod;
 import net.lerariemann.infinity.compat.CreateCompat;
 import net.lerariemann.infinity.registry.core.ModBlocks;
 import net.lerariemann.infinity.registry.core.ModEntities;
 import net.lerariemann.infinity.registry.core.ModItemFunctions;
 import net.lerariemann.infinity.registry.core.ModStatusEffects;
-import net.lerariemann.infinity.registry.var.ModPayloads;
 import net.lerariemann.infinity.registry.var.ModStats;
-import net.lerariemann.infinity.util.config.SoundScanner;
+import net.lerariemann.infinity.util.InfinityMethods;
+import net.lerariemann.infinity.util.platform.InfinityPlatform;
 import net.minecraft.client.Minecraft;
-import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.network.chat.Component;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.event.entity.SpawnPlacementRegisterEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.ModContainer;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
@@ -27,7 +29,7 @@ import net.minecraftforge.fml.loading.FMLEnvironment;
 import static net.lerariemann.infinity.InfinityMod.MOD_ID;
 
 @Mod(MOD_ID)
-@Mod.EventBusSubscriber(modid = MOD_ID)
+@Mod.EventBusSubscriber(modid = MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class InfinityModForge {
     @SuppressWarnings("for removal")
     public InfinityModForge() {
@@ -43,6 +45,11 @@ public class InfinityModForge {
         FluidTypes.registerFluidTypes(eventBus);
         ModFluidsForge.registerModFluids(eventBus);
         ModEffectsForge.register(eventBus);
+        ResourceManagerHelper.registerBuiltinResourcePack(
+                InfinityMethods.getId(String.valueOf(InfinityPlatform.version)),
+                FabricLoader.getInstance().getModContainer(InfinityMod.MOD_ID).orElseThrow(),
+                Component.literal("Infinite Dimensions - Multiversioned Resources"),
+                ResourcePackActivationType.ALWAYS_ENABLED);
     }
 
     @SubscribeEvent

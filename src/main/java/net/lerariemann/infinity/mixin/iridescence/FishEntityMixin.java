@@ -43,6 +43,24 @@ public class FishEntityMixin extends WaterAnimal {
             super(entity);
         }
 
+        //? if forge {
+        /*@ModifyArg(method = "tick", at= @At(value = "INVOKE",
+                target = "Lnet/minecraft/util/Mth;atan2(DD)D"), index = 0)
+        double inj(double y) {
+            if (Iridescence.isUnderEffect(fish)) {
+                return -y;
+            }
+            return y;
+        }
+        @ModifyArg(method = "tick", at= @At(value = "INVOKE",
+                target = "Lnet/minecraft/util/Mth;atan2(DD)D"), index = 1)
+        double inj2(double y) {
+            if (Iridescence.isUnderEffect(fish)) {
+                return -y;
+            }
+            return y;
+        }
+        *///?} else {
         @ModifyArgs(method = "tick", at= @At(value = "INVOKE",
                 target = "Lnet/minecraft/util/Mth;atan2(DD)D"))
         void inj(Args args) {
@@ -53,5 +71,6 @@ public class FishEntityMixin extends WaterAnimal {
                 args.set(1, -1*d);
             }
         }
+        //?}
     }
 }

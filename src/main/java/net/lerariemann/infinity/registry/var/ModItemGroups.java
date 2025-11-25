@@ -22,7 +22,7 @@ import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 /*import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-@Mod.EventBusSubscriber
+@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
 *///?} else {
 /*import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroupEntries;
 *///?}

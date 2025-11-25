@@ -24,7 +24,7 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import static net.lerariemann.infinity.InfinityMod.MOD_ID;
 import static net.lerariemann.infinity.registry.var.ModScreenHandlers.F4;
 
-@Mod.EventBusSubscriber(value = Dist.CLIENT, modid = MOD_ID)
+@Mod.EventBusSubscriber(value = Dist.CLIENT, modid = MOD_ID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class InfinityModForgeClient {
     public static void initializeClient(FMLJavaModLoadingContext context) {
         InfinityModClient.initializeClient();

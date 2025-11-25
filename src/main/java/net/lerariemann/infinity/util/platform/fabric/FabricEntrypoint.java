@@ -3,6 +3,9 @@ package net.lerariemann.infinity.util.platform.fabric;
 //? fabric {
 
 /*import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
+import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
+import net.fabricmc.fabric.api.resource.ResourcePackActivationType;
+import net.fabricmc.loader.api.FabricLoader;
 import net.lerariemann.infinity.InfinityMod;
 import net.fabricmc.api.ModInitializer;
 import net.lerariemann.infinity.compat.CreateCompat;
@@ -11,7 +14,9 @@ import net.lerariemann.infinity.registry.core.ModEntities;
 import net.lerariemann.infinity.registry.core.ModItemFunctions;
 import net.lerariemann.infinity.registry.var.ModItemGroups;
 import net.lerariemann.infinity.registry.var.ModStats;
+import net.lerariemann.infinity.util.InfinityMethods;
 import net.lerariemann.infinity.util.platform.InfinityPlatform;
+import net.minecraft.network.chat.Component;
 
 public class FabricEntrypoint implements ModInitializer {
 
@@ -32,6 +37,11 @@ public class FabricEntrypoint implements ModInitializer {
         if (InfinityPlatform.INSTANCE.isModLoaded("create"))
             CreateCompat.register();
         ItemGroupEvents.MODIFY_ENTRIES_ALL.register(ModItemGroups::buildContents);
+        ResourceManagerHelper.registerBuiltinResourcePack(
+                InfinityMethods.getId(String.valueOf(InfinityPlatform.version)),
+                FabricLoader.getInstance().getModContainer(InfinityMod.MOD_ID).orElseThrow(),
+                Component.literal("Infinite Dimensions - Multiversioned Resources"),
+                ResourcePackActivationType.ALWAYS_ENABLED);
     }
 }
 *///?}

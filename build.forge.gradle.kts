@@ -189,16 +189,34 @@ dependencies {
     modImplementation("dev.su5ed.sinytra.fabric-api:fabric-api-base:0.4.32+ef105b4977")
     modImplementation("dev.su5ed.sinytra.fabric-api:fabric-networking-api-v1:1.3.14+fb7c822677")
     modImplementation("dev.su5ed.sinytra.fabric-api:fabric-object-builder-api-v1:11.1.5+f8c414ce77")
+    modImplementation("dev.su5ed.sinytra.fabric-api:fabric-resource-loader-v0:0.11.12+4b4151c077")
     jarJar("dev.su5ed.sinytra:fabric-loader:2.7.11+0.16.5+1.20.1")
     jarJar("dev.su5ed.sinytra.fabric-api:fabric-api-base:0.4.32+ef105b4977")
     jarJar("dev.su5ed.sinytra.fabric-api:fabric-networking-api-v1:1.3.14+fb7c822677")
     jarJar("dev.su5ed.sinytra.fabric-api:fabric-object-builder-api-v1:11.1.5+f8c414ce77")
+    jarJar("dev.su5ed.sinytra.fabric-api:fabric-resource-loader-v0:0.11.12+4b4151c077")
 
 
+    annotationProcessor("org.spongepowered:mixin:0.8.5:processor")
     compileOnly("io.github.llamalad7:mixinextras-common:0.5.0")
     implementation("io.github.llamalad7:mixinextras-forge:0.5.0")
     jarJar("io.github.llamalad7:mixinextras-forge:0.5.0")
 }
+
+
+mixin {
+    add(sourceSets["main"], "infinity.refmap.json")
+    config("infinity-forge.mixins.json")
+}
+
+tasks.named<Jar>("jar") {
+    manifest {
+        attributes(
+            "MixinConfigs" to "infinity-forge.mixins.json"
+        )
+    }
+}
+
 
 tasks {
     processResources {
