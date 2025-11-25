@@ -186,9 +186,13 @@ public interface ConfigGenerator {
             assert bet != null;
             Set<Block> blocks = bet.infinity$getBlocks();
             if (!blocks.isEmpty()) {
-                BlockEntity be = bet.infinity$getFactory().create(BlockPos.ZERO, ((Block)blocks.toArray()[0]).defaultBlockState());
-                if (be instanceof RandomizableContainerBlockEntity && !(be instanceof ShulkerBoxBlockEntity)) {
-                    for (Block b : blocks) allBlocks.add(BuiltInRegistries.BLOCK.getKey(b));
+                try {
+                    BlockEntity be = bet.infinity$getFactory().create(BlockPos.ZERO, ((Block)blocks.toArray()[0]).defaultBlockState());
+                    if (be instanceof RandomizableContainerBlockEntity && !(be instanceof ShulkerBoxBlockEntity)) {
+                        for (Block b : blocks) allBlocks.add(BuiltInRegistries.BLOCK.getKey(b));
+                    }
+                } catch (IllegalStateException ignored) {
+                    // do not try and use block entities that do not set valid blocks.
                 }
             }
         });
