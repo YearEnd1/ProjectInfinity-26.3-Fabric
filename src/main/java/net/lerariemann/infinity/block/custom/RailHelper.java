@@ -23,7 +23,7 @@ public class RailHelper extends BaseEntityBlock {
     //? if >1.21 {
     @Override
     protected MapCodec<? extends BaseEntityBlock> codec() {
-        return null;
+        return simpleCodec(RailHelper::new);
     }
     //?}
 
@@ -34,12 +34,12 @@ public class RailHelper extends BaseEntityBlock {
 
     @Override
     public void tick(BlockState state, ServerLevel world, BlockPos pos, RandomSource random) {
-        //? if <1.21.2 {
+        //? if <1.21.2 || fabric {
         /*if (InfinityPlatform.INSTANCE.isModLoaded("create")) {
             CreateCompat.reattachRails(world, pos, getBlockEntity(world, pos));
         }else
         *///?}
-        world.setBlockAndUpdate(pos, Blocks.AIR.defaultBlockState());
+            world.setBlockAndUpdate(pos, Blocks.AIR.defaultBlockState());
     }
 
     public static RHBEntity getBlockEntity(ServerLevel world, BlockPos pos) {

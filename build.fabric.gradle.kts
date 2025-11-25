@@ -164,7 +164,10 @@ dependencies {
         modCompileOnly("net.createmod.ponder:Ponder-Fabric-1.21.1:1.0.59")
     }
 
-    if (stonecutter.eval(stonecutter.current.version, ">=1.21")) {
+    if (stonecutter.eval(stonecutter.current.version, ">=1.21.4")) {
+        modCompileOnly("maven.modrinth:create-fly:xmqjlfxH") { isTransitive = false }
+    }
+    else if (stonecutter.eval(stonecutter.current.version, ">=1.21")) {
         modCompileOnly("com.simibubi.create:create-fucked-up-1.21.1:6.0.6+053024d") { isTransitive = false }
     } else {
         modCompileOnly("com.simibubi.create:create-fabric-1.20.1:6.0.7.0+mc1.20.1-build.1716")

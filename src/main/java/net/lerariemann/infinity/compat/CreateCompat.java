@@ -6,6 +6,12 @@ import com.simibubi.create.content.trains.track.AllPortalTracks;
 import com.simibubi.create.content.trains.track.TrackBlock;
 import com.simibubi.create.content.trains.track.TrackShape;
 import net.createmod.catnip.math.BlockFace;
+*///?} else if fabric {
+/*import com.zurrtum.create.api.contraption.train.PortalTrackProvider;
+import com.zurrtum.create.catnip.math.BlockFace;
+import com.zurrtum.create.content.trains.track.AllPortalTracks;
+import com.zurrtum.create.content.trains.track.TrackBlock;
+import com.zurrtum.create.content.trains.track.TrackShape;
 *///?}
 import net.lerariemann.infinity.block.custom.RailHelper;
 import net.lerariemann.infinity.block.entity.InfinityPortalBlockEntity;
@@ -26,7 +32,7 @@ import java.util.Optional;
 import java.util.Set;
 
 public class CreateCompat {
-    //? if <1.21.2 {
+    //? if <1.21.2 || fabric {
     /*private static PortalTrackProvider.Exit infinityPortalProvider(ServerLevel worldFrom, BlockFace blockFace) {
         MinecraftServer server = worldFrom.getServer();
         //? if <1.21

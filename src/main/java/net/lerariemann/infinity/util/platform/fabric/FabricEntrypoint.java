@@ -27,11 +27,8 @@ public class FabricEntrypoint implements ModInitializer {
         ModStats.load();
         ModBlocks.registerFlammableBlocks();
         ModItemFunctions.registerDispenserBehaviour();
-        //FIXME - look into create fly?
-        //? if <1.21.2 {
-        /^if (InfinityPlatform.INSTANCE.isModLoaded("create"))
+        if (InfinityPlatform.INSTANCE.isModLoaded("create"))
             CreateCompat.register();
-        ^///?}
     }
 }
 *///?}

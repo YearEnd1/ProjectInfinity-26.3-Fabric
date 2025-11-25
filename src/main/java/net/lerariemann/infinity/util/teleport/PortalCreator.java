@@ -283,7 +283,7 @@ public interface PortalCreator {
                 .addModifier(npbe -> npbe.setColor(applier.apply(npbe.getBlockPos())))
                 .addModifier(npbe -> npbe.setOpen(open))
                 .addModifier(BlockEntity::setChanged);
-        //? if <1.21.2 {
+        //? if <1.21.2 || fabric {
         /*if (InfinityPlatform.INSTANCE.isModLoaded("create")) {
             union.addModifier(CreateCompat::tryModifyRails);
         }
