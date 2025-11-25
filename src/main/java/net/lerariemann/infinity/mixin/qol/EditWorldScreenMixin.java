@@ -1,7 +1,6 @@
 package net.lerariemann.infinity.mixin.qol;
 
 import it.unimi.dsi.fastutil.booleans.BooleanConsumer;
-import net.lerariemann.infinity.access.ScreenAccess;
 import net.lerariemann.infinity.util.InfinityMethods;
 //? if >1.21 {
 import net.minecraft.client.Minecraft;
@@ -32,7 +31,7 @@ public class EditWorldScreenMixin {
     *///?}
     , CallbackInfo ci) {
         var screen = (EditWorldScreen) (Object) this;
-        ((ScreenAccess) screen).infinity$addWidget(Button.builder(Component.translatable("screen.infinity.delete_datapacks"), button -> {
+        screen.addRenderableWidget(Button.builder(Component.translatable("screen.infinity.delete_datapacks"), button -> {
             boolean bl = InfinityMethods.deleteLevel(session);
             this.callback.accept(!bl);
         }).width(200).tooltip(Tooltip.create(Component.translatable("screen.infinity.delete_datapacks.tooltip"), null)).build());

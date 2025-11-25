@@ -21,8 +21,7 @@ import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.SpawnPlacementTypes;
 import static net.minecraft.world.entity.SpawnPlacementTypes.*;
 //?} else {
-/*import net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityTypeBuilder;
-import static net.minecraft.world.entity.SpawnPlacements.Type.*;
+/*import static net.minecraft.world.entity.SpawnPlacements.Type.*;
 *///?}
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.monster.AbstractSkeleton;
@@ -69,19 +68,10 @@ public class ModEntities {
 
     public static final RegistrySupplier<EntityType<ChaosSlime>> CHAOS_SLIME = INFINITY_ENTITIES
             .register("chaos_slime", () ->
-                    //? if >1.21 {
-                    
                     EntityType.Builder.of(ChaosSlime::new, MobCategory.MONSTER)
                     .sized(0.52f, 0.52f)
                     .clientTrackingRange(10)
-                    .build(type("chaos_slime"))
-                     //?} else {
-                    /*FabricEntityTypeBuilder.create(MobCategory.MONSTER, ChaosSlime::new)
-                    .dimensions(EntityDimensions.scalable(0.52f, 0.52f))
-                    .trackRangeBlocks(10)
-                    .build()
-                    *///?}
-            );
+                    .build(type("chaos_slime")));
     public static final RegistrySupplier<EntityType<ChaosSkeleton>> CHAOS_SKELETON = INFINITY_ENTITIES
             .register("chaos_skeleton", () -> EntityType.Builder.of(ChaosSkeleton::new, MobCategory.MONSTER)
                     .sized(0.6f, 1.99f)

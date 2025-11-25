@@ -68,7 +68,6 @@
   ],
   "client": [
     "SoundListMixin",
-    "core.ScreenMixin",
     "iridescence.LivingEntityRendererMixin",
     "iridescence.PostEffectProcessorMixin",
     "options.BackgroundRendererMixin",
