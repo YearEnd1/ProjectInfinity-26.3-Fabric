@@ -10,11 +10,11 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 //? if >1.21 {
 import net.minecraft.core.component.DataComponentPatch;
+import net.minecraft.core.component.DataComponents;
 //?} else {
 /*import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.Level;
 *///?}
-import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;

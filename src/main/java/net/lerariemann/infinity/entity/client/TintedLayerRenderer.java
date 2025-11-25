@@ -57,7 +57,7 @@ public class TintedLayerRenderer<T extends
             texture = InfinityMethods.getId("textures/entity/empty.png");
         }
 
-        (this.getParentModel()).copyTransforms(this.model);
+//        (this.getParentModel()).copyTransforms(this.model);
         this.model.setupAnim(renderState);
         int color = 16777215;
         if (renderState instanceof TintableEntity ent) {

@@ -17,10 +17,7 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.*;
-//? if >1.21.9 {
-/*import net.minecraft.world.entity.MobSpawnType;
-import static net.minecraft.world.entity.MobSpawnType.*;
-*///?} else if >1.21 {
+//? if >1.21 {
 import net.minecraft.world.entity.SpawnPlacementTypes;
 import static net.minecraft.world.entity.SpawnPlacementTypes.*;
 //?} else {
@@ -148,9 +145,7 @@ public class ModEntities {
     }
 
     public static <T extends Mob> void registerSafe(EntityType<T> type,
-                                                    //? if >1.21.9 {
-                                                    /*MobSpawnType
-                                                    *///?} else if >1.21 {
+                                                    //? if >1.21 {
                                                     SpawnPlacementType
                                                     //?} else {
                                                     /*SpawnPlacements.Type

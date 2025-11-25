@@ -21,7 +21,7 @@ public record InfinityTintSource(int color) implements ItemTintSource {
 
     @Override
     public int calculate(ItemStack stack, @Nullable ClientLevel level, @Nullable LivingEntity entity) {
-        if (stack.has(ModComponentTypes.COLOR)) {
+        if (stack.has(ModComponentTypes.COLOR.get())) {
             return InfinityMethods.getItemColorFromComponents(stack, 1);
         } else {
             return -1;

@@ -50,15 +50,15 @@ public record CorePack(RandomProvider provider, Path savingPath) {
         return CommonIO.readAndFormat(InfinityMod.utilPath.resolve("placements/tree_vanilla.json").toString(), tree, block);
     }
 
-    void saveVersioned() {
-        String dirName = "util" + (InfinityPlatform.version);
-        try (Stream<Path> files = Files.walk(InfinityPlatform.INSTANCE.getRootPathInJar(dirName))) {
-            files.filter(p -> p.toString().endsWith(".json")).forEach(p -> ConfigManager.registerConfig(p, savingPath, dirName));
-            Files.deleteIfExists(tempFile); //being a good method cleaning up after itself :3
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
+//    void saveVersioned() {
+//        String dirName = "util" + (InfinityPlatform.version);
+//        try (Stream<Path> files = Files.walk(InfinityPlatform.INSTANCE.getRootPathInJar(dirName))) {
+//            files.filter(p -> p.toString().endsWith(".json")).forEach(p -> ConfigManager.registerConfig(p, savingPath, dirName));
+//            Files.deleteIfExists(tempFile); //being a good method cleaning up after itself :3
+//        } catch (IOException e) {
+//            throw new RuntimeException(e);
+//        }
+//    }
 
     void saveTrees() {
         List<String> trees = provider.registry.get(ConfigType.TREES).getAllNames();

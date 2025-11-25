@@ -63,7 +63,12 @@ public class NeoForgePlatformImpl implements InfinityPlatform {
 
     @Override
     public boolean isDevelopment() {
+        //? if >1.21.9 {
+        /*return !FMLEnvironment.isProduction();
+        *///?} else {
         return !FMLEnvironment.production;
+        //?}
+
     }
     @Override
     public void registerPayloadsServer() {};
@@ -160,8 +165,20 @@ public class NeoForgePlatformImpl implements InfinityPlatform {
     @Override
     @SuppressWarnings("for removal")
     public Path getRootPathInJar(String path) {
-        return ModLoadingContext.get().getActiveContainer().getModInfo().getOwningFile().getFile()
-                .findResource(path);
+        var file = ModLoadingContext.get().getActiveContainer().getModInfo().getOwningFile().getFile();
+        // FIXME - this does not work, i'll have to build a platform specific impl later if neo 1.21.10 is to release
+        //? if >1.21.9 {
+        /*var contents = file.getContents();
+        Path returnPath = null;
+        for (Path contentRoot : contents.getContentRoots()) {
+            if (contentRoot.resolve(path).toFile().exists()) {
+                returnPath = contentRoot.resolve(path);
+            }
+        }
+        return returnPath;
+        *///?} else {
+        return file.findResource(path);
+        //?}
     }
 
     /**

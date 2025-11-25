@@ -3,7 +3,9 @@ package net.lerariemann.infinity.util.platform.neoforge;
 //? neoforge {
 import net.lerariemann.infinity.InfinityMod;
 import net.lerariemann.infinity.compat.CreateCompat;
+//? if >1.21.4 {
 import net.lerariemann.infinity.compat.eiv.EivIntegration;
+//?}
 import net.lerariemann.infinity.registry.core.ModBlocks;
 import net.lerariemann.infinity.registry.core.ModEntities;
 import net.lerariemann.infinity.registry.core.ModItemFunctions;
@@ -14,6 +16,7 @@ import net.lerariemann.infinity.util.config.SoundScanner;
 import net.lerariemann.infinity.util.platform.InfinityPlatform;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.packs.PackType;
 import net.minecraft.server.packs.repository.Pack;
@@ -42,7 +45,13 @@ public class InfinityModNeoforge {
         // Run our common setup.
         InfinityMod.init();
         // Run our client setup.
-        if (FMLEnvironment.dist == Dist.CLIENT) InfinityModNeoForgeClient.initializeClient(eventBus);
+        //? if >1.21.9 {
+        /*if (FMLEnvironment.getDist() == Dist.CLIENT) {
+        *///?} else {
+        if (FMLEnvironment.dist == Dist.CLIENT) {
+        //?}
+            InfinityModNeoForgeClient.initializeClient(eventBus);
+        }
         // Run any remaining tasks that require waiting for the registry to freeze on NeoForge.
         FluidTypes.registerFluidTypes(eventBus);
         ModFluidsNeoforge.registerModFluids();
@@ -84,8 +93,10 @@ public class InfinityModNeoforge {
         ModBlocks.registerFlammableBlocks();
         ModItemFunctions.registerDispenserBehaviour();
         // this is less than ideal but i cannot figure out why the proper solution isn't working
+        //? if >1.21.4 {
         if (InfinityPlatform.INSTANCE.isModLoaded("eiv"))
             EivIntegration.initialize();
+        //?}
     }
 
     public static Minecraft client() {
@@ -93,6 +104,15 @@ public class InfinityModNeoforge {
     }
     public static ServerPlayer getPlayer(IPayloadContext context) {
         return ((ServerPlayer)context.player());
+    }
+
+    public static MinecraftServer getServerFromPlayer(IPayloadContext context) {
+        ServerPlayer player = getPlayer(context);
+        //? if >1.21.9 {
+        /*return player.level().getServer();
+        *///?} else {
+        return player.getServer();
+        //?}
     }
 
     @SubscribeEvent
@@ -136,7 +156,7 @@ public class InfinityModNeoforge {
         registrar.playToServer(
                 ModPayloads.JukeboxesC2SPayload.ID,
                 ModPayloads.JukeboxesC2SPayload.CODEC,
-                (payload, context) -> SoundScanner.unpackUploadedJukeboxes(getPlayer(context).getServer(), payload.data())
+                (payload, context) -> SoundScanner.unpackUploadedJukeboxes(getServerFromPlayer(context), payload.data())
         );
     }
 }
