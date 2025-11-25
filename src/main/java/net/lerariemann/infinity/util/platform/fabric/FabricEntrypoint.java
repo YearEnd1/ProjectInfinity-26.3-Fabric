@@ -2,12 +2,14 @@ package net.lerariemann.infinity.util.platform.fabric;
 
 //? fabric {
 
-/*import net.lerariemann.infinity.InfinityMod;
+/*import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
+import net.lerariemann.infinity.InfinityMod;
 import net.fabricmc.api.ModInitializer;
 import net.lerariemann.infinity.compat.CreateCompat;
 import net.lerariemann.infinity.registry.core.ModBlocks;
 import net.lerariemann.infinity.registry.core.ModEntities;
 import net.lerariemann.infinity.registry.core.ModItemFunctions;
+import net.lerariemann.infinity.registry.var.ModItemGroups;
 import net.lerariemann.infinity.registry.var.ModStats;
 import net.lerariemann.infinity.util.platform.InfinityPlatform;
 
@@ -29,6 +31,7 @@ public class FabricEntrypoint implements ModInitializer {
         ModItemFunctions.registerDispenserBehaviour();
         if (InfinityPlatform.INSTANCE.isModLoaded("create"))
             CreateCompat.register();
+        ItemGroupEvents.MODIFY_ENTRIES_ALL.register(ModItemGroups::buildContents);
     }
 }
 *///?}

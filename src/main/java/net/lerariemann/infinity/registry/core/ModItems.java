@@ -6,8 +6,8 @@ import dev.architectury.registry.registries.RegistrySupplier;
 import net.lerariemann.infinity.InfinityMod;
 import net.lerariemann.infinity.item.*;
 import net.lerariemann.infinity.util.InfinityMethods;
-import net.lerariemann.infinity.util.platform.InfinityPlatform;
 import net.lerariemann.infinity.util.core.RandomProvider;
+import net.lerariemann.infinity.util.platform.InfinityPlatform;
 import net.lerariemann.infinity.util.var.ColorLogic;
 //? if >1.21 {
 import net.minecraft.core.component.DataComponents;
@@ -103,7 +103,6 @@ public class ModItems {
     public static RegistrySupplier<InfinitySpawnEggItem> registerEgg(String name, RegistrySupplier<? extends EntityType<? extends Mob>> eType, int backgroundColour, int colour) {
         RegistrySupplier<InfinitySpawnEggItem> registeredItem = register(name, new Item.Properties(), (properties) ->
                 new InfinitySpawnEggItem(eType, backgroundColour, colour, properties));
-        InfinityPlatform.INSTANCE.addEnd(registeredItem, CreativeModeTabs.SPAWN_EGGS);
         return registeredItem;
     }
 
@@ -113,15 +112,15 @@ public class ModItems {
 
     //misc
     public static final RegistrySupplier<Item> FOOTPRINT =
-            registerItemAfter("footprint", CreativeModeTabs.INGREDIENTS, Items.DISC_FRAGMENT_5, Item::new);
+            registerItemAfter("footprint", Items.DISC_FRAGMENT_5, Item::new);
     public static final RegistrySupplier<TransfiniteKeyItem> TRANSFINITE_KEY =
-            registerItemAfter("key", CreativeModeTabs.INGREDIENTS, OMINOUS_TRIAL_KEY, TransfiniteKeyItem::new);
+            registerItemAfter("key", OMINOUS_TRIAL_KEY, TransfiniteKeyItem::new);
     public static final RegistrySupplier<HomeItem> HOME_ITEM =
-            registerItemAfter("fine_item", CreativeModeTabs.FOOD_AND_DRINKS, Items.MILK_BUCKET, HomeItem::new,
+            registerItemAfter("fine_item", Items.MILK_BUCKET, HomeItem::new,
                     foodProperties(0, 0, true, 3f, Optional.empty()));
 
     public static final RegistrySupplier<ChromaticItem> CHROMATIC_MATTER =
-            registerItemAfter("chromatic_matter", CreativeModeTabs.INGREDIENTS, Items.DISC_FRAGMENT_5, settings -> new ChromaticItem(
+            registerItemAfter("chromatic_matter", Items.DISC_FRAGMENT_5, settings -> new ChromaticItem(
                     //? if >1.21 {
                     InfinityPlatform.INSTANCE.deferredIntComponent("chromatic_matter", ModComponentTypes.COLOR, ColorLogic.defaultChromatic))
                     //?} else {
@@ -129,24 +128,24 @@ public class ModItems {
                     *///?}
             );
     public static final RegistrySupplier<Item> WHITE_MATTER =
-            registerItemAfter("white_matter", CreativeModeTabs.INGREDIENTS, Items.DISC_FRAGMENT_5, Item::new);
+            registerItemAfter("white_matter", Items.DISC_FRAGMENT_5, Item::new);
     public static final RegistrySupplier<Item> BLACK_MATTER =
-            registerItemAfter("black_matter", CreativeModeTabs.INGREDIENTS, Items.DISC_FRAGMENT_5, Item::new);
+            registerItemAfter("black_matter", Items.DISC_FRAGMENT_5, Item::new);
     public static final RegistrySupplier<IridescentStarItem> IRIDESCENT_STAR =
-            registerItemAfter("iridescent_star", CreativeModeTabs.INGREDIENTS, Items.NETHER_STAR, IridescentStarItem::new,
+            registerItemAfter("iridescent_star", Items.NETHER_STAR, IridescentStarItem::new,
                     glintProperties(new Item.Properties()).rarity(Rarity.UNCOMMON));
     public static final RegistrySupplier<? extends StarOfLangItem> STAR_OF_LANG =
-            registerItemAfter("star_of_lang", CreativeModeTabs.INGREDIENTS, Items.NETHER_STAR, StarOfLangItem::new,
+            registerItemAfter("star_of_lang", Items.NETHER_STAR, StarOfLangItem::new,
                     glintProperties(new Item.Properties()));
 
     public static final RegistrySupplier<F4Item> F4 =
-            registerItemAfter("f4", CreativeModeTabs.TOOLS_AND_UTILITIES, Items.WRITABLE_BOOK, F4Item::new,
+            registerItemAfter("f4", Items.WRITABLE_BOOK, F4Item::new,
                     new Item.Properties().rarity(Rarity.UNCOMMON));
     public static final RegistrySupplier<Item> DISC =
-            registerItemAfter("disc", CreativeModeTabs.TOOLS_AND_UTILITIES, Items.MUSIC_DISC_PIGSTEP, Item::new,
+            registerItemAfter("disc", Items.MUSIC_DISC_PIGSTEP, Item::new,
                     new Item.Properties().rarity(Rarity.RARE));
     public static final RegistrySupplier<Item> IRIDESCENT_POTION =
-            registerItemAfter("iridescent_potion", CreativeModeTabs.FOOD_AND_DRINKS, Items.HONEY_BOTTLE, settings ->
+            registerItemAfter("iridescent_potion", Items.HONEY_BOTTLE, settings ->
                             new IridescentPotionItem(glintProperties(settings).rarity(Rarity.UNCOMMON),
                                     //FIXME 1.21.8
                                     //? if >1.21.2 {
@@ -157,7 +156,7 @@ public class ModItems {
 
                             ));
     public static final RegistrySupplier<Item> CHROMATIC_POTION =
-            registerItemAfter("chromatic_potion", CreativeModeTabs.FOOD_AND_DRINKS, Items.HONEY_BOTTLE, settings ->
+            registerItemAfter("chromatic_potion", Items.HONEY_BOTTLE, settings ->
                             new IridescentPotionItem(settings, 0));
 
     private static Item.Properties glintProperties(Item.Properties settings) {
@@ -194,15 +193,14 @@ public class ModItems {
     /**
      * Registers an item via Architectury API.
      */
-    public static <T extends Item> RegistrySupplier<T> registerItemAfter(String id, ResourceKey<CreativeModeTab> group, Item item,
-                                                           Function<Item.Properties, T> constructor, Item.Properties settings) {
+    public static <T extends Item> RegistrySupplier<T> registerItemAfter(String id, Item item,
+                                                                         Function<Item.Properties, T> constructor, Item.Properties settings) {
         RegistrySupplier<T> registeredItem = register(id, settings, constructor);
-        InfinityPlatform.INSTANCE.addAfter(registeredItem, group, item);
         return registeredItem;
     }
-    public static <T extends Item> RegistrySupplier<T> registerItemAfter(String id, ResourceKey<CreativeModeTab> group, Item item,
-                                                           Function<Item.Properties, T> constructor) {
-        return registerItemAfter(id, group, item, constructor, new Item.Properties()
+    public static <T extends Item> RegistrySupplier<T> registerItemAfter(String id, Item item,
+                                                                         Function<Item.Properties, T> constructor) {
+        return registerItemAfter(id, item, constructor, new Item.Properties()
                 //? if >1.21.4
                 .setId(registryKey(id))
         );
@@ -227,7 +225,6 @@ public class ModItems {
                                                                 Item.Properties settings,
                                                                 BiFunction<Block, Item.Properties, T> constructor) {
         RegistrySupplier<T> registeredItem = registerBlockItem(block, settings, constructor);
-        InfinityPlatform.INSTANCE.addAfter(registeredItem, group, item);
         return registeredItem;
     }
     /**
@@ -239,7 +236,6 @@ public class ModItems {
     }
 
     public static void registerModItems() {
-        InfinityPlatform.INSTANCE.addAfter(IRIDESCENCE_BUCKET, CreativeModeTabs.TOOLS_AND_UTILITIES, Items.MILK_BUCKET);
         InfinityMod.LOGGER.debug("Registering items for " + MOD_ID);
         ITEMS.register();
     }

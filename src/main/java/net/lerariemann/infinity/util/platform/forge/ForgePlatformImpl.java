@@ -81,17 +81,6 @@ public class ForgePlatformImpl implements InfinityPlatform {
     }
 
     /^*
-     * Fabric-exclusive method of adding an item to an Item Group, which uses Fabric API.
-     * On NeoForge, does nothing.
-     ^/
-    public <T extends Item> void addAfter(RegistrySupplier<T> supplier, ResourceKey<CreativeModeTab> group, Item item) {
-
-    }
-    public <T extends Item> void addEnd(RegistrySupplier<T> supplier, ResourceKey<CreativeModeTab> group) {
-
-    }
-
-    /^*
      * Check if a block is in the Black Dyed Conventional Tag.
      ^/
     public boolean isInBlack(BlockState state) {

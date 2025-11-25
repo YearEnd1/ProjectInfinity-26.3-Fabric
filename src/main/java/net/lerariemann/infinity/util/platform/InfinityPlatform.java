@@ -67,14 +67,6 @@ public interface InfinityPlatform {
     void onWorldLoad(Object mixin, ServerLevel world);
 
     /**
-     * Fabric-exclusive method of adding an item to an Item Group, which uses Fabric API.
-     * On NeoForge, does nothing.
-     */
-    <T extends Item> void addAfter(RegistrySupplier<T> supplier, ResourceKey<CreativeModeTab> group, Item item);
-
-    <T extends Item> void addEnd(RegistrySupplier<T> supplier, ResourceKey<CreativeModeTab> group);
-
-    /**
      * Check if a block is in the Black Dyed Conventional Tag.
      */
     boolean isInBlack(BlockState state);
