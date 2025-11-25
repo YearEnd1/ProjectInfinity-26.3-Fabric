@@ -15,7 +15,7 @@ public class SlimeEntityMixin {
     /* Allows chaos slimes to correctly inherit their additional data when split. */
     //? if >1.21.2 && fabric {
     /*@Inject(method = "method_63653", at = @At(value = "RETURN"))
-    private void injected(int i, float f, float g, Slime instance, CallbackInfo ci) {
+    private void chaosSlimesSplit(int i, float f, float g, Slime instance, CallbackInfo ci) {
         Slime e = ((Slime)(Object)(this));
         if (e instanceof ChaosSlime slime_mom) {
             ChaosSlime slime_son = (ChaosSlime)instance;
@@ -25,7 +25,7 @@ public class SlimeEntityMixin {
     }
     *///?} else if >1.21.2 {
     @Inject(method = "lambda$remove$1", at = @At(value = "RETURN"))
-    private void injected(int i, float f, float g, Slime instance, CallbackInfo ci) {
+    private void chaosSlimesSplit(int i, float f, float g, Slime instance, CallbackInfo ci) {
         Slime e = ((Slime)(Object)(this));
         if (e instanceof ChaosSlime slime_mom) {
             ChaosSlime slime_son = (ChaosSlime)instance;
@@ -36,7 +36,7 @@ public class SlimeEntityMixin {
     //?} else {
     /*@Redirect(method = "remove(Lnet/minecraft/world/entity/Entity$RemovalReason;)V", at = @At(value = "INVOKE",
             target = "Lnet/minecraft/world/entity/monster/Slime;setNoAi(Z)V"))
-    private void injected(Slime instance, boolean b) {
+    private void chaosSlimesSplit(Slime instance, boolean b) {
         instance.setNoAi(b);
         Slime e = ((Slime)(Object)(this));
         if (e instanceof ChaosSlime slime_mom) {

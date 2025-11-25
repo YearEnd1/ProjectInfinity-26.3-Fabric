@@ -16,7 +16,7 @@ public abstract class CreeperEntityMixin {
 
     /* A hook for chaos creepers' explosion logic. */
     @Inject(method = "explodeCreeper()V", at = @At("HEAD"), cancellable = true)
-    private void injected(CallbackInfo ci) {
+    private void chaosCreepersExplode(CallbackInfo ci) {
         if (((Creeper)(Object)this) instanceof ChaosCreeper) {
             ChaosCreeper e = (ChaosCreeper)(Object)this;
             Level w = e.level();

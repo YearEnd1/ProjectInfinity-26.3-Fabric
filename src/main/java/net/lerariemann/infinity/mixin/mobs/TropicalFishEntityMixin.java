@@ -19,7 +19,7 @@ public abstract class TropicalFishEntityMixin extends AbstractSchoolingFish {
 
     /* In infinity biomes, tropical fish spawn in a fully random variant. */
     @ModifyExpressionValue(method="finalizeSpawn", at= @At(value = "INVOKE", target = "Lnet/minecraft/util/RandomSource;nextFloat()F"))
-    float mev(float original, @Local(argsOnly = true) ServerLevelAccessor world){
+    float randomTropicalFish(float original, @Local(argsOnly = true) ServerLevelAccessor world){
         if (InfinityMethods.isBiomeInfinity(world, blockPosition())) return 1.0f;
         return original;
     }

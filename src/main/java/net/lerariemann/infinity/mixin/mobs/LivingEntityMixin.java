@@ -70,7 +70,7 @@ public abstract class LivingEntityMixin extends Entity {
 
     /* Handle fall damage in dimensions with custom mavity */
     @Inject(method = "calculateFallDamage", at = @At(value = "HEAD"), cancellable = true)
-    protected void inj2(
+    protected void handleMavityFallDamage(
             //? if >1.21.2 {
             double
             //?} else {

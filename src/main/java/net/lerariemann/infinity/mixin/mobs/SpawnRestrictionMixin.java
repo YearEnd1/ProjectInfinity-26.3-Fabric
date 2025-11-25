@@ -22,7 +22,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(SpawnPlacements.class)
 public class SpawnRestrictionMixin {
     @Inject(method = "checkSpawnRules", at = @At("HEAD"), cancellable = true)
-    private static <T extends Entity> void inj(EntityType<T> type, ServerLevelAccessor world,
+    private static <T extends Entity> void controlInfiniteDimensionsMobSpawning(EntityType<T> type, ServerLevelAccessor world,
                                                //? if >1.21.2 {
                                                EntitySpawnReason
                                                //?} else {

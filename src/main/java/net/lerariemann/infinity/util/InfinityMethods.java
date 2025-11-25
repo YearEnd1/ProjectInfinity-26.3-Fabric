@@ -83,12 +83,15 @@ public interface InfinityMethods {
         return key.location().getNamespace().equals(MOD_ID);
     }
     static boolean isBiomeInfinity(LevelAccessor world, BlockPos pos) {
-        //? if >1.21 {
-        return world.getBiome(pos).getRegisteredName().contains("infinity");
-        //?} else {
-        /*return world.registryAccess().registryOrThrow(Registries.BIOME).getKey(world.getBiome(pos).value()).getNamespace().contains("infinity");
-        *///?}
-
+        try {
+            //? if >1.21 {
+            return world.getBiome(pos).getRegisteredName().contains("infinity");
+            //?} else {
+            /*return world.registryAccess().registryOrThrow(Registries.BIOME).getKey(world.getBiome(pos).value()).getNamespace().contains("infinity");
+             *///?}
+        } catch (IllegalStateException e) {
+            return false;
+        }
     }
     static boolean isBiomeInfinity(Holder<Biome> b) {
         //? if >1.21 {
