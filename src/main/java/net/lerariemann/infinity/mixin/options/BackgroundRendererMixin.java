@@ -1,18 +1,22 @@
 package net.lerariemann.infinity.mixin.options;
 
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
+import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import com.llamalad7.mixinextras.sugar.Local;
 import net.lerariemann.infinity.options.InfinityOptions;
-import net.lerariemann.infinity.util.InfinityMethods;
-import net.minecraft.client.Camera;
-import net.minecraft.client.multiplayer.ClientLevel;
 //? if >1.21.2 {
+import net.minecraft.client.Camera;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.fog.FogRenderer;
 //?} else {
-/*import net.minecraft.client.renderer.FogRenderer;
+/*import net.lerariemann.infinity.util.InfinityMethods;
+import net.minecraft.client.Camera;
+import net.minecraft.client.renderer.FogRenderer;
 *///?}
+import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.util.Mth;
 import net.minecraft.world.level.material.FogType;
+import org.joml.Vector4f;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
@@ -20,11 +24,10 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import java.awt.Color;
+import java.awt.*;
 
 @Mixin(FogRenderer.class)
 public class BackgroundRendererMixin {
-    //FIXME 1.21.8
     //? if <1.21.2 {
     /*@Shadow
     private static float fogRed;
@@ -39,7 +42,10 @@ public class BackgroundRendererMixin {
     private static void injected(Camera camera, float tickDelta, ClientLevel world, int viewDistance, float skyDarkness, CallbackInfo ci) {
         InfinityOptions options = InfinityOptions.access(world);
         if (options.getSkyType().equals("rainbow") && camera.getFluidInCamera() == FogType.NONE) {
-            infinity$applyRainbowFog(world, tickDelta);
+            var vec4f = infinity$applyRainbowFog(world, tickDelta);
+            fogRed = vec4f.x;
+            fogGreen = vec4f.y;
+            fogBlue = vec4f.z;
         }
     }
 
@@ -51,15 +57,31 @@ public class BackgroundRendererMixin {
         return InfinityOptions.access(world).getHorizonShadingRatio();
     }
 
+
+    *///?} else {
+
+    @ModifyReturnValue(method = "computeFogColor",
+            at= @At(value = "RETURN"))
+    private static Vector4f injected(Vector4f original, Camera camera, float partialTick, ClientLevel level, int renderDistance, float darkenWorldAmount, boolean isFoggy) {
+        InfinityOptions options = InfinityOptions.access(level);
+        if (options.getSkyType().equals("rainbow") && camera.getFluidInCamera() == FogType.NONE) {
+            return infinity$applyRainbowFog(level, Minecraft.getInstance().getDeltaTracker().getGameTimeDeltaTicks());
+        }
+        return original;
+    }
+
+    //?}
+
     @Unique
-    private static void infinity$applyRainbowFog(ClientLevel world, float tickDelta) {
+    private static Vector4f infinity$applyRainbowFog(ClientLevel world, float tickDelta) {
         float main = world.getTimeOfDay(tickDelta) * 2 + 0.5f;
         main -= (int)main;
         int color = Color.getHSBColor(main, 1.0f, 1.0f).getRGB();
         float f = Mth.clamp(Mth.cos(world.getTimeOfDay(tickDelta) * ((float)Math.PI * 2)) * 2.0f + 0.5f, 0.2f, 1.0f);
-        fogRed = f * (float)(color >> 16 & 0xFF) / 255.0f;
-        fogGreen = f * (float)(color >> 8 & 0xFF) / 255.0f;
-        fogBlue = f * (float)(color & 0xFF) / 255.0f;
+        var red = f * (float)(color >> 16 & 0xFF) / 255.0f;
+        var green = f * (float)(color >> 8 & 0xFF) / 255.0f;
+        var blue = f * (float)(color & 0xFF) / 255.0f;
+        return new Vector4f(red, green, blue, 1.0F);
     }
-    *///?}
+
 }
