@@ -1,5 +1,6 @@
 package net.lerariemann.infinity.item;
 
+import net.lerariemann.infinity.InfinityMod;
 import net.lerariemann.infinity.block.entity.InfinityPortalBlockEntity;
 import net.lerariemann.infinity.options.PortalColorApplier;
 import net.lerariemann.infinity.registry.core.ModComponentTypes;
@@ -13,6 +14,7 @@ import net.minecraft.core.component.DataComponentPatch;
 /*import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.Level;
 *///?}
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
@@ -22,6 +24,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 //? if >1.21.2 {
+import net.minecraft.world.item.component.CustomModelData;
 import net.minecraft.world.item.component.TooltipDisplay;
 //?}
 import org.jetbrains.annotations.NotNull;
@@ -52,6 +55,9 @@ public class TransfiniteKeyItem extends Item implements PortalDataHolder.Destina
         return DataComponentPatch.builder()
                 .set(ModComponentTypes.DESTINATION.get(), id)
                 .set(ModComponentTypes.COLOR.get(), color & 0xFFFFFF)
+                //? if >1.21.4 {
+                .set(DataComponents.CUSTOM_MODEL_DATA, getDataForClientItem(id, color & 0xFFFFFF))
+                //?}
                 .build();
     }
 
@@ -119,4 +125,26 @@ public class TransfiniteKeyItem extends Item implements PortalDataHolder.Destina
                 : Component.translatable("tooltip.infinity.key.randomise");
         tooltipAdder.accept(mutableText.withStyle(ChatFormatting.GRAY));
     }
+
+    //? if >1.21.4 {
+    public CustomModelData getDataForClientItem(ItemStack stack) {
+        return getDataForClientItem(stack.getComponents().getOrDefault(ModComponentTypes.DESTINATION.get(), InfinityMethods.getId("random")), stack.getComponents().getOrDefault(ModComponentTypes.COLOR.get(), 0));
+    }
+
+    public CustomModelData getDataForClientItem(ResourceLocation dimension, int color) {
+        String data;
+        if (dimension.getPath().contains("generated")) {
+            data = "generated";
+        } else if (dimension.equals(ResourceLocation.withDefaultNamespace("end"))) {
+            data = "end";
+        } else if (dimension.equals(InfinityMethods.getId("pride"))) {
+            data = "pride";
+        } else if (InfinityMod.provider.easterizer.isEaster(dimension.getPath()) || !dimension.getNamespace().equals("infinity")) {
+            data = "golden";
+        } else {
+            data = "random";
+        }
+        return new CustomModelData(List.of(), List.of(), List.of(data), List.of(color));
+    }
+    //?}
 }

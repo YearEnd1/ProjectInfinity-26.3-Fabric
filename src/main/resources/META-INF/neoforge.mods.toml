@@ -35,3 +35,5 @@ side = "BOTH"
 
 ["lithium:options"]
 "mixin.ai.poi.fast_portals" = false
+
+eiv = "net.lerariemann.infinity.compat.eiv.EivIntegration"

@@ -16,6 +16,8 @@ import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
 //? if >1.21.4 {
 import net.minecraft.client.renderer.chunk.ChunkSectionLayer;
+import net.lerariemann.infinity.item.tint.InfinityTintSource;
+
 //?}
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
@@ -73,7 +75,12 @@ public class InfinityModNeoForgeClient {
         event.register(InfinityMethods::getDiscColorFromComponents,
                 ModItems.DISC.get());
     }
-    *///?}
+    *///?} else {
+    @SubscribeEvent
+    public static void registerItemColorHandlers(RegisterColorHandlersEvent.ItemTintSources event) {
+        event.register(InfinityMethods.getId("color"), InfinityTintSource.MAP_CODEC);
+    }
+    //?}
     @SubscribeEvent
     public static void registerMenuScreens(RegisterMenuScreensEvent event) {
         event.register(ModScreenHandlers.F4.get(), F4Screen::new);

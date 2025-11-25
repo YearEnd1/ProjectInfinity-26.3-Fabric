@@ -132,7 +132,7 @@ dependencies {
         implementation("dev.emi:emi-neoforge:${property("deps.emi")}+${property("deps.minecraft")}")
     }
     if (hasProperty("deps.eiv")) {
-        compileOnly("maven.modrinth:eiv:${property("deps.eiv")}-neoforge")
+        implementation("maven.modrinth:eiv:${property("deps.eiv")}-neoforge")
     }
 
 

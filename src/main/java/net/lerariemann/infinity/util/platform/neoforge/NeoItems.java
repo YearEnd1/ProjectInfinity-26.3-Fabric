@@ -8,13 +8,18 @@ import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 import static net.minecraft.world.item.Items.*;
 import static net.minecraft.world.item.Items.OMINOUS_TRIAL_KEY;
 
+@EventBusSubscriber
 public class NeoItems {
     public static void addAfter(BuildCreativeModeTabContentsEvent event, Item itemBefore, Item itemAfter) {
         event.insertAfter(itemBefore.getDefaultInstance(), itemAfter.getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+    }
+    public static void addAfter(BuildCreativeModeTabContentsEvent event, Item itemBefore) {
+        event.accept(itemBefore);
     }
     
     //MyItemsClass.MY_ITEM is a Supplier<? extends Item>, MyBlocksClass.MY_BLOCK is a Supplier<? extends Block>
@@ -54,6 +59,12 @@ public class NeoItems {
             addAfter(event, PINK_WOOL, ModItems.CHROMATIC_WOOL.get());
             addAfter(event, PINK_CARPET, ModItems.CHROMATIC_CARPET.get());
             addAfter(event, PINK_TERRACOTTA, ModItems.CURSOR_ITEM.get());
+        } else if (event.getTabKey() == CreativeModeTabs.SPAWN_EGGS) {
+            addAfter(event, ANT_SPAWN_EGG.get());
+            addAfter(event, BISHOP_SPAWN_EGG.get());
+            addAfter(event, CREEPER_SPAWN_EGG, CHAOS_CREEPER_SPAWN_EGG.get());
+            addAfter(event, SKELETON_SPAWN_EGG, CHAOS_SKELETON_SPAWN_EGG.get());
+            addAfter(event, SLIME_SPAWN_EGG, CHAOS_SLIME_SPAWN_EGG.get());
         }
     }
 }

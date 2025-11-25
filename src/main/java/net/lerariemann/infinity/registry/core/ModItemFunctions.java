@@ -228,6 +228,7 @@ public class ModItemFunctions {
                 resStack.copyWithCount(itemEntity.getItem().getCount()),
                 -v.x, -v.y, -v.z);
         w.addFreshEntity(result);
+        result.setPortalCooldown(20);
         itemEntity.remove(Entity.RemovalReason.CHANGED_DIMENSION);
     }
 

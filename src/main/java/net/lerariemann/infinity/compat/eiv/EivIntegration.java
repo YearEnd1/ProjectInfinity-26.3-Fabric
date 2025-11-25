@@ -5,6 +5,7 @@ package net.lerariemann.infinity.compat.eiv;
 import de.crafty.eiv.common.api.IExtendedItemViewIntegration;
 import de.crafty.eiv.common.api.recipe.ItemView;
 import de.crafty.eiv.common.recipe.ServerRecipeManager;
+import net.lerariemann.infinity.InfinityMod;
 import net.lerariemann.infinity.compat.eiv.iridescence_crafting.IridescenceCraftingServerRecipe;
 import net.lerariemann.infinity.compat.eiv.iridescence_crafting.IridescenceCraftingViewRecipe;
 import net.lerariemann.infinity.compat.eiv.portal_crafting.PortalCraftingServerRecipe;
@@ -15,8 +16,16 @@ import java.util.Collections;
 import java.util.List;
 
 public class EivIntegration implements IExtendedItemViewIntegration {
+    boolean initialized = false;
     @Override
     public void onIntegrationInitialize() {
+        if (!initialized)
+            initialize();
+        initialized = true;
+    }
+
+    public static void initialize() {
+        InfinityMod.LOGGER.info("Initializing Infinite Dimensions - EIV integration");
         // Serverside recipes
         ItemView.addRecipeProvider(recipeList -> {
             // Portal Crafting - serverside
@@ -28,6 +37,7 @@ public class EivIntegration implements IExtendedItemViewIntegration {
         ItemView.registerRecipeWrapper(PortalCraftingServerRecipe.TYPE, modRecipe -> Collections.singletonList(new PortalCraftingViewRecipe(modRecipe)));
         // Iridescence Crafting - Clientside
         ItemView.registerRecipeWrapper(IridescenceCraftingServerRecipe.TYPE, modRecipe -> Collections.singletonList(new IridescenceCraftingViewRecipe(modRecipe)));
+
     }
 }
 //?}

@@ -51,9 +51,7 @@ public class ModItems {
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(MOD_ID, Registries.ITEM);
     //block items
     public static final RegistrySupplier<Item> PORTAL_ITEM =
-            register(ModBlocks.PORTAL.getId().getPath(), new Item.Properties()
-                    //? if >1.21.4
-                    .setId(registryKey(ModBlocks.PORTAL.getId().getPath()))
+            register(ModBlocks.PORTAL.getId().getPath(), blockItemProperties(ModBlocks.PORTAL.getId().getPath())
                     , (properties) -> new BlockItem(ModBlocks.PORTAL.get(),
                             colorProperties(ColorLogic.defaultPortal, properties)));
     public static final RegistrySupplier<Item> COSMIC_ALTAR_ITEM =

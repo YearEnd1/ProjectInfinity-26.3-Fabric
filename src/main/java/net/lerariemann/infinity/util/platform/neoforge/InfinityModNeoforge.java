@@ -3,6 +3,7 @@ package net.lerariemann.infinity.util.platform.neoforge;
 //? neoforge {
 import net.lerariemann.infinity.InfinityMod;
 import net.lerariemann.infinity.compat.CreateCompat;
+import net.lerariemann.infinity.compat.eiv.EivIntegration;
 import net.lerariemann.infinity.registry.core.ModBlocks;
 import net.lerariemann.infinity.registry.core.ModEntities;
 import net.lerariemann.infinity.registry.core.ModItemFunctions;
@@ -62,6 +63,14 @@ public class InfinityModNeoforge {
                 true,
                 Pack.Position.TOP
         );
+        event.addPackFinders(
+                InfinityMethods.getId("resourcepacks/" + InfinityPlatform.version),
+                PackType.CLIENT_RESOURCES,
+                Component.literal("Infinite Dimensions - Multiversioned Resources"),
+                PackSource.BUILT_IN,
+                true,
+                Pack.Position.TOP
+        );
     }
 
     @SubscribeEvent
@@ -74,6 +83,9 @@ public class InfinityModNeoforge {
         ModStats.load();
         ModBlocks.registerFlammableBlocks();
         ModItemFunctions.registerDispenserBehaviour();
+        // this is less than ideal but i cannot figure out why the proper solution isn't working
+        if (InfinityPlatform.INSTANCE.isModLoaded("eiv"))
+            EivIntegration.initialize();
     }
 
     public static Minecraft client() {

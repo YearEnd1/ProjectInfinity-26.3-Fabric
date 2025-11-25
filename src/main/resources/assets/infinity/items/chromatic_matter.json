@@ -4,8 +4,8 @@
     "model": "infinity:item/chromatic_matter",
     "tints": [
       {
-        "type": "minecraft:custom_model_data",
-        "index": 0,
+        "type": "infinity:color",
+        "color": 0,
         "default": 9393112
       }
     ]

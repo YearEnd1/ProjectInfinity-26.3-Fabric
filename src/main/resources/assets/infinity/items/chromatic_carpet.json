@@ -4,7 +4,7 @@
     "model": "infinity:block/chromatic/carpet",
     "tints": [
       {
-        "type": "minecraft:custom_model_data",
+        "type": "infinity:color",
         "index": 0,
         "default": 9393112
       }
