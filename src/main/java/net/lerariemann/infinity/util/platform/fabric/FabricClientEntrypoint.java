@@ -3,6 +3,8 @@ package net.lerariemann.infinity.util.platform.fabric;
 //? fabric {
 /*//? if >1.21.2 {
 import net.fabricmc.fabric.api.client.rendering.v1.BlockRenderLayerMap;
+import net.lerariemann.infinity.item.tint.InfinityTintSource;
+import net.minecraft.client.color.item.ItemTintSources;
 import net.minecraft.client.renderer.chunk.ChunkSectionLayer;
 //?} else {
 /^import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
@@ -45,7 +47,9 @@ public class FabricClientEntrypoint implements ClientModInitializer {
                 ModItems.PORTAL_ITEM.get());
         ColorProviderRegistry.ITEM.register(InfinityMethods::getDiscColorFromComponents,
                 ModItems.DISC.get());
-        ^///?}
+        ^///?} else {
+        ItemTintSources.ID_MAPPER.put(InfinityMethods.getId("color"), InfinityTintSource.MAP_CODEC);
+        //?}
 
         // Render layer maps
         //? if >1.21.2 {

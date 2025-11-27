@@ -156,16 +156,16 @@ dependencies {
     if (hasProperty("deps.cct")) {
         modImplementation("cc.tweaked:cc-tweaked-${property("deps.minecraft")}-fabric:${property("deps.cct")}")
     } else {
-        modCompileOnly("cc.tweaked:cc-tweaked-1.21.1-fabric:1.115.0")
+        modCompileOnly("cc.tweaked:cc-tweaked-1.21.1-fabric:1.115.0") { isTransitive = false }
     }
     if (hasProperty("deps.ponder")) {
         modCompileOnly("net.createmod.ponder:Ponder-Fabric-${property("deps.minecraft")}:${property("deps.ponder")}")
     } else {
-        modCompileOnly("net.createmod.ponder:Ponder-Fabric-1.21.1:1.0.59")
+        modCompileOnly("net.createmod.ponder:Ponder-Fabric-1.21.1:1.0.59") { isTransitive = false }
     }
 
     if (stonecutter.eval(stonecutter.current.version, ">=1.21.4")) {
-        modCompileOnly("maven.modrinth:create-fly:xmqjlfxH") { isTransitive = false }
+        modImplementation("maven.modrinth:create-fly:xmqjlfxH")
     }
     else if (stonecutter.eval(stonecutter.current.version, ">=1.21")) {
         modCompileOnly("com.simibubi.create:create-fucked-up-1.21.1:6.0.6+053024d") { isTransitive = false }
@@ -174,8 +174,6 @@ dependencies {
         { isTransitive = false }
     }
 
-//    val modules = listOf("transitive-access-wideners-v1", "registry-sync-v0", "resource-loader-v0")
-//    for (it in modules) modImplementation(fabricApi.module("fabric-$it", property("deps.fabric_api") as String))
 }
 
 
