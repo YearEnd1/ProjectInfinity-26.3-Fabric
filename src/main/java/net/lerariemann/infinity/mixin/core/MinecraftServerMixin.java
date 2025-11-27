@@ -2,7 +2,7 @@ package net.lerariemann.infinity.mixin.core;
 
 import com.google.common.collect.ImmutableList;
 import net.lerariemann.infinity.InfinityMod;
-//? if <1.21 && fabric {
+//? if <1.21.2 && fabric {
 /*import net.lerariemann.infinity.compat.GravityChangerCompat;
 *///?}
 import net.lerariemann.infinity.compat.ModCompat;
@@ -157,7 +157,7 @@ public abstract class MinecraftServerMixin extends ReentrantBlockableEventLoop<T
                 (wrapRunnable(() -> {
             levels.put(key, world);
             infinity$worldsToAdd.clear();
-            //? if <1.21 && fabric {
+            //? if <1.21.2 && fabric {
             /*if (ModCompat.GRAVITY_CHANGER)
                 GravityChangerCompat.changeMavity(world);
             *///?}

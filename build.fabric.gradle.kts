@@ -147,8 +147,10 @@ dependencies {
 
     // Gravity Changer
     if (hasProperty("deps.gravity_changer")) {
-        modCompileOnly("com.github.qouteall:GravityChanger:v${property("deps.gravity_changer")}-mc${property("deps.minecraft")}") {
-            isTransitive = false
+        if (stonecutter.eval(stonecutter.current.version, ">=1.21")) {
+            modCompileOnly("maven.modrinth:gravity-changer-unofficial-port:${property("deps.gravity_changer")}") { isTransitive = false }
+        } else {
+            modCompileOnly("com.github.qouteall:GravityChanger:v${property("deps.gravity_changer")}-mc${property("deps.minecraft")}") { isTransitive = false }
         }
     }
     //EMI

@@ -25,9 +25,11 @@ public class BishopRenderer extends
 
     public BishopRenderer(EntityRendererProvider.Context context) {
         super(context, new BishopModel(context.bakeLayer(BishopModel.MODEL_LAYER)), 0.6f);
-        //FIXME 1.21.10 - armor rendering changed
         //? if >1.21.9 {
-        //?} else if >1.21.5 {
+        /*this.addLayer(new HumanoidArmorLayer<>(this,
+                ArmorModelSet.bake(ModelLayers.SKELETON_ARMOR, context.getModelSet(), BishopModel::new),
+                context.getEquipmentRenderer()));
+        *///?} else if >1.21.5 {
         this.addLayer(new HumanoidArmorLayer<>(this,
                 new BishopModel(context.bakeLayer(ModelLayers.SKELETON_INNER_ARMOR)),
                 new BishopModel(context.bakeLayer(ModelLayers.SKELETON_OUTER_ARMOR)),
@@ -38,7 +40,6 @@ public class BishopRenderer extends
                 new BishopModel(context.bakeLayer(ModelLayers.SKELETON_OUTER_ARMOR)),
                 context.getModelManager()));
         *///?}
-
     }
 
     @Override

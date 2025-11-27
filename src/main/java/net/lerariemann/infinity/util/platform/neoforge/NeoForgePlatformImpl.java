@@ -152,7 +152,7 @@ public class NeoForgePlatformImpl implements InfinityPlatform {
     @SuppressWarnings("for removal")
     public Path getRootPathInJar(String path) {
         var file = ModLoadingContext.get().getActiveContainer().getModInfo().getOwningFile().getFile();
-        // FIXME - this does not work, i'll have to build a platform specific impl later if neo 1.21.10 is to release
+        // FIXME 1.21.10 - this does not work in production. standard paths do not work on neoforge 1.21.10, will either need to drop neo or make this even more platform specific
         //? if >1.21.9 {
         /*var contents = file.getContents();
         Path returnPath = null;
