@@ -28,10 +28,10 @@ public abstract class StatusEffectInstanceMixin {
     /* Hook for unconventional status effect ticking logic */
     //? if >1.21.2 {
     @Inject(method = "tickServer", at = @At(target = "Lnet/minecraft/world/effect/MobEffectInstance;tickDownDuration()V", value = "INVOKE"))
-    void inj(ServerLevel level, LivingEntity entity, Runnable onEffectUpdated, CallbackInfoReturnable<Boolean> cir) {
+    void tickStatusEffects(ServerLevel level, LivingEntity entity, Runnable onEffectUpdated, CallbackInfoReturnable<Boolean> cir) {
     //?} else {
     /*@Inject(method = "tick", at = @At(target = "Lnet/minecraft/world/effect/MobEffectInstance;tickDownDuration()I", value = "INVOKE"))
-    void inj(LivingEntity entity, Runnable overwriteCallback, CallbackInfoReturnable<Boolean> cir) {
+    void tickStatusEffects(LivingEntity entity, Runnable overwriteCallback, CallbackInfoReturnable<Boolean> cir) {
         *///?}
         if (VersionMethods.unholdEffect(getEffect()) instanceof ModStatusEffects.SpecialEffect eff) {
             eff.tryApplySpecial(entity, duration, amplifier);

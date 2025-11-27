@@ -13,7 +13,7 @@ public class ConcretePowderBlockMixin {
     /* Iridescence should not convert concrete powder */
     @Inject(method= "canSolidify(Lnet/minecraft/world/level/block/state/BlockState;)Z",
     at = @At("RETURN"), cancellable = true)
-    private static void inj(BlockState state, CallbackInfoReturnable<Boolean> cir) {
+    private static void iridescenceShouldNotConvertConcretePowder(BlockState state, CallbackInfoReturnable<Boolean> cir) {
         if (Iridescence.isIridescence(state.getFluidState())) cir.setReturnValue(false);
     }
 }

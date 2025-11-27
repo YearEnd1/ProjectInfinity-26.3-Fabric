@@ -105,7 +105,7 @@ public abstract class WorldRendererMixin implements WorldRendererAccess {
     *///?} else {
 
     //?}
-    //FIXME 1.21.10
+    //FIXME 1.21.8 - rendering broke
 
     @Unique
     private InfinityOptions infinity$options() {

@@ -13,7 +13,7 @@ import org.spongepowered.asm.mixin.injection.At;
 public class MobNavigationMixin {
     /* This allows mobs pathfind when swimming in iridescence */
     @ModifyExpressionValue(method="getSurfaceY", at= @At(value = "INVOKE", target = "Lnet/minecraft/world/level/block/state/BlockState;is(Lnet/minecraft/world/level/block/Block;)Z"))
-    boolean inj(boolean original, @Local BlockState blockState) {
+    boolean allowPathfindingInIridescence(boolean original, @Local BlockState blockState) {
         return original || (blockState.getFluidState().is(FluidTags.WATER) &&
                 !blockState.getFluidState().equals(Fluids.WATER.getSource(false)));
     }

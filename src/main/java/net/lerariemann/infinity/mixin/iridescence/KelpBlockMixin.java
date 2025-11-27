@@ -21,7 +21,7 @@ public abstract class KelpBlockMixin extends GrowingPlantHeadBlock {
 
     /* A hook to correctly place kelp in iridescence (see IridescentKelpBlock) */
     @Inject(method="getStateForPlacement(Lnet/minecraft/world/item/context/BlockPlaceContext;)Lnet/minecraft/world/level/block/state/BlockState;", at= @At(value = "HEAD"), cancellable = true)
-    void inj(BlockPlaceContext ctx, CallbackInfoReturnable<BlockState> cir) {
+    void placeKelp(BlockPlaceContext ctx, CallbackInfoReturnable<BlockState> cir) {
         if (Iridescence.isIridescence(ctx.getLevel(), ctx.getClickedPos())) {
             BlockState blockState = ctx.getLevel().getBlockState(ctx.getClickedPos().relative(this.growthDirection));
             if (blockState.is(ModBlocks.IRIDESCENT_KELP_PLANT.get()) || blockState.is(ModBlocks.IRIDESCENT_KELP.get()))

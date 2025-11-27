@@ -30,11 +30,11 @@ public abstract class LandPathNodeMakerMixin extends NodeEvaluator {
     //? if >1.21 {
     @Inject(method = "getPathTypeOfMob(Lnet/minecraft/world/level/pathfinder/PathfindingContext;IIILnet/minecraft/world/entity/Mob;)Lnet/minecraft/world/level/pathfinder/PathType;",
             at = @At("HEAD"), cancellable = true)
-    private void inj(PathfindingContext context, int x, int y, int z, Mob mob, CallbackInfoReturnable<PathType> cir) {
+    private void chessMobsAvoidisIridescence(PathfindingContext context, int x, int y, int z, Mob mob, CallbackInfoReturnable<PathType> cir) {
      //?} else {
     /*@Inject(method = "getBlockPathType(Lnet/minecraft/world/level/BlockGetter;IIILnet/minecraft/world/entity/Mob;)Lnet/minecraft/world/level/pathfinder/BlockPathTypes;",
                 at = @At("HEAD"), cancellable = true)
-    private void inj(BlockGetter level, int x, int y, int z, Mob mob, CallbackInfoReturnable<BlockPathTypes> cir) {
+    private void chessMobsAvoidisIridescence(BlockGetter level, int x, int y, int z, Mob mob, CallbackInfoReturnable<BlockPathTypes> cir) {
     *///?}
         if (mob != null && Iridescence.isIridescence(mob.level(), new BlockPos(x, y, z))) {
             if (mob instanceof AbstractChessFigure figure && figure.isBlackOrWhite())
@@ -51,7 +51,7 @@ public abstract class LandPathNodeMakerMixin extends NodeEvaluator {
     /* This allows other mobs pathfind when swimming in iridescence */
     @ModifyExpressionValue(method= "getStart",
             at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/block/state/BlockState;is(Lnet/minecraft/world/level/block/Block;)Z"))
-    boolean inj(boolean original, @Local BlockState blockState) {
+    boolean mobsSwimInIridescence(boolean original, @Local BlockState blockState) {
         return original || blockState.getFluidState().is(FluidTags.WATER);
     }
 }

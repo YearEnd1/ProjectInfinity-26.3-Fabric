@@ -16,6 +16,7 @@ import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.*;
 import net.minecraft.world.damagesource.DamageSource;
@@ -25,6 +26,8 @@ import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.monster.Slime;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.ServerLevelAccessor;
@@ -36,13 +39,19 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 //?}
+import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.level.storage.loot.LootTable;
+import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
+import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import org.jetbrains.annotations.Nullable;
 
 //? if neoforge {
 import javax.annotation.ParametersAreNonnullByDefault;
 //?}
+import java.util.Optional;
 import java.util.Random;
+import java.util.function.BiConsumer;
+import java.util.function.Function;
 
 @MethodsReturnNonnullByDefault
 //? if neoforge {
@@ -155,20 +164,40 @@ public class ChaosSlime extends Slime implements TintableEntity {
         return this.getCore().getSoundType().getFallSound();
     }
 
-    //FIXME - this got removed without replacement, we'll probably need a data solution
-//    @Override
     public
-    //? if >1.21 {
-    ResourceKey<LootTable>
-    //?} else {
+    //? if >1.21.4 {
+    Optional<ResourceKey<LootTable>>
+    //?} else if >1.21 {
+    /*ResourceKey<LootTable>
+    *///?} else {
     /*ResourceLocation
     *///?}
     getDefaultLootTable() {
-        return this.getCore().getBlock().getLootTable()
-                //? if >1.21.4
-                .get()
-                ;
+        return this.getCore().getBlock().getLootTable();
     }
+
+    //? if >1.21.4 {
+    @Override
+    protected void dropFromLootTable(ServerLevel level, DamageSource damageSource, boolean playerKill) {
+        Optional<ResourceKey<LootTable>> optional = getDefaultLootTable();
+        if (optional.isPresent()) {
+            LootTable loottable = level.getServer().reloadableRegistries().getLootTable(optional.get());
+            LootParams.Builder lootparams$builder = new LootParams.Builder(level)
+                    .withParameter(LootContextParams.THIS_ENTITY, this)
+                    .withParameter(LootContextParams.ORIGIN, this.position())
+                    .withParameter(LootContextParams.DAMAGE_SOURCE, damageSource)
+                    .withOptionalParameter(LootContextParams.ATTACKING_ENTITY, damageSource.getEntity())
+                    .withOptionalParameter(LootContextParams.DIRECT_ATTACKING_ENTITY, damageSource.getDirectEntity());
+            Player player = this.getLastHurtByPlayer();
+            if (playerKill && player != null) {
+                lootparams$builder = lootparams$builder.withParameter(LootContextParams.LAST_DAMAGE_PLAYER, player).withLuck(player.getLuck());
+            }
+
+            LootParams lootparams = lootparams$builder.create(LootContextParamSets.ENTITY);
+            loottable.getRandomItems(lootparams, this.getLootTableSeed(), stack -> this.spawnAtLocation(level, stack));
+        }
+    }
+    //?}
 
     @Override
     public void addAdditionalSaveData(

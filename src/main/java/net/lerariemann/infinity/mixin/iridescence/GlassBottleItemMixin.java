@@ -33,7 +33,7 @@ public abstract class GlassBottleItemMixin {
             target = "Lnet/minecraft/world/level/Level;gameEvent(Lnet/minecraft/world/entity/Entity;Lnet/minecraft/world/level/gameevent/GameEvent;Lnet/minecraft/core/BlockPos;)V",
             shift = At.Shift.AFTER), cancellable = true)
     *///?}
-    void inj(Level world, Player user, InteractionHand hand, CallbackInfoReturnable<
+    void bottleIridescence(Level world, Player user, InteractionHand hand, CallbackInfoReturnable<
             //? if >1.21.2 {
             InteractionResult
             //?} else {

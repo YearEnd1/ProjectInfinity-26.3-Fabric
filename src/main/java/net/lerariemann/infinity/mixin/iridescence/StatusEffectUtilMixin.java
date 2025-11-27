@@ -13,7 +13,7 @@ import java.util.Objects;
 @Mixin(MobEffectUtil.class)
 public class StatusEffectUtilMixin {
     @Inject(method = "hasDigSpeed", at = @At("RETURN"), cancellable = true)
-    private static void injected(LivingEntity entity, CallbackInfoReturnable<Boolean> cir) {
+    private static void hasDigSpeedFromAfterglow(LivingEntity entity, CallbackInfoReturnable<Boolean> cir) {
         if (entity.hasEffect(ModStatusEffects.AFTERGLOW
         //? if <1.21
         /*.value()*/
@@ -22,7 +22,7 @@ public class StatusEffectUtilMixin {
     }
 
     @Inject(method = "getDigSpeedAmplification", at = @At("RETURN"), cancellable = true)
-    private static void inj2(LivingEntity entity, CallbackInfoReturnable<Integer> cir) {
+    private static void increaseDigSpeedWithAfterglow(LivingEntity entity, CallbackInfoReturnable<Integer> cir) {
         if (entity.hasEffect(ModStatusEffects.AFTERGLOW
         //? if <1.21
         /*.value()*/

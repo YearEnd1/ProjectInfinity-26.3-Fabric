@@ -26,7 +26,7 @@ public class FishEntityMixin extends WaterAnimal {
     @ModifyArg(method="travel", at = @At(value = "INVOKE",
             target = "Lnet/minecraft/world/entity/animal/AbstractFish;moveRelative(FLnet/minecraft/world/phys/Vec3;)V"),
     index = 1)
-    Vec3 inj(Vec3 par2) {
+    Vec3 fishSwimBackwards(Vec3 par2) {
         if (Iridescence.isUnderEffect(this)) {
             return par2.multiply(-1, 1, -1);
         }
@@ -63,7 +63,7 @@ public class FishEntityMixin extends WaterAnimal {
         *///?} else {
         @ModifyArgs(method = "tick", at= @At(value = "INVOKE",
                 target = "Lnet/minecraft/util/Mth;atan2(DD)D"))
-        void inj(Args args) {
+        void fishSwimBackwards(Args args) {
             if (Iridescence.isUnderEffect(fish)) {
                 double g = args.get(0);
                 double d = args.get(1);

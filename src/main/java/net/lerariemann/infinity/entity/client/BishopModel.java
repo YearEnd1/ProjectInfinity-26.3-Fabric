@@ -12,13 +12,13 @@ import net.minecraft.client.model.geom.builders.LayerDefinition;
 import net.minecraft.client.model.geom.builders.MeshDefinition;
 import net.minecraft.client.model.geom.builders.PartDefinition;
 
-public class BishopModel extends HumanoidModel<
+public class BishopModel extends
         //? if >1.21.2 {
-        BishopEntityRenderState
+        HumanoidModel<BishopEntityRenderState>
         //?} else {
-        /*BishopEntity
+        /*HumanoidModel<BishopEntity>
          *///?}
-        > {
+         {
     public static final ModelLayerLocation MODEL_LAYER =
             new ModelLayerLocation(InfinityMethods.getId("bishop"), "main");
     public BishopModel(ModelPart root) {

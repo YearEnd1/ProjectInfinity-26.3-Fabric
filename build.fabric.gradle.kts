@@ -134,43 +134,54 @@ dependencies {
     modImplementation("net.fabricmc.fabric-api:fabric-api:${property("deps.fabric_api")}")
     modImplementation("dev.architectury:architectury-fabric:${property("deps.architectury")}")
 
+    // Cloth Config
     modImplementation("me.shedaniel.cloth:cloth-config-fabric:${property("deps.cloth")}")
+
+    // Mod Menu
     modImplementation("com.terraformersmc:modmenu:${property("deps.modmenu")}")
+
+    // DimLib
     if (hasProperty("deps.dimlib")) {
         modApi("com.github.iPortalTeam:DimLib:${property("deps.dimlib")}")
     }
+
+    // Gravity Changer
     if (hasProperty("deps.gravity_changer")) {
         modCompileOnly("com.github.qouteall:GravityChanger:v${property("deps.gravity_changer")}-mc${property("deps.minecraft")}") {
             isTransitive = false
         }
     }
+    //EMI
     if (hasProperty("deps.emi")) {
         modCompileOnly("dev.emi:emi-fabric:${property("deps.emi")}+${property("deps.minecraft")}:api")
         modLocalRuntime("dev.emi:emi-fabric:${property("deps.emi")}+${property("deps.minecraft")}")
     }
+
+    //EIV
     if (hasProperty("deps.eiv")) {
-        modCompileOnly("maven.modrinth:eiv:${property("deps.eiv")}-fabric")
+        modImplementation("maven.modrinth:eiv:${property("deps.eiv")}-fabric")
     }
 
-
+    // CC Tweaked
     if (hasProperty("deps.cct")) {
         modImplementation("cc.tweaked:cc-tweaked-${property("deps.minecraft")}-fabric:${property("deps.cct")}")
     } else {
         modCompileOnly("cc.tweaked:cc-tweaked-1.21.1-fabric:1.115.0") { isTransitive = false }
     }
+
+    // Ponder
     if (hasProperty("deps.ponder")) {
         modCompileOnly("net.createmod.ponder:Ponder-Fabric-${property("deps.minecraft")}:${property("deps.ponder")}")
-    } else {
-        modCompileOnly("net.createmod.ponder:Ponder-Fabric-1.21.1:1.0.59") { isTransitive = false }
     }
 
+    // Create
     if (stonecutter.eval(stonecutter.current.version, ">=1.21.4")) {
-        modImplementation("maven.modrinth:create-fly:xmqjlfxH")
+        modImplementation("maven.modrinth:create-fly:${property("deps.create")}")
     }
     else if (stonecutter.eval(stonecutter.current.version, ">=1.21")) {
-        modCompileOnly("com.simibubi.create:create-fucked-up-1.21.1:6.0.6+053024d") { isTransitive = false }
+        modCompileOnly("com.simibubi.create:create-fucked-up-1.21.1:${property("deps.create")}") { isTransitive = false }
     } else {
-        modCompileOnly("com.simibubi.create:create-fabric-1.20.1:6.0.7.0+mc1.20.1-build.1716")
+        modCompileOnly("com.simibubi.create:create-fabric-1.20.1:${property("deps.create")}")
         { isTransitive = false }
     }
 

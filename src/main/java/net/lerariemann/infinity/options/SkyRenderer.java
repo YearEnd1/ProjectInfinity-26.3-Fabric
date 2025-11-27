@@ -1,6 +1,6 @@
 package net.lerariemann.infinity.options;
 
-//FIXME 1.21.8
+//FIXME 1.21.8 - rendering broke
 //? if <1.21.2 {
 
 /*import com.mojang.blaze3d.platform.GlStateManager;

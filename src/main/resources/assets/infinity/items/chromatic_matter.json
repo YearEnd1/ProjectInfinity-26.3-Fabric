@@ -5,8 +5,7 @@
     "tints": [
       {
         "type": "infinity:color",
-        "color": 0,
-        "default": 9393112
+        "color": 9393112
       }
     ]
   }

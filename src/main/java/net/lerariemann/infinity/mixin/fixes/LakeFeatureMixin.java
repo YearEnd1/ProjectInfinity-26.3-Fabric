@@ -13,6 +13,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 
 /** Mojang goofed their lakes into deprecation, i'm fixing :D */
+@SuppressWarnings("deprecation")
 @Mixin(LakeFeature.class)
 public class LakeFeatureMixin {
     @WrapOperation(method="place(Lnet/minecraft/world/level/levelgen/feature/FeaturePlaceContext;)Z", at = @At(value = "INVOKE",

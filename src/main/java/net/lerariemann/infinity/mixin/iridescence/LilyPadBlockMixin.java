@@ -15,7 +15,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public class LilyPadBlockMixin {
     /* make lilypads plantable on iridescence */
     @Inject(method = "mayPlaceOn", at = @At(value = "RETURN"), cancellable = true)
-    void inj(BlockState floor, BlockGetter world, BlockPos pos, CallbackInfoReturnable<Boolean> cir) {
+    void plantLilypadsOnIridescence(BlockState floor, BlockGetter world, BlockPos pos, CallbackInfoReturnable<Boolean> cir) {
         if (world.getFluidState(pos).is(FluidTags.WATER) && world.getFluidState(pos.above()).getType() == Fluids.EMPTY) {
             cir.setReturnValue(true);
         }

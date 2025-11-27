@@ -37,9 +37,9 @@ public interface InfinityPlatform {
             22;
              //?} else if >1.21 {
             /*21;
-    *///?} else {
-    /*20;
-     *///?}
+            *///?} else {
+            /*20;
+             *///?}
 
     //? fabric {
     /*InfinityPlatform INSTANCE = new FabricPlatformImpl();
@@ -94,7 +94,6 @@ public interface InfinityPlatform {
     /**
      * Read from the config path inside the mod JAR.
      */
-    @SuppressWarnings("for removal")
     Path getRootPathInJar(String path);
 
     /**

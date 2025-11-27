@@ -14,16 +14,18 @@ import net.minecraft.client.renderer.entity.layers.HumanoidArmorLayer;
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.NotNull;
 
-public class BishopRenderer extends HumanoidMobRenderer<BishopEntity,
+public class BishopRenderer extends
         //? if >1.21.2 {
-        BishopEntityRenderState,
-        //?}
-        BishopModel> {
+        HumanoidMobRenderer<BishopEntity, BishopEntityRenderState, BishopModel>
+        //?} else {
+        /*HumanoidMobRenderer<BishopEntity, BishopModel>
+        *///?}
+         {
     private static final ResourceLocation TEXTURE = InfinityMethods.getId("textures/entity/bishop.png");
 
     public BishopRenderer(EntityRendererProvider.Context context) {
         super(context, new BishopModel(context.bakeLayer(BishopModel.MODEL_LAYER)), 0.6f);
-        //FIXME 1.21.10
+        //FIXME 1.21.10 - armor rendering changed
         //? if >1.21.9 {
         //?} else if >1.21.5 {
         this.addLayer(new HumanoidArmorLayer<>(this,

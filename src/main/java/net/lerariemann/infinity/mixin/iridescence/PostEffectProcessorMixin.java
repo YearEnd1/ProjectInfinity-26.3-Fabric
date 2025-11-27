@@ -16,7 +16,7 @@ import java.util.List;
 
 @Mixin(PostChain.class)
 public abstract class PostEffectProcessorMixin {
-    //FIXME 1.21.8
+    //FIXME 1.21.8 - rendering broke
     //? if <1.21.2 {
     /*@Shadow
     private float time;

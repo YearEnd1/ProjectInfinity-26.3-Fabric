@@ -371,11 +371,7 @@ public class RandomDimension {
         Map<String, ListTag> tags = new HashMap<>();
         for (String s : structure_ids.keySet()) for (String ss : NbtUtils.keys(dictionary)) if (s.contains(ss)) {
             for (Tag e : (ListTag) Objects.requireNonNull(dictionary.get(ss))) {
-                //? if >1.21.2 {
-                String t = e.asString().get();
-                //?} else {
-                /*String t = e.getAsString();
-                *///?}
+                String t = NbtUtils.getAsString(e);
                 if (!tags.containsKey(t)) tags.put(t, new ListTag());
                 structure_ids.get(s).forEach(fullname -> tags.get(t).add(StringTag.valueOf(fullname)));
             }

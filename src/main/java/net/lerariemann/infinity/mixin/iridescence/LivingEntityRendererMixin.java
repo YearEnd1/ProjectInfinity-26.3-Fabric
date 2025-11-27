@@ -16,7 +16,7 @@ public class LivingEntityRendererMixin {
 
     //? if >1.21.2 {
     @WrapOperation(method = "extractRenderState(Lnet/minecraft/world/entity/LivingEntity;Lnet/minecraft/client/renderer/entity/state/LivingEntityRenderState;F)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;isFullyFrozen()Z"))
-    boolean inj(LivingEntity entity, Operation<Boolean> original) {
+    boolean shakeWhenConvertingInIridescence(LivingEntity entity, Operation<Boolean> original) {
         var frozen = original.call(entity);
         if (entity instanceof Mob ent && Iridescence.isConvertible(ent)) {
             return (frozen || Iridescence.isUnderEffect(ent));
@@ -25,7 +25,7 @@ public class LivingEntityRendererMixin {
     }
     //?} else {
     /*@Inject(method = "isShaking", at = @At("RETURN"), cancellable = true)
-    void inj(LivingEntity entity, CallbackInfoReturnable<Boolean> cir) {
+    void shakeWhenConvertingInIridescence(LivingEntity entity, CallbackInfoReturnable<Boolean> cir) {
         if (entity instanceof Mob ent && Iridescence.isConvertible(ent)) {
             cir.setReturnValue(cir.getReturnValue() || Iridescence.isUnderEffect(ent));
         }

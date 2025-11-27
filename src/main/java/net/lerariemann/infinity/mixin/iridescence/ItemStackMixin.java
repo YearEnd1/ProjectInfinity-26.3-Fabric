@@ -21,7 +21,7 @@ public abstract class ItemStackMixin {
 
     //? if >1.21.2 {
     @WrapMethod(method="getStyledHoverName")
-    Component inj(Operation<Component> original) {
+    Component styleIridescentItems(Operation<Component> original) {
         var component = original.call();
         if (is(ModTags.IRIDESCENT_ITEMS)) {
             return component.copy().withStyle(Style.EMPTY.withColor(Iridescence.getTimeBasedColor()));
@@ -30,7 +30,7 @@ public abstract class ItemStackMixin {
     }
     //?} else {
     /*@ModifyExpressionValue(method="getTooltipLines", at = @At(value = "INVOKE", target = "Lnet/minecraft/network/chat/MutableComponent;withStyle(Lnet/minecraft/ChatFormatting;)Lnet/minecraft/network/chat/MutableComponent;", ordinal = 0))
-    MutableComponent inj(MutableComponent original) {
+    MutableComponent styleIridescentItems(MutableComponent original) {
         if (is(ModTags.IRIDESCENT_ITEMS)) {
             return original.withStyle(Style.EMPTY.withColor(Iridescence.getTimeBasedColor()));
         }

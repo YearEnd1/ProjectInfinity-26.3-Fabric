@@ -6,6 +6,7 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.lerariemann.infinity.registry.core.ModComponentTypes;
 import net.lerariemann.infinity.registry.core.ModItems;
 import net.lerariemann.infinity.util.InfinityMethods;
+import net.lerariemann.infinity.util.VersionMethods;
 import net.minecraft.client.color.item.ItemTintSource;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.component.DataComponents;
@@ -24,7 +25,7 @@ public record InfinityTintSource(int color) implements ItemTintSource {
         if (stack.has(ModComponentTypes.COLOR.get())) {
             return InfinityMethods.getItemColorFromComponents(stack, 1);
         } else {
-            return -1;
+            return VersionMethods.opaque(color);
         }
     }
 

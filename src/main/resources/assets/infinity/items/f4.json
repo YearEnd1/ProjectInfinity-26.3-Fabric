@@ -9,8 +9,7 @@
       },
       {
         "type": "infinity:color",
-        "color": 0,
-        "default": 5767344
+        "color": 5767344
       }
     ]
   }

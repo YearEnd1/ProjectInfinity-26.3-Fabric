@@ -16,8 +16,7 @@
             },
             {
               "type": "infinity:color",
-              "color": 0,
-              "default": 0
+              "color": 0
             }
           ]
         }
