@@ -173,7 +173,7 @@ dependencies {
     modImplementation("me.shedaniel.cloth:cloth-config-forge:${property("deps.cloth")}")
     modImplementation("cc.tweaked:cc-tweaked-${property("deps.minecraft")}-forge:${property("deps.cct")}")
     modCompileOnly("dev.emi:emi-forge:${property("deps.emi")}+${property("deps.minecraft")}:api")
-    modImplementation("dev.emi:emi-forge:${property("deps.emi")}+${property("deps.minecraft")}")
+    modRuntimeOnly("dev.emi:emi-forge:${property("deps.emi")}+${property("deps.minecraft")}")
 
 
     // Create
@@ -184,7 +184,7 @@ dependencies {
     modImplementation("com.tterrag.registrate:Registrate:${property("deps.registrate")}")
 
     // https://maven.su5ed.dev/#/releases/dev/su5ed/sinytra/fabric-api
-    // Add modules as needed - Forge backport currently has a hard dependency on FFAPI, considering including the relevant modules instead of requiring the entire mod.
+    // The Forge backport bundles relevant modules of FFAPI instead of requiring the entire mod.
     modImplementation("dev.su5ed.sinytra:fabric-loader:2.7.11+0.16.5+1.20.1")
     modImplementation("dev.su5ed.sinytra.fabric-api:fabric-api-base:0.4.32+ef105b4977")
     modImplementation("dev.su5ed.sinytra.fabric-api:fabric-networking-api-v1:1.3.14+fb7c822677")
@@ -268,7 +268,9 @@ publishMods {
         accessToken = env.MODRINTH_API_KEY.orNull()
         minecraftVersions.add(stonecutter.current.version)
         minecraftVersions.addAll(additionalVersions)
-        optional("cloth-config")
+        requires("architectury-api")
+        requires("cloth-config")
+
     }
 
     curseforge {
@@ -276,6 +278,8 @@ publishMods {
         accessToken = env.CURSEFORGE_API_KEY.orNull()
         minecraftVersions.add(stonecutter.current.version)
         minecraftVersions.addAll(additionalVersions)
+        requires("architectury-api")
+        requires("cloth-config")
     }
 }
 

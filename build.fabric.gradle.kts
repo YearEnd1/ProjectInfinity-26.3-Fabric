@@ -1,7 +1,7 @@
 @file:Suppress("UnstableApiUsage")
 
 plugins {
-    id("fabric-loom")
+    id("net.fabricmc.fabric-loom-remap")
     id("dev.kikugie.postprocess.jsonlang")
     id("me.modmuss50.mod-publish-plugin")
 }
@@ -161,7 +161,8 @@ dependencies {
 
     //EIV
     if (hasProperty("deps.eiv")) {
-        modImplementation("maven.modrinth:eiv:${property("deps.eiv")}-fabric")
+        modCompileOnly("maven.modrinth:eiv:${property("deps.eiv")}-fabric")
+        modLocalRuntime("maven.modrinth:eiv:${property("deps.eiv")}-fabric")
     }
 
     // CC Tweaked
@@ -274,7 +275,8 @@ publishMods {
         minecraftVersions.add(stonecutter.current.version)
         minecraftVersions.addAll(additionalVersions)
         requires("fabric-api")
-        optional("mcqoy")
+        requires("architectury-api")
+        requires("cloth-config")
     }
 
     curseforge {
@@ -283,6 +285,8 @@ publishMods {
         minecraftVersions.add(stonecutter.current.version)
         minecraftVersions.addAll(additionalVersions)
         requires("fabric-api")
+        requires("architectury-api")
+        requires("cloth-config")
     }
 }
 

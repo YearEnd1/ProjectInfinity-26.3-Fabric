@@ -185,10 +185,10 @@ tasks {
 
 java {
     withSourcesJar()
-    val javaCompat = if (stonecutter.eval(stonecutter.current.version, ">=1.20.5")) {
-        JavaVersion.VERSION_21
+    val javaCompat = if (stonecutter.eval(stonecutter.current.version, ">26")) {
+        JavaVersion.VERSION_25
     } else {
-        JavaVersion.VERSION_17
+        JavaVersion.VERSION_21
     }
     sourceCompatibility = javaCompat
     targetCompatibility = javaCompat
@@ -216,7 +216,8 @@ publishMods {
         accessToken = env.MODRINTH_API_KEY.orNull()
         minecraftVersions.add(stonecutter.current.version)
         minecraftVersions.addAll(additionalVersions)
-        optional("mcqoy")
+        requires("architectury-api")
+        requires("cloth-config")
     }
 
     curseforge {
@@ -224,5 +225,7 @@ publishMods {
         accessToken = env.CURSEFORGE_API_KEY.orNull()
         minecraftVersions.add(stonecutter.current.version)
         minecraftVersions.addAll(additionalVersions)
+        requires("architectury-api")
+        requires("cloth-config")
     }
 }
