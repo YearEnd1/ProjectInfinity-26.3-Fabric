@@ -270,6 +270,12 @@ publishMods {
         minecraftVersions.addAll(additionalVersions)
         requires("architectury-api")
         requires("cloth-config")
+        if (hasProperty("deps.emi")) {
+            optional("emi")
+        }
+        if (hasProperty("deps.eiv")) {
+            optional("eiv")
+        }
 
     }
 
@@ -280,6 +286,12 @@ publishMods {
         minecraftVersions.addAll(additionalVersions)
         requires("architectury-api")
         requires("cloth-config")
+        if (hasProperty("deps.emi")) {
+            optional("emi")
+        }
+        if (hasProperty("deps.eiv")) {
+            optional("extended-itemview-eiv")
+        }
     }
 }
 
