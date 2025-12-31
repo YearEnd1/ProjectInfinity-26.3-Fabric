@@ -1,5 +1,5 @@
 {
-  "amendment_version": 2,
+  "amendment_version": 3,
   "elements": [
     {
       "area": "fluids",
@@ -81,6 +81,12 @@
       "selector": "all",
       "results": "set_value",
       "value": 0.1
+    },
+    {
+      "area": "structures",
+      "mod": "the_bumblezone",
+      "selector": "all",
+      "results": "erase"
     }
   ]
 }
