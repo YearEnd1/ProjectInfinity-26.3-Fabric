@@ -3,43 +3,11 @@ pluginManagement {
         mavenLocal()
         mavenCentral()
         gradlePluginPortal()
-        maven {
-            name = "Fabric"
-            url = uri("https://maven.fabricmc.net/")
-            content {
-                includeGroupAndSubgroups("net.fabricmc")
-            }
-        }
-        maven {
-            name = "NeoForged"
-            url = uri("https://maven.neoforged.net/releases/")
-            content {
-                includeGroupAndSubgroups("net.neoforged")
-            }
-        }
-        maven {
-            name = "KikuGie Releases"
-            url = uri("https://maven.kikugie.dev/snapshots")
-            content {
-                includeGroupAndSubgroups("dev.kikugie")
-                includeGroupAndSubgroups("org.quiltmc")
-            }
-        }
-        maven {
-            name = "KikuGie Releases"
-            url = uri("https://maven.kikugie.dev/releases")
-            content {
-                includeGroupAndSubgroups("dev.kikugie")
-            }
-        }
-        maven {
-            name = "Parchment Mappings"
-            url = uri("https://maven.parchmentmc.org")
-            content {
-                includeGroup("org.parchmentmc.data")
-            }
-        }
-    }
+        maven("https://maven.fabricmc.net/") { name = "Fabric" }
+        maven("https://maven.neoforged.net/releases/") { name = "NeoForged" }
+        maven("https://maven.kikugie.dev/snapshots") { name = "KikuGie" }
+        maven("https://maven.kikugie.dev/releases") { name = "KikuGie Releases" }
+        maven("https://maven.parchmentmc.org") { name = "ParchmentMC" }
 }
 
 plugins {
