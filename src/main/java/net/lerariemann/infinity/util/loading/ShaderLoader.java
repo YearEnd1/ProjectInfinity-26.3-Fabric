@@ -1,9 +1,7 @@
 package net.lerariemann.infinity.util.loading;
 
 import com.google.common.util.concurrent.AtomicDouble;
-import net.lerariemann.infinity.access.GameRendererAccess;
 import net.lerariemann.infinity.registry.var.ModPayloads;
-import net.lerariemann.infinity.util.InfinityMethods;
 import net.lerariemann.infinity.util.VersionMethods;
 import net.lerariemann.infinity.util.core.CommonIO;
 import net.minecraft.client.Minecraft;
@@ -45,7 +43,7 @@ public interface ShaderLoader {
     static void reloadShaders(Minecraft client, boolean isWorldShaderPresent, boolean isIridescenceShaderPresent) {
         if (client.player == null) return;
         if (isIridescenceShaderPresent) {
-            VersionMethods.loadPP(client, "post/iridescence");
+            VersionMethods.loadPP(client, (VersionMethods.above212 ? "" : "post/") + "iridescence");
             return;
         }
         iridLevel.set(-1);

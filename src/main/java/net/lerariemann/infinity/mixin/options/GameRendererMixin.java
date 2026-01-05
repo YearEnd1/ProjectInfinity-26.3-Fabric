@@ -2,15 +2,18 @@ package net.lerariemann.infinity.mixin.options;
 
 import net.lerariemann.infinity.access.GameRendererAccess;
 import net.lerariemann.infinity.iridescence.Iridescence;
+import net.lerariemann.infinity.iridescence.IridescentUniform;
 import net.lerariemann.infinity.options.InfinityOptions;
 import net.lerariemann.infinity.util.loading.ShaderLoader;
+import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GameRenderer;
+import net.minecraft.client.renderer.ItemInHandRenderer;
+import net.minecraft.client.renderer.RenderBuffers;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.packs.resources.ResourceManager;
-import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -53,4 +56,28 @@ public abstract class GameRendererMixin implements GameRendererAccess {
             ShaderLoader.reloadShaders(Minecraft.getInstance(), true, false);
         }
     }
+
+    //?if >1.21.2 {
+    @Unique
+    private IridescentUniform infinity$iridUniform;
+
+    @Unique
+    @Override
+    public IridescentUniform infinity$getIridescentUniform() {
+        return infinity$iridUniform;
+    }
+
+    @Inject(method="<init>", at= @At(value = "TAIL"))
+    void inj(Minecraft minecraft, ItemInHandRenderer itemInHandRenderer, RenderBuffers renderBuffers, CallbackInfo ci) {
+        this.infinity$iridUniform = new IridescentUniform();
+    }
+    @Inject(method="render", at= @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/GlobalSettingsUniform;update(IIDJLnet/minecraft/client/DeltaTracker;I)V"))
+    void inj(DeltaTracker deltaTracker, boolean renderLevel, CallbackInfo ci) {
+        infinity$iridUniform.tryUpdate();
+    }
+    @Inject(method="close", at= @At(value = "TAIL"))
+    void inj(CallbackInfo ci) {
+        this.infinity$iridUniform.close();
+    }
+    //?}
 }

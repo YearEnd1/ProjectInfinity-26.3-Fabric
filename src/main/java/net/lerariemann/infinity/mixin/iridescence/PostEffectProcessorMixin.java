@@ -1,11 +1,11 @@
 package net.lerariemann.infinity.mixin.iridescence;
 
+//? if <1.21.2 {
+/*
 import net.lerariemann.infinity.util.loading.ShaderLoader;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.PostChain;
 import net.minecraft.client.renderer.PostPass;
 import org.spongepowered.asm.mixin.Final;
-import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -13,10 +13,12 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.time.LocalTime;
 import java.util.List;
+*///?}
+import net.minecraft.client.renderer.PostChain;
+import org.spongepowered.asm.mixin.Mixin;
 
 @Mixin(PostChain.class)
 public abstract class PostEffectProcessorMixin {
-    //FIXME 1.21.8 - rendering broke
     //? if <1.21.2 {
     /*@Shadow
     private float time;

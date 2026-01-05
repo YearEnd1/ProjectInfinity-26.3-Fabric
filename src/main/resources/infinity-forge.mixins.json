@@ -71,6 +71,7 @@
     "SoundListMixin",
     "iridescence.LivingEntityRendererMixin",
     "iridescence.PostEffectProcessorMixin",
+    "iridescence.RenderSystemMixin",
     "options.BackgroundRendererMixin",
     "options.ClientWorldMixin",
     "options.FogRendererMixin",
