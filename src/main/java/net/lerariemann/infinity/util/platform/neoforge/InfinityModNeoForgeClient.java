@@ -4,8 +4,10 @@ package net.lerariemann.infinity.util.platform.neoforge;
 import net.lerariemann.infinity.InfinityMod;
 import net.lerariemann.infinity.InfinityModClient;
 import net.lerariemann.infinity.compat.ModCompat;
+import net.lerariemann.infinity.registry.var.ModPayloads;
 import net.lerariemann.infinity.registry.var.ModScreenHandlers;
 import net.lerariemann.infinity.util.VersionMethods;
+import net.lerariemann.infinity.util.config.SoundScanner;
 import net.lerariemann.infinity.util.platform.InfinityPlatform;
 import net.lerariemann.infinity.registry.core.ModBlocks;
 import net.lerariemann.infinity.iridescence.Iridescence;
@@ -13,6 +15,7 @@ import net.lerariemann.infinity.registry.core.ModItemFunctions;
 import net.lerariemann.infinity.registry.core.ModItems;
 import net.lerariemann.infinity.util.InfinityMethods;
 import net.lerariemann.infinity.util.screen.F4Screen;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
 //? if >1.21.4 {
@@ -27,21 +30,28 @@ import net.minecraft.world.level.material.FluidState;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.ModLoadingContext;
 import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.neoforge.client.event.RegisterColorHandlersEvent;
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
 import net.neoforged.neoforge.client.extensions.common.IClientFluidTypeExtensions;
 import net.neoforged.neoforge.client.extensions.common.RegisterClientExtensionsEvent;
 import net.neoforged.neoforge.client.gui.IConfigScreenFactory;
+import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
+import net.neoforged.neoforge.network.registration.PayloadRegistrar;
 import org.jetbrains.annotations.NotNull;
 
 import static net.lerariemann.infinity.InfinityMod.MOD_ID;
 
+@Mod(value = MOD_ID, dist =  Dist.CLIENT)
 @EventBusSubscriber(value = Dist.CLIENT, modid = MOD_ID)
 public class InfinityModNeoForgeClient {
-    public static void initializeClient(IEventBus eventBus) {
+
+    public InfinityModNeoForgeClient(IEventBus eventBus, ModContainer container) {
+        // Run our client setup.
         InfinityModClient.initializeClient();
         InfinityModNeoForgeClient.registerModsPage();
     }
@@ -128,6 +138,40 @@ public class InfinityModNeoForgeClient {
             }
 
         }, FluidTypes.IRIDESCENCE_TYPE.value());
+    }
+
+    public static Minecraft client() {
+        return Minecraft.getInstance();
+    }
+
+    @SubscribeEvent
+    public static void registerClientPayloads(final RegisterPayloadHandlersEvent event) {
+        final PayloadRegistrar registrar = event.registrar("1");
+        registrar.playToClient(
+                ModPayloads.WorldAddS2CPayload.ID,
+                ModPayloads.WorldAddS2CPayload.CODEC,
+                (payload, context) -> payload.receive(client())
+        );
+        registrar.playToClient(
+                ModPayloads.BiomeAddS2CPayload.ID,
+                ModPayloads.BiomeAddS2CPayload.CODEC,
+                (payload, context) -> payload.receive(client())
+        );
+        registrar.playToClient(
+                ModPayloads.ShaderS2CPayload.ID,
+                ModPayloads.ShaderS2CPayload.CODEC,
+                (payload, context) -> payload.receive(client())
+        );
+        registrar.playToClient(
+                ModPayloads.StarsS2CPayload.ID,
+                ModPayloads.StarsS2CPayload.CODEC,
+                (payload, context) -> payload.receive(client())
+        );
+        registrar.playToClient(
+                ModPayloads.SoundPackS2CPayload.ID,
+                ModPayloads.SoundPackS2CPayload.CODEC,
+                (payload, context) -> SoundScanner.unpackDownloadedPack(payload.songIds(), client())
+        );
     }
 }
 //?}

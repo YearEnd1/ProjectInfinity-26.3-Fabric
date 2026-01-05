@@ -15,7 +15,6 @@ import net.lerariemann.infinity.registry.var.ModStats;
 import net.lerariemann.infinity.util.InfinityMethods;
 import net.lerariemann.infinity.util.config.SoundScanner;
 import net.lerariemann.infinity.util.platform.InfinityPlatform;
-import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
@@ -45,14 +44,6 @@ public class InfinityModNeoforge {
     public InfinityModNeoforge(IEventBus eventBus, ModContainer container) {
         // Run our common setup.
         InfinityMod.init();
-        // Run our client setup.
-        //? if >1.21.9 {
-        /*if (FMLEnvironment.getDist() == Dist.CLIENT) {
-        *///?} else {
-        if (FMLEnvironment.dist == Dist.CLIENT) {
-        //?}
-            InfinityModNeoForgeClient.initializeClient(eventBus);
-        }
         // Run any remaining tasks that require waiting for the registry to freeze on NeoForge.
         FluidTypes.registerFluidTypes(eventBus);
         ModFluidsNeoforge.registerModFluids();
@@ -100,9 +91,6 @@ public class InfinityModNeoforge {
         //?}
     }
 
-    public static Minecraft client() {
-        return Minecraft.getInstance();
-    }
     public static ServerPlayer getPlayer(IPayloadContext context) {
         return ((ServerPlayer)context.player());
     }
@@ -117,33 +105,8 @@ public class InfinityModNeoforge {
     }
 
     @SubscribeEvent
-    public static void registerPayloads(final RegisterPayloadHandlersEvent event) {
+    public static void registerServerPayloads(final RegisterPayloadHandlersEvent event) {
         final PayloadRegistrar registrar = event.registrar("1");
-        registrar.playToClient(
-                ModPayloads.WorldAddS2CPayload.ID,
-                ModPayloads.WorldAddS2CPayload.CODEC,
-                (payload, context) -> payload.receive(client())
-        );
-        registrar.playToClient(
-                ModPayloads.BiomeAddS2CPayload.ID,
-                ModPayloads.BiomeAddS2CPayload.CODEC,
-                (payload, context) -> payload.receive(client())
-        );
-        registrar.playToClient(
-                ModPayloads.ShaderS2CPayload.ID,
-                ModPayloads.ShaderS2CPayload.CODEC,
-                (payload, context) -> payload.receive(client())
-        );
-        registrar.playToClient(
-                ModPayloads.StarsS2CPayload.ID,
-                ModPayloads.StarsS2CPayload.CODEC,
-                (payload, context) -> payload.receive(client())
-        );
-        registrar.playToClient(
-                ModPayloads.SoundPackS2CPayload.ID,
-                ModPayloads.SoundPackS2CPayload.CODEC,
-                (payload, context) -> SoundScanner.unpackDownloadedPack(payload.songIds(), client())
-        );
         registrar.playToServer(
                 ModPayloads.F4UpdateC2SPayload.ID,
                 ModPayloads.F4UpdateC2SPayload.CODEC,
