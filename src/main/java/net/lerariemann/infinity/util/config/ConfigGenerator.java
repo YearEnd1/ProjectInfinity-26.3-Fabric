@@ -360,7 +360,7 @@ public interface ConfigGenerator {
 
     static CompoundTag extractFeature(Registry<ConfiguredFeature<?,?>> registry, ResourceKey<ConfiguredFeature<?,?>> key) {
         ResourceLocation id = key.location();
-        if (id.getNamespace().equals(InfinityMod.MOD_ID) && id.getPath().contains("_")) return null; //our mod's custom trees
+        if (id.getNamespace().equals(InfinityMod.MOD_ID)) return null; //our mod's custom trees
         Optional<ConfiguredFeature<?,? extends Feature<?>>> o = registry.getOptional(key);
         if (o.isEmpty()) return null;
         ConfiguredFeature<?,? extends Feature<?>> feature = o.get();
