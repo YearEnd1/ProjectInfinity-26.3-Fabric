@@ -1,35 +1,61 @@
 {
-  "infinity_version": 2004002,
+  "infinity_version": 2006000,
   "options": {
     "portal_color": 65280,
     "shader": {
-      "targets": [
-        "swap"
-      ],
+      "targets": {
+        "swap": {}
+      },
       "passes": [
         {
-          "name": "color_convolve",
-          "intarget": "minecraft:main",
-          "outtarget": "swap",
-          "uniforms": [
+          "vertex_shader": "minecraft:post/sobel",
+          "fragment_shader": "minecraft:post/color_convolve",
+          "inputs": [
             {
-              "name": "RedMatrix",
-              "values": [ 0.7, 0.0, 0.0 ]
-            },
-            {
-              "name": "GreenMatrix",
-              "values": [ 0.7, 1.0, 0.7 ]
-            },
-            {
-              "name": "BlueMatrix",
-              "values": [ 0.0, 0.0, 0.7 ]
+              "sampler_name": "In",
+              "target": "minecraft:main"
             }
-          ]
+          ],
+          "output": "swap",
+          "uniforms": {
+            "ColorConfig": [
+              {
+                "name": "RedMatrix",
+                "type": "vec3",
+                "value": [ 0.7, 0.0, 0.0 ]
+              },
+              {
+                "name": "GreenMatrix",
+                "type": "vec3",
+                "value": [ 0.7, 1.0, 0.7 ]
+              },
+              {
+                "name": "BlueMatrix",
+                "type": "vec3",
+                "value": [ 0.0, 0.0, 0.7 ]
+              }
+            ]
+          }
         },
         {
-          "name": "blit",
-          "intarget": "swap",
-          "outtarget": "minecraft:main"
+          "vertex_shader": "minecraft:post/blit",
+          "fragment_shader": "minecraft:post/blit",
+          "inputs": [
+            {
+              "sampler_name": "In",
+              "target": "swap"
+            }
+          ],
+          "uniforms": {
+            "BlitConfig": [
+              {
+                "name": "ColorModulate",
+                "type": "vec4",
+                "value": [ 1.0, 1.0, 1.0, 1.0 ]
+              }
+            ]
+          },
+          "output": "minecraft:main"
         }
       ]
     }

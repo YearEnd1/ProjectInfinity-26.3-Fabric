@@ -48,7 +48,7 @@ import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import java.nio.file.Path;
 
 public class ModPayloads {
-    public static boolean resourcesReloaded = Path.of(InfinityPlatform.INSTANCE.getGameDir() + "/resourcepacks/infinity/assets/infinity/shaders").toFile().exists();
+    public static String oldShader = "";
     public interface FriendlyPacket extends
     //? if >1.21 {
     CustomPacketPayload {

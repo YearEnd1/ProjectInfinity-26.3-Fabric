@@ -1,31 +1,58 @@
 {
-  "targets": [
-    "swap"
-  ],
+  "infinity_version": 2006000,
+  "targets": {
+    "swap": {}
+  },
   "passes": [
     {
-      "name": "color_convolve",
-      "intarget": "minecraft:main",
-      "outtarget": "swap",
-      "uniforms": [
+      "vertex_shader": "minecraft:post/sobel",
+      "fragment_shader": "minecraft:post/color_convolve",
+      "inputs": [
         {
-          "name": "RedMatrix",
-          "values": [ %f, %f, %f ]
-        },
-        {
-          "name": "GreenMatrix",
-          "values": [ %f, %f, %f ]
-        },
-        {
-          "name": "BlueMatrix",
-          "values": [ %f, %f, %f ]
+          "sampler_name": "In",
+          "target": "minecraft:main"
         }
-      ]
+      ],
+      "output": "swap",
+      "uniforms": {
+        "ColorConfig": [
+          {
+            "name": "RedMatrix",
+            "type": "vec3",
+            "value": [ %f, %f, %f ]
+          },
+          {
+            "name": "GreenMatrix",
+            "type": "vec3",
+            "value": [ %f, %f, %f ]
+          },
+          {
+            "name": "BlueMatrix",
+            "type": "vec3",
+            "value": [ %f, %f, %f ]
+          }
+        ]
+      }
     },
     {
-      "name": "blit",
-      "intarget": "swap",
-      "outtarget": "minecraft:main"
+      "vertex_shader": "minecraft:post/blit",
+      "fragment_shader": "minecraft:post/blit",
+      "inputs": [
+        {
+          "sampler_name": "In",
+          "target": "swap"
+        }
+      ],
+      "uniforms": {
+        "BlitConfig": [
+          {
+            "name": "ColorModulate",
+            "type": "vec4",
+            "value": [ 1.0, 1.0, 1.0, 1.0 ]
+          }
+        ]
+      },
+      "output": "minecraft:main"
     }
   ]
 }

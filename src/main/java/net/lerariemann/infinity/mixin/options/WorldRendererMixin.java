@@ -179,7 +179,7 @@ public abstract class WorldRendererMixin implements WorldRendererAccess {
                             Profiler.get().pop();
                         }
     //?}
-//? if >1.21.2 && neoforge {
+//? if >1.21.2 {
     
                     });
                 }

@@ -1,0 +1,40 @@
+{
+  "targets": [
+    "swap"
+  ],
+  "passes": [
+    {
+      "vertex_shader": "infinity:program/sobel_with_colors",
+      "fragment_shader": "infinity:program/color_wheel",
+      "inputs": [
+        {
+          "sampler_name": "In",
+          "target": "minecraft:main"
+        }
+      ],
+      "output": "swap",
+      "uniforms": {
+      }
+    },
+    {
+      "vertex_shader": "minecraft:post/blit",
+      "fragment_shader": "minecraft:post/blit",
+      "inputs": [
+        {
+          "sampler_name": "In",
+          "target": "swap"
+        }
+      ],
+      "uniforms": {
+        "BlitConfig": [
+          {
+            "name": "ColorModulate",
+            "type": "vec4",
+            "value": [ 1.0, 1.0, 1.0, 1.0 ]
+          }
+        ]
+      },
+      "output": "minecraft:main"
+    }
+  ]
+}

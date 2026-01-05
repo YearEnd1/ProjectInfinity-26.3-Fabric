@@ -1,8 +1,10 @@
 package net.lerariemann.infinity.util;
 
+import net.lerariemann.infinity.access.GameRendererAccess;
 import net.lerariemann.infinity.registry.core.ModComponentTypes;
 //? if >1.21 {
 import dev.architectury.registry.registries.RegistrySupplier;
+import net.minecraft.client.Minecraft;
 import net.minecraft.core.*;
 import net.minecraft.core.component.DataComponentMap;
 import net.minecraft.core.component.DataComponentType;
@@ -40,6 +42,7 @@ import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.levelgen.NoiseGeneratorSettings;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.phys.Vec3;
+import org.apache.logging.log4j.LogManager;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -47,6 +50,30 @@ import java.util.Optional;
 import java.util.Set;
 
 public interface VersionMethods {
+    boolean above21 =
+    //? if >1.21 {
+        true;
+    //?} else {
+    /*false;
+     *///?}
+
+    boolean above212 =
+            //? if >1.21.2 {
+            true;
+    //?} else {
+    /*false;
+     *///?}
+
+    static void loadPP(Minecraft client, String sid) {
+        if (VersionMethods.above212) {
+            client.gameRenderer.setPostEffect(InfinityMethods.getId(sid));
+            LogManager.getLogger().info(client.gameRenderer.currentPostEffect());
+        }
+        else {
+            ((GameRendererAccess)(client.gameRenderer)).infinity$loadPP(InfinityMethods.getId("shaders/" + sid + ".json"));
+        }
+    }
+
     @SuppressWarnings("for removal")
     static ResourceLocation id(String s) {
         //? if >1.21 {

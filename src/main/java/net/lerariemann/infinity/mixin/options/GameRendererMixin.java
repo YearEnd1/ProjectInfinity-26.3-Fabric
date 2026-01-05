@@ -25,25 +25,20 @@ public abstract class GameRendererMixin implements GameRendererAccess {
     protected abstract void loadEffect(ResourceLocation id);
     *///?} else {
     @Shadow
-    protected abstract void setPostEffect(ResourceLocation par1);
+    public abstract void setPostEffect(ResourceLocation par1);
     //?}
-
 
 
     @Override
     public void infinity$loadPP(ResourceLocation id) {
-        //? if >1.21.2 {
-        if (Minecraft.getInstance().getResourceManager().getResource(id).isPresent()) {
-            setPostEffect(id);
-        }
-        //?} else {
+        //? if <1.21.2 {
         /*if (resourceManager.getResource(id).isPresent()) {
             loadEffect(id);
         }
-        *///?}
         else {
             Minecraft.getInstance().options.updateResourcePacks(Minecraft.getInstance().getResourcePackRepository());
         }
+        *///?}
     }
 
     @Inject(method = "checkEntityPostEffect", at = @At("TAIL"), cancellable = true)
