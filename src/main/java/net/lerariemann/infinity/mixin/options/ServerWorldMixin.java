@@ -77,10 +77,12 @@ public abstract class ServerWorldMixin extends Level implements WorldGenLevel, I
         if (InfinityMethods.isInfinity(dimension()) && infinity$timebombProgress > 0) infinity$timebombProgress++;
     }
 
-    /** InfDims share the weather with the Overworld, but if we don't do this, they will also tick it, causing the weather cycle to be very rapid */
-    @ModifyExpressionValue(method="advanceWeatherCycle", at=@At(value="INVOKE", target="Lnet/minecraft/world/level/GameRules;getBoolean(Lnet/minecraft/world/level/GameRules$Key;)Z"))
-    private boolean mev(boolean original) {
-        return original && !InfinityMethods.isInfinity(dimension());
+    /**
+     * InfDims share the weather with the Overworld, but if we don't do this, they will also tick it, causing the weather cycle to be very rapid
+     */
+    @Inject(method="advanceWeatherCycle", at=@At(value= "HEAD"), cancellable = true)
+    private void weather_inj(CallbackInfo ci) {
+        if (InfinityMethods.isInfinity(dimension())) ci.cancel();
     }
 
     @ModifyExpressionValue(method = "tickChunk", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/chunk/LevelChunkSection;isRandomlyTicking()Z"))

@@ -108,9 +108,7 @@ public interface ConfigGenerator {
         //? if >1.21.7 {
         var r = VersionMethods.getRegistry(server.reloadableRegistries().lookup(), Registries.LOOT_TABLE);
         DataCollection lootTables = new DataCollection.Logged(ConfigType.LOOT_TABLES, "loot tables");
-        r.listElementIds().forEach(id -> {
-            lootTables.addIdentifier(id.location());
-        });
+        r.listElementIds().forEach(id -> lootTables.addIdentifier(id.location()));
         lootTables.save();
         //?} else if =1.21.1 {
         /*ConfigFactory.of(server.reloadableRegistries().get().registryOrThrow(Registries.LOOT_TABLE), ConfigGenerator::extractLootTable)
@@ -304,7 +302,9 @@ public interface ConfigGenerator {
 
     static CompoundTag genOverrides(Map<MobCategory, StructureSpawnOverride> overrides) {
         CompoundTag res = new CompoundTag();
-        overrides.forEach((key, value) -> res.put(key.name().toLowerCase(), genOverride(value)));
+        overrides.forEach((key, value) -> {
+            if (key != null && value != null) res.put(key.name().toLowerCase(), genOverride(value));
+        });
         return res;
     }
 
