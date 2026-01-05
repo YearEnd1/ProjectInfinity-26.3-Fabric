@@ -8,6 +8,7 @@ import com.mojang.blaze3d.systems.RenderPass;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.lerariemann.infinity.util.loading.ShaderLoader;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.MappableRingBuffer;
 import org.apache.logging.log4j.LogManager;
 import org.lwjgl.system.MemoryStack;
 
@@ -16,7 +17,8 @@ import java.time.LocalTime;
 
 public class IridescentUniform implements AutoCloseable {
     public static final int UBO_SIZE = new Std140SizeCalculator().putFloat().putFloat().putFloat().putFloat().get();
-    public final GpuBuffer buffer = RenderSystem.getDevice().createBuffer(() -> "Iridescence Settings", 136, UBO_SIZE);
+    public final MappableRingBuffer buffer = new MappableRingBuffer(() -> "Iridescence Settings",
+            GpuBuffer.USAGE_UNIFORM | GpuBuffer.USAGE_MAP_WRITE, UBO_SIZE);
     public static final String NAME = "IridescentUniform";
     public static GpuBuffer uniformInstance;
 
@@ -31,16 +33,15 @@ public class IridescentUniform implements AutoCloseable {
 
     public void tryUpdate() {
         if (isActive()) {
-            try (MemoryStack memorystack = MemoryStack.stackPush()) {
-                ByteBuffer bytebuffer = Std140Builder.onStack(memorystack, UBO_SIZE)
+            this.buffer.rotate();
+            try (GpuBuffer.MappedView view = RenderSystem.getDevice().createCommandEncoder().mapBuffer(this.buffer.currentBuffer(), false, true)) {
+                Std140Builder.intoBuffer(view.data())
                         .putFloat(((int)(LocalTime.now().toNanoOfDay() / 1000000)) / 1000.0f)
                         .putFloat(ShaderLoader.iridLevel.get())
                         .putFloat((float)ShaderLoader.iridProgress.get())
-                        .putFloat(Minecraft.getInstance().options.screenEffectScale().get().floatValue())
-                        .get();
-                RenderSystem.getDevice().createCommandEncoder().writeToBuffer(this.buffer.slice(), bytebuffer);
+                        .putFloat(Minecraft.getInstance().options.screenEffectScale().get().floatValue());
             }
-            uniformInstance = this.buffer;
+            uniformInstance = this.buffer.currentBuffer();
         }
     }
 

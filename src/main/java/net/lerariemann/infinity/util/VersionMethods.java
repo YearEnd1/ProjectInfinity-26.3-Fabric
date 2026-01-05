@@ -69,8 +69,7 @@ public interface VersionMethods {
             client.gameRenderer.setPostEffect(InfinityMethods.getId(sid));
             LogManager.getLogger().info(client.gameRenderer.currentPostEffect());
         //?} else {
-        /*
-            ((GameRendererAccess)(client.gameRenderer)).infinity$loadPP(InfinityMethods.getId("shaders/" + sid + ".json"));
+        /*((GameRendererAccess)(client.gameRenderer)).infinity$loadPP(InfinityMethods.getId("shaders/" + sid + ".json"));
          *///?}
     }
 

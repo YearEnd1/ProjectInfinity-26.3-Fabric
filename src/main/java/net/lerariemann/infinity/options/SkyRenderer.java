@@ -759,7 +759,7 @@ public class SkyRenderer implements AutoCloseable {
             }
             @Override
             ByteBufferBuilder createByteBuffer() {
-                return ByteBufferBuilder.exactlySized(DefaultVertexFormat.POSITION.getVertexSize() * 1500 * 4);
+                return ByteBufferBuilder.exactlySized(DefaultVertexFormat.POSITION.getVertexSize() * numStars * 4);
             }
             @Override
             BufferBuilder createBuffer() {

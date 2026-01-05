@@ -139,7 +139,7 @@ public abstract class WorldRendererMixin implements WorldRendererAccess {
     @Unique SkyRenderer infinity$sky;
     @Inject(method = "<init>", at = @At("TAIL"))
     void inj(Minecraft minecraft, EntityRenderDispatcher entityRenderDispatcher, BlockEntityRenderDispatcher blockEntityRenderDispatcher, RenderBuffers renderBuffers, CallbackInfo ci) {
-        infinity$sky = new SkyRenderer(infinity$options(), this.level);
+        if (this.level != null) infinity$sky = new SkyRenderer(infinity$options(), this.level);
     }
     //?}
     //? if >1.21.2 && neoforge {
@@ -153,7 +153,10 @@ public abstract class WorldRendererMixin implements WorldRendererAccess {
     //? if >1.21.2 {
     
         InfinityOptions options = infinity$options();
-        if (!options.isEmpty()) {
+        if (this.level != null && infinity$sky == null) {
+            infinity$sky = new SkyRenderer(options, this.level);
+        }
+        if (!options.isEmpty() && infinity$sky != null) {
             FogType fogtype = camera.getFluidInCamera();
             if (fogtype != FogType.POWDER_SNOW && fogtype != FogType.LAVA && !doesMobEffectBlockSky(camera)) {
                 DimensionSpecialEffects.SkyType type = this.level.effects().skyType();
