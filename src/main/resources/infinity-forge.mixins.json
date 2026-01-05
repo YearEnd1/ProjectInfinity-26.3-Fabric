@@ -73,6 +73,7 @@
     "iridescence.PostEffectProcessorMixin",
     "options.BackgroundRendererMixin",
     "options.ClientWorldMixin",
+    "options.FogRendererMixin",
     "options.GameRendererMixin",
     "options.MinecraftClientMixin",
     "options.SoundSystemMixin",

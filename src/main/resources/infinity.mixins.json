@@ -73,6 +73,7 @@
     "options.BackgroundRendererMixin",
     "options.ClientWorldMixin",
     "options.GameRendererMixin",
+    "options.FogRendererMixin",
     "options.MinecraftClientMixin",
     "options.SoundSystemMixin",
     "options.WorldRendererMixin",

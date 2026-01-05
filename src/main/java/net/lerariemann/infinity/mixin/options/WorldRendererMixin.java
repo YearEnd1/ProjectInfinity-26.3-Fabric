@@ -1,21 +1,37 @@
 package net.lerariemann.infinity.mixin.options;
 
-import com.mojang.blaze3d.vertex.PoseStack;
 //? if <1.21.2 {
 /*import com.mojang.blaze3d.vertex.VertexBuffer;
-import net.lerariemann.infinity.options.SkyRenderer;
-*///?}
+import org.spongepowered.asm.mixin.injection.Constant;
+import org.spongepowered.asm.mixin.injection.ModifyConstant;
+import net.lerariemann.infinity.util.InfinityMethods;
+*///?} else {
+
+import com.mojang.blaze3d.buffers.GpuBufferSlice;
+import com.mojang.blaze3d.framegraph.FrameGraphBuilder;
+import com.mojang.blaze3d.framegraph.FramePass;
+import com.mojang.blaze3d.systems.RenderSystem;
+import net.minecraft.client.renderer.blockentity.BlockEntityRenderDispatcher;
+import net.minecraft.client.renderer.culling.Frustum;
+import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
+import net.minecraft.util.profiling.Profiler;
+import net.minecraft.world.level.material.FogType;
+//?}
+import com.mojang.blaze3d.vertex.PoseStack;
 import net.lerariemann.infinity.access.WorldRendererAccess;
 import net.lerariemann.infinity.options.InfinityOptions;
-import net.lerariemann.infinity.util.InfinityMethods;
+import net.lerariemann.infinity.options.SkyRenderer;
 import net.minecraft.client.Camera;
 //? if >1.21 {
-import net.minecraft.client.DeltaTracker;
-import net.minecraft.client.renderer.GameRenderer;
-import net.minecraft.client.renderer.LightTexture;
+import net.minecraft.client.renderer.*;
 //?}
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
+//? if >1.21.2 && neoforge {
+import net.neoforged.neoforge.client.IRenderableSection;
+import net.neoforged.neoforge.client.event.RenderLevelStageEvent;
+import net.neoforged.neoforge.common.NeoForge;
+//?}
 import net.minecraft.client.renderer.LevelRenderer;
 import org.joml.Matrix4f;
 import org.spongepowered.asm.mixin.Final;
@@ -23,31 +39,32 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Constant;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.ModifyConstant;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(LevelRenderer.class)
 public abstract class WorldRendererMixin implements WorldRendererAccess {
     @Shadow private ClientLevel level;
-    @Shadow private Minecraft minecraft;
+    @Final @Shadow private Minecraft minecraft;
+
+    @Shadow protected abstract boolean doesMobEffectBlockSky(Camera camera);
+
 
     @Override
     public void infinity$setNeedsStars(boolean b) {
         //? if <1.21.2 {
         /*createStars();
-        *///?}
+        *///?} else {
+        infinity$sky = new SkyRenderer(infinity$options(), this.level);
+        //?}
     }
 
     //? if <1.21.2 {
-
     /*@Final
     @Shadow private VertexBuffer skyBuffer;
     @Shadow private VertexBuffer starBuffer;
 
     @Shadow protected abstract void createStars();
-    @Shadow protected abstract boolean doesMobEffectBlockSky(Camera camera);
 
     //? if >1.21 {
     @Inject(method = "renderSky(Lorg/joml/Matrix4f;Lorg/joml/Matrix4f;FLnet/minecraft/client/Camera;ZLjava/lang/Runnable;)V",
@@ -102,13 +119,73 @@ public abstract class WorldRendererMixin implements WorldRendererAccess {
         renderer.render(fogCallback);
     }
 
-    *///?} else {
-
-    //?}
-    //FIXME 1.21.8 - rendering broke
+    *///?}
 
     @Unique
     private InfinityOptions infinity$options() {
         return InfinityOptions.ofClient(minecraft);
     }
+
+    //? if >1.21.2 {
+    @Shadow @Final private LevelTargetBundle targets;
+    @Shadow private int ticks;
+    @Shadow @Final private RenderBuffers renderBuffers;
+    //?}
+    //? if >1.21.2 && neoforge {
+    @Shadow public abstract Frustum getFrustum();
+    @Shadow public abstract Iterable<? extends IRenderableSection> getRenderableSections();
+    //?}
+    //? if >1.21.2 {
+    @Unique SkyRenderer infinity$sky;
+    @Inject(method = "<init>", at = @At("TAIL"))
+    void inj(Minecraft minecraft, EntityRenderDispatcher entityRenderDispatcher, BlockEntityRenderDispatcher blockEntityRenderDispatcher, RenderBuffers renderBuffers, CallbackInfo ci) {
+        infinity$sky = new SkyRenderer(infinity$options(), this.level);
+    }
+    //?}
+    //? if >1.21.2 && neoforge {
+    @Inject(method = "addSkyPass(Lcom/mojang/blaze3d/framegraph/FrameGraphBuilder;Lnet/minecraft/client/Camera;FLcom/mojang/blaze3d/buffers/GpuBufferSlice;Lorg/joml/Matrix4f;)V", at = @At("HEAD"), cancellable = true)
+    void inj(FrameGraphBuilder frameGraphBuilder, Camera camera, float partialTick, GpuBufferSlice shaderFog, Matrix4f modelViewMatrix, CallbackInfo ci) {
+    //?}
+    //? if >1.21.2 && fabric {
+    /*@Inject(method = "Lnet/minecraft/client/renderer/LevelRenderer;addSkyPass(Lcom/mojang/blaze3d/framegraph/FrameGraphBuilder;Lnet/minecraft/client/Camera;FLcom/mojang/blaze3d/buffers/GpuBufferSlice;)V", at = @At("HEAD"), cancellable = true)
+    void inj(FrameGraphBuilder frameGraphBuilder, Camera camera, float partialTick, GpuBufferSlice shaderFog, CallbackInfo ci) {
+    *///?}
+    //? if >1.21.2 {
+    
+        InfinityOptions options = infinity$options();
+        if (!options.isEmpty()) {
+            FogType fogtype = camera.getFluidInCamera();
+            if (fogtype != FogType.POWDER_SNOW && fogtype != FogType.LAVA && !doesMobEffectBlockSky(camera)) {
+                DimensionSpecialEffects.SkyType type = this.level.effects().skyType();
+                if (type != DimensionSpecialEffects.SkyType.NONE) {
+                    FramePass framepass = frameGraphBuilder.addPass("sky");
+                    targets.main = framepass.readsAndWrites(this.targets.main);
+                    framepass.executes(() -> {
+    //?}
+//? if >1.21.2 && neoforge {
+    
+                        if (!this.level.effects().renderSky(this.level, ticks, partialTick, modelViewMatrix, camera,
+                                () -> RenderSystem.setShaderFog(shaderFog))) {
+    //?}
+//? if >1.21.2 {
+    
+                            RenderSystem.setShaderFog(shaderFog);
+                            infinity$sky.renderAll(renderBuffers, partialTick);
+    //?}
+//? if >1.21.2 && neoforge {
+    
+                            Profiler.get().push("neoforge_render_after_sky");
+                            NeoForge.EVENT_BUS.post(new RenderLevelStageEvent.AfterSky(this.level, (LevelRenderer)(Object)this, (PoseStack)null, modelViewMatrix, this.ticks, this.minecraft.getDeltaTracker(), camera, this.getFrustum(), this.getRenderableSections()));
+                            Profiler.get().pop();
+                        }
+    //?}
+//? if >1.21.2 && neoforge {
+    
+                    });
+                }
+            }
+            ci.cancel();
+        }
+    }
+    //?}
 }
