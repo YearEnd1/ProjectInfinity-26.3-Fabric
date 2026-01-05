@@ -2,6 +2,7 @@ package net.lerariemann.infinity.mixin.iridescence;
 
 import net.lerariemann.infinity.registry.core.ModStatusEffects;
 import net.lerariemann.infinity.util.VersionMethods;
+import net.minecraft.client.Minecraft;
 import net.minecraft.core.Holder;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.effect.MobEffect;
@@ -11,6 +12,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(MobEffectInstance.class)
@@ -37,4 +39,13 @@ public abstract class StatusEffectInstanceMixin {
             eff.tryApplySpecial(entity, duration, amplifier);
         }
     }
+
+    //? if >1.21.2 {
+    @Inject(method = "tickClient", at = @At(value = "TAIL"))
+    void tickStatusEffects(CallbackInfo ci) {
+        if (VersionMethods.unholdEffect(getEffect()) instanceof ModStatusEffects.SpecialEffect eff) {
+            eff.tryApplySpecial(Minecraft.getInstance().player, duration, amplifier);
+        }
+    }
+    //?}
 }

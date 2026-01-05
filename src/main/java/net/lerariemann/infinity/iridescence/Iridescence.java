@@ -165,6 +165,16 @@ public interface Iridescence {
         DOWNWARDS
     }
 
+    static void clientUpdate(Player entity, int duration, int amplifier) {
+        Iridescence.updateAtomics(duration, amplifier);
+        if (amplifier == 0) return;
+        double prog = ShaderLoader.iridProgress.get();
+        if (prog > 0.5) {
+            if (InfinityMod.random.nextDouble() < 0.015*(2*prog - 1)*amplifier)
+                entity.playSound(SoundEvents.AMETHYST_BLOCK_CHIME, 1.0f, 1f + InfinityMod.random.nextFloat());
+        }
+    }
+
     static void updateAtomics(int duration, int amplifier) {
         ShaderLoader.iridLevel.set(amplifier);
         ShaderLoader.iridProgress.set(switch (getPhase(duration, amplifier)) {

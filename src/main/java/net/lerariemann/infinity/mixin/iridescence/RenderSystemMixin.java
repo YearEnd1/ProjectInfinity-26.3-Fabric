@@ -1,6 +1,6 @@
 package net.lerariemann.infinity.mixin.iridescence;
 
-//?if >1.21.2 {
+//? if >1.21.2 {
 import com.mojang.blaze3d.systems.RenderPass;
 import net.lerariemann.infinity.access.GameRendererAccess;
 import net.lerariemann.infinity.iridescence.IridescentUniform;
@@ -14,12 +14,10 @@ import org.spongepowered.asm.mixin.Mixin;
 
 @Mixin(RenderSystem.class)
 public class RenderSystemMixin {
-    //?if >1.21.2 {
+    //? if >1.21.2 {
     @Inject(method = "bindDefaultUniforms", at = @At("TAIL"))
     private static void inj(RenderPass renderPass, CallbackInfo ci) {
-        try (IridescentUniform u = ((GameRendererAccess)Minecraft.getInstance().gameRenderer).infinity$getIridescentUniform()) {
-            u.trySet(renderPass);
-        }
+        IridescentUniform.trySet(renderPass);
     }
     //?}
 }

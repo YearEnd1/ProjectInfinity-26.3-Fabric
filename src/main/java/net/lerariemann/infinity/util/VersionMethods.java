@@ -65,13 +65,13 @@ public interface VersionMethods {
      *///?}
 
     static void loadPP(Minecraft client, String sid) {
-        if (VersionMethods.above212) {
+        //? if >1.21.2 {
             client.gameRenderer.setPostEffect(InfinityMethods.getId(sid));
             LogManager.getLogger().info(client.gameRenderer.currentPostEffect());
-        }
-        else {
+        //?} else {
+        /*
             ((GameRendererAccess)(client.gameRenderer)).infinity$loadPP(InfinityMethods.getId("shaders/" + sid + ".json"));
-        }
+         *///?}
     }
 
     @SuppressWarnings("for removal")

@@ -97,13 +97,7 @@ public class IridescentEffect extends MobEffect implements ModStatusEffects.Spec
                 }
             }
             else {
-                Iridescence.updateAtomics(duration, amplifier);
-                if (amplifier == 0) return;
-                double prog = ShaderLoader.iridProgress.get();
-                if (prog > 0.5) {
-                    if (InfinityMod.random.nextDouble() < 0.015*(2*prog - 1)*amplifier)
-                        entity.playSound(SoundEvents.AMETHYST_BLOCK_CHIME, 1.0f, 1f + InfinityMod.random.nextFloat());
-                }
+                clientUpdate(p, duration, amplifier);
             }
         }
     }

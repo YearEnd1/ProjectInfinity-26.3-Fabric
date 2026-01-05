@@ -31,18 +31,17 @@ public abstract class GameRendererMixin implements GameRendererAccess {
     public abstract void setPostEffect(ResourceLocation par1);
     //?}
 
-
-    @Override
+    //? if <1.21.2 {
+    /*@Override
     public void infinity$loadPP(ResourceLocation id) {
-        //? if <1.21.2 {
-        /*if (resourceManager.getResource(id).isPresent()) {
+        if (resourceManager.getResource(id).isPresent()) {
             loadEffect(id);
         }
         else {
             Minecraft.getInstance().options.updateResourcePacks(Minecraft.getInstance().getResourcePackRepository());
         }
-        *///?}
     }
+    *///?}
 
     @Inject(method = "checkEntityPostEffect", at = @At("TAIL"), cancellable = true)
     private void preserveShaderThirdPerson(CallbackInfo ci) {
@@ -57,7 +56,7 @@ public abstract class GameRendererMixin implements GameRendererAccess {
         }
     }
 
-    //?if >1.21.2 {
+    //? if >1.21.2 {
     @Unique
     private IridescentUniform infinity$iridUniform;
 

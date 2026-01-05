@@ -9,6 +9,7 @@ layout(std140) uniform IridescentUniform {
     float IridProgress;
     float IridDistortion;
 };
+const float twopi = 6.2832f;
 
 in vec2 texCoord;
 in vec2 oneTexel;
@@ -51,7 +52,6 @@ void main() {
     float noiseScale1 = 1.0f + IridLevel/2.0f; //1 to 3
     float noiseScale2 = 1.5f + IridLevel/4.0f; //1.5 to 2.5
 
-    float twopi = 6.2832f;
     float time = twopi*(IridTimeSec / 10.0f);
     float alpha = IridProgress > 0.5 ? 1 : 2*IridProgress;
 

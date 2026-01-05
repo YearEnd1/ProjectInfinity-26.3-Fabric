@@ -14,28 +14,6 @@
       ],
       "output": "swap",
       "uniforms": {
-        "IridescentUniform": [
-          {
-            "name": "IridTimeSec",
-            "type": "float",
-            "value": 0.0
-          },
-          {
-            "name": "IridLevel",
-            "type": "float",
-            "value": 0.0
-          },
-          {
-            "name": "IridProgress",
-            "type": "float",
-            "value": 0.0
-          },
-          {
-            "name": "IridDistortion",
-            "type": "float",
-            "value": 0.0
-          }
-        ]
       }
     },
     {
