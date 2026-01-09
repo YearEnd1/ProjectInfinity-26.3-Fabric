@@ -2,9 +2,9 @@ package net.lerariemann.infinity.util;
 
 import net.lerariemann.infinity.access.GameRendererAccess;
 import net.lerariemann.infinity.registry.core.ModComponentTypes;
+import net.minecraft.client.Minecraft;
 //? if >1.21 {
 import dev.architectury.registry.registries.RegistrySupplier;
-import net.minecraft.client.Minecraft;
 import net.minecraft.core.*;
 import net.minecraft.core.component.DataComponentMap;
 import net.minecraft.core.component.DataComponentType;

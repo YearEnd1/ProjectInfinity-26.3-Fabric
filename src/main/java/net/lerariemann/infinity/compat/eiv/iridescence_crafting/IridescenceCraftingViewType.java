@@ -4,6 +4,7 @@ package net.lerariemann.infinity.compat.eiv.iridescence_crafting;
 
 import de.crafty.eiv.common.api.recipe.IEivRecipeViewType;
 import de.crafty.eiv.common.recipe.inventory.RecipeViewMenu;
+import net.lerariemann.infinity.registry.core.ModBlocks;
 import net.lerariemann.infinity.registry.core.ModItems;
 import net.lerariemann.infinity.util.InfinityMethods;
 import net.minecraft.network.chat.Component;
@@ -59,7 +60,7 @@ public class IridescenceCraftingViewType implements IEivRecipeViewType {
 
     @Override
     public List<ItemStack> getCraftReferences() {
-        return List.of(ModItems.IRIDESCENCE_BUCKET.get().getDefaultInstance());
+        return List.of(ModItems.IRIDESCENCE_BUCKET.get().getDefaultInstance(), new ItemStack(ModBlocks.IRIDESCENCE.get()));
     }
 
 }

@@ -12,7 +12,6 @@ import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.component.DataComponentMap;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.codec.ByteBufCodecs;
-import net.minecraft.world.entity.SpawnPlacementType;
 //?}
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
@@ -55,13 +54,8 @@ import java.util.function.Supplier;
 @ParametersAreNonnullByDefault
 //?}
 public class ChaosPawn extends AbstractChessFigure {
-    public static final EntityDataAccessor<CompoundTag> colors = SynchedEntityData.defineId(ChaosPawn.class,
-            //? if >1.21.4 {
-            EntityDataSerializer.forValueType(ByteBufCodecs.COMPOUND_TAG)
-            //?} else {
-            /*EntityDataSerializers.COMPOUND_TAG
-            *///?}
-    );
+
+    public static final EntityDataAccessor<CompoundTag> colors = SynchedEntityData.defineId(ChaosPawn.class, EntityDataSerializers.COMPOUND_TAG);
     public static final EntityDataAccessor<Integer> special_case = SynchedEntityData.defineId(ChaosPawn.class, EntityDataSerializers.INT);
 
     public ChaosPawn(EntityType<? extends ChaosPawn> entityType, Level world) {

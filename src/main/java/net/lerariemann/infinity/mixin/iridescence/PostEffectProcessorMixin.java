@@ -1,8 +1,8 @@
 package net.lerariemann.infinity.mixin.iridescence;
 
 //? if <1.21.2 {
-/*
-import net.lerariemann.infinity.util.loading.ShaderLoader;
+
+/*import net.lerariemann.infinity.util.loading.ShaderLoader;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.PostPass;
 import org.spongepowered.asm.mixin.Final;

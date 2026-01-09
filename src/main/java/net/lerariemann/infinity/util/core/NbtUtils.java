@@ -115,6 +115,7 @@ public interface NbtUtils {
         *///?}
     }
     static int getInt(CompoundTag data, String key, int def) {
+        if (data == null) return def;
         //? if >1.21.5 {
         return data.getIntOr(key, def);
         //?} else {

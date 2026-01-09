@@ -27,6 +27,16 @@ public class ChaosPawnRenderer
     public ChaosPawnRenderState createRenderState() {
         return new ChaosPawnRenderState();
     }
+
+    @Override
+    public void extractRenderState(ChaosPawn entity, ChaosPawnRenderState reusedState, float partialTick) {
+        super.extractRenderState(entity, reusedState, partialTick);
+        reusedState.colors = entity.getColors();
+        reusedState.id = entity.getId();
+        if (entity.hasCustomName())
+            reusedState.customName = entity.getCustomName().getString();
+    }
+
     @Override
     public ResourceLocation getTextureLocation(ChaosPawnRenderState renderState) {
         return TEXTURE;
