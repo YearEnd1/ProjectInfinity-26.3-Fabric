@@ -5,9 +5,8 @@ import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
 //? >1.21.4
 import de.crafty.eiv.common.extra.FluidItemSpecialRenderer;
-import net.lerariemann.infinity.iridescence.Iridescence;
+import net.lerariemann.infinity.iridescence.*;
 import net.lerariemann.infinity.registry.core.ModBlocks;
-import net.lerariemann.infinity.util.platform.InfinityPlatform;
 import net.minecraft.world.item.ItemStack;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Pseudo;
@@ -46,6 +45,6 @@ public class FluidItemRendererMixin {
 	}
 }
 //?} else {
-/*@Mixin(Iridescence.class)
+/*@Mixin(IridescenceLiquidBlock.class)
 public class FluidItemRendererMixin {}
 *///?}

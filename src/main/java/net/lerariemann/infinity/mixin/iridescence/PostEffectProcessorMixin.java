@@ -19,6 +19,11 @@ import org.spongepowered.asm.mixin.Mixin;
 
 @Mixin(PostChain.class)
 public abstract class PostEffectProcessorMixin {
+    /*@Inject(method = "lambda$addToFrame$3", at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/systems/RenderPass;setVertexBuffer(ILcom/mojang/blaze3d/buffers/GpuBuffer;)V"))
+    private static void inj(Map targets, PostPass.Input p_423166_, CallbackInfoReturnable<Pair> cir, @Local RenderPass renderPass) {
+        IridescentUniform.trySet(renderPass);
+    }*/
+
     //? if <1.21.2 {
     /*@Shadow
     private float time;

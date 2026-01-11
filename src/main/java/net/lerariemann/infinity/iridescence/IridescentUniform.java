@@ -9,10 +9,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import net.lerariemann.infinity.util.loading.ShaderLoader;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MappableRingBuffer;
-import org.apache.logging.log4j.LogManager;
-import org.lwjgl.system.MemoryStack;
 
-import java.nio.ByteBuffer;
 import java.time.LocalTime;
 
 public class IridescentUniform implements AutoCloseable {

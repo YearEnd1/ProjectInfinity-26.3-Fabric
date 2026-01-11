@@ -137,9 +137,9 @@ public class RandomProvider {
             }
         }
         CompoundTag rootChances = NbtUtils.getCompound(rootConfig, "rootChances");
-        for (String c: NbtUtils.keys(gameRules)) {
+        for (String c: NbtUtils.keys(rootChances)) {
             var compound = NbtUtils.getCompound(rootChances, c);
-            for (String s: NbtUtils.keys(gameRules)) {
+            for (String s: NbtUtils.keys(compound)) {
                 this.rootChances.put(s, NbtUtils.getDouble(compound, s));
             }
         }
