@@ -106,6 +106,7 @@ public class ModItemGroups {
         } else if (equals(creativeModeTab, CreativeModeTabs.SPAWN_EGGS)) {
             addAfter(event, CHAOS_PAWN_SPAWN_EGG.get());
             addAfter(event, ANT_SPAWN_EGG.get());
+            addAfter(event, CHAOS_PAWN_SPAWN_EGG.get());
             addAfter(event, BISHOP_SPAWN_EGG.get());
             addAfter(event, CREEPER_SPAWN_EGG, CHAOS_CREEPER_SPAWN_EGG.get());
             addAfter(event, SKELETON_SPAWN_EGG, CHAOS_SKELETON_SPAWN_EGG.get());
