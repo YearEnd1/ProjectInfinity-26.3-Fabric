@@ -24,15 +24,15 @@ public class ChaosSlimeRenderer extends MobRenderer
         /*<ChaosSlime, SlimeModel<ChaosSlime>>
         *///?}
          {
-    private static final ResourceLocation TEXTURE = InfinityMethods.getId("textures/entity/slime.png");
+    public static final ResourceLocation TEXTURE = InfinityMethods.getId("textures/entity/slime.png");
 
     public ChaosSlimeRenderer(EntityRendererProvider.Context context) {
         super(context, new SlimeModel(context.bakeLayer(ModelLayers.SLIME)), 0.25f);
         this.addLayer(new DimensionalSlimeCoreRenderer(this, context.getBlockRenderDispatcher()));
         this.addLayer(new TintedLayerRenderer(this, new SlimeModel(context.getModelSet().bakeLayer(ModelLayers.SLIME_OUTER))));
     }
-    //? if >1.21.2 {
 
+    //? if >1.21.2 {
     @Override
     public ResourceLocation getTextureLocation(TintedRenderState.Slime renderState) {
         return TEXTURE;
@@ -53,7 +53,6 @@ public class ChaosSlimeRenderer extends MobRenderer
         this.shadowRadius = 0.25f * (float)slimeEntity.size;
     }
     *///?} else {
-
     @Override
     public void render(TintedRenderState.Slime renderState, PoseStack poseStack, MultiBufferSource bufferSource, int packedLight) {
         this.shadowRadius = 0.25f * (float)renderState.size;

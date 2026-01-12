@@ -1,8 +1,8 @@
 package net.lerariemann.infinity.entity.client;
 
 //? if >1.21.2 {
-import net.lerariemann.infinity.util.InfinityMethods;
-import net.lerariemann.infinity.util.VersionMethods;
+import net.minecraft.client.renderer.entity.state.CreeperRenderState;
+import net.minecraft.client.renderer.entity.state.SkeletonRenderState;
 import net.minecraft.client.renderer.entity.state.SlimeRenderState;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.state.BlockState;
@@ -17,8 +17,6 @@ public interface TintedRenderState {
     class Slime extends SlimeRenderState implements TintedRenderState {
         public BlockState core;
         public int colour;
-        public float squish;
-        public int size = 1;
 
         @Override
         public int getColour() {
@@ -27,11 +25,11 @@ public interface TintedRenderState {
 
         @Override
         public ResourceLocation getTexture() {
-            return InfinityMethods.getId("textures/entity/slime.png");
+            return ChaosSlimeRenderer.TEXTURE;
         }
     }
 
-    class Creeper extends SlimeRenderState implements TintedRenderState {
+    class Creeper extends CreeperRenderState implements TintedRenderState {
         public int colour;
 
         @Override
@@ -41,11 +39,11 @@ public interface TintedRenderState {
 
         @Override
         public ResourceLocation getTexture() {
-            return InfinityMethods.getId("textures/entity/creeper.png");
+            return ChaosCreeperRenderer.TEXTURE;
         }
     }
 
-    class Skeleton extends SlimeRenderState implements TintedRenderState {
+    class Skeleton extends SkeletonRenderState implements TintedRenderState {
         public int colour;
 
         @Override
@@ -55,7 +53,7 @@ public interface TintedRenderState {
 
         @Override
         public ResourceLocation getTexture() {
-            return VersionMethods.id("textures/entity/skeleton/skeleton.png");
+            return ChaosSkeletonRenderer.TEXTURE;
         }
     }
 }

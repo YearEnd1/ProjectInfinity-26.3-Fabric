@@ -18,9 +18,9 @@ import net.minecraft.client.renderer.entity.layers.RenderLayer;
 /*import net.minecraft.util.FastColor;
 *///?} else {
 import net.minecraft.client.renderer.entity.state.LivingEntityRenderState;
+import net.minecraft.util.ARGB;
 //?}
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.ARGB;
 import net.minecraft.world.entity.Mob;
 
 public class TintedLayerRenderer<T extends
@@ -83,9 +83,6 @@ public class TintedLayerRenderer<T extends
         }
         VertexConsumer vertexConsumer = vertexConsumerProvider.getBuffer(bl ?
                 RenderType.outline(texture) : RenderType.entityTranslucent(texture));
-        // TODO 1.21.3 these were probably necessary
-//        this.getContextModel().copyStateTo(this.model);
-//        this.model.animateModel(livingEntity, f, g, h);
         this.model.setupAnim(livingEntity);
         int color = 16777215;
         if (livingEntity instanceof TintedRenderState ent) {
