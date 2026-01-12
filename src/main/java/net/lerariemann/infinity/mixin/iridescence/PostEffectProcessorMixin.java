@@ -14,10 +14,13 @@ import java.time.LocalTime;
 import java.util.List;
 *///?} else {
 import com.llamalad7.mixinextras.sugar.Local;
+import com.mojang.blaze3d.buffers.GpuBufferSlice;
+import com.mojang.blaze3d.resource.ResourceHandle;
 import com.mojang.blaze3d.systems.RenderPass;
 import com.mojang.datafixers.util.Pair;
 import net.lerariemann.infinity.iridescence.IridescentUniform;
 import net.minecraft.client.renderer.PostPass;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 //?}
 import org.spongepowered.asm.mixin.Mixin;
@@ -32,10 +35,17 @@ import java.util.Map;
 @Mixin(PostPass.class)
 //?}
 public abstract class PostEffectProcessorMixin {
-    /*@Inject(method = "lambda$addToFrame$3", at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/systems/RenderPass;setVertexBuffer(ILcom/mojang/blaze3d/buffers/GpuBuffer;)V"))
-    private static void inj(Map targets, PostPass.Input p_423166_, CallbackInfoReturnable<Pair> cir, @Local RenderPass renderPass) {
+	//? neoforge && >1.21.2 {
+	@Inject(method = "lambda$addToFrame$5", at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/systems/RenderPass;setVertexBuffer(ILcom/mojang/blaze3d/buffers/GpuBuffer;)V"))
+    private static void inj(ResourceHandle resourcehandle, GpuBufferSlice projectionMatrixBuffer, Map targets, CallbackInfo ci, @Local RenderPass renderPass) {
         IridescentUniform.trySet(renderPass);
-    }*/
+    }
+	//?} else fabric && >1.21.2 {
+	/*@Inject(method = "method_67884", at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/systems/RenderPass;setVertexBuffer(ILcom/mojang/blaze3d/buffers/GpuBuffer;)V"))
+	private static void inj(ResourceHandle resourcehandle, GpuBufferSlice projectionMatrixBuffer, Map targets, CallbackInfo ci, @Local RenderPass renderPass) {
+		IridescentUniform.trySet(renderPass);
+	}
+	*///?}
 
     //? if <1.21.2 {
     /*@Shadow
