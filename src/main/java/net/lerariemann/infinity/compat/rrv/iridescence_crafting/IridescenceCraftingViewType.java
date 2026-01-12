@@ -1,9 +1,10 @@
-package net.lerariemann.infinity.compat.eiv.portal_crafting;
+package net.lerariemann.infinity.compat.rrv.iridescence_crafting;
 
 //? if >1.21.4 {
 
-import de.crafty.eiv.common.api.recipe.IEivRecipeViewType;
-import de.crafty.eiv.common.recipe.inventory.RecipeViewMenu;
+import cc.cassian.rrv.api.recipe.ReliableClientRecipeType;
+import cc.cassian.rrv.common.recipe.inventory.RecipeViewMenu;
+import net.lerariemann.infinity.registry.core.ModBlocks;
 import net.lerariemann.infinity.registry.core.ModItems;
 import net.lerariemann.infinity.util.InfinityMethods;
 import net.minecraft.network.chat.Component;
@@ -11,13 +12,13 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import java.util.List;
 
-public class PortalCraftingViewType implements IEivRecipeViewType {
+public class IridescenceCraftingViewType implements ReliableClientRecipeType {
 
-    protected static final PortalCraftingViewType INSTANCE = new PortalCraftingViewType();
+    protected static final IridescenceCraftingViewType INSTANCE = new IridescenceCraftingViewType();
 
     @Override
     public Component getDisplayName() {
-        return Component.translatable("emi.category.infinity.collision_portal");
+        return Component.translatable("emi.category.infinity.collision_iridescence");
     }
 
     @Override
@@ -54,12 +55,12 @@ public class PortalCraftingViewType implements IEivRecipeViewType {
 
     @Override
     public ItemStack getIcon() {
-        return ModItems.PORTAL_ITEM.get().getDefaultInstance();
+        return ModItems.IRIDESCENCE_BUCKET.get().getDefaultInstance();
     }
 
     @Override
     public List<ItemStack> getCraftReferences() {
-        return List.of(ModItems.PORTAL_ITEM.get().getDefaultInstance());
+        return List.of(ModItems.IRIDESCENCE_BUCKET.get().getDefaultInstance(), new ItemStack(ModBlocks.IRIDESCENCE.get()));
     }
 
 }

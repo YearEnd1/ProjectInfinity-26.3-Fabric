@@ -1,10 +1,9 @@
-package net.lerariemann.infinity.mixin.eiv;
-
+package net.lerariemann.infinity.mixin.rrv;
+//? >1.21.4
+import cc.cassian.rrv.client.extra.FluidItemSpecialRenderer;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
-//? >1.21.4
-import de.crafty.eiv.common.extra.FluidItemSpecialRenderer;
 import net.lerariemann.infinity.iridescence.*;
 import net.lerariemann.infinity.registry.core.ModBlocks;
 import net.minecraft.world.item.ItemStack;
@@ -17,7 +16,7 @@ import java.awt.*;
 //? if >1.21.4 {
 @Pseudo
 @Mixin(FluidItemSpecialRenderer.class)
-// EIV only tints fluids if they are water. This provides the appropriate tinting to Iridescence.
+// RRV only tints fluids if they are water. This provides the appropriate tinting to Iridescence.
 public class FluidItemRendererMixin {
 
 	@WrapOperation(method = "render(Lnet/minecraft/world/item/ItemStack;Lnet/minecraft/world/item/ItemDisplayContext;Lcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;IIZ)V", at = @At(value = "INVOKE", target = "Ljava/awt/Color;getRed()I"))

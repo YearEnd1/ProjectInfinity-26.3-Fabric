@@ -121,6 +121,18 @@ repositories {
             includeGroupAndSubgroups("com.jamieswhiteshirt")
         }
     }
+    exclusiveContent {
+        forRepository {
+            maven {
+                name = "Cassian's Maven"
+                url = uri("https://maven.cassian.cc")
+            }
+        }
+        filter {
+            includeGroupAndSubgroups("cc.cassian")
+        }
+    }
+
 }
 
 dependencies {
@@ -159,10 +171,10 @@ dependencies {
         modLocalRuntime("dev.emi:emi-fabric:${property("deps.emi")}+${property("deps.minecraft")}")
     }
 
-    //EIV
-    if (hasProperty("deps.eiv")) {
-        modCompileOnly("maven.modrinth:eiv:${property("deps.eiv")}-fabric")
-        modLocalRuntime("maven.modrinth:eiv:${property("deps.eiv")}-fabric")
+    //RRV
+    if (hasProperty("deps.rrv")) {
+        modCompileOnly("cc.cassian.rrv:reliable-recipe-viewer-fabric:${property("deps.rrv")}")
+        modLocalRuntime("cc.cassian.rrv:reliable-recipe-viewer-fabric:${property("deps.rrv")}")
     }
 
     // CC Tweaked
@@ -284,8 +296,8 @@ publishMods {
         if (hasProperty("deps.emi")) {
             optional("emi")
         }
-        if (hasProperty("deps.eiv")) {
-            optional("eiv")
+        if (hasProperty("deps.rrv")) {
+            optional("rrv")
         }
     }
 
@@ -300,8 +312,8 @@ publishMods {
         if (hasProperty("deps.emi")) {
             optional("emi")
         }
-        if (hasProperty("deps.eiv")) {
-            optional("extended-itemview-eiv")
+        if (hasProperty("deps.rrv")) {
+            optional("extended-itemview-rrv")
         }
     }
 }

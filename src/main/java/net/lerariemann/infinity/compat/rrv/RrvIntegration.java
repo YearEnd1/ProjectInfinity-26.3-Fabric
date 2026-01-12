@@ -1,21 +1,20 @@
-package net.lerariemann.infinity.compat.eiv;
+package net.lerariemann.infinity.compat.rrv;
 
-//? if >1.21.4 {
+//? if >1.21.7 {
 
-import de.crafty.eiv.common.api.IExtendedItemViewIntegration;
-import de.crafty.eiv.common.api.recipe.ItemView;
-import de.crafty.eiv.common.recipe.ServerRecipeManager;
+import cc.cassian.rrv.api.ReliableRecipeViewerPlugin;
+import cc.cassian.rrv.api.recipe.ItemView;
+import cc.cassian.rrv.common.recipe.ServerRecipeManager;
 import net.lerariemann.infinity.InfinityMod;
-import net.lerariemann.infinity.compat.eiv.iridescence_crafting.IridescenceCraftingServerRecipe;
-import net.lerariemann.infinity.compat.eiv.iridescence_crafting.IridescenceCraftingViewRecipe;
-import net.lerariemann.infinity.compat.eiv.portal_crafting.PortalCraftingServerRecipe;
-import net.lerariemann.infinity.compat.eiv.portal_crafting.PortalCraftingViewRecipe;
+import net.lerariemann.infinity.compat.rrv.iridescence_crafting.IridescenceCraftingServerRecipe;
+import net.lerariemann.infinity.compat.rrv.iridescence_crafting.IridescenceCraftingViewRecipe;
+import net.lerariemann.infinity.compat.rrv.portal_crafting.PortalCraftingServerRecipe;
+import net.lerariemann.infinity.compat.rrv.portal_crafting.PortalCraftingViewRecipe;
 import net.lerariemann.infinity.item.function.CollisionCraftingRecipe;
 
 import java.util.Collections;
-import java.util.List;
 
-public class EivIntegration implements IExtendedItemViewIntegration {
+public class RrvIntegration implements ReliableRecipeViewerPlugin {
     boolean initialized = false;
     @Override
     public void onIntegrationInitialize() {
@@ -25,7 +24,7 @@ public class EivIntegration implements IExtendedItemViewIntegration {
     }
 
     public static void initialize() {
-        InfinityMod.LOGGER.info("Initializing Infinite Dimensions - EIV integration");
+        InfinityMod.LOGGER.info("Initializing Infinite Dimensions - RRV integration");
         // Serverside recipes
         ItemView.addRecipeProvider(recipeList -> {
             // Portal Crafting - serverside

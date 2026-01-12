@@ -1,16 +1,14 @@
-package net.lerariemann.infinity.compat.eiv.portal_crafting;
+package net.lerariemann.infinity.compat.rrv.portal_crafting;
 
 //? if >1.21.4 {
 
-import de.crafty.eiv.common.api.recipe.IEivRecipeViewType;
-import de.crafty.eiv.common.api.recipe.IEivViewRecipe;
-import de.crafty.eiv.common.recipe.inventory.RecipeViewMenu;
-import de.crafty.eiv.common.recipe.inventory.SlotContent;
+import cc.cassian.rrv.api.recipe.ReliableClientRecipe;
+import cc.cassian.rrv.api.recipe.ReliableClientRecipeType;
+import cc.cassian.rrv.common.recipe.inventory.RecipeViewMenu;
+import cc.cassian.rrv.common.recipe.inventory.SlotContent;
 import net.lerariemann.infinity.item.PortalDataHolder;
-import net.lerariemann.infinity.item.function.CollisionCraftingRecipe;
 import net.lerariemann.infinity.registry.core.ModComponentTypes;
 import net.lerariemann.infinity.registry.core.ModItems;
-import net.lerariemann.infinity.util.InfinityMethods;
 import net.lerariemann.infinity.util.VersionMethods;
 import net.lerariemann.infinity.util.var.ColorLogic;
 import net.minecraft.client.resources.language.I18n;
@@ -18,11 +16,10 @@ import net.minecraft.core.component.DataComponentPatch;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.ItemStack;
-import java.util.List;
-import java.util.Objects;
 
-public class PortalCraftingViewRecipe implements IEivViewRecipe {
+import java.util.List;
+
+public class PortalCraftingViewRecipe implements ReliableClientRecipe {
 
     private final SlotContent input, output;
     private String lore;
@@ -44,7 +41,7 @@ public class PortalCraftingViewRecipe implements IEivViewRecipe {
     }
 
     @Override
-    public IEivRecipeViewType getViewType() {
+    public ReliableClientRecipeType getViewType() {
         return PortalCraftingViewType.INSTANCE;
     }
 
