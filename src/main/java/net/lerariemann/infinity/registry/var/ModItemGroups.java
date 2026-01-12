@@ -104,7 +104,6 @@ public class ModItemGroups {
             addAfter(event, PINK_CARPET, ModItems.CHROMATIC_CARPET.get());
             addAfter(event, PINK_TERRACOTTA, ModItems.CURSOR_ITEM.get());
         } else if (equals(creativeModeTab, CreativeModeTabs.SPAWN_EGGS)) {
-            addAfter(event, CHAOS_PAWN_SPAWN_EGG.get());
             addAfter(event, ANT_SPAWN_EGG.get());
             addAfter(event, CHAOS_PAWN_SPAWN_EGG.get());
             addAfter(event, BISHOP_SPAWN_EGG.get());
