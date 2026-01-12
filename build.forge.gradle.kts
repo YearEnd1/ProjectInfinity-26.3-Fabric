@@ -274,8 +274,8 @@ publishMods {
         if (hasProperty("deps.emi")) {
             optional("emi")
         }
-        if (hasProperty("deps.eiv")) {
-            optional("eiv")
+        if (hasProperty("deps.rrv")) {
+            optional("rrv")
         }
 
     }
@@ -290,8 +290,8 @@ publishMods {
         if (hasProperty("deps.emi")) {
             optional("emi")
         }
-        if (hasProperty("deps.eiv")) {
-            optional("extended-itemview-eiv")
+        if (hasProperty("deps.rrv")) {
+            optional("extended-itemview-rrv")
         }
     }
 }

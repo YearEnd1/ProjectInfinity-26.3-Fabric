@@ -84,6 +84,18 @@ repositories {
             includeGroupAndSubgroups("com.tterrag")
         }
     }
+    exclusiveContent {
+        forRepository {
+            maven {
+                name = "Cassian's Maven"
+                url = uri("https://maven.cassian.cc")
+            }
+        }
+        filter {
+            includeGroupAndSubgroups("cc.cassian")
+        }
+    }
+
 }
 
 neoForge {
@@ -130,8 +142,8 @@ dependencies {
         compileOnly("dev.emi:emi-neoforge:${property("deps.emi")}+${property("deps.minecraft")}:api")
         implementation("dev.emi:emi-neoforge:${property("deps.emi")}+${property("deps.minecraft")}")
     }
-    if (hasProperty("deps.eiv")) {
-        implementation("maven.modrinth:eiv:${property("deps.eiv")}-neoforge")
+    if (hasProperty("deps.rrv")) {
+        implementation("cc.cassian.rrv:reliable-recipe-viewer-neoforge:${property("deps.rrv")}")
     }
 
 
@@ -225,8 +237,8 @@ publishMods {
         if (hasProperty("deps.emi")) {
             optional("emi")
         }
-        if (hasProperty("deps.eiv")) {
-            optional("eiv")
+        if (hasProperty("deps.rrv")) {
+            optional("rrv")
         }
     }
 
@@ -240,8 +252,8 @@ publishMods {
         if (hasProperty("deps.emi")) {
             optional("emi")
         }
-        if (hasProperty("deps.eiv")) {
-            optional("extended-itemview-eiv")
+        if (hasProperty("deps.rrv")) {
+            optional("extended-itemview-rrv")
         }
     }
 }

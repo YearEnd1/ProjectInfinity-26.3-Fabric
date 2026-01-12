@@ -1,10 +1,10 @@
-package net.lerariemann.infinity.compat.eiv.iridescence_crafting;
+package net.lerariemann.infinity.compat.rrv.iridescence_crafting;
 
 //? if >1.21.4 {
 
-import de.crafty.eiv.common.api.recipe.EivRecipeType;
-import de.crafty.eiv.common.api.recipe.IEivServerRecipe;
-import de.crafty.eiv.common.recipe.util.EivTagUtil;
+import cc.cassian.rrv.api.TagUtil;
+import cc.cassian.rrv.api.recipe.ReliableServerRecipe;
+import cc.cassian.rrv.api.recipe.ReliableServerRecipeType;
 import net.lerariemann.infinity.util.InfinityMethods;
 import net.lerariemann.infinity.util.core.NbtUtils;
 import net.minecraft.nbt.CompoundTag;
@@ -12,10 +12,10 @@ import net.minecraft.nbt.StringTag;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 
-public class IridescenceCraftingServerRecipe implements IEivServerRecipe {
+public class IridescenceCraftingServerRecipe implements ReliableServerRecipe {
 
     //Create a server recipe type (the id does not have to match your client side viewtype id)
-    public static final EivRecipeType<IridescenceCraftingServerRecipe> TYPE = EivRecipeType.register(
+    public static final ReliableServerRecipeType<IridescenceCraftingServerRecipe> TYPE = ReliableServerRecipeType.register(
             InfinityMethods.getId("iridescence_crafting"),
             () -> new IridescenceCraftingServerRecipe(null, null, null)
     );
@@ -43,20 +43,20 @@ public class IridescenceCraftingServerRecipe implements IEivServerRecipe {
 
     @Override
     public void writeToTag(CompoundTag tag) {
-        tag.put("ingredient", EivTagUtil.writeIngredient(this.input));
-        tag.put("result", EivTagUtil.encodeItemStackOnServer(this.output));
+        tag.put("ingredient", TagUtil.writeIngredient(this.input));
+        tag.put("result", TagUtil.encodeItemStackOnServer(this.output));
         tag.put("lore", StringTag.valueOf(this.lore));
     }
 
     @Override
     public void loadFromTag(CompoundTag tag) {
-        this.input = EivTagUtil.readIngredient(NbtUtils.getCompound(tag, "ingredient"));
-        this.output = EivTagUtil.decodeItemStackOnClient(NbtUtils.getCompound(tag, "result"));
+        this.input = TagUtil.readIngredient(NbtUtils.getCompound(tag, "ingredient"));
+        this.output = TagUtil.decodeItemStackOnClient(NbtUtils.getCompound(tag, "result"));
         this.lore = NbtUtils.getString(tag,"lore");
     }
 
     @Override
-    public EivRecipeType<? extends IEivServerRecipe> getRecipeType() {
+    public ReliableServerRecipeType<? extends ReliableServerRecipe> getRecipeType() {
         return TYPE;
     }
 }

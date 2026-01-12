@@ -27,8 +27,8 @@
     "emi": [
       "net.lerariemann.infinity.compat.emi.EmiCompat"
     ],
-    "eiv": [
-      "net.lerariemann.infinity.compat.eiv.EivIntegration"
+    "rrv": [
+      "net.lerariemann.infinity.compat.rrv.RrvIntegration"
     ]
   },
   "mixins": [

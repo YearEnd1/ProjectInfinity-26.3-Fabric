@@ -29,10 +29,10 @@ public class ModCompat {
     public static final boolean DIMLIB = InfinityPlatform.INSTANCE.isModLoaded("dimlib");
 
     /**
-     * Extended Item View (EIV)
+     * Extended Item View (RRV)
      * 1.21.4 focused recipe viewer
      */
-    public static final boolean EIV = InfinityPlatform.INSTANCE.isModLoaded("eiv");
+    public static final boolean RRV = InfinityPlatform.INSTANCE.isModLoaded("rrv");
 
     /**
      * FTB Essentials/Fabric Essentials

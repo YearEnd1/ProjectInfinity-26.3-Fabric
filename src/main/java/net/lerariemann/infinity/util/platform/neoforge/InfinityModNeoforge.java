@@ -2,11 +2,11 @@ package net.lerariemann.infinity.util.platform.neoforge;
 
 //? neoforge {
 import net.lerariemann.infinity.InfinityMod;
-import net.lerariemann.infinity.compat.CreateCompat;
 //? if >1.21.4 {
 import net.lerariemann.infinity.compat.ModCompat;
-import net.lerariemann.infinity.compat.eiv.EivIntegration;
+import net.lerariemann.infinity.compat.rrv.RrvIntegration;
 //?}
+import net.lerariemann.infinity.compat.CreateCompat;
 import net.lerariemann.infinity.registry.core.ModBlocks;
 import net.lerariemann.infinity.registry.core.ModEntities;
 import net.lerariemann.infinity.registry.core.ModItemFunctions;
@@ -83,8 +83,8 @@ public class InfinityModNeoforge {
         ModItemFunctions.registerDispenserBehaviour();
         // this is less than ideal but i cannot figure out why the proper solution isn't working
         //? if >1.21.4 {
-        if (ModCompat.EIV)
-            EivIntegration.initialize();
+        if (ModCompat.RRV)
+            RrvIntegration.initialize();
         //?}
     }
 

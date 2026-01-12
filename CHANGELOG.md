@@ -1,3 +1,18 @@
+## [6.0.1]
+
+### Fixed
+- Star and sky rendering on 1.21.8. (Lera)
+- World shaders now work on 1.21.8 (Lera)
+- Loading root chances, which caused too many vanilla biomes in infinite dimensions. (Lera)
+- Sunset shading was misaligned on custom skies. (Lera)
+- Crash from `alphatree` on NeoForge. (Lera)
+- Iridesence tinting in EIV. (Cassian)
+- Crash rendering Chaos Pawns. (Cassian)
+- Crash on dedicated NeoForge servers. (Cassian)
+
+
+## [6.0.0]
+
 ### Added
 - Backported all content from Infinite Dimensions v2.5 to 1.20.1. Primarily, this includes:
     - A new amendments system, which allows for easy handling of modular config files - changing weights of any entries in any randomization pools or eliminating them altogether, based on a robust system of selectors. Default amendments bundled with the mod resolve some major earlier incompatibilities (aether, alex's caves, oritech) and it is recommended to have [Mod Menu](https://modrinth.com/mod/modmenu) and [Cloth Config](https://modrinth.com/mod/cloth-config) installed if you want to add more of them.
