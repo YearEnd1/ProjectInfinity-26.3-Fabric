@@ -20,6 +20,7 @@ import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.client.renderer.entity.state.LivingEntityRenderState;
 //?}
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.ARGB;
 import net.minecraft.world.entity.Mob;
 
 public class TintedLayerRenderer<T extends
@@ -35,8 +36,6 @@ public class TintedLayerRenderer<T extends
         super(context);
         this.model = model;
     }
-
-
 
     //? if >1.21.9 {
 
@@ -70,28 +69,29 @@ public class TintedLayerRenderer<T extends
     @Override
     public void render(PoseStack matrixStack, MultiBufferSource vertexConsumerProvider, int light, T livingEntity, float limbAngle, float limbDistance) {
         boolean bl = livingEntity.appearsGlowing && livingEntity.isInvisible;
+        float a = 1f;
         if (livingEntity.isInvisible && !bl) {
             return;
         }
-        // TODO 1.21.3 find a better way of extracting a texture from a render state
         ResourceLocation texture;
-        if (livingEntity instanceof ChaosPawnRenderState) {
-            texture = InfinityMethods.getId("textures/entity/empty.png");
-        } else if (livingEntity instanceof ChaosSlimeRenderState) {
-            texture = InfinityMethods.getId("textures/entity/slime.png");
-        } else {
+        if (livingEntity instanceof TintedRenderState state) {
+            texture = state.getTexture();
+            a = state.getAlpha();
+        }
+        else {
             texture = InfinityMethods.getId("textures/entity/empty.png");
         }
-        VertexConsumer vertexConsumer = bl ? vertexConsumerProvider.getBuffer(RenderType.outline(texture)) : vertexConsumerProvider.getBuffer(RenderType.entityTranslucent(texture));
+        VertexConsumer vertexConsumer = vertexConsumerProvider.getBuffer(bl ?
+                RenderType.outline(texture) : RenderType.entityTranslucent(texture));
         // TODO 1.21.3 these were probably necessary
 //        this.getContextModel().copyStateTo(this.model);
 //        this.model.animateModel(livingEntity, f, g, h);
         this.model.setupAnim(livingEntity);
         int color = 16777215;
-        if (livingEntity instanceof TintableEntity ent) {
-            color = ent.getColorForRender();
+        if (livingEntity instanceof TintedRenderState ent) {
+            color = ent.getColour();
         }
-        this.model.renderToBuffer(matrixStack, vertexConsumer, light, LivingEntityRenderer.getOverlayCoords(livingEntity, 0.0f), color);
+        this.model.renderToBuffer(matrixStack, vertexConsumer, light, LivingEntityRenderer.getOverlayCoords(livingEntity, 0.0f), ARGB.color(a, color));
     }
 
     //?} else {

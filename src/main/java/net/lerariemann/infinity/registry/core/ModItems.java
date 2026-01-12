@@ -6,7 +6,6 @@ import dev.architectury.registry.registries.RegistrySupplier;
 import net.lerariemann.infinity.InfinityMod;
 import net.lerariemann.infinity.item.*;
 import net.lerariemann.infinity.util.InfinityMethods;
-import net.lerariemann.infinity.util.core.RandomProvider;
 import net.lerariemann.infinity.util.platform.InfinityPlatform;
 import net.lerariemann.infinity.util.var.ColorLogic;
 //? if >1.21 {
@@ -146,9 +145,7 @@ public class ModItems {
                     new Item.Properties().rarity(Rarity.RARE));
     public static final RegistrySupplier<Item> IRIDESCENT_POTION =
             registerItemAfter("iridescent_potion", Items.HONEY_BOTTLE, settings ->
-                            new IridescentPotionItem(glintProperties(settings).rarity(Rarity.UNCOMMON),
-                                    RandomProvider.ruleInt("iridescencePotionLevel")
-                            ));
+                            new IridescentPotionItem(glintProperties(settings).rarity(Rarity.UNCOMMON), 4));
     public static final RegistrySupplier<Item> CHROMATIC_POTION =
             registerItemAfter("chromatic_potion", Items.HONEY_BOTTLE, settings ->
                             new IridescentPotionItem(settings, 0));

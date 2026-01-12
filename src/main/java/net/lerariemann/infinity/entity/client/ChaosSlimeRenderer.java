@@ -19,7 +19,7 @@ import org.jetbrains.annotations.NotNull;
 
 public class ChaosSlimeRenderer extends MobRenderer
         //? if >1.21.2 {
-        <ChaosSlime, ChaosSlimeRenderState, SlimeModel>
+        <ChaosSlime, TintedRenderState.Slime, SlimeModel>
         //?} else {
         /*<ChaosSlime, SlimeModel<ChaosSlime>>
         *///?}
@@ -34,16 +34,18 @@ public class ChaosSlimeRenderer extends MobRenderer
     //? if >1.21.2 {
 
     @Override
-    public ResourceLocation getTextureLocation(ChaosSlimeRenderState renderState) {
+    public ResourceLocation getTextureLocation(TintedRenderState.Slime renderState) {
         return TEXTURE;
     }
 
     @Override
-    public void extractRenderState(ChaosSlime slime, ChaosSlimeRenderState state, float f) {
+    public void extractRenderState(ChaosSlime slime, TintedRenderState.Slime state, float f) {
         super.extractRenderState(slime, state, f);
         state.core = slime.getCore();
+        state.colour = slime.getColorForRender();
+        state.squish = Mth.lerp(f, slime.oSquish, slime.squish);
+        state.size = slime.getSize();
     }
-
 
     //? if >1.21.8 {
     /*@Override
@@ -53,19 +55,19 @@ public class ChaosSlimeRenderer extends MobRenderer
     *///?} else {
 
     @Override
-    public void render(ChaosSlimeRenderState renderState, PoseStack poseStack, MultiBufferSource bufferSource, int packedLight) {
+    public void render(TintedRenderState.Slime renderState, PoseStack poseStack, MultiBufferSource bufferSource, int packedLight) {
         this.shadowRadius = 0.25f * (float)renderState.size;
         super.render(renderState, poseStack, bufferSource, packedLight);
     }
     //?}
 
     @Override
-    public ChaosSlimeRenderState createRenderState() {
-        return new ChaosSlimeRenderState();
+    public TintedRenderState.Slime createRenderState() {
+        return new TintedRenderState.Slime();
     }
 
     @Override
-    protected void scale(ChaosSlimeRenderState slimeEntity, PoseStack matrixStack) {
+    protected void scale(TintedRenderState.Slime slimeEntity, PoseStack matrixStack) {
         float g = 0.999f;
         matrixStack.scale(g, g, g);
         matrixStack.translate(0.0f, 0.001f, 0.0f);

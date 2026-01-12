@@ -17,11 +17,14 @@ import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.state.BlockState;
+//? if >1.21.6 && neoforge {
+import net.neoforged.neoforge.client.RenderTypeHelper;
+//?}
 
 public class DimensionalSlimeCoreRenderer extends
 
         //? if >1.21.2 {
-        RenderLayer<ChaosSlimeRenderState, SlimeModel>
+        RenderLayer<TintedRenderState.Slime, SlimeModel>
         //?} else {
         /*RenderLayer<ChaosSlime, SlimeModel<ChaosSlime>>
         *///?}
@@ -31,7 +34,7 @@ public class DimensionalSlimeCoreRenderer extends
     public DimensionalSlimeCoreRenderer(
             RenderLayerParent
             //? if >1.21.2 {
-            <ChaosSlimeRenderState, SlimeModel>
+            <TintedRenderState.Slime, SlimeModel>
             //?} else {
             /*<ChaosSlime, SlimeModel<ChaosSlime>>
             *///?}
@@ -55,7 +58,7 @@ public class DimensionalSlimeCoreRenderer extends
         this.renderCore(matrixStack, nodeCollector, packedLight, blockState, m);
         matrixStack.popPose();
     *///?} else if >1.21.2 {
-    public void render(PoseStack matrixStack, MultiBufferSource vertexConsumerProvider, int i, ChaosSlimeRenderState slime, float yRot, float xRot) {
+    public void render(PoseStack matrixStack, MultiBufferSource vertexConsumerProvider, int i, TintedRenderState.Slime slime, float yRot, float xRot) {
         boolean bl = slime.appearsGlowing && slime.isInvisible;
         if (slime.isInvisible && !bl) {
             return;
@@ -95,7 +98,13 @@ public class DimensionalSlimeCoreRenderer extends
         //? if >1.21.9 {
         /*vertexConsumers.submitBlock(matrices, coreState, light, overlay, 0);
         *///?} else if >1.21.6 {
-        ModelBlockRenderer.renderModel(matrices.last(), vertexConsumers.getBuffer(ItemBlockRenderTypes.getRenderType(coreState)), coreModel,1.0f, 1.0f, 1.0f, light, overlay);
+        ModelBlockRenderer.renderModel(matrices.last(), vertexConsumers.getBuffer(
+                //? if neoforge {
+                RenderTypeHelper.getMovingBlockRenderType(ItemBlockRenderTypes.getChunkRenderType(coreState))),
+                //?} else {
+                /*ItemBlockRenderTypes.getMovingBlockRenderType(coreState)),
+                *///?}
+                coreModel,1.0f, 1.0f, 1.0f, light, overlay);
          //?} else {
         /*this.blockRenderManager.getModelRenderer().renderModel(matrices.last(), vertexConsumers.getBuffer(ItemBlockRenderTypes.getChunkRenderType(coreState)), coreState, coreModel, 1.0f, 1.0f, 1.0f, light, overlay);
         *///?}

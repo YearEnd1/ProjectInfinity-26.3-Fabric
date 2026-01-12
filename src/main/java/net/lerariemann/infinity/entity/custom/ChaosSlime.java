@@ -105,13 +105,15 @@ public class ChaosSlime extends Slime implements TintableEntity {
     /*,CompoundTag tag
     *///?}
     ) {
-        Random r = new Random();
+        Random r = InfinityMod.random;
         this.entityData.set(core, VersionMethods.getFromRegistry(BuiltInRegistries.BLOCK, VersionMethods.id(InfinityMod.provider.randomName(r, ConfigType.ALL_BLOCKS))).defaultBlockState());
         this.entityData.set(color, r.nextInt(16777216));
-        return super.finalizeSpawn(world, difficulty, spawnReason, entityData
+        SpawnGroupData res = super.finalizeSpawn(world, difficulty, spawnReason, entityData
         //? if <1.21
                 /*, tag*/
         );
+        this.setSize(1 << r.nextInt(3), true);
+        return res;
     }
 
     @Override
