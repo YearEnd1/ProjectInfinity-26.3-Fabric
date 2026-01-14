@@ -125,15 +125,25 @@ public class RandomBiome {
         return res;
     }
 
-    CompoundTag randomMusic(){
-        CompoundTag res = new CompoundTag();
-        res.put("sound", StringTag.valueOf(PROVIDER.randomName(random, ConfigType.MUSIC)));
+    Tag randomMusic(){
+        CompoundTag data = new CompoundTag();
+        data.put("sound", StringTag.valueOf(PROVIDER.randomName(random, ConfigType.MUSIC)));
         int a = random.nextInt(0, 12000);
         int b = random.nextInt(0, 24000);
-        res.putInt("min_delay", Math.min(a,b));
-        res.putInt("max_delay", Math.max(a,b));
-        res.putBoolean("replace_current_music", random.nextBoolean());
-        return res;
+        data.putInt("min_delay", Math.min(a,b));
+        data.putInt("max_delay", Math.max(a,b));
+        data.putBoolean("replace_current_music", random.nextBoolean());
+        // todo - multiple music entries per biome?
+        //? if >1.21.6 {
+        ListTag musicList = new ListTag();
+        CompoundTag res = new CompoundTag();
+        res.putInt("weight", 1);
+        res.put("data", data);
+        musicList.add(res);
+        return musicList;
+        //?} else {
+        /*return data;
+        *///?}
     }
 
     CompoundTag randomParticle(){
