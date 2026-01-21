@@ -91,11 +91,7 @@ public class ChaosPawnTint extends
         else {
             color = VersionMethods.opaque(color);
         }
-        //? if >1.21 {
         part.render(matrixStack, vertexConsumer, light, overlay, color);
-        //?} else {
-        /*part.render(matrixStack, vertexConsumer, light, overlay, FastColor.ARGB32.red(color), FastColor.ARGB32.green(color), FastColor.ARGB32.blue(color), 1.0f);
-         *///?}
     }
     //?} else {
          /*public void renderOneLayer(PoseStack matrixStack, VertexConsumer vertexConsumer, int light, int overlay, ChaosPawn livingEntity, ModelPart part, String name) {

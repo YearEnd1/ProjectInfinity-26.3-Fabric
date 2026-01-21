@@ -17,7 +17,6 @@ import net.lerariemann.infinity.util.InfinityMethods;
 import net.lerariemann.infinity.util.platform.InfinityPlatform;
 import net.lerariemann.infinity.util.platform.forge.compat.CanaryCompat;
 import net.lerariemann.infinity.util.platform.forge.compat.RadiumCompat;
-import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.event.entity.SpawnPlacementRegisterEvent;
@@ -78,10 +77,6 @@ public class InfinityModForge {
         if (ModCompat.CREATE) {
             CreateCompat.register();
         }
-    }
-
-    public static Minecraft client() {
-        return Minecraft.getInstance();
     }
 }
 *///?}
