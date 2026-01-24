@@ -118,8 +118,12 @@ public abstract class CollisionCraftingRecipe implements Recipe<
         IRIDESCENCE
     }
 
-    public record Serializer(Function4<ResourceLocation, Ingredient, ItemStack, String, CollisionCraftingRecipe> func)
-            implements RecipeSerializer<CollisionCraftingRecipe> {
+    public record Serializer(
+            //? if =1.20.1 {
+            /*Function4<ResourceLocation, Ingredient, ItemStack, String, CollisionCraftingRecipe> func
+             *///?}
+            Function3<Ingredient, ItemStack, String, CollisionCraftingRecipe> func
+    ) implements RecipeSerializer<CollisionCraftingRecipe> {
 
         //? if >1.21 {
         @Override
@@ -187,8 +191,16 @@ public abstract class CollisionCraftingRecipe implements Recipe<
     }
 
     public static class OfPortal extends CollisionCraftingRecipe {
-        public OfPortal(ResourceLocation id, Ingredient input, ItemStack output, String lore) {
-            super(id, input, output, lore);
+        public OfPortal(
+                //? if =1.20.1 {
+                /*ResourceLocation id,
+                 *///?}
+                Ingredient input, ItemStack output, String lore) {
+            super(
+                    //? if =1.20.1 {
+                    /*id,
+                     *///?}
+                    input, output, lore);
         }
 
         //? if <1.21 {
@@ -236,8 +248,16 @@ public abstract class CollisionCraftingRecipe implements Recipe<
     }
 
     public static class OfIridescence extends CollisionCraftingRecipe {
-        public OfIridescence(ResourceLocation id, Ingredient input, ItemStack output, String lore) {
-            super(id, input, output, lore);
+        public OfIridescence(
+                //? if =1.20.1 {
+                /*ResourceLocation id,
+                 *///?}
+                Ingredient input, ItemStack output, String lore) {
+            super(
+                    //? if =1.20.1 {
+                    /*id,
+                     *///?}
+                    input, output, lore);
         }
 
         //? if <1.21 {
