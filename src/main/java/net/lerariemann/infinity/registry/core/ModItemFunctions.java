@@ -163,38 +163,33 @@ public class ModItemFunctions {
         });
     }
 
-    public static void checkCollisionRecipes(ServerLevel w, ItemEntity itemEntity,
-                                             RecipeType<CollisionCraftingRecipe> recipeType,
-                                             //? if >1.21 {
-                                             Function<Item, Optional<DataComponentPatch>> componentFunction
-                                             //?} else {
-                                             /*CompoundTag compound
-                                             *///?}
-    ) {
-        if (itemEntity.isRemoved()) return;
-        ItemStack itemStack = itemEntity.getItem();
+    public static Optional<ItemStack> getResultNoMetadata(ServerLevel w, ItemStack inputItem,
+                                          RecipeType<CollisionCraftingRecipe> recipeType) {
         //? if >1.21 {
         Optional<RecipeHolder<CollisionCraftingRecipe>> match = w.
                 //? if >1.21.2 {
                         recipeAccess()
                 //?} else {
                 /*getRecipeManager()
-                *///?}
-                .getRecipeFor(recipeType, new SingleRecipeInput(itemStack), w);
-        if (match.isEmpty()) return;
-        var value = match.get().value();
+                 *///?}
+                .getRecipeFor(recipeType, new SingleRecipeInput(inputItem), w);
+        if (match.isEmpty()) return Optional.empty();
+        return Optional.of(match.get().value().getResultItem(
+                //? if <1.21.2
+                /*w.registryAccess()*/
+        ));
         //?} else {
         /*Optional<CollisionCraftingRecipe> match = w.getRecipeManager()
                 .getRecipeFor(recipeType, new ContainerSingleItem() {
 
                     @Override
                     public ItemStack getItem(int i) {
-                        return itemStack;
+                        return Items.AMETHYST_SHARD.getDefaultInstance();
                     }
 
                     @Override
                     public ItemStack removeItem(int i, int j) {
-                        return null;
+                        return Items.AMETHYST_SHARD.getDefaultInstance();
                     }
 
                     @Override
@@ -208,20 +203,31 @@ public class ModItemFunctions {
                         return false;
                     }
                 }, w);
-        if (match.isEmpty()) return;
-        var value = match.get();
+        if (match.isEmpty()) return Optional.empty();
+        return Optional.of(match.get().getResultItem(w.registryAccess()));
         *///?}
+    }
 
-        ItemStack resStack = value.getResultItem(
-                //? if <1.21.2
-                /*w.registryAccess()*/
-        );
+    public static boolean checkCollisionRecipes(ServerLevel w, ItemEntity itemEntity,
+                                             RecipeType<CollisionCraftingRecipe> recipeType,
+                                             //? if >1.21 {
+                                             Function<Item, Optional<DataComponentPatch>> componentFunction
+                                             //?} else {
+                                             /*Function<Item, Optional<CompoundTag>> componentFunction
+                                             *///?}
+    ) {
+        if (itemEntity.isRemoved()) return false;
+        ItemStack itemStack = itemEntity.getItem();
+        ItemStack resStack = getResultNoMetadata(w, itemStack, recipeType).orElse(null);
+        if (resStack == null) return false;
         if (resStack.is(itemStack.getItem())) resStack = itemStack.copy();
-        //? if >1.21 {
-        componentFunction.apply(resStack.getItem()).ifPresent(resStack::applyComponentsAndValidate);
-        //?} else {
-        /*resStack.setTag(compound);
-        *///?}
+        componentFunction.apply(resStack.getItem()).ifPresent(
+                //? if >1.21 {
+                resStack::applyComponentsAndValidate
+                 //?} else {
+                /*resStack::setTag
+                *///?}
+        );
 
         Vec3 v = itemEntity.getDeltaMovement();
         ItemEntity result = new ItemEntity(w, itemEntity.getX(), itemEntity.getY(), itemEntity.getZ(),
@@ -230,6 +236,7 @@ public class ModItemFunctions {
         w.addFreshEntity(result);
         result.setPortalCooldown(20);
         itemEntity.remove(Entity.RemovalReason.CHANGED_DIMENSION);
+        return true;
     }
 
     public static void registerModelPredicates() {

@@ -117,12 +117,13 @@ public interface PortalCreator {
         }
         else if (ModCompat.COMPUTERCRAFT) {
             try {
-                String content;
-                content = checkPrintedPage(itemStack);
-                var id = InfinityMethods.dimTextToId(content);
-                boolean bl = modifyOnInitialCollision(id, world, pos);
-                if (bl) entity.remove(Entity.RemovalReason.CHANGED_DIMENSION);
-                recordIdTranslation(world.getServer(), id, content);
+                String content = checkPrintedPage(itemStack);
+                if (content != null) {
+                    var id = InfinityMethods.dimTextToId(content);
+                    boolean bl = modifyOnInitialCollision(id, world, pos);
+                    if (bl) entity.remove(Entity.RemovalReason.CHANGED_DIMENSION);
+                    recordIdTranslation(world.getServer(), id, content);
+                }
             } catch (Exception e) {
                 InfinityMod.LOGGER.warn("An incompatible version of ComputerCraft is present. Please update it to the latest version");
             }

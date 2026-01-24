@@ -203,13 +203,12 @@ public class InfinityPortalBlock extends NetherPortalBlock implements EntityBloc
                 && world.getBlockEntity(pos) instanceof InfinityPortalBlockEntity ipbe) {
             MinecraftServer server = world.getServer();
             if (entity instanceof ItemEntity e) {
-                ModItemFunctions.checkCollisionRecipes(world, e, ModItemFunctions.PORTAL_CRAFTING_TYPE.get(),
-                        //? if >1.21 {
+                boolean isRecipe = ModItemFunctions.checkCollisionRecipes(world, e, ModItemFunctions.PORTAL_CRAFTING_TYPE.get(),
                         item -> PortalDataHolder.addPortalComponents(item, ipbe));
-                        //?} else {
-                        /*PortalDataHolder.addPortalComponents(e.getItem().getItem(), ipbe).orElse(new CompoundTag()));
-                        *///?}
-                InfinityMod.provider.getPortalKeyAsItem().ifPresent(item -> { //opening a portal by tossing a key in
+                if (isRecipe) {
+                    bl.set(true);
+                }
+                else InfinityMod.provider.getPortalKeyAsItem().ifPresent(item -> { //opening a portal by tossing a key in
                     if (e.getItem().is(item)) {
                         InfinityPortal.tryUpdateOpenStatus(ipbe, world, pos, server);
                         if (ipbe.isOpen()) return;
@@ -226,8 +225,9 @@ public class InfinityPortalBlock extends NetherPortalBlock implements EntityBloc
             if (entity instanceof Player player
                     && InfinityMod.provider.isPortalKeyBlank()) {
                 ServerLevel world1 = server.getLevel(ResourceKey.create(Registries.DIMENSION, ipbe.getDimension()));
-                if ((world1 == null) || !ipbe.isOpen())
+                if ((world1 == null) || !ipbe.isOpen()) {
                     PortalCreator.openWithStatIncrease(player, server, world, pos);
+                }
                 else {
                     Timebombable tw = (Timebombable)world1;
                     if (tw.infinity$isTimebombed() && tw.infinity$tryRestore()) {
@@ -237,14 +237,16 @@ public class InfinityPortalBlock extends NetherPortalBlock implements EntityBloc
                 }
             }
         }
-        if (!bl.get()) super.entityInside(state, w, pos, entity
-                //? if >1.21.2 {
-                ,insideBlockEffectApplier
-                //?}
-                //? if >1.21.9 {
-                /*, intersects
-                *///?}
-        );
+        if (!bl.get()) {
+            super.entityInside(state, w, pos, entity
+                    //? if >1.21.2 {
+                    ,insideBlockEffectApplier
+                     //?}
+                    //? if >1.21.9 {
+                    /*, intersects
+                     *///?}
+            );
+        }
     }
     /**
      * Spawns chaos pawns in the portal.
