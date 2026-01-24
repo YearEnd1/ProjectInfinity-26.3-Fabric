@@ -19,7 +19,6 @@
     "core.ServerPlayerEntityMixin",
     "core.SimpleRegistryMixin",
     "core.StructureMixin",
-    "rrv.FluidItemRendererMixin",
     "fixes.AquifierSamplerImplMixin",
     "fixes.BeeGoalMixin",
     "fixes.BeeGoalMixin$BeeGoalMixin2",
@@ -65,13 +64,15 @@
     "qol.CoralParentBlockMixin",
     "qol.EnderDragonEntityMixin",
     "qol.FireBlockMixin",
-    "qol.LavaFluidMixin"
+    "qol.LavaFluidMixin",
+    "rrv.FluidItemRendererMixin"
   ],
   "client": [
     "SoundListMixin",
     "iridescence.LivingEntityRendererMixin",
     "iridescence.PostEffectProcessorMixin",
     "iridescence.RenderSystemMixin",
+    "iridescence.PostPassMixin",
     "options.BackgroundRendererMixin",
     "options.ClientWorldMixin",
     "options.FogRendererMixin",

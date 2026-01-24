@@ -3,16 +3,19 @@ package net.lerariemann.infinity.util.platform.forge;
 //? forge {
 /*import net.lerariemann.infinity.InfinityMod;
 import net.lerariemann.infinity.iridescence.Iridescence;
+import net.lerariemann.infinity.util.VersionMethods;
 import net.minecraft.core.BlockPos;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.Mob;
+import net.minecraft.world.level.BlockAndTintGetter;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.pathfinder.BlockPathTypes;
-import net.minecraftforge.common.ForgeHooks;
+import net.minecraftforge.client.extensions.common.IClientFluidTypeExtensions;
 import net.minecraftforge.common.ForgeMod;
 import net.minecraftforge.common.SoundActions;
 import net.minecraftforge.event.ForgeEventFactory;
@@ -26,6 +29,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 public class FluidTypes {
@@ -44,7 +48,29 @@ public class FluidTypes {
                     .sound(SoundActions.BUCKET_EMPTY, SoundEvents.BUCKET_EMPTY)
                     .sound(SoundActions.FLUID_VAPORIZE, SoundEvents.FIRE_EXTINGUISH)
                     .pathType(BlockPathTypes.WATER)
-                    .adjacentPathType(BlockPathTypes.WATER_BORDER)));
+                    .adjacentPathType(BlockPathTypes.WATER_BORDER)) {
+
+                @Override
+                public void initializeClient(Consumer<IClientFluidTypeExtensions> consumer) {
+                    consumer.accept(new IClientFluidTypeExtensions() {
+
+                        @Override
+                        public @NotNull ResourceLocation getStillTexture() {
+                            return Iridescence.TEXTURE;
+                        }
+
+                        @Override
+                        public @NotNull ResourceLocation getFlowingTexture() {
+                            return Iridescence.FLOWING_TEXTURE;
+                        }
+
+                        @Override
+                        public int getTintColor(@NotNull FluidState state, @NotNull BlockAndTintGetter getter, @NotNull BlockPos pos) {
+                            return VersionMethods.opaque(Iridescence.getPosBasedColor(pos));
+                        }
+                    });
+                }
+            });
 
     public static FluidInteractionRegistry.InteractionInformation getIridescentInteraction(FluidType type) {
         return new FluidInteractionRegistry.InteractionInformation(

@@ -72,6 +72,7 @@
     "iridescence.LivingEntityRendererMixin",
     "iridescence.PostEffectProcessorMixin",
     "iridescence.RenderSystemMixin",
+    "iridescence.PostPassMixin",
     "options.BackgroundRendererMixin",
     "options.ClientWorldMixin",
     "options.FogRendererMixin",

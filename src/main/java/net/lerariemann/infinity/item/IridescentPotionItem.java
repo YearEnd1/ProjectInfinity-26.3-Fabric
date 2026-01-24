@@ -102,7 +102,7 @@ public class IridescentPotionItem extends Item {
                                 /*List<Component> tooltip
                                 *///?}
                                 , TooltipFlag type) {
-        int level = VersionMethods.getOrDefaultInt(stack, ModComponentTypes.CHARGE, 0);
+        int level = VersionMethods.getOrDefaultInt(stack, ModComponentTypes.CHARGE, this.level);
         List<MobEffectInstance> effects = List.of(new MobEffectInstance(ModStatusEffects.IRIDESCENT_EFFECT
                 //? if <1.21
                 /*.value()*/

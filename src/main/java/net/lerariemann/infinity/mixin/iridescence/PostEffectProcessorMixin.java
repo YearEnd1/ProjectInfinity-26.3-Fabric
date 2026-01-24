@@ -2,51 +2,45 @@ package net.lerariemann.infinity.mixin.iridescence;
 
 //? if <1.21.2 {
 
-/*import net.lerariemann.infinity.util.loading.ShaderLoader;
+/*import net.lerariemann.infinity.access.PostPassAccess;
+import net.lerariemann.infinity.util.loading.ShaderLoader;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.PostPass;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import net.minecraft.client.renderer.PostChain;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
 
 import java.time.LocalTime;
 import java.util.List;
+import java.util.Map;
 *///?} else {
-import com.llamalad7.mixinextras.sugar.Local;
-import com.mojang.blaze3d.buffers.GpuBufferSlice;
-import com.mojang.blaze3d.resource.ResourceHandle;
-import com.mojang.blaze3d.systems.RenderPass;
-import com.mojang.datafixers.util.Pair;
-import net.lerariemann.infinity.iridescence.IridescentUniform;
+import com.mojang.blaze3d.framegraph.FrameGraphBuilder;
+import net.lerariemann.infinity.access.PostPassAccess;
+import net.minecraft.client.renderer.CachedOrthoProjectionMatrixBuffer;
+import net.minecraft.client.renderer.PostChain;
+import net.minecraft.client.renderer.PostChainConfig;
 import net.minecraft.client.renderer.PostPass;
+import net.minecraft.client.renderer.texture.TextureManager;
+import net.minecraft.resources.ResourceLocation;
+import org.spongepowered.asm.mixin.Final;
+import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 //?}
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
 
-import java.util.Map;
+import java.util.List;
+import java.util.Set;
 
-//? if <1.21.2 {
-/*@Mixin(PostChain.class)
-*///?} else {
-@Mixin(PostPass.class)
-//?}
-public abstract class PostEffectProcessorMixin {
-	//? neoforge && >1.21.2 {
-	@Inject(method = "lambda$addToFrame$5", at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/systems/RenderPass;setVertexBuffer(ILcom/mojang/blaze3d/buffers/GpuBuffer;)V"))
-    private static void inj(ResourceHandle resourcehandle, GpuBufferSlice projectionMatrixBuffer, Map targets, CallbackInfo ci, @Local RenderPass renderPass) {
-        IridescentUniform.trySet(renderPass);
-    }
-	//?} else fabric && >1.21.2 {
-	/*@Inject(method = "method_67884", at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/systems/RenderPass;setVertexBuffer(ILcom/mojang/blaze3d/buffers/GpuBuffer;)V"))
-	private static void inj(ResourceHandle resourcehandle, GpuBufferSlice projectionMatrixBuffer, Map targets, CallbackInfo ci, @Local RenderPass renderPass) {
-		IridescentUniform.trySet(renderPass);
-	}
-	*///?}
-
+@Mixin(PostChain.class)
+public abstract class PostEffectProcessorMixin implements PostPassAccess {
+    @Shadow @Final private List<PostPass> passes;
     //? if <1.21.2 {
     /*@Shadow
     private float time;
@@ -57,10 +51,34 @@ public abstract class PostEffectProcessorMixin {
     @Shadow
     private List<PostPass> passes;
 
-
     @Shadow
     private float lastStamp;
     *///?}
+    @Unique
+    boolean infinity$is = false;
+
+    @Override
+    public void infinity$setIs() {
+        infinity$is = true;
+    }
+
+    //? if >1.21.2 {
+    @Inject(method = "load", at = @At("RETURN"))
+    private static void inj2(PostChainConfig config, TextureManager textureManager, Set<ResourceLocation> externalTargets, ResourceLocation name, CachedOrthoProjectionMatrixBuffer projectionMatrixBuffer, CallbackInfoReturnable<PostChain> cir) {
+        if (name.toString().contains("infinity")) {
+            ((PostPassAccess)cir.getReturnValue()).infinity$setIs();
+        }
+    }
+
+    @Inject(method = "addToFrame", at = @At("HEAD"))
+    void inj(FrameGraphBuilder frameGraphBuilder, int width, int height, PostChain.TargetBundle targetBundle, CallbackInfo ci) {
+        if (infinity$is) {
+            for (PostPass pass : passes) {
+                ((PostPassAccess)pass).infinity$setIs();
+            }
+        }
+    }
+    //?}
 
     //? if =1.21.1 {
     /*@Shadow protected abstract void setFilterMode(int texFilter);
@@ -113,7 +131,10 @@ public abstract class PostEffectProcessorMixin {
             for(this.lastStamp = tickDelta; this.time > 2.0F; this.time -= 4000.0F) {
             }
 
-            this.passes.forEach(postEffectPass -> postEffectPass.process(this.time / 4000.0F));
+            this.passes.forEach(postEffectPass -> {
+                ((PostPassAccess)postEffectPass).infinity$setIs();
+                postEffectPass.process(this.time / 4000.0F);
+            });
             ci.cancel();
         }
     }
