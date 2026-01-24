@@ -18,9 +18,9 @@ import com.mojang.blaze3d.buffers.GpuBufferSlice;
 import com.mojang.blaze3d.resource.ResourceHandle;
 import com.mojang.blaze3d.systems.RenderPass;
 import net.lerariemann.infinity.iridescence.IridescentUniform;
-import net.minecraft.client.renderer.PostPass;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 //?}
+import net.minecraft.client.renderer.PostPass;
 import net.lerariemann.infinity.access.PostPassAccess;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
@@ -42,7 +42,7 @@ public class PostPassMixin implements PostPassAccess {
     //? if =1.20.1 {
     /*@Shadow @Final private EffectInstance effect;
 
-    @Inject(method = "process(F)V", at = @At(value = "INVOKE",
+    @Inject(method = "process", at = @At(value = "INVOKE",
             target = "Lnet/minecraft/client/Minecraft;getInstance()Lnet/minecraft/client/Minecraft;"))
     void inj(float partialTicks, CallbackInfo ci) {
         if (infinity$is) {
