@@ -85,9 +85,10 @@ public class F4Screen extends AbstractContainerScreen<F4ScreenHandler> {
                 InfinityMethods.getId("textures/gui/f4.png"),
                 leftPos, topPos,
                 0, 0,
+                this.imageWidth, this.imageHeight
                 //? if >1.21.4 {
-                this.imageWidth, this.imageHeight,
+                , 256, 256
                 //?}
-                this.imageWidth, this.imageHeight);
+        );
     }
 }

@@ -218,6 +218,10 @@ public class RandomBiome {
                 res.put("block_state", randomBlockState());
                 return res;
             }
+            case "minecraft:tinted_leaves" -> {
+                res.put("color", randomColor());
+                return res;
+            }
             //?}
         }
         return res;
