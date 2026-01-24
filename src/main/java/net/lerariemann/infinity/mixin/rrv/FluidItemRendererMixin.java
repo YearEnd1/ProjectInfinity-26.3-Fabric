@@ -1,6 +1,5 @@
 package net.lerariemann.infinity.mixin.rrv;
-//? >1.21.4
-import cc.cassian.rrv.client.extra.FluidItemSpecialRenderer;
+
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
@@ -13,9 +12,8 @@ import org.spongepowered.asm.mixin.injection.At;
 
 import java.awt.*;
 
-//? if >1.21.4 {
 @Pseudo
-@Mixin(FluidItemSpecialRenderer.class)
+@Mixin(targets = "cc.cassian.rrv.client.extra.FluidItemSpecialRenderer")
 // RRV only tints fluids if they are water. This provides the appropriate tinting to Iridescence.
 public class FluidItemRendererMixin {
 
@@ -43,7 +41,3 @@ public class FluidItemRendererMixin {
 		return original.call(instance);
 	}
 }
-//?} else {
-/*@Mixin(IridescenceLiquidBlock.class)
-public class FluidItemRendererMixin {}
-*///?}
