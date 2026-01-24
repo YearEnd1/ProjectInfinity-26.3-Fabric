@@ -253,7 +253,7 @@ publishMods {
             optional("emi")
         }
         if (hasProperty("deps.rrv")) {
-            optional("reliable-recipe-viewer-rrv")
+            optional("rrv")
         }
     }
 }
