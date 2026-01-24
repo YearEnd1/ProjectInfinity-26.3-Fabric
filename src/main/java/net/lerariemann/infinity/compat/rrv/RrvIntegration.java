@@ -38,7 +38,7 @@ public class RrvIntegration implements ReliableRecipeViewerPlugin {
             // Iridescence Crafting - serverside
             ServerRecipeManager.INSTANCE.getRecipesForType(CollisionCraftingRecipe.Type.IRIDESCENCE).forEach(recipe -> recipeList.add(new IridescenceCraftingServerRecipe(recipe.getInput(), recipe.getResultItem(), recipe.getLore())));
             // Chromatic Potions
-            recipeList.add(new BrewingServerRecipe(PotionContents.createItemStack(Items.POTION, Potions.AWKWARD), Ingredient.of(ModItems.CHROMATIC_MATTER.get()), ModItems.CHROMATIC_POTION.get().getDefaultInstance()));
+            recipeList.add(new BrewingServerRecipe(ModItems.CHROMATIC_POTION.get().getDefaultInstance(), Ingredient.of(ModItems.CHROMATIC_MATTER.get()), PotionContents.createItemStack(Items.POTION, Potions.AWKWARD)));
         });
         // Portal Crafting - Clientside
         ItemView.addClientRecipeWrapper(PortalCraftingServerRecipe.TYPE, modRecipe -> Collections.singletonList(new PortalCraftingViewRecipe(modRecipe)));
