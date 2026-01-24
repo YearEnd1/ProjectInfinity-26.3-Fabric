@@ -164,7 +164,7 @@ public class ChromaticColoringRecipe implements CraftingRecipe {
     /*@Override
     public ResourceLocation getId() {
         ResourceLocation id = BuiltInRegistries.ITEM.getKey(output.getItem());
-        return VersionMethods.id(id.getNamespace(), id.getPath()+"_chromatic");
+        return VersionMethods.id(id.getNamespace(), "chromatic_coloring_" + id.getPath().replace("chromatic_", ""));
     }
     *///?}
 

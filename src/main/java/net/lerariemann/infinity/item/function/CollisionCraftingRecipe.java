@@ -121,8 +121,9 @@ public abstract class CollisionCraftingRecipe implements Recipe<
     public record Serializer(
             //? if =1.20.1 {
             /*Function4<ResourceLocation, Ingredient, ItemStack, String, CollisionCraftingRecipe> func
-             *///?}
+             *///?} else {
             Function3<Ingredient, ItemStack, String, CollisionCraftingRecipe> func
+            //?}
     ) implements RecipeSerializer<CollisionCraftingRecipe> {
 
         //? if >1.21 {
