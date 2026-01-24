@@ -184,12 +184,12 @@ public class ModItemFunctions {
 
                     @Override
                     public ItemStack getItem(int i) {
-                        return Items.AMETHYST_SHARD.getDefaultInstance();
+                        return inputItem;
                     }
 
                     @Override
                     public ItemStack removeItem(int i, int j) {
-                        return Items.AMETHYST_SHARD.getDefaultInstance();
+                        return inputItem;
                     }
 
                     @Override

@@ -2,6 +2,7 @@ package net.lerariemann.infinity.item.function;
 
 import com.google.gson.JsonObject;
 import com.mojang.datafixers.util.Function3;
+import com.mojang.datafixers.util.Function4;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.lerariemann.infinity.registry.core.ModItemFunctions;
@@ -26,7 +27,6 @@ import net.minecraft.resources.ResourceLocation;
 *///?}
 import net.minecraft.world.level.Level;
 
-@MethodsReturnNonnullByDefault
 public abstract class CollisionCraftingRecipe implements Recipe<
         //? if >1.21 {
         SingleRecipeInput
@@ -34,11 +34,21 @@ public abstract class CollisionCraftingRecipe implements Recipe<
         /*ContainerSingleItem
         *///?}
         > {
-    private final Ingredient input;
-    private final ItemStack output;
-    private final String lore;
+    //? if =1.20.1 {
+    /*protected final ResourceLocation id;
+    *///?}
+    protected final Ingredient input;
+    protected final ItemStack output;
+    protected final String lore;
 
-    public CollisionCraftingRecipe(Ingredient input, ItemStack output, String lore) {
+    public CollisionCraftingRecipe(
+            //? if =1.20.1 {
+            /*ResourceLocation id,
+            *///?}
+            Ingredient input, ItemStack output, String lore) {
+        //? if =1.20.1 {
+        /*this.id = id;
+        *///?}
         this.input = input;
         this.output = output;
         this.lore = lore;
@@ -108,7 +118,7 @@ public abstract class CollisionCraftingRecipe implements Recipe<
         IRIDESCENCE
     }
 
-    public record Serializer(Function3<Ingredient, ItemStack, String, CollisionCraftingRecipe> func)
+    public record Serializer(Function4<ResourceLocation, Ingredient, ItemStack, String, CollisionCraftingRecipe> func)
             implements RecipeSerializer<CollisionCraftingRecipe> {
 
         //? if >1.21 {
@@ -148,20 +158,27 @@ public abstract class CollisionCraftingRecipe implements Recipe<
         public CollisionCraftingRecipe fromJson(ResourceLocation id, JsonObject json) {
             Ingredient input = Ingredient.fromJson(GsonHelper.getNonNull(json, "input"));
             ItemStack output = ShapedRecipe.itemStackFromJson(GsonHelper.getAsJsonObject(json, "output"));
-            String lore = GsonHelper.getAsString(json, "lore");
-            return func.apply(input, output, lore);
+            String lore;
+            try {
+                lore = GsonHelper.getAsString(json, "lore");
+            } catch (Throwable e) {
+                lore = "";
+            }
+            return func.apply(id, input, output, lore);
         }
 
         @Override
         public CollisionCraftingRecipe fromNetwork(ResourceLocation id, FriendlyByteBuf buf) {
+            ResourceLocation id2 = buf.readResourceLocation();
             Ingredient input = Ingredient.fromNetwork(buf);
             ItemStack output = buf.readItem();
             String lore = buf.readUtf();
-            return func.apply(input, output, lore);
+            return func.apply(id2, input, output, lore);
         }
 
         @Override
         public void toNetwork(FriendlyByteBuf buf, CollisionCraftingRecipe recipe) {
+            buf.writeResourceLocation(recipe.id);
             recipe.input.toNetwork(buf);
             buf.writeItem(recipe.output);
             buf.writeUtf(recipe.lore);
@@ -170,17 +187,14 @@ public abstract class CollisionCraftingRecipe implements Recipe<
     }
 
     public static class OfPortal extends CollisionCraftingRecipe {
-        ItemStack output;
-        public OfPortal(Ingredient input, ItemStack output, String lore) {
-            super(input, output, lore);
-            this.output = output;
+        public OfPortal(ResourceLocation id, Ingredient input, ItemStack output, String lore) {
+            super(id, input, output, lore);
         }
 
         //? if <1.21 {
         /*@Override
         public ResourceLocation getId() {
-            ResourceLocation id = BuiltInRegistries.ITEM.getKey(output.getItem());
-            return VersionMethods.id(id.getNamespace(), id.getPath()+"_of_iridescence");
+            return this.id;
         }
         *///?}
 
@@ -222,17 +236,14 @@ public abstract class CollisionCraftingRecipe implements Recipe<
     }
 
     public static class OfIridescence extends CollisionCraftingRecipe {
-        ItemStack output;
-        public OfIridescence(Ingredient input, ItemStack output, String lore) {
-            super(input, output, lore);
-            this.output = output;
+        public OfIridescence(ResourceLocation id, Ingredient input, ItemStack output, String lore) {
+            super(id, input, output, lore);
         }
 
         //? if <1.21 {
         /*@Override
         public ResourceLocation getId() {
-            ResourceLocation id = BuiltInRegistries.ITEM.getKey(output.getItem());
-            return VersionMethods.id(id.getNamespace(), id.getPath()+"_of_iridescence");
+            return this.id;
         }
         *///?}
 

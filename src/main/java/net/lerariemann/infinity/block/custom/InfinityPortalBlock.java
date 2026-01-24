@@ -203,6 +203,7 @@ public class InfinityPortalBlock extends NetherPortalBlock implements EntityBloc
                 && world.getBlockEntity(pos) instanceof InfinityPortalBlockEntity ipbe) {
             MinecraftServer server = world.getServer();
             if (entity instanceof ItemEntity e) {
+                if (e.isOnPortalCooldown()) return;
                 boolean isRecipe = ModItemFunctions.checkCollisionRecipes(world, e, ModItemFunctions.PORTAL_CRAFTING_TYPE.get(),
                         item -> PortalDataHolder.addPortalComponents(item, ipbe));
                 if (isRecipe) {
