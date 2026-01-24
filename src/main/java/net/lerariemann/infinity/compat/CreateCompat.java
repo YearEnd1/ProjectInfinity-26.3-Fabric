@@ -13,7 +13,8 @@ import com.zurrtum.create.content.trains.track.AllPortalTracks;
 import com.zurrtum.create.content.trains.track.TrackBlock;
 import com.zurrtum.create.content.trains.track.TrackShape;
 *///?}
-import net.lerariemann.infinity.block.custom.RailHelper;
+//? if <1.21.2 || fabric {
+/*import net.lerariemann.infinity.block.custom.RailHelper;
 import net.lerariemann.infinity.block.entity.InfinityPortalBlockEntity;
 import net.lerariemann.infinity.registry.core.ModBlocks;
 import net.lerariemann.infinity.util.InfinityMethods;
@@ -22,14 +23,16 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.NetherPortalBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+
 import java.util.Optional;
 import java.util.Set;
+*///?}
 
 public class CreateCompat {
     //? if <1.21.2 || fabric {
@@ -45,15 +48,55 @@ public class CreateCompat {
                 && ipbe.isConnectedBothSides()) { //we only allow trains through if portals are in sync
             ServerLevel worldTo = ipbe.getDimensionAsWorld();
             BlockPos posTo = ipbe.getOtherSidePos();
+            assert worldTo != null;
             assert posTo != null;
+
+            BlockPos correctedPos = getCorrectedPos(worldFrom, posFrom, worldTo, posTo);
+
             Direction targetDirection = blockFace.getFace();
             Direction.Axis axisTo = worldTo.getBlockState(posTo).getValue(BlockStateProperties.HORIZONTAL_AXIS);
             if (targetDirection.getAxis().equals(axisTo)) {
                 targetDirection = targetDirection.getClockWise();
             }
-            return new PortalTrackProvider.Exit(worldTo, new BlockFace(posTo.relative(targetDirection), targetDirection.getOpposite()));
+            return new PortalTrackProvider.Exit(worldTo, new BlockFace(correctedPos.relative(targetDirection), targetDirection.getOpposite()));
         }
         return null;
+    }
+
+    public static BlockPos getCorrectedPos(ServerLevel worldFrom, BlockPos posFrom, ServerLevel worldTo, BlockPos posTo) {
+        Direction.Axis axisFrom = worldFrom.getBlockState(posFrom).getValue(BlockStateProperties.HORIZONTAL_AXIS);
+        boolean fromX = axisFrom.equals(Direction.Axis.X);
+
+        BlockPos maxHere = getBound(worldFrom, posFrom, axisFrom, true);
+        int max_here = fromX ? maxHere.getX() : maxHere.getZ();
+        BlockPos minHere = getBound(worldFrom, posFrom, axisFrom, false);
+        int min_here = fromX ? minHere.getX() : minHere.getZ();
+
+        Direction.Axis axisTo = worldTo.getBlockState(posTo).getValue(BlockStateProperties.HORIZONTAL_AXIS);
+        boolean toX = axisTo.equals(Direction.Axis.X);
+
+        BlockPos maxThere = getBound(worldTo, posTo, axisTo, true);
+        int max_there = toX ? maxThere.getX() : maxThere.getZ();
+        BlockPos minThere = getBound(worldTo, posTo, axisTo, false);
+        int min_there = toX ? minThere.getX() : minThere.getZ();
+
+        int here = fromX ? posFrom.getX() : posFrom.getZ();
+        int there;
+        if (max_there - min_there == max_here - min_here) {
+            there = min_there + (here - min_here);
+        }
+        there = min_there + (int)((here - min_here)*(max_there-min_there)/(float)(max_here-min_here)); //might not be super good but feels decent
+
+        return new BlockPos(toX ? there : posTo.getX(), posTo.getY(), toX ? posTo.getZ() : there);
+    }
+
+    public static BlockPos getBound(ServerLevel world, BlockPos pos, Direction.Axis axis, boolean positive) {
+        BlockPos bp = pos;
+        int i = positive ? 1 : -1;
+        while (world.getBlockState(bp).getBlock() instanceof NetherPortalBlock) {
+            bp = bp.relative(axis, i);
+        }
+        return bp.relative(axis, -i);
     }
 
     public static void register() {
