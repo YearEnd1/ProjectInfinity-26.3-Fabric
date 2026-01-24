@@ -26,16 +26,16 @@ public class RrvIntegration implements ReliableRecipeViewerPlugin {
     public static void initialize() {
         InfinityMod.LOGGER.info("Initializing Infinite Dimensions - RRV integration");
         // Serverside recipes
-        ItemView.addRecipeProvider(recipeList -> {
+        ItemView.addServerRecipeProvider(recipeList -> {
             // Portal Crafting - serverside
             ServerRecipeManager.INSTANCE.getRecipesForType(CollisionCraftingRecipe.Type.PORTAL).forEach(recipe -> recipeList.add(new PortalCraftingServerRecipe(recipe.getInput(), recipe.getResultItem(), recipe.getLore())));
             // Iridescence Crafting - serverside
             ServerRecipeManager.INSTANCE.getRecipesForType(CollisionCraftingRecipe.Type.IRIDESCENCE).forEach(recipe -> recipeList.add(new IridescenceCraftingServerRecipe(recipe.getInput(), recipe.getResultItem(), recipe.getLore())));
         });
         // Portal Crafting - Clientside
-        ItemView.registerRecipeWrapper(PortalCraftingServerRecipe.TYPE, modRecipe -> Collections.singletonList(new PortalCraftingViewRecipe(modRecipe)));
+        ItemView.addClientRecipeWrapper(PortalCraftingServerRecipe.TYPE, modRecipe -> Collections.singletonList(new PortalCraftingViewRecipe(modRecipe)));
         // Iridescence Crafting - Clientside
-        ItemView.registerRecipeWrapper(IridescenceCraftingServerRecipe.TYPE, modRecipe -> Collections.singletonList(new IridescenceCraftingViewRecipe(modRecipe)));
+        ItemView.addClientRecipeWrapper(IridescenceCraftingServerRecipe.TYPE, modRecipe -> Collections.singletonList(new IridescenceCraftingViewRecipe(modRecipe)));
 
     }
 }
