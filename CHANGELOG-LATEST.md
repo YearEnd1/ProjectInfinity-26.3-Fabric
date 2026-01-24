@@ -1,9 +1,5 @@
 ### Fixed
-- Unable to connect to NeoForge dedicated server.
-- Crash on Forge dedicated server.
-- Added back Chaos Pawns to the creative inventory.
-- Crash generating surface patches (1.21.8)
-- Crash generating biomes with music (1.21.8)
-- Incorrect tinted mob rendering (1.21.8)
-- Replaced EIV integration with RRV, an updated fork with major improvements. (1.21.8)
-- Fixed slime rendering (1.21.8)
+- Iridescence fluid rendering (in world and in EMI) (Forge 1.20)
+- Iridescence shaders (1.20, 1.21.8)
+- Collision crafting recipes not working (1.20)
+- Iridescent potion incorrectly displaying the effect level given

@@ -1,4 +1,16 @@
-## [6.0.1]
+## [2.6.2]
+
+### Fixed
+- Unable to connect to NeoForge dedicated server.
+- Crash on Forge dedicated server.
+- Added back Chaos Pawns' spawn eggs to the creative inventory.
+- Crash generating surface patches (1.21.8)
+- Crash generating biomes with music (1.21.8)
+- Incorrect tinted mob rendering (1.21.8)
+- Replaced EIV integration with RRV, an updated fork with major improvements. (1.21.8)
+- Fixed chaos mobs' rendering (1.21.8)
+
+## [2.6.1]
 
 ### Fixed
 - Star and sky rendering on 1.21.8. (Lera)
@@ -11,7 +23,7 @@
 - Crash on dedicated NeoForge servers. (Cassian)
 
 
-## [6.0.0]
+## [2.6.0]
 
 ### Added
 - Backported all content from Infinite Dimensions v2.5 to 1.20.1. Primarily, this includes:
