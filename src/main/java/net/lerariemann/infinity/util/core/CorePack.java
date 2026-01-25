@@ -26,7 +26,7 @@ public record CorePack(RandomProvider provider, Path savingPath) {
         saveTrees();
         saveEndOfTime();
         if (!savingPath.resolve("pack.mcmeta").toFile().exists()) {
-            CompoundTag mcmeta = InfinityPlatform.packMcmeta("Common content providers for Infinite Dimensions");
+            CompoundTag mcmeta = InfinityPlatform.dataPackMcmeta("Common content providers for Infinite Dimensions");
             CommonIO.write(mcmeta, savingPath, "pack.mcmeta");
         }
     }

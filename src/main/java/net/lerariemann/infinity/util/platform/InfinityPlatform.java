@@ -41,7 +41,7 @@ public interface InfinityPlatform {
             *///?} else {
             /*20;
              *///?}
-    int mcmeta =
+    int dataMcmeta =
     //? if >1.21.6 {
     81;
     //?} else if >1.21 {
@@ -49,11 +49,26 @@ public interface InfinityPlatform {
      *///?} else {
     /*15;
      *///?}
+    int resourcesMcmeta =
+            //? if >1.21.6 {
+            64;
+    //?} else if >1.21 {
+    /*34;
+     *///?} else {
+    /*15;
+     *///?}
 
-    static CompoundTag packMcmeta(String description) {
+    static CompoundTag dataPackMcmeta(String description) {
+        return packMcmeta(description, dataMcmeta);
+    }
+    static CompoundTag resourcePackMcmeta(String description) {
+        return packMcmeta(description, resourcesMcmeta);
+    }
+
+    static CompoundTag packMcmeta(String description, int version) {
         CompoundTag res = new CompoundTag();
         CompoundTag pack = new CompoundTag();
-        pack.putInt("pack_format", InfinityPlatform.mcmeta);
+        pack.putInt("pack_format", version);
         pack.putString("description", description);
         res.put("pack", pack);
         return res;

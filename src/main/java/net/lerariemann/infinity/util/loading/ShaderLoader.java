@@ -71,7 +71,7 @@ public interface ShaderLoader {
         Path resourcepackPath = client.getResourcePackDirectory().resolve("infinity");
         Files.createDirectories(shaderDir(client));
         if (!resourcepackPath.resolve("pack.mcmeta").toFile().exists())
-            CommonIO.write(InfinityPlatform.packMcmeta("Shader container"), resourcepackPath.toString(), "pack.mcmeta");
+            CommonIO.write(InfinityPlatform.resourcePackMcmeta("Shader container"), resourcepackPath.toString(), "pack.mcmeta");
         m.reload();
         m.addPack("file/" + resourcepackPath.getFileName().toString());
     }

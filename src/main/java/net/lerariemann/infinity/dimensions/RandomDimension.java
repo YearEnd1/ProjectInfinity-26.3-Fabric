@@ -129,7 +129,7 @@ public class RandomDimension {
         (new RandomInfinityOptions(this, isEasterDim)).save();
         CommonIO.write(data, getStoragePath() + "/dimension", getName() + ".json");
         if (!(Paths.get(getRootPath() + "/pack.mcmeta")).toFile().exists())
-            CommonIO.write(InfinityPlatform.packMcmeta("Dimension #" + numericId), getRootPath(), "pack.mcmeta");
+            CommonIO.write(InfinityPlatform.dataPackMcmeta("Dimension #" + numericId), getRootPath(), "pack.mcmeta");
     }
 
     String getDefaultBlock(String fallback) {
