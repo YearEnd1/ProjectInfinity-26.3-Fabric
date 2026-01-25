@@ -20,10 +20,9 @@ public interface ShaderLoader {
     String FILENAME = "current.json";
     AtomicInteger iridLevel = new AtomicInteger(-1);
     AtomicDouble iridProgress = new AtomicDouble(0.0);
-    String shaders = VersionMethods.above212 ? "post_effect" : "shaders";
 
     static Path shaderDir(Minecraft client) {
-        return client.getResourcePackDirectory().resolve("infinity/assets/infinity/" + shaders);
+        return client.getResourcePackDirectory().resolve("infinity/assets/infinity/" + (InfinityPlatform.version > 21 ? "post_effect" : "shaders"));
     }
 
     static void reloadShaders(Minecraft client, CompoundTag worldShader, boolean isIridescenceShaderPresent) {
@@ -44,7 +43,7 @@ public interface ShaderLoader {
     static void reloadShaders(Minecraft client, boolean isWorldShaderPresent, boolean isIridescenceShaderPresent) {
         if (client.player == null) return;
         if (isIridescenceShaderPresent) {
-            VersionMethods.loadPP(client, (VersionMethods.above212 ? "" : "post/") + "iridescence");
+            VersionMethods.loadPP(client, (InfinityPlatform.version > 21 ? "" : "post/") + "iridescence");
             return;
         }
         iridLevel.set(-1);

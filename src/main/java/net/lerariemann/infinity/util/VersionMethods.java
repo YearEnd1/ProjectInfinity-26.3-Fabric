@@ -50,20 +50,6 @@ import java.util.Optional;
 import java.util.Set;
 
 public interface VersionMethods {
-    boolean above21 =
-    //? if >1.21 {
-        true;
-    //?} else {
-    /*false;
-     *///?}
-
-    boolean above212 =
-            //? if >1.21.2 {
-            true;
-    //?} else {
-    /*false;
-     *///?}
-
     static void loadPP(Minecraft client, String sid) {
         //? if >1.21.2 {
             client.gameRenderer.setPostEffect(InfinityMethods.getId(sid));
