@@ -14,6 +14,8 @@ public class CoralBlockBlockMixin {
     @Inject(method = "scanForWater(Lnet/minecraft/world/level/BlockGetter;Lnet/minecraft/core/BlockPos;)Z",
             at = @At("HEAD"), cancellable = true)
     private void noCoralDecay(BlockGetter world, BlockPos pos, CallbackInfoReturnable<Boolean> cir) {
-        if (InfinityMethods.isBiomeInfinity(world, pos)) cir.setReturnValue(true);
+        try {
+            if (InfinityMethods.isBiomeInfinity(world, pos)) cir.setReturnValue(true);
+        } catch (IllegalStateException ignored) {}
     }
 }
