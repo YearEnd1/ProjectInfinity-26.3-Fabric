@@ -34,13 +34,13 @@ import java.nio.file.Path;
 
 public interface InfinityPlatform {
     int version =
-            //? if >1.21.6 {
-            22;
-             //?} else if >1.21 {
-            /*21;
-            *///?} else {
-            /*20;
-             *///?}
+    //? if >1.21.6 {
+    22;
+    //?} else if >1.21 {
+    /*21;
+    *///?} else {
+    /*20;
+    *///?}
     int dataMcmeta =
     //? if >1.21.6 {
     81;
@@ -50,8 +50,8 @@ public interface InfinityPlatform {
     /*15;
      *///?}
     int resourcesMcmeta =
-            //? if >1.21.6 {
-            64;
+    //? if >1.21.6 {
+    64;
     //?} else if >1.21 {
     /*34;
      *///?} else {
