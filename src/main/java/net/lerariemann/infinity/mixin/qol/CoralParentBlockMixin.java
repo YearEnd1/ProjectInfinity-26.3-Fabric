@@ -15,7 +15,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public class CoralParentBlockMixin {
     @Inject(method = "scanForWater(Lnet/minecraft/world/level/block/state/BlockState;Lnet/minecraft/world/level/BlockGetter;Lnet/minecraft/core/BlockPos;)Z",
     at = @At("HEAD"), cancellable = true)
-    private static void inj(BlockState state, BlockGetter world, BlockPos pos, CallbackInfoReturnable<Boolean> cir) {
+    private static void noParentCoralDecay(BlockState state, BlockGetter world, BlockPos pos, CallbackInfoReturnable<Boolean> cir) {
         if (InfinityMethods.isBiomeInfinity(world, pos)) cir.setReturnValue(true);
     }
 }

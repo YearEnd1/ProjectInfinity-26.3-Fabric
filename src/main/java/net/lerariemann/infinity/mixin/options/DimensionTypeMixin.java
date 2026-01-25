@@ -14,7 +14,7 @@ public abstract class DimensionTypeMixin implements InfinityOptionsAccess {
     public InfinityOptions infinity$options;
 
     @ModifyArg(method = "timeOfDay", at = @At(value="INVOKE", target="Lnet/minecraft/util/Mth;frac(D)D"), index = 0)
-    private double injected(double value) {
+    private double customTimeOfDay(double value) {
         try {
             double timescale = infinity$getOptions().getTimeScale();
             return timescale*(value + 0.25) - 0.25;

@@ -14,7 +14,7 @@ import org.spongepowered.asm.mixin.injection.ModifyArg;
 @Mixin(LiquidBlock.class)
 public class FluidBlockMixin {
     @ModifyArg(method = "shouldSpreadLiquid", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/Level;getFluidState(Lnet/minecraft/core/BlockPos;)Lnet/minecraft/world/level/material/FluidState;", ordinal = 0))
-    BlockPos inj(BlockPos original, @Local(argsOnly = true) Level world, @Local(argsOnly = true) BlockPos pos) {
+    BlockPos shouldSpreadIridesence(BlockPos original, @Local(argsOnly = true) Level world, @Local(argsOnly = true) BlockPos pos) {
         FluidState st = world.getFluidState(original);
         if (Iridescence.isIridescence(st) && !world.getFluidState(pos).isSource()) {
             world.setBlockAndUpdate(pos, Iridescence.getRandomColorBlock(world, "glazed_terracotta").defaultBlockState());

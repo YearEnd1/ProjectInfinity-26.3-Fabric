@@ -78,7 +78,7 @@ public abstract class SheepEntityMixin extends LivingEntityMixin implements Shea
     //?} else {
     /*@Inject(method = "finalizeSpawn", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/animal/Sheep;setColor(Lnet/minecraft/world/item/DyeColor;)V", shift = At.Shift.AFTER))
     *///?}
-    private void injected(ServerLevelAccessor world, DifficultyInstance difficulty,
+    private void customWool(ServerLevelAccessor world, DifficultyInstance difficulty,
                           //? if >1.21.2 {
                           net.minecraft.world.entity.EntitySpawnReason
                           //?} else {

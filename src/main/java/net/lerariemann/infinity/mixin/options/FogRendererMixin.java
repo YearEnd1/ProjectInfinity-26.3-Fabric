@@ -24,7 +24,7 @@ public class FogRendererMixin {
 public class FogRendererMixin {
     @ModifyArg(method = "setupColor", at = @At(value = "INVOKE", target = "Lorg/joml/Vector3f;dot(Lorg/joml/Vector3fc;)F"))
 *///?}
-    private static Vector3fc inj(Vector3fc v, @Local(argsOnly = true, ordinal = 0) float partialTicks, @Local(argsOnly = true) ClientLevel level) {
+    private static Vector3fc customFog(Vector3fc v, @Local(argsOnly = true, ordinal = 0) float partialTicks, @Local(argsOnly = true) ClientLevel level) {
         float solarTilt = InfinityOptions.ofClient().getSolarTilt();
         if (solarTilt != -90.0F) {
             boolean isSunset = Mth.sin(level.getSunAngle(partialTicks)) > 0.0F;

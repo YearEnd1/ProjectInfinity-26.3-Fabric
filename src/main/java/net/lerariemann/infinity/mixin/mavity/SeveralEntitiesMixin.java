@@ -24,7 +24,7 @@ public abstract class SeveralEntitiesMixin extends Entity {
 
     //? if <1.21 {
     /*@ModifyArg(method = "tick", at = @At(value="INVOKE", target="Lnet/minecraft/world/phys/Vec3;add(DDD)Lnet/minecraft/world/phys/Vec3;"), index = 1)
-    double injected(double x) {
+    double mavity(double x) {
         return getMavity(this.level()) * x;
     }
     *///?}

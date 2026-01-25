@@ -35,11 +35,11 @@ public class NetherPortalBlockMixin extends AbstractBlockMixin {
 	/* The root hook for "throw a book in the portal" logic. */
     @Inject(at = @At("HEAD"), method = "entityInside")
     //? if >1.21.9 {
-    /*private void injected(BlockState state, Level world, BlockPos pos, Entity entity, InsideBlockEffectApplier effectApplier, boolean bl, CallbackInfo ci) {
+    /*private void throwBookInPortal(BlockState state, Level world, BlockPos pos, Entity entity, InsideBlockEffectApplier effectApplier, boolean bl, CallbackInfo ci) {
     *///?} else if >1.21.5 {
-    private void injected(BlockState state, Level world, BlockPos pos, Entity entity, InsideBlockEffectApplier effectApplier, CallbackInfo ci) {
+    private void throwBookInPortal(BlockState state, Level world, BlockPos pos, Entity entity, InsideBlockEffectApplier effectApplier, CallbackInfo ci) {
         //?} else {
-    	/*private void injected(BlockState state, Level world, BlockPos pos, Entity entity, CallbackInfo info) {
+    	/*private void throwBookInPortal(BlockState state, Level world, BlockPos pos, Entity entity, CallbackInfo info) {
     *///?}
 		if (world instanceof ServerLevel w && entity instanceof ItemEntity e) {
 			PortalCreator.tryCreatePortalFromItem(w, pos, e);
@@ -49,7 +49,7 @@ public class NetherPortalBlockMixin extends AbstractBlockMixin {
 	/* Allows infinity portals to consider themselves valid block configurations. */
 	@Redirect(method="updateShape",
 			at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/block/state/BlockState;is(Lnet/minecraft/world/level/block/Block;)Z"))
-	private boolean injected(BlockState neighborState, Block block) {
+	private boolean infinityPortalsAreValid(BlockState neighborState, Block block) {
 		return (neighborState.getBlock() instanceof NetherPortalBlock);
 	}
 

@@ -50,12 +50,12 @@ public abstract class PointOfInterestStorageMixin extends SectionStorage<PoiSect
     /* There's null-unsafe inner-minecraft code that can crash if we don't do this */
     //? if >1.21.9 {
     /*@Inject(method = "add", at = @At("HEAD"), cancellable = true)
-    void inj(BlockPos pos, Holder<PoiType> type, CallbackInfoReturnable<PoiRecord> cir) {
+    void makePoiNullSafe(BlockPos pos, Holder<PoiType> type, CallbackInfoReturnable<PoiRecord> cir) {
         if (levelHeightAccessor.isOutsideBuildHeight(pos.getY())) cir.cancel();
     }
     *///?} else {
     @Inject(method = "add", at = @At("HEAD"), cancellable = true)
-    void inj(BlockPos pos, Holder<PoiType> type, CallbackInfo ci) {
+    void makePoiNullSafe(BlockPos pos, Holder<PoiType> type, CallbackInfo ci) {
         if (levelHeightAccessor.isOutsideBuildHeight(pos.getY())) ci.cancel();
     }
     //?}

@@ -35,7 +35,7 @@ public abstract class ClientWorldMixin extends Level implements InfinityOptionsA
     *///?}
 
     @Inject(method = "<init>", at = @At("TAIL"))
-    private void injected(ClientPacketListener connection, ClientLevel.ClientLevelData levelData, ResourceKey dimension, Holder dimensionTypeRegistration, int viewDistance, int simulationDistance,
+    private void setClientInfinityOptions(ClientPacketListener connection, ClientLevel.ClientLevelData levelData, ResourceKey dimension, Holder dimensionTypeRegistration, int viewDistance, int simulationDistance,
     //? if >1.21.2 {
     LevelRenderer levelRenderer, boolean isDebug, long biomeZoomSeed, int seaLevel, CallbackInfo ci) {
     //?} else {

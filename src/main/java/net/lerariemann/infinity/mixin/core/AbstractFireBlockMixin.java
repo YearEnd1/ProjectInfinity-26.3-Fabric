@@ -12,7 +12,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public class AbstractFireBlockMixin {
     /* Allows to light portals in infdims. */
     @Inject(method = "inPortalDimension(Lnet/minecraft/world/level/Level;)Z", at = @At("RETURN"), cancellable = true)
-    private static void injected(Level world, CallbackInfoReturnable<Boolean> cir) {
+    private static void lightPortalsInInfDims(Level world, CallbackInfoReturnable<Boolean> cir) {
         cir.setReturnValue(cir.getReturnValue() || InfinityMethods.isInfinity(world));
     }
 }

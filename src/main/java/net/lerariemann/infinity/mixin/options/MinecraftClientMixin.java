@@ -25,7 +25,7 @@ public abstract class MinecraftClientMixin implements InfinityOptionsAccess {
     public InfinityOptions infinity$options;
 
     @Inject(method = "<init>", at = @At("TAIL"))
-    private void injected(GameConfig args, CallbackInfo ci) {
+    private void resetOptions(GameConfig args, CallbackInfo ci) {
         infinity$options = InfinityOptions.empty();
     }
 

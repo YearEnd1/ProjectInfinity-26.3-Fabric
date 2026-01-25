@@ -62,9 +62,9 @@ public abstract class ServerWorldMixin extends Level implements WorldGenLevel, I
 
     @Inject(method = "<init>", at = @At("TAIL"))
     //? if >1.21.9 {
-    /*private void injected(MinecraftServer server, Executor dispatcher, LevelStorageSource.LevelStorageAccess storageSource, ServerLevelData levelData, ResourceKey<Level> worldKey, LevelStem levelStem, boolean isDebug, long biomeZoomSeed, List customSpawners, boolean tickTime, RandomSequences randomSequences, CallbackInfo ci) {
+    /*private void timebomb(MinecraftServer server, Executor dispatcher, LevelStorageSource.LevelStorageAccess storageSource, ServerLevelData levelData, ResourceKey<Level> worldKey, LevelStem levelStem, boolean isDebug, long biomeZoomSeed, List customSpawners, boolean tickTime, RandomSequences randomSequences, CallbackInfo ci) {
     *///?} else {
-    private void injected(MinecraftServer server, Executor workerExecutor, LevelStorageSource.LevelStorageAccess session, ServerLevelData properties, ResourceKey<Level> worldKey, LevelStem dimensionOptions, ChunkProgressListener worldGenerationProgressListener, boolean debugWorld, long seed, List<CustomSpawner> spawners, boolean shouldTickTime, RandomSequences randomSequencesState, CallbackInfo ci) {
+    private void timebomb(MinecraftServer server, Executor workerExecutor, LevelStorageSource.LevelStorageAccess session, ServerLevelData properties, ResourceKey<Level> worldKey, LevelStem dimensionOptions, ChunkProgressListener worldGenerationProgressListener, boolean debugWorld, long seed, List<CustomSpawner> spawners, boolean shouldTickTime, RandomSequences randomSequencesState, CallbackInfo ci) {
     //?}
         infinity$options = InfinityOptions.generate(server, worldKey.location());
         DimensionType t = dimensionType();
@@ -73,7 +73,7 @@ public abstract class ServerWorldMixin extends Level implements WorldGenLevel, I
     }
 
     @Inject(method = "tick", at = @At("TAIL"))
-    private void injected2(BooleanSupplier shouldKeepTicking, CallbackInfo ci) {
+    private void addTimebombProgress(BooleanSupplier shouldKeepTicking, CallbackInfo ci) {
         if (InfinityMethods.isInfinity(dimension()) && infinity$timebombProgress > 0) infinity$timebombProgress++;
     }
 

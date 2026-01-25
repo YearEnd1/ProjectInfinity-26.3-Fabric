@@ -34,7 +34,7 @@ public class LavaFluidMixin {
 
     @ModifyExpressionValue(method = "spreadTo", at = @At(value = "INVOKE",
             target = "Lnet/minecraft/world/level/block/Block;defaultBlockState()Lnet/minecraft/world/level/block/state/BlockState;"))
-    BlockState inj(BlockState original, @Local(argsOnly = true) LevelAccessor w, @Local(argsOnly = true) BlockPos p) {
+    BlockState customCobbleGen(BlockState original, @Local(argsOnly = true) LevelAccessor w, @Local(argsOnly = true) BlockPos p) {
         if (w.getBlockState(p).is(ModBlocks.IRIDESCENCE.get())) {
             return Iridescence.getRandomColorBlock(w, "glazed_terracotta").defaultBlockState();
         }

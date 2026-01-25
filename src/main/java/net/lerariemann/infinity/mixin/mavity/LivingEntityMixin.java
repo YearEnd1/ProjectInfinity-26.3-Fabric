@@ -21,12 +21,12 @@ public abstract class LivingEntityMixin extends Entity {
 
     //? if <1.21 {
     /*@ModifyArg(method = "calculateFallDamage", at = @At(value="INVOKE", target="Lnet/minecraft/util/Mth;ceil(F)I"))
-    float injected(float value) {
+    float mavity(float value) {
         return (float)getMavity(this.level()) * value;
     }
 
     @ModifyConstant(method = "travel", constant = @Constant(doubleValue = 0.08))
-    double inj2(double value) {
+    double mavity2(double value) {
         return value*getMavity(this.level());
     }
     *///?}

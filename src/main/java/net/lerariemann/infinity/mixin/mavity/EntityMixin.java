@@ -17,7 +17,7 @@ public class EntityMixin {
 
     //? if >1.21 {
     @Inject(method = "getGravity", at = @At("RETURN"), cancellable = true)
-    private void injected(CallbackInfoReturnable<Double> cir) {
+    private void mavity(CallbackInfoReturnable<Double> cir) {
         cir.setReturnValue(cir.getReturnValue() * getMavity(level));
     }
     //?}

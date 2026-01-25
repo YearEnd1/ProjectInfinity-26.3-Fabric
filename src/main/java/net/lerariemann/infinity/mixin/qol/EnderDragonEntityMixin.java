@@ -20,7 +20,7 @@ public abstract class EnderDragonEntityMixin extends Mob {
     /* Don't destroy blocks in infdims */
     @Inject(method = "checkWalls", at = @At(value = "HEAD",
             target = "Lnet/minecraft/world/level/GameRules;getBoolean(Lnet/minecraft/world/level/GameRules$Key;)Z"), cancellable = true)
-    void inj(
+    void safeDragons(
             //? if >1.21.3 {
             ServerLevel level,
             //?}

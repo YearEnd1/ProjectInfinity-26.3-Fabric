@@ -39,7 +39,7 @@ public abstract class LivingEntityMixin extends Entity {
 
     //? if >1.21.2 {
     @Inject(method = "onEffectsRemoved", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;refreshDirtyAttributes()V"))
-    void inj(Collection<MobEffectInstance> effects, CallbackInfo ci) {
+    void removeSpecialEffects(Collection<MobEffectInstance> effects, CallbackInfo ci) {
         effects.forEach(effect-> {
             if (VersionMethods.unholdEffect(effect.getEffect()) instanceof ModStatusEffects.SpecialEffect eff) {
                 eff.onRemoved((LivingEntity)(Object)this);
@@ -52,7 +52,7 @@ public abstract class LivingEntityMixin extends Entity {
     /*@Inject(method = "onEffectRemoved", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;getAttributes()Lnet/minecraft/world/entity/ai/attributes/AttributeMap;"))
     *///?}
     //? if <1.21.2 {
-    /*void inj(MobEffectInstance effect, CallbackInfo ci) {
+    /*void removeSpecialEffects(MobEffectInstance effect, CallbackInfo ci) {
         if (VersionMethods.unholdEffect(effect.getEffect()) instanceof ModStatusEffects.SpecialEffect eff) {
             eff.onRemoved((LivingEntity)(Object)this);
         }

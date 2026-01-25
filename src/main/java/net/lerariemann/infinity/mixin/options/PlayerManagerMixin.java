@@ -49,7 +49,7 @@ public class PlayerManagerMixin {
     @Inject(method="placeNewPlayer", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/MinecraftServer;overworld()Lnet/minecraft/server/level/ServerLevel;"))
     //?}
     //? if >1.21 {
-    void inj(Connection connection, ServerPlayer player, CommonListenerCookie clientData, CallbackInfo ci) {
+    void checkNeedsTpOut(Connection connection, ServerPlayer player, CommonListenerCookie clientData, CallbackInfo ci) {
     //?} else {
     /*void inj(Connection connection, ServerPlayer player, CallbackInfo ci) {
     *///?}
@@ -58,7 +58,7 @@ public class PlayerManagerMixin {
 
     @Inject(method="placeNewPlayer", at = @At(value = "TAIL"))
     //? if >1.21 {
-    void inj2(Connection connection, ServerPlayer player, CommonListenerCookie clientData, CallbackInfo ci) {
+    void tpOut(Connection connection, ServerPlayer player, CommonListenerCookie clientData, CallbackInfo ci) {
     //?} else {
     /*void inj2(Connection connection, ServerPlayer player, CallbackInfo ci) {
     *///?}
@@ -72,7 +72,7 @@ public class PlayerManagerMixin {
     @Inject(method = "placeNewPlayer", at = @At(value="INVOKE",
             target = "Lnet/minecraft/server/players/PlayerList;sendPlayerPermissionLevel(Lnet/minecraft/server/level/ServerPlayer;)V"))
     //? if >1.21 {
-    private void injected(Connection connection, ServerPlayer player, CommonListenerCookie clientData, CallbackInfo ci, @Local(ordinal=0) ServerLevel serverWorld2) {
+    private void updatePlayer(Connection connection, ServerPlayer player, CommonListenerCookie clientData, CallbackInfo ci, @Local(ordinal=0) ServerLevel serverWorld2) {
     //?} else {
     /*private void injected(Connection connection, ServerPlayer player, CallbackInfo ci, @Local(ordinal=0) ServerLevel serverWorld2) {
     *///?}
@@ -89,7 +89,7 @@ public class PlayerManagerMixin {
     }
 
     @Inject(method="sendLevelInfo", at = @At("TAIL"))
-    private void injected2(ServerPlayer player, ServerLevel world, CallbackInfo ci) {
+    private void sendInfinityLevelInfo(ServerPlayer player, ServerLevel world, CallbackInfo ci) {
         ModPayloads.sendShaderPayload(player, world);
         ModPayloads.sendStarsPayload(player);
     }

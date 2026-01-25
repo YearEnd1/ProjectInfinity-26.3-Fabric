@@ -67,21 +67,21 @@ public abstract class EntityMixin {
 
     /* (Neo)forge-exclusive mixins working around its code (which causes mobs to be unable to swim in iridescence) */
     @Inject(method="updateFluidHeightAndDoFluidPushing", at = @At(value = "RETURN"), cancellable = true)
-    void inj(TagKey<Fluid> tag, double speed, CallbackInfoReturnable<Boolean> cir) {
+    void neoMobsSwim(TagKey<Fluid> tag, double speed, CallbackInfoReturnable<Boolean> cir) {
         if (tag.equals(FluidTags.WATER))
             if (InfinityPlatform.INSTANCE.acidTest((Entity)(Object)this, false))
                 cir.setReturnValue(true);
     }
 
     @Inject(method = "isEyeInFluid", at = @At("RETURN"), cancellable = true)
-    void inj(TagKey<Fluid> fluidTag, CallbackInfoReturnable<Boolean> cir) {
+    void neoMobsSwim2(TagKey<Fluid> fluidTag, CallbackInfoReturnable<Boolean> cir) {
         if (fluidTag.equals(FluidTags.WATER))
             if (InfinityPlatform.INSTANCE.acidTest((Entity)(Object)this, true))
                 cir.setReturnValue(true);
     }
 
     @Inject(method = "getFluidHeight", at = @At("RETURN"), cancellable = true)
-    void inj2(TagKey<Fluid> fluid, CallbackInfoReturnable<Double> cir) {
+    void neoMobsSwim3(TagKey<Fluid> fluid, CallbackInfoReturnable<Double> cir) {
         if (fluid.equals(FluidTags.WATER))
             cir.setReturnValue(Math.max(cir.getReturnValue(), InfinityPlatform.INSTANCE.acidHeightTest((Entity)(Object)this)));
     }

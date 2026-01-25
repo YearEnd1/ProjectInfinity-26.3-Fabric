@@ -138,7 +138,7 @@ public abstract class WorldRendererMixin implements WorldRendererAccess {
     //? if >1.21.2 {
     @Unique SkyRenderer infinity$sky;
     @Inject(method = "<init>", at = @At("TAIL"))
-    void inj(Minecraft minecraft, EntityRenderDispatcher entityRenderDispatcher, BlockEntityRenderDispatcher blockEntityRenderDispatcher, RenderBuffers renderBuffers, CallbackInfo ci) {
+    void customSky(Minecraft minecraft, EntityRenderDispatcher entityRenderDispatcher, BlockEntityRenderDispatcher blockEntityRenderDispatcher, RenderBuffers renderBuffers, CallbackInfo ci) {
         if (this.level != null) infinity$sky = new SkyRenderer(infinity$options(), this.level);
     }
     //?}
