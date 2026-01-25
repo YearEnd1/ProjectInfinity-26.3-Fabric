@@ -21,7 +21,7 @@ public class RandomText extends RandomStructure {
     public static List<Path> mod_resources;
     public static void walkPaths() {
         mod_resources = new ArrayList<>();
-        try (Stream<Path> files = Files.walk(InfinityMod.rootConfigPathInJar)) {
+        try (Stream<Path> files = Files.walk(InfinityMod.commonConfigPathInJar)) {
             files.filter(p -> p.toString().endsWith(".json")).forEach(p -> mod_resources.add(p));
         } catch (IOException e) {
             throw new RuntimeException(e);

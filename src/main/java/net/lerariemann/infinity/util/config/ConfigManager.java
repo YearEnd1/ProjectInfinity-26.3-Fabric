@@ -36,7 +36,7 @@ public interface ConfigManager {
         File invlock = InfinityMod.invocationLock.toFile();
         if (!invlock.exists()) return;
         try {
-            int a = compareVersionsAndAmendments(InfinityMod.invocationLock, InfinityMod.rootConfigPathInJar.resolve( ".util/invocation.lock"));
+            int a = compareVersionsAndAmendments(InfinityMod.invocationLock, InfinityMod.commonConfigPathInJar.resolve( ".util/invocation.lock"));
             if (a == 0) return;
             try (Stream<Path> files = Files.walk(configPath.resolve("modular"))) {
                 InfinityMod.LOGGER.info("Deleting {} modular configs", a == 1 ? "outdated" : "amended");
@@ -53,7 +53,7 @@ public interface ConfigManager {
         Path inv = InfinityMod.invocationLock;
         if (!Files.exists(inv)) {
             Files.createDirectories(inv.getParent());
-            Files.copy(InfinityMod.rootConfigPathInJar.resolve(".util/invocation.lock"), tempFile, REPLACE_EXISTING);
+            Files.copy(InfinityMod.commonConfigPathInJar.resolve(".util/invocation.lock"), tempFile, REPLACE_EXISTING);
             String s = FileUtils.readFileToString(tempFile.toFile(), StandardCharsets.UTF_8);
             s = s.replace("&0", String.valueOf(CommonIO.getAmendmentVersion(InfinityMod.amendmentPath.toFile())));
             Files.writeString(inv, s, StandardCharsets.UTF_8);
@@ -61,9 +61,14 @@ public interface ConfigManager {
     }
 
     static void unpackDefaultConfigs() {
-        try(Stream<Path> files = Files.walk(InfinityMod.rootConfigPathInJar)) {
+        unpackDefaultConfigs(InfinityMod.commonConfigPathInJar, "config/common");
+        unpackDefaultConfigs(InfinityMod.versionedConfigPathInJar, "config/" + InfinityPlatform.version);
+    }
+
+    static void unpackDefaultConfigs(Path path, String fromDirectory) {
+        try(Stream<Path> files = Files.walk(path)) {
             if (!configPath.toFile().exists()) Files.createDirectories(configPath);
-            files.filter(p -> p.toString().endsWith(".json")).forEach(p -> registerConfig(p, configPath, "config"));
+            files.filter(p -> p.toString().endsWith(".json")).forEach(p -> registerConfig(p, configPath, fromDirectory));
             Files.deleteIfExists(tempFile); //being a good method cleaning up after itself :3
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -74,7 +79,7 @@ public interface ConfigManager {
      * Creates or updates an individual config file.
      */
     static boolean registerConfig(Path fromPath, Path toDirectory, String fromDirectory) {
-        String path1 = fromPath.toString().replace("config/"+InfinityPlatform.version, "config"); //fixme this is terrible
+        String path1 = fromPath.toString();
         String fullname = path1.substring(path1.lastIndexOf(fromDirectory) + fromDirectory.length());
         Path endfile = Paths.get(toDirectory + fullname);
         try {

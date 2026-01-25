@@ -4,7 +4,6 @@ import net.lerariemann.infinity.access.MinecraftServerAccess;
 import net.lerariemann.infinity.dimensions.RandomText;
 import net.lerariemann.infinity.registry.core.*;
 import net.lerariemann.infinity.registry.var.*;
-import net.lerariemann.infinity.util.InfinityMethods;
 import net.lerariemann.infinity.util.platform.InfinityPlatform;
 import net.lerariemann.infinity.util.config.ConfigManager;
 import net.lerariemann.infinity.util.core.RandomProvider;
@@ -23,7 +22,8 @@ public class InfinityMod {
     public static Path invocationLock = configPath.resolve("modular/invocation.lock");
     public static Path amendmentPath = configPath.resolve("amendments.json");
 
-    public static Path rootConfigPathInJar;
+    public static Path commonConfigPathInJar;
+    public static Path versionedConfigPathInJar;
     public static RandomProvider provider;
     public static Random random = new Random(); //do not use this in dimgen, only in emergent block behaviour
 
@@ -35,7 +35,8 @@ public class InfinityMod {
     }
 
     public static void init() {
-        rootConfigPathInJar = InfinityPlatform.INSTANCE.getRootPathInJar("config/" + InfinityPlatform.version);
+        commonConfigPathInJar = InfinityPlatform.INSTANCE.getRootPathInJar("config/common");
+        versionedConfigPathInJar = InfinityPlatform.INSTANCE.getRootPathInJar("config/" + InfinityPlatform.version);
         ConfigManager.updateInvocationUnlock();
         ConfigManager.unpackDefaultConfigs();
         //? if >1.21 {

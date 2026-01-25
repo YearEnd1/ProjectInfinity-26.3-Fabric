@@ -29,7 +29,7 @@ import java.util.function.Consumer;
 
 import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 import static net.lerariemann.infinity.InfinityMod.MOD_ID;
-import static net.lerariemann.infinity.InfinityMod.rootConfigPathInJar;
+import static net.lerariemann.infinity.InfinityMod.commonConfigPathInJar;
 import static net.lerariemann.infinity.util.InfinityMethods.formatAsTitleCase;
 import static net.minecraft.client.resources.language.I18n.exists;
 
@@ -324,7 +324,7 @@ public class ClothConfigFactory {
     }
 
     public static CompoundTag readDefaultConfig() {
-        Path tempfile = rootConfigPathInJar.resolve("infinity.json");
+        Path tempfile = commonConfigPathInJar.resolve("infinity.json");
         try {
             Files.copy(tempfile, Path.of(configPath() + "/.infinity-default.json"), REPLACE_EXISTING);
         } catch (IOException e) {

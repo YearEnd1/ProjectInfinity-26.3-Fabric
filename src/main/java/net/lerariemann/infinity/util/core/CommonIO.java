@@ -159,7 +159,9 @@ public interface CommonIO {
         Path path = configPath.resolve("modular");
         String fullname = type.getKey() + ".json";
         List<CompoundTag> compounds = new ArrayList<>();
-        for (File modDir: Objects.requireNonNull(path.toFile().listFiles(File::isDirectory))) if (_checkIfModLoaded(modDir)) {
+        File[] directories = path.toFile().listFiles(File::isDirectory);
+        if (directories == null) return compounds;
+        for (File modDir: directories) if (_checkIfModLoaded(modDir)) {
             File file = modDir.toPath().resolve(fullname).toFile();
             if (file.exists()) {
                 CompoundTag base = read(file);
