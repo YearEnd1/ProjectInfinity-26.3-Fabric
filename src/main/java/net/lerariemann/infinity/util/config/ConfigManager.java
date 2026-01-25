@@ -30,7 +30,7 @@ public interface ConfigManager {
     Path tempFile = InfinityPlatform.INSTANCE.getConfigFolder().resolve(".infinity-temp.json");
 
     /** If the game was last started in a version of the mod that uses a different modular config format,
-     * this deletes the old configs ensuring they will be regenerated in the correct format
+     * this deletes the old configs (and the invocation lock) ensuring they will be regenerated in the correct format
      * by {@link ConfigFactory} on next world load. */
     static void updateInvocationUnlock() {
         File invlock = InfinityMod.invocationLock.toFile();
@@ -48,7 +48,10 @@ public interface ConfigManager {
             throw new RuntimeException(e);
         }
     }
-    
+
+    /**
+     * This places the invocation lock after a successful invocation, reading it from the jar.
+     */
     static void updateInvocationLock() throws IOException {
         Path inv = InfinityMod.invocationLock;
         if (!Files.exists(inv)) {
@@ -60,12 +63,19 @@ public interface ConfigManager {
         }
     }
 
+    /**
+     * This unpacks the configs from the jar. Note that InfDim stores common and versioned configs separately,
+     * so we're stitching these folders together.
+     */
     static void unpackDefaultConfigs() {
         unpackDefaultConfigs(InfinityMod.commonConfigPathInJar, "config/common");
         String versionedConfigPath = "config/" + InfinityPlatform.version;
         unpackDefaultConfigs(InfinityPlatform.INSTANCE.getRootPathInJar(versionedConfigPath), versionedConfigPath);
     }
 
+    /**
+     * Unpacks the configs from one of the folders in the jar (common or versioned).
+     */
     static void unpackDefaultConfigs(Path path, String fromDirectory) {
         try(Stream<Path> files = Files.walk(path)) {
             if (!configPath.toFile().exists()) Files.createDirectories(configPath);
@@ -121,6 +131,9 @@ public interface ConfigManager {
         return version_new > version_old;
     }
 
+    /**
+     * An upgraded version of the previous method used on the invocation lock.
+     */
     static int compareVersionsAndAmendments(Path oldFile, Path newFile) throws IOException {
         int version_old = CommonIO.getVersion(oldFile.toFile());
         int amendment_version_old = CommonIO.getAmendmentVersion(oldFile.toFile());
