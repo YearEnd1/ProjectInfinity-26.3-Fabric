@@ -23,7 +23,6 @@ public class InfinityMod {
     public static Path amendmentPath = configPath.resolve("amendments.json");
 
     public static Path commonConfigPathInJar;
-    public static Path versionedConfigPathInJar;
     public static RandomProvider provider;
     public static Random random = new Random(); //do not use this in dimgen, only in emergent block behaviour
 
@@ -36,7 +35,6 @@ public class InfinityMod {
 
     public static void init() {
         commonConfigPathInJar = InfinityPlatform.INSTANCE.getRootPathInJar("config/common");
-        versionedConfigPathInJar = InfinityPlatform.INSTANCE.getRootPathInJar("config/" + InfinityPlatform.version);
         ConfigManager.updateInvocationUnlock();
         ConfigManager.unpackDefaultConfigs();
         //? if >1.21 {

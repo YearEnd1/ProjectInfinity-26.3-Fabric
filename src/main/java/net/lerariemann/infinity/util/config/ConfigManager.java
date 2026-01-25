@@ -62,7 +62,8 @@ public interface ConfigManager {
 
     static void unpackDefaultConfigs() {
         unpackDefaultConfigs(InfinityMod.commonConfigPathInJar, "config/common");
-        unpackDefaultConfigs(InfinityMod.versionedConfigPathInJar, "config/" + InfinityPlatform.version);
+        String versionedConfigPath = "config/" + InfinityPlatform.version;
+        unpackDefaultConfigs(InfinityPlatform.INSTANCE.getRootPathInJar(versionedConfigPath), versionedConfigPath);
     }
 
     static void unpackDefaultConfigs(Path path, String fromDirectory) {
