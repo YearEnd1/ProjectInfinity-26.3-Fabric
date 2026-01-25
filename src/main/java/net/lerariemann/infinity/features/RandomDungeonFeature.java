@@ -116,7 +116,7 @@ public class RandomDungeonFeature extends Feature<RandomDungeonFeature.Config> {
                  //?} else {
                 /*RandomizableContainerBlockEntity.setLootTable
                 *///?}
-                (structureWorldAccess, random, blockPos, BuiltInLootTables.SIMPLE_DUNGEON);
+                (structureWorldAccess, random, blockPos3, BuiltInLootTables.SIMPLE_DUNGEON);
                 continue block6;
             }
         }
