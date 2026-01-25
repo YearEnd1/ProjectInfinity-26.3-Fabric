@@ -607,3 +607,113 @@ Make sure to wipe your config/infinity folder before updating to this one.
 - fixed a crucial bug preventing runtime generation on windows systems
 - refactored how heights and sea level are generated to fix the bug when the sea level can become greater than maximum height
 - refactored generation of dimension scale
+
+## [1.5.3 - 23/I/2024]
+- Portal key can now be empty (set to air) meaning no item is required to open portals.
+
+This is the first mod version to be released publicly.
+
+## [1.5.2 - 23/I/2024]
+- Flowers now generate in dimensions.
+- Random infinity portals no longer spawn in the overworld.
+
+## [1.5.1 - 20/I/2024]
+- All block-related configs are now read from the same file.
+- Compatibility added for fluids whose name and block name are different (i.e. milk from milklib).
+
+## [1.5.0.1 - 18/X/2023]
+- Added random infinity portals to dimension generation.
+- Added a bunch of hardcoded block palettes to make portals from.
+
+## [1.5.0 - 8/VIII/2023]
+- Added random infinity portal structures, generating in the Overworld.
+- Structures generated in random dimensions now are added to vanilla structure tags (this helps i.e. eyes of ender navigate to strongholds in random dimensions)
+
+## [1.4.0 - 6/VIII/2023]
+- Vanilla structures now spawn in random dimensions.
+
+## [1.3.4 - 6/VIII/2023]
+- Biome data is now loaded clientside in multiplayer. This concludes multiplayer compatibility.
+
+## [1.3.3 - 5/VIII/2023]
+- Dimension types are now loaded clientside in multiplayer.
+
+## [1.3.2 - 4/VIII/2023]
+- Added cherry-like options for random tree generation.
+
+## [1.3.1 - 21/VII/2023]
+- Book contents are now processed in a multiplayer-friendly way.
+
+## [1.3.0 - 19/VII/2023]
+- Surface rules are refactored again.
+- Fixed a bug in multinoise preset selection.
+
+## [1.2.2 - 19/VII/2023]
+- Some file-reading code was erroring on windows, this was fixed.
+
+## [1.2.1 - 19/VII/2023]
+- Config packs' inner structure is reworked.
+
+## [1.2.0 - 18/VII/2023]
+- Crops can now spawn in infinite dimensions.
+
+## [1.1.4 - 18/VII/2023]
+- Surface rules are refactored.
+
+## [1.1.3 - 18/VII/2023]
+- Nether portals can now be lit in random dimensions.
+
+## [1.1.2 - 18/VII/2023]
+- Tree types (trees, huge mushrooms, and huge fungi) now have their distribution configurable.
+
+## [1.1.1 - 18/VII/2023]
+- Config filestructure rework.
+- Color presets for shapes are now unified.
+
+## [1.1.0 - 18/VII/2023]
+- Updated the mod from 1.19.3 to 1.20.
+
+## [1.0.1 - 17/VII/2023]
+- Whack noise preset is changed to prevent holes in the bedrock.
+
+## [a0.1 - 17/VII/2023]
+### Features:
+- Features generating in dimensions now include caves, ores, end spikes, end gateways, ceiling blobs, and shape features (cubes, spheres etc.).
+- Added the "whack" noise preset.
+- Random portals now play a sound on creation.
+- A custom music track by ivorycello is added, to be found in dimensions.
+
+### Tweaks & technical:
+- Default config change: all random dimensions are now safe for piglins and support the use of a respawn anchor.
+- World seed-dependent dimension generation is added as a config option.
+- Config filestructure rework to support namespaced config packs.
+
+### Fixes:
+- When teleporting from a random dimension, return portals are now created as infinity portals instead of nether portals.
+- Surface rules for nether biomes are fixed.
+
+## [0.0.3 - 19/VI/2023]
+### Features:
+- Features generating in dimensions now include trees, surface and floating block patches, small end islands, monster rooms, and basalt delta-like column piles.
+
+### Tweaks & technical:
+- Block selection for world generation is split into several lists for different purposes.
+- The root config file is introduced.
+
+### Fixes:
+- Random dimensions are loaded at runtime (with a config option to disable it).
+- Noise provider generation is tweaked to prevent holes in bedrock.
+- Random dimension depth is capped at y=-48 to prevent lava oceans (hardcoded to appear at y=-55).
+
+## [0.0.2 - 02/II/2023]
+- Implemented portal blocks, opening portals with books, and random tinting of portals.
+- Portals can be used and teleport correctly, but only after reloading the world (dimensions do not load at runtime).
+- Implemented random dimensions, dimension types, and noise routers.
+- Implemented random biomes.
+- Implemented random selection of vanilla features for random biomes.
+- Implemented generation of random features: lakes, deltas, geodes, icebergs, forest rocks, and vegetation (consisting of huge mushrooms and huge fungi), all of them using random blocks.
+
+## [0.0.1 - 26/I/2023]
+- Initial commit.
+
+
