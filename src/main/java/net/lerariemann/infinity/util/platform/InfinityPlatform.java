@@ -10,6 +10,7 @@ import dev.architectury.registry.registries.RegistrySupplier;
 import net.lerariemann.infinity.registry.var.ModPayloads;
 //? if >1.21 {
 import net.minecraft.core.component.DataComponentType;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.ItemEnchantments;
@@ -40,6 +41,23 @@ public interface InfinityPlatform {
             *///?} else {
             /*20;
              *///?}
+    int mcmeta =
+    //? if >1.21.6 {
+    81;
+    //?} else if >1.21 {
+    /*48;
+     *///?} else {
+    /*15;
+     *///?}
+
+    static CompoundTag packMcmeta(String description) {
+        CompoundTag res = new CompoundTag();
+        CompoundTag pack = new CompoundTag();
+        pack.putInt("pack_format", InfinityPlatform.mcmeta);
+        pack.putString("description", description);
+        res.put("pack", pack);
+        return res;
+    }
 
     //? fabric {
     /*InfinityPlatform INSTANCE = new FabricPlatformImpl();

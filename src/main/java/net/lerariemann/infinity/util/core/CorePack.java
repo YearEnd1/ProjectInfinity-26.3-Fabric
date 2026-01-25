@@ -25,7 +25,10 @@ public record CorePack(RandomProvider provider, Path savingPath) {
 //        saveVersioned();
         saveTrees();
         saveEndOfTime();
-        if (!savingPath.resolve("pack.mcmeta").toFile().exists()) savePackMcmeta();
+        if (!savingPath.resolve("pack.mcmeta").toFile().exists()) {
+            CompoundTag mcmeta = InfinityPlatform.packMcmeta("Common content providers for Infinite Dimensions");
+            CommonIO.write(mcmeta, savingPath, "pack.mcmeta");
+        }
     }
 
     void grab(MinecraftServer server) {
@@ -35,15 +38,6 @@ public record CorePack(RandomProvider provider, Path savingPath) {
                 savingPath.resolve("data/infinity/worldgen/biome"));
         DimensionGrabber.readCategoryFromDisk(server, ConfiguredFeature.DIRECT_CODEC, Registries.CONFIGURED_FEATURE,
                 savingPath.resolve("data/infinity/worldgen/configured_feature"));
-    }
-
-    void savePackMcmeta() {
-        CompoundTag res = new CompoundTag();
-        CompoundTag pack = new CompoundTag();
-        pack.putInt("pack_format", 34);
-        pack.putString("description", "Common content providers for Infinite Dimensions");
-        res.put("pack", pack);
-        CommonIO.write(res, savingPath, "pack.mcmeta");
     }
 
     public static CompoundTag treePlacement(String tree, String block) {

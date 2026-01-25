@@ -4,6 +4,7 @@ import com.google.common.util.concurrent.AtomicDouble;
 import net.lerariemann.infinity.registry.var.ModPayloads;
 import net.lerariemann.infinity.util.VersionMethods;
 import net.lerariemann.infinity.util.core.CommonIO;
+import net.lerariemann.infinity.util.platform.InfinityPlatform;
 import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.packs.repository.PackRepository;
@@ -70,17 +71,8 @@ public interface ShaderLoader {
         Path resourcepackPath = client.getResourcePackDirectory().resolve("infinity");
         Files.createDirectories(shaderDir(client));
         if (!resourcepackPath.resolve("pack.mcmeta").toFile().exists())
-            CommonIO.write(packMcmeta(), resourcepackPath.toString(), "pack.mcmeta");
+            CommonIO.write(InfinityPlatform.packMcmeta("Shader container"), resourcepackPath.toString(), "pack.mcmeta");
         m.reload();
         m.addPack("file/" + resourcepackPath.getFileName().toString());
-    }
-
-    static CompoundTag packMcmeta() {
-        CompoundTag res = new CompoundTag();
-        CompoundTag pack = new CompoundTag();
-        pack.putInt("pack_format", 34);
-        pack.putString("description", "Shader container");
-        res.put("pack", pack);
-        return res;
     }
 }

@@ -8,6 +8,7 @@ import net.lerariemann.infinity.util.InfinityMethods;
 import net.lerariemann.infinity.util.core.ConfigType;
 import net.lerariemann.infinity.util.core.NbtUtils;
 import net.lerariemann.infinity.util.core.RandomProvider;
+import net.lerariemann.infinity.util.platform.InfinityPlatform;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.*;
@@ -127,7 +128,8 @@ public class RandomDimension {
         if (!isEasterDim) (new DimensionData(this)).save();
         (new RandomInfinityOptions(this, isEasterDim)).save();
         CommonIO.write(data, getStoragePath() + "/dimension", getName() + ".json");
-        if (!(Paths.get(getRootPath() + "/pack.mcmeta")).toFile().exists()) CommonIO.write(packMcmeta(), getRootPath(), "pack.mcmeta");
+        if (!(Paths.get(getRootPath() + "/pack.mcmeta")).toFile().exists())
+            CommonIO.write(InfinityPlatform.packMcmeta("Dimension #" + numericId), getRootPath(), "pack.mcmeta");
     }
 
     String getDefaultBlock(String fallback) {
@@ -173,15 +175,6 @@ public class RandomDimension {
 
     boolean hasCeiling() {
         return ((type_alike.equals("minecraft:nether")) || (type_alike.equals("minecraft:caves")) || (type_alike.equals("infinity:tangled")));
-    }
-
-    CompoundTag packMcmeta() {
-        CompoundTag res = new CompoundTag();
-        CompoundTag pack = new CompoundTag();
-        pack.putInt("pack_format", 34);
-        pack.putString("description", "Dimension #" + numericId);
-        res.put("pack", pack);
-        return res;
     }
 
     CompoundTag randomDimensionGenerator() {
