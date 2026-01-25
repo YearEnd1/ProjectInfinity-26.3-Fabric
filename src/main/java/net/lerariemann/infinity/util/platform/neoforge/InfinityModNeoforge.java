@@ -6,7 +6,6 @@ import net.lerariemann.infinity.InfinityMod;
 import net.lerariemann.infinity.compat.ModCompat;
 import net.lerariemann.infinity.compat.rrv.RrvIntegration;
 //?}
-import net.lerariemann.infinity.compat.CreateCompat;
 import net.lerariemann.infinity.registry.core.ModBlocks;
 import net.lerariemann.infinity.registry.core.ModEntities;
 import net.lerariemann.infinity.registry.core.ModItemFunctions;
@@ -47,7 +46,7 @@ public class InfinityModNeoforge {
         ModEffectsNeoforge.register(eventBus);
         //? if <1.21.2 {
         /*if (InfinityPlatform.INSTANCE.isModLoaded("create"))
-            CreateCompat.register();
+            net.lerariemann.infinity.compat.CreateCompat.register();
         *///?}
     }
 
@@ -118,6 +117,31 @@ public class InfinityModNeoforge {
                 ModPayloads.JukeboxesC2SPayload.ID,
                 ModPayloads.JukeboxesC2SPayload.CODEC,
                 (payload, context) -> SoundScanner.unpackUploadedJukeboxes(getServerFromPlayer(context), payload.data())
+        );
+        registrar.playToClient(
+                ModPayloads.WorldAddS2CPayload.ID,
+                ModPayloads.WorldAddS2CPayload.CODEC,
+                (payload, context) -> payload.receive()
+        );
+        registrar.playToClient(
+                ModPayloads.BiomeAddS2CPayload.ID,
+                ModPayloads.BiomeAddS2CPayload.CODEC,
+                (payload, context) -> payload.receive()
+        );
+        registrar.playToClient(
+                ModPayloads.ShaderS2CPayload.ID,
+                ModPayloads.ShaderS2CPayload.CODEC,
+                (payload, context) -> payload.receive()
+        );
+        registrar.playToClient(
+                ModPayloads.StarsS2CPayload.ID,
+                ModPayloads.StarsS2CPayload.CODEC,
+                (payload, context) -> payload.receive()
+        );
+        registrar.playToClient(
+                ModPayloads.SoundPackS2CPayload.ID,
+                ModPayloads.SoundPackS2CPayload.CODEC,
+                (payload, context) -> SoundScanner.unpackDownloadedPack(payload.songIds())
         );
     }
 }

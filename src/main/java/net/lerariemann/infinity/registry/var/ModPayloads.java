@@ -101,6 +101,9 @@ public class ModPayloads {
             type.read(buf).receive(client);
         }
         *///?}
+        public void receive() {
+            receive(Minecraft.getInstance());
+        }
         public void receive(Minecraft client) {
             client.execute(() -> DimensionGrabber.grabObjectForClient(client, DimensionType.DIRECT_CODEC, Registries.DIMENSION_TYPE, id, data));
         }
@@ -134,6 +137,9 @@ public class ModPayloads {
             type.read(buf).receive(client);
         }
         *///?}
+        public void receive() {
+            receive(Minecraft.getInstance());
+        }
         public void receive(Minecraft client) {
             client.execute(() -> DimensionGrabber.grabObjectForClient(client, Biome.DIRECT_CODEC, Registries.BIOME, id, data));
         }
@@ -167,6 +173,9 @@ public class ModPayloads {
             type.read(buf).receive(client);
         }
         *///?}
+        public void receive() {
+            receive(Minecraft.getInstance());
+        }
         @Override
         public void receive(Minecraft client) {
             InfinityOptions options = new InfinityOptions(data);
@@ -200,6 +209,9 @@ public class ModPayloads {
             type.read(buf).receive(client);
         }
         *///?}
+        public void receive() {
+            receive(Minecraft.getInstance());
+        }
         @Override
         public void receive(Minecraft client) {
             client.execute(() -> ((WorldRendererAccess)(client.levelRenderer)).infinity$setNeedsStars(true));
@@ -232,6 +244,9 @@ public class ModPayloads {
             type.read(buf).receive(client);
         }
         *///?}
+        public void receive() {
+            receive(Minecraft.getInstance());
+        }
         @Override
         public void receive(Minecraft client) {
             SoundScanner.unpackDownloadedPack(songIds, client);

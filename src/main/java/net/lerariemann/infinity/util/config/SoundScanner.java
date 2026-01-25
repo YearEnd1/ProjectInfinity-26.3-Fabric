@@ -50,11 +50,17 @@ public record SoundScanner(Map<ResourceLocation, Resource> soundIds) {
         return Stream.of();
     }
 
+    // neoforge doesn't provide the client context
+    public static void unpackDownloadedPack(CompoundTag songIds) {
+        unpackDownloadedPack(songIds, Minecraft.getInstance());
+    }
+
     /**
      * <p>On player connect, the server sends a {@link ModPayloads.SoundPackS2CPayload} payload to the client.
      * <p>If the server already contains data upon which the client should create its resource pack, it holds this data.
      * <p>Otherwise, this payload is empty, and the server relies on the client to create it and send it back to the server for future use. */
     public static void unpackDownloadedPack(CompoundTag songIds, Minecraft cl) {
+
         //the client unpacks a non-empty payload only when needed, meaning only if it doesn't have necessary files yet
         if (!songIds.isEmpty() && !Files.exists(cl.getResourcePackDirectory().resolve("infinity/assets/infinity/sounds.json"))) {
             cl.execute(() -> saveResourcePack(cl, NbtUtils.getList(songIds, "entries", Tag.TAG_STRING).stream()

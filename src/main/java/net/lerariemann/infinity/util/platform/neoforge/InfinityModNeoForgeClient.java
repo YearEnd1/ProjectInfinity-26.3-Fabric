@@ -139,39 +139,5 @@ public class InfinityModNeoForgeClient {
 
         }, FluidTypes.IRIDESCENCE_TYPE.value());
     }
-
-    public static Minecraft client() {
-        return Minecraft.getInstance();
-    }
-
-    @SubscribeEvent
-    public static void registerClientPayloads(final RegisterPayloadHandlersEvent event) {
-        final PayloadRegistrar registrar = event.registrar("1");
-        registrar.playToClient(
-                ModPayloads.WorldAddS2CPayload.ID,
-                ModPayloads.WorldAddS2CPayload.CODEC,
-                (payload, context) -> payload.receive(client())
-        );
-        registrar.playToClient(
-                ModPayloads.BiomeAddS2CPayload.ID,
-                ModPayloads.BiomeAddS2CPayload.CODEC,
-                (payload, context) -> payload.receive(client())
-        );
-        registrar.playToClient(
-                ModPayloads.ShaderS2CPayload.ID,
-                ModPayloads.ShaderS2CPayload.CODEC,
-                (payload, context) -> payload.receive(client())
-        );
-        registrar.playToClient(
-                ModPayloads.StarsS2CPayload.ID,
-                ModPayloads.StarsS2CPayload.CODEC,
-                (payload, context) -> payload.receive(client())
-        );
-        registrar.playToClient(
-                ModPayloads.SoundPackS2CPayload.ID,
-                ModPayloads.SoundPackS2CPayload.CODEC,
-                (payload, context) -> SoundScanner.unpackDownloadedPack(payload.songIds(), client())
-        );
-    }
 }
 //?}
