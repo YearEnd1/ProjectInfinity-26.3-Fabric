@@ -609,7 +609,7 @@ Make sure to wipe your config/infinity folder before updating to this one.
 - refactored generation of dimension scale
 
 ## [1.5.3 - 23/I/2024]
-- Portal key can now be empty (set to air) meaning no item is required to open portals.
+- Portal key can now be empty (set to air) meaning no item is required to open portals (you still need to right-click them with an empty hand though).
 
 This is the first mod version to be released publicly.
 
@@ -622,7 +622,7 @@ This is the first mod version to be released publicly.
 - Compatibility added for fluids whose name and block name are different (i.e. milk from milklib).
 
 ## [1.5.0.1 - 18/X/2023]
-- Added random infinity portals to dimension generation.
+- Added random infinity portals to dimension generation (though they are disabled in configs by default).
 - Added a bunch of hardcoded block palettes to make portals from.
 
 ## [1.5.0 - 8/VIII/2023]
