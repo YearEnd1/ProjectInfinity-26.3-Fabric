@@ -1,3 +1,18 @@
+## [2.6.5 - 25/I/2026]
+A crucial crash exclusive to Fabric 1.21.8 is fixed which was triggering a ConcurrentModificationException on every portal activation.
+
+## [2.6.4 - 25/I/2026]
+### Fixed
+- Create train tracks now respect offsets from the center of the portal; this makes it possible to route two tracks through the same portal. (Lera)
+- Chests in dungeons in random dimensions were missing their contents, now they aren't. (Lera)
+- Beacon structure from `missing` now generates correctly. (Cassian)
+- F4 config screen was bugged on 1.21.8, it is fixed. (Cassian)
+- A crash with a "tinted leaves" particle is fixed. (1.21.8, Cassian)
+- Chromatic potion brewing recipe is viewable in RRV. (1.21.8, Cassian)
+
+### Technical
+- Config file structure is reworked in the jar to make differences between Minecraft versions easier to handle, this should not have any effect on anything user-facing but i'll include this change here just in case it spawns some bug.
+
 ## [2.6.3 - 24/I/2026]
 ### Fixed:
 - Iridescence fluid rendering (in world and in EMI) (Forge 1.20)

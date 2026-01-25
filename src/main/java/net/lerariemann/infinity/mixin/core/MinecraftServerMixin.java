@@ -49,6 +49,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Executor;
+import java.util.function.BooleanSupplier;
 
 @Mixin(MinecraftServer.class)
 public abstract class MinecraftServerMixin extends ReentrantBlockableEventLoop<TickTask> implements
@@ -149,20 +150,22 @@ public abstract class MinecraftServerMixin extends ReentrantBlockableEventLoop<T
         /*getLevel(Level.OVERWORLD).getWorldBorder().addListener(new BorderChangeListener.DelegateBorderChangeListener(world.getWorldBorder()));
         *///?}
         infinity$worldsToAdd.put(key, world);
-        //? if >1.21.2 {
-        doRunTask
-        //?} else {
-        /*tell
-        *///?}
-                (wrapRunnable(() -> {
-            levels.put(key, world);
-            infinity$worldsToAdd.clear();
-            //? if <1.21.2 && fabric {
-            /*if (ModCompat.GRAVITY_CHANGER)
+    }
+
+    @Inject(method="tickChildren", at=@At("TAIL"))
+    void inj(BooleanSupplier hasTimeLeft, CallbackInfo ci) {
+        if (!infinity$worldsToAdd.isEmpty()) {
+            for (ResourceKey<Level> key: infinity$worldsToAdd.keySet()) {
+                ServerLevel world = infinity$worldsToAdd.get(key);
+                levels.put(key, world);
+                //? if <1.21.2 && fabric {
+                /*if (ModCompat.GRAVITY_CHANGER)
                 GravityChangerCompat.changeMavity(world);
-            *///?}
-            InfinityPlatform.INSTANCE.onWorldLoad(this, world);
-        }));
+                *///?}
+                InfinityPlatform.INSTANCE.onWorldLoad(this, world);
+            }
+            infinity$worldsToAdd.clear();
+        }
     }
 
     @Override

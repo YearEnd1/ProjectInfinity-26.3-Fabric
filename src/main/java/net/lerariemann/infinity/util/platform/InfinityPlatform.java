@@ -8,9 +8,9 @@ import net.lerariemann.infinity.util.platform.neoforge.NeoForgePlatformImpl;
 //?}
 import dev.architectury.registry.registries.RegistrySupplier;
 import net.lerariemann.infinity.registry.var.ModPayloads;
+import net.minecraft.nbt.CompoundTag;
 //? if >1.21 {
 import net.minecraft.core.component.DataComponentType;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.ItemEnchantments;
