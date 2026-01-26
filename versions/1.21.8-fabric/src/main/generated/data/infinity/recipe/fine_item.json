@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "G": "minecraft:grass_block",
+    "S": "infinity:star_of_lang"
+  },
+  "pattern": [
+    "GGG",
+    "GSG",
+    "GGG"
+  ],
+  "result": {
+    "count": 1,
+    "id": "infinity:fine_item"
+  }
+}

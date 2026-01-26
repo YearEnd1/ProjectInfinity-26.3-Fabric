@@ -1,7 +1,7 @@
 package net.lerariemann.infinity.util.platform.neoforge;
 
 //? neoforge {
-import dev.architectury.registry.registries.RegistrySupplier;
+/*import dev.architectury.registry.registries.RegistrySupplier;
 import net.lerariemann.infinity.registry.core.ModBlocks;
 import net.lerariemann.infinity.registry.core.ModItems;
 import net.lerariemann.infinity.registry.var.ModPayloads;
@@ -64,8 +64,8 @@ public class NeoForgePlatformImpl implements InfinityPlatform {
     @Override
     public boolean isDevelopment() {
         //? if >1.21.9 {
-        /*return !FMLEnvironment.isProduction();
-        *///?} else {
+        /^return !FMLEnvironment.isProduction();
+        ^///?} else {
         return !FMLEnvironment.production;
         //?}
 
@@ -83,16 +83,16 @@ public class NeoForgePlatformImpl implements InfinityPlatform {
     @Override
     public void sendC2SPayload(ModPayloads.FriendlyPacket payload) {
         //? <1.21.2 {
-        /*PacketDistributor.sendToServer(payload);
-        *///?} else {
+        /^PacketDistributor.sendToServer(payload);
+        ^///?} else {
         ClientPacketDistributor.sendToServer(payload);
          //?}
     }
 
-    /**
+    /^*
      * On NeoForge, this allows the world to be ticked.
      * On Fabric, this invokes a server world event in Fabric API.
-     */
+     ^/
     @Override
     public void onWorldLoad(Object mixin, ServerLevel world) {
         MinecraftServer server = world.getServer();
@@ -101,40 +101,40 @@ public class NeoForgePlatformImpl implements InfinityPlatform {
         NeoForge.EVENT_BUS.post(new LevelEvent.Load(world));
     }
 
-    /**
+    /^*
      * Check if a block is in the Black Dyed Conventional Tag.
-     */
+     ^/
     @Override
     public boolean isInBlack(BlockState state) {
         return state.is(Tags.Blocks.DYED_BLACK);
     }
 
-    /**
+    /^*
      * Check if a block is in the White Dyed Conventional Tag.
-     */
+     ^/
     @Override
     public boolean isInWhite(BlockState state) {
         return state.is(Tags.Blocks.DYED_WHITE);
     }
 
-    /**
+    /^*
      * Get the still variant of Iridescence fluid.
-     */
+     ^/
     @Override
     public RegistrySupplier<? extends FlowingFluid> getIridescenceStill() {
         return ModFluidsNeoforge.IRIDESCENCE_STILL;
     }
-    /**
+    /^*
      * Get the flowing variant of Iridescence fluid.
-     */
+     ^/
     @Override
     public RegistrySupplier<? extends FlowingFluid> getIridescenceFlowing() {
         return ModFluidsNeoforge.IRIDESCENCE_FLOWING;
     }
 
-    /**
+    /^*
      * Get the registry supplier for Iridescence fluid.
-     */
+     ^/
     @Override
     public RegistrySupplier<LiquidBlock> getIridBlockForReg() {
         var properties = VersionMethods.copyBlockProperties(Blocks.WATER).mapColor(MapColor.COLOR_MAGENTA)
@@ -145,16 +145,16 @@ public class NeoForgePlatformImpl implements InfinityPlatform {
                 new IridescenceLiquidBlockNeoforge(InfinityPlatform.INSTANCE.getIridescenceStill(), properties));
     }
 
-    /**
+    /^*
      * Read from the config path inside the mod JAR.
-     */
+     ^/
     @Override
     @SuppressWarnings("for removal")
     public Path getRootPathInJar(String path) {
         var file = ModLoadingContext.get().getActiveContainer().getModInfo().getOwningFile().getFile();
         // FIXME 1.21.10 - this does not work in production. standard paths do not work on neoforge 1.21.10, will either need to drop neo or make this even more platform specific
         //? if >1.21.9 {
-        /*var contents = file.getContents();
+        /^var contents = file.getContents();
         Path returnPath = null;
         for (Path contentRoot : contents.getContentRoots()) {
             if (contentRoot.resolve(path).toFile().exists()) {
@@ -162,14 +162,14 @@ public class NeoForgePlatformImpl implements InfinityPlatform {
             }
         }
         return returnPath;
-        *///?} else {
+        ^///?} else {
         return file.findResource(path);
         //?}
     }
 
-    /**
+    /^*
      * Create an Item Tag.
-     */
+     ^/
     @Override
     public TagKey<Item> createItemTag(String id) {
         return ItemTags.create(InfinityMethods.getId(id));
@@ -179,20 +179,20 @@ public class NeoForgePlatformImpl implements InfinityPlatform {
         return BlockTags.create(InfinityMethods.getId(id));
     }
 
-    /**
+    /^*
      * Register a Flammable nameToElement (how does Architectury API not have a helper for this)
-     */
+     ^/
     @Override
     public void registerFlammableBlock(RegistrySupplier<Block> block, int burn, int spread) {
         FireBlock fireblock = (FireBlock)Blocks.FIRE;
         fireblock.setFlammable(block.get(), burn, spread);
     }
 
-    /**
+    /^*
      * Neoforge-exclusive method of testing if a mob is located in iridescence as far as fluid types are concerned.
      * Used only in mixins, to fix the neoforge loader stripping mobs of ability to swim in non-water fluids.
      * On Fabric, returns false.
-     */
+     ^/
     @Override
     public boolean acidTest(Entity entity, boolean eyes) {
         if (entity instanceof Player) return false;
@@ -218,8 +218,8 @@ public class NeoForgePlatformImpl implements InfinityPlatform {
                 //? if >1.21.4 {
                 .lookupOrThrow(Registries.ENCHANTMENT));
                  //?} else {
-                /*.lookupOrThrow(Registries.ENCHANTMENT));
-        *///?}
+                /^.lookupOrThrow(Registries.ENCHANTMENT));
+        ^///?}
     }
 
     @Override
@@ -232,4 +232,4 @@ public class NeoForgePlatformImpl implements InfinityPlatform {
         return FMLPaths.GAMEDIR.get();
     }
 }
-//?}
+*///?}

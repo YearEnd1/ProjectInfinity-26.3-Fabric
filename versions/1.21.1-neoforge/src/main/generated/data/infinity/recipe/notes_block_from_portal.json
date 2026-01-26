@@ -1,0 +1,11 @@
+{
+  "type": "infinity:collision_portal",
+  "input": {
+    "item": "minecraft:note_block"
+  },
+  "lore": "empty",
+  "output": {
+    "count": 1,
+    "id": "infinity:notes_block"
+  }
+}

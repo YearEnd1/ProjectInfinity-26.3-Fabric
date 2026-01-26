@@ -14,60 +14,60 @@ import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.Item;
 //? if neoforge {
-import net.neoforged.bus.api.SubscribeEvent;
+/*import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 @EventBusSubscriber
-//?} else if forge {
+*///?} else if forge {
 /*import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
 *///?} else {
-/*import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroupEntries;
-*///?}
+import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroupEntries;
+//?}
 
 public class ModItemGroups {
 
     public static void addAfter(
             //? forge || neoforge {
-            BuildCreativeModeTabContentsEvent
-             //?} else {
-            /*FabricItemGroupEntries
-            *///?}
+            /*BuildCreativeModeTabContentsEvent
+             *///?} else {
+            FabricItemGroupEntries
+            //?}
             event, Item itemBefore, Item itemAfter) {
         //? if neoforge {
-        event.insertAfter(itemBefore.getDefaultInstance(), itemAfter.getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
-        //?} else if fabric {
-        /*event.addAfter(itemBefore, itemAfter);
-        *///?} else {
+        /*event.insertAfter(itemBefore.getDefaultInstance(), itemAfter.getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
+        *///?} else if fabric {
+        event.addAfter(itemBefore, itemAfter);
+        //?} else {
         /*event.accept(itemAfter.getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
         *///?}
     }
     public static void addAfter(
             //? forge || neoforge {
-            BuildCreativeModeTabContentsEvent
-             //?} else {
-            /*FabricItemGroupEntries
-            *///?}
+            /*BuildCreativeModeTabContentsEvent
+             *///?} else {
+            FabricItemGroupEntries
+            //?}
             event, Item itemBefore) {
         event.accept(itemBefore);
     }
     
     //MyItemsClass.MY_ITEM is a Supplier<? extends Item>, MyBlocksClass.MY_BLOCK is a Supplier<? extends Block>
     //? forge || neoforge {
-    @SubscribeEvent
+    /*@SubscribeEvent
     public static void buildContents(BuildCreativeModeTabContentsEvent event) {
         buildContents(event.getTabKey(), event);
     }
-    //?}
+    *///?}
 
     public static void buildContents(
                                      //? forge || neoforge {
-                                     ResourceKey<CreativeModeTab> creativeModeTab, BuildCreativeModeTabContentsEvent
-                                     //?} else {
-                                     /*CreativeModeTab creativeModeTab, FabricItemGroupEntries
-                                      *///?}
+                                     /*ResourceKey<CreativeModeTab> creativeModeTab, BuildCreativeModeTabContentsEvent
+                                     *///?} else {
+                                     CreativeModeTab creativeModeTab, FabricItemGroupEntries
+                                      //?}
                                      event) {
         // Is this the tab we want to add to?
         if (equals(creativeModeTab, CreativeModeTabs.BUILDING_BLOCKS)) {

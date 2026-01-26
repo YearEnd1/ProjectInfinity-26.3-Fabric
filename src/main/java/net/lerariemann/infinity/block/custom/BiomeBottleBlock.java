@@ -44,16 +44,16 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.Nullable;
 //? if neoforge {
-import javax.annotation.ParametersAreNonnullByDefault;
-//?}
+/*import javax.annotation.ParametersAreNonnullByDefault;
+*///?}
 
 import java.util.*;
 import java.util.stream.Collectors;
 
 @MethodsReturnNonnullByDefault
 //? if neoforge {
-@ParametersAreNonnullByDefault
-//?}
+/*@ParametersAreNonnullByDefault
+*///?}
 public class BiomeBottleBlock extends BaseEntityBlock {
     //? if >1.21 {
     public static final MapCodec<BiomeBottleBlock> CODEC = simpleCodec(BiomeBottleBlock::new);

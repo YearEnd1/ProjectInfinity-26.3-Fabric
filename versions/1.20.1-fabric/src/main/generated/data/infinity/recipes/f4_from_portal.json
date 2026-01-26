@@ -1,0 +1,10 @@
+{
+  "type": "infinity:collision_portal",
+  "input": {
+    "item": "infinity:f4"
+  },
+  "lore": "recipe_info.portal.infinity.attuned",
+  "output": {
+    "item": "infinity:f4"
+  }
+}

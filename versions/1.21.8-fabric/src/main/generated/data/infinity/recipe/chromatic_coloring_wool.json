@@ -1,0 +1,8 @@
+{
+  "type": "infinity:chromatic_coloring",
+  "input": "#minecraft:wool",
+  "output": {
+    "count": 1,
+    "id": "infinity:chromatic_wool"
+  }
+}

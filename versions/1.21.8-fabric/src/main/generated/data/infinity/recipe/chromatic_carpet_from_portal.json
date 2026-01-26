@@ -1,0 +1,9 @@
+{
+  "type": "infinity:collision_portal",
+  "input": "#minecraft:wool_carpets",
+  "lore": "recipe_info.portal.infinity.color",
+  "output": {
+    "count": 1,
+    "id": "infinity:chromatic_carpet"
+  }
+}

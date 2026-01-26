@@ -1,7 +1,7 @@
 package net.lerariemann.infinity.util.platform.neoforge;
 
 //? neoforge {
-import net.lerariemann.infinity.compat.cloth.ClothConfigFactory;
+/*import net.lerariemann.infinity.compat.cloth.ClothConfigFactory;
 import net.minecraft.client.gui.screens.Screen;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.neoforge.client.gui.IConfigScreenFactory;
@@ -14,4 +14,4 @@ public class ModConfigFactory implements IConfigScreenFactory {
         return ClothConfigFactory.create(parent);
     }
 }
-//?}
+*///?}

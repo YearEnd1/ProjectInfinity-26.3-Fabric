@@ -2,7 +2,7 @@ package net.lerariemann.infinity.util.platform.fabric;
 
 //? fabric {
 
-/*import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
+import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.fabricmc.fabric.api.resource.ResourcePackActivationType;
 import net.fabricmc.loader.api.FabricLoader;
@@ -45,4 +45,4 @@ public class FabricEntrypoint implements ModInitializer {
                 ResourcePackActivationType.ALWAYS_ENABLED);
     }
 }
-*///?}
+//?}

@@ -1,0 +1,11 @@
+{
+  "type": "infinity:collision_portal",
+  "input": {
+    "item": "minecraft:amethyst_shard"
+  },
+  "lore": "recipe_info.portal.infinity.attuned",
+  "output": {
+    "count": 1,
+    "id": "infinity:key"
+  }
+}

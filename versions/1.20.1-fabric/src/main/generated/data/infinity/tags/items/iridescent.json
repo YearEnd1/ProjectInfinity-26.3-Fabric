@@ -1,0 +1,12 @@
+{
+  "replace": false,
+  "values": [
+    "infinity:iridescent_wool",
+    "infinity:iridescent_carpet",
+    "infinity:iridescence_bucket",
+    "infinity:iridescent_star",
+    "infinity:iridescent_potion",
+    "infinity:chromatic_potion",
+    "infinity:cosmic_altar"
+  ]
+}

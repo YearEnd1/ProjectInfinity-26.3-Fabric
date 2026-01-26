@@ -1,7 +1,7 @@
 package net.lerariemann.infinity.util.platform.fabric;
 
 //? fabric {
-/*import dev.architectury.registry.registries.RegistrySupplier;
+import dev.architectury.registry.registries.RegistrySupplier;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 //? if >1.21 {
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerWorldEvents;
@@ -10,8 +10,8 @@ import net.minecraft.core.component.DataComponentType;
 import net.minecraft.world.item.enchantment.ItemEnchantments;
 //?}
 //? if <1.21 {
-/^import net.fabricmc.fabric.api.event.lifecycle.v1.ServerWorldEvents;
- ^///?}
+/*import net.fabricmc.fabric.api.event.lifecycle.v1.ServerWorldEvents;
+ *///?}
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.fabricmc.fabric.api.registry.FlammableBlockRegistry;
@@ -86,52 +86,52 @@ public class FabricPlatformImpl implements InfinityPlatform {
 
     }
 
-    /^*
+    /**
      * On NeoForge, this allows the world to be ticked.
      * On Fabric, this invokes a server world event in Fabric API.
-     ^/
+     */
     public void onWorldLoad(Object mixin, ServerLevel world) {
         ServerWorldEvents.LOAD.invoker().onWorldLoad((MinecraftServer) mixin, world);
     }
 
-    /^*
+    /**
      * Check if a block is in the Black Dyed Conventional Tag.
-     ^/
+     */
     public boolean isInBlack(BlockState state) {
         //? if <1.21 {
-        /^return BuiltInRegistries.BLOCK.getKey(state.getBlock()).getPath().contains("black_");
-         ^///?} else {
+        /*return BuiltInRegistries.BLOCK.getKey(state.getBlock()).getPath().contains("black_");
+         *///?} else {
         return state.is(ConventionalBlockTags.BLACK_DYED);
          //?}
     }
 
-    /^*
+    /**
      * Check if a block is in the White Dyed Conventional Tag.
-     ^/
+     */
     public boolean isInWhite(BlockState state) {
         //? if <1.21 {
-        /^return BuiltInRegistries.BLOCK.getKey(state.getBlock()).getPath().contains("white_");
-         ^///?} else {
+        /*return BuiltInRegistries.BLOCK.getKey(state.getBlock()).getPath().contains("white_");
+         *///?} else {
         return state.is(ConventionalBlockTags.WHITE_DYED);
         //?}
     }
 
-    /^*
+    /**
      * Get the still variant of Iridescence fluid.
-     ^/
+     */
     public RegistrySupplier<? extends FlowingFluid> getIridescenceStill() {
         return ModFluidsFabric.IRIDESCENCE_STILL;
     }
-    /^*
+    /**
      * Get the flowing variant of Iridescence fluid.
-     ^/
+     */
     public RegistrySupplier<? extends FlowingFluid> getIridescenceFlowing() {
         return ModFluidsFabric.IRIDESCENCE_FLOWING;
     }
 
-    /^*
+    /**
      * Get the registry supplier for Iridescence fluid.
-     ^/
+     */
     public RegistrySupplier<LiquidBlock> getIridBlockForReg() {
         var properties = VersionMethods.copyBlockProperties(Blocks.WATER).mapColor(MapColor.COLOR_MAGENTA)
                 //? if >1.21.2
@@ -142,9 +142,9 @@ public class FabricPlatformImpl implements InfinityPlatform {
                         properties));
     }
 
-    /^*
+    /**
      * Read from the config path inside the mod JAR.
-     ^/
+     */
     @SuppressWarnings("for removal")
     public Path getRootPathInJar(String path) {
         ModContainer mc = FabricLoader.getInstance().getModContainer(InfinityMod.MOD_ID).orElse(null);
@@ -152,9 +152,9 @@ public class FabricPlatformImpl implements InfinityPlatform {
         return mc.getRootPaths().getFirst().resolve(path);
     }
 
-    /^*
+    /**
      * Create an Item Tag.
-     ^/
+     */
     public TagKey<Item> createItemTag(String id) {
         return TagKey.create(Registries.ITEM, InfinityMethods.getId(id));
     }
@@ -162,18 +162,18 @@ public class FabricPlatformImpl implements InfinityPlatform {
         return TagKey.create(Registries.BLOCK, InfinityMethods.getId(id));
     }
 
-    /^*
+    /**
      * Register a Flammable nameToElement (how does Architectury API not have a helper for this)
-     ^/
+     */
     public void registerFlammableBlock(RegistrySupplier<Block> block, int burn, int spread) {
         FlammableBlockRegistry.getDefaultInstance().add(block.get(), burn, spread);
     }
 
-    /^*
+    /**
      * Neoforge-exclusive method of testing if a mob is located in iridescence as far as fluid types are concerned.
      * Used only in mixins, to fix the neoforge loader stripping mobs of ability to swim in non-water fluids.
      * On Fabric, returns false.
-     ^/
+     */
     public boolean acidTest(Entity entity, boolean eyes) {
         return false;
     }
@@ -203,4 +203,3 @@ public class FabricPlatformImpl implements InfinityPlatform {
         return FabricLoader.getInstance().getGameDir();
     }
 }
-*/

@@ -127,6 +127,7 @@ neoForge {
             sourceSet(sourceSets["main"])
         }
     }
+    sourceSets["main"].resources.srcDir("src/main/generated")
 }
 
 dependencies {
@@ -159,6 +160,15 @@ dependencies {
 
 }
 
+tasks.named("processResources") {
+    dependsOn(":${stonecutter.current.project}:stonecutterGenerate")
+}
+
+tasks.register<Sync>("syncDatagen") {
+    from(project(":${minecraft}-fabric").tasks.named("runDatagen"))
+    exclude("**/.cache")
+    into(file("src/main/generated/"))
+}
 
 tasks {
     processResources {

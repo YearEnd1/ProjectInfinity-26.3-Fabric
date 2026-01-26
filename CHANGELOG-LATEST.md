@@ -1,1 +1,1 @@
-A crucial crash exclusive to Fabric 1.21.8 is fixed which was triggering a ConcurrentModificationException on every portal activation.
+- The mod now makes use of data generation, improving consistency between versions.

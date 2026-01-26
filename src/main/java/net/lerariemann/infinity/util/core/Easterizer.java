@@ -52,7 +52,7 @@ public class Easterizer {
                 }
             });
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            InfinityMod.LOGGER.error("Error reading easterizer.json file!", e);
         }
     }
 

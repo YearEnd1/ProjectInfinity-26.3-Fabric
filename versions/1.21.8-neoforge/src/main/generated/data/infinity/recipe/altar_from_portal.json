@@ -1,0 +1,9 @@
+{
+  "type": "infinity:collision_portal",
+  "input": "minecraft:lectern",
+  "lore": "empty",
+  "output": {
+    "count": 1,
+    "id": "infinity:altar"
+  }
+}

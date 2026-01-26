@@ -7,14 +7,14 @@ import com.simibubi.create.content.trains.track.TrackBlock;
 import com.simibubi.create.content.trains.track.TrackShape;
 import net.createmod.catnip.math.BlockFace;
 *///?} else if fabric {
-/*import com.zurrtum.create.api.contraption.train.PortalTrackProvider;
+import com.zurrtum.create.api.contraption.train.PortalTrackProvider;
 import com.zurrtum.create.catnip.math.BlockFace;
 import com.zurrtum.create.content.trains.track.AllPortalTracks;
 import com.zurrtum.create.content.trains.track.TrackBlock;
 import com.zurrtum.create.content.trains.track.TrackShape;
-*///?}
+//?}
 //? if <1.21.2 || fabric {
-/*import net.lerariemann.infinity.block.custom.RailHelper;
+import net.lerariemann.infinity.block.custom.RailHelper;
 import net.lerariemann.infinity.block.entity.InfinityPortalBlockEntity;
 import net.lerariemann.infinity.registry.core.ModBlocks;
 import net.lerariemann.infinity.util.InfinityMethods;
@@ -32,17 +32,17 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 
 import java.util.Optional;
 import java.util.Set;
-*///?}
+//?}
 
 public class CreateCompat {
     //? if <1.21.2 || fabric {
-    /*private static PortalTrackProvider.Exit infinityPortalProvider(ServerLevel worldFrom, BlockFace blockFace) {
+    private static PortalTrackProvider.Exit infinityPortalProvider(ServerLevel worldFrom, BlockFace blockFace) {
         MinecraftServer server = worldFrom.getServer();
         //? if <1.21
-        /^if (!server.isNetherEnabled()) return null;^/
+        /*if (!server.isNetherEnabled()) return null;*/
         //? if >1.21.9 {
-        /^server.getGameRules().getRule(GameRules.RULE_ALLOW_NETHER);
-        ^///?}
+        /*server.getGameRules().getRule(GameRules.RULE_ALLOW_NETHER);
+        *///?}
         BlockPos posFrom = blockFace.getConnectedPos();
         if (worldFrom.getBlockEntity(posFrom) instanceof InfinityPortalBlockEntity ipbe
                 && ipbe.isConnectedBothSides()) { //we only allow trains through if portals are in sync
@@ -141,5 +141,5 @@ public class CreateCompat {
         else bs = b.get().defaultBlockState().setValue(TrackBlock.SHAPE, e.shape.equals("zo") ? TrackShape.ZO : TrackShape.XO);
         world.setBlockAndUpdate(pos, bs);
     }
-    *///?}
+    //?}
 }

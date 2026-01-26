@@ -11,6 +11,15 @@ val accesswidener = "$minecraft.accesswidener"
 version = "${property("mod.version")}+${property("deps.minecraft")}"
 if (property("mod.test_build") != "0") version = "$version-tb${property("mod.test_build")}"
 
+val majorVersion = if (stonecutter.eval(stonecutter.current.version, ">=1.21.2")) {
+    22
+} else if (stonecutter.eval(stonecutter.current.version, ">=1.21")) {
+    21
+} else {
+    20
+}
+
+
 tasks.named<ProcessResources>("processResources") {
     fun prop(name: String) = project.property(name) as String
 
@@ -211,12 +220,11 @@ configurations.all {
 }
 
 
-//fabricApi {
-//    configureDataGeneration() {
-//        outputDirectory = file("$rootDir/src/main/generated")
-//        client = true
-//    }
-//}
+fabricApi {
+    configureDataGeneration {
+        client = true
+    }
+}
 
 tasks.named("processResources") {
     dependsOn(":${stonecutter.current.project}:stonecutterGenerate")

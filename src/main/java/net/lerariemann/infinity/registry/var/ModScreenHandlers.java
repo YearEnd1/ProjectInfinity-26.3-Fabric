@@ -21,7 +21,7 @@ public class ModScreenHandlers {
     public static void register() {
         SCREEN_HANDLERS.register();
         //? if fabric {
-        /*MenuScreens.register(F4.get(), F4Screen::new);
-        *///?}
+        MenuScreens.register(F4.get(), F4Screen::new);
+        //?}
     }
 }

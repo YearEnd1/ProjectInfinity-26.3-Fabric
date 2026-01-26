@@ -54,15 +54,15 @@ import static net.minecraft.world.entity.EntitySpawnReason.CONVERSION;
 import org.jetbrains.annotations.Nullable;
 
 //? if neoforge {
-import javax.annotation.ParametersAreNonnullByDefault;
+/*import javax.annotation.ParametersAreNonnullByDefault;
 
 
-//?}
+*///?}
 
 @MethodsReturnNonnullByDefault
 //? if neoforge {
-@ParametersAreNonnullByDefault
- //?}
+/*@ParametersAreNonnullByDefault
+ *///?}
 public class ChaosCreeper extends Creeper implements TintableEntity {
     public static EntityDataAccessor<Integer> color = SynchedEntityData.defineId(ChaosCreeper.class, EntityDataSerializers.INT);
     public static EntityDataAccessor<Float> range = SynchedEntityData.defineId(ChaosCreeper.class, EntityDataSerializers.FLOAT);

@@ -1,11 +1,11 @@
 package net.lerariemann.infinity.util.platform;
 
 //? fabric {
-/*import net.lerariemann.infinity.util.platform.fabric.FabricPlatformImpl;
-*///?}
-//? neoforge {
-import net.lerariemann.infinity.util.platform.neoforge.NeoForgePlatformImpl;
+import net.lerariemann.infinity.util.platform.fabric.FabricPlatformImpl;
 //?}
+//? neoforge {
+/*import net.lerariemann.infinity.util.platform.neoforge.NeoForgePlatformImpl;
+*///?}
 import dev.architectury.registry.registries.RegistrySupplier;
 import net.lerariemann.infinity.registry.var.ModPayloads;
 import net.minecraft.nbt.CompoundTag;
@@ -15,6 +15,7 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.ItemEnchantments;
 //?}
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -75,11 +76,11 @@ public interface InfinityPlatform {
     }
 
     //? fabric {
-    /*InfinityPlatform INSTANCE = new FabricPlatformImpl();
-     *///?}
+    InfinityPlatform INSTANCE = new FabricPlatformImpl();
+     //?}
     //? neoforge {
-    InfinityPlatform INSTANCE = new NeoForgePlatformImpl();
-    //?}
+    /*InfinityPlatform INSTANCE = new NeoForgePlatformImpl();
+    *///?}
     //? forge {
     /*InfinityPlatform INSTANCE = new ForgePlatformImpl();
      *///?}

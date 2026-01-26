@@ -24,13 +24,13 @@ import net.minecraft.world.level.block.state.properties.Half;
 import net.minecraft.world.level.levelgen.SurfaceRules;
 
 //? if neoforge
-import javax.annotation.ParametersAreNonnullByDefault;
+/*import javax.annotation.ParametersAreNonnullByDefault;*/
 
 import static net.lerariemann.infinity.InfinityMod.MOD_ID;
 
 @MethodsReturnNonnullByDefault
 //? if neoforge
-@ParametersAreNonnullByDefault
+/*@ParametersAreNonnullByDefault*/
 public class ModMaterialRules {
     static int normalize(int x, int size) {
         int a = Math.abs(x < 0 ? x+1 : x) % size;

@@ -1,7 +1,7 @@
 package net.lerariemann.infinity.util.platform.neoforge;
 
 //? neoforge {
-import net.lerariemann.infinity.InfinityMod;
+/*import net.lerariemann.infinity.InfinityMod;
 //? if >1.21.4 {
 import net.lerariemann.infinity.compat.ModCompat;
 import net.lerariemann.infinity.compat.rrv.RrvIntegration;
@@ -45,9 +45,9 @@ public class InfinityModNeoforge {
         ModFluidsNeoforge.registerModFluids();
         ModEffectsNeoforge.register(eventBus);
         //? if <1.21.2 {
-        /*if (InfinityPlatform.INSTANCE.isModLoaded("create"))
+        /^if (InfinityPlatform.INSTANCE.isModLoaded("create"))
             net.lerariemann.infinity.compat.CreateCompat.register();
-        *///?}
+        ^///?}
     }
 
     @SubscribeEvent
@@ -94,8 +94,8 @@ public class InfinityModNeoforge {
     public static MinecraftServer getServerFromPlayer(IPayloadContext context) {
         ServerPlayer player = getPlayer(context);
         //? if >1.21.9 {
-        /*return player.level().getServer();
-        *///?} else {
+        /^return player.level().getServer();
+        ^///?} else {
         return player.getServer();
         //?}
     }
@@ -145,4 +145,4 @@ public class InfinityModNeoforge {
         );
     }
 }
-//?}
+*///?}

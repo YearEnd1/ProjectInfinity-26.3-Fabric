@@ -105,13 +105,13 @@ public interface InfinityMethods {
             return InfinityMethods.isBiomeInfinity(acc, pos);
         }
         //? if fabric {
-        /*else return InfinityPlatform.INSTANCE.isFabric()
+        else return InfinityPlatform.INSTANCE.isFabric()
                 && world.hasBiomes()
                 && world.getBiomeFabric(pos) != null
                 && InfinityMethods.isBiomeInfinity(world.getBiomeFabric(pos));
-        *///?} else {
-        return false;
-        //?}
+        //?} else {
+        /*return false;
+        *///?}
     }
 
     static int properMod(int a, int b) {

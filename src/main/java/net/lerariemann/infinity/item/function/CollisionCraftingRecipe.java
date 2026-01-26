@@ -27,11 +27,11 @@ import net.minecraft.resources.ResourceLocation;
 *///?}
 import net.minecraft.world.level.Level;
 
-public abstract class CollisionCraftingRecipe implements Recipe
+public abstract class CollisionCraftingRecipe
         //? if >1.21 {
-        <SingleRecipeInput>
+        implements Recipe<SingleRecipeInput>
         //?} else {
-        /*<ContainerSingleItem>
+        /*implements Recipe<ContainerSingleItem>
         *///?}
          {
     //? if =1.20.1 {

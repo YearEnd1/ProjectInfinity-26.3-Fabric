@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "B": {
+      "item": "minecraft:black_concrete"
+    },
+    "L": {
+      "item": "minecraft:lime_concrete"
+    },
+    "S": {
+      "item": "infinity:star_of_lang"
+    }
+  },
+  "pattern": [
+    "BLB",
+    "LSL",
+    "BLB"
+  ],
+  "result": {
+    "count": 8,
+    "id": "infinity:cursor"
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "type": "infinity:collision_iridescence",
+  "input": "infinity:chromatic_wool",
+  "lore": "empty",
+  "output": {
+    "count": 1,
+    "id": "infinity:iridescent_wool"
+  }
+}

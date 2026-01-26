@@ -51,16 +51,16 @@ import static net.minecraft.world.entity.EntitySpawnReason.CONVERSION;
 import org.jetbrains.annotations.Nullable;
 
 //? if neoforge {
-import javax.annotation.ParametersAreNonnullByDefault;
-//?}
+/*import javax.annotation.ParametersAreNonnullByDefault;
+*///?}
 import java.util.*;
 
 
 
 @MethodsReturnNonnullByDefault
 //? if neoforge {
-@ParametersAreNonnullByDefault
-//?}
+/*@ParametersAreNonnullByDefault
+*///?}
 public class ChaosSkeleton extends Skeleton implements TintableEntity {
     private static final EntityDataAccessor<String> effect = SynchedEntityData.defineId(ChaosSkeleton.class, EntityDataSerializers.STRING);
     private static final EntityDataAccessor<Integer> color = SynchedEntityData.defineId(ChaosSkeleton.class, EntityDataSerializers.INT);

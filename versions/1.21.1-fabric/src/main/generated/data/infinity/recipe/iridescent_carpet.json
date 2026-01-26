@@ -1,0 +1,11 @@
+{
+  "type": "infinity:collision_iridescence",
+  "input": {
+    "item": "infinity:chromatic_carpet"
+  },
+  "lore": "empty",
+  "output": {
+    "count": 1,
+    "id": "infinity:iridescent_carpet"
+  }
+}

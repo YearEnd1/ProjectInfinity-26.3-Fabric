@@ -36,10 +36,10 @@ public class RailHelper extends BaseEntityBlock {
     @Override
     public void tick(BlockState state, ServerLevel world, BlockPos pos, RandomSource random) {
         //? if <1.21.2 || fabric {
-        /*if (ModCompat.CREATE) {
+        if (ModCompat.CREATE) {
             CreateCompat.reattachRails(world, pos, getBlockEntity(world, pos));
         }else
-        *///?}
+        //?}
             world.setBlockAndUpdate(pos, Blocks.AIR.defaultBlockState());
     }
 

@@ -1,7 +1,7 @@
 package net.lerariemann.infinity.util.platform.neoforge;
 
 //? neoforge {
-import net.lerariemann.infinity.InfinityMod;
+/*import net.lerariemann.infinity.InfinityMod;
 import net.lerariemann.infinity.InfinityModClient;
 import net.lerariemann.infinity.compat.ModCompat;
 import net.lerariemann.infinity.registry.var.ModPayloads;
@@ -72,7 +72,7 @@ public class InfinityModNeoForgeClient {
         event.register(InfinityMethods::getBookBoxColor, ModBlocks.BOOK_BOX.get());
     }
     //? if <1.21.4 {
-    /*@SubscribeEvent
+    /^@SubscribeEvent
     public static void registerItemColorHandlers(RegisterColorHandlersEvent.Item event) {
         event.register(InfinityMethods::getOverlayColorFromComponents,
                 ModItems.TRANSFINITE_KEY.get(),
@@ -86,7 +86,7 @@ public class InfinityModNeoForgeClient {
         event.register(InfinityMethods::getDiscColorFromComponents,
                 ModItems.DISC.get());
     }
-    *///?} else {
+    ^///?} else {
     @SubscribeEvent
     public static void registerItemColorHandlers(RegisterColorHandlersEvent.ItemTintSources event) {
         event.register(InfinityMethods.getId("color"), InfinityTintSource.MAP_CODEC);
@@ -107,9 +107,9 @@ public class InfinityModNeoForgeClient {
         ItemBlockRenderTypes.setRenderLayer(InfinityPlatform.INSTANCE.getIridescenceStill().get(), ChunkSectionLayer.TRANSLUCENT);
         ItemBlockRenderTypes.setRenderLayer(InfinityPlatform.INSTANCE.getIridescenceFlowing().get(), ChunkSectionLayer.TRANSLUCENT);
         //?} else {
-        /*ItemBlockRenderTypes.setRenderLayer(InfinityPlatform.INSTANCE.getIridescenceStill().get(), RenderType.translucent());
+        /^ItemBlockRenderTypes.setRenderLayer(InfinityPlatform.INSTANCE.getIridescenceStill().get(), RenderType.translucent());
         ItemBlockRenderTypes.setRenderLayer(InfinityPlatform.INSTANCE.getIridescenceFlowing().get(), RenderType.translucent());
-        *///?}
+        ^///?}
     }
 
     @SubscribeEvent
@@ -140,4 +140,4 @@ public class InfinityModNeoForgeClient {
         }, FluidTypes.IRIDESCENCE_TYPE.value());
     }
 }
-//?}
+*///?}

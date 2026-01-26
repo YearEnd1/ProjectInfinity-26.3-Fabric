@@ -36,10 +36,10 @@ public interface NbtUtils {
 
     static Collection<String> keys(ValueInput tag) {
         //? if neoforge {
-        return tag.keySet();
-        //?} else {
-        /*return tag.keys();
-         *///?}
+        /*return tag.keySet();
+        *///?} else {
+        return tag.keys();
+         //?}
     }
     static boolean compoundHasString(ValueInput tag, String dimension) {
         return tag.getString(dimension).isPresent();

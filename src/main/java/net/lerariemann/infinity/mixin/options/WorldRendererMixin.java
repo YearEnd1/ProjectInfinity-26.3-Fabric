@@ -28,10 +28,10 @@ import net.minecraft.client.renderer.*;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 //? if >1.21.2 && neoforge {
-import net.neoforged.neoforge.client.IRenderableSection;
+/*import net.neoforged.neoforge.client.IRenderableSection;
 import net.neoforged.neoforge.client.event.RenderLevelStageEvent;
 import net.neoforged.neoforge.common.NeoForge;
-//?}
+*///?}
 import net.minecraft.client.renderer.LevelRenderer;
 import org.joml.Matrix4f;
 import org.spongepowered.asm.mixin.Final;
@@ -132,9 +132,9 @@ public abstract class WorldRendererMixin implements WorldRendererAccess {
     @Shadow @Final private RenderBuffers renderBuffers;
     //?}
     //? if >1.21.2 && neoforge {
-    @Shadow public abstract Frustum getFrustum();
+    /*@Shadow public abstract Frustum getFrustum();
     @Shadow public abstract Iterable<? extends IRenderableSection> getRenderableSections();
-    //?}
+    *///?}
     //? if >1.21.2 {
     @Unique SkyRenderer infinity$sky;
     @Inject(method = "<init>", at = @At("TAIL"))
@@ -143,13 +143,13 @@ public abstract class WorldRendererMixin implements WorldRendererAccess {
     }
     //?}
     //? if >1.21.2 && neoforge {
-    @Inject(method = "addSkyPass(Lcom/mojang/blaze3d/framegraph/FrameGraphBuilder;Lnet/minecraft/client/Camera;FLcom/mojang/blaze3d/buffers/GpuBufferSlice;Lorg/joml/Matrix4f;)V", at = @At("HEAD"), cancellable = true)
+    /*@Inject(method = "addSkyPass(Lcom/mojang/blaze3d/framegraph/FrameGraphBuilder;Lnet/minecraft/client/Camera;FLcom/mojang/blaze3d/buffers/GpuBufferSlice;Lorg/joml/Matrix4f;)V", at = @At("HEAD"), cancellable = true)
     void inj(FrameGraphBuilder frameGraphBuilder, Camera camera, float partialTick, GpuBufferSlice shaderFog, Matrix4f modelViewMatrix, CallbackInfo ci) {
-    //?}
-    //? if >1.21.2 && fabric {
-    /*@Inject(method = "Lnet/minecraft/client/renderer/LevelRenderer;addSkyPass(Lcom/mojang/blaze3d/framegraph/FrameGraphBuilder;Lnet/minecraft/client/Camera;FLcom/mojang/blaze3d/buffers/GpuBufferSlice;)V", at = @At("HEAD"), cancellable = true)
-    void inj(FrameGraphBuilder frameGraphBuilder, Camera camera, float partialTick, GpuBufferSlice shaderFog, CallbackInfo ci) {
     *///?}
+    //? if >1.21.2 && fabric {
+    @Inject(method = "Lnet/minecraft/client/renderer/LevelRenderer;addSkyPass(Lcom/mojang/blaze3d/framegraph/FrameGraphBuilder;Lnet/minecraft/client/Camera;FLcom/mojang/blaze3d/buffers/GpuBufferSlice;)V", at = @At("HEAD"), cancellable = true)
+    void inj(FrameGraphBuilder frameGraphBuilder, Camera camera, float partialTick, GpuBufferSlice shaderFog, CallbackInfo ci) {
+    //?}
     //? if >1.21.2 {
     
         InfinityOptions options = infinity$options();
@@ -167,9 +167,9 @@ public abstract class WorldRendererMixin implements WorldRendererAccess {
     //?}
 //? if >1.21.2 && neoforge {
     
-                        if (!this.level.effects().renderSky(this.level, ticks, partialTick, modelViewMatrix, camera,
+                        /*if (!this.level.effects().renderSky(this.level, ticks, partialTick, modelViewMatrix, camera,
                                 () -> RenderSystem.setShaderFog(shaderFog))) {
-    //?}
+    *///?}
 //? if >1.21.2 {
     
                             RenderSystem.setShaderFog(shaderFog);
@@ -177,11 +177,11 @@ public abstract class WorldRendererMixin implements WorldRendererAccess {
     //?}
 //? if >1.21.2 && neoforge {
     
-                            Profiler.get().push("neoforge_render_after_sky");
+                            /*Profiler.get().push("neoforge_render_after_sky");
                             NeoForge.EVENT_BUS.post(new RenderLevelStageEvent.AfterSky(this.level, (LevelRenderer)(Object)this, (PoseStack)null, modelViewMatrix, this.ticks, this.minecraft.getDeltaTracker(), camera, this.getFrustum(), this.getRenderableSections()));
                             Profiler.get().pop();
                         }
-    //?}
+    *///?}
 //? if >1.21.2 {
     
                     });

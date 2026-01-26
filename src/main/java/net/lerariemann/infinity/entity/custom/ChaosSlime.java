@@ -46,8 +46,8 @@ import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import org.jetbrains.annotations.Nullable;
 
 //? if neoforge {
-import javax.annotation.ParametersAreNonnullByDefault;
-//?}
+/*import javax.annotation.ParametersAreNonnullByDefault;
+*///?}
 import java.util.Optional;
 import java.util.Random;
 import java.util.function.BiConsumer;
@@ -55,8 +55,8 @@ import java.util.function.Function;
 
 @MethodsReturnNonnullByDefault
 //? if neoforge {
-@ParametersAreNonnullByDefault
-//?}
+/*@ParametersAreNonnullByDefault
+*///?}
 public class ChaosSlime extends Slime implements TintableEntity {
     public static final EntityDataAccessor<BlockState> core = SynchedEntityData.defineId(ChaosSlime.class, EntityDataSerializers.BLOCK_STATE);
     public static final EntityDataAccessor<Integer> color = SynchedEntityData.defineId(ChaosSlime.class, EntityDataSerializers.INT);

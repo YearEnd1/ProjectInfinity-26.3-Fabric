@@ -29,6 +29,9 @@
     ],
     "rrv": [
       "net.lerariemann.infinity.compat.rrv.RrvIntegration"
+    ],
+    "fabric-datagen": [
+      "net.lerariemann.infinity.data.InfinityDataGenerator"
     ]
   },
   "mixins": [

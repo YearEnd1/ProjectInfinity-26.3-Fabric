@@ -286,10 +286,10 @@ public interface PortalCreator {
                 .addModifier(npbe -> npbe.setOpen(open))
                 .addModifier(BlockEntity::setChanged);
         //? if <1.21.2 || fabric {
-        /*if (ModCompat.CREATE) {
+        if (ModCompat.CREATE) {
             union.addModifier(CreateCompat::tryModifyRails);
         }
-        *///?}
+        //?}
         return union;
     }
 

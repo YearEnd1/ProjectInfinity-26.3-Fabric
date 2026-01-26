@@ -216,6 +216,10 @@ tasks.named<Jar>("jar") {
     }
 }
 
+tasks.register<Sync>("syncDatagen") {
+    from(project(":${minecraft}-fabric").tasks.named("runDatagen"))
+    into(file("src/main/generated/"))
+}
 
 tasks {
     processResources {

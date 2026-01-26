@@ -18,8 +18,8 @@ import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.state.BlockState;
 //? if >1.21.6 && neoforge {
-import net.neoforged.neoforge.client.RenderTypeHelper;
-//?}
+/*import net.neoforged.neoforge.client.RenderTypeHelper;
+*///?}
 
 public class DimensionalSlimeCoreRenderer extends
 
@@ -100,10 +100,10 @@ public class DimensionalSlimeCoreRenderer extends
         *///?} else if >1.21.6 {
         ModelBlockRenderer.renderModel(matrices.last(), vertexConsumers.getBuffer(
                 //? if neoforge {
-                RenderTypeHelper.getMovingBlockRenderType(ItemBlockRenderTypes.getChunkRenderType(coreState))),
-                //?} else {
-                /*ItemBlockRenderTypes.getMovingBlockRenderType(coreState)),
-                *///?}
+                /*RenderTypeHelper.getMovingBlockRenderType(ItemBlockRenderTypes.getChunkRenderType(coreState))),
+                *///?} else {
+                ItemBlockRenderTypes.getMovingBlockRenderType(coreState)),
+                //?}
                 coreModel,1.0f, 1.0f, 1.0f, light, overlay);
          //?} else {
         /*this.blockRenderManager.getModelRenderer().renderModel(matrices.last(), vertexConsumers.getBuffer(ItemBlockRenderTypes.getChunkRenderType(coreState)), coreState, coreModel, 1.0f, 1.0f, 1.0f, light, overlay);

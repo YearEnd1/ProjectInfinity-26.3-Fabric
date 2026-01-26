@@ -1,7 +1,0 @@
-{
-  "type": "infinity:chromatic_coloring",
-  "input":"#minecraft:wool_carpets",
-  "output": {
-    "id": "infinity:chromatic_carpet"
-  }
-}
