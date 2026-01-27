@@ -203,6 +203,8 @@ public class InfinityRecipeProvider extends FabricRecipeProvider {
 		color(ItemTags.WOOL, CHROMATIC_WOOL).save(output, "infinity:chromatic_coloring_wool");
 		color(ItemTags.WOOL_CARPETS, CHROMATIC_CARPET).save(output, "infinity:chromatic_coloring_carpet");
 		new BiomeBottleCombiningRecipeBuilder().save(output, "infinity:biome_bottle_combining");
+		new ChromaCarpetRecipeBuilder().save(output, "infinity:chromatic_carpet_from_wool");
+		new F4RechargingRecipeBuilder().save(output, "infinity:f4_recharging");
 
 		// end recipes
 		}
