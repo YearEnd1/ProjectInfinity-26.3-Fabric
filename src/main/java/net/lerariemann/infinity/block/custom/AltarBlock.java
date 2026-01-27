@@ -130,11 +130,6 @@ public class AltarBlock extends Block {
             ModCriteria.BIOME_BOTTLE.get().trigger(player, bbbe);
             bbbe.startTicking();
         }
-        //bishop miniboss battle
-        if (world.getBlockState(pos.above()).is(ModBlocks.ANT.get())) {
-            world.removeBlock(pos.above(), false);
-            (new BishopBattle(world)).start(pos.above());
-        }
     }
 
     @Override

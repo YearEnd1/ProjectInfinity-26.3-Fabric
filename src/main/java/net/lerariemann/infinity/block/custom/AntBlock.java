@@ -1,7 +1,9 @@
 package net.lerariemann.infinity.block.custom;
 
+import net.lerariemann.infinity.registry.core.ModBlocks;
 import net.lerariemann.infinity.util.platform.InfinityPlatform;
 import net.lerariemann.infinity.util.VersionMethods;
+import net.lerariemann.infinity.util.var.BishopBattle;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -148,7 +150,13 @@ public class AntBlock extends HorizontalDirectionalBlock {
     }
     @Override
     public void onPlace(BlockState state, Level world, BlockPos pos, BlockState oldState, boolean notify) {
-        world.scheduleTick(pos, this, 1);
+        //bishop miniboss battle
+        if (world instanceof ServerLevel level && world.getBlockState(pos.below()).is(ModBlocks.ALTAR.get())) {
+            world.removeBlock(pos, false);
+            world.removeBlock(pos.below(), false);
+            (new BishopBattle(level)).start(pos.below());
+        }
+        else world.scheduleTick(pos, this, 1);
     }
 
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
