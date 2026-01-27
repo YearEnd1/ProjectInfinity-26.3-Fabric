@@ -198,7 +198,6 @@ public class InfinityRecipeProvider extends FabricRecipeProvider {
 		iridescence(CHROMATIC_MATTER, CHROMATIC_MATTER, "recipe_info.iridescence.infinity.chromatic_matter").save(output);
 		portal(AMETHYST_SHARD, TRANSFINITE_KEY.get(), "recipe_info.portal.infinity.attuned").save(output, "infinity:key_from_portal");
 		iridescence(TRANSFINITE_KEY, TRANSFINITE_KEY, "recipe_info.iridescence.infinity.key").save(output, "infinity:key_from_iridescence");
-		portal(NOTE_BLOCK, NOTES_BLOCK_ITEM.get()).save(output);
 		portal(TNT, TIME_BOMB_ITEM.get()).save(output, "infinity:timebomb_from_portal");
 		color(ItemTags.WOOL, CHROMATIC_WOOL).save(output, "infinity:chromatic_coloring_wool");
 		color(ItemTags.WOOL_CARPETS, CHROMATIC_CARPET).save(output, "infinity:chromatic_coloring_carpet");

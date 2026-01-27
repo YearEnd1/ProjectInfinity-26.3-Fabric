@@ -78,7 +78,6 @@ public class ModItemGroups {
             addAfter(event, LECTERN, ModItems.ALTAR_ITEM.get());
             addAfter(event, LODESTONE, ModItems.ANT_ITEM.get());
             addAfter(event, CHISELED_BOOKSHELF, ModItems.BOOK_BOX_ITEM.get());
-            addAfter(event, NOTE_BLOCK, ModItems.NOTES_BLOCK_ITEM.get());
             addAfter(event, VAULT, ModItems.TIME_BOMB_ITEM.get());
         } else if (equals(creativeModeTab, CreativeModeTabs.INGREDIENTS)) {
             addAfter(event, DISC_FRAGMENT_5, ModItems.FOOTPRINT.get());

@@ -27,6 +27,7 @@ import net.minecraft.world.level.*;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
 import net.minecraft.world.level.levelgen.LegacyRandomSource;
 import net.minecraft.world.level.levelgen.synth.NormalNoise;
 //? if <1.21 {
@@ -325,5 +326,10 @@ public interface InfinityMethods {
         } while (false);
 
         return 1.0;
+    }
+
+    static NoteBlockInstrument getRandomInstrument() {
+        NoteBlockInstrument[] instruments = NoteBlockInstrument.values();
+        return instruments[InfinityMod.random.nextInt(instruments.length-7)];
     }
 }

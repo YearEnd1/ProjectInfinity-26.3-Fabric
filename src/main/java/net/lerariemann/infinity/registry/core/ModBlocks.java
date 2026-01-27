@@ -60,8 +60,6 @@ public class ModBlocks {
             IridescentKelpBlock::new, (VersionMethods.copyBlockProperties(Blocks.KELP).mapColor(MapColor.COLOR_MAGENTA)));
     public static final RegistrySupplier<IridescentKelpBlock.Plant> IRIDESCENT_KELP_PLANT = register("iridescent_kelp_plant",
             IridescentKelpBlock.Plant::new, (VersionMethods.copyBlockProperties(Blocks.KELP).mapColor(MapColor.COLOR_MAGENTA)));
-    public static final RegistrySupplier<Block> NOTES_BLOCK = register("notes_block", 
-            NotesBlock::new, (VersionMethods.copyBlockProperties(Blocks.NOTE_BLOCK).randomTicks()));
     public static final RegistrySupplier<RailHelper> RAIL_HELPER = register("rail_helper",
             RailHelper::new, (BlockBehaviour.Properties.of().strength(-1.0F, 3600000.8F).mapColor(MapColor.NONE)
                     .noLootTable().noOcclusion().isValidSpawn((state, getter, pos, type)-> false).pushReaction(PushReaction.BLOCK)
