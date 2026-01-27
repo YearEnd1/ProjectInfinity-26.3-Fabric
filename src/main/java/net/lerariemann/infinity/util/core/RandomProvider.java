@@ -1,7 +1,9 @@
 package net.lerariemann.infinity.util.core;
 
 import net.lerariemann.infinity.InfinityMod;
+import net.lerariemann.infinity.registry.var.ModMaterialRules;
 import net.lerariemann.infinity.util.VersionMethods;
+import net.lerariemann.infinity.util.teleport.InfinityPortal;
 import net.lerariemann.infinity.util.var.ColorLogic;
 import net.minecraft.core.Registry;
 import net.minecraft.core.RegistryAccess;
@@ -107,6 +109,11 @@ public class RandomProvider {
             return ws.getElement(ws.getName(d), key.getConverter());
         }
         return key.fromName(key.getDef());
+    }
+
+    public void updateDependencies() {
+        ModMaterialRules.RandomBlockMaterialRule.setProvider(this);
+        InfinityPortal.useFootprintsFlag = rule("useFootprints");
     }
 
     void registerAll() {

@@ -12,6 +12,7 @@
     "enforceModLoadedChecks": true,
     "forceLowercase": false,
     "iridSafeMode": false,
+    "useFootprints": true,
     "maxBiomeCount": 6,
     "maxStructureCount": 4,
     "maxDimensionScale": 0,

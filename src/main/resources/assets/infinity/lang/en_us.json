@@ -98,6 +98,7 @@
   "error.infinity.portal.null": "This dimension does not exist. This is a bug, please contact Lera",
   "error.infinity.portal.deleted": "This dimension ceased to exist. It can be restored after reloading the world",
   "error.infinity.portal.closed": "This portal is closed; use a key (%s) to open it",
+  "error.infinity.portal.footprint": "This portal is exit-only",
   "error.infinity.portal.matching_ends": "This portal leads to itself",
   "error.infinity.portal.cannot_create": "Unable to create an exit portal, likely target out of world border",
   "error.infinity.portal.unexpected": "An unexpected teleportation error has occurred, please contact Lera",

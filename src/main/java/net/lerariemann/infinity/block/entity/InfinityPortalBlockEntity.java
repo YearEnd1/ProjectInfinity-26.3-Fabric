@@ -85,6 +85,7 @@ public class InfinityPortalBlockEntity extends TintableBlockEntity {
     }
     @Nullable
     public BlockPos getOtherSidePos() { return this.otherSidePos; }
+    public boolean isFootprint() { return this.dimension.getNamespace().equals("footprint"); }
 
     public void setDimension(long c) {
         setColor((int)c);

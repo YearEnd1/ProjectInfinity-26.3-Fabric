@@ -11,8 +11,9 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import java.awt.Color;
 import java.util.Random;
+import java.util.function.Function;
 
-public interface PortalColorApplier {
+public interface PortalColorApplier extends Function<BlockPos, Integer> {
     static PortalColorApplier of(ResourceLocation id, MinecraftServer server) {
         return of(id, InfinityOptions.readData(server, id));
     }
@@ -39,18 +40,18 @@ public interface PortalColorApplier {
         };
     }
 
-    int apply(BlockPos pos);
+    Integer apply(BlockPos pos);
 
     record Simple(int value) implements PortalColorApplier {
         @Override
-        public int apply(BlockPos pos) {
+        public Integer apply(BlockPos pos) {
             return value;
         }
     }
 
     record Checker(ListTag values) implements PortalColorApplier {
         @Override
-        public int apply(BlockPos pos) {
+        public Integer apply(BlockPos pos) {
             int mod = InfinityMethods.properMod(pos.getX() + pos.getY() + pos.getZ(), values.size());
             return NbtUtils.getInt(values, mod);
         }
@@ -59,7 +60,7 @@ public interface PortalColorApplier {
     enum RandomColor implements PortalColorApplier {
         INSTANCE;
         @Override
-        public int apply(BlockPos pos) {
+        public Integer apply(BlockPos pos) {
             return (new Random(pos.hashCode())).nextInt();
         }
     }
@@ -72,7 +73,7 @@ public interface PortalColorApplier {
         }
 
         @Override
-        public int apply(BlockPos pos) {
+        public Integer apply(BlockPos pos) {
             float hue = (pos.getX() + pos.getY() + pos.getZ()) / detail;
             return Color.HSBtoRGB(hue - (int)hue, saturation, brightness) & 0xFFFFFF;
         }

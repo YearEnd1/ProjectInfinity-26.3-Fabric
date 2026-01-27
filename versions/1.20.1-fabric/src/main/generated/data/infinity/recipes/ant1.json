@@ -3,10 +3,10 @@
   "category": "building",
   "key": {
     "B": {
-      "item": "minecraft:black_concrete"
+      "item": "infinity:black_matter"
     },
     "W": {
-      "item": "minecraft:white_concrete"
+      "item": "infinity:white_matter"
     }
   },
   "pattern": [

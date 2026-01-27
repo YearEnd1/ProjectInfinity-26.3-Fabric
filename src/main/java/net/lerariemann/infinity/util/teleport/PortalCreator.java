@@ -14,6 +14,7 @@ import net.lerariemann.infinity.dimensions.RandomDimension;
 import net.lerariemann.infinity.registry.core.ModItems;
 import net.lerariemann.infinity.registry.var.ModSounds;
 import net.lerariemann.infinity.util.InfinityMethods;
+import net.lerariemann.infinity.util.VersionMethods;
 import net.lerariemann.infinity.util.core.CommonIO;
 import net.lerariemann.infinity.util.core.NbtUtils;
 import net.lerariemann.infinity.util.loading.DimensionGrabber;
@@ -60,6 +61,7 @@ import java.nio.file.Path;
 import java.util.*;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
+import java.util.function.Function;
 
 import static net.lerariemann.infinity.InfinityMod.MOD_ID;
 import static net.lerariemann.infinity.compat.ComputerCraftCompat.checkPrintedPage;
@@ -74,10 +76,18 @@ public interface PortalCreator {
         ItemStack itemStack = entity.getItem();
 
         /* Check if the item provided is a transfinite key. */
-        if (entity.getItem().getItem().equals(ModItems.TRANSFINITE_KEY.get())) {
+        if (itemStack.getItem().equals(ModItems.TRANSFINITE_KEY.get())) {
             ResourceLocation key_dest = ModItems.TRANSFINITE_KEY.get().getDestinationParsed(itemStack, world);
             boolean bl = modifyOnInitialCollision(key_dest, world, pos);
             if (bl) entity.remove(Entity.RemovalReason.CHANGED_DIMENSION);
+            return;
+        }
+
+        if (InfinityPortal.useFootprintsFlag && itemStack.getItem().equals(ModItems.FOOTPRINT.get())) {
+            ResourceLocation key_dest = VersionMethods.id("footprint", "footprint");
+            modifyPortalRecursive(world, pos, forInitialSetupping(world, pos, key_dest, (p) -> 0x8F8F86, false));
+            entity.remove(Entity.RemovalReason.CHANGED_DIMENSION);
+            playSound(world, pos, SoundEvents.UI_CARTOGRAPHY_TABLE_TAKE_RESULT);
             return;
         }
 
@@ -279,10 +289,14 @@ public interface PortalCreator {
 
     static PortalModifierUnion forInitialSetupping(ServerLevel world, BlockPos pos, ResourceLocation id, boolean open) {
         PortalColorApplier applier = PortalColorApplier.of(id, world.getServer());
+        return forInitialSetupping(world, pos, id, applier, open);
+    }
+    static PortalModifierUnion forInitialSetupping(ServerLevel world, BlockPos pos,
+                                                   ResourceLocation id, Function<BlockPos, Integer> colorApplier, boolean open) {
         PortalModifierUnion union = new PortalModifierUnion()
                 .addSetupper(infPortalSetupper(world, pos))
                 .addModifier(nbpe -> nbpe.setDimension(id))
-                .addModifier(npbe -> npbe.setColor(applier.apply(npbe.getBlockPos())))
+                .addModifier(npbe -> npbe.setColor(colorApplier.apply(npbe.getBlockPos())))
                 .addModifier(npbe -> npbe.setOpen(open))
                 .addModifier(BlockEntity::setChanged);
         //? if <1.21.2 || fabric {

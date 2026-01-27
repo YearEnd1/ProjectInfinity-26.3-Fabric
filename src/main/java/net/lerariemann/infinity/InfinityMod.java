@@ -30,7 +30,9 @@ public class InfinityMod {
         RandomProvider p = new RandomProvider(server);
         p.kickGhostsOut(server.registryAccess());
         provider = p;
-        if (!((MinecraftServerAccess)server).infinity$needsInvocation()) ModMaterialRules.RandomBlockMaterialRule.setProvider(p);
+        if (!((MinecraftServerAccess)server).infinity$needsInvocation()) {
+            provider.updateDependencies();
+        }
     }
 
     public static void init() {

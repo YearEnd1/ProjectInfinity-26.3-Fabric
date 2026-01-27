@@ -209,7 +209,7 @@ public class InfinityPortalBlock extends NetherPortalBlock implements EntityBloc
                 if (isRecipe) {
                     bl.set(true);
                 }
-                else InfinityMod.provider.getPortalKeyAsItem().ifPresent(item -> { //opening a portal by tossing a key in
+                else if (!ipbe.isFootprint()) InfinityMod.provider.getPortalKeyAsItem().ifPresent(item -> { //opening a portal by tossing a key in
                     if (e.getItem().is(item)) {
                         InfinityPortal.tryUpdateOpenStatus(ipbe, world, pos, server);
                         if (ipbe.isOpen()) return;
@@ -224,7 +224,9 @@ public class InfinityPortalBlock extends NetherPortalBlock implements EntityBloc
                 });
             }
             if (entity instanceof Player player
-                    && InfinityMod.provider.isPortalKeyBlank()) {
+                    && !player.isOnPortalCooldown()
+                    && InfinityMod.provider.isPortalKeyBlank()
+                    && !ipbe.isFootprint()) {
                 ServerLevel world1 = server.getLevel(ResourceKey.create(Registries.DIMENSION, ipbe.getDimension()));
                 if ((world1 == null) || !ipbe.isOpen()) {
                     PortalCreator.openWithStatIncrease(player, server, world, pos);

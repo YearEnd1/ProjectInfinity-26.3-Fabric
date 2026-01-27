@@ -10,18 +10,15 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.server.level.TicketType;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.ai.village.poi.PoiManager;
 import net.minecraft.world.entity.ai.village.poi.PoiRecord;
 import net.minecraft.world.entity.ai.village.poi.PoiTypes;
-import net.minecraft.world.level.ChunkPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.NetherPortalBlock;
 import net.minecraft.world.level.block.state.BlockState;
@@ -34,8 +31,10 @@ import net.minecraft.world.level.portal.TeleportTransition;
 /*import net.minecraft.world.level.portal.DimensionTransition;
 *///?} else {
 /*import net.minecraft.world.level.portal.PortalInfo;
-*///?}
+import net.minecraft.server.level.TicketType;
 import net.minecraft.world.level.portal.PortalShape;
+import net.minecraft.world.level.ChunkPos;
+*///?}
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Comparator;
@@ -51,12 +50,18 @@ public class InfinityPortal {
     @Nullable BlockUtil.FoundRectangle portalTo;
     boolean unableToCreatePortalFlag = false;
     boolean noSyncFlag = false;
+    boolean footprintFlag = false;
+    public static boolean useFootprintsFlag = true;
 
     public InfinityPortal(InfinityPortalBlockEntity ipbe, ServerLevel worldFrom, BlockPos startingPos) {
         this.ipbe = ipbe;
         this.worldFrom = worldFrom;
         portalFrom = getRect(worldFrom, startingPos);
         posFrom = lowerCenterPos(portalFrom, worldFrom);
+        if (ipbe.isFootprint()) {
+            footprintFlag = true;
+            return;
+        }
         worldTo = worldFrom.getServer().getLevel(ResourceKey.create(Registries.DIMENSION, ipbe.getDimension()));
         tryUpdateOpenStatus(ipbe, worldFrom, startingPos, worldTo);
 
@@ -135,14 +140,18 @@ public class InfinityPortal {
     }
 
     public boolean portalShouldWork() {
-        return (InfinityMethods.dimExists(worldTo) //dimension exists and is not timebombed
+        return (!footprintFlag //the portal is not exit only
+                && InfinityMethods.dimExists(worldTo) //dimension exists and is not timebombed
                 && ipbe.isOpen() //the portal is not closed
                 && !worldTo.dimension().equals(worldFrom.dimension())); //the portal does not lead back to its own dimension
     }
 
     /** If teleportation failed for any reason, this sends the reason to the player. */
     public void sendErrors(ServerPlayer player) {
-        if (worldTo != null) {
+        if (footprintFlag) {
+            player.sendSystemMessage(Component.translatable("error.infinity.portal.footprint"));
+        }
+        else if (worldTo != null) {
             if (worldTo.dimension().equals(worldFrom.dimension()))
                 player.sendSystemMessage(Component.translatable("error.infinity.portal.matching_ends"));
             else if (InfinityMethods.isTimebombed(worldTo))
@@ -203,6 +212,12 @@ public class InfinityPortal {
         return (worldTo.getBlockEntity(posTo) instanceof InfinityPortalBlockEntity ipbeTo
                 && ipbeTo.getDimension().toString().equals(worldFrom.dimension().location().toString()));
     }
+    /** Filter for footprint infinity portals. */
+    public static boolean isFootprint(ServerLevel worldTo, BlockPos posTo) {
+        if (posTo == null || !InfinityMethods.dimExists(worldTo)) return false;
+        return (worldTo.getBlockEntity(posTo) instanceof InfinityPortalBlockEntity ipbeTo
+                && ipbeTo.isFootprint());
+    }
 
     /** Filling in the blanks asserting the portal is correctly synced */
     private void scanExistingTarget() {
@@ -259,15 +274,26 @@ public class InfinityPortal {
                 .min(Comparator.comparingDouble(posTo -> posTo.distSqr(originOfTesting)));
         if (portal.isPresent()) return portal;
 
-        //If one wasn't found, find a nether portal instead and ensure it will not be overwritten
-        portal = poiStorage.getInSquare(poiType ->
-                                poiType.is(PoiTypes.NETHER_PORTAL),
-                        originOfTesting, radiusOfTesting, PoiManager.Occupancy.ANY)
-                .map(PoiRecord::getPos)
-                .filter(wbTo::isWithinBounds)
-                .min(Comparator.comparingDouble(posTo -> posTo.distSqr(originOfTesting)));
-        noSyncFlag = portal.isPresent(); //if a nether portal indeed was found we do not wish to overwrite it
-
+        if (useFootprintsFlag) {
+            //scan for footprint portals to absorb connection
+            portal = poiStorage.getInSquare(poiType ->
+                                    poiType.is(ModPoi.NEITHER_PORTAL_KEY),
+                            originOfTesting, radiusOfTesting, PoiManager.Occupancy.ANY)
+                    .map(PoiRecord::getPos)
+                    .filter(wbTo::isWithinBounds)
+                    .filter(pos -> isFootprint(worldTo, pos))
+                    .min(Comparator.comparingDouble(posTo -> posTo.distSqr(originOfTesting)));
+        }
+        else {
+            //if an infinity portal wasn't found, find a nether portal instead to absorb connection
+            portal = poiStorage.getInSquare(poiType ->
+                                    poiType.is(PoiTypes.NETHER_PORTAL),
+                            originOfTesting, radiusOfTesting, PoiManager.Occupancy.ANY)
+                    .map(PoiRecord::getPos)
+                    .filter(wbTo::isWithinBounds)
+                    .min(Comparator.comparingDouble(posTo -> posTo.distSqr(originOfTesting)));
+        }
+        noSyncFlag = portal.isPresent(); //if an absorbing exit portal was found we do not wish to overwrite it
         return portal;
     }
 
