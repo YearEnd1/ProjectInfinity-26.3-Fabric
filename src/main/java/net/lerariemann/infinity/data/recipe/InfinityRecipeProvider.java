@@ -5,6 +5,7 @@ package net.lerariemann.infinity.data.recipe;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
 import net.lerariemann.infinity.item.function.CollisionCraftingRecipe;
+import net.lerariemann.infinity.registry.core.ModItems;
 import net.lerariemann.infinity.registry.var.ModTags;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -59,7 +60,7 @@ public class InfinityRecipeProvider extends FabricRecipeProvider {
 		shaped(RecipeCategory.REDSTONE, ALTAR_ITEM.get())
 			.pattern("SSS")
 			.pattern(" B ")
-			.pattern(" B ")
+			.pattern(" S ")
 			.define('S', STONE_SLAB)
 			.define('B', BOOK_BOX_ITEM.get())
 			// Create an advancement that gives you the recipe
@@ -81,10 +82,9 @@ public class InfinityRecipeProvider extends FabricRecipeProvider {
 			.pattern("WBW")
 			.pattern("B B")
 			.pattern("WBW")
-			.define('W', WHITE_CONCRETE)
-			.define('B', BLACK_CONCRETE)
-			// Create an advancement that gives you the recipe
-			.unlockedBy(getHasName(STAR_OF_LANG.get()), has(STAR_OF_LANG.get()))
+			.define('W', WHITE_MATTER.get())
+			.define('B', BLACK_MATTER.get())
+			.unlockedBy(getHasName(WHITE_MATTER.get()), has(WHITE_MATTER.get()))
 			.save(output, "infinity:ant1");
 
 		shaped(MISC, COSMIC_ALTAR_ITEM.get())

@@ -78,16 +78,6 @@ public abstract class MinecraftServerMixin extends ReentrantBlockableEventLoop<T
         return null;
     }
 
-    @Shadow
-    //? if >1.21.2 {
-    public
-    //?} else {
-    /*protected
-    *///?}
-    TickTask wrapRunnable(Runnable runnable) {
-        return null;
-    }
-
     @Shadow public abstract RegistryAccess.Frozen registryAccess();
 
     @Unique
@@ -121,7 +111,8 @@ public abstract class MinecraftServerMixin extends ReentrantBlockableEventLoop<T
         InfinityMod.updateProvider((MinecraftServer)(Object)this);
     }
 
-    /* Ensure newly created dimensions are accessible, will tick, etc. */
+    /** Creates the body of the newly added dimension and schedules it to be loaded
+     * (ensuring it will be accessible, tick, etc.) */
     @Override
     public void infinity$addWorld(ResourceKey<Level> key, LevelStem options) {
         ServerLevelData serverWorldProperties = worldData.overworldData();
@@ -152,8 +143,9 @@ public abstract class MinecraftServerMixin extends ReentrantBlockableEventLoop<T
         infinity$worldsToAdd.put(key, world);
     }
 
+    /** Loads the scheduled dimensions. */
     @Inject(method="tickChildren", at=@At("TAIL"))
-    void inj(BooleanSupplier hasTimeLeft, CallbackInfo ci) {
+    void loadDimensions(BooleanSupplier hasTimeLeft, CallbackInfo ci) {
         if (!infinity$worldsToAdd.isEmpty()) {
             for (ResourceKey<Level> key: infinity$worldsToAdd.keySet()) {
                 ServerLevel world = infinity$worldsToAdd.get(key);
@@ -173,14 +165,13 @@ public abstract class MinecraftServerMixin extends ReentrantBlockableEventLoop<T
         return (infinity$worldsToAdd.containsKey(key));
     }
 
-    /* Makes weather properly work in infdims. */
+    /** Makes weather properly work in infdims. */
     //? if >1.21.9 {
     /*@Redirect(method="createLevels", at=@At(value="NEW", target="(Lnet/minecraft/server/MinecraftServer;Ljava/util/concurrent/Executor;Lnet/minecraft/world/level/storage/LevelStorageSource$LevelStorageAccess;Lnet/minecraft/world/level/storage/ServerLevelData;Lnet/minecraft/resources/ResourceKey;Lnet/minecraft/world/level/dimension/LevelStem;ZJLjava/util/List;ZLnet/minecraft/world/RandomSequences;)Lnet/minecraft/server/level/ServerLevel;"))
     *///?} else {
     @Redirect(method="createLevels", at=@At(value="NEW", target="(Lnet/minecraft/server/MinecraftServer;Ljava/util/concurrent/Executor;Lnet/minecraft/world/level/storage/LevelStorageSource$LevelStorageAccess;Lnet/minecraft/world/level/storage/ServerLevelData;Lnet/minecraft/resources/ResourceKey;Lnet/minecraft/world/level/dimension/LevelStem;Lnet/minecraft/server/level/progress/ChunkProgressListener;ZJLjava/util/List;ZLnet/minecraft/world/RandomSequences;)Lnet/minecraft/server/level/ServerLevel;"))
     //?}
-
-    public ServerLevel create(MinecraftServer server, Executor workerExecutor, LevelStorageSource.LevelStorageAccess session, ServerLevelData properties, ResourceKey<Level> worldKey, LevelStem dimensionOptions,
+    public ServerLevel fixWeatherCreation(MinecraftServer server, Executor workerExecutor, LevelStorageSource.LevelStorageAccess session, ServerLevelData properties, ResourceKey<Level> worldKey, LevelStem dimensionOptions,
                               //? if <1.21.9
                               ChunkProgressListener worldGenerationProgressListener,
                               boolean debugWorld, long seed, List<CustomSpawner> spawners, boolean shouldTickTime, RandomSequences randomSequencesState) {
