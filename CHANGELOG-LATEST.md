@@ -6,3 +6,4 @@
 
 ### Fixes
 - Corals no longer crash world generation. (Cass)
+- Custom packets are correctly registered on the client. (Cass, 1.21.1 Neoforge)

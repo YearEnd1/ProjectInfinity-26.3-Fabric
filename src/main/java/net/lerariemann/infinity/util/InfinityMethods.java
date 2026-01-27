@@ -260,6 +260,8 @@ public interface InfinityMethods {
         if (name.contains("infinity:generated_"))
             return Component.translatable("tooltip.infinity.key.generated")
                     .append(name.replace("infinity:generated_", ""));
+        if (name.contains("footprint:"))
+            return Component.translatable("tooltip.infinity.key.exit");
         if (name.equals(InfinityMethods.ofRandomDim))
             return Component.translatable("tooltip.infinity.key.randomise");
         // All other dimensions.
