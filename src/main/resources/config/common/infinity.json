@@ -1,5 +1,5 @@
 {
-  "infinity_version": 2005000,
+  "infinity_version": 2006000,
   "gameRules": {
     "safeMode": false,
     "longArithmeticEnabled": false,
@@ -22,7 +22,7 @@
     "resetChargeCooldown": 6000
   },
   "disabledDimensions": ["ant", "bash", "checkerboard",
-    "missing", "notes", "perfection", "terminal"],
+    "missing", "perfection", "terminal"],
   "portalKey": "",
   "salt": "",
   "rootChances": {

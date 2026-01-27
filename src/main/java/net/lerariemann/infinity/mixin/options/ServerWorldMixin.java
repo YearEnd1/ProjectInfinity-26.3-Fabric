@@ -2,12 +2,13 @@ package net.lerariemann.infinity.mixin.options;
 
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.sugar.Local;
+import net.lerariemann.infinity.InfinityMod;
 import net.lerariemann.infinity.access.InfinityOptionsAccess;
 import net.lerariemann.infinity.access.Timebombable;
 import net.lerariemann.infinity.options.InfinityOptions;
-import net.lerariemann.infinity.registry.core.ModBlocks;
 import net.lerariemann.infinity.util.InfinityMethods;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.core.Holder;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.resources.ResourceKey;
@@ -16,13 +17,16 @@ import net.minecraft.server.level.ServerLevel;
 //? if <1.21.9 {
 import net.minecraft.server.level.progress.ChunkProgressListener;
 //?}
-import net.minecraft.util.profiling.ProfilerFiller;
+//? if <1.21.2
+/*import net.minecraft.util.profiling.ProfilerFiller;
+*/
 import net.minecraft.world.RandomSequences;
 import net.minecraft.world.level.CustomSpawner;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.SignalGetter;
 import net.minecraft.world.level.WorldGenLevel;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.chunk.LevelChunk;
 import net.minecraft.world.level.chunk.LevelChunkSection;
 import net.minecraft.world.level.dimension.DimensionType;
@@ -32,6 +36,7 @@ import net.minecraft.world.level.storage.LevelStorageSource;
 import net.minecraft.world.level.storage.ServerLevelData;
 import net.minecraft.world.level.storage.WritableLevelData;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -43,7 +48,9 @@ import java.util.function.BooleanSupplier;
 import java.util.function.Supplier;
 
 @Mixin(ServerLevel.class)
-public abstract class ServerWorldMixin extends Level implements WorldGenLevel, InfinityOptionsAccess, Timebombable {
+public abstract class ServerWorldMixin extends Level implements WorldGenLevel, InfinityOptionsAccess, Timebombable, SignalGetter {
+    @Shadow public abstract void updateNeighborsAt(BlockPos pos, Block block);
+
     @Unique
     public InfinityOptions infinity$options;
     @Unique
@@ -93,13 +100,16 @@ public abstract class ServerWorldMixin extends Level implements WorldGenLevel, I
     @Inject(method = "tickChunk", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/material/FluidState;isRandomlyTicking()Z"))
     void inj(LevelChunk chunk, int randomTickSpeed, CallbackInfo ci, @Local BlockState bs, @Local BlockPos blockPos2, @Local FluidState fs) {
         if (infinity$options.isHaunted() && random.nextInt(200) < (int)(Math.floor(getMoonBrightness() * 4))) {
-            if (bs.isAir()) {
-                setBlockAndUpdate(blockPos2, ModBlocks.HAUNTED_AIR.get().defaultBlockState());
-            }
-            else if (bs.hasProperty(BlockStateProperties.NOTE)) {
-                setBlockAndUpdate(blockPos2, bs.setValue(BlockStateProperties.NOTE, random.nextInt(24)));
-            }
+            updateNeighborsAt(blockPos2, bs.getBlock());
         }
+    }
+
+    @Override
+    public int getSignal(BlockPos pos, Direction direction) {
+        if (infinity$options.isHaunted() && InfinityMod.random.nextFloat() > 0.9f) return InfinityMod.random.nextInt(16);
+        BlockState blockState = this.getBlockState(pos);
+        int i = blockState.getSignal(this, pos, direction);
+        return blockState.isRedstoneConductor(this, pos) ? Math.max(i, this.getDirectSignalTo(pos)) : i;
     }
 
     @Override

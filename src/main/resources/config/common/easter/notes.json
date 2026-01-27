@@ -1,5 +1,5 @@
 {
-  "infinity_version": 2004002,
+  "infinity_version": 2006000,
   "options": {
     "haunted": true
   },
@@ -12,7 +12,7 @@
       "layers": [
         {
           "height": 1,
-          "block": "infinity:notes_block"
+          "block": "minecraft:note_block"
         }
       ]
     }

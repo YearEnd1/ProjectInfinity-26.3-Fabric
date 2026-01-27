@@ -62,8 +62,6 @@ public class ModBlocks {
             IridescentKelpBlock.Plant::new, (VersionMethods.copyBlockProperties(Blocks.KELP).mapColor(MapColor.COLOR_MAGENTA)));
     public static final RegistrySupplier<Block> NOTES_BLOCK = register("notes_block", 
             NotesBlock::new, (VersionMethods.copyBlockProperties(Blocks.NOTE_BLOCK).randomTicks()));
-    public static final RegistrySupplier<Block> HAUNTED_AIR = BLOCKS.register("haunted_air",
-            ()-> new HauntedBlock(Blocks.AIR));
     public static final RegistrySupplier<RailHelper> RAIL_HELPER = register("rail_helper",
             RailHelper::new, (BlockBehaviour.Properties.of().strength(-1.0F, 3600000.8F).mapColor(MapColor.NONE)
                     .noLootTable().noOcclusion().isValidSpawn((state, getter, pos, type)-> false).pushReaction(PushReaction.BLOCK)

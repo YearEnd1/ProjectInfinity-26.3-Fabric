@@ -58,6 +58,7 @@
     "mobs.SpawnRestrictionMixin",
     "mobs.TropicalFishEntityMixin",
     "options.DimensionTypeMixin",
+    "options.NoteBlockMixin",
     "options.PlayerManagerMixin",
     "options.ServerWorldMixin",
     "qol.BlockEntityTypeMixin",
