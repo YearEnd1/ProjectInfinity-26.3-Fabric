@@ -3,8 +3,8 @@ package net.lerariemann.infinity.iridescence;
 import dev.architectury.registry.registries.RegistrySupplier;
 import net.lerariemann.infinity.InfinityMod;
 import net.lerariemann.infinity.registry.core.ModEntities;
-import net.lerariemann.infinity.registry.var.ModPayloads;
 import net.lerariemann.infinity.registry.core.ModStatusEffects;
+import net.lerariemann.infinity.registry.payload.s2c.ShaderS2CPayload;
 import net.lerariemann.infinity.registry.var.ModCriteria;
 import net.lerariemann.infinity.registry.var.ModStats;
 import net.lerariemann.infinity.registry.var.ModTags;
@@ -30,7 +30,6 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.*;
-import net.minecraft.world.entity.ai.targeting.TargetingConditions;
 import net.minecraft.world.entity.animal.AbstractFish;
 import net.minecraft.world.entity.monster.Slime;
 import net.minecraft.world.entity.player.Player;
@@ -59,6 +58,7 @@ import java.util.Random;
 import static net.minecraft.world.entity.EntitySpawnReason.CONVERSION;
 //?} else {
 /*import static net.minecraft.world.entity.MobSpawnType.CONVERSION;
+import net.minecraft.world.entity.ai.targeting.TargetingConditions;
 *///?}
 
 public interface Iridescence {
@@ -208,7 +208,7 @@ public interface Iridescence {
     }
 
     static void loadShader(ServerPlayer player) {
-        ModPayloads.sendShaderPayload(player, player.
+        ShaderS2CPayload.sendTo(player, player.
                 //? if >1.21.2 {
                 level()
                 //?} else {
@@ -217,7 +217,7 @@ public interface Iridescence {
                 , true);
     }
     static void unloadShader(ServerPlayer player) {
-        ModPayloads.sendShaderPayload(player, player.
+        ShaderS2CPayload.sendTo(player, player.
                 //? if >1.21.2 {
                 level()
                 //?} else {

@@ -12,6 +12,8 @@ import net.lerariemann.infinity.block.custom.InfinityPortalBlock;
 import net.lerariemann.infinity.block.entity.InfinityPortalBlockEntity;
 import net.lerariemann.infinity.dimensions.RandomDimension;
 import net.lerariemann.infinity.registry.core.ModItems;
+import net.lerariemann.infinity.registry.payload.s2c.BiomeAddS2CPayload;
+import net.lerariemann.infinity.registry.payload.s2c.WorldAddS2CPayload;
 import net.lerariemann.infinity.registry.var.ModSounds;
 import net.lerariemann.infinity.util.InfinityMethods;
 import net.lerariemann.infinity.util.VersionMethods;
@@ -20,9 +22,7 @@ import net.lerariemann.infinity.util.core.NbtUtils;
 import net.lerariemann.infinity.util.loading.DimensionGrabber;
 import net.lerariemann.infinity.options.PortalColorApplier;
 import net.lerariemann.infinity.registry.var.ModCriteria;
-import net.lerariemann.infinity.registry.var.ModPayloads;
 import net.lerariemann.infinity.registry.var.ModStats;
-import net.lerariemann.infinity.util.platform.InfinityPlatform;
 import net.minecraft.BlockUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -30,7 +30,10 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.item.component.WritableBookContent;
 import net.minecraft.world.item.component.WrittenBookContent;
-//?}
+//?} else {
+/*import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Items;
+*///?}
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
@@ -48,9 +51,7 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.NetherPortalBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -336,8 +337,8 @@ public interface PortalCreator {
      * Create and send S2C packets necessary for the client to process a freshly added dimension.
      */
     static void sendNewWorld(ServerPlayer player, ResourceLocation id, RandomDimension d) {
-        d.random_biomes.forEach(b -> new ModPayloads.BiomeAddS2CPayload(InfinityMethods.getId(b.name), b.data).send(player));
-        new ModPayloads.WorldAddS2CPayload(id, d.type != null ? d.type.data : new CompoundTag()).send(player);
+        d.random_biomes.forEach(b -> new BiomeAddS2CPayload(InfinityMethods.getId(b.name), b.data).send(player));
+        new WorldAddS2CPayload(id, d.type != null ? d.type.data : new CompoundTag()).send(player);
     }
 
     /**

@@ -3,6 +3,7 @@ package net.lerariemann.infinity.util.loading;
 import com.mojang.serialization.Codec;
 import net.lerariemann.infinity.access.RegistryAccess;
 import net.lerariemann.infinity.dimensions.RandomDimension;
+import net.lerariemann.infinity.registry.payload.ModPayloads;
 import net.lerariemann.infinity.util.VersionMethods;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.Registry;
@@ -90,7 +91,7 @@ public class DimensionGrabber {
     /**
      * Inserts one object into one registry. Used on the client to insert individual dimension types and biomes when the server asks it to, since the client
      * does not know or care about everything else a dimension datapack holds.
-     * @see net.lerariemann.infinity.registry.var.ModPayloads
+     * @see ModPayloads
      */
     public static <T> void grabObjectForClient(Minecraft client, Codec<T> codec, ResourceKey<Registry<T>> registryKey,
                                            ResourceLocation id, CompoundTag data) {

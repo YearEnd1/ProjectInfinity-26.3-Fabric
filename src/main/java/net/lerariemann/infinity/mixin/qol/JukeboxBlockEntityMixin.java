@@ -4,7 +4,7 @@ package net.lerariemann.infinity.mixin.qol;
 /*import net.lerariemann.infinity.InfinityMod;
 import net.lerariemann.infinity.item.DiscItem;
 import net.lerariemann.infinity.registry.core.ModItems;
-import net.lerariemann.infinity.registry.var.ModPayloads;
+import net.lerariemann.infinity.registry.payload.s2c.PlayJukeboxS2CPayload;
 import net.lerariemann.infinity.util.VersionMethods;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -52,8 +52,8 @@ public abstract class JukeboxBlockEntityMixin extends BlockEntity implements Con
         isPlaying = true;
         this.level.updateNeighborsAt(this.getBlockPos(), this.getBlockState().getBlock());
         if (level instanceof ServerLevel level1) {
-            ModPayloads.PlayJukeboxS2CPayload payload =
-                    new ModPayloads.PlayJukeboxS2CPayload(getBlockPos(), soundEffect,
+            PlayJukeboxS2CPayload payload =
+                    new PlayJukeboxS2CPayload(getBlockPos(), soundEffect,
                             VersionMethods.getOrDefaultString(disc, "sound_sub", "empty"));
             PlayerList L = level1.getServer().getPlayerList();
             for(int i = 0; i < L.getPlayers().size(); ++i) {

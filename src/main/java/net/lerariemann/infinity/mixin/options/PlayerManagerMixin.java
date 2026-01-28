@@ -3,13 +3,17 @@ package net.lerariemann.infinity.mixin.options;
 import com.llamalad7.mixinextras.sugar.Local;
 import net.lerariemann.infinity.InfinityMod;
 import net.lerariemann.infinity.access.MinecraftServerAccess;
+import net.lerariemann.infinity.registry.payload.s2c.ShaderS2CPayload;
+import net.lerariemann.infinity.registry.payload.s2c.SoundPackS2CPayload;
+import net.lerariemann.infinity.registry.payload.s2c.StarsS2CPayload;
 import net.lerariemann.infinity.util.config.ConfigGenInvocation;
 import net.lerariemann.infinity.util.core.CommonIO;
 import net.lerariemann.infinity.util.core.RandomProvider;
 import net.lerariemann.infinity.util.teleport.WarpLogic;
-import net.lerariemann.infinity.registry.var.ModPayloads;
 import net.minecraft.core.LayeredRegistryAccess;
-import net.minecraft.nbt.CompoundTag;
+//? if <1.21 {
+/*import net.minecraft.nbt.CompoundTag;
+*///?}
 import net.minecraft.network.Connection;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.RegistryLayer;
@@ -78,8 +82,8 @@ public class PlayerManagerMixin {
     /*private void injected(Connection connection, ServerPlayer player, CallbackInfo ci, @Local(ordinal=0) ServerLevel serverWorld2) {
     *///?}
         if (serverWorld2 == null) return;
-        ModPayloads.sendShaderPayload(player, serverWorld2);
-        ModPayloads.sendStarsPayload(player);
+        ShaderS2CPayload.sendTo(player, serverWorld2);
+        StarsS2CPayload.sendTo(player);
         MinecraftServerAccess acc = ((MinecraftServerAccess)(serverWorld2.getServer()));
         if (acc.infinity$needsInvocation()) {
             ConfigGenInvocation.invokeOn(player);
@@ -87,20 +91,20 @@ public class PlayerManagerMixin {
         if (RandomProvider.rule("useSoundSyncPackets")) {
             //? if <1.21 {
             /*if (!acc.infinity$hasJukeboxes()) {
-                new ModPayloads.SoundPackS2CPayload(new CompoundTag()).send(player);
+                new SoundPackS2CPayload(new CompoundTag()).send(player);
                 InfinityMod.LOGGER.info("Requesting sound pack from client");
                 return;
             }
             *///?}
             InfinityMod.LOGGER.info("Sending sound pack to client");
-            new ModPayloads.SoundPackS2CPayload(CommonIO.read(
+            new SoundPackS2CPayload(CommonIO.read(
                     player.level().getServer().getWorldPath(LevelResource.DATAPACK_DIR).resolve("client_sound_pack_data.json"))).send(player);
         }
     }
 
     @Inject(method="sendLevelInfo", at = @At("TAIL"))
     private void sendInfinityLevelInfo(ServerPlayer player, ServerLevel world, CallbackInfo ci) {
-        ModPayloads.sendShaderPayload(player, world);
-        ModPayloads.sendStarsPayload(player);
+        ShaderS2CPayload.sendTo(player, world);
+        StarsS2CPayload.sendTo(player);
     }
 }

@@ -9,14 +9,11 @@ import net.lerariemann.infinity.compat.rrv.RrvIntegration;
 import net.lerariemann.infinity.registry.core.ModBlocks;
 import net.lerariemann.infinity.registry.core.ModEntities;
 import net.lerariemann.infinity.registry.core.ModItemFunctions;
-import net.lerariemann.infinity.registry.var.ModPayloads;
+import net.lerariemann.infinity.registry.payload.ModPayloads;
 import net.lerariemann.infinity.registry.var.ModStats;
 import net.lerariemann.infinity.util.InfinityMethods;
-import net.lerariemann.infinity.util.config.SoundScanner;
 import net.lerariemann.infinity.util.platform.InfinityPlatform;
 import net.minecraft.network.chat.Component;
-import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.packs.PackType;
 import net.minecraft.server.packs.repository.Pack;
 import net.minecraft.server.packs.repository.PackSource;
@@ -29,8 +26,6 @@ import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.neoforge.event.AddPackFindersEvent;
 import net.neoforged.neoforge.event.entity.RegisterSpawnPlacementsEvent;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
-import net.neoforged.neoforge.network.handling.IPayloadContext;
-import net.neoforged.neoforge.network.registration.PayloadRegistrar;
 
 import static net.lerariemann.infinity.InfinityMod.MOD_ID;
 
@@ -87,62 +82,9 @@ public class InfinityModNeoforge {
         //?}
     }
 
-    public static ServerPlayer getPlayer(IPayloadContext context) {
-        return ((ServerPlayer)context.player());
-    }
-
-    public static MinecraftServer getServerFromPlayer(IPayloadContext context) {
-        ServerPlayer player = getPlayer(context);
-        //? if >1.21.9 {
-        /^return player.level().getServer();
-        ^///?} else {
-        return player.getServer();
-        //?}
-    }
-
     @SubscribeEvent
     public static void registerServerPayloads(final RegisterPayloadHandlersEvent event) {
-        final PayloadRegistrar registrar = event.registrar("1");
-        registrar.playToServer(
-                ModPayloads.F4UpdateC2SPayload.ID,
-                ModPayloads.F4UpdateC2SPayload.CODEC,
-                (payload, context) -> payload.receive(getPlayer(context))
-        );
-        registrar.playToServer(
-                ModPayloads.F4DeployC2SPayload.ID,
-                ModPayloads.F4DeployC2SPayload.CODEC,
-                (payload, context) -> payload.receive(getPlayer(context))
-        );
-        registrar.playToServer(
-                ModPayloads.JukeboxesC2SPayload.ID,
-                ModPayloads.JukeboxesC2SPayload.CODEC,
-                (payload, context) -> payload.receive(getPlayer(context))
-        );
-        registrar.playToClient(
-                ModPayloads.WorldAddS2CPayload.ID,
-                ModPayloads.WorldAddS2CPayload.CODEC,
-                (payload, context) -> payload.receive()
-        );
-        registrar.playToClient(
-                ModPayloads.BiomeAddS2CPayload.ID,
-                ModPayloads.BiomeAddS2CPayload.CODEC,
-                (payload, context) -> payload.receive()
-        );
-        registrar.playToClient(
-                ModPayloads.ShaderS2CPayload.ID,
-                ModPayloads.ShaderS2CPayload.CODEC,
-                (payload, context) -> payload.receive()
-        );
-        registrar.playToClient(
-                ModPayloads.StarsS2CPayload.ID,
-                ModPayloads.StarsS2CPayload.CODEC,
-                (payload, context) -> payload.receive()
-        );
-        registrar.playToClient(
-                ModPayloads.SoundPackS2CPayload.ID,
-                ModPayloads.SoundPackS2CPayload.CODEC,
-                (payload, context) -> payload.receive()
-        );
+        ModPayloads.registerNeoforge(event);
     }
 }
 *///?}

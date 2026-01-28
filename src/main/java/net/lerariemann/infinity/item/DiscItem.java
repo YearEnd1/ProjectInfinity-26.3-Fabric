@@ -42,12 +42,12 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.item.*;
 //? if <1.21.5 {
 /*import net.minecraft.world.InteractionResultHolder;
+import java.util.List;
 *///?} else {
 import net.minecraft.world.item.component.TooltipDisplay;
 //?}
 import net.minecraft.world.entity.player.Player;
 
-import java.util.List;
 import java.util.function.Consumer;
 
 public class DiscItem
@@ -59,8 +59,8 @@ extends Item
 {
     public static String emptySubtitle = "subtitles.music.missing";
     //? if <1.21 {
-/*
-    public static int defaultDuration = 185;
+
+    /*public static int defaultDuration = 185;
 
     public DiscItem(Properties builder) {
         super(15, SoundEvents.MUSIC_DISC_CAT, builder, 185);

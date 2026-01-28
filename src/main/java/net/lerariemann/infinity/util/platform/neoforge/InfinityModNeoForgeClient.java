@@ -4,7 +4,7 @@ package net.lerariemann.infinity.util.platform.neoforge;
 /*import net.lerariemann.infinity.InfinityMod;
 import net.lerariemann.infinity.InfinityModClient;
 import net.lerariemann.infinity.compat.ModCompat;
-import net.lerariemann.infinity.registry.var.ModPayloads;
+import net.lerariemann.infinity.registry.payload.ModPayloads;
 import net.lerariemann.infinity.registry.var.ModScreenHandlers;
 import net.lerariemann.infinity.util.VersionMethods;
 import net.lerariemann.infinity.util.config.SoundScanner;

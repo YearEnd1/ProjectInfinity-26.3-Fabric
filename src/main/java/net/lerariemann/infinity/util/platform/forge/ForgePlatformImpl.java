@@ -5,22 +5,19 @@ package net.lerariemann.infinity.util.platform.forge;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.lerariemann.infinity.registry.core.ModBlocks;
-import net.lerariemann.infinity.registry.var.ModPayloads;
+import net.lerariemann.infinity.registry.payload.FriendlyPacket;
 import net.lerariemann.infinity.util.InfinityMethods;
 import net.lerariemann.infinity.util.VersionMethods;
 import net.lerariemann.infinity.util.platform.InfinityPlatform;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.FireBlock;
@@ -61,11 +58,11 @@ public class ForgePlatformImpl implements InfinityPlatform {
     public void registerPayloadsServer() {};
     @Override
     public void registerPayloadsClient() {};
-    public void sendS2CPayload(ServerPlayer entity, ModPayloads.FriendlyPacket payload) {
+    public void sendS2CPayload(ServerPlayer entity, FriendlyPacket payload) {
         ServerPlayNetworking.send(entity, payload);
     }
 
-    public void sendC2SPayload(ModPayloads.FriendlyPacket payload) {
+    public void sendC2SPayload(FriendlyPacket payload) {
         ClientPlayNetworking.send(payload);
     }
 

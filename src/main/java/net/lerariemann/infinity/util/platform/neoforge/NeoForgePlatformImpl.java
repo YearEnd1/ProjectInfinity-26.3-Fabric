@@ -4,7 +4,8 @@ package net.lerariemann.infinity.util.platform.neoforge;
 /*import dev.architectury.registry.registries.RegistrySupplier;
 import net.lerariemann.infinity.registry.core.ModBlocks;
 import net.lerariemann.infinity.registry.core.ModItems;
-import net.lerariemann.infinity.registry.var.ModPayloads;
+import net.lerariemann.infinity.registry.payload.FriendlyPacket;
+import net.lerariemann.infinity.registry.payload.ModPayloads;
 import net.lerariemann.infinity.util.InfinityMethods;
 import net.lerariemann.infinity.util.VersionMethods;
 import net.lerariemann.infinity.util.platform.InfinityPlatform;
@@ -76,12 +77,12 @@ public class NeoForgePlatformImpl implements InfinityPlatform {
     public void registerPayloadsClient() {}
 
     @Override
-    public void sendS2CPayload(ServerPlayer entity, ModPayloads.FriendlyPacket payload) {
+    public void sendS2CPayload(ServerPlayer entity, FriendlyPacket payload) {
         PacketDistributor.sendToPlayer(entity, payload);
     }
 
     @Override
-    public void sendC2SPayload(ModPayloads.FriendlyPacket payload) {
+    public void sendC2SPayload(FriendlyPacket payload) {
         //? <1.21.2 {
         /^PacketDistributor.sendToServer(payload);
         ^///?} else {

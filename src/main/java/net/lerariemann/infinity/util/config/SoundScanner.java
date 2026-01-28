@@ -2,7 +2,7 @@ package net.lerariemann.infinity.util.config;
 
 import net.lerariemann.infinity.access.MinecraftServerAccess;
 import net.lerariemann.infinity.mixin.SoundListMixin;
-import net.lerariemann.infinity.registry.var.ModPayloads;
+import net.lerariemann.infinity.registry.payload.c2s.JukeboxesC2SPayload;
 import net.lerariemann.infinity.util.InfinityMethods;
 import net.lerariemann.infinity.util.VersionMethods;
 import net.lerariemann.infinity.util.core.CommonIO;
@@ -22,7 +22,6 @@ import net.minecraft.world.item.JukeboxSong;
 import net.minecraft.core.registries.Registries;
 import net.lerariemann.infinity.util.core.ConfigType;
 import net.lerariemann.infinity.InfinityMod;
-import net.lerariemann.infinity.access.MinecraftServerAccess;
 import net.lerariemann.infinity.util.loading.DimensionGrabber;
 import java.nio.file.Path;
  //?}
@@ -53,7 +52,7 @@ public record SoundScanner(Map<ResourceLocation, Resource> soundIds) {
     }
 
     /**
-     * <p>On player connect, the server sends a {@link ModPayloads.SoundPackS2CPayload} payload to the client.
+     * <p>On player connect, the server sends a {@link net.lerariemann.infinity.registry.payload.s2c.SoundPackS2CPayload} payload to the client.
      * <p>If the server already contains data upon which the client should create its resource pack, it holds this data.
      * <p>Otherwise, this payload is empty, and the server relies on the client to create it and send it back to the server for future use. */
     public static void unpackDownloadedPack(CompoundTag songIds, Minecraft cl) {
@@ -71,7 +70,7 @@ public record SoundScanner(Map<ResourceLocation, Resource> soundIds) {
                 getMatchingLoadedIds().forEach(id -> songIdsList.add(StringTag.valueOf(id.toString())));
                 res.put("entries", songIdsList);
                 res.put("jukeboxes", jukeboxes);
-                new ModPayloads.JukeboxesC2SPayload(res).send();
+                new JukeboxesC2SPayload(res).send();
             });
         }
     }
@@ -114,7 +113,7 @@ public record SoundScanner(Map<ResourceLocation, Resource> soundIds) {
         return jukeboxes;
     }
 
-    /** Receiver for a C2S {@link ModPayloads.JukeboxesC2SPayload} payload, which holds data to send to clients in the future for them to
+    /** Receiver for a C2S {@link JukeboxesC2SPayload} payload, which holds data to send to clients in the future for them to
      * generate custom sound resource packs, as well as jukebox song definitions corresponding to this data. */
     public static void unpackUploadedJukeboxes(MinecraftServer server, CompoundTag data) {
         if (!RandomProvider.rule("useSoundSyncPackets")) return;

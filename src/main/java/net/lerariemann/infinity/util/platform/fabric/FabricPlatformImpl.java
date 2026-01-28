@@ -6,13 +6,13 @@ import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 //? if >1.21 {
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerWorldEvents;
 import net.fabricmc.fabric.api.tag.convention.v2.ConventionalBlockTags;
+import net.lerariemann.infinity.registry.payload.FriendlyPacket;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.world.item.enchantment.ItemEnchantments;
 //?}
 //? if <1.21 {
 /*import net.fabricmc.fabric.api.event.lifecycle.v1.ServerWorldEvents;
  *///?}
-import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.fabricmc.fabric.api.registry.FlammableBlockRegistry;
 import net.fabricmc.loader.api.FabricLoader;
@@ -21,19 +21,15 @@ import net.lerariemann.infinity.InfinityMod;
 import net.lerariemann.infinity.iridescence.IridescenceLiquidBlock;
 import net.lerariemann.infinity.registry.core.ModBlocks;
 import net.lerariemann.infinity.registry.core.ModItems;
-import net.lerariemann.infinity.registry.var.ModPayloads;
 import net.lerariemann.infinity.util.InfinityMethods;
 import net.lerariemann.infinity.util.VersionMethods;
 import net.lerariemann.infinity.util.platform.InfinityPlatform;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
@@ -44,7 +40,6 @@ import net.minecraft.world.level.material.FlowingFluid;
 import net.minecraft.world.level.material.MapColor;
 
 import java.nio.file.Path;
-import java.util.function.Supplier;
 
 public class FabricPlatformImpl implements InfinityPlatform {
 
@@ -78,10 +73,10 @@ public class FabricPlatformImpl implements InfinityPlatform {
         //? if >1.21
         ModPayloadsFabric.registerPayloadsClient();
     }
-    public void sendS2CPayload(ServerPlayer entity, ModPayloads.FriendlyPacket payload) {
+    public void sendS2CPayload(ServerPlayer entity, FriendlyPacket payload) {
         ServerPlayNetworking.send(entity, payload);
     }
-    public void sendC2SPayload(ModPayloads.FriendlyPacket payload) {
+    public void sendC2SPayload(FriendlyPacket payload) {
         ClientPlayNetworking.send(payload);
 
     }

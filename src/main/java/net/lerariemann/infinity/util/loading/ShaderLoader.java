@@ -1,7 +1,7 @@
 package net.lerariemann.infinity.util.loading;
 
 import com.google.common.util.concurrent.AtomicDouble;
-import net.lerariemann.infinity.registry.var.ModPayloads;
+import net.lerariemann.infinity.registry.payload.ModPayloads;
 import net.lerariemann.infinity.util.VersionMethods;
 import net.lerariemann.infinity.util.core.CommonIO;
 import net.lerariemann.infinity.util.platform.InfinityPlatform;

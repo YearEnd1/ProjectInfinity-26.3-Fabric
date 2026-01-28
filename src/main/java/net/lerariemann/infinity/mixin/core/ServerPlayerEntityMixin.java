@@ -4,6 +4,8 @@ import com.mojang.authlib.GameProfile;
 import net.lerariemann.infinity.access.Timebombable;
 import net.lerariemann.infinity.access.ServerPlayerEntityAccess;
 import net.lerariemann.infinity.options.InfinityOptions;
+import net.lerariemann.infinity.registry.payload.s2c.ShaderS2CPayload;
+import net.lerariemann.infinity.registry.payload.s2c.StarsS2CPayload;
 import net.lerariemann.infinity.util.teleport.WarpLogic;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
@@ -13,7 +15,6 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.GameType;
 import net.minecraft.world.level.Level;
-import net.lerariemann.infinity.registry.var.ModPayloads;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
@@ -21,28 +22,26 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-//? if >1.21 {
+//? if <1.21.2 {
+/*import net.minecraft.world.phys.Vec3;
+*///?}
 
 import net.lerariemann.infinity.util.InfinityMethods;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.phys.Vec3;
-import org.jetbrains.annotations.Nullable;
 //? if >1.21.3 {
 import net.minecraft.world.level.portal.TeleportTransition;
  //?} else if >1.21 {
-/*import net.minecraft.world.level.portal.DimensionTransition;
+/*import org.jetbrains.annotations.Nullable;
+import net.minecraft.world.level.portal.DimensionTransition;
 *///?} else {
 /*import net.minecraft.world.level.portal.PortalInfo;
- *///?}
-//?} else {
-/*import net.minecraft.server.network.ServerGamePacketListenerImpl;
+import net.minecraft.server.network.ServerGamePacketListenerImpl;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.network.protocol.game.ClientboundPlayerAbilitiesPacket;
 import net.minecraft.network.protocol.game.ClientboundUpdateMobEffectPacket;
 *///?}
 
 import java.util.Optional;
-import java.util.Set;
 
 @Mixin(ServerPlayer.class)
 public abstract class ServerPlayerEntityMixin extends Player implements ServerPlayerEntityAccess {
@@ -77,11 +76,11 @@ public abstract class ServerPlayerEntityMixin extends Player implements ServerPl
     
     @Inject(method="findRespawnAndUseSpawnBlock", at = @At("HEAD"), cancellable = true)
     //? if >1.21.2 {
-    private static void noRespawningInTimebombedDimensions(ServerLevel world, ServerPlayer.RespawnConfig respawnConfig, boolean useCharge, CallbackInfoReturnable<Optional<ServerPlayer.RespawnPosAngle>> cir) {
+    private static void noRespawningInTimebombedDimensions(ServerLevel level, ServerPlayer.RespawnConfig respawnConfig, boolean useCharge, CallbackInfoReturnable<Optional<ServerPlayer.RespawnPosAngle>> cir) {
     //?} else {
-    /*private static void noRespawningInTimebombedDimensions(ServerLevel world, BlockPos pos, float angle, boolean forced, boolean alive, CallbackInfoReturnable<Optional<Vec3>> cir) {
+    /*private static void noRespawningInTimebombedDimensions(ServerLevel level, BlockPos pos, float angle, boolean forced, boolean alive, CallbackInfoReturnable<Optional<Vec3>> cir) {
     *///?}
-        if (InfinityMethods.isTimebombed(world)) cir.setReturnValue(Optional.empty());
+        if (InfinityMethods.isTimebombed(level)) cir.setReturnValue(Optional.empty());
     }
 
     //? if >1.21.2 {
@@ -110,8 +109,8 @@ public abstract class ServerPlayerEntityMixin extends Player implements ServerPl
         lastSentFood = -1;
     *///?}
         ServerPlayer player = (ServerPlayer)(Object)this;
-        ModPayloads.sendShaderPayload(player, targetWorld);
-        ModPayloads.sendStarsPayload(player);
+        ShaderS2CPayload.sendTo(player, targetWorld);
+        StarsS2CPayload.sendTo(player);
     }
 
     @Inject(method = "tick", at = @At("TAIL"))
@@ -129,7 +128,7 @@ public abstract class ServerPlayerEntityMixin extends Player implements ServerPl
     @Inject(method = "setGameMode", at = @At("RETURN"))
     private void injected4(GameType gameMode, CallbackInfoReturnable<Boolean> cir) {
         if (cir.getReturnValue()) {
-            ModPayloads.sendShaderPayload((ServerPlayer)(Object)this);
+            ShaderS2CPayload.sendTo((ServerPlayer)(Object)this);
         }
     }
 

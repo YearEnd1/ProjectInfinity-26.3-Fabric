@@ -7,7 +7,6 @@ import net.lerariemann.infinity.util.platform.fabric.FabricPlatformImpl;
 /*import net.lerariemann.infinity.util.platform.neoforge.NeoForgePlatformImpl;
 *///?}
 import dev.architectury.registry.registries.RegistrySupplier;
-import net.lerariemann.infinity.registry.var.ModPayloads;
 import net.minecraft.nbt.CompoundTag;
 //? if >1.21 {
 import net.minecraft.core.component.DataComponentType;
@@ -15,18 +14,16 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.ItemEnchantments;
 //?}
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.LiquidBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.FlowingFluid;
+import net.lerariemann.infinity.registry.payload.FriendlyPacket;
 //? forge {
 /*import net.lerariemann.infinity.util.platform.forge.ForgePlatformImpl;
  *///?}
@@ -91,8 +88,8 @@ public interface InfinityPlatform {
     boolean isDevelopment();
     void registerPayloadsServer();
     void registerPayloadsClient();
-    void sendS2CPayload(ServerPlayer entity, ModPayloads.FriendlyPacket payload);
-    void sendC2SPayload(ModPayloads.FriendlyPacket payload);
+    void sendS2CPayload(ServerPlayer entity, FriendlyPacket payload);
+    void sendC2SPayload(FriendlyPacket payload);
 
     /**
      * On NeoForge, this allows the world to be ticked.

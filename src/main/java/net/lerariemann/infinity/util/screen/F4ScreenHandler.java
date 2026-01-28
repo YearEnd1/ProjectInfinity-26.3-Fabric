@@ -3,16 +3,18 @@ package net.lerariemann.infinity.util.screen;
 import dev.architectury.registry.menu.ExtendedMenuProvider;
 import net.lerariemann.infinity.item.F4Item;
 import net.lerariemann.infinity.registry.core.ModComponentTypes;
-import net.lerariemann.infinity.registry.var.ModPayloads;
+import net.lerariemann.infinity.registry.payload.c2s.F4UpdateC2SPayload;
 import net.lerariemann.infinity.registry.var.ModScreenHandlers;
 import net.lerariemann.infinity.util.VersionMethods;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.client.player.LocalPlayer;
-import net.minecraft.nbt.CompoundTag;
+//? if <1.21 {
+/*import net.minecraft.nbt.CompoundTag;
+import net.minecraft.util.Mth;
+*///?}
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.Mth;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -77,7 +79,7 @@ public class F4ScreenHandler extends AbstractContainerMenu {
         playerInventory.setItem(slot, st);
         super.removed(player);
         if (player instanceof LocalPlayer) {
-            new ModPayloads.F4UpdateC2SPayload(slot, width.get(), height.get()).send();
+            new F4UpdateC2SPayload(slot, width.get(), height.get()).send();
         }
     }
 

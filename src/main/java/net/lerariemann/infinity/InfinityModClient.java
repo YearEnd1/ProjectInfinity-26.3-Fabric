@@ -6,7 +6,8 @@ import dev.architectury.registry.client.keymappings.KeyMappingRegistry;
 import net.lerariemann.infinity.item.F4Item;
 import net.lerariemann.infinity.registry.core.ModEntities;
 import net.lerariemann.infinity.registry.core.ModItems;
-import net.lerariemann.infinity.registry.var.ModPayloads;
+import net.lerariemann.infinity.registry.payload.ModPayloads;
+import net.lerariemann.infinity.registry.payload.c2s.F4DeployC2SPayload;
 import net.lerariemann.infinity.registry.var.ModScreenHandlers;
 import net.lerariemann.infinity.util.VersionMethods;
 import net.minecraft.client.KeyMapping;
@@ -41,7 +42,7 @@ public class InfinityModClient {
         ClientTickEvent.CLIENT_POST.register(client -> {
             while (f4ConfigKey.consumeClick()) if (client.player != null
                     && client.player.getItemInHand(InteractionHand.MAIN_HAND).is(ModItems.F4.get())) {
-                ModPayloads.F4DeployC2SPayload.INSTANCE.send();
+                F4DeployC2SPayload.INSTANCE.send();
                 var result = F4Item.deploy(client.level, client.player, InteractionHand.MAIN_HAND);
                 ItemStack interactionHolderResult = VersionMethods.getInteractionHolderResult(result);
                 if (interactionHolderResult != null)
