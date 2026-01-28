@@ -6,13 +6,13 @@ import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 //? if >1.21 {
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerWorldEvents;
 import net.fabricmc.fabric.api.tag.convention.v2.ConventionalBlockTags;
-import net.lerariemann.infinity.registry.payload.FriendlyPacket;
 import net.lerariemann.infinity.registry.payload.ModPayloads;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.world.item.enchantment.ItemEnchantments;
 //?}
 //? if <1.21 {
 /*import net.fabricmc.fabric.api.event.lifecycle.v1.ServerWorldEvents;
+import net.minecraft.core.registries.BuiltInRegistries;
  *///?}
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.fabricmc.fabric.api.registry.FlammableBlockRegistry;
@@ -22,6 +22,7 @@ import net.lerariemann.infinity.InfinityMod;
 import net.lerariemann.infinity.iridescence.IridescenceLiquidBlock;
 import net.lerariemann.infinity.registry.core.ModBlocks;
 import net.lerariemann.infinity.registry.core.ModItems;
+import net.lerariemann.infinity.registry.payload.FriendlyPacket;
 import net.lerariemann.infinity.util.InfinityMethods;
 import net.lerariemann.infinity.util.VersionMethods;
 import net.lerariemann.infinity.util.platform.InfinityPlatform;
