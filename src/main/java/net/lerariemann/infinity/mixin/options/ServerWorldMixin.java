@@ -19,7 +19,9 @@ import net.minecraft.server.level.progress.ChunkProgressListener;
 //?}
 //? if <1.21.2
 /*import net.minecraft.util.profiling.ProfilerFiller;
+import java.util.function.Supplier;
 */
+import net.minecraft.util.Mth;
 import net.minecraft.world.RandomSequences;
 import net.minecraft.world.level.CustomSpawner;
 import net.minecraft.world.level.Level;
@@ -45,7 +47,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.function.BooleanSupplier;
-import java.util.function.Supplier;
 
 @Mixin(ServerLevel.class)
 public abstract class ServerWorldMixin extends Level implements WorldGenLevel, InfinityOptionsAccess, Timebombable, SignalGetter {
@@ -111,7 +112,16 @@ public abstract class ServerWorldMixin extends Level implements WorldGenLevel, I
 
     @Override
     public int getSignal(BlockPos pos, Direction direction) {
-        if (infinity$options.isHaunted() && InfinityMod.random.nextFloat() > 0.9f) return InfinityMod.random.nextInt(16);
+        if (infinity$options.isHaunted()) {
+            BlockPos p = pos.relative(direction, 1319);
+            long L = Mth.getSeed(p.getX(), p.getY(), p.getZ());
+            double d = (L & 0xFFFL) / (double)0xFFFL;
+            d += ((long)(getGameTime() * getMoonBrightness()) & 0xFFFL) / (double)0xFFFL; //pseudorandom on x y z, periodic on t
+            d = d - Math.floor(d);
+            if (d > 0.5f && d < 0.6f) {
+                return Mth.clamp((int)((d - 0.5f)*160f), 0, 15);
+            }
+        }
         BlockState blockState = this.getBlockState(pos);
         int i = blockState.getSignal(this, pos, direction);
         return blockState.isRedstoneConductor(this, pos) ? Math.max(i, this.getDirectSignalTo(pos)) : i;
