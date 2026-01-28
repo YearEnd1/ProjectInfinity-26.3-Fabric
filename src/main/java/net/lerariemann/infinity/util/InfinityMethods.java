@@ -13,6 +13,7 @@ import net.lerariemann.infinity.util.core.RandomProvider;
 import net.lerariemann.infinity.util.platform.InfinityPlatform;
 import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
@@ -331,5 +332,11 @@ public interface InfinityMethods {
     static NoteBlockInstrument getRandomInstrument() {
         NoteBlockInstrument[] instruments = NoteBlockInstrument.values();
         return instruments[InfinityMod.random.nextInt(instruments.length-7)];
+    }
+
+    static Direction getRandomHorizontalDirection(RandomSource random) {
+       return Direction.fromAxisAndDirection(
+                random.nextBoolean() ? Direction.Axis.X : Direction.Axis.Z,
+                random.nextBoolean() ? Direction.AxisDirection.POSITIVE : Direction.AxisDirection.NEGATIVE);
     }
 }

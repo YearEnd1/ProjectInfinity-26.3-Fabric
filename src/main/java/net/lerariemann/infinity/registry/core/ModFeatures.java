@@ -10,6 +10,7 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.configurations.BlockStateConfiguration;
 import net.minecraft.world.level.levelgen.feature.configurations.FeatureConfiguration;
+import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
 import net.minecraft.world.level.levelgen.feature.trunkplacers.TrunkPlacerType;
 
 import static net.lerariemann.infinity.InfinityMod.MOD_ID;
@@ -26,6 +27,8 @@ public class ModFeatures {
     public static RegistrySupplier<RandomCubeFeature> RANDOM_CUBE;
     public static RegistrySupplier<RandomShapeFeature> RANDOM_STAR;
     public static RegistrySupplier<TextFeature> RANDOM_TEXT;
+    public static RegistrySupplier<NotesHouseFeature> MADHOUSE;
+    public static RegistrySupplier<NotesJukeboxFeature> JUKEBOX;
     public static RegistrySupplier<RandomPortalSetupper> PORTAL_SETUPPER;
     public static RegistrySupplier<TrunkPlacerType<WonkyTrunkPlacer>> WONKY_TRUNK;
 
@@ -46,6 +49,8 @@ public class ModFeatures {
         RANDOM_CUBE = register("random_cube", new RandomCubeFeature(RandomCubeFeature.Config.CODEC));
         RANDOM_STAR = register("random_shape", new RandomShapeFeature(RandomShapeFeature.Config.CODEC));
         RANDOM_TEXT = register("random_text", new TextFeature(TextFeature.Config.CODEC));
+        MADHOUSE = register("madhouse", new NotesHouseFeature(NotesHouseFeature.Config.CODEC));
+        JUKEBOX = register("jukebox", new NotesJukeboxFeature(NoneFeatureConfiguration.CODEC));
         PORTAL_SETUPPER = register("portal_setupper", new RandomPortalSetupper((RandomPortalSetupper.Config.CODEC)));
         RANDOM_BONUS_CHEST = register("bonus_chest", new RandomBonusChestFeature(RandomBonusChestFeature.Config.CODEC));
         RANDOM_END_GATEWAY = register("end_gateway", new RandomEndGatewayFeature(RandomEndGatewayFeature.Config.CODEC));

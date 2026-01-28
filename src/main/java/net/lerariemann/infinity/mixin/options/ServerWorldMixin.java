@@ -99,7 +99,7 @@ public abstract class ServerWorldMixin extends Level implements WorldGenLevel, I
 
     @Inject(method = "tickChunk", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/material/FluidState;isRandomlyTicking()Z"))
     void inj(LevelChunk chunk, int randomTickSpeed, CallbackInfo ci, @Local BlockState bs, @Local BlockPos blockPos2, @Local FluidState fs) {
-        if (infinity$options.isHaunted() && random.nextInt(20) < (int)(Math.floor(getMoonBrightness() * 4))) {
+        if (infinity$options.isHaunted() && random.nextInt(50) < (int)(Math.floor(getMoonBrightness() * 4))) {
             Direction direction = Direction.values()[InfinityMod.random.nextInt(6)];
             //? if <1.21.2 {
             /*neighborUpdater.neighborChanged(blockPos2.relative(direction), bs.getBlock(), blockPos2);

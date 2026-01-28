@@ -20,6 +20,7 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.LadderBlock;
 import net.minecraft.world.level.block.NoteBlock;
+import net.minecraft.world.level.block.RedstoneLampBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.Half;
@@ -121,6 +122,26 @@ public class ModMaterialRules {
             @Override
             public SurfaceRules.SurfaceRule apply(SurfaceRules.Context materialRuleContext) {
                 return new Notes();
+            }
+        }
+    }
+
+    public static class Lamps implements SurfaceRules.SurfaceRule {
+        @Override
+        public @Nullable BlockState tryApply(int i, int j, int k) {
+            return Blocks.REDSTONE_LAMP.defaultBlockState().setValue(RedstoneLampBlock.LIT, InfinityMod.random.nextBoolean());
+        }
+
+        enum Rule implements SurfaceRules.RuleSource {
+            INSTANCE;
+            static final KeyDispatchDataCodec<Rule> CODEC = KeyDispatchDataCodec.of(MapCodec.unit(INSTANCE));
+            @Override
+            public KeyDispatchDataCodec<? extends SurfaceRules.RuleSource> codec() {
+                return CODEC;
+            }
+            @Override
+            public SurfaceRules.SurfaceRule apply(SurfaceRules.Context materialRuleContext) {
+                return new Lamps();
             }
         }
     }
@@ -440,6 +461,7 @@ public class ModMaterialRules {
         register("chaos", RandomBlockMaterialRule.CODEC);
         register("colored_chaos", RandomColoredBlock.Rule.CODEC);
         register("notes", Notes.Rule.CODEC);
+        register("lamps", Lamps.Rule.CODEC);
         register("library", Library.Rule.CODEC);
         register("backrooms", Backrooms.Rule.CODEC);
         register("nexus", Nexus.Rule.CODEC);

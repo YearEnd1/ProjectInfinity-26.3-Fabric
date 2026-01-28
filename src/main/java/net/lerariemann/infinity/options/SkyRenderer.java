@@ -244,7 +244,7 @@ public record SkyRenderer(InfinityOptions options, Minecraft client, ClientLevel
     }
     public void renderMoon(Matrix4f matrix4f2, ResourceLocation texture, float k, float y, Vector3f tint) {
         float t, q, p, o;
-        if (!options.isMoonCustom()) {
+        if (isMoonNormal(texture)) {
             int moon_phase = world.getMoonPhase();
             int s = moon_phase % 4;
             int m = moon_phase / 4 % 2;
@@ -258,6 +258,9 @@ public record SkyRenderer(InfinityOptions options, Minecraft client, ClientLevel
             p = o = 0.0f;
         }
         renderMoon(matrix4f2, texture, k, y, tint, t, q, p, o);
+    }
+    boolean isMoonNormal(ResourceLocation texture) {
+        return texture.getPath().equals("textures/environment/moon_phases.png");
     }
     public void renderMoon(Matrix4f matrix4f2, ResourceLocation texture, float k, float y, Vector3f tint, float t, float q, float p, float o) {
         RenderSystem.setShader(GameRenderer::getPositionTexShader);

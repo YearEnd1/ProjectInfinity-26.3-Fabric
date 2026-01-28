@@ -160,9 +160,6 @@ public class InfinityOptions {
     }
 
     //moons
-    public boolean isMoonCustom() {
-        return data.contains("lunar_texture");
-    }
     public int getNumMoons() {
         return data.contains("moons") ? NbtUtils.getList(data,"moons", Tag.TAG_COMPOUND).size() : 1;
     }

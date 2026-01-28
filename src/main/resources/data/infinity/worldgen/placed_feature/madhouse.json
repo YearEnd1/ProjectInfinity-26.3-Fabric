@@ -1,0 +1,18 @@
+{
+  "feature": {
+    "type": "infinity:madhouse",
+    "config": {
+      "radius": 4
+    }
+  },
+  "placement": [
+    {
+      "type": "count_on_every_layer",
+      "count": 1
+    },
+    {
+      "type": "rarity_filter",
+      "chance": 1000
+    }
+  ]
+}
