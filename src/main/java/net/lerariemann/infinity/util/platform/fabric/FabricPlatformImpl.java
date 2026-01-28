@@ -7,6 +7,7 @@ import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerWorldEvents;
 import net.fabricmc.fabric.api.tag.convention.v2.ConventionalBlockTags;
 import net.lerariemann.infinity.registry.payload.FriendlyPacket;
+import net.lerariemann.infinity.registry.payload.ModPayloads;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.world.item.enchantment.ItemEnchantments;
 //?}
@@ -66,12 +67,12 @@ public class FabricPlatformImpl implements InfinityPlatform {
     @Override
     public void registerPayloadsServer() {
         //? if >1.21
-        ModPayloadsFabric.registerPayloadsServer();
+        ModPayloads.registerFabricServerside();
     }
     @Override
     public void registerPayloadsClient() {
         //? if >1.21
-        ModPayloadsFabric.registerPayloadsClient();
+        ModPayloads.registerFabricClientside();
     }
     public void sendS2CPayload(ServerPlayer entity, FriendlyPacket payload) {
         ServerPlayNetworking.send(entity, payload);
