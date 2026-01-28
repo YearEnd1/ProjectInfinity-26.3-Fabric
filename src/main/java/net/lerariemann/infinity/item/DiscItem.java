@@ -29,8 +29,31 @@ import net.minecraft.world.level.gameevent.GameEvent;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
+*///?}
 
-public class DiscItem extends RecordItem {
+import net.lerariemann.infinity.InfinityMod;
+import net.lerariemann.infinity.registry.core.ModComponentTypes;
+import net.lerariemann.infinity.registry.core.ModItems;
+import net.lerariemann.infinity.util.InfinityMethods;
+import net.lerariemann.infinity.util.VersionMethods;
+import net.lerariemann.infinity.util.core.ConfigType;
+import net.minecraft.core.component.DataComponentMap;
+import net.minecraft.core.component.DataComponents;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.world.item.EitherHolder;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.JukeboxPlayable;
+
+public class DiscItem
+//? if <1.21 {
+/*extends RecordItem
+ *///?}
+{
+//? if <1.21 {
+/*
     public static String emptySubtitle = "infinity.subtitle.missing";
     public static int defaultDuration = 185;
 
@@ -83,5 +106,18 @@ public class DiscItem extends RecordItem {
             return InteractionResult.PASS;
         }
     }
+*///?} else {
+    public static ItemStack getRandom(MinecraftServer server) {
+        ItemStack stack = ModItems.DISC.get().getDefaultInstance();
+        ResourceLocation song = VersionMethods.id(InfinityMod.provider.randomName(InfinityMod.random, ConfigType.JUKEBOXES));
+        stack.applyComponents(DataComponentMap.builder()
+                .set(DataComponents.JUKEBOX_PLAYABLE, new JukeboxPlayable(new EitherHolder<>(
+                        ResourceKey.create(Registries.JUKEBOX_SONG, song))
+                        //? if <1.21.2
+                        /*, true*/
+                ))
+                .set(ModComponentTypes.COLOR.get(), (int) InfinityMethods.getNumericFromId(song)).build());
+        return stack;
+    }
+//?}
 }
-*///?}

@@ -2,6 +2,7 @@ package net.lerariemann.infinity.entity.custom;
 
 import net.lerariemann.infinity.InfinityMod;
 import net.lerariemann.infinity.block.custom.BiomeBottleBlock;
+import net.lerariemann.infinity.item.DiscItem;
 import net.lerariemann.infinity.registry.core.ModComponentTypes;
 import net.lerariemann.infinity.registry.core.ModEntities;
 import net.lerariemann.infinity.registry.core.ModItems;
@@ -16,8 +17,7 @@ import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.item.EitherHolder;
 import net.minecraft.world.item.JukeboxPlayable;
 //?} else {
-/*import net.lerariemann.infinity.item.DiscItem;
-import net.minecraft.world.entity.monster.AbstractSkeleton;
+/*import net.minecraft.world.entity.monster.AbstractSkeleton;
 *///?}
 //? if >1.21.2 {
 import net.minecraft.world.entity.EntitySpawnReason;
@@ -243,33 +243,21 @@ public class ChaosCreeper extends Creeper implements TintableEntity {
         return super.mobInteract(player, hand);
     }
 
-    //? if >1.21 {
     @Override
+    //? if >1.21 {
     protected void dropCustomDeathLoot(ServerLevel world, DamageSource source, boolean causedByPlayer) {
+        super.dropCustomDeathLoot(world, source, causedByPlayer);
         if (source.getEntity() != null && source.getEntity().getType().is(EntityTypeTags.SKELETONS)) {
-            ItemStack stack = ModItems.DISC.get().getDefaultInstance();
-            ResourceLocation song = VersionMethods.id(InfinityMod.provider.randomName(world.random, ConfigType.JUKEBOXES));
-            stack.applyComponents(DataComponentMap.builder()
-                    .set(DataComponents.JUKEBOX_PLAYABLE, new JukeboxPlayable(new EitherHolder<>(
-                            ResourceKey.create(Registries.JUKEBOX_SONG, song))
-                            //? if <1.21.2
-                            /*, true*/
-                    ))
-                    .set(ModComponentTypes.COLOR.get(), (int)InfinityMethods.getNumericFromId(song)).build());
+    //?} else {
+    /*protected void dropCustomDeathLoot(DamageSource source, int looting, boolean recentlyHit) {
+        super.dropCustomDeathLoot(source, looting, recentlyHit);
+        if (source.getEntity() instanceof AbstractSkeleton && getServer() != null) {
+    *///?}
+            ItemStack stack = DiscItem.getRandom(getServer());
             this.spawnAtLocation(
                     //? if >1.21.2
                     (ServerLevel) level(),
                     stack);
         }
     }
-    //?} else {
-    /*protected void dropCustomDeathLoot(DamageSource source, int looting, boolean recentlyHit) {
-        super.dropCustomDeathLoot(source, looting, recentlyHit);
-        Entity entity = source.getEntity();
-        if (entity instanceof AbstractSkeleton skeleton && getServer() != null) {
-            ItemStack stack = DiscItem.getRandom(getServer());
-            spawnAtLocation(stack);
-        }
-    }
-    *///?}
 }

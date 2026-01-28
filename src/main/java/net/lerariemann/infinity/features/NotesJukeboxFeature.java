@@ -1,6 +1,7 @@
 package net.lerariemann.infinity.features;
 
 import com.mojang.serialization.Codec;
+import net.lerariemann.infinity.item.DiscItem;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.level.WorldGenLevel;
@@ -38,23 +39,13 @@ public class NotesJukeboxFeature extends Feature<NoneFeatureConfiguration> {
         WorldGenLevel level = context.level();
         BlockPos origin = context.origin().below();
         setBlock(level, origin, Blocks.JUKEBOX.defaultBlockState());
-        //? if >1.21 {
         RandomSource random = context.random();
         Direction dir = InfinityMethods.getRandomHorizontalDirection(random);
         setBlock(level, origin.relative(dir), Blocks.HOPPER.defaultBlockState().setValue(HopperBlock.FACING, dir.getOpposite()));
         if (level.getBlockEntity(origin.relative(dir)) instanceof HopperBlockEntity hpbe) {
-            ItemStack stack = ModItems.DISC.get().getDefaultInstance();
-            ResourceLocation song = VersionMethods.id(InfinityMod.provider.randomName(random, ConfigType.JUKEBOXES));
-            stack.applyComponents(DataComponentMap.builder()
-                    .set(DataComponents.JUKEBOX_PLAYABLE, new JukeboxPlayable(new EitherHolder<>(
-                            ResourceKey.create(Registries.JUKEBOX_SONG, song))
-                            //? if <1.21.2
-                            /*, true*/
-                    ))
-                    .set(ModComponentTypes.COLOR.get(), (int) InfinityMethods.getNumericFromId(song)).build());
+            ItemStack stack = DiscItem.getRandom(context.level().getServer());
             hpbe.setItem(0, stack);
         }
-        //?}
         return true;
     }
 }
