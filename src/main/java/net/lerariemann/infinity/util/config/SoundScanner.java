@@ -208,7 +208,7 @@ public record SoundScanner(Map<ResourceLocation, Resource> soundIds) {
         //?} else {
         /*jukebox_def.putString("sound_id", songID);
         jukebox_def.putString("sound_sub", subtitleID);
-        jukebox_def.putInt("sound_duration", (int)length);
+        jukebox_def.putInt("sound_duration", (int)(20*length));
         *///?}
         return jukebox_def;
     }

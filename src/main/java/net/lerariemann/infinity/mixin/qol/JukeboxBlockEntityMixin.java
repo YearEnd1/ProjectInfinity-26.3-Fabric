@@ -74,8 +74,8 @@ public abstract class JukeboxBlockEntityMixin extends BlockEntity implements Con
     void inj(RecordItem _record, CallbackInfoReturnable<Boolean> cir) {
         if (_record == ModItems.DISC.get()) {
             boolean res = this.tickCount >= this.recordStartedTick +
-                    20L * VersionMethods.getOrDefaultInt(getFirstItem(), "sound_duration", DiscItem.defaultDuration)
-                    + 20L;
+                    VersionMethods.getOrDefaultInt(getFirstItem(), "sound_duration", DiscItem.defaultDuration)
+                    + 1L;
             cir.setReturnValue(res);
         }
     }
