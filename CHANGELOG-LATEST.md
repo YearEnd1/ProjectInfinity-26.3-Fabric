@@ -8,6 +8,7 @@
 
 ### Technical
 - The mod now makes use of data generation, improving consistency between versions.
+- Payload-related code is compartmentalised, which should not affect anything observable to the user but might spawn unknown bugs.
 
 ### Fixes
 - Corals no longer crash world generation. (Cass)

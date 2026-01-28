@@ -24,10 +24,10 @@ public interface FriendlyPacket extends
         }
         // neoforge doesn't provide the client context
         //? if neoforge {
-            /*default void receive() {
-                receive(Minecraft.getInstance());
-            }
-            *///?}
+        /*default void receive() {
+            receive(Minecraft.getInstance());
+        }
+        *///?}
     }
 
     interface C2S extends FriendlyPacket {
