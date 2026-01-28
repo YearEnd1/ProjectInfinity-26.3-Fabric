@@ -10,24 +10,10 @@ import net.minecraft.world.level.block.HopperBlock;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 import net.minecraft.world.level.levelgen.feature.configurations.NoneFeatureConfiguration;
-//? if >1.21 {
-import net.lerariemann.infinity.InfinityMod;
-import net.lerariemann.infinity.registry.core.ModComponentTypes;
-import net.lerariemann.infinity.registry.core.ModItems;
 import net.lerariemann.infinity.util.InfinityMethods;
-import net.lerariemann.infinity.util.VersionMethods;
-import net.lerariemann.infinity.util.core.ConfigType;
 import net.minecraft.world.level.block.entity.HopperBlockEntity;
-import net.minecraft.core.component.DataComponentMap;
-import net.minecraft.core.component.DataComponents;
-import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.RandomSource;
-import net.minecraft.world.item.EitherHolder;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.JukeboxPlayable;
-//?}
 
 public class NotesJukeboxFeature extends Feature<NoneFeatureConfiguration> {
     public NotesJukeboxFeature(Codec<NoneFeatureConfiguration> codec) {

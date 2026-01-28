@@ -2,22 +2,14 @@ package net.lerariemann.infinity.item;
 
 //? if <1.21 {
 /*import net.lerariemann.infinity.access.MinecraftServerAccess;
-import net.lerariemann.infinity.registry.core.ModComponentTypes;
-import net.lerariemann.infinity.registry.core.ModItems;
-import net.lerariemann.infinity.util.InfinityMethods;
-import net.lerariemann.infinity.util.VersionMethods;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.stats.Stats;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.RecordItem;
-import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
@@ -29,32 +21,45 @@ import net.minecraft.world.level.gameevent.GameEvent;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
-*///?}
-
+*///?} else {
 import net.lerariemann.infinity.InfinityMod;
+import net.lerariemann.infinity.util.core.ConfigType;
+import net.minecraft.ChatFormatting;
+import net.minecraft.core.component.DataComponentMap;
+import net.minecraft.core.component.DataComponents;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.item.component.TooltipDisplay;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
+//?}
 import net.lerariemann.infinity.registry.core.ModComponentTypes;
 import net.lerariemann.infinity.registry.core.ModItems;
 import net.lerariemann.infinity.util.InfinityMethods;
 import net.lerariemann.infinity.util.VersionMethods;
-import net.lerariemann.infinity.util.core.ConfigType;
-import net.minecraft.core.component.DataComponentMap;
-import net.minecraft.core.component.DataComponents;
-import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.world.item.EitherHolder;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.JukeboxPlayable;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.item.*;
+//? if <1.21.5 {
+/*import net.minecraft.world.InteractionResultHolder;
+*///?}
+import net.minecraft.world.entity.player.Player;
+
+import java.util.function.Consumer;
 
 public class DiscItem
 //? if <1.21 {
 /*extends RecordItem
- *///?}
+ *///?} else {
+extends Item
+//?}
 {
-//? if <1.21 {
+    public static String emptySubtitle = "subtitles.music.missing";
+    //? if <1.21 {
 /*
-    public static String emptySubtitle = "infinity.subtitle.missing";
     public static int defaultDuration = 185;
 
     public DiscItem(Properties builder) {
@@ -107,6 +112,30 @@ public class DiscItem
         }
     }
 *///?} else {
+    public DiscItem(Properties properties) {
+        super(properties);
+    }
+
+    @Override
+    public void appendHoverText(ItemStack stack, TooltipContext context,
+                                //? if >1.21.2 {
+                                TooltipDisplay tooltipDisplay, Consumer<Component> tooltipAdder
+                                //?} else {
+            /*List<Component> tooltip
+             *///?}
+            , TooltipFlag type) {
+        //? if >1.21.2 {
+        super.appendHoverText(stack, context, tooltipDisplay, tooltipAdder, type);
+        //?} else {
+        /*super.appendHoverText(stack, context, tooltip, type);
+        Consumer<Component> tooltipAdder = tooltip::add;
+        *///?}
+        if (isBlank(stack)) {
+            MutableComponent mutableText = Component.translatable(emptySubtitle).withStyle(ChatFormatting.GRAY);
+            tooltipAdder.accept(mutableText);
+        }
+    }
+
     public static ItemStack getRandom(MinecraftServer server) {
         ItemStack stack = ModItems.DISC.get().getDefaultInstance();
         ResourceLocation song = VersionMethods.id(InfinityMod.provider.randomName(InfinityMod.random, ConfigType.JUKEBOXES));
@@ -120,4 +149,30 @@ public class DiscItem
         return stack;
     }
 //?}
+    public static boolean isBlank(ItemStack st) {
+        //? if <1.21 {
+        /*return !st.getOrCreateTag().contains("sound_id");
+         *///?} else {
+        return !st.getComponents().has(DataComponents.JUKEBOX_PLAYABLE);
+        //?}
+    }
+
+    @Override
+    public
+        //? if <1.21.5 {
+        /*InteractionResultHolder<ItemStack>
+         *///?} else {
+    InteractionResult
+    //?}
+    use(Level world, Player player, InteractionHand hand) {
+        ItemStack st = player.getItemInHand(hand);
+        if (isBlank(st)) {
+            player.setItemInHand(hand, st.copyWithCount(st.getCount() - 1));
+            if (!world.isClientSide()) {
+                player.getInventory().add(getRandom(world.getServer()));
+            }
+            return VersionMethods.success(player.getItemInHand(hand));
+        }
+        return VersionMethods.pass(st);
+    }
 }

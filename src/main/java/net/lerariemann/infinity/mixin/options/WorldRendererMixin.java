@@ -2,19 +2,10 @@ package net.lerariemann.infinity.mixin.options;
 
 //? if <1.21.2 {
 /*import com.mojang.blaze3d.vertex.VertexBuffer;
-import net.minecraft.client.resources.sounds.SimpleSoundInstance;
-import net.minecraft.client.resources.sounds.SoundInstance;
-import net.minecraft.core.BlockPos;
-import net.minecraft.network.chat.Component;
-import net.minecraft.sounds.SoundEvent;
-import net.minecraft.world.item.RecordItem;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.phys.Vec3;
 import org.spongepowered.asm.mixin.injection.Constant;
 import org.spongepowered.asm.mixin.injection.ModifyConstant;
 import net.lerariemann.infinity.util.InfinityMethods;
 *///?} else {
-
 import com.mojang.blaze3d.buffers.GpuBufferSlice;
 import com.mojang.blaze3d.framegraph.FrameGraphBuilder;
 import com.mojang.blaze3d.framegraph.FramePass;
@@ -32,7 +23,16 @@ import net.lerariemann.infinity.options.SkyRenderer;
 import net.minecraft.client.Camera;
 //? if >1.21 {
 import net.minecraft.client.renderer.*;
-//?}
+//?} else {
+/*import net.minecraft.client.resources.sounds.SimpleSoundInstance;
+import net.minecraft.client.resources.sounds.SoundInstance;
+import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.world.item.RecordItem;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.Vec3;
+*///?}
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 //? if >1.21.2 && neoforge {

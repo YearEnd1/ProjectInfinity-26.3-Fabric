@@ -139,12 +139,7 @@ public class ModItems {
             registerItemAfter("f4", Items.WRITABLE_BOOK, F4Item::new,
                     new Item.Properties().rarity(Rarity.UNCOMMON));
     public static final RegistrySupplier<Item> DISC =
-            registerItemAfter("disc", Items.MUSIC_DISC_PIGSTEP,
-                    //? if >1.21 {
-                    Item::new,
-                    //?} else {
-                    /*DiscItem::new,
-                    *///?}
+            registerItemAfter("disc", Items.MUSIC_DISC_PIGSTEP, DiscItem::new,
                     new Item.Properties().rarity(Rarity.RARE));
     public static final RegistrySupplier<Item> IRIDESCENT_POTION =
             registerItemAfter("iridescent_potion", Items.HONEY_BOTTLE, settings ->
