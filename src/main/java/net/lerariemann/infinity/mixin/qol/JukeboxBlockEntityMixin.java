@@ -42,6 +42,10 @@ public abstract class JukeboxBlockEntityMixin extends BlockEntity implements Con
     void inj(CallbackInfo ci) {
         ItemStack disc = getFirstItem();
         if (!disc.is(ModItems.DISC.get())) return;
+        if (DiscItem.isBlank(disc)) {
+            ci.cancel();
+            return;
+        }
         String soundEffect = VersionMethods.getOrDefaultString(disc, "sound_id", "empty");
         InfinityMod.LOGGER.info("Started playing {}", soundEffect);
         recordStartedTick = tickCount;

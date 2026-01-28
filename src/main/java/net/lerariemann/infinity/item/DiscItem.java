@@ -19,8 +19,6 @@ import net.minecraft.world.level.block.entity.JukeboxBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
 import org.jetbrains.annotations.NotNull;
-
-import java.util.List;
 *///?} else {
 import net.lerariemann.infinity.InfinityMod;
 import net.lerariemann.infinity.util.core.ConfigType;
@@ -29,7 +27,6 @@ import net.minecraft.core.component.DataComponentMap;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
-import net.minecraft.world.item.component.TooltipDisplay;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
@@ -45,9 +42,12 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.item.*;
 //? if <1.21.5 {
 /*import net.minecraft.world.InteractionResultHolder;
-*///?}
+*///?} else {
+import net.minecraft.world.item.component.TooltipDisplay;
+//?}
 import net.minecraft.world.entity.player.Player;
 
+import java.util.List;
 import java.util.function.Consumer;
 
 public class DiscItem
@@ -92,6 +92,7 @@ extends Item
         BlockState blockstate = level.getBlockState(blockpos);
         if (blockstate.is(Blocks.JUKEBOX) && !(Boolean)blockstate.getValue(JukeboxBlock.HAS_RECORD)) {
             ItemStack itemstack = context.getItemInHand();
+            if (isBlank(itemstack)) return InteractionResult.PASS;
             if (!level.isClientSide) {
                 Player player = context.getPlayer();
                 BlockEntity blockentity = level.getBlockEntity(blockpos);
