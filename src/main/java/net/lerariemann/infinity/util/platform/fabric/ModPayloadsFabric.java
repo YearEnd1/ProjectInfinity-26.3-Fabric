@@ -32,7 +32,7 @@ public class ModPayloadsFabric {
         ServerPlayNetworking.registerGlobalReceiver(F4DeployC2SPayload.ID, (payload, context) ->
                 payload.receive(context.player()));
         ServerPlayNetworking.registerGlobalReceiver(JukeboxesC2SPayload.ID, (payload, context) ->
-                SoundScanner.unpackUploadedJukeboxes(context.server(), payload.data()));
+                payload.receive(context.player()));
     }
 
     public static void registerPayloadsClient() {
@@ -45,7 +45,7 @@ public class ModPayloadsFabric {
         ClientPlayNetworking.registerGlobalReceiver(StarsS2CPayload.ID, (payload, context) ->
                 payload.receive(client(context)));
         ClientPlayNetworking.registerGlobalReceiver(SoundPackS2CPayload.ID, (payload, context) ->
-                SoundScanner.unpackDownloadedPack(payload.songIds(), client(context)));
+                payload.receive(client(context)));
     }
 }
 //?}

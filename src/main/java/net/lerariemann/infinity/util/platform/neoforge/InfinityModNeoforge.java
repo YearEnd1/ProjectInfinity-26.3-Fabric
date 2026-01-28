@@ -116,7 +116,7 @@ public class InfinityModNeoforge {
         registrar.playToServer(
                 ModPayloads.JukeboxesC2SPayload.ID,
                 ModPayloads.JukeboxesC2SPayload.CODEC,
-                (payload, context) -> SoundScanner.unpackUploadedJukeboxes(getServerFromPlayer(context), payload.data())
+                (payload, context) -> payload.receive(getPlayer(context))
         );
         registrar.playToClient(
                 ModPayloads.WorldAddS2CPayload.ID,
@@ -141,7 +141,7 @@ public class InfinityModNeoforge {
         registrar.playToClient(
                 ModPayloads.SoundPackS2CPayload.ID,
                 ModPayloads.SoundPackS2CPayload.CODEC,
-                (payload, context) -> SoundScanner.unpackDownloadedPack(payload.songIds())
+                (payload, context) -> payload.receive()
         );
     }
 }

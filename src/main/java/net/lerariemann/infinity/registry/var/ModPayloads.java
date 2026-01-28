@@ -68,6 +68,12 @@ public class ModPayloads {
         default void send(ServerPlayer player) {
             InfinityPlatform.INSTANCE.sendS2CPayload(player, this);
         }
+        // neoforge doesn't provide the client context
+        //? if neoforge {
+        /*default void receive() {
+            receive(Minecraft.getInstance());
+        }
+        *///?}
     }
 
     public interface FriendlyPacketC2S extends FriendlyPacket {
@@ -106,9 +112,6 @@ public class ModPayloads {
             type.read(buf).receive(client);
         }
         *///?}
-        public void receive() {
-            receive(Minecraft.getInstance());
-        }
         public void receive(Minecraft client) {
             client.execute(() -> DimensionGrabber.grabObjectForClient(client, DimensionType.DIRECT_CODEC, Registries.DIMENSION_TYPE, id, data));
         }
@@ -142,9 +145,6 @@ public class ModPayloads {
             type.read(buf).receive(client);
         }
         *///?}
-        public void receive() {
-            receive(Minecraft.getInstance());
-        }
         public void receive(Minecraft client) {
             client.execute(() -> DimensionGrabber.grabObjectForClient(client, Biome.DIRECT_CODEC, Registries.BIOME, id, data));
         }
@@ -178,9 +178,6 @@ public class ModPayloads {
             type.read(buf).receive(client);
         }
         *///?}
-        public void receive() {
-            receive(Minecraft.getInstance());
-        }
         @Override
         public void receive(Minecraft client) {
             InfinityOptions options = new InfinityOptions(data);
@@ -214,9 +211,6 @@ public class ModPayloads {
             type.read(buf).receive(client);
         }
         *///?}
-        public void receive() {
-            receive(Minecraft.getInstance());
-        }
         @Override
         public void receive(Minecraft client) {
             client.execute(() -> ((WorldRendererAccess)(client.levelRenderer)).infinity$setNeedsStars(true));
@@ -249,9 +243,6 @@ public class ModPayloads {
             type.read(buf).receive(client);
         }
         *///?}
-        public void receive() {
-            receive(Minecraft.getInstance());
-        }
         @Override
         public void receive(Minecraft client) {
             SoundScanner.unpackDownloadedPack(songIds, client);

@@ -52,11 +52,6 @@ public record SoundScanner(Map<ResourceLocation, Resource> soundIds) {
         return Stream.of();
     }
 
-    // neoforge doesn't provide the client context
-    public static void unpackDownloadedPack(CompoundTag songIds) {
-        unpackDownloadedPack(songIds, Minecraft.getInstance());
-    }
-
     /**
      * <p>On player connect, the server sends a {@link ModPayloads.SoundPackS2CPayload} payload to the client.
      * <p>If the server already contains data upon which the client should create its resource pack, it holds this data.
