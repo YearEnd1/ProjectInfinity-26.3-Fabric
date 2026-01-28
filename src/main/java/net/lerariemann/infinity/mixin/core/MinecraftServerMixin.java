@@ -6,6 +6,7 @@ import net.lerariemann.infinity.InfinityMod;
 /*import net.lerariemann.infinity.compat.GravityChangerCompat;
 *///?}
 import net.lerariemann.infinity.compat.ModCompat;
+import net.lerariemann.infinity.util.core.CommonIO;
 import net.lerariemann.infinity.util.platform.InfinityPlatform;
 import net.lerariemann.infinity.access.MinecraftServerAccess;
 import net.lerariemann.infinity.util.config.ConfigManager;
@@ -15,8 +16,13 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.MinecraftServer;
 //? if >1.21 {
 import net.minecraft.server.ServerInfo;
+import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.chunk.storage.ChunkIOErrorReporter;
-//?}
+//?} else {
+/*import net.lerariemann.infinity.item.DiscItem;
+import net.minecraft.nbt.CompoundTag;
+import com.mojang.datafixers.util.Pair;
+*///?}
 import net.minecraft.server.TickTask;
 import net.minecraft.server.level.ServerLevel;
 //? if <1.21.9 {
@@ -26,11 +32,11 @@ import net.minecraft.server.level.progress.ChunkProgressListenerFactory;
 import net.minecraft.util.thread.ReentrantBlockableEventLoop;
 import net.minecraft.world.RandomSequences;
 import net.minecraft.world.level.CustomSpawner;
-import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.BiomeManager;
 import net.minecraft.world.level.border.BorderChangeListener;
 import net.minecraft.world.level.dimension.LevelStem;
+import net.minecraft.world.level.storage.LevelResource;
 import net.minecraft.world.level.storage.LevelStorageSource;
 import net.minecraft.world.level.storage.ServerLevelData;
 import net.minecraft.world.level.storage.WorldData;
@@ -45,6 +51,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -80,6 +87,8 @@ public abstract class MinecraftServerMixin extends ReentrantBlockableEventLoop<T
 
     @Shadow public abstract RegistryAccess.Frozen registryAccess();
 
+    @Shadow public abstract Path getWorldPath(LevelResource levelResource);
+
     @Unique
     public Map<ResourceKey<Level>, ServerLevel> infinity$worldsToAdd;
     @Unique
@@ -91,6 +100,13 @@ public abstract class MinecraftServerMixin extends ReentrantBlockableEventLoop<T
         infinity$needsInvocation = !Files.exists(InfinityMod.invocationLock);
         InfinityMod.LOGGER.info("Invocation {}", infinity$needsInvocation ? "needed..." : "not needed");
         if (!infinity$needsInvocation) infinity$setDimensionProvider();
+        //? if <1.21 {
+        /*Path jukeboxesPath = getWorldPath(LevelResource.DATAPACK_DIR).resolve("server_sound_pack_data.json");
+        if (Files.exists(jukeboxesPath)) {
+            infinity$setJukeboxDataMap(CommonIO.read(jukeboxesPath));
+        }
+        else InfinityMod.LOGGER.info("Jukeboxes not found");
+        *///?}
     }
     @Override
     public boolean infinity$needsInvocation() {return infinity$needsInvocation;}
@@ -181,4 +197,37 @@ public abstract class MinecraftServerMixin extends ReentrantBlockableEventLoop<T
                 , worldGenerationProgressListener
                 , debugWorld, seed, spawners, shouldTickTime, randomSequencesState);
     }
+
+    //? if <1.21 {
+    /*@Unique Map<String, Pair<String, Integer>> subtitleDurationMap = new HashMap<>();
+
+    public void infinity$setJukeboxDataMap(CompoundTag data) {
+        subtitleDurationMap.clear();
+        int i = 0;
+        for (String key : data.getAllKeys()) {
+            CompoundTag jukebox = data.getCompound(key);
+            subtitleDurationMap.put(jukebox.getString("sound_id"), Pair.of(jukebox.getString("sound_sub"), jukebox.getInt("sound_duration")));
+            i++;
+        }
+        InfinityMod.LOGGER.info("Loaded {} jukeboxes", i);
+    }
+    public boolean infinity$hasJukeboxes() {
+        return !subtitleDurationMap.isEmpty();
+    }
+    public String infinity$getRandomJukeboxId() {
+        if (subtitleDurationMap.isEmpty()) return "empty";
+        List<String> lst = subtitleDurationMap.keySet().stream().toList();
+        return lst.get(InfinityMod.random.nextInt(lst.size()));
+    }
+    public String infinity$getJukeboxSubtitle(String id) {
+        var v = subtitleDurationMap.get(id);
+        if (v != null) return v.getFirst();
+        return DiscItem.emptySubtitle;
+    }
+    public int infinity$getJukeboxDuration(String id) {
+        var v = subtitleDurationMap.get(id);
+        if (v != null) return v.getSecond();
+        return DiscItem.defaultDuration;
+    }
+    *///?}
 }

@@ -1,11 +1,13 @@
 package net.lerariemann.infinity.registry.var;
 
+import net.lerariemann.infinity.InfinityMod;
 import net.lerariemann.infinity.access.InfinityOptionsAccess;
 import net.lerariemann.infinity.access.WorldRendererAccess;
 import net.lerariemann.infinity.iridescence.Iridescence;
 import net.lerariemann.infinity.item.F4Item;
 import net.lerariemann.infinity.registry.core.ModComponentTypes;
 import net.lerariemann.infinity.registry.core.ModItems;
+import net.lerariemann.infinity.util.InfinityMethods;
 import net.lerariemann.infinity.util.VersionMethods;
 import net.lerariemann.infinity.util.config.SoundScanner;
 import net.lerariemann.infinity.util.platform.InfinityPlatform;
@@ -13,11 +15,14 @@ import net.lerariemann.infinity.util.loading.DimensionGrabber;
 import net.lerariemann.infinity.options.InfinityOptions;
 import net.lerariemann.infinity.util.loading.ShaderLoader;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.LevelRenderer;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.biome.Biome;
@@ -253,6 +258,33 @@ public class ModPayloads {
         }
     }
 
+    //? if <1.21 {
+    /*public record PlayJukeboxS2CPayload(BlockPos pos, String soundEvent, String caption) implements FriendlyPacketS2C {
+        static ResourceLocation sid = getId("play_jukebox");
+        @Override
+        public void write(FriendlyByteBuf buf) {
+            buf.writeBlockPos(pos);
+            buf.writeUtf(soundEvent);
+            buf.writeUtf(caption);
+        }
+        public static PacketType<PlayJukeboxS2CPayload> type =
+                PacketType.create(sid, buf -> new PlayJukeboxS2CPayload(buf.readBlockPos(), buf.readUtf(), buf.readUtf()));
+        @Override
+        public PacketType<?> getType() {
+            return type;
+        }
+        public static void receive(Minecraft client, ClientPacketListener handler, FriendlyByteBuf buf, PacketSender responseSender) {
+            type.read(buf).receive(client);
+        }
+        @Override
+        public void receive(Minecraft client) {
+            InfinityMod.LOGGER.info("Payload received: {}", soundEvent);
+            ((WorldRendererAccess)client.levelRenderer).infinity$playMusic(
+                    pos, SoundEvent.createVariableRangeEvent(InfinityMethods.getId(soundEvent)), caption);
+        }
+    }
+    *///?}
+
     public record F4DeployC2SPayload() implements FriendlyPacketC2S {
         static ResourceLocation sid = getId("deploy_f4");
         public static final F4DeployC2SPayload INSTANCE = new F4DeployC2SPayload();
@@ -378,6 +410,7 @@ public class ModPayloads {
         //?} else {
         /*ServerPlayNetworking.registerGlobalReceiver(F4UpdateC2SPayload.type, F4UpdateC2SPayload::receive);
         ServerPlayNetworking.registerGlobalReceiver(F4DeployC2SPayload.type, F4DeployC2SPayload::receive);
+        ServerPlayNetworking.registerGlobalReceiver(JukeboxesC2SPayload.type, JukeboxesC2SPayload::receive);
         *///?}
     }
 
@@ -390,6 +423,7 @@ public class ModPayloads {
         ClientPlayNetworking.registerGlobalReceiver(ShaderS2CPayload.sid, ShaderS2CPayload::receive);
         ClientPlayNetworking.registerGlobalReceiver(StarsS2CPayload.sid, StarsS2CPayload::receive);
         ClientPlayNetworking.registerGlobalReceiver(SoundPackS2CPayload.sid, SoundPackS2CPayload::receive);
+        ClientPlayNetworking.registerGlobalReceiver(PlayJukeboxS2CPayload.sid, PlayJukeboxS2CPayload::receive);
         *///?}
     }
 

@@ -44,7 +44,7 @@ public abstract class NoteBlockMixin {
     }
 
     @Inject(method = "setInstrument", at = @At("HEAD"), cancellable = true)
-    //?if >1.21.2 {
+    //? if >1.21.2 {
     void inj(LevelReader level, BlockPos pos, BlockState state, CallbackInfoReturnable<BlockState> cir) {
     //?} else {
     /*void inj(LevelAccessor level, BlockPos pos, BlockState state, CallbackInfoReturnable<BlockState> cir) {

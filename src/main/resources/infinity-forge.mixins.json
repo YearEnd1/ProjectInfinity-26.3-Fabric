@@ -61,6 +61,7 @@
     "options.NoteBlockMixin",
     "options.PlayerManagerMixin",
     "options.ServerWorldMixin",
+    "qol.JukeboxBlockEntityMixin",
     "qol.BlockEntityTypeMixin",
     "qol.CoralBlockBlockMixin",
     "qol.CoralParentBlockMixin",

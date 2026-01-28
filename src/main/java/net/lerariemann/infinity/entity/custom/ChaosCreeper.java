@@ -15,11 +15,15 @@ import net.minecraft.core.component.DataComponentMap;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.item.EitherHolder;
 import net.minecraft.world.item.JukeboxPlayable;
-//?}
+//?} else {
+/*import net.lerariemann.infinity.item.DiscItem;
+import net.minecraft.world.entity.monster.AbstractSkeleton;
+*///?}
 //? if >1.21.2 {
 import net.minecraft.world.entity.EntitySpawnReason;
  //?} else {
-/*import net.minecraft.world.entity.MobSpawnType;
+/*import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.MobSpawnType;
 *///?}
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
@@ -258,5 +262,14 @@ public class ChaosCreeper extends Creeper implements TintableEntity {
                     stack);
         }
     }
-    //?}
+    //?} else {
+    /*protected void dropCustomDeathLoot(DamageSource source, int looting, boolean recentlyHit) {
+        super.dropCustomDeathLoot(source, looting, recentlyHit);
+        Entity entity = source.getEntity();
+        if (entity instanceof AbstractSkeleton skeleton && getServer() != null) {
+            ItemStack stack = DiscItem.getRandom(getServer());
+            spawnAtLocation(stack);
+        }
+    }
+    *///?}
 }

@@ -1,5 +1,6 @@
 package net.lerariemann.infinity.util.config;
 
+import net.lerariemann.infinity.access.MinecraftServerAccess;
 import net.lerariemann.infinity.mixin.SoundListMixin;
 import net.lerariemann.infinity.registry.var.ModPayloads;
 import net.lerariemann.infinity.util.InfinityMethods;
@@ -42,6 +43,7 @@ public record SoundScanner(Map<ResourceLocation, Resource> soundIds) {
     /** Holds a map which allows to get the list of all sound IDs in existence and .ogg data for each.
      * Seeded by {@link SoundListMixin} on client launch. */
     public static SoundScanner instance;
+    public static final String lockFile = (InfinityPlatform.version > 20 ? "client" : "server") + "_sound_pack_data.json";
     public static boolean isPreloaded() {
         return instance != null;
     }
@@ -68,7 +70,7 @@ public record SoundScanner(Map<ResourceLocation, Resource> soundIds) {
         }
         else if (isPreloaded()) {
             cl.execute(() -> {
-                CompoundTag jukeboxes = saveResourcePack(cl, getMatchingLoadedIds(), InfinityPlatform.version > 20);
+                CompoundTag jukeboxes = saveResourcePack(cl, getMatchingLoadedIds(), true);
                 CompoundTag res = new CompoundTag();
                 ListTag songIdsList = new ListTag();
                 getMatchingLoadedIds().forEach(id -> songIdsList.add(StringTag.valueOf(id.toString())));
@@ -122,7 +124,7 @@ public record SoundScanner(Map<ResourceLocation, Resource> soundIds) {
     public static void unpackUploadedJukeboxes(MinecraftServer server, CompoundTag data) {
         if (!RandomProvider.rule("useSoundSyncPackets")) return;
         if (!data.contains("jukeboxes") || !data.contains("entries")) return;
-        if (Files.exists(server.getWorldPath(LevelResource.DATAPACK_DIR).resolve("client_sound_pack_data.json"))) return;
+        if (Files.exists(server.getWorldPath(LevelResource.DATAPACK_DIR).resolve(lockFile))) return;
 
         //? if >1.21 {
         CompoundTag allJukeboxes = NbtUtils.getCompound(data, "jukeboxes");
@@ -133,7 +135,10 @@ public record SoundScanner(Map<ResourceLocation, Resource> soundIds) {
             }
         }
         grabJukeboxes(server);
-        //?}
+        //?} else {
+        /*((MinecraftServerAccess)server).infinity$setJukeboxDataMap(data.getCompound("jukeboxes"));
+        CommonIO.write(data.getCompound("jukeboxes"), server.getWorldPath(LevelResource.DATAPACK_DIR), "server_sound_pack_data.json");
+        *///?}
 
         data.remove("jukeboxes");
         CompoundTag packData = new CompoundTag();
@@ -197,6 +202,7 @@ public record SoundScanner(Map<ResourceLocation, Resource> soundIds) {
 
     private static @NotNull CompoundTag getJukeboxDef(String songID, String subtitleID, double length) {
         CompoundTag jukebox_def = new CompoundTag();
+        //? if >1.21 {
         CompoundTag sound_event = new CompoundTag();
         sound_event.putString("sound_id", "infinity:" + songID);
         jukebox_def.put("sound_event", sound_event);
@@ -205,6 +211,11 @@ public record SoundScanner(Map<ResourceLocation, Resource> soundIds) {
         jukebox_def.put("description", description);
         jukebox_def.putFloat("length_in_seconds", (float)length);
         jukebox_def.putInt("comparator_output", 15);
+        //?} else {
+        /*jukebox_def.putString("sound_id", songID);
+        jukebox_def.putString("sound_sub", subtitleID);
+        jukebox_def.putInt("sound_duration", (int)length);
+        *///?}
         return jukebox_def;
     }
 }

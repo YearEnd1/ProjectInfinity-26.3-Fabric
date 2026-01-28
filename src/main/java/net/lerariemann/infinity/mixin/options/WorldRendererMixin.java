@@ -2,6 +2,14 @@ package net.lerariemann.infinity.mixin.options;
 
 //? if <1.21.2 {
 /*import com.mojang.blaze3d.vertex.VertexBuffer;
+import net.minecraft.client.resources.sounds.SimpleSoundInstance;
+import net.minecraft.client.resources.sounds.SoundInstance;
+import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.world.item.RecordItem;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.Vec3;
 import org.spongepowered.asm.mixin.injection.Constant;
 import org.spongepowered.asm.mixin.injection.ModifyConstant;
 import net.lerariemann.infinity.util.InfinityMethods;
@@ -41,6 +49,8 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+
+import java.util.Map;
 
 @Mixin(LevelRenderer.class)
 public abstract class WorldRendererMixin implements WorldRendererAccess {
@@ -191,4 +201,27 @@ public abstract class WorldRendererMixin implements WorldRendererAccess {
         }
     }
     //?}
+
+    //jukeboxes begin
+    //? if <1.21 {
+    /*@Shadow @Final private Map<BlockPos, SoundInstance> playingRecords;
+    @Shadow protected abstract void notifyNearbyEntities(Level level, BlockPos pos, boolean playing);
+
+    public void infinity$playMusic(BlockPos pos, SoundEvent sound, String desc) {
+        SoundInstance soundinstance = playingRecords.get(pos);
+        if (soundinstance != null) {
+            this.minecraft.getSoundManager().stop(soundinstance);
+            this.playingRecords.remove(pos);
+        }
+
+        if (sound != null) {
+            this.minecraft.gui.setNowPlaying(Component.translatable(desc));
+            SoundInstance simplesoundinstance = SimpleSoundInstance.forRecord(sound, Vec3.atCenterOf(pos));
+            this.playingRecords.put(pos, simplesoundinstance);
+            this.minecraft.getSoundManager().play(simplesoundinstance);
+        }
+
+        this.notifyNearbyEntities(this.level, pos, sound != null);
+    };
+    *///?}
 }

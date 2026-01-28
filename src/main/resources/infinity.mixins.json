@@ -65,6 +65,7 @@
     "qol.CoralParentBlockMixin",
     "qol.EnderDragonEntityMixin",
     "qol.FireBlockMixin",
+    "qol.JukeboxBlockEntityMixin",
     "qol.LavaFluidMixin",
     "rrv.FluidItemRendererMixin"
   ],

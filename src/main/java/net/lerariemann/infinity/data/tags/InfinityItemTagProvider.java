@@ -40,6 +40,11 @@ public class InfinityItemTagProvider extends FabricTagProvider.ItemTagProvider {
 				ModItems.IRIDESCENT_WOOL.get(),
 				ModItems.CHROMATIC_WOOL.get()
 		);
+	    //? <1.21 {
+		/*valueLookupBuilder(ItemTags.MUSIC_DISCS).add(
+				ModItems.DISC.get()
+		);
+	    *///?}
 		valueLookupBuilder(ItemTags.WOOL_CARPETS).add(
 				ModItems.IRIDESCENT_CARPET.get(),
 				ModItems.CHROMATIC_CARPET.get()

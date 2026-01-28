@@ -9,6 +9,7 @@ import net.lerariemann.infinity.util.core.RandomProvider;
 import net.lerariemann.infinity.util.teleport.WarpLogic;
 import net.lerariemann.infinity.registry.var.ModPayloads;
 import net.minecraft.core.LayeredRegistryAccess;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.Connection;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.RegistryLayer;
@@ -83,9 +84,18 @@ public class PlayerManagerMixin {
         if (acc.infinity$needsInvocation()) {
             ConfigGenInvocation.invokeOn(player);
         }
-        InfinityMod.LOGGER.info("Sending sound pack to client");
-        if (RandomProvider.rule("useSoundSyncPackets")) new ModPayloads.SoundPackS2CPayload(CommonIO.read(
-                player.level().getServer().getWorldPath(LevelResource.DATAPACK_DIR).resolve("client_sound_pack_data.json"))).send(player);
+        if (RandomProvider.rule("useSoundSyncPackets")) {
+            //? if <1.21 {
+            /*if (!acc.infinity$hasJukeboxes()) {
+                new ModPayloads.SoundPackS2CPayload(new CompoundTag()).send(player);
+                InfinityMod.LOGGER.info("Requesting sound pack from client");
+                return;
+            }
+            *///?}
+            InfinityMod.LOGGER.info("Sending sound pack to client");
+            new ModPayloads.SoundPackS2CPayload(CommonIO.read(
+                    player.level().getServer().getWorldPath(LevelResource.DATAPACK_DIR).resolve("client_sound_pack_data.json"))).send(player);
+        }
     }
 
     @Inject(method="sendLevelInfo", at = @At("TAIL"))
