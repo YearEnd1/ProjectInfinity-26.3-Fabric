@@ -32,6 +32,11 @@ public record Amendment(ConfigType area, ModSelector modSelector, Selector selec
         if (mod.equals("all")) {
             modSelector = new UniversalModSelector();
         }
+        else if (mod.startsWith("!")) {
+            String notMod = mod.substring(1);
+            if (!InfinityPlatform.INSTANCE.isModLoaded(notMod)) modSelector = new UniversalModSelector();
+            else modSelector = new ExceptModSelector(notMod);
+        }
         else if (!InfinityPlatform.INSTANCE.isModLoaded(mod)) return null;
         else modSelector = new MatchingModSelector(mod);
 
@@ -103,6 +108,12 @@ public record Amendment(ConfigType area, ModSelector modSelector, Selector selec
         @Override
         public boolean applies(String modId) {
             return modId.equals(this.mod);
+        }
+    }
+    public record ExceptModSelector(String mod) implements ModSelector {
+        @Override
+        public boolean applies(String modId) {
+            return !modId.equals(this.mod);
         }
     }
 

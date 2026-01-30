@@ -36,20 +36,26 @@ import net.neoforged.fml.ModLoadingContext;
 import net.neoforged.fml.loading.FMLEnvironment;
 import net.neoforged.fml.loading.FMLPaths;
 //? if >1.21.4 {
-import net.neoforged.neoforge.client.network.ClientPacketDistributor;
-//?}
+/^import net.neoforged.neoforge.client.network.ClientPacketDistributor;
+^///?}
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.common.Tags;
 import net.neoforged.neoforge.event.level.LevelEvent;
 import net.neoforged.neoforge.network.PacketDistributor;
+import net.neoforged.neoforgespi.language.IModInfo;
 
 import java.nio.file.Path;
+import java.util.List;
 import java.util.function.Supplier;
 
 public class NeoForgePlatformImpl implements InfinityPlatform {
     @Override
     public boolean isModLoaded(String modid) {
         return ModList.get().isLoaded(modid);
+    }
+    @Override
+    public List<String> getModsLoaded() {
+        return ModList.get().getMods().stream().map(IModInfo::getModId).toList();
     }
 
     @Override
@@ -84,10 +90,10 @@ public class NeoForgePlatformImpl implements InfinityPlatform {
     @Override
     public void sendC2SPayload(FriendlyPacket payload) {
         //? <1.21.2 {
-        /^PacketDistributor.sendToServer(payload);
-        ^///?} else {
-        ClientPacketDistributor.sendToServer(payload);
-         //?}
+        PacketDistributor.sendToServer(payload);
+        //?} else {
+        /^ClientPacketDistributor.sendToServer(payload);
+         ^///?}
     }
 
     /^*
@@ -140,7 +146,7 @@ public class NeoForgePlatformImpl implements InfinityPlatform {
     public RegistrySupplier<LiquidBlock> getIridBlockForReg() {
         var properties = VersionMethods.copyBlockProperties(Blocks.WATER).mapColor(MapColor.COLOR_MAGENTA)
                 //? if >1.21.2
-                .setId(ModBlocks.registryKey("iridescence"))
+                /^.setId(ModBlocks.registryKey("iridescence"))^/
                 ;
         return ModBlocks.BLOCKS.register("iridescence", () ->
                 new IridescenceLiquidBlockNeoforge(InfinityPlatform.INSTANCE.getIridescenceStill(), properties));
@@ -210,17 +216,17 @@ public class NeoForgePlatformImpl implements InfinityPlatform {
     public Item.Properties deferredIntComponent(String id, RegistrySupplier<DataComponentType<Integer>> componentTypeSupplier, int i) {
         return new Item.Properties().component(componentTypeSupplier, i)
                 //? if >1.21.4
-                .setId(ModItems.registryKey(id))
+                /^.setId(ModItems.registryKey(id))^/
                 ;
     }
     @Override
     public ItemEnchantments getEnchantments(ItemStack weapon, MinecraftServer s) {
         return weapon.getAllEnchantments(s.registryAccess()
                 //? if >1.21.4 {
-                .lookupOrThrow(Registries.ENCHANTMENT));
-                 //?} else {
                 /^.lookupOrThrow(Registries.ENCHANTMENT));
-        ^///?}
+                 ^///?} else {
+                .lookupOrThrow(Registries.ENCHANTMENT));
+        //?}
     }
 
     @Override

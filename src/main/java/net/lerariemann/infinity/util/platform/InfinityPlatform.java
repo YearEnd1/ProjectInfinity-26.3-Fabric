@@ -29,6 +29,7 @@ import net.lerariemann.infinity.registry.payload.FriendlyPacket;
  *///?}
 
 import java.nio.file.Path;
+import java.util.List;
 
 public interface InfinityPlatform {
     int version =
@@ -83,6 +84,7 @@ public interface InfinityPlatform {
      *///?}
 
     boolean isModLoaded(String modid);
+    List<String> getModsLoaded();
     String loader();
     Path getConfigFolder();
     boolean isDevelopment();

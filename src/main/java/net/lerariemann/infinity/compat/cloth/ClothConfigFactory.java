@@ -1,6 +1,5 @@
 package net.lerariemann.infinity.compat.cloth;
 
-
 import com.google.gson.*;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import me.shedaniel.clothconfig2.api.AbstractConfigListEntry;

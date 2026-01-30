@@ -1,5 +1,5 @@
 {
-  "amendment_version": 3,
+  "amendment_version": 4,
   "elements": [
     {
       "area": "fluids",
@@ -83,7 +83,7 @@
       "value": 0.1
     },
     {
-      "area": "structures",
+      "area": "biomes",
       "mod": "the_bumblezone",
       "selector": "all",
       "results": "erase"

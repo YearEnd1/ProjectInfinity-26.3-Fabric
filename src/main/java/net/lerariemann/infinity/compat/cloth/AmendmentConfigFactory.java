@@ -11,13 +11,18 @@ import me.shedaniel.clothconfig2.impl.builders.DropdownMenuBuilder;
 import me.shedaniel.clothconfig2.impl.builders.SubCategoryBuilder;
 import net.lerariemann.infinity.util.core.CommonIO;
 import net.lerariemann.infinity.util.core.NbtUtils;
+import net.lerariemann.infinity.util.platform.InfinityPlatform;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.StringTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
+
+import java.io.File;
 import java.util.*;
 
+import static net.lerariemann.infinity.InfinityMod.LOGGER;
+import static net.lerariemann.infinity.InfinityMod.configPath;
 import static net.lerariemann.infinity.compat.cloth.ClothConfigFactory.*;
 
 public class AmendmentConfigFactory {
@@ -30,6 +35,7 @@ public class AmendmentConfigFactory {
     boolean edited = false;
     ConfigCategory amendmentCategory;
     ConfigBuilder builder;
+    public static List<String> allModIds;
 
     AmendmentConfigFactory(ConfigBuilder builder) {
         this.builder = builder;
@@ -139,8 +145,19 @@ public class AmendmentConfigFactory {
 
         void build() {
             var area = addStringDropdownOption("area", always,
-                    Lists.newArrayList("blocks", "fluids", "items", "structures", "trees", "mobs"));
-            addStringOption("mod", always);
+                    Lists.newArrayList("blocks", "fluids", "items", "structures", "biomes", "trees", "mobs"));
+
+            var v = configPath.resolve("modular").toFile().listFiles(File::isDirectory);
+            if (v != null) allModIds = Arrays.stream(v).map(File::getName).toList();
+            else allModIds = InfinityPlatform.INSTANCE.getModsLoaded();
+            List<String> res = new ArrayList<>();
+            res.add("all");
+            res.add("!minecraft");
+            res.addAll(allModIds);
+            allModIds.forEach(s -> {
+                if (!s.equals("minecraft")) res.add("!" + s);
+            });
+            addStringDropdownOption("mod", always, res);
 
             var selector = addStringDropdownOption("selector", always,
                     Lists.newArrayList("all", "matching", "matching_any", "matching_block_tag", "containing"));

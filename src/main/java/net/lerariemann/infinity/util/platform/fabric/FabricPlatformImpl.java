@@ -42,12 +42,18 @@ import net.minecraft.world.level.material.FlowingFluid;
 import net.minecraft.world.level.material.MapColor;
 
 import java.nio.file.Path;
+import java.util.List;
 
 public class FabricPlatformImpl implements InfinityPlatform {
 
     @Override
     public boolean isModLoaded(String modid) {
         return FabricLoader.getInstance().isModLoaded(modid);
+    }
+
+    @Override
+    public List<String> getModsLoaded() {
+        return FabricLoader.getInstance().getAllMods().stream().map(c -> c.getMetadata().getId()).toList();
     }
 
     @Override

@@ -31,13 +31,20 @@ import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.loading.FMLEnvironment;
 import net.minecraftforge.fml.loading.FMLPaths;
+import net.minecraftforge.forgespi.language.IModInfo;
 
 import java.nio.file.Path;
+import java.util.List;
 
 public class ForgePlatformImpl implements InfinityPlatform {
     @Override
     public boolean isModLoaded(String modid) {
         return ModList.get().isLoaded(modid);
+    }
+
+    @Override
+    public List<String> getModsLoaded() {
+        return ModList.get().getMods().stream().map(IModInfo::getModId).toList();
     }
 
     @Override

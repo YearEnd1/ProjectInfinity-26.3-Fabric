@@ -9,7 +9,9 @@
 ### Technical
 - The mod now makes use of data generation, improving consistency between versions.
 - Payload-related code is compartmentalised, which should not affect anything observable to the user but might spawn unknown bugs.
+- Amendments can now use excluding mod selectors, i.e. "!minecraft" to affect everything except vanilla minecraft content.
 
 ### Fixes
 - Corals no longer crash world generation. (Cass)
 - Custom packets are correctly registered on the client. (Cass, 1.21.1 Neoforge)
+- The 11th amendment was changed to blacklist bumblezone biomes instead of structures.
