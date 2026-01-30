@@ -22,7 +22,7 @@
               {
                 "name": "RedMatrix",
                 "type": "vec3",
-                "value": [ 0.7, 0.0, 0.0 ]
+                "value": [ 1.0, 0.7, 0.7 ]
               },
               {
                 "name": "GreenMatrix",
@@ -32,7 +32,7 @@
               {
                 "name": "BlueMatrix",
                 "type": "vec3",
-                "value": [ 0.7, 0.7, 1.0 ]
+                "value": [ 0.0, 0.0, 0.7 ]
               }
             ]
           }
