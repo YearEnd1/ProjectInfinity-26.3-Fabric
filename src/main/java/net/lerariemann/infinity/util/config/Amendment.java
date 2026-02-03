@@ -6,12 +6,11 @@ import net.lerariemann.infinity.util.core.CommonIO;
 import net.lerariemann.infinity.util.core.ConfigType;
 import net.lerariemann.infinity.util.core.NbtUtils;
 import net.lerariemann.infinity.util.platform.InfinityPlatform;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.StringTag;
 import net.minecraft.nbt.Tag;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.block.Block;
 
@@ -20,6 +19,9 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public record Amendment(ConfigType area, ModSelector modSelector, Selector selector, Results results) {
     public static Amendment of(CompoundTag data) {
+        String prereqMod = NbtUtils.getString(data, "load_if_mod", "");
+        if (!prereqMod.isEmpty() && !InfinityPlatform.INSTANCE.isModLoaded(prereqMod)) return null;
+
         String areaName = NbtUtils.getString(data, "area", "");
         ConfigType area = ConfigType.byName(areaName);
         if (area == null) {
@@ -31,6 +33,9 @@ public record Amendment(ConfigType area, ModSelector modSelector, Selector selec
         ModSelector modSelector;
         if (mod.equals("all")) {
             modSelector = new UniversalModSelector();
+        }
+        else if (mod.equals("any_of")) {
+            modSelector = new MatchingAnyModSelector(listTransform(NbtUtils.getList(data, "mods", Tag.TAG_STRING)));
         }
         else if (mod.startsWith("!")) {
             String notMod = mod.substring(1);
@@ -46,8 +51,7 @@ public record Amendment(ConfigType area, ModSelector modSelector, Selector selec
             case "containing" -> new ContainingSelector(NbtUtils.getString(data, "containing"));
             case "matching" -> new MatchingSelector(NbtUtils.getString(data, "matching"));
             case "matching_block_tag" -> new MatchingBlockTagSelector(NbtUtils.getString(data, "matching_block_tag"));
-            case "matching_any" -> new MatchingAnySelector(NbtUtils.getList(data, "matching_any", Tag.TAG_STRING)
-                    .stream().map(e->(StringTag)e).map(NbtUtils::getAsString).toList());
+            case "matching_any" -> new MatchingAnySelector(listTransform(NbtUtils.getList(data, "matching_any", Tag.TAG_STRING)));
             default -> {
                 InfinityMod.LOGGER.warn("Unknown amendment selector type: {}", selectorType);
                 yield null;
@@ -56,7 +60,7 @@ public record Amendment(ConfigType area, ModSelector modSelector, Selector selec
 
         String resultType = NbtUtils.getString(data, "results", "");
         Results results = switch (resultType) {
-            case "set_value" -> new SetValue(NbtUtils.getInt(data, "value"));
+            case "set_value" -> new SetValue(NbtUtils.getDouble(data, "value"));
             case "erase" -> new SetValue(0);
             case "set_field" -> new SetField(NbtUtils.getString(data, "field_name"), data.get("field"));
             default -> {
@@ -67,6 +71,10 @@ public record Amendment(ConfigType area, ModSelector modSelector, Selector selec
 
         if (selector == null || results == null) return null;
         return new Amendment(area, modSelector, selector, results);
+    }
+
+    public static List<String> listTransform(ListTag tag) {
+        return tag.stream().map(e->(StringTag)e).map(NbtUtils::getAsString).toList();
     }
 
     public static Map<ConfigType, List<Amendment>> getAmendmentList() {
@@ -108,6 +116,12 @@ public record Amendment(ConfigType area, ModSelector modSelector, Selector selec
         @Override
         public boolean applies(String modId) {
             return modId.equals(this.mod);
+        }
+    }
+    public record MatchingAnyModSelector(List<String> mods) implements ModSelector {
+        @Override
+        public boolean applies(String modId) {
+            return mods.contains(modId);
         }
     }
     public record ExceptModSelector(String mod) implements ModSelector {

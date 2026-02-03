@@ -21,7 +21,6 @@ import net.minecraft.network.chat.Component;
 import java.io.File;
 import java.util.*;
 
-import static net.lerariemann.infinity.InfinityMod.LOGGER;
 import static net.lerariemann.infinity.InfinityMod.configPath;
 import static net.lerariemann.infinity.compat.cloth.ClothConfigFactory.*;
 
@@ -152,12 +151,15 @@ public class AmendmentConfigFactory {
             else allModIds = InfinityPlatform.INSTANCE.getModsLoaded();
             List<String> res = new ArrayList<>();
             res.add("all");
+            res.add("any_of");
             res.add("!minecraft");
             res.addAll(allModIds);
             allModIds.forEach(s -> {
                 if (!s.equals("minecraft")) res.add("!" + s);
             });
-            addStringDropdownOption("mod", always, res);
+            var modSelector = addStringDropdownOption("mod", always, res);
+            addListOption("mods", matches(modSelector, "any_of"));
+            addStringDropdownOption("load_if_mod", always, allModIds);
 
             var selector = addStringDropdownOption("selector", always,
                     Lists.newArrayList("all", "matching", "matching_any", "matching_block_tag", "containing"));
@@ -235,7 +237,6 @@ public class AmendmentConfigFactory {
 
         private void addListOption(String name, Requirement req) {
             List<String> current = getSafeList(name);
-            if (!Objects.equals(current.get(current.size()-1), "")) current.add("");
             subCategory.add(parent.builder.entryBuilder().startStrList(
                             Component.translatable("config.infinity.amendments."+name),
                             current)

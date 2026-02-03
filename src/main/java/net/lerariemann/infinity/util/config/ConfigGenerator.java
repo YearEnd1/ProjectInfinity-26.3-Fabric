@@ -34,6 +34,7 @@ import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.MobSpawnSettings;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.FallingBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -137,16 +138,18 @@ public interface ConfigGenerator {
         Registry<Fluid> r = BuiltInRegistries.FLUID;
         Set<String> fluidBlockNames = new HashSet<>();
         r.registryKeySet().forEach(key -> {
-            Fluid b = VersionMethods.getFromRegistry(BuiltInRegistries.FLUID, key);
-            assert b!= null;
-            String name = BuiltInRegistries.BLOCK.getKey(b.defaultFluidState().createLegacyBlock().getBlock()).toString();
-            CompoundTag data = new CompoundTag();
-            data.putString("fluidName", key.location().toString());
-            fluidBlockNames.add(name);
-            Fluid f = VersionMethods.getFromRegistry(r, key.location());
-            if (f instanceof FlowingFluid fl && fl.equals(fl.getSource())) {
-                String modId = key.location().getNamespace();
-                fluidMap.add(modId, name, data);
+            Fluid fluid = VersionMethods.getFromRegistry(BuiltInRegistries.FLUID, key);
+            assert fluid != null;
+            Block bl = fluid.defaultFluidState().createLegacyBlock().getBlock();
+            if (bl != Blocks.AIR) {
+                String name = BuiltInRegistries.BLOCK.getKey(bl).toString();
+                CompoundTag data = new CompoundTag();
+                data.putString("fluidName", key.location().toString());
+                fluidBlockNames.add(name);
+                if (fluid instanceof FlowingFluid fl && fl.equals(fl.getSource())) {
+                    String modId = key.location().getNamespace();
+                    fluidMap.add(modId, name, data);
+                }
             }
         });
         fluidMap.save();
