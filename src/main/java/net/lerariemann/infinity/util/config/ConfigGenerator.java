@@ -34,7 +34,6 @@ import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.biome.MobSpawnSettings;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.FallingBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -49,7 +48,6 @@ import net.minecraft.world.level.levelgen.structure.Structure;
 import net.minecraft.world.level.levelgen.structure.StructureSpawnOverride;
 import net.minecraft.world.level.material.FlowingFluid;
 import net.minecraft.world.level.material.Fluid;
-import net.minecraft.world.level.storage.loot.LootDataType;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import java.util.*;
@@ -140,16 +138,16 @@ public interface ConfigGenerator {
         r.registryKeySet().forEach(key -> {
             Fluid fluid = VersionMethods.getFromRegistry(BuiltInRegistries.FLUID, key);
             assert fluid != null;
-            Block bl = fluid.defaultFluidState().createLegacyBlock().getBlock();
-            if (bl != Blocks.AIR) {
-                String name = BuiltInRegistries.BLOCK.getKey(bl).toString();
-                CompoundTag data = new CompoundTag();
-                data.putString("fluidName", key.location().toString());
-                fluidBlockNames.add(name);
-                if (fluid instanceof FlowingFluid fl && fl.equals(fl.getSource())) {
-                    String modId = key.location().getNamespace();
-                    fluidMap.add(modId, name, data);
-                }
+            Block block = fluid.defaultFluidState().createLegacyBlock().getBlock();
+            String blockName = BuiltInRegistries.BLOCK.getKey(block).toString();
+            CompoundTag data = new CompoundTag();
+            data.putString("fluidName", key.location().toString());
+            fluidBlockNames.add(blockName);
+            if (fluid instanceof FlowingFluid fl
+                    && fl.equals(fl.getSource())
+                    && block.defaultBlockState().getFluidState().is(fl)) {
+                String modId = key.location().getNamespace();
+                fluidMap.add(modId, blockName, data);
             }
         });
         fluidMap.save();
