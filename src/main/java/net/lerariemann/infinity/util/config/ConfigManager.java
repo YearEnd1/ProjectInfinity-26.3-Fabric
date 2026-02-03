@@ -79,7 +79,8 @@ public interface ConfigManager {
     static void unpackDefaultConfigs(Path path, String fromDirectory) {
         try(Stream<Path> files = Files.walk(path)) {
             if (!configPath.toFile().exists()) Files.createDirectories(configPath);
-            files.filter(p -> p.toString().endsWith(".json")).forEach(p -> registerConfig(p, configPath, fromDirectory));
+            files.filter(p -> p.toString().endsWith(".json") || p.toString().endsWith(".txt"))
+                    .forEach(p -> registerConfig(p, configPath, fromDirectory));
             Files.deleteIfExists(tempFile); //being a good method cleaning up after itself :3
         } catch (IOException e) {
             throw new RuntimeException(e);
