@@ -114,7 +114,7 @@ public interface ConfigGenerator {
                 .generate(ConfigType.LOOT_TABLES);
         *///?} else {
         /*DataCollection lootTables = new DataCollection.Logged(ConfigType.LOOT_TABLES, "loot tables");
-        server.getLootData().getKeys(LootDataType.TABLE).forEach((key)->{
+        server.getLootData().getKeys(net.minecraft.world.level.storage.loot.LootDataType.TABLE).forEach((key)->{
             LootTable table = server.getLootData().getLootTable(key);
             //? if >1.21 {
             ResourceLocation type = LootContextParamSets.REGISTRY.inverse().get(table.getParamSet());
