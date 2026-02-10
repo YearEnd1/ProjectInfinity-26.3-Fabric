@@ -66,8 +66,7 @@
     "qol.EnderDragonEntityMixin",
     "qol.FireBlockMixin",
     "qol.JukeboxBlockEntityMixin",
-    "qol.LavaFluidMixin",
-    "rrv.FluidItemRendererMixin"
+    "qol.LavaFluidMixin"
   ],
   "client": [
     "SoundListMixin",
@@ -83,6 +82,7 @@
     "options.SoundSystemMixin",
     "options.WorldRendererMixin",
     "qol.EditWorldScreenMixin",
-    "qol.KeyboardMixin"
+    "qol.KeyboardMixin",
+    "rrv.FluidItemRendererMixin"
   ]
 }

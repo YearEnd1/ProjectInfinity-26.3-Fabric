@@ -17,11 +17,11 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import org.jetbrains.annotations.NotNull;
 
-public class ChaosSlimeRenderer extends MobRenderer
+public class ChaosSlimeRenderer
         //? if >1.21.2 {
-        <ChaosSlime, TintedRenderState.Slime, SlimeModel>
+        extends MobRenderer<ChaosSlime, TintedRenderState.Slime, SlimeModel>
         //?} else {
-        /*<ChaosSlime, SlimeModel<ChaosSlime>>
+        /*extends MobRenderer<ChaosSlime, SlimeModel<ChaosSlime>>
         *///?}
          {
     public static final ResourceLocation TEXTURE = InfinityMethods.getId("textures/entity/slime.png");

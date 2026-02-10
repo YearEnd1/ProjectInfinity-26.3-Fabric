@@ -2,16 +2,25 @@ package net.lerariemann.infinity.registry.var;
 
 import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.arguments.StringArgumentType;
+import com.mojang.brigadier.builder.LiteralArgumentBuilder;
+import com.mojang.brigadier.builder.RequiredArgumentBuilder;
+import com.mojang.brigadier.context.CommandContext;
+import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.brigadier.exceptions.DynamicCommandExceptionType;
 import dev.architectury.event.events.common.CommandRegistrationEvent;
 import net.lerariemann.infinity.compat.ModCompat;
 import net.lerariemann.infinity.util.InfinityMethods;
-import net.lerariemann.infinity.util.platform.InfinityPlatform;
 import net.lerariemann.infinity.util.teleport.WarpLogic;
+import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.commands.arguments.DimensionArgument;
+import net.minecraft.commands.arguments.EntityArgument;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerPlayer;
+
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Random;
 
 import static net.minecraft.commands.Commands.argument;
@@ -43,39 +52,16 @@ public class ModCommands {
         CommandRegistrationEvent.EVENT.register((dispatcher, registryAccess, environment) -> dispatcher.register(literal(warp)
                 .requires(source -> source.hasPermission(2))
                 .then(
-                        Commands.literal("random").executes((context -> {
-                            final long text = InfinityMethods.getRandomSeed(new Random());
-                            WarpLogic.requestWarpById(context, text);
-                            return 1;
-                        }))
+                        Commands.argument("targets", EntityArgument.players())
+                                .then(randomArgument(true))
+                                .then(existingArgument(true))
+                                .then(idArgument(true))
+                                .then(textArgument(true))
                 )
-                .then(
-                        Commands.literal("existing").then(
-                                argument("existing", DimensionArgument.dimension()).executes(context -> {
-                                    final ResourceLocation identifier = context.getArgument("existing", ResourceLocation.class);
-                                    WarpLogic.requestWarpToExisting(context, identifier);
-                                    return 1;
-                                })
-                        )
-                )
-                .then(
-                        Commands.literal("id").then(
-                                argument("id", IntegerArgumentType.integer())
-                                        .executes(context -> {
-                                            final int value = IntegerArgumentType.getInteger(context, "id");
-                                            WarpLogic.requestWarpById(context, value);
-                                            return 1;
-                                        })
-                        )
-                )
-                .then(
-                        argument("text", StringArgumentType.string())
-                                .executes(context -> {
-                                    final String text = StringArgumentType.getString( context, "text");
-                                    WarpLogic.requestWarpByText(context, text);
-                                    return 1;
-                                })
-                )
+                .then(randomArgument(false))
+                .then(existingArgument(false))
+                .then(idArgument(false))
+                .then(textArgument(false))
         ));
         CommandRegistrationEvent.EVENT.register((dispatcher, registryAccess, environment) -> dispatcher.register(literal("respawn")
                 .requires(source -> source.hasPermission(2)).executes(context -> {
@@ -83,4 +69,63 @@ public class ModCommands {
                     return 1;
                 })));
     }
+
+    private static RequiredArgumentBuilder<CommandSourceStack, String> textArgument(boolean b) {
+        return argument("text", StringArgumentType.string())
+                .executes(context -> {
+                    final String text = StringArgumentType.getString(context, "text");
+                    WarpLogic.requestWarpByText(context, players(b, context), text);
+                    return 1;
+                });
+    }
+
+    private static LiteralArgumentBuilder<CommandSourceStack> idArgument(boolean b) {
+        return Commands.literal("id").then(
+                argument("id", IntegerArgumentType.integer())
+                        .executes(context -> {
+                            final int value = IntegerArgumentType.getInteger(context, "id");
+                            WarpLogic.requestWarpById(players(b, context), value);
+                            return 1;
+                        })
+        );
+    }
+
+    private static LiteralArgumentBuilder<CommandSourceStack> existingArgument(boolean b) {
+        return Commands.literal("existing").then(
+                argument("existing", DimensionArgument.dimension()).executes(context -> {
+                    final ResourceLocation identifier = context.getArgument("existing", ResourceLocation.class);
+                    WarpLogic.requestWarpToExisting(context, players(b, context), identifier);
+                    return 1;
+                })
+        );
+    }
+
+    private static LiteralArgumentBuilder<CommandSourceStack> randomArgument(boolean b) {
+        return Commands.literal("random").executes((context -> {
+            final long text = InfinityMethods.getRandomSeed(new Random());
+            Collection<ServerPlayer> players = players(b, context);
+            WarpLogic.requestWarpById(players, text);
+            return 1;
+        }));
+    }
+
+	private static Collection<ServerPlayer> players(boolean hasPlayerArgument, CommandContext<CommandSourceStack> context) {
+		if (hasPlayerArgument) {
+            return players(context);
+        } else {
+            return player(context);
+        }
+	}
+
+    private static Collection<ServerPlayer> player(CommandContext<CommandSourceStack> context) {
+        return Collections.singleton(context.getSource().getPlayer());
+    }
+
+    private static Collection<ServerPlayer> players(CommandContext<CommandSourceStack> context) {
+		try {
+			return EntityArgument.getPlayers(context, "targets");
+		} catch (CommandSyntaxException e) {
+            return Collections.singleton(context.getSource().getPlayer());
+		}
+	}
 }
