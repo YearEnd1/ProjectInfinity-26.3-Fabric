@@ -7,7 +7,6 @@ import net.lerariemann.infinity.registry.payload.c2s.F4UpdateC2SPayload;
 import net.lerariemann.infinity.registry.var.ModScreenHandlers;
 import net.lerariemann.infinity.util.VersionMethods;
 import net.minecraft.MethodsReturnNonnullByDefault;
-import net.minecraft.client.player.LocalPlayer;
 //? if <1.21 {
 /*import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.Mth;
@@ -78,7 +77,7 @@ public class F4ScreenHandler extends AbstractContainerMenu {
         *///?}
         playerInventory.setItem(slot, st);
         super.removed(player);
-        if (player instanceof LocalPlayer) {
+        if (player.isLocalPlayer()) {
             new F4UpdateC2SPayload(slot, width.get(), height.get()).send();
         }
     }
