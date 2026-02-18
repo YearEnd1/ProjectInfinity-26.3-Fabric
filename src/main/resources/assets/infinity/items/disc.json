@@ -4,14 +4,13 @@
     "model": "infinity:item/disc",
     "tints": [
       {
-        "type": "minecraft:custom_model_data",
-        "index": 0,
-        "default": 16777215
+        "type": "infinity:color",
+        "color": 16777215
       },
       {
-        "type": "minecraft:custom_model_data",
-        "index": 1,
-        "default": 0
+        "type": "infinity:color",
+        "color": 16777215,
+        "invert": true
       }
     ]
   }

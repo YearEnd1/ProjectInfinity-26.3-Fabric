@@ -146,7 +146,7 @@ extends Item
                         //? if <1.21.2
                         /*, true*/
                 ))
-                .set(ModComponentTypes.COLOR.get(), (int) InfinityMethods.getNumericFromId(song)).build());
+                .set(ModComponentTypes.COLOR.get(), (int) InfinityMethods.getDimensionSeed(song.getPath())).build());
         return stack;
     }
 //?}
