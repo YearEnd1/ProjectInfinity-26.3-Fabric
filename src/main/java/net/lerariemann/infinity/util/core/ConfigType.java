@@ -58,7 +58,7 @@ public enum ConfigType implements StringRepresentable {
     UNDERGROUND_ORES("undergroundores", "minecraft:ore_dirt");
 
     public static final ConfigType[] normalModular = new ConfigType[]{COLOR_PRESETS, EFFECTS, STRUCTURES,
-            LOOT_TABLES, TAGS, PARTICLES, MUSIC, SOUNDS, ITEMS, TREES, JUKEBOXES};
+            LOOT_TABLES, TAGS, PARTICLES, MUSIC, SOUNDS, ITEMS, TREES, JUKEBOXES, FLUIDS, FLOWERS, CHESTS};
 
     public static final ConfigType[] mobCategories = new ConfigType[]{MONSTER, CREATURE, AMBIENT,
             WATER_CREATURE, UNDERGROUND_WATER_CREATURE, WATER_AMBIENT, AXOLOTLS};
