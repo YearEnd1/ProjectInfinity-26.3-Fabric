@@ -31,6 +31,7 @@ public class AmendmentConfigFactory {
     }
 
     Map<Integer, CompoundTag> amendments = new HashMap<>();
+    int infinityVersion = 0;
     boolean edited = false;
     ConfigCategory amendmentCategory;
     ConfigBuilder builder;
@@ -39,13 +40,15 @@ public class AmendmentConfigFactory {
     AmendmentConfigFactory(ConfigBuilder builder) {
         this.builder = builder;
 
-        ListTag list = readNbt(configPath()+"/amendments.json")
+        CompoundTag cmp = readNbt(configPath()+"/amendments.json");
+        ListTag list = cmp
                 //? if <1.21.2 {
                 /*.getList("elements" , 10
                 *///?} else {
                 .getListOrEmpty("elements"
                 //?}
         );
+        infinityVersion = NbtUtils.getInt(cmp, "infinity_version", 0);
         int N = list.size();
         for (int i = 0; i < N; i++) if (list.get(i) instanceof CompoundTag e) {
             amendments.put(i, e);
@@ -81,6 +84,7 @@ public class AmendmentConfigFactory {
             if (!value.isEmpty()) elements.add(value);
         }
         CompoundTag res = new CompoundTag();
+        res.putInt("infinity_version", infinityVersion);
         res.putInt("amendment_version", (int)((System.currentTimeMillis() - 1754769333185L)/1000));
         res.put("elements", elements);
         CommonIO.write(res, configPath(), "amendments.json");
