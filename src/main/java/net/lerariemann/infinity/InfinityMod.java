@@ -38,8 +38,8 @@ public class InfinityMod {
 
     public static void init() {
         commonConfigPathInJar = InfinityPlatform.INSTANCE.getRootPathInJar("config/common");
-        ConfigManager.updateInvocationUnlock();
         ConfigManager.unpackDefaultConfigs();
+        ConfigManager.updateInvocationUnlock();
         //? if >1.21 {
         ModComponentTypes.registerComponentTypes();
         //?}
