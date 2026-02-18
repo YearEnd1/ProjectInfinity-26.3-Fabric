@@ -23,8 +23,8 @@ import net.minecraft.core.registries.Registries;
 import net.lerariemann.infinity.util.core.ConfigType;
 import net.lerariemann.infinity.InfinityMod;
 import net.lerariemann.infinity.util.loading.DimensionGrabber;
-import java.nio.file.Path;
  //?}
+import java.nio.file.Path;
 import net.minecraft.world.level.storage.LevelResource;
 import org.jetbrains.annotations.NotNull;
 
@@ -84,9 +84,9 @@ public record SoundScanner(Map<ResourceLocation, Resource> soundIds) {
         songIds.forEach(id -> {
             String str = id.toString().replace(".ogg", "").replace("sounds/", "");
             List<String> arr = Arrays.stream(str.split("[:/]")).toList(); //preloading IDs
-            String songID = "disc." + arr.getFirst() + "." + arr.getLast();
+            String songID = "disc." + arr.get(0) + "." + arr.get(arr.size() - 1);
             String subtitleID = InfinityPlatform.version > 21 ? makeSubtitle(str) : "infinity:subtitles." + songID;
-            String subtitleData = InfinityMethods.formatAsTitleCase(arr.getFirst() + " - " + arr.getLast());
+            String subtitleData = InfinityMethods.formatAsTitleCase(arr.get(0) + " - " + arr.get(arr.size() - 1));
 
             ListTag soundForRPList = new ListTag();
             CompoundTag soundForRPCompound = new CompoundTag();
@@ -107,7 +107,7 @@ public record SoundScanner(Map<ResourceLocation, Resource> soundIds) {
                 } catch (IOException e) {
                     length = 600;
                 }
-                jukeboxes.put(arr.getLast(), getJukeboxDef(songID, subtitleID, length));
+                jukeboxes.put(arr.get(arr.size() - 1), getJukeboxDef(songID, subtitleID, length));
             }
         });
 
