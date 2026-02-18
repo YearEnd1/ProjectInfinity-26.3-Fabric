@@ -18,7 +18,6 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.Mth;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -32,38 +31,38 @@ import net.minecraft.world.level.portal.TeleportTransition;
 //?} else if >1.21 {
 /*import net.minecraft.world.level.portal.DimensionTransition;
 *///?}
-import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.HashSet;
+import java.util.Collection;
 import java.util.Objects;
 
 public interface WarpLogic {
     /**
      * Handles the /warp id command, converting the provided numeric ID to an Identifier.
      */
-    static void requestWarpById(CommandContext<CommandSourceStack> context, long value) {
-        requestWarp(context.getSource().getPlayer(), InfinityMethods.getDimId(value), true);
+    static void requestWarpById(Collection<ServerPlayer> players, long value) {
+        requestWarp(players, InfinityMethods.getDimId(value), true);
     }
     /**
      * Handles the /warp existing command, warping the player to a specified dimension. This is the same as writing the input into a book.
      */
-    static void requestWarpToExisting(CommandContext<CommandSourceStack> context, ResourceLocation value) throws CommandSyntaxException {
+    static void requestWarpToExisting(CommandContext<CommandSourceStack> context, Collection<ServerPlayer> players, ResourceLocation value) throws CommandSyntaxException {
         ServerLevel w = context.getSource().getServer().getLevel(ResourceKey.create(Registries.DIMENSION, value));
         if (w == null)
             throw ModCommands.MALFORM_IDENTIFIER_EXCEPTION.create(value);
         else if (InfinityMethods.isTimebombed(w))
             throw ModCommands.TIMEBOMBED_EXCEPTION.create(value);
-        else requestWarp(context.getSource().getPlayer(), value, true);
+        else requestWarp(players, value, true);
     }
     /**
      * Handles the /warp text command, warping the player to a specified dimension. This is the same as writing the input into a book.
      */
-    static void requestWarpByText(CommandContext<CommandSourceStack> context, String value) {
+    static void requestWarpByText(CommandContext<CommandSourceStack> context, Collection<ServerPlayer> players, String value) {
         value = InfinityMethods.dimTextPreprocess(value);
         ResourceLocation id = InfinityMethods.dimTextToId(value);
-        requestWarp(context.getSource().getPlayer(), id, true);
+        requestWarp(players, id, true);
         PortalCreator.recordIdTranslation(context.getSource().getServer(), id, value);
     }
 
@@ -87,6 +86,15 @@ public interface WarpLogic {
             ((ServerPlayerEntityAccess)(player)).infinity$setWarpTimer(2, value);
         }
         else performWarp(player, value);
+    }
+
+    /**
+     * Moves a collection of players to a specified existing dimension.
+     */
+    static void requestWarp(Collection<ServerPlayer> players, ResourceLocation value, boolean increaseStats) {
+        players.forEach(player -> {
+            requestWarp(player, value, increaseStats);
+        });
     }
 
     /**

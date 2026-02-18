@@ -1,8 +1,8 @@
 package net.lerariemann.infinity.mixin.iridescence;
 
 import net.lerariemann.infinity.registry.core.ModStatusEffects;
+import net.lerariemann.infinity.util.ClientMethods;
 import net.lerariemann.infinity.util.VersionMethods;
-import net.minecraft.client.Minecraft;
 import net.minecraft.core.Holder;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.effect.MobEffect;
@@ -44,7 +44,7 @@ public abstract class StatusEffectInstanceMixin {
     @Inject(method = "tickClient", at = @At(value = "TAIL"))
     void tickStatusEffects(CallbackInfo ci) {
         if (VersionMethods.unholdEffect(getEffect()) instanceof ModStatusEffects.SpecialEffect eff) {
-            eff.tryApplySpecial(Minecraft.getInstance().player, duration, amplifier);
+            ClientMethods.tryApplySpecial(eff, duration, amplifier);
         }
     }
     //?}

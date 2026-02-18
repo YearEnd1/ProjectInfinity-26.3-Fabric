@@ -41,6 +41,7 @@ import org.apache.commons.io.FileUtils;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
+import java.util.Objects;
 
 import static net.lerariemann.infinity.InfinityMod.MOD_ID;
 
@@ -89,7 +90,7 @@ public interface InfinityMethods {
             //? if >1.21 {
             return world.getBiome(pos).getRegisteredName().contains("infinity");
             //?} else {
-            /*return world.registryAccess().registryOrThrow(Registries.BIOME).getKey(world.getBiome(pos).value()).getNamespace().contains("infinity");
+            /*return Objects.requireNonNullElse(world.registryAccess().registryOrThrow(Registries.BIOME).getKey(world.getBiome(pos).value()), VersionMethods.id("the_void")).getNamespace().contains("infinity");
              *///?}
         } catch (IllegalStateException e) {
             return false;
