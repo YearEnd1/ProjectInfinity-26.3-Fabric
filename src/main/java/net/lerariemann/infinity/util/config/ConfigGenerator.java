@@ -61,7 +61,6 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 public interface ConfigGenerator {
     static void generateAll(MinecraftServer server) {
-        DataCollection.amendmentList = Amendment.getAmendmentList();
         ConfigFactory.of(BuiltInRegistries.ITEM).generate(ConfigType.ITEMS);
         ConfigFactory.of(BuiltInRegistries.PARTICLE_TYPE, ConfigGenerator::extractParticle).generate(ConfigType.PARTICLES);
         ConfigFactory.of(BuiltInRegistries.ENTITY_TYPE, ConfigGenerator::extractMob).generate(ConfigType.MOBS);

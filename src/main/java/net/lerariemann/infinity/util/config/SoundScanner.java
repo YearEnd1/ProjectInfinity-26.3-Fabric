@@ -56,7 +56,6 @@ public record SoundScanner(Map<ResourceLocation, Resource> soundIds) {
      * <p>If the server already contains data upon which the client should create its resource pack, it holds this data.
      * <p>Otherwise, this payload is empty, and the server relies on the client to create it and send it back to the server for future use. */
     public static void unpackDownloadedPack(CompoundTag songIds, Minecraft cl) {
-
         //the client unpacks a non-empty payload only when needed, meaning only if it doesn't have necessary files yet
         if (!songIds.isEmpty() && !Files.exists(cl.getResourcePackDirectory().resolve("infinity/assets/infinity/sounds.json"))) {
             cl.execute(() -> saveResourcePack(cl, NbtUtils.getList(songIds, "entries", Tag.TAG_STRING).stream()
@@ -85,12 +84,15 @@ public record SoundScanner(Map<ResourceLocation, Resource> soundIds) {
         songIds.forEach(id -> {
             String str = id.toString().replace(".ogg", "").replace("sounds/", "");
             List<String> arr = Arrays.stream(str.split("[:/]")).toList(); //preloading IDs
-            String songID = "disc." + arr.get(0) + "." + arr.get(arr.size()-1);
-            String subtitleID = "infinity:subtitles." + songID;
-            String subtitleData = InfinityMethods.formatAsTitleCase(arr.get(0) + " - " + arr.get(arr.size()-1));
+            String songID = "disc." + arr.getFirst() + "." + arr.getLast();
+            String subtitleID = InfinityPlatform.version > 21 ? makeSubtitle(str) : "infinity:subtitles." + songID;
+            String subtitleData = InfinityMethods.formatAsTitleCase(arr.getFirst() + " - " + arr.getLast());
 
             ListTag soundForRPList = new ListTag();
-            soundForRPList.add(StringTag.valueOf(str));
+            CompoundTag soundForRPCompound = new CompoundTag();
+            soundForRPCompound.putString("name", str);
+            soundForRPCompound.putBoolean("stream", true);
+            soundForRPList.add(soundForRPCompound);
             CompoundTag soundForRP = new CompoundTag();
             soundForRP.put("sounds", soundForRPList);
             soundForRP.putString("subtitle", subtitleID);
@@ -109,8 +111,16 @@ public record SoundScanner(Map<ResourceLocation, Resource> soundIds) {
             }
         });
         CommonIO.write(soundsForRP, client.getResourcePackDirectory().resolve("infinity/assets/infinity"), "sounds.json");
-        CommonIO.write(subtitlesForRP, client.getResourcePackDirectory().resolve("infinity/assets/infinity/lang"), "en_us.json");
+        if (InfinityPlatform.version <= 21)
+            CommonIO.write(subtitlesForRP, client.getResourcePackDirectory().resolve("infinity/assets/infinity/lang"), "en_us.json");
+        client.reloadResourcePacks();
         return jukeboxes;
+    }
+
+    public static String makeSubtitle(String str) {
+        String res = str.replace(':', '.').replace('/', '.');
+        if (res.startsWith("minecraft.")) res = res.substring("minecraft.".length());
+        return res;
     }
 
     /** Receiver for a C2S {@link JukeboxesC2SPayload} payload, which holds data to send to clients in the future for them to

@@ -18,7 +18,7 @@ import java.util.stream.IntStream;
  * @author LeraRiemann */
 public class DataCollection {
     private final Map<String, List<CompoundTag>> map = new HashMap<>();
-    public static Map<ConfigType, List<Amendment>> amendmentList;
+    public static Map<ConfigType, List<Amendment>> amendmentList = Amendment.getAmendmentList();
     ConfigType type;
     List<Amendment> amendments;
 
