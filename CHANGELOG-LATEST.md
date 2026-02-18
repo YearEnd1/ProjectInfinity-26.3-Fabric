@@ -16,6 +16,7 @@
 
 ### Fixes
 - Random dimensions can once again use fluids other than water for their generation.
+- Music discs on 1.21.8 are now correctly tinted and actually play.
 - Corals no longer crash world generation. (Cass)
 - Custom packets are correctly registered on the client. (Cass, 1.21.1 Neoforge)
 - The 11th amendment was changed to blacklist bumblezone biomes instead of structures.

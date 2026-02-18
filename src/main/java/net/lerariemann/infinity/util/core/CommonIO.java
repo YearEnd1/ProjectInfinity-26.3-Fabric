@@ -97,6 +97,16 @@ public interface CommonIO {
             throw new RuntimeException(e);
         }
     }
+    static String readAsString(File file) {
+        try {
+            if (file.exists()) {
+                return FileUtils.readFileToString(file, StandardCharsets.UTF_8);
+            }
+            return "";
+        } catch (IOException e) {
+            return "";
+        }
+    }
 
     static CompoundTag readAndFormat(String path, Object... args) {
         File file = new File(path);

@@ -107,13 +107,18 @@ public record SoundScanner(Map<ResourceLocation, Resource> soundIds) {
                 } catch (IOException e) {
                     length = 600;
                 }
-                jukeboxes.put(arr.get(arr.size()-1), getJukeboxDef(songID, subtitleID, length));
+                jukeboxes.put(arr.getLast(), getJukeboxDef(songID, subtitleID, length));
             }
         });
-        CommonIO.write(soundsForRP, client.getResourcePackDirectory().resolve("infinity/assets/infinity"), "sounds.json");
+
+        Path dir = client.getResourcePackDirectory().resolve("infinity/assets/infinity");
+        String filename = "sounds.json";
+        String oldContents = CommonIO.readAsString(dir.resolve(filename).toFile());
+        CommonIO.write(soundsForRP, dir, filename);
+        String newContents = CommonIO.readAsString(dir.resolve(filename).toFile());
         if (InfinityPlatform.version <= 21)
             CommonIO.write(subtitlesForRP, client.getResourcePackDirectory().resolve("infinity/assets/infinity/lang"), "en_us.json");
-        client.reloadResourcePacks();
+        if (!Objects.equals(oldContents, newContents)) client.reloadResourcePacks();
         return jukeboxes;
     }
 
