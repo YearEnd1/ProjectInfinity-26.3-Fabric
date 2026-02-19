@@ -218,7 +218,7 @@ public class CosmicAltarBlockEntity extends SpecialBlockEntity.Boopable implemen
 
         @Override
         public int getListenerRadius() {
-            return 8;
+            return 6;
         }
 
         @Override

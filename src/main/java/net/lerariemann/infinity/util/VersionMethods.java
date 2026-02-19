@@ -406,7 +406,7 @@ public interface VersionMethods {
     }
 
     static CustomModelData getColoredModel(int color) {
-        return new CustomModelData(List.of(), List.of(), List.of(), List.of(color));
+        return new CustomModelData(List.of(), List.of(), List.of(String.valueOf(color)), List.of());
     }
 
     static <T> T getFromRegistry(Registry<T> registry, ResourceLocation name) {
