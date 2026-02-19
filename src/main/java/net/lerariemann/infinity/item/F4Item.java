@@ -97,6 +97,10 @@ public class F4Item extends Item implements PortalDataHolder.Destinable {
                                     int size_x, int size_y) {
         Direction.Axis dir2 = player.getDirection().getClockWise(Direction.Axis.Y).getAxis();
 
+        if (!VersionMethods.allowNether(world.getServer())) {
+            return null;
+        }
+
         int charges = getCharge(stack);
         int useCharges = player.isCreative() ? 0 : 2*(2 + size_x + size_y);
         if (charges < useCharges) {

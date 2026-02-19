@@ -24,7 +24,7 @@ public interface PortalDataHolder {
         return VersionMethods.getDimensionIdentifier(stack);
     }
 
-    static boolean isDestinationRandom(ResourceLocation id) {
+    static boolean isDestinationRandom(@Nullable ResourceLocation id) {
         return (id != null && id.toString().equals(InfinityMethods.ofRandomDim));
     }
 
