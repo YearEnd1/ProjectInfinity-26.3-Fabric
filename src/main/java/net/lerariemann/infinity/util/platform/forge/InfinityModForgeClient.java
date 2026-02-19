@@ -4,6 +4,7 @@ package net.lerariemann.infinity.util.platform.forge;
 
 /*import net.lerariemann.infinity.InfinityModClient;
 import net.lerariemann.infinity.compat.ModCompat;
+import net.lerariemann.infinity.registry.var.ModParticles;
 import net.lerariemann.infinity.util.platform.InfinityPlatform;
 import net.lerariemann.infinity.registry.core.ModBlocks;
 import net.lerariemann.infinity.registry.core.ModItemFunctions;
@@ -17,6 +18,7 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.ConfigScreenHandler;
 import net.minecraftforge.client.event.RegisterColorHandlersEvent;
+import net.minecraftforge.client.event.RegisterParticleProvidersEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
@@ -60,6 +62,10 @@ public class InfinityModForgeClient {
                 ModItems.PORTAL_ITEM.get());
         event.register(InfinityMethods::getDiscColorFromComponents,
                 ModItems.DISC.get());
+    }
+    @SubscribeEvent
+    public static void registerParticleProviders(RegisterParticleProvidersEvent event) {
+        ModParticles.registerClientForge(event);
     }
 
     @SubscribeEvent

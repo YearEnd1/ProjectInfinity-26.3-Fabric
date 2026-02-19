@@ -40,7 +40,7 @@ import net.minecraft.core.component.DataComponentMap;
 //? if neoforge {
 /*@ParametersAreNonnullByDefault
 *///?}
-public class BiomeBottleBlockEntity extends TintableBlockEntity {
+public class BiomeBottleBlockEntity extends SpecialBlockEntity {
     private final ContainerData propertyDelegate;
     private ResourceLocation biome;
     private int color;
@@ -79,43 +79,42 @@ public class BiomeBottleBlockEntity extends TintableBlockEntity {
         this.biome = i;
     }
 
+//? if >1.21.4 {
+    public void saveAdditional(ValueOutput tag) {
+        super.saveAdditional(tag);
+//?} else if >1.21 {
+    /*public void saveAdditional(CompoundTag tag, HolderLookup.Provider registryLookup) {
+        super.saveAdditional(tag, registryLookup);
+*///?} else {
+    /*public void saveAdditional(CompoundTag tag) {
+        super.saveAdditional(tag);
+*///?}
+        CompoundTag res = new CompoundTag();
+        res.putString("Biome", biome.toString());
+        res.putInt("Color", color);
+        res.putInt("Charge", charge);
+        if (from_charge > 0) res.putInt("from_charge", from_charge);
+        VersionMethods.saveBlockEntityData(tag, res);
+    }
+
+//? if >1.21.4 {
+    public void loadAdditional(ValueInput tag) {
+        super.loadAdditional(tag);
+//?} else if >1.21 {
+    /*public void loadAdditional(CompoundTag tag, HolderLookup.Provider registryLookup) {
+        super.loadAdditional(tag, registryLookup);
+*///?} else {
+    /*public void load(CompoundTag tag) {
+        super.load(tag);
+*///?}
+        CompoundTag res = VersionMethods.loadBlockEntityData(tag);
+        this.charge = NbtUtils.getInt(res, "Charge");
+        this.biome = VersionMethods.id(NbtUtils.getString(res, "Biome"));
+        this.color = NbtUtils.getInt(res, "Color");
+        this.from_charge = NbtUtils.getInt(res, "from_charge", 0);
+    }
+
     //? if >1.21 {
-    public void saveAdditional(
-            //? if >1.21.4 {
-            ValueOutput tag
-            //?} else {
-            /*CompoundTag tag, HolderLookup.Provider registryLookup
-            *///?}
-    ) {
-        super.saveAdditional(tag
-                //? if <1.21.4 {
-                /*, registryLookup
-                *///?}
-                );
-        tag.putString("Biome", biome.toString());
-        tag.putInt("Color", color);
-        tag.putInt("Charge", charge);
-        if (from_charge > 0) tag.putInt("from_charge", from_charge);
-    }
-
-    public void loadAdditional(
-            //? if >1.21.4 {
-            ValueInput tag
-            //?} else {
-            /*CompoundTag tag, HolderLookup.Provider registryLookup
-            *///?}
-    ) {
-        super.loadAdditional(tag
-                //? if <1.21.4 {
-                /*, registryLookup
-                *///?}
-        );
-        this.charge = NbtUtils.getInt(tag, "Charge");
-        this.biome = VersionMethods.id(NbtUtils.getString(tag, "Biome"));
-        this.color = NbtUtils.getInt(tag, "Color");
-        this.from_charge = NbtUtils.getInt(tag, "from_charge", 0);
-    }
-
     @Override
     protected void collectImplicitComponents(DataComponentMap.Builder componentMapBuilder) {
         super.collectImplicitComponents(componentMapBuilder);
@@ -139,31 +138,13 @@ public class BiomeBottleBlockEntity extends TintableBlockEntity {
     public CompoundTag getUpdateTag(HolderLookup.Provider registryLookup) {
         return saveWithoutMetadata(registryLookup);
     }
-    //?} else {
-    /*public void saveAdditional(CompoundTag tag) {
-        super.saveAdditional(tag);
-        tag.putString("Biome", biome.toString());
-        tag.putInt("Color", color);
-        tag.putInt("Charge", charge);
-        if (from_charge > 0) tag.putInt("from_charge", from_charge);
-    }
-
-    public void load(CompoundTag tag) {
-        super.load(tag);
-        this.charge = NbtUtils.getInt(tag, "Charge");
-        this.biome = VersionMethods.id(tag.getString("Biome"));
-        this.color = NbtUtils.getInt(tag, "Color");
-        this.from_charge = NbtUtils.getInt(tag, "from_charge", 0);
-    }
-    *///?}
+    //?}
 
     @Nullable
     @Override
     public ClientboundBlockEntityDataPacket getUpdatePacket() {
         return ClientboundBlockEntityDataPacket.create(this);
     }
-
-
 
     public int getTint() {
         return propertyDelegate.get(0);

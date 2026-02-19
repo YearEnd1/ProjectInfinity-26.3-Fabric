@@ -5,7 +5,7 @@ import com.google.common.hash.Hashing;
 import net.lerariemann.infinity.InfinityMod;
 import net.lerariemann.infinity.access.InfinityOptionsAccess;
 import net.lerariemann.infinity.access.Timebombable;
-import net.lerariemann.infinity.block.entity.TintableBlockEntity;
+import net.lerariemann.infinity.block.entity.SpecialBlockEntity;
 import net.lerariemann.infinity.compat.ModCompat;
 import net.lerariemann.infinity.compat.PonderCompat;
 import net.lerariemann.infinity.registry.core.ModComponentTypes;
@@ -35,13 +35,13 @@ import net.minecraft.world.level.levelgen.synth.NormalNoise;
 /*import net.minecraft.world.level.storage.LevelResource;
 import net.minecraft.core.registries.Registries;
 import net.lerariemann.infinity.registry.core.ModItems;
+import java.util.Objects;
 *///?}
 import net.minecraft.world.level.storage.LevelStorageSource;
 import org.apache.commons.io.FileUtils;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
-import java.util.Objects;
 
 import static net.lerariemann.infinity.InfinityMod.MOD_ID;
 
@@ -234,7 +234,7 @@ public interface InfinityMethods {
     static int getBlockEntityColor(BlockState state, BlockAndTintGetter world, BlockPos pos, int tintIndex) {
         if (world != null && pos != null) {
             BlockEntity blockEntity = world.getBlockEntity(pos);
-            if (blockEntity instanceof TintableBlockEntity be) {
+            if (blockEntity instanceof SpecialBlockEntity be) {
                 return be.getTint() & 0xFFFFFF;
             }
         }

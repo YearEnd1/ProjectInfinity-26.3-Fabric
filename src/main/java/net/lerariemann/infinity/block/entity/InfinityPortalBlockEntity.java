@@ -11,7 +11,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.Tag;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
@@ -32,7 +31,7 @@ import java.util.Random;
 @MethodsReturnNonnullByDefault
 //? if neoforge
 /*@ParametersAreNonnullByDefault*/
-public class InfinityPortalBlockEntity extends TintableBlockEntity {
+public class InfinityPortalBlockEntity extends SpecialBlockEntity {
     private final ContainerData propertyDelegate;
     private ResourceLocation dimension;
     private int portalColor;
@@ -151,91 +150,52 @@ public class InfinityPortalBlockEntity extends TintableBlockEntity {
     }
 
 
-    @Override
-    public void saveAdditional(
-            //? if >1.21.2 {
-            ValueOutput tag
-            //?} else {
-            /*CompoundTag tag
-            *///?}
-           //? if =1.21.1
-           /*,HolderLookup.Provider registryLookup*/
-    ) {
-        super.saveAdditional(tag
-                //? if =1.21.1
-                /*, registryLookup*/
-        );
-        tag.putInt("Color", this.portalColor);
-        tag.putString("Dimension", this.dimension.toString());
-        tag.putBoolean("Open", this.isOpen);
+    //? if >1.21.4 {
+    public void saveAdditional(ValueOutput tag) {
+        super.saveAdditional(tag);
+//?} else if >1.21 {
+    /*public void saveAdditional(CompoundTag tag, HolderLookup.Provider registryLookup) {
+        super.saveAdditional(tag, registryLookup);
+*///?} else {
+    /*public void saveAdditional(CompoundTag tag) {
+        super.saveAdditional(tag);
+*///?}
+        CompoundTag res = new CompoundTag();
+        res.putInt("Color", this.portalColor);
+        res.putString("Dimension", this.dimension.toString());
+        res.putBoolean("Open", this.isOpen);
         if (otherSidePos != null) {
-            //? if >1.21.2 {
-            tag.store("other_side", BlockPos.CODEC, otherSidePos);
-            //?} else {
-            /*CompoundTag pos = new CompoundTag();
-            pos.putInt("x", otherSidePos.getX());
-            pos.putInt("y", otherSidePos.getY());
-            pos.putInt("z", otherSidePos.getZ());
-            tag.put("other_side", pos);
-            *///?}
+            res.put("other_side", NbtUtils.wrapBP(otherSidePos));
         }
+
+        VersionMethods.saveBlockEntityData(tag, res);
     }
 
-    //? if >1.21 {
-
-    @Override
-    public void loadAdditional(
-            //? if >1.21.2 {
-            ValueInput tag
-            //?} else {
-            /*CompoundTag tag
-             *///?}
-            //? if =1.21.1
-            /*,HolderLookup.Provider registryLookup*/
-    ) {
-        super.loadAdditional(tag
-                //? if =1.21.1
-                /*, registryLookup*/
-                );
-
-    //?} else {
-
-    /*@Override
-    public void load(CompoundTag tag) {
+    //? if >1.21.4 {
+    public void loadAdditional(ValueInput tag) {
+        super.loadAdditional(tag);
+//?} else if >1.21 {
+    /*public void loadAdditional(CompoundTag tag, HolderLookup.Provider registryLookup) {
+        super.loadAdditional(tag, registryLookup);
+*///?} else {
+    /*public void load(CompoundTag tag) {
         super.load(tag);
-    *///?}
+*///?}
+        CompoundTag res = VersionMethods.loadBlockEntityData(tag);
 
-
-        //? if <1.21.2 {
-        /*if (tag.getTagType("Dimension") == Tag.TAG_ANY_NUMERIC) { //conversion from legacy formats
-            this.portalColor = NbtUtils.getInt(tag, "Dimension") & 0xFFFFFF;
-            if (tag.contains("DimensionName")) {
-                this.dimension = VersionMethods.id(NbtUtils.getString(tag, "DimensionName"));
-            }
-            else this.dimension = InfinityMethods.getDimId(this.portalColor);
-        }
-        else         if (tag.getTagType("Dimension") == Tag.TAG_STRING) { //new better format
-        *///?} else {
-        if (NbtUtils.compoundHasString(tag, "Dimension")) {
-        //?}
-            this.dimension = VersionMethods.id(NbtUtils.getString(tag, "Dimension"));
+        if (NbtUtils.compoundHasString(res, "Dimension")) {
+            this.dimension = VersionMethods.id(NbtUtils.getString(res, "Dimension"));
             if (level != null && level.getServer() != null)
-                this.portalColor = NbtUtils.getInt(tag, "Color", PortalColorApplier.of(dimension, level.getServer()).apply(worldPosition) & 0xFFFFFF);
+                this.portalColor = NbtUtils.getInt(res, "Color", PortalColorApplier.of(dimension, level.getServer()).apply(worldPosition) & 0xFFFFFF);
             else
-                this.portalColor = NbtUtils.getInt(tag, "Color", PortalColorApplier.of(dimension, new CompoundTag()).apply(worldPosition) & 0xFFFFFF);
+                this.portalColor = NbtUtils.getInt(res, "Color", PortalColorApplier.of(dimension, new CompoundTag()).apply(worldPosition) & 0xFFFFFF);
         }
         else {
             setDimension(InfinityMethods.getRandomSeed(new Random())); //random by default
         }
-        this.isOpen = NbtUtils.getBoolean(tag, "Open", false);
-        //? if >1.21.2 {
-        otherSidePos = tag.read("other_side", BlockPos.CODEC).orElse(otherSidePos);
-        //?} else {
-                /*if (tag.contains("other_side")) {
-        CompoundTag pos = NbtUtils.getCompound(tag,"other_side");
-        otherSidePos = new BlockPos(NbtUtils.getInt(pos, "x"), NbtUtils.getInt(pos, "y"), NbtUtils.getInt(pos, "z"));}
-        *///?}
-
+        this.isOpen = NbtUtils.getBoolean(res, "Open", false);
+        CompoundTag pos = NbtUtils.getCompound(res,"other_side");
+        if (!pos.isEmpty()) otherSidePos = NbtUtils.unwrapBP(pos);
     }
 
     @Nullable

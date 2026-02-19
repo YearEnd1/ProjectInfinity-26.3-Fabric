@@ -2,12 +2,14 @@ package net.lerariemann.infinity.util;
 
 import net.lerariemann.infinity.access.GameRendererAccess;
 import net.lerariemann.infinity.registry.core.ModComponentTypes;
+import net.lerariemann.infinity.util.core.NbtUtils;
 import net.minecraft.client.Minecraft;
 //? if >1.21 {
 import dev.architectury.registry.registries.RegistrySupplier;
 import net.minecraft.core.*;
 import net.minecraft.core.component.DataComponentMap;
 import net.minecraft.core.component.DataComponentType;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionResult;
@@ -21,6 +23,9 @@ import net.minecraft.world.item.component.CustomModelData;
 import net.minecraft.world.item.alchemy.PotionUtils;
 *///?}
 //? if >1.21.2 {
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
+import org.apache.logging.log4j.LogManager;
 //?} else {
 /*import net.minecraft.world.InteractionResultHolder;
 *///?}
@@ -39,10 +44,10 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockBehaviour;
-import net.minecraft.world.level.levelgen.NoiseGeneratorSettings;
-import net.minecraft.world.level.storage.loot.LootTable;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.Property;
+import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.Vec3;
-import org.apache.logging.log4j.LogManager;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -75,6 +80,34 @@ public interface VersionMethods {
         //?} else {
         /*return new ResourceLocation(namespace, path);
          *///?}
+    }
+
+    static void saveBlockEntityData(
+            //? if < 1.21.2 {
+            /*CompoundTag nbt
+             *///?} else {
+            ValueOutput nbt
+            //?}
+            , CompoundTag data) {
+        //? if < 1.21.2 {
+        /*nbt.put("infdata", data);
+         *///?} else {
+        nbt.store("infdata", CompoundTag.CODEC, data);
+        //?}
+    }
+
+    static CompoundTag loadBlockEntityData(
+            //? if >1.21.2 {
+            ValueInput tag
+            //?} else {
+            /*CompoundTag tag
+             *///?}
+            ) {
+        //? if >1.21.2 {
+        return tag.read("infdata", CompoundTag.CODEC).orElse(new CompoundTag());
+        //?} else {
+        /*return NbtUtils.getCompound(tag, "infdata", tag);
+        *///?}
     }
 
     //? if <1.21 {
@@ -294,6 +327,16 @@ public interface VersionMethods {
         *///?}
     }
 
+    //? if <1.21 {
+    /*static boolean gameEventsEqual(GameEvent first, GameEvent second) {
+        return first.equals(second);
+    }
+    *///?} else {
+    static boolean gameEventsEqual(Holder<GameEvent> first, Holder.Reference<GameEvent> second) {
+        return first.is(second);
+    }
+    //?}
+
     static int opaque(int color) {
         return color | -16777216;
     }
@@ -321,6 +364,14 @@ public interface VersionMethods {
     }
     static Block getBlock(ResourceKey<Block> name) {
         return getFromRegistry(BuiltInRegistries.BLOCK, name);
+    }
+
+    static <T extends Comparable<T>> T getPropertyOrElse(BlockState state, Property<T> prop, T def) {
+        //? if >1.21.4 {
+        return state.getValueOrElse(prop, def);
+        //?} else {
+        /*return state.getOptionalValue(prop).orElse(def);
+        *///?}
     }
 
     static void teleportTo(Player player, ServerLevel level, Vec3 pos, float yaw, float pitch) {

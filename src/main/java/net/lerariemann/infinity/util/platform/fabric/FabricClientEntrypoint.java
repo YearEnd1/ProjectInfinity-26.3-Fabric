@@ -18,6 +18,7 @@ import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariantAttributes;
 import net.fabricmc.api.ClientModInitializer;
 import net.lerariemann.infinity.InfinityModClient;
 import net.lerariemann.infinity.registry.core.ModBlocks;
+import net.lerariemann.infinity.registry.var.ModParticles;
 import net.lerariemann.infinity.registry.core.ModItemFunctions;
 import net.lerariemann.infinity.registry.core.ModItems;
 import net.lerariemann.infinity.util.InfinityMethods;
@@ -80,6 +81,7 @@ public class FabricClientEntrypoint implements ClientModInitializer {
         // Common client setup tasks
         InfinityModClient.initializeClient();
         ModItemFunctions.registerModelPredicates();
+        ModParticles.registerClientFabric();
 
         //Fluid stuff
         FluidVariantAttributes.register(InfinityPlatform.INSTANCE.getIridescenceStill().get(), new ModFluidsFabric.IridescenceVariantAttributeHandler());

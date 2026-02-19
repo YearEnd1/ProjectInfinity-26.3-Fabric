@@ -13,6 +13,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.gameevent.GameEvent;
 
 public class IridescentStarItem extends Item {
     public IridescentStarItem(Properties settings) {
@@ -41,8 +42,10 @@ public class IridescentStarItem extends Item {
                     IridescentBlock.num_models)));
         }
         else return super.useOn(context);
-        if (!world.isClientSide())
+        if (!world.isClientSide()) {
             world.playSound(null, pos, SoundEvents.AMETHYST_BLOCK_RESONATE, SoundSource.BLOCKS, 1f, 1f);
+            world.gameEvent(GameEvent.BLOCK_CHANGE, pos, GameEvent.Context.of(player, world.getBlockState(pos)));
+        }
         return InteractionResult.SUCCESS;
     }
 }

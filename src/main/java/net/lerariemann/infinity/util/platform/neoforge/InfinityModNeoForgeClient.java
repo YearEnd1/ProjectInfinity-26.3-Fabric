@@ -5,6 +5,7 @@ package net.lerariemann.infinity.util.platform.neoforge;
 import net.lerariemann.infinity.InfinityModClient;
 import net.lerariemann.infinity.compat.ModCompat;
 import net.lerariemann.infinity.registry.payload.ModPayloads;
+import net.lerariemann.infinity.registry.var.ModParticles;
 import net.lerariemann.infinity.registry.var.ModScreenHandlers;
 import net.lerariemann.infinity.util.VersionMethods;
 import net.lerariemann.infinity.util.config.SoundScanner;
@@ -37,6 +38,7 @@ import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.neoforge.client.event.RegisterColorHandlersEvent;
 import net.neoforged.neoforge.client.event.RegisterMenuScreensEvent;
+import net.neoforged.neoforge.client.event.RegisterParticleProvidersEvent;
 import net.neoforged.neoforge.client.extensions.common.IClientFluidTypeExtensions;
 import net.neoforged.neoforge.client.extensions.common.RegisterClientExtensionsEvent;
 import net.neoforged.neoforge.client.gui.IConfigScreenFactory;
@@ -110,6 +112,11 @@ public class InfinityModNeoForgeClient {
         ItemBlockRenderTypes.setRenderLayer(InfinityPlatform.INSTANCE.getIridescenceStill().get(), RenderType.translucent());
         ItemBlockRenderTypes.setRenderLayer(InfinityPlatform.INSTANCE.getIridescenceFlowing().get(), RenderType.translucent());
         //?}
+    }
+
+    @SubscribeEvent
+    public static void registerParticleProviders(RegisterParticleProvidersEvent event) {
+        ModParticles.registerClientNeoforge(event);
     }
 
     @SubscribeEvent

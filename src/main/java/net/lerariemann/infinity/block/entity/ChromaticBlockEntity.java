@@ -1,23 +1,21 @@
 package net.lerariemann.infinity.block.entity;
 
-import net.lerariemann.infinity.block.custom.Boopable;
 import net.lerariemann.infinity.registry.core.ModBlockEntities;
 import net.lerariemann.infinity.registry.core.ModComponentTypes;
 import net.lerariemann.infinity.registry.core.ModItems;
+import net.lerariemann.infinity.util.VersionMethods;
 import net.lerariemann.infinity.util.core.NbtUtils;
 import net.lerariemann.infinity.util.var.ColorLogic;
 import net.minecraft.core.BlockPos;
 //? if >1.21 {
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.component.DataComponentMap;
-import net.lerariemann.infinity.registry.core.ModComponentTypes;
 //?}
 //? if >1.21.4 {
 import net.minecraft.core.component.DataComponentGetter;
 //?}
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
-import net.minecraft.network.chat.contents.NbtContents;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
@@ -28,7 +26,6 @@ import net.minecraft.world.item.DyeItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 //? if >1.21.4 {
 import net.minecraft.world.level.storage.ValueInput;
@@ -39,7 +36,7 @@ import org.jetbrains.annotations.Nullable;
 import java.awt.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-public class ChromaticBlockEntity extends TintableBlockEntity {
+public class ChromaticBlockEntity extends SpecialBlockEntity.Boopable {
     public short hue;
     public short saturation;
     public short brightness;
@@ -175,81 +172,45 @@ public class ChromaticBlockEntity extends TintableBlockEntity {
         sync();
     }
 
-    void sync() {
-        setChanged();
-        if (level != null) {
-            Boopable.boop(level, worldPosition);
-        }
-    }
-
-    //? if >1.21 {
-
-    @Override
-    public void loadAdditional(
-            //? if >1.21.2 {
-            ValueInput nbt
-            //?} else {
-            /*CompoundTag nbt
-             *///?}
-            //? if =1.21.1
-            /*,HolderLookup.Provider registryLookup*/
-    ) {
-        super.loadAdditional(nbt
-                //? if =1.21.1
-                /*, registryLookup*/
-                );
-    //?} else {
-
-    /*@Override
-    public void load(CompoundTag nbt) {
-        super.load(nbt);
-    *///?}
-        //? if >1.21.2 {
-        nbt.getInt("color").ifPresent(this::setColor);
-        if (nbt.getInt("color").isEmpty()) {
-            hue = (short) nbt.getShortOr("h", hue);
-            saturation = (short) nbt.getShortOr("s", saturation);
-            brightness = (short) nbt.getShortOr("b", brightness);
-            updateColor();
-        }
-        //?} else {
-        /*if (nbt.getTagType("color") == Tag.TAG_INT)
-            setColor(nbt.getInt("color"));
-        else if (nbt.getTagType("color") == Tag.TAG_COMPOUND) {
+    //? if >1.21.4 {
+    public void loadAdditional(ValueInput tag) {
+        super.loadAdditional(tag);
+//?} else if >1.21 {
+    /*public void loadAdditional(CompoundTag tag, HolderLookup.Provider registryLookup) {
+        super.loadAdditional(tag, registryLookup);
+*///?} else {
+    /*public void load(CompoundTag tag) {
+        super.load(tag);
+*///?}
+        CompoundTag nbt = VersionMethods.loadBlockEntityData(tag);
+        if (NbtUtils.compoundHasInt(nbt, "color"))
+            setColor(NbtUtils.getInt(nbt,"color"));
+        else if (NbtUtils.compoundHasCompound(nbt, "color")) {
             CompoundTag color = NbtUtils.getCompound(nbt, "color");
             hue = NbtUtils.getShort(color, "h");
             saturation = NbtUtils.getShort(color, "s");
             brightness = NbtUtils.getShort(color, "b");
             updateColor();
         }
-        *///?}
     }
-    @Override
-    protected void saveAdditional(
-            //? if =1.21.1 || 1.20.1 {
-            /*CompoundTag nbt
-            *///?} else {
-            ValueOutput nbt
-            //?}
-            //? if =1.21.1
-            /*, HolderLookup.Provider registryLookup*/
-    ) {
-        super.saveAdditional(nbt
-                //? if =1.21.1
-                /*, registryLookup*/
-        );
-        //? if >1.21.2 {
-        nbt.putShort("h", hue);
-        nbt.putShort("s", saturation);
-        nbt.putShort("b", brightness);
-        //?} else {
-        /*CompoundTag color = new CompoundTag();
+
+    //? if >1.21.4 {
+    public void saveAdditional(ValueOutput tag) {
+        super.saveAdditional(tag);
+//?} else if >1.21 {
+    /*public void saveAdditional(CompoundTag tag, HolderLookup.Provider registryLookup) {
+        super.saveAdditional(tag, registryLookup);
+*///?} else {
+    /*public void saveAdditional(CompoundTag tag) {
+        super.saveAdditional(tag);
+*///?}
+        CompoundTag res = new CompoundTag();
+        CompoundTag color = new CompoundTag();
         color.putShort("h", hue);
         color.putShort("s", saturation);
         color.putShort("b", brightness);
-        nbt.put("color", color);
-        *///?}
-
+        res.put("color", color);
+        VersionMethods.saveBlockEntityData(tag, res);
     }
 
     public int getTint() {

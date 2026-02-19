@@ -1,6 +1,7 @@
 package net.lerariemann.infinity.util.core;
 
 import net.lerariemann.infinity.InfinityMod;
+import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
@@ -195,8 +196,38 @@ public interface NbtUtils {
         //? if >1.21.5 {
         return compoundTag.getList(key).isPresent();
         //?} else {
-        /*return compoundTag.getTagType(key) == Tag.TAG_STRING;
+        /*return compoundTag.getTagType(key) == Tag.TAG_LIST;
          *///?}
+    }
+    static boolean compoundHasInt(CompoundTag compoundTag, String key) {
+        //? if >1.21.5 {
+        return compoundTag.getInt(key).isPresent();
+        //?} else {
+        /*return compoundTag.getTagType(key) == Tag.TAG_INT;
+         *///?}
+    }
+    static boolean compoundHasCompound(CompoundTag compoundTag, String key) {
+        //? if >1.21.5 {
+        return compoundTag.getCompound(key).isPresent();
+        //?} else {
+        /*return compoundTag.getTagType(key) == Tag.TAG_COMPOUND;
+         *///?}
+    }
+
+    static CompoundTag wrapBP(BlockPos bp) {
+        CompoundTag res = new CompoundTag();
+        res.putInt("x", bp.getX());
+        res.putInt("y", bp.getY());
+        res.putInt("z", bp.getZ());
+        return res;
+    }
+
+    static BlockPos unwrapBP(CompoundTag pos) {
+        if (NbtUtils.compoundHasInt(pos, "x")
+                && NbtUtils.compoundHasInt(pos, "y")
+                && NbtUtils.compoundHasInt(pos, "z"))
+            return new BlockPos(NbtUtils.getInt(pos, "x"), NbtUtils.getInt(pos, "y"), NbtUtils.getInt(pos, "z"));
+        return null;
     }
 
     static String elementToName(Tag e) {

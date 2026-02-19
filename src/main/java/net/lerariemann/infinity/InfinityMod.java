@@ -43,6 +43,7 @@ public class InfinityMod {
         //? if >1.21 {
         ModComponentTypes.registerComponentTypes();
         //?}
+        ModParticles.registerServer();
         ModStatusEffects.registerModEffects();
         ModItemFunctions.registerItemFunctions();
         ModEntities.registerEntities();
