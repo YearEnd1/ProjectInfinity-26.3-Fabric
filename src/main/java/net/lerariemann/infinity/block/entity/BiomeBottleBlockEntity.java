@@ -5,11 +5,12 @@ import net.lerariemann.infinity.registry.core.ModBlockEntities;
 import net.lerariemann.infinity.registry.core.ModItems;
 import net.lerariemann.infinity.util.VersionMethods;
 import net.lerariemann.infinity.util.core.NbtUtils;
-import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 //? if >1.21.4 {
 import net.minecraft.core.component.DataComponentGetter;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 //?}
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
@@ -21,25 +22,14 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.state.BlockState;
-//? if >1.21.4 {
-import net.minecraft.world.level.storage.ValueInput;
-import net.minecraft.world.level.storage.ValueOutput;
-//?}
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 //? if >1.21 {
 import net.lerariemann.infinity.registry.core.ModComponentTypes;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.component.DataComponentMap;
 //?}
-//? if neoforge {
-/*import javax.annotation.ParametersAreNonnullByDefault;
-*///?}
 
-@MethodsReturnNonnullByDefault
-//? if neoforge {
-/*@ParametersAreNonnullByDefault
-*///?}
 public class BiomeBottleBlockEntity extends SpecialBlockEntity {
     private final ContainerData propertyDelegate;
     private ResourceLocation biome;

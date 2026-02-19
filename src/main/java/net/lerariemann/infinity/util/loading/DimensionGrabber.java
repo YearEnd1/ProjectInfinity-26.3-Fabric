@@ -23,7 +23,7 @@ import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.placement.PlacedFeature;
 import net.minecraft.world.level.levelgen.structure.Structure;
 import net.minecraft.world.level.levelgen.structure.StructureSet;
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -142,7 +142,7 @@ public class DimensionGrabber {
         baseRegistryManager.registries().forEach((entry) -> map.put(entry.key(), createInfo(entry.value())));
         mutableRegistries.forEach(registry -> map.put(registry.key(), createMutableInfo(registry)));
         return new RegistryOps.RegistryInfoLookup() {
-            public <T> @NotNull Optional<RegistryOps.RegistryInfo<T>> lookup(ResourceKey<? extends Registry<? extends T>> registryRef) {
+            public <T> @NonNull Optional<RegistryOps.RegistryInfo<T>> lookup(ResourceKey<? extends Registry<? extends T>> registryRef) {
                 return Optional.ofNullable((RegistryOps.RegistryInfo<T>)map.get(registryRef));
             }
         };

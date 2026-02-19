@@ -1,7 +1,7 @@
 package net.lerariemann.infinity.registry.payload.s2c;
 
 //? if >1.21 {
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
@@ -28,7 +28,7 @@ public record SoundPackS2CPayload(CompoundTag songIds) implements FriendlyPacket
     public static final StreamCodec<RegistryFriendlyByteBuf, SoundPackS2CPayload> CODEC = StreamCodec.composite(
             ByteBufCodecs.COMPOUND_TAG, SoundPackS2CPayload::songIds, SoundPackS2CPayload::new);
     @Override
-    public @NotNull Type<? extends CustomPacketPayload> type() {
+    public @NonNull Type<? extends CustomPacketPayload> type() {
         return ID;
     }
     //?} else {

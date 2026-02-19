@@ -26,8 +26,8 @@ import net.minecraftforge.fluids.FluidType;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 import java.util.function.Consumer;
 import java.util.function.Supplier;
@@ -55,17 +55,17 @@ public class FluidTypes {
                     consumer.accept(new IClientFluidTypeExtensions() {
 
                         @Override
-                        public @NotNull ResourceLocation getStillTexture() {
+                        public @NonNull ResourceLocation getStillTexture() {
                             return Iridescence.TEXTURE;
                         }
 
                         @Override
-                        public @NotNull ResourceLocation getFlowingTexture() {
+                        public @NonNull ResourceLocation getFlowingTexture() {
                             return Iridescence.FLOWING_TEXTURE;
                         }
 
                         @Override
-                        public int getTintColor(@NotNull FluidState state, @NotNull BlockAndTintGetter getter, @NotNull BlockPos pos) {
+                        public int getTintColor(@NonNull FluidState state, @NonNull BlockAndTintGetter getter, @NonNull BlockPos pos) {
                             return VersionMethods.opaque(Iridescence.getPosBasedColor(pos));
                         }
                     });
@@ -95,12 +95,12 @@ public class FluidTypes {
             super(properties);
         }
         @Override
-        public @Nullable BlockPathTypes getBlockPathType(@NotNull FluidState state, @NotNull BlockGetter level, @NotNull BlockPos pos,
+        public @Nullable BlockPathTypes getBlockPathType(@NonNull FluidState state, @NonNull BlockGetter level, @NonNull BlockPos pos,
                                                          @Nullable Mob mob, boolean canFluidLog) {
             return canFluidLog ? super.getBlockPathType(state, level, pos, mob, true) : null;
         }
         @Override
-        public boolean canConvertToSource(@NotNull FluidState state, @NotNull LevelReader reader, @NotNull BlockPos pos) {
+        public boolean canConvertToSource(@NonNull FluidState state, @NonNull LevelReader reader, @NonNull BlockPos pos) {
             if (reader instanceof Level level) {
                 return Iridescence.isInfinite(level);
             }
@@ -108,7 +108,7 @@ public class FluidTypes {
             return super.canConvertToSource(state, reader, pos);
         }
         @Override
-        public boolean isVaporizedOnPlacement(@NotNull Level w, @NotNull BlockPos pos, @NotNull FluidStack stack) {
+        public boolean isVaporizedOnPlacement(@NonNull Level w, @NonNull BlockPos pos, @NonNull FluidStack stack) {
             return false;
         }
     }

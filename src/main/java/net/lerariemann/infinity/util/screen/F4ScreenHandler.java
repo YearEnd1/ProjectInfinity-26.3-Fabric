@@ -6,8 +6,9 @@ import net.lerariemann.infinity.registry.core.ModComponentTypes;
 import net.lerariemann.infinity.registry.payload.c2s.F4UpdateC2SPayload;
 import net.lerariemann.infinity.registry.var.ModScreenHandlers;
 import net.lerariemann.infinity.util.VersionMethods;
-import net.minecraft.MethodsReturnNonnullByDefault;
-//? if <1.21 {
+//? if >1.21 {
+import net.minecraft.core.component.DataComponentMap;
+//?} else {
 /*import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.Mth;
 *///?}
@@ -20,19 +21,10 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import java.util.concurrent.atomic.AtomicInteger;
 
-//? if >1.21 {
-import net.minecraft.core.component.DataComponentMap;
-//?}
-//? if neoforge {
-/*import javax.annotation.ParametersAreNonnullByDefault;
-
-@ParametersAreNonnullByDefault
-*///?}
-@MethodsReturnNonnullByDefault
 public class F4ScreenHandler extends AbstractContainerMenu {
     public final Inventory playerInventory;
     public final ItemStack stack;

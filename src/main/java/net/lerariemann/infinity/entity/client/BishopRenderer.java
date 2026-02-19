@@ -12,7 +12,7 @@ import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.HumanoidMobRenderer;
 import net.minecraft.client.renderer.entity.layers.HumanoidArmorLayer;
 import net.minecraft.resources.ResourceLocation;
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 
 public class BishopRenderer extends
         //? if >1.21.2 {
@@ -43,7 +43,7 @@ public class BishopRenderer extends
     }
 
     @Override
-    public @NotNull ResourceLocation getTextureLocation(
+    public @NonNull ResourceLocation getTextureLocation(
             //? if >1.21.2 {
             BishopEntityRenderState
             //?} else {

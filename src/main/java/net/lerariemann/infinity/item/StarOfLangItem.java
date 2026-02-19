@@ -3,7 +3,7 @@ package net.lerariemann.infinity.item;
 import net.lerariemann.infinity.registry.core.ModItems;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 
 public class StarOfLangItem extends Item {
     public StarOfLangItem(Properties settings) {
@@ -19,12 +19,12 @@ public class StarOfLangItem extends Item {
 
     //? if neoforge && <1.21.2 {
     /*@Override
-    public @NotNull ItemStack getCraftingRemainingItem(@NotNull ItemStack itemStack) {
+    public @NonNull ItemStack getCraftingRemainingItem(@NonNull ItemStack itemStack) {
         return new ItemStack(ModItems.STAR_OF_LANG.get());
     }
 
     @Override
-    public boolean hasCraftingRemainingItem(@NotNull ItemStack stack) {
+    public boolean hasCraftingRemainingItem(@NonNull ItemStack stack) {
         return true;
     }
     *///?}

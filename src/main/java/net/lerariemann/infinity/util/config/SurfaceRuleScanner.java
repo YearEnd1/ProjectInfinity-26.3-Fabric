@@ -10,7 +10,7 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.*;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.level.levelgen.NoiseGeneratorSettings;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import java.util.*;
 

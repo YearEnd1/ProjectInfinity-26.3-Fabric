@@ -35,7 +35,7 @@ import net.minecraft.server.level.TicketType;
 import net.minecraft.world.level.portal.PortalShape;
 import net.minecraft.world.level.ChunkPos;
 *///?}
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import java.util.Comparator;
 import java.util.Optional;
@@ -47,7 +47,7 @@ public class InfinityPortal {
     BlockUtil.FoundRectangle portalFrom;
     @Nullable ServerLevel worldTo;
     @Nullable BlockPos posTo;
-    @Nullable BlockUtil.FoundRectangle portalTo;
+    BlockUtil.@Nullable FoundRectangle portalTo;
     boolean unableToCreatePortalFlag = false;
     boolean noSyncFlag = false;
     boolean footprintFlag = false;

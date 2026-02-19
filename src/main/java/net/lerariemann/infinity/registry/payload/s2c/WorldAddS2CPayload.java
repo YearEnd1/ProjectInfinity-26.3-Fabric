@@ -2,7 +2,7 @@ package net.lerariemann.infinity.registry.payload.s2c;
 
 
 //? if >1.21 {
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
@@ -32,7 +32,7 @@ public record WorldAddS2CPayload(ResourceLocation id, CompoundTag data) implemen
             ByteBufCodecs.COMPOUND_TAG, WorldAddS2CPayload::data,
             WorldAddS2CPayload::new);
     @Override
-    public @NotNull Type<? extends CustomPacketPayload> type() {
+    public @NonNull Type<? extends CustomPacketPayload> type() {
         return ID;
     }
     //?} else {

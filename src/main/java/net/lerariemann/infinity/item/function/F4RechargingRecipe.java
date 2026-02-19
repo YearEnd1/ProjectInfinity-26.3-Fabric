@@ -21,7 +21,7 @@ import net.minecraft.world.item.crafting.CraftingBookCategory;
 import net.minecraft.world.item.crafting.CustomRecipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.Level;
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 
 public class F4RechargingRecipe extends CustomRecipe {
     public F4RechargingRecipe(
@@ -58,7 +58,7 @@ public class F4RechargingRecipe extends CustomRecipe {
         return foundF4;
     }
 
-    public @NotNull ItemStack assemble(
+    public @NonNull ItemStack assemble(
             //? if >1.21 {
             CraftingInput
              //?} else {
@@ -98,7 +98,7 @@ public class F4RechargingRecipe extends CustomRecipe {
     }
 
     @Override
-    public @NotNull NonNullList<ItemStack> getRemainingItems(
+    public @NonNull NonNullList<ItemStack> getRemainingItems(
             //? if >1.21 {
             CraftingInput
              //?} else {
@@ -139,7 +139,7 @@ public class F4RechargingRecipe extends CustomRecipe {
     *///?}
 
     @Override
-    public @NotNull RecipeSerializer<F4RechargingRecipe> getSerializer() {
+    public @NonNull RecipeSerializer<F4RechargingRecipe> getSerializer() {
         return ModItemFunctions.F4_RECHARGING.get();
     }
 }

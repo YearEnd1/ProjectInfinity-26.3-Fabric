@@ -3,7 +3,7 @@ package net.lerariemann.infinity.registry.payload.c2s;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 //?} else {
 /*import net.minecraft.network.FriendlyByteBuf;
 import net.fabricmc.fabric.api.networking.v1.PacketSender;
@@ -28,7 +28,7 @@ public record F4DeployC2SPayload() implements FriendlyPacket.C2S {
     public static final Type<F4DeployC2SPayload> ID = new Type<>(sid);
     public static final StreamCodec<RegistryFriendlyByteBuf, F4DeployC2SPayload> CODEC = StreamCodec.unit(INSTANCE);
     @Override
-    public @NotNull Type<? extends CustomPacketPayload> type() {
+    public @NonNull Type<? extends CustomPacketPayload> type() {
         return ID;
     }
     //?} else {

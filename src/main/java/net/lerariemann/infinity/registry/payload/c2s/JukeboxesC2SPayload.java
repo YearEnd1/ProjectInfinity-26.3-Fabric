@@ -6,7 +6,7 @@ import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.lerariemann.infinity.util.InfinityMethods;
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 //?} else {
 /*import net.minecraft.network.FriendlyByteBuf;
 import net.fabricmc.fabric.api.networking.v1.PacketSender;
@@ -28,7 +28,7 @@ public record JukeboxesC2SPayload(CompoundTag data) implements FriendlyPacket.C2
     public static final StreamCodec<RegistryFriendlyByteBuf, JukeboxesC2SPayload> CODEC = StreamCodec.composite(
             ByteBufCodecs.COMPOUND_TAG, JukeboxesC2SPayload::data, JukeboxesC2SPayload::new);
     @Override
-    public @NotNull Type<? extends CustomPacketPayload> type() {
+    public @NonNull Type<? extends CustomPacketPayload> type() {
         return ID;
     }
     //?} else {

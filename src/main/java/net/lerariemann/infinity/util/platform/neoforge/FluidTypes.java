@@ -23,8 +23,8 @@ import net.neoforged.neoforge.fluids.FluidType;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.neoforged.neoforge.registries.NeoForgeRegistries;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 public class FluidTypes {
     private static final DeferredRegister<FluidType> FLUID_TYPES = DeferredRegister.create(NeoForgeRegistries.Keys.FLUID_TYPES, InfinityMod.MOD_ID);
@@ -67,12 +67,12 @@ public class FluidTypes {
             super(properties);
         }
         @Override
-        public PathType getBlockPathType(@NotNull FluidState state, @NotNull BlockGetter level, @NotNull BlockPos pos,
+        public PathType getBlockPathType(@NonNull FluidState state, @NonNull BlockGetter level, @NonNull BlockPos pos,
                                              @Nullable Mob mob, boolean canFluidLog) {
             return canFluidLog ? super.getBlockPathType(state, level, pos, mob, true) : null;
         }
         @Override
-        public boolean canConvertToSource(@NotNull FluidState state, @NotNull LevelReader reader, @NotNull BlockPos pos) {
+        public boolean canConvertToSource(@NonNull FluidState state, @NonNull LevelReader reader, @NonNull BlockPos pos) {
             if (reader instanceof Level level) {
                 return Iridescence.isInfinite(level);
             }
@@ -80,7 +80,7 @@ public class FluidTypes {
             return super.canConvertToSource(state, reader, pos);
         }
         @Override
-        public boolean isVaporizedOnPlacement(@NotNull Level w, @NotNull BlockPos pos, @NotNull FluidStack stack) {
+        public boolean isVaporizedOnPlacement(@NonNull Level w, @NonNull BlockPos pos, @NonNull FluidStack stack) {
             return false;
         }
     }

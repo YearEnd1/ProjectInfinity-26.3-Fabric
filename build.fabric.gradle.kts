@@ -208,7 +208,7 @@ dependencies {
         modCompileOnly("com.simibubi.create:create-fabric-1.20.1:${property("deps.create")}")
         { isTransitive = false }
     }
-
+    implementation("org.jspecify:jspecify:1.0.0")
 }
 
 

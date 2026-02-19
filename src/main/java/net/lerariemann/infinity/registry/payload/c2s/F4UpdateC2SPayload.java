@@ -7,7 +7,7 @@ import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.lerariemann.infinity.util.InfinityMethods;
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 //?} else {
 /*import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
@@ -33,7 +33,7 @@ public record F4UpdateC2SPayload(int slot, int width, int height) implements Fri
             ByteBufCodecs.VAR_INT, F4UpdateC2SPayload::height,
             F4UpdateC2SPayload::new);
     @Override
-    public @NotNull Type<? extends CustomPacketPayload> type() {
+    public @NonNull Type<? extends CustomPacketPayload> type() {
         return ID;
     }
     //?} else {

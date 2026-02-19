@@ -42,7 +42,7 @@ import net.minecraft.world.level.block.DispenserBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.loot.functions.LootItemFunctionType;
 import net.minecraft.world.phys.Vec3;
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 
 import java.util.Optional;
 import java.util.function.Function;
@@ -137,7 +137,7 @@ public class ModItemFunctions {
 
     public static void registerDispenserBehaviour() {
         DispenserBlock.registerBehavior(ModItems.IRIDESCENCE_BUCKET.get(), new DefaultDispenseItemBehavior() {
-            public @NotNull ItemStack execute(BlockSource pointer, ItemStack stack) {
+            public @NonNull ItemStack execute(BlockSource pointer, ItemStack stack) {
                 DispensibleContainerItem fluidModificationItem = (DispensibleContainerItem)stack.getItem();
                 //? if >1.21 {
                 Level world = pointer.level();

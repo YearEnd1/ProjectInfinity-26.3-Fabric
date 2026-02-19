@@ -4,7 +4,6 @@ import net.lerariemann.infinity.registry.core.ModBlocks;
 import net.lerariemann.infinity.util.platform.InfinityPlatform;
 import net.lerariemann.infinity.util.VersionMethods;
 import net.lerariemann.infinity.util.var.BishopBattle;
-import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -20,22 +19,14 @@ import net.minecraft.world.level.block.HorizontalDirectionalBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.phys.BlockHitResult;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
+import org.jspecify.annotations.Nullable;
 //? if >1.21 {
 import com.mojang.serialization.MapCodec;
 //?}
-//? if neoforge {
-/*import javax.annotation.ParametersAreNonnullByDefault;
-*///?}
 import java.util.Objects;
 import java.util.logging.Handler;
 
-@MethodsReturnNonnullByDefault
-//? if neoforge {
-/*@ParametersAreNonnullByDefault
- *///?}
+
 public class AntBlock extends HorizontalDirectionalBlock {
     //? if >1.21 {
     public static final MapCodec<AntBlock> CODEC = simpleCodec(AntBlock::new);
@@ -48,7 +39,7 @@ public class AntBlock extends HorizontalDirectionalBlock {
 
     //? if >1.21 {
     @Override
-    protected @NotNull MapCodec<? extends HorizontalDirectionalBlock> codec() {
+    protected MapCodec<? extends HorizontalDirectionalBlock> codec() {
         return CODEC;
     }
     //?}

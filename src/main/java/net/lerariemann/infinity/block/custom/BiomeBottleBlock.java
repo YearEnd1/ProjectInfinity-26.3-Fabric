@@ -3,7 +3,6 @@ package net.lerariemann.infinity.block.custom;
 import net.lerariemann.infinity.block.entity.BiomeBottleBlockEntity;
 import net.lerariemann.infinity.registry.core.ModBlockEntities;
 import net.lerariemann.infinity.util.VersionMethods;
-import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.QuartPos;
@@ -42,18 +41,11 @@ import net.minecraft.world.level.chunk.ChunkAccess;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import org.jetbrains.annotations.Nullable;
-//? if neoforge {
-/*import javax.annotation.ParametersAreNonnullByDefault;
-*///?}
+import org.jspecify.annotations.Nullable;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
-@MethodsReturnNonnullByDefault
-//? if neoforge {
-/*@ParametersAreNonnullByDefault
-*///?}
 public class BiomeBottleBlock extends BaseEntityBlock {
     //? if >1.21 {
     public static final MapCodec<BiomeBottleBlock> CODEC = simpleCodec(BiomeBottleBlock::new);

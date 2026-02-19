@@ -17,7 +17,7 @@ import net.minecraft.world.item.crafting.CraftingBookCategory;
 import net.minecraft.world.item.crafting.CustomRecipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.Level;
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 
 public class ChromaCarpetRecipe extends CustomRecipe {
     public ChromaCarpetRecipe(
@@ -67,7 +67,7 @@ public class ChromaCarpetRecipe extends CustomRecipe {
         return carpetDone;
     }
 
-    public @NotNull ItemStack assemble(
+    public @NonNull ItemStack assemble(
             //? if >1.21 {
             CraftingInput
              //?} else {

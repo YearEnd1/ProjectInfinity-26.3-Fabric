@@ -7,7 +7,7 @@ import net.minecraft.client.model.geom.ModelLayers;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.HumanoidMobRenderer;
 import net.minecraft.resources.ResourceLocation;
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 
 public class ChaosPawnRenderer
         //? if >1.21.4 {
@@ -44,7 +44,7 @@ public class ChaosPawnRenderer
     //?} else {
 
     /*@Override
-    public @NotNull ResourceLocation getTextureLocation(ChaosPawn e) {
+    public @NonNull ResourceLocation getTextureLocation(ChaosPawn e) {
         return TEXTURE;
     }
     *///?}

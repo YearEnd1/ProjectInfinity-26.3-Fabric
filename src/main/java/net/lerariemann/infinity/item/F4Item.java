@@ -9,7 +9,6 @@ import net.lerariemann.infinity.util.InfinityMethods;
 import net.lerariemann.infinity.util.teleport.InfinityPortal;
 import net.minecraft.BlockUtil;
 import net.minecraft.ChatFormatting;
-import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
@@ -35,17 +34,10 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.NetherPortalBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
-import org.jetbrains.annotations.Nullable;
-//? if neoforge {
-/*import javax.annotation.ParametersAreNonnullByDefault;
-*///?}
+import org.jspecify.annotations.Nullable;
 import java.util.*;
 import java.util.function.Consumer;
 
-//? if neoforge {
-/*@ParametersAreNonnullByDefault
-*///?}
-@MethodsReturnNonnullByDefault
 public class F4Item extends Item implements PortalDataHolder.Destinable {
     static final BlockState OBSIDIAN = Blocks.OBSIDIAN.defaultBlockState();
 
@@ -258,7 +250,7 @@ public class F4Item extends Item implements PortalDataHolder.Destinable {
         return InteractionResult.CONSUME;
     }
 
-    public static boolean checkIfValidAxis(Direction.Axis axisFound, Direction.Axis axisBeingChecked, @Nullable Direction.Axis forceAxis) {
+    public static boolean checkIfValidAxis(Direction.Axis axisFound, Direction.Axis axisBeingChecked, Direction.@Nullable Axis forceAxis) {
         if (forceAxis == null) {
             return axisBeingChecked.isVertical() || axisFound.equals(axisBeingChecked);
         }
@@ -268,7 +260,7 @@ public class F4Item extends Item implements PortalDataHolder.Destinable {
     public static boolean checkNeighbors(Level world, BlockPos bp,
                                          Collection<Direction> primaryOffsets, //possible directions in which blocks of other portals may be
                                          Collection<Direction> secondaryOffsets, //possible secondary directions from a neighboring obsidian in case we found a corner
-                                         int max, @Nullable Direction.Axis forcePrimaryAxis) {
+                                         int max, Direction.@Nullable Axis forcePrimaryAxis) {
         int i = 0;
         boolean checkCorners = !secondaryOffsets.isEmpty();
         for (Direction dir : primaryOffsets) {

@@ -12,7 +12,7 @@ import net.minecraft.client.renderer.state.CameraRenderState;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.resources.ResourceLocation;
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 
 public class AntRenderer
         //? if >1.21.4 {
@@ -33,7 +33,7 @@ public class AntRenderer
         return new AntEntityRenderState();
     }
     @Override
-    public @NotNull ResourceLocation getTextureLocation(AntEntityRenderState entity) {
+    public @NonNull ResourceLocation getTextureLocation(AntEntityRenderState entity) {
         return TEXTURE;
     }
 

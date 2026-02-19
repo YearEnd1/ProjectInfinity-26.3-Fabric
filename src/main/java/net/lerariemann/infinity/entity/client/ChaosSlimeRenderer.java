@@ -15,7 +15,7 @@ import net.minecraft.client.renderer.SubmitNodeCollector;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 
 public class ChaosSlimeRenderer
         //? if >1.21.2 {
@@ -78,7 +78,7 @@ public class ChaosSlimeRenderer
     //?} else {
 
     /*@Override
-    public @NotNull ResourceLocation getTextureLocation(ChaosSlime slimeEntity) {
+    public @NonNull ResourceLocation getTextureLocation(ChaosSlime slimeEntity) {
         return TEXTURE;
     }
     @Override

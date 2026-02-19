@@ -57,13 +57,11 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.storage.LevelResource;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
-import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3f;
+import org.jspecify.annotations.Nullable;
 
 import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
-
-
 
 public class InfinityPortalBlock extends NetherPortalBlock implements EntityBlock, Boopable {
     public InfinityPortalBlock(Properties settings) {

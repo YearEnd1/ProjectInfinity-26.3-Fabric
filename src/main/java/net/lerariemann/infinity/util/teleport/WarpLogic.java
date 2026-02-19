@@ -31,8 +31,8 @@ import net.minecraft.world.level.portal.TeleportTransition;
 //?} else if >1.21 {
 /*import net.minecraft.world.level.portal.DimensionTransition;
 *///?}
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 import java.util.HashSet;
 import java.util.Collection;
@@ -174,7 +174,7 @@ public interface WarpLogic {
     /**
      * Root method for finding a safe position to warp to.
      */
-    static BlockPos getPosForWarp(@NotNull BlockPos orig, @NotNull ServerLevel world) {
+    static BlockPos getPosForWarp(@NonNull BlockPos orig, @NonNull ServerLevel world) {
         BlockPos iter = orig;
         int counter = 0;
         BlockPos pos = scanColumn(orig, world, true);

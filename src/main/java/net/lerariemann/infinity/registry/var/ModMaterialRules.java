@@ -26,16 +26,10 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.Half;
 import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
 import net.minecraft.world.level.levelgen.SurfaceRules;
-import org.jetbrains.annotations.Nullable;
-
-//? if neoforge
-/*import javax.annotation.ParametersAreNonnullByDefault;*/
+import org.jspecify.annotations.Nullable;
 
 import static net.lerariemann.infinity.InfinityMod.MOD_ID;
 
-@MethodsReturnNonnullByDefault
-//? if neoforge
-/*@ParametersAreNonnullByDefault*/
 public class ModMaterialRules {
     static int normalize(int x, int size) {
         int a = Math.abs(x < 0 ? x+1 : x) % size;

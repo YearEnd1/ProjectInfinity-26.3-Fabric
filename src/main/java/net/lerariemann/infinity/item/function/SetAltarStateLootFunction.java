@@ -11,7 +11,7 @@ import net.minecraft.world.level.storage.loot.functions.LootItemConditionalFunct
 import net.minecraft.world.level.storage.loot.functions.LootItemFunctionType;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 
 //? if >1.21 {
 import com.mojang.serialization.MapCodec;
@@ -34,7 +34,7 @@ public class SetAltarStateLootFunction extends LootItemConditionalFunction {
     *///?}
 
     @Override
-    public @NotNull LootItemFunctionType
+    public @NonNull LootItemFunctionType
         //? if >1.21 {
         <? extends LootItemConditionalFunction>
          //?}
@@ -43,7 +43,7 @@ public class SetAltarStateLootFunction extends LootItemConditionalFunction {
     }
 
     @Override
-    protected @NotNull ItemStack run(ItemStack stack, LootContext context) {
+    protected @NonNull ItemStack run(ItemStack stack, LootContext context) {
         //? if >1.21.2 {
         BlockState st = context.getOptionalParameter(LootContextParams.BLOCK_STATE);
         //?} else {
@@ -63,7 +63,7 @@ public class SetAltarStateLootFunction extends LootItemConditionalFunction {
     /*public static class Serializer extends LootItemConditionalFunction.Serializer<SetAltarStateLootFunction> {
         public Serializer() {
         }
-        public @NotNull SetAltarStateLootFunction deserialize(JsonObject object, JsonDeserializationContext deserializationContext, LootItemCondition[] conditions) {
+        public @NonNull SetAltarStateLootFunction deserialize(JsonObject object, JsonDeserializationContext deserializationContext, LootItemCondition[] conditions) {
             return new SetAltarStateLootFunction(new LootItemCondition[0]);
         }
     }

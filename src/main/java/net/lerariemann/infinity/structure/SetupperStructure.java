@@ -9,7 +9,7 @@ import net.lerariemann.infinity.util.VersionMethods;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.level.levelgen.structure.Structure;
 import net.minecraft.world.level.levelgen.structure.StructureType;
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 
 import java.util.Optional;
 
@@ -25,7 +25,7 @@ public class SetupperStructure extends Structure {
     }
 
     @Override
-    public @NotNull Optional<GenerationStub> findGenerationPoint(GenerationContext context) {
+    public @NonNull Optional<GenerationStub> findGenerationPoint(GenerationContext context) {
         Structure shadow = VersionMethods.getRegistry(context.registryAccess(), Registries.STRUCTURE)
         //? if >1.21.2 {
         .getValue(VersionMethods.id(id));
@@ -36,7 +36,7 @@ public class SetupperStructure extends Structure {
     }
 
     @Override
-    public @NotNull StructureType<?> type() {
+    public @NonNull StructureType<?> type() {
         return ModStructureTypes.SETUPPER.get();
     }
 }

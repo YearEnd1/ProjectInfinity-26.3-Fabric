@@ -2,7 +2,7 @@ package net.lerariemann.infinity.registry.payload.s2c;
 
 
 //? if >1.21 {
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
@@ -36,7 +36,7 @@ public record ShaderS2CPayload(boolean iridescence, CompoundTag data) implements
             ByteBufCodecs.COMPOUND_TAG, ShaderS2CPayload::data,
             ShaderS2CPayload::new);
     @Override
-    public @NotNull Type<? extends CustomPacketPayload> type() {
+    public @NonNull Type<? extends CustomPacketPayload> type() {
         return ID;
     }
     //?} else {

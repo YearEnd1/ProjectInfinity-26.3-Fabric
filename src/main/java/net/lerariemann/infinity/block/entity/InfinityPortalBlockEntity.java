@@ -6,7 +6,6 @@ import net.lerariemann.infinity.registry.core.ModBlockEntities;
 import net.lerariemann.infinity.util.VersionMethods;
 import net.lerariemann.infinity.util.core.NbtUtils;
 import net.lerariemann.infinity.util.teleport.InfinityPortal;
-import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.Registries;
@@ -22,15 +21,9 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 //?}
-import org.jetbrains.annotations.Nullable;
-
-//? if neoforge
-/*import javax.annotation.ParametersAreNonnullByDefault;*/
+import org.jspecify.annotations.Nullable;
 import java.util.Random;
 
-@MethodsReturnNonnullByDefault
-//? if neoforge
-/*@ParametersAreNonnullByDefault*/
 public class InfinityPortalBlockEntity extends SpecialBlockEntity {
     private final ContainerData propertyDelegate;
     private ResourceLocation dimension;
