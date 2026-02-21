@@ -157,6 +157,8 @@ dependencies {
         implementation("com.tterrag.registrate:Registrate:${property("deps.registrate")}")
 
     }
+    implementation("org.jspecify:jspecify:1.0.0")
+
 
 }
 

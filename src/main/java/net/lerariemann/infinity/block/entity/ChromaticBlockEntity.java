@@ -13,6 +13,8 @@ import net.minecraft.core.component.DataComponentMap;
 //?}
 //? if >1.21.4 {
 import net.minecraft.core.component.DataComponentGetter;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 //?}
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.Tag;
@@ -27,11 +29,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
-//? if >1.21.4 {
-import net.minecraft.world.level.storage.ValueInput;
-import net.minecraft.world.level.storage.ValueOutput;
-//?}
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import java.awt.*;
 import java.util.concurrent.atomic.AtomicBoolean;

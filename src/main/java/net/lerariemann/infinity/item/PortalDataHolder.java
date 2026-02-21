@@ -14,7 +14,7 @@ import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import java.util.Optional;
 
@@ -24,7 +24,7 @@ public interface PortalDataHolder {
         return VersionMethods.getDimensionIdentifier(stack);
     }
 
-    static boolean isDestinationRandom(ResourceLocation id) {
+    static boolean isDestinationRandom(@Nullable ResourceLocation id) {
         return (id != null && id.toString().equals(InfinityMethods.ofRandomDim));
     }
 

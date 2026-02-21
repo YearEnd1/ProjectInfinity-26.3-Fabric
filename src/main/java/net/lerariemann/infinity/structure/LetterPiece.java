@@ -15,7 +15,7 @@ import net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProvi
 import net.minecraft.world.level.levelgen.structure.BoundingBox;
 import net.minecraft.world.level.levelgen.structure.ScatteredFeaturePiece;
 import net.minecraft.world.level.levelgen.structure.pieces.StructurePieceType;
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 
 import java.util.List;
 
@@ -36,7 +36,7 @@ public class LetterPiece extends ScatteredFeaturePiece {
         super(ModStructureTypes.LETTER.get(), nbt);
     }
 
-    static LetterPiece of(BlockPos startcorner, int ori, @NotNull List<Integer> letter, BlockStateProvider block) {
+    static LetterPiece of(BlockPos startcorner, int ori, @NonNull List<Integer> letter, BlockStateProvider block) {
         BlockPos dims = getDimensions(ori, letter.size());
         BlockPos othercoord = startcorner.offset(dims);
         return new LetterPiece(ModStructureTypes.LETTER.get(),

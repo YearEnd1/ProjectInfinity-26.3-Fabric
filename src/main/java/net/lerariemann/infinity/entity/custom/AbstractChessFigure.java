@@ -34,7 +34,7 @@ import net.minecraft.world.level.storage.ValueOutput;
 //?}
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.scores.Team;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import java.util.EnumSet;
 import java.util.List;

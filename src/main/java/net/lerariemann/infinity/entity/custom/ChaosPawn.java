@@ -8,10 +8,13 @@ import net.lerariemann.infinity.util.core.ConfigType;
 import net.lerariemann.infinity.util.core.NbtUtils;
 import net.lerariemann.infinity.util.core.RandomProvider;
 //? if >1.21 {
-import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.component.DataComponentMap;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.codec.ByteBufCodecs;
+//?}
+//? if >1.21.4 {
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 //?}
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
@@ -36,23 +39,11 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
-//? if >1.21.4 {
-import net.minecraft.world.level.storage.ValueInput;
-import net.minecraft.world.level.storage.ValueOutput;
-//?}
 import net.minecraft.world.level.storage.loot.LootTable;
-import org.jetbrains.annotations.Nullable;
-
-//? if neoforge {
-/*import javax.annotation.ParametersAreNonnullByDefault;
-*///?}
+import org.jspecify.annotations.Nullable;
 import java.util.*;
 import java.util.function.Supplier;
 
-//? if neoforge {
-/*@MethodsReturnNonnullByDefault
-@ParametersAreNonnullByDefault
-*///?}
 public class ChaosPawn extends AbstractChessFigure {
 
     public static final EntityDataAccessor<CompoundTag> colors = SynchedEntityData.defineId(ChaosPawn.class, EntityDataSerializers.COMPOUND_TAG);

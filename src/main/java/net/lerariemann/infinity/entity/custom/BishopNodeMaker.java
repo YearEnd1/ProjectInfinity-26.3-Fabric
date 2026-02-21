@@ -10,7 +10,7 @@ import net.minecraft.world.level.pathfinder.PathType;
 /*import net.minecraft.world.level.pathfinder.BlockPathTypes;
 *///?}
 import net.minecraft.world.level.pathfinder.WalkNodeEvaluator;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 public class BishopNodeMaker extends WalkNodeEvaluator {
     @Override

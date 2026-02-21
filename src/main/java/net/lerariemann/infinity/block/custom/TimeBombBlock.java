@@ -7,7 +7,6 @@ import net.lerariemann.infinity.registry.core.ModItems;
 import net.lerariemann.infinity.registry.var.ModSounds;
 import net.lerariemann.infinity.registry.var.ModStats;
 import net.lerariemann.infinity.util.teleport.PortalCreator;
-import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 //? if >1.21.9 {
@@ -44,7 +43,6 @@ import org.apache.commons.io.FileUtils;
 import java.io.IOException;
 import java.nio.file.Path;
 
-@MethodsReturnNonnullByDefault
 public class TimeBombBlock extends Block {
     public static  final BooleanProperty ACTIVE = BooleanProperty.create("active");
     public static final VoxelShape TOP_SHAPE = Block.box(3, 0, 3, 13, 2, 13);

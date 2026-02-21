@@ -26,7 +26,7 @@ import net.lerariemann.infinity.util.loading.DimensionGrabber;
  //?}
 import java.nio.file.Path;
 import net.minecraft.world.level.storage.LevelResource;
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
@@ -209,7 +209,7 @@ public record SoundScanner(Map<ResourceLocation, Resource> soundIds) {
         return length / (double) rate;
     }
 
-    private static @NotNull CompoundTag getJukeboxDef(String songID, String subtitleID, double length) {
+    private static @NonNull CompoundTag getJukeboxDef(String songID, String subtitleID, double length) {
         CompoundTag jukebox_def = new CompoundTag();
         //? if >1.21 {
         CompoundTag sound_event = new CompoundTag();

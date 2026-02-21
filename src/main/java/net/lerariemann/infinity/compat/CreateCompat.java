@@ -18,10 +18,12 @@ import net.lerariemann.infinity.block.custom.RailHelper;
 import net.lerariemann.infinity.block.entity.InfinityPortalBlockEntity;
 import net.lerariemann.infinity.registry.core.ModBlocks;
 import net.lerariemann.infinity.util.InfinityMethods;
+import net.lerariemann.infinity.util.VersionMethods;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.dedicated.DedicatedServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -37,12 +39,9 @@ import java.util.Set;
 public class CreateCompat {
     //? if <1.21.2 || fabric {
     private static PortalTrackProvider.Exit infinityPortalProvider(ServerLevel worldFrom, BlockFace blockFace) {
-        MinecraftServer server = worldFrom.getServer();
-        //? if <1.21
-        /*if (!server.isNetherEnabled()) return null;*/
-        //? if >1.21.9 {
-        /*server.getGameRules().getRule(GameRules.RULE_ALLOW_NETHER);
-        *///?}
+        if (!VersionMethods.allowNether(worldFrom.getServer())) {
+            return null;
+        }
         BlockPos posFrom = blockFace.getConnectedPos();
         if (worldFrom.getBlockEntity(posFrom) instanceof InfinityPortalBlockEntity ipbe
                 && ipbe.isConnectedBothSides()) { //we only allow trains through if portals are in sync

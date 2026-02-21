@@ -27,19 +27,13 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.component.CustomModelData;
 import net.minecraft.world.item.component.TooltipDisplay;
 //?}
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 
-//? if neoforge {
-/*import javax.annotation.ParametersAreNonnullByDefault;
-*///?}
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Consumer;
 
-//? if neoforge {
-/*@ParametersAreNonnullByDefault
-*///?}
 public class TransfiniteKeyItem extends Item implements PortalDataHolder.Destinable {
     public TransfiniteKeyItem(Properties settings) {
         super(settings);
@@ -87,7 +81,6 @@ public class TransfiniteKeyItem extends Item implements PortalDataHolder.Destina
     }
     *///?}
 
-    @NotNull
     @Override
     public ResourceLocation getDestination(ItemStack stack) {
         return Objects.requireNonNullElse(VersionMethods.getDimensionIdentifier(stack),

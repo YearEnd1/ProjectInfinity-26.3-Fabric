@@ -18,7 +18,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.JukeboxBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 *///?} else {
 import net.lerariemann.infinity.InfinityMod;
 import net.lerariemann.infinity.util.core.ConfigType;
@@ -80,7 +80,7 @@ extends Item
     }
 
     @Override
-    public void appendHoverText(@NotNull ItemStack stack, Level level, List<Component> tooltip, TooltipFlag flag) {
+    public void appendHoverText(@NonNull ItemStack stack, Level level, List<Component> tooltip, TooltipFlag flag) {
         tooltip.add(Component.translatable(VersionMethods.getOrDefaultString(stack, "sound_sub", emptySubtitle)).withStyle(ChatFormatting.GRAY));
     }
 

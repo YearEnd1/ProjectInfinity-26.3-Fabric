@@ -5,7 +5,6 @@ import net.lerariemann.infinity.util.InfinityMethods;
 import net.lerariemann.infinity.util.VersionMethods;
 import net.lerariemann.infinity.util.core.ConfigType;
 import net.lerariemann.infinity.util.core.NbtUtils;
-import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.DustParticleOptions;
 import net.minecraft.core.particles.ParticleOptions;
@@ -38,25 +37,18 @@ import net.minecraft.world.level.block.state.BlockState;
 //? if >1.21.4 {
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
+import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
+import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 //?}
 import net.minecraft.world.level.storage.loot.LootParams;
 import net.minecraft.world.level.storage.loot.LootTable;
-import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
-import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
-//? if neoforge {
-/*import javax.annotation.ParametersAreNonnullByDefault;
-*///?}
 import java.util.Optional;
 import java.util.Random;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
 
-@MethodsReturnNonnullByDefault
-//? if neoforge {
-/*@ParametersAreNonnullByDefault
-*///?}
 public class ChaosSlime extends Slime implements TintableEntity {
     public static final EntityDataAccessor<BlockState> core = SynchedEntityData.defineId(ChaosSlime.class, EntityDataSerializers.BLOCK_STATE);
     public static final EntityDataAccessor<Integer> color = SynchedEntityData.defineId(ChaosSlime.class, EntityDataSerializers.INT);

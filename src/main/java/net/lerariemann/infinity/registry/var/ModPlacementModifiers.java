@@ -11,7 +11,7 @@ import net.minecraft.world.level.levelgen.placement.PlacementContext;
 import net.minecraft.world.level.levelgen.placement.PlacementFilter;
 import net.minecraft.world.level.levelgen.placement.PlacementModifier;
 import net.minecraft.world.level.levelgen.placement.PlacementModifierType;
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 
 import static net.lerariemann.infinity.InfinityMod.MOD_ID;
 
@@ -35,7 +35,7 @@ public class ModPlacementModifiers {
         }
 
         @Override
-        public @NotNull PlacementModifierType<?> type() {
+        public @NonNull PlacementModifierType<?> type() {
             return PlacementModifierType.RARITY_FILTER;
         }
     }

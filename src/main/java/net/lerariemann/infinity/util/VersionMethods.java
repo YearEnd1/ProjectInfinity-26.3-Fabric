@@ -11,6 +11,7 @@ import net.minecraft.core.component.DataComponentMap;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.server.dedicated.DedicatedServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.item.Item;
@@ -29,6 +30,7 @@ import org.apache.logging.log4j.LogManager;
 //?} else {
 /*import net.minecraft.world.InteractionResultHolder;
 *///?}
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.entity.player.Player;
@@ -48,7 +50,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.Property;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.phys.Vec3;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import java.util.List;
 import java.util.Optional;
@@ -457,6 +459,18 @@ public interface VersionMethods {
     *///?}
     static <T> HolderLookup.RegistryLookup<T> getRegistry(HolderLookup.Provider lookup, ResourceKey<Registry<T>> lootTable) {
         return lookup.lookupOrThrow(lootTable);
+    }
+
+    static boolean allowNether(@Nullable MinecraftServer server) {
+        if (server == null) return true;
+        //? if >1.21.9 {
+        /*return server.getGameRules().getRule(GameRules.RULE_ALLOW_NETHER);
+         *///?} else if >1.21 {
+        if (server instanceof DedicatedServer dedicatedServer) return dedicatedServer.getProperties().allowNether;
+        else return true;
+        //?} else {
+        /*return server.isNetherEnabled();*/
+        //?}
     }
 }
 

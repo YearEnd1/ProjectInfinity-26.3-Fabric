@@ -23,7 +23,7 @@ import net.minecraft.world.inventory.CraftingContainer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.Level;
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 
 import java.util.function.BiFunction;
 
@@ -36,7 +36,7 @@ public class ChromaticColoringRecipe implements CraftingRecipe {
         this.output = output;
     }
     @Override
-    public @NotNull CraftingBookCategory category() {
+    public @NonNull CraftingBookCategory category() {
         return CraftingBookCategory.MISC;
     }
 
@@ -93,7 +93,7 @@ public class ChromaticColoringRecipe implements CraftingRecipe {
     //?}
 
     @Override
-    public @NotNull ItemStack assemble(
+    public @NonNull ItemStack assemble(
             //? if >1.21 {
             CraftingInput
              //?} else {
@@ -135,7 +135,7 @@ public class ChromaticColoringRecipe implements CraftingRecipe {
     }
 
     @Override
-    public @NotNull NonNullList<ItemStack> getRemainingItems(
+    public @NonNull NonNullList<ItemStack> getRemainingItems(
             //? if >1.21 {
             CraftingInput
             //?} else {
@@ -180,7 +180,7 @@ public class ChromaticColoringRecipe implements CraftingRecipe {
     }
 
 //    @Override
-    public @NotNull ItemStack getResultItem(
+    public @NonNull ItemStack getResultItem(
             //? if =1.21.1 {
             /*HolderLookup.Provider registriesLookup
             *///?} else if =1.20.1 {
@@ -200,7 +200,7 @@ public class ChromaticColoringRecipe implements CraftingRecipe {
 
         //? if >1.21 {
         @Override
-        public @NotNull MapCodec<ChromaticColoringRecipe> codec() {
+        public @NonNull MapCodec<ChromaticColoringRecipe> codec() {
             return RecordCodecBuilder.mapCodec(instance -> instance.group(
                     //? if >1.21.2 {
                             Ingredient.CODEC
@@ -213,7 +213,7 @@ public class ChromaticColoringRecipe implements CraftingRecipe {
         }
 
         @Override
-        public @NotNull StreamCodec<RegistryFriendlyByteBuf, ChromaticColoringRecipe> streamCodec() {
+        public @NonNull StreamCodec<RegistryFriendlyByteBuf, ChromaticColoringRecipe> streamCodec() {
             return StreamCodec.of(this::write, this::read);
         }
 

@@ -8,7 +8,6 @@ import net.lerariemann.infinity.registry.core.ModItems;
 import net.lerariemann.infinity.util.VersionMethods;
 import net.lerariemann.infinity.util.core.ConfigType;
 import net.lerariemann.infinity.util.core.NbtUtils;
-import net.minecraft.MethodsReturnNonnullByDefault;
 //? if >1.21 {
 import net.minecraft.core.component.DataComponentMap;
 //?} else {
@@ -16,6 +15,9 @@ import net.minecraft.core.component.DataComponentMap;
 *///?}
 //? if >1.21.2 {
 import net.minecraft.world.entity.EntitySpawnReason;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
+import static net.minecraft.world.entity.EntitySpawnReason.CONVERSION;
  //?} else {
 /*import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.MobSpawnType;
@@ -36,30 +38,12 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.SpawnGroupData;
 import net.minecraft.world.entity.monster.Creeper;
 import net.minecraft.world.entity.player.Player;
-
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ItemUtils;
-
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
-//? if >1.21.4 {
-import net.minecraft.world.level.storage.ValueInput;
-import net.minecraft.world.level.storage.ValueOutput;
-import static net.minecraft.world.entity.EntitySpawnReason.CONVERSION;
-//?}
-import org.apache.logging.log4j.LogManager;
 import org.jetbrains.annotations.Nullable;
 
-//? if neoforge {
-/*import javax.annotation.ParametersAreNonnullByDefault;
-
-
-*///?}
-
-@MethodsReturnNonnullByDefault
-//? if neoforge {
-/*@ParametersAreNonnullByDefault
- *///?}
 public class ChaosCreeper extends Creeper implements TintableEntity {
     public static EntityDataAccessor<Integer> color = SynchedEntityData.defineId(ChaosCreeper.class, EntityDataSerializers.INT);
     public static EntityDataAccessor<Float> range = SynchedEntityData.defineId(ChaosCreeper.class, EntityDataSerializers.FLOAT);

@@ -9,8 +9,8 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.FlowingFluid;
 import net.minecraft.world.level.pathfinder.PathType;
 import net.neoforged.neoforge.common.extensions.IBlockExtension;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 import java.util.function.Supplier;
 
@@ -20,7 +20,7 @@ public class IridescenceLiquidBlockNeoforge extends IridescenceLiquidBlock imple
     }
 
     @Override
-    public PathType getBlockPathType(@NotNull BlockState state, @NotNull BlockGetter level, @NotNull BlockPos pos, @Nullable Mob mob) {
+    public PathType getBlockPathType(@NonNull BlockState state, @NonNull BlockGetter level, @NonNull BlockPos pos, @Nullable Mob mob) {
         return PathType.WATER;
     }
 }

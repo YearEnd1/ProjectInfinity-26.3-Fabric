@@ -6,8 +6,6 @@ import net.lerariemann.infinity.util.VersionMethods;
 import net.lerariemann.infinity.util.core.ConfigType;
 import net.lerariemann.infinity.util.core.NbtUtils;
 import net.lerariemann.infinity.util.platform.InfinityPlatform;
-import net.minecraft.MethodsReturnNonnullByDefault;
-import net.minecraft.client.resources.language.I18n;
 import net.minecraft.core.Holder;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -47,20 +45,12 @@ import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 import static net.minecraft.world.entity.EntitySpawnReason.CONVERSION;
+import net.minecraft.client.resources.language.I18n;
 //?}
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
-//? if neoforge {
-/*import javax.annotation.ParametersAreNonnullByDefault;
-*///?}
 import java.util.*;
 
-
-
-@MethodsReturnNonnullByDefault
-//? if neoforge {
-/*@ParametersAreNonnullByDefault
-*///?}
 public class ChaosSkeleton extends Skeleton implements TintableEntity {
     private static final EntityDataAccessor<String> effect = SynchedEntityData.defineId(ChaosSkeleton.class, EntityDataSerializers.STRING);
     private static final EntityDataAccessor<Integer> color = SynchedEntityData.defineId(ChaosSkeleton.class, EntityDataSerializers.INT);

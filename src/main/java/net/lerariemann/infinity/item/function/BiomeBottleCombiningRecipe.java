@@ -16,7 +16,7 @@ import net.minecraft.world.item.crafting.CustomRecipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 
 public class BiomeBottleCombiningRecipe extends CustomRecipe {
     public BiomeBottleCombiningRecipe(
@@ -66,7 +66,7 @@ public class BiomeBottleCombiningRecipe extends CustomRecipe {
     }
 
     @Override
-    public @NotNull ItemStack assemble(
+    public @NonNull ItemStack assemble(
             //? if >1.21 {
             CraftingInput
              //?} else {

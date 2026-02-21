@@ -31,7 +31,7 @@ import net.minecraft.world.entity.Entity;
 //? if >1.21.3 {
 import net.minecraft.world.level.portal.TeleportTransition;
  //?} else if >1.21 {
-/*import org.jetbrains.annotations.Nullable;
+/*import org.jspecify.annotations.Nullable;
 import net.minecraft.world.level.portal.DimensionTransition;
 *///?} else {
 /*import net.minecraft.world.level.portal.PortalInfo;

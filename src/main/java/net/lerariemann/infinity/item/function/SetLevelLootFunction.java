@@ -9,7 +9,7 @@ import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.level.storage.loot.functions.LootItemConditionalFunction;
 import net.minecraft.world.level.storage.loot.functions.LootItemFunctionType;
 import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 
 //? if >1.21 {
 import com.mojang.serialization.MapCodec;
@@ -32,13 +32,13 @@ public class SetLevelLootFunction extends LootItemConditionalFunction {
     *///?}
 
     @Override
-    protected @NotNull ItemStack run(ItemStack stack, LootContext context) {
+    protected @NonNull ItemStack run(ItemStack stack, LootContext context) {
         BiomeBottleBlock.updateCharge(stack);
         return stack;
     }
 
     @Override
-    public @NotNull LootItemFunctionType
+    public @NonNull LootItemFunctionType
     //? if >1.21 {
     <? extends LootItemConditionalFunction>
     //?}
@@ -50,7 +50,7 @@ public class SetLevelLootFunction extends LootItemConditionalFunction {
     /*public static class Serializer extends LootItemConditionalFunction.Serializer<SetLevelLootFunction> {
         public Serializer() {
         }
-        public @NotNull SetLevelLootFunction deserialize(JsonObject object, JsonDeserializationContext deserializationContext, LootItemCondition[] conditions) {
+        public @NonNull SetLevelLootFunction deserialize(JsonObject object, JsonDeserializationContext deserializationContext, LootItemCondition[] conditions) {
             return new SetLevelLootFunction(new LootItemCondition[0]);
         }
     }

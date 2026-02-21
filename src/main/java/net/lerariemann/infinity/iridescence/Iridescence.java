@@ -43,7 +43,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 //? neoforge {
 /*import net.neoforged.neoforge.event.EventHooks;
  *///?}

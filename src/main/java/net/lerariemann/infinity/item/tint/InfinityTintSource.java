@@ -12,7 +12,7 @@ import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.util.ExtraCodecs;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 public record InfinityTintSource(int defaultColour, boolean invert) implements ItemTintSource {
     public static final MapCodec<InfinityTintSource> MAP_CODEC = RecordCodecBuilder.mapCodec(

@@ -44,7 +44,7 @@ import net.neoforged.neoforge.client.extensions.common.RegisterClientExtensionsE
 import net.neoforged.neoforge.client.gui.IConfigScreenFactory;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 import net.neoforged.neoforge.network.registration.PayloadRegistrar;
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 
 import static net.lerariemann.infinity.InfinityMod.MOD_ID;
 
@@ -123,15 +123,15 @@ public class InfinityModNeoForgeClient {
     static void onRegisterClientExtensions(RegisterClientExtensionsEvent event) {
         event.registerFluidType(new IClientFluidTypeExtensions() {
             @Override
-            public @NotNull ResourceLocation getStillTexture() {
+            public @NonNull ResourceLocation getStillTexture() {
                 return Iridescence.TEXTURE;
             }
             @Override
-            public @NotNull ResourceLocation getFlowingTexture() {
+            public @NonNull ResourceLocation getFlowingTexture() {
                 return Iridescence.FLOWING_TEXTURE;
             }
             @Override
-            public @NotNull ResourceLocation getOverlayTexture() {
+            public @NonNull ResourceLocation getOverlayTexture() {
                 return Iridescence.OVERLAY_TEXTURE;
             }
 
@@ -140,7 +140,7 @@ public class InfinityModNeoForgeClient {
                 return VersionMethods.opaque(Iridescence.getTimeBasedColor());
             }
             @Override
-            public int getTintColor(@NotNull FluidState state, @NotNull BlockAndTintGetter getter, @NotNull BlockPos pos) {
+            public int getTintColor(@NonNull FluidState state, @NonNull BlockAndTintGetter getter, @NonNull BlockPos pos) {
                 return VersionMethods.opaque(Iridescence.getPosBasedColor(pos));
             }
 

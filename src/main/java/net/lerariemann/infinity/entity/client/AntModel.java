@@ -15,7 +15,7 @@ import net.minecraft.client.model.geom.builders.LayerDefinition;
 import net.minecraft.client.model.geom.builders.MeshDefinition;
 import net.minecraft.client.model.geom.builders.PartDefinition;
 import net.minecraft.util.Mth;
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 
 public class AntModel
         //? if >1.21.4 {
@@ -102,7 +102,7 @@ public class AntModel
     *///?}
 
      //? if <1.21.2 {
-	/*public @NotNull ModelPart root() {
+	/*public @NonNull ModelPart root() {
 		return body;
 	}
     *///?}

@@ -1,7 +1,7 @@
 package net.lerariemann.infinity.registry.payload.s2c;
 
 //? if >1.21 {
-import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.NonNull;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
@@ -27,7 +27,7 @@ public record StarsS2CPayload() implements FriendlyPacket.S2C {
     public static final Type<StarsS2CPayload> ID = new Type<>(sid);
     public static final StreamCodec<RegistryFriendlyByteBuf, StarsS2CPayload> CODEC = StreamCodec.unit(INSTANCE);
     @Override
-    public @NotNull Type<? extends CustomPacketPayload> type() {
+    public @NonNull Type<? extends CustomPacketPayload> type() {
         return ID;
     }
     //?} else {
