@@ -42,7 +42,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ItemUtils;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 public class ChaosCreeper extends Creeper implements TintableEntity {
     public static EntityDataAccessor<Integer> color = SynchedEntityData.defineId(ChaosCreeper.class, EntityDataSerializers.INT);
@@ -228,7 +228,7 @@ public class ChaosCreeper extends Creeper implements TintableEntity {
         super.dropCustomDeathLoot(source, looting, recentlyHit);
         if (source.getEntity() instanceof AbstractSkeleton && getServer() != null) {
     *///?}
-            ItemStack stack = DiscItem.getRandom(getServer());
+            ItemStack stack = DiscItem.getRandom(world.getServer());
             this.spawnAtLocation(
                     //? if >1.21.2
                     (ServerLevel) level(),
