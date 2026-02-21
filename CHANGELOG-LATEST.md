@@ -10,9 +10,9 @@
 
 ### Technical
 - The mod now makes use of data generation, improving consistency between versions.
-- Payload-related code is compartmentalised, which should not affect anything observable to the user but might spawn unknown bugs.
+- Block entity data storage is refactored in a way to make multiversioned coding easier. A side effect of this is that if you are updating a 1.21.8 world to this version, all preexisting portals will break; sorry! (this only affects 1.21.8, other versions can easily autoupdate to the new format)
 - Amendments can now use excluding mod selectors, i.e. "!minecraft" to affect everything except vanilla minecraft content.
-- Several more user-suggested amendments were ratified, fixing rare crashes with the Bumblezone, Iron Spells, Cobblemon and a few other mods.
+- Several more user-suggested amendments were ratified, fixing rare crashes with the Bumblezone, Iron Spells, Cobblemon and a few other mods. If you have custom amendments passed, back them up before updating - default amendment additions overwrite the file.
 
 ### Fixes
 - Random dimensions can once again use fluids other than water for their generation.
