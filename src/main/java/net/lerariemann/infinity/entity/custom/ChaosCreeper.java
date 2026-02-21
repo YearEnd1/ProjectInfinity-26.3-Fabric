@@ -3,19 +3,14 @@ package net.lerariemann.infinity.entity.custom;
 import net.lerariemann.infinity.InfinityMod;
 import net.lerariemann.infinity.block.custom.BiomeBottleBlock;
 import net.lerariemann.infinity.item.DiscItem;
-import net.lerariemann.infinity.registry.core.ModComponentTypes;
 import net.lerariemann.infinity.registry.core.ModEntities;
 import net.lerariemann.infinity.registry.core.ModItems;
-import net.lerariemann.infinity.util.InfinityMethods;
 import net.lerariemann.infinity.util.VersionMethods;
 import net.lerariemann.infinity.util.core.ConfigType;
 import net.lerariemann.infinity.util.core.NbtUtils;
 import net.minecraft.MethodsReturnNonnullByDefault;
 //? if >1.21 {
 import net.minecraft.core.component.DataComponentMap;
-import net.minecraft.core.component.DataComponents;
-import net.minecraft.world.item.EitherHolder;
-import net.minecraft.world.item.JukeboxPlayable;
 //?} else {
 /*import net.minecraft.world.entity.monster.AbstractSkeleton;
 *///?}
@@ -25,13 +20,10 @@ import net.minecraft.world.entity.EntitySpawnReason;
 /*import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.MobSpawnType;
 *///?}
-import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
-import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
@@ -55,6 +47,7 @@ import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 import static net.minecraft.world.entity.EntitySpawnReason.CONVERSION;
 //?}
+import org.apache.logging.log4j.LogManager;
 import org.jetbrains.annotations.Nullable;
 
 //? if neoforge {
@@ -208,16 +201,16 @@ public class ChaosCreeper extends Creeper implements TintableEntity {
     public InteractionResult mobInteract(Player player, InteractionHand hand) {
         ItemStack itemStack = player.getItemInHand(hand);
         if (itemStack.is(ModItems.BIOME_BOTTLE_ITEM.get()) && BiomeBottleBlock.isEmpty(itemStack)) {
-            ItemStack itemStack2 = new ItemStack(itemStack.getItem());
             this.playSound(SoundEvents.BOTTLE_FILL, 1.0f, 1.0f);
-            Creeper newCreeper;
-            try (Level level = this.level()) {
-                if (!level.isClientSide() && (newCreeper = EntityType.CREEPER.create(this.level()
-                //? if >1.21.2
-                , CONVERSION
-                )) != null) {
+            Level level = this.level();
+            if (level instanceof ServerLevel) {
+                Creeper newCreeper = EntityType.CREEPER.create(level
+                        //? if >1.21.2
+                        , CONVERSION
+                );
+                if (newCreeper != null) {
+                    ItemStack itemStack2 = new ItemStack(itemStack.getItem());
                     //? if >1.21 {
-                    
                     itemStack2.applyComponents(BiomeBottleBlock.addComponents(DataComponentMap.builder(),
                             VersionMethods.id(getBiome()), getColor(), getCharge()).build());
                     //?} else {
@@ -236,8 +229,6 @@ public class ChaosCreeper extends Creeper implements TintableEntity {
                     level.addFreshEntity(newCreeper);
                     return InteractionResult.SUCCESS;
                 }
-            }
-            catch (Exception ignored) {
             }
         }
         return super.mobInteract(player, hand);

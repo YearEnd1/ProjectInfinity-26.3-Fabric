@@ -1,4 +1,4 @@
-package net.lerariemann.infinity.mixin;
+package net.lerariemann.infinity.mixin.var;
 
 import net.lerariemann.infinity.util.config.SoundScanner;
 import net.minecraft.resources.ResourceLocation;

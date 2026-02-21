@@ -1,7 +1,7 @@
 package net.lerariemann.infinity.util.config;
 
 import net.lerariemann.infinity.access.MinecraftServerAccess;
-import net.lerariemann.infinity.mixin.SoundListMixin;
+import net.lerariemann.infinity.mixin.var.SoundListMixin;
 import net.lerariemann.infinity.registry.payload.c2s.JukeboxesC2SPayload;
 import net.lerariemann.infinity.util.InfinityMethods;
 import net.lerariemann.infinity.util.VersionMethods;

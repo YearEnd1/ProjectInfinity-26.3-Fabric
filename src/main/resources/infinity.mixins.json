@@ -69,7 +69,6 @@
     "qol.LavaFluidMixin"
   ],
   "client": [
-    "SoundListMixin",
     "iridescence.LivingEntityRendererMixin",
     "iridescence.PostEffectProcessorMixin",
     "iridescence.PostPassMixin",
@@ -83,6 +82,7 @@
     "options.WorldRendererMixin",
     "qol.EditWorldScreenMixin",
     "qol.KeyboardMixin",
-    "rrv.FluidItemRendererMixin"
+    "rrv.FluidItemRendererMixin",
+    "var.SoundListMixin"
   ]
 }
