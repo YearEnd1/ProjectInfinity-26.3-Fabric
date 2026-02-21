@@ -17,10 +17,11 @@
 ### Fixes
 - Random dimensions can once again use fluids other than water for their generation.
 - Music discs on 1.21.8 are now correctly tinted and actually play.
-- Models of altar items are fixed in 1.21.8.
+- Models of altar items now display correctly in 1.21.8.
 - Chaos creepers no longer crash when their biome is bottled.
 - Corals no longer crash world generation. (Cass)
 - Custom packets are correctly registered on the client. (Cass, 1.21.1 Neoforge)
-- The 11th amendment was changed to blacklist bumblezone biomes instead of structures.
 - A crash on dedicated 1.21.8 servers was fixed. (Cass)
 - 1.21.8's new music toasts are added to the mod's music. (Cass)
+- Iridescence shaders and spawn egg textures were sometimes displayed as missing on 1.21.8, Cass fised it.
+- The 11th amendment was changed to blacklist bumblezone biomes instead of structures.
