@@ -18,7 +18,7 @@
 - Random dimensions can once again use fluids other than water for their generation.
 - Music discs on 1.21.8 are now correctly tinted and actually play.
 - Models of altar items now display correctly in 1.21.8.
-- Chaos creepers no longer crash when their biome is bottled.
+- Chaos creepers no longer cause the world to close when their biome is bottled.
 - Corals no longer crash world generation. (Cass)
 - Custom packets are correctly registered on the client. (Cass, 1.21.1 Neoforge)
 - A crash on dedicated 1.21.8 servers was fixed. (Cass)
