@@ -469,8 +469,8 @@ public interface VersionMethods {
         if (server instanceof DedicatedServer dedicatedServer) return dedicatedServer.getProperties().allowNether;
         else return true;
         //?} else {
-        /*return server.isNetherEnabled();*/
-        //?}
+        /*return server.isNetherEnabled();
+        *///?}
     }
 }
 

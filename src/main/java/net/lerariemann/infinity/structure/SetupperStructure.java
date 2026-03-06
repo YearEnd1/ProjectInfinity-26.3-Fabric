@@ -26,12 +26,7 @@ public class SetupperStructure extends Structure {
 
     @Override
     public @NonNull Optional<GenerationStub> findGenerationPoint(GenerationContext context) {
-        Structure shadow = VersionMethods.getRegistry(context.registryAccess(), Registries.STRUCTURE)
-        //? if >1.21.2 {
-        .getValue(VersionMethods.id(id));
-        //?} else {
-        /*.get(VersionMethods.id(id));
-        *///?}
+        Structure shadow = VersionMethods.getFromRegistry(VersionMethods.getRegistry(context.registryAccess(), Registries.STRUCTURE), VersionMethods.id(id));
         return shadow == null ? Optional.empty() : ((StructureAccess) shadow).invokeFindGenerationPoint(context);
     }
 

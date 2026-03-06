@@ -227,6 +227,7 @@ public class ChaosCreeper extends Creeper implements TintableEntity {
     /*protected void dropCustomDeathLoot(DamageSource source, int looting, boolean recentlyHit) {
         super.dropCustomDeathLoot(source, looting, recentlyHit);
         if (source.getEntity() instanceof AbstractSkeleton && getServer() != null) {
+            var world = this.level();
     *///?}
             ItemStack stack = DiscItem.getRandom(world.getServer());
             this.spawnAtLocation(

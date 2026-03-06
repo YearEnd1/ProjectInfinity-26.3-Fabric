@@ -189,8 +189,8 @@ public interface ConfigGenerator {
                     if (be instanceof RandomizableContainerBlockEntity && !(be instanceof ShulkerBoxBlockEntity)) {
                         for (Block b : blocks) allBlocks.add(BuiltInRegistries.BLOCK.getKey(b));
                     }
-                } catch (IllegalStateException ignored) {
-                    // do not try and use block entities that do not set valid blocks.
+                } catch (Exception ignored) {
+                    // do not try and use block entities that do not set valid blocks or have specific requirements.
                 }
             }
         });
