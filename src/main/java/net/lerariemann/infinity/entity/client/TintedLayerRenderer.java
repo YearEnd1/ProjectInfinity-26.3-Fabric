@@ -50,7 +50,7 @@ public class TintedLayerRenderer<T extends
         ResourceLocation texture;
         if (renderState instanceof ChaosPawnRenderState) {
             texture = InfinityMethods.getId("textures/entity/empty.png");
-        } else if (renderState instanceof ChaosSlimeRenderState) {
+        } else if (renderState instanceof TintedRenderState.Slime) {
             texture = InfinityMethods.getId("textures/entity/slime.png");
         } else {
             texture = InfinityMethods.getId("textures/entity/empty.png");

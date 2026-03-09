@@ -45,7 +45,7 @@ public class DimensionalSlimeCoreRenderer extends
 
     @Override
     //? if >1.21.8 {
-    /*public void submit(PoseStack matrixStack, SubmitNodeCollector nodeCollector, int packedLight, ChaosSlimeRenderState slime, float yRot, float xRot) {
+    /*public void submit(PoseStack matrixStack, SubmitNodeCollector nodeCollector, int packedLight, TintedRenderState.Slime slime, float yRot, float xRot) {
         boolean bl = slime.appearsGlowing() && slime.isInvisible;
         if (slime.isInvisible && !bl) {
             return;

@@ -54,7 +54,7 @@ public class ChaosPawnTint extends
     //? if >1.21.9 {
     /*public void renderOneLayer(PoseStack matrixStack, SubmitNodeCollector vertexConsumer, int light, int overlay, ChaosPawnRenderState livingEntity, ModelPart part, String name) {
         int color;
-        color = NbtUtils.getInt(livingEntity.colors, name);
+        color = livingEntity.colors.get(name);
         if (livingEntity.customName != null) {
             String s = livingEntity.customName;
             if ("jeb_".equals(s)) {

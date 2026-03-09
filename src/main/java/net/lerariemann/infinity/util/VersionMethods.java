@@ -24,6 +24,7 @@ import net.minecraft.world.item.component.CustomModelData;
 import net.minecraft.world.item.alchemy.PotionUtils;
 *///?}
 //? if >1.21.2 {
+import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 import org.apache.logging.log4j.LogManager;
@@ -464,7 +465,7 @@ public interface VersionMethods {
     static boolean allowNether(@Nullable MinecraftServer server) {
         if (server == null) return true;
         //? if >1.21.9 {
-        /*return server.getGameRules().getRule(GameRules.RULE_ALLOW_NETHER);
+        /*return server.getGameRules().getRule(GameRules.RULE_ALLOW_NETHER).get();
          *///?} else if >1.21 {
         if (server instanceof DedicatedServer dedicatedServer) return dedicatedServer.getProperties().allowNether;
         else return true;

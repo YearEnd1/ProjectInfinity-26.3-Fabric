@@ -49,7 +49,7 @@ public class ChaosSlimeRenderer
 
     //? if >1.21.8 {
     /*@Override
-    public void submit(ChaosSlimeRenderState slimeEntity, PoseStack matrixStack, SubmitNodeCollector submitNodeCollector, CameraRenderState cameraRenderState) {
+    public void submit(TintedRenderState.Slime slimeEntity, PoseStack matrixStack, SubmitNodeCollector submitNodeCollector, CameraRenderState cameraRenderState) {
         this.shadowRadius = 0.25f * (float)slimeEntity.size;
     }
     *///?} else {
