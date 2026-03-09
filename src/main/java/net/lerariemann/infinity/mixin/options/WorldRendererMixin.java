@@ -33,6 +33,10 @@ import net.minecraft.world.item.RecordItem;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 *///?}
+//? if >1.21.9 {
+/*import net.minecraft.client.renderer.feature.FeatureRenderDispatcher;
+import net.minecraft.client.renderer.state.LevelRenderState;
+*///?}
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
 //? if >1.21.2 && neoforge {
@@ -148,19 +152,28 @@ public abstract class WorldRendererMixin implements WorldRendererAccess {
     //? if >1.21.2 {
     @Unique SkyRenderer infinity$sky;
     @Inject(method = "<init>", at = @At("TAIL"))
-    void customSky(Minecraft minecraft, EntityRenderDispatcher entityRenderDispatcher, BlockEntityRenderDispatcher blockEntityRenderDispatcher, RenderBuffers renderBuffers, CallbackInfo ci) {
+    void customSky(Minecraft minecraft, EntityRenderDispatcher entityRenderDispatcher, BlockEntityRenderDispatcher blockEntityRenderDispatcher, RenderBuffers renderBuffers,
+                   //? if >1.21.9
+                   /*LevelRenderState levelRenderState, FeatureRenderDispatcher featureRenderDispatcher,*/
+                   CallbackInfo ci) {
         if (this.level != null) infinity$sky = new SkyRenderer(infinity$options(), this.level);
     }
     //?}
     //? if >1.21.2 && neoforge {
     /*@Inject(method = "addSkyPass(Lcom/mojang/blaze3d/framegraph/FrameGraphBuilder;Lnet/minecraft/client/Camera;FLcom/mojang/blaze3d/buffers/GpuBufferSlice;Lorg/joml/Matrix4f;)V", at = @At("HEAD"), cancellable = true)
-    void inj(FrameGraphBuilder frameGraphBuilder, Camera camera, float partialTick, GpuBufferSlice shaderFog, Matrix4f modelViewMatrix, CallbackInfo ci) {
+    void addSkyPassNeo(FrameGraphBuilder frameGraphBuilder, Camera camera, float partialTick, GpuBufferSlice shaderFog, Matrix4f modelViewMatrix, CallbackInfo ci) {
     *///?}
     //? if >1.21.2 && fabric {
-    @Inject(method = "Lnet/minecraft/client/renderer/LevelRenderer;addSkyPass(Lcom/mojang/blaze3d/framegraph/FrameGraphBuilder;Lnet/minecraft/client/Camera;FLcom/mojang/blaze3d/buffers/GpuBufferSlice;)V", at = @At("HEAD"), cancellable = true)
-    void inj(FrameGraphBuilder frameGraphBuilder, Camera camera, float partialTick, GpuBufferSlice shaderFog, CallbackInfo ci) {
+    @Inject(method = "addSkyPass", at = @At("HEAD"), cancellable = true)
+    void addSkyPassFabric(FrameGraphBuilder frameGraphBuilder, Camera camera,
+             //? if <1.21.9
+             float partialTick,
+             GpuBufferSlice shaderFog, CallbackInfo ci) {
     //?}
     //? if >1.21.2 {
+
+        //? >1.21.9
+        /*float partialTick = Minecraft.getInstance().getDeltaTracker().getGameTimeDeltaTicks();*/
     
         InfinityOptions options = infinity$options();
         if (this.level != null && infinity$sky == null) {

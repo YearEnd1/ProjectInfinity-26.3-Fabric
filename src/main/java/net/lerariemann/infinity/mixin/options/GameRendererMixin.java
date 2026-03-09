@@ -7,6 +7,7 @@ import net.lerariemann.infinity.iridescence.IridescentUniform;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.renderer.ItemInHandRenderer;
 import net.minecraft.client.renderer.RenderBuffers;
+import net.minecraft.client.renderer.block.BlockRenderDispatcher;
 import org.spongepowered.asm.mixin.Unique;
  //?}
 import net.lerariemann.infinity.options.InfinityOptions;
@@ -71,15 +72,18 @@ public abstract class GameRendererMixin implements GameRendererAccess {
     }
 
     @Inject(method="<init>", at= @At(value = "TAIL"))
-    void inj(Minecraft minecraft, ItemInHandRenderer itemInHandRenderer, RenderBuffers renderBuffers, CallbackInfo ci) {
+    void initUniform(Minecraft minecraft, ItemInHandRenderer itemInHandRenderer, RenderBuffers renderBuffers,
+             //? if >1.21.9
+             /*BlockRenderDispatcher blockRenderDispatcher,*/
+             CallbackInfo ci) {
         this.infinity$iridUniform = new IridescentUniform();
     }
     @Inject(method="render", at= @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/GlobalSettingsUniform;update(IIDJLnet/minecraft/client/DeltaTracker;I)V"))
-    void inj(DeltaTracker deltaTracker, boolean renderLevel, CallbackInfo ci) {
+    void updateUniform(DeltaTracker deltaTracker, boolean renderLevel, CallbackInfo ci) {
         infinity$iridUniform.tryUpdate();
     }
     @Inject(method="close", at= @At(value = "TAIL"))
-    void inj(CallbackInfo ci) {
+    void closeUniform(CallbackInfo ci) {
         this.infinity$iridUniform.close();
     }
     //?}
