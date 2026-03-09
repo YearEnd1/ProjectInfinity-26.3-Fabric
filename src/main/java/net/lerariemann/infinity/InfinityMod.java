@@ -46,6 +46,7 @@ public class InfinityMod {
         ModParticles.registerServer();
         ModStatusEffects.registerModEffects();
         ModItemFunctions.registerItemFunctions();
+        ModEntityDataSerializers.registerSerializers();
         ModEntities.registerEntities();
         ModBlocks.registerModBlocks();
         ModItems.registerModItems();

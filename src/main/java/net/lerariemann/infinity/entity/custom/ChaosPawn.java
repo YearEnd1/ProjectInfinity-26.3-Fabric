@@ -2,6 +2,7 @@ package net.lerariemann.infinity.entity.custom;
 
 import net.lerariemann.infinity.InfinityMod;
 import net.lerariemann.infinity.iridescence.Iridescence;
+import net.lerariemann.infinity.registry.var.ModEntityDataSerializers;
 import net.lerariemann.infinity.util.InfinityMethods;
 import net.lerariemann.infinity.util.VersionMethods;
 import net.lerariemann.infinity.util.core.ConfigType;
@@ -10,7 +11,6 @@ import net.lerariemann.infinity.util.core.RandomProvider;
 //? if >1.21 {
 import net.minecraft.core.component.DataComponentMap;
 import net.minecraft.core.component.DataComponents;
-import net.minecraft.network.codec.ByteBufCodecs;
 //?}
 //? if >1.21.4 {
 import net.minecraft.world.level.storage.ValueInput;
@@ -20,7 +20,6 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.syncher.EntityDataAccessor;
-import net.minecraft.network.syncher.EntityDataSerializer;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.resources.ResourceKey;
@@ -46,16 +45,16 @@ import java.util.function.Supplier;
 
 public class ChaosPawn extends AbstractChessFigure {
 
-    public static final EntityDataAccessor<CompoundTag> colors = SynchedEntityData.defineId(ChaosPawn.class, EntityDataSerializers.COMPOUND_TAG);
+    public static final EntityDataAccessor<HumanoidColors> colors = SynchedEntityData.defineId(ChaosPawn.class, ModEntityDataSerializers.HUMANOID_COLORS);
     public static final EntityDataAccessor<Integer> special_case = SynchedEntityData.defineId(ChaosPawn.class, EntityDataSerializers.INT);
 
     public ChaosPawn(EntityType<? extends ChaosPawn> entityType, Level world) {
         super(entityType, world);
     }
-    public void setColors(CompoundTag i) {
+    public void setColors(HumanoidColors i) {
         this.entityData.set(colors, i);
     }
-    public CompoundTag getColors() {
+    public HumanoidColors getColors() {
         return this.entityData.get(colors);
     }
 
@@ -80,7 +79,7 @@ public class ChaosPawn extends AbstractChessFigure {
         //? if <1.21 {
         /*var builder = this.entityData;
         *///?}
-        builder.define(colors, new CompoundTag());
+        builder.define(colors, new HumanoidColors());
         builder.define(special_case, -1);
     }
     @Override
@@ -119,9 +118,9 @@ public class ChaosPawn extends AbstractChessFigure {
             nbt) {
         super.addAdditionalSaveData(nbt);
         //? if >1.21.4 {
-        NbtUtils.putColors(nbt, "colors", getColors());
+        nbt.store("colors", HumanoidColors.CODEC, getColors());
         //?} else {
-        /*nbt.put("colors", getColors());
+        /*nbt.put("colors", getColors().encode());
         *///?}
         nbt.putInt("case", getCase());
     }
@@ -135,9 +134,9 @@ public class ChaosPawn extends AbstractChessFigure {
             nbt) {
         super.readAdditionalSaveData(nbt);
         //? if >1.21.4 {
-        this.setColors(NbtUtils.getColors(nbt, "colors"));
+        this.setColors(nbt.read("colors", HumanoidColors.CODEC).orElse(new HumanoidColors()));
         //?} else {
-        /*this.setColors(nbt.getCompound("colors"));
+        /*this.setColors(HumanoidColors.decode(nbt.getCompound("colors")));
         *///?}
         this.entityData.set(special_case, NbtUtils.getInt(nbt, "case"));
     }
@@ -166,8 +165,8 @@ public class ChaosPawn extends AbstractChessFigure {
         *///?}
     }
 
-    public static CompoundTag getColorSetup(Supplier<Integer> colorSupplier) {
-        CompoundTag c = new CompoundTag();
+    public static HumanoidColors getColorSetup(Supplier<Integer> colorSupplier) {
+        HumanoidColors c = new HumanoidColors();
         Arrays.stream((new String[]{"body", "left_arm", "right_arm", "left_leg", "right_leg"})).forEach(
                 s -> c.putInt(s, colorSupplier.get()));
         int head = colorSupplier.get();
@@ -177,7 +176,7 @@ public class ChaosPawn extends AbstractChessFigure {
     }
 
     public void setAllColors(int color) {
-        this.setColors(getColorSetup(() -> color));
+        this.setColors(new HumanoidColors(color));
     }
 
     @Override

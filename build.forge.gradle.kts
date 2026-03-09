@@ -296,7 +296,7 @@ publishMods {
             optional("emi")
         }
         if (hasProperty("deps.rrv")) {
-            optional("extended-itemview-rrv")
+            optional("rrv")
         }
     }
 }

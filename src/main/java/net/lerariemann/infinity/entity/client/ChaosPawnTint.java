@@ -75,7 +75,7 @@ public class ChaosPawnTint extends
     *///?} else if >1.21.5 {
     public void renderOneLayer(PoseStack matrixStack, VertexConsumer vertexConsumer, int light, int overlay, ChaosPawnRenderState livingEntity, ModelPart part, String name) {
         int color;
-        color = NbtUtils.getInt(livingEntity.colors, name);
+        color = livingEntity.colors.get(name);
         if (livingEntity.customName != null) {
             String s = livingEntity.customName;
             if ("jeb_".equals(s)) {
@@ -96,7 +96,7 @@ public class ChaosPawnTint extends
     //?} else {
          /*public void renderOneLayer(PoseStack matrixStack, VertexConsumer vertexConsumer, int light, int overlay, ChaosPawn livingEntity, ModelPart part, String name) {
              int color;
-             color = NbtUtils.getInt(livingEntity.getColors(), name);
+             color = livingEntity.getColors().get(name);
              if (livingEntity.hasCustomName()) {
                  String s = livingEntity.getName().getString();
                  if ("jeb_".equals(s)) {
