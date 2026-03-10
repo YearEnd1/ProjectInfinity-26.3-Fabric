@@ -152,7 +152,7 @@ public class FabricPlatformImpl implements InfinityPlatform {
     public Path getRootPathInJar(String path) {
         ModContainer mc = FabricLoader.getInstance().getModContainer(InfinityMod.MOD_ID).orElse(null);
         assert mc != null;
-        return mc.getRootPaths().getFirst().resolve(path);
+        return mc.getRootPaths().get(0).resolve(path);
     }
 
     /**
