@@ -35,6 +35,7 @@ public class InfinityBlockLootTableProvider extends FabricBlockLootTableProvider
 		dropOther(ModBlocks.IRIDESCENT_KELP_PLANT.get(), Items.KELP);
 		createSlabItemTable(ModBlocks.NETHERITE_SLAB.get());
 		dropSelf(ModBlocks.NETHERITE_STAIRS.get());
+		dropOther(ModBlocks.IRIDESCENCE_CAULDRON.get(), Items.CAULDRON);
 	}
 }
 //?}

@@ -72,6 +72,9 @@ public class InfinityModNeoForgeClient {
                 ModBlocks.CHROMATIC_WOOL.get(),
                 ModBlocks.CHROMATIC_CARPET.get());
         event.register(InfinityMethods::getBookBoxColor, ModBlocks.BOOK_BOX.get());
+        event.register((blockState, blockAndTintGetter, blockPos, i) -> Iridescence.getColor(blockAndTintGetter, blockPos),
+                ModBlocks.IRIDESCENCE_CAULDRON.get()
+        );
     }
     //? if <1.21.4 {
     @SubscribeEvent

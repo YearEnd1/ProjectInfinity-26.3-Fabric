@@ -2,7 +2,9 @@ package net.lerariemann.infinity.iridescence;
 
 import dev.architectury.registry.registries.RegistrySupplier;
 import net.lerariemann.infinity.InfinityMod;
+import net.lerariemann.infinity.item.PortalDataHolder;
 import net.lerariemann.infinity.registry.core.ModEntities;
+import net.lerariemann.infinity.registry.core.ModItemFunctions;
 import net.lerariemann.infinity.registry.core.ModStatusEffects;
 import net.lerariemann.infinity.registry.payload.s2c.ShaderS2CPayload;
 import net.lerariemann.infinity.registry.var.ModCriteria;
@@ -10,6 +12,7 @@ import net.lerariemann.infinity.registry.var.ModStats;
 import net.lerariemann.infinity.registry.var.ModTags;
 import net.lerariemann.infinity.util.VersionMethods;
 import net.lerariemann.infinity.util.core.CommonIO;
+import net.lerariemann.infinity.util.core.RandomProvider;
 import net.lerariemann.infinity.util.platform.InfinityPlatform;
 import net.lerariemann.infinity.entity.custom.ChaosCreeper;
 import net.lerariemann.infinity.entity.custom.ChaosPawn;
@@ -31,10 +34,12 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.animal.AbstractFish;
+import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.monster.Slime;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.BlockAndTintGetter;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
@@ -53,6 +58,7 @@ import java.nio.file.Path;
 import java.time.LocalTime;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Random;
 //? if >1.21.2 {
 import static net.minecraft.world.entity.EntitySpawnReason.CONVERSION;
@@ -95,6 +101,10 @@ public interface Iridescence {
         long timeMS = LocalTime.now().toNanoOfDay() / 1000000;
         int hue = (int)(timeMS % 24000);
         return ColorLogic.getPureHue(hue / 24000.0);
+    }
+    
+    static int getColor(@Nullable BlockAndTintGetter view, @Nullable BlockPos pos) {
+        return (view != null && pos != null) ? Iridescence.getPosBasedColor(pos) : Iridescence.getTimeBasedColor();
     }
 
     List<DyeColor> dyeColors = List.of(
@@ -247,6 +257,20 @@ public interface Iridescence {
             if (entity instanceof ServerPlayer player) {
                 ModCriteria.IRIDESCENT.get().trigger(player, willingly, amplifier);
             }
+        }
+    }
+
+    static void touchIridescence(Entity entity, ServerLevel w) {
+        if (Objects.requireNonNull(entity) instanceof Player player) {
+            Iridescence.tryBeginJourney(player, RandomProvider.ruleInt("iridescenceContactLevel"), false);
+        } else if (entity instanceof Mob ent) {
+            Iridescence.tryApplyEffect(ent);
+        } else if (entity instanceof ItemEntity item) {
+            if (!Iridescence.isIridescentItem(item.getItem()) && item.getOwner() instanceof LivingEntity le &&
+                    !Iridescence.getPhase(le).equals(Iridescence.Phase.INITIAL))
+                ModItemFunctions.checkCollisionRecipes(w, item, ModItemFunctions.IRIDESCENCE_CRAFTING_TYPE.get(),
+                        i -> PortalDataHolder.getIridComponents(i, item)
+                );
         }
     }
 

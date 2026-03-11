@@ -1,6 +1,5 @@
 package net.lerariemann.infinity.registry.core;
 
-import dev.architectury.core.item.ArchitecturyBucketItem;
 import dev.architectury.registry.registries.DeferredRegister;
 import dev.architectury.registry.registries.RegistrySupplier;
 import net.lerariemann.infinity.InfinityMod;
@@ -21,7 +20,6 @@ import net.minecraft.world.item.*;
 import net.minecraft.world.item.component.Consumable;
 //?}
 import net.minecraft.world.level.block.Block;
-
 import java.util.List;
 import java.util.Optional;
 import java.util.function.BiFunction;
@@ -104,8 +102,7 @@ public class ModItems {
     }
 
     //bucket
-    public static final RegistrySupplier<Item> IRIDESCENCE_BUCKET = register("iridescence_bucket", new Item.Properties() , (properties) ->
-            new ArchitecturyBucketItem(InfinityPlatform.INSTANCE.getIridescenceStill(), properties.craftRemainder(Items.BUCKET).stacksTo(1)));
+    public static final RegistrySupplier<Item> IRIDESCENCE_BUCKET = register("iridescence_bucket", new Item.Properties() , IridescenceBucketItem::new);
 
     //misc
     public static final RegistrySupplier<Item> FOOTPRINT =

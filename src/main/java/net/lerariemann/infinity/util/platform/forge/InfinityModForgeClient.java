@@ -4,6 +4,7 @@ package net.lerariemann.infinity.util.platform.forge;
 
 /*import net.lerariemann.infinity.InfinityModClient;
 import net.lerariemann.infinity.compat.ModCompat;
+import net.lerariemann.infinity.iridescence.Iridescence;
 import net.lerariemann.infinity.registry.var.ModParticles;
 import net.lerariemann.infinity.util.platform.InfinityPlatform;
 import net.lerariemann.infinity.registry.core.ModBlocks;
@@ -48,6 +49,8 @@ public class InfinityModForgeClient {
                 ModBlocks.CHROMATIC_WOOL.get(),
                 ModBlocks.CHROMATIC_CARPET.get());
         event.register(InfinityMethods::getBookBoxColor, ModBlocks.BOOK_BOX.get());
+        event.register((blockState, blockAndTintGetter, blockPos, i) -> Iridescence.getColor(blockAndTintGetter, blockPos),
+                ModBlocks.IRIDESCENCE_CAULDRON.get());
     }
     @SubscribeEvent
     public static void registerItemColorHandlers(RegisterColorHandlersEvent.Item event) {

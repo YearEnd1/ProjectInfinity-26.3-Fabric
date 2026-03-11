@@ -45,6 +45,8 @@ public class ModBlocks {
     public static final RegistrySupplier<Block> TIME_BOMB = register("timebomb", 
             TimeBombBlock::new, (VersionMethods.copyBlockProperties(Blocks.BEDROCK).noOcclusion().lightLevel(state -> 15)));
     public static final RegistrySupplier<LiquidBlock> IRIDESCENCE = InfinityPlatform.INSTANCE.getIridBlockForReg();
+    public static final RegistrySupplier<Block> IRIDESCENCE_CAULDRON = register("iridescence_cauldron",
+            IridescenceCauldronBlock::new, VersionMethods.copyBlockProperties(Blocks.CAULDRON));
     public static final RegistrySupplier<Block> BIOME_BOTTLE = register("biome_bottle", 
             BiomeBottleBlock::new, (VersionMethods.copyBlockProperties(Blocks.BEACON).lightLevel(state -> state.getValue(BiomeBottleBlock.LEVEL))
                     .sound(SoundType.GLASS)));

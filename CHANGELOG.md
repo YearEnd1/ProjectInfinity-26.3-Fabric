@@ -1,4 +1,12 @@
-## [2.7.0]
+## [2.7.1 - 26/III/10]
+
+### Technical
+- Further refactors to Chaos Pawn serialization to prep for porting past 1.21.8.
+
+### Fixed
+- Crash on 1.20.1.
+
+## [2.7.0 - 26/III/8]
 
 ### Features
 - Haunted dimensions are significantly refactored; `notes` dimension is populated with features and opened to the public.

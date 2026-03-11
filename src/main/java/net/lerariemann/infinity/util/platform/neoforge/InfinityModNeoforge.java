@@ -3,9 +3,9 @@ package net.lerariemann.infinity.util.platform.neoforge;
 //? neoforge {
 /*import net.lerariemann.infinity.InfinityMod;
 //? if >1.21.4 {
-import net.lerariemann.infinity.compat.ModCompat;
+/^import net.lerariemann.infinity.compat.ModCompat;
 import net.lerariemann.infinity.compat.rrv.RrvIntegration;
-//?}
+^///?}
 import net.lerariemann.infinity.registry.core.ModBlocks;
 import net.lerariemann.infinity.registry.core.ModEntities;
 import net.lerariemann.infinity.registry.core.ModItemFunctions;
@@ -17,6 +17,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.server.packs.PackType;
 import net.minecraft.server.packs.repository.Pack;
 import net.minecraft.server.packs.repository.PackSource;
+import net.neoforged.bus.api.EventPriority;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.ModContainer;
@@ -25,6 +26,8 @@ import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.neoforge.event.AddPackFindersEvent;
 import net.neoforged.neoforge.event.entity.RegisterSpawnPlacementsEvent;
+import net.neoforged.neoforge.fluids.FluidType;
+import net.neoforged.neoforge.fluids.RegisterCauldronFluidContentEvent;
 import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 
 import static net.lerariemann.infinity.InfinityMod.MOD_ID;
@@ -40,9 +43,9 @@ public class InfinityModNeoforge {
         ModFluidsNeoforge.registerModFluids();
         ModEffectsNeoforge.register(eventBus);
         //? if <1.21.2 {
-        /^if (InfinityPlatform.INSTANCE.isModLoaded("create"))
+        if (InfinityPlatform.INSTANCE.isModLoaded("create"))
             net.lerariemann.infinity.compat.CreateCompat.register();
-        ^///?}
+        //?}
     }
 
     @SubscribeEvent
@@ -77,14 +80,19 @@ public class InfinityModNeoforge {
         ModItemFunctions.registerDispenserBehaviour();
         // this is less than ideal but i cannot figure out why the proper solution isn't working
         //? if >1.21.4 {
-        if (ModCompat.RRV)
+        /^if (ModCompat.RRV)
             RrvIntegration.initialize();
-        //?}
+        ^///?}
     }
 
     @SubscribeEvent
     public static void registerServerPayloads(final RegisterPayloadHandlersEvent event) {
         ModPayloads.registerNeoforge(event);
+    }
+
+    @SubscribeEvent(priority = EventPriority.LOW)
+    public static void registerCauldron(RegisterCauldronFluidContentEvent event) {
+        event.register(ModBlocks.IRIDESCENCE_CAULDRON.get(), ModFluidsNeoforge.IRIDESCENCE_STILL.get(), FluidType.BUCKET_VOLUME, null);
     }
 }
 *///?}

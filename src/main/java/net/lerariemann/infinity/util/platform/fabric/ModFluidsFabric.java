@@ -163,7 +163,7 @@ public class ModFluidsFabric {
     public static class IridescenceVariantRenderHandler implements FluidVariantRenderHandler {
         @Override
         public int getColor(FluidVariant fluidVariant, @Nullable BlockAndTintGetter view, @Nullable BlockPos pos) {
-            return (view != null && pos != null) ? Iridescence.getPosBasedColor(pos) : Iridescence.getTimeBasedColor();
+            return Iridescence.getColor(view, pos);
         }
     }
     public static class IridescenceRenderHandler implements FluidRenderHandler {

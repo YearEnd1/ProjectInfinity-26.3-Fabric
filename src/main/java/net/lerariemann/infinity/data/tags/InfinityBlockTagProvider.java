@@ -46,7 +46,8 @@ public class InfinityBlockTagProvider extends FabricTagProvider.BlockTagProvider
 				ModBlocks.NETHERITE_STAIRS.get(),
 				ModBlocks.BIOME_BOTTLE.get(),
 				ModBlocks.ANT.get(),
-				ModBlocks.COSMIC_ALTAR.get()
+				ModBlocks.COSMIC_ALTAR.get(),
+				ModBlocks.IRIDESCENCE_CAULDRON.get()
 		);
 		valueLookupBuilder(BlockTags.PORTALS).add(
 				ModBlocks.PORTAL.get()
@@ -56,6 +57,9 @@ public class InfinityBlockTagProvider extends FabricTagProvider.BlockTagProvider
 		);
 		valueLookupBuilder(BlockTags.STAIRS).add(
 				ModBlocks.NETHERITE_STAIRS.get()
+		);
+		valueLookupBuilder(BlockTags.CAULDRONS).add(
+				ModBlocks.IRIDESCENCE_CAULDRON.get()
 		);
 	}
 

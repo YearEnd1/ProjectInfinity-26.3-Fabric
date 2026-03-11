@@ -45,16 +45,6 @@ public class IridescenceLiquidBlock extends ArchitecturyLiquidBlock {
                  *///?}
         );
         if (world.getFluidState(pos).getAmount() > 3 && world instanceof ServerLevel w)
-            if (Objects.requireNonNull(entity) instanceof Player player) {
-                Iridescence.tryBeginJourney(player, RandomProvider.ruleInt("iridescenceContactLevel"), false);
-            } else if (entity instanceof Mob ent) {
-                Iridescence.tryApplyEffect(ent);
-            } else if (entity instanceof ItemEntity item) {
-                if (!Iridescence.isIridescentItem(item.getItem()) && item.getOwner() instanceof LivingEntity le &&
-                        !Iridescence.getPhase(le).equals(Iridescence.Phase.INITIAL))
-                    ModItemFunctions.checkCollisionRecipes(w, item, ModItemFunctions.IRIDESCENCE_CRAFTING_TYPE.get(),
-                            i -> PortalDataHolder.getIridComponents(i, item)
-                    );
-            }
+            Iridescence.touchIridescence(entity, w);
     }
 }

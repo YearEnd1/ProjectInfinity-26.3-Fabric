@@ -4,16 +4,14 @@ package net.lerariemann.infinity.util.platform.fabric;
 import dev.architectury.registry.registries.RegistrySupplier;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 //? if >1.21 {
-import net.fabricmc.fabric.api.event.lifecycle.v1.ServerWorldEvents;
 import net.fabricmc.fabric.api.tag.convention.v2.ConventionalBlockTags;
 import net.lerariemann.infinity.registry.payload.ModPayloads;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.world.item.enchantment.ItemEnchantments;
-//?}
-//? if <1.21 {
-/*import net.fabricmc.fabric.api.event.lifecycle.v1.ServerWorldEvents;
-import net.minecraft.core.registries.BuiltInRegistries;
- *///?}
+//?} else {
+/*import net.minecraft.core.registries.BuiltInRegistries;
+*///?}
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerWorldEvents;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.fabricmc.fabric.api.registry.FlammableBlockRegistry;
 import net.fabricmc.loader.api.FabricLoader;
@@ -206,3 +204,4 @@ public class FabricPlatformImpl implements InfinityPlatform {
         return FabricLoader.getInstance().getGameDir();
     }
 }
+//?}

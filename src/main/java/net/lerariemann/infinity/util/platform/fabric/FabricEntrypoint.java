@@ -5,6 +5,8 @@ package net.lerariemann.infinity.util.platform.fabric;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.fabricmc.fabric.api.resource.ResourcePackActivationType;
+import net.fabricmc.fabric.api.transfer.v1.fluid.CauldronFluidContent;
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidConstants;
 import net.fabricmc.loader.api.FabricLoader;
 import net.lerariemann.infinity.InfinityMod;
 import net.fabricmc.api.ModInitializer;
@@ -43,6 +45,7 @@ public class FabricEntrypoint implements ModInitializer {
                 FabricLoader.getInstance().getModContainer(InfinityMod.MOD_ID).orElseThrow(),
                 Component.literal("Infinite Dimensions - Multiversioned Resources"),
                 ResourcePackActivationType.ALWAYS_ENABLED);
+        CauldronFluidContent.registerCauldron(ModBlocks.IRIDESCENCE_CAULDRON.get(), ModFluidsFabric.IRIDESCENCE_STILL.get(), FluidConstants.BUCKET, null);
     }
 }
 //?}

@@ -31,6 +31,8 @@ import org.apache.logging.log4j.LogManager;
 //?} else {
 /*import net.minecraft.world.InteractionResultHolder;
 *///?}
+//? if =1.21.1
+/*import net.minecraft.world.ItemInteractionResult;*/
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.effect.MobEffect;
@@ -473,5 +475,15 @@ public interface VersionMethods {
         /*return server.isNetherEnabled();
         *///?}
     }
+
+    //? if =1.21.1 {
+    /*static ItemInteractionResult passToDefaultBlockInteraction() {
+        return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+    }
+    *///?} else {
+    static InteractionResult passToDefaultBlockInteraction() {
+        return InteractionResult.PASS;
+    }
+    //?}
 }
 
