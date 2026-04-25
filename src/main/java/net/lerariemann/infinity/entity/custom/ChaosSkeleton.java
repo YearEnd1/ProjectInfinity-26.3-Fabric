@@ -45,7 +45,6 @@ import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 import static net.minecraft.world.entity.EntitySpawnReason.CONVERSION;
-import net.minecraft.client.resources.language.I18n;
 //?}
 import org.jspecify.annotations.Nullable;
 
@@ -253,7 +252,8 @@ public class ChaosSkeleton extends Skeleton implements TintableEntity {
         customEffects.add(MobEffectInstance.load(potionEffect));
         *///?}
         //? if >1.21.4 {
-        stack.set(DataComponents.POTION_CONTENTS, new PotionContents(Optional.empty(), Optional.of(color), customEffects, Optional.of(I18n.get("potion.infinity.skeleton"))));
+        stack.set(DataComponents.POTION_CONTENTS, new PotionContents(Optional.empty(), Optional.of(color), customEffects, Optional.empty()));
+        stack.set(DataComponents.ITEM_NAME, Component.translatable("potion.infinity.skeleton"));
         //?} else if >1.21 {
         /*stack.set(DataComponents.POTION_CONTENTS, new PotionContents(Optional.empty(), Optional.of(color), customEffects));
         stack.set(DataComponents.ITEM_NAME, Component.translatable("potion.infinity.skeleton"));
