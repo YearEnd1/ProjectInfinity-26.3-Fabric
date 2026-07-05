@@ -35,11 +35,14 @@ public class ConfigFactory<S> {
     void generate(ConfigType type) {
         DataCollection.Logged collection = new DataCollection.Logged(type);
         reg.registryKeySet().forEach(key -> {
-            CompoundTag data = dataExtractor.apply(key);
-            if (data != null) {
-                ResourceLocation id = key.location();
-                if (data.isEmpty()) collection.addIdentifier(id);
-                else collection.add(id.getNamespace(), id.toString(), data);
+            try {
+                CompoundTag data = dataExtractor.apply(key);
+                if (data != null) {
+                    ResourceLocation id = key.location();
+                    if (data.isEmpty()) collection.addIdentifier(id);
+                    else collection.add(id.getNamespace(), id.toString(), data);
+                }
+            } catch (Exception ignored) {
             }
         });
         collection.save();
