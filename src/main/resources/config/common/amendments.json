@@ -166,13 +166,11 @@
     },
     {
       "area": "blocks",
-      "mod": "sable",
-      "selector": "all",
-      "results": "erase"
-    },
-    {
-      "area": "blocks",
-      "mod": "aeronautics",
+      "mod": "any_of",
+      "mods": [
+        "sable",
+        "aeronautics"
+      ],
       "selector": "all",
       "results": "erase"
     },
