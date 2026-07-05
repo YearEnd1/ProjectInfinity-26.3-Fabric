@@ -7,7 +7,6 @@ import net.lerariemann.infinity.util.core.ConfigType;
 import net.lerariemann.infinity.util.core.NbtUtils;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
-import net.minecraft.world.level.levelgen.feature.SpringFeature;
 
 import static net.lerariemann.infinity.dimensions.features.Placement.heightRange;
 
