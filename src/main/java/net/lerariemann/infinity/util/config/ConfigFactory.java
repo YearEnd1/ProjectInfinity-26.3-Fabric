@@ -35,7 +35,7 @@ public class ConfigFactory<S> {
     void generate(ConfigType type) {
         DataCollection.Logged collection = new DataCollection.Logged(type);
         reg.registryKeySet().forEach(key -> {
-            try {
+            try { //sonicraft crashes in here
                 CompoundTag data = dataExtractor.apply(key);
                 if (data != null) {
                     ResourceLocation id = key.location();

@@ -7,6 +7,7 @@ import net.lerariemann.infinity.util.core.ConfigType;
 import net.lerariemann.infinity.util.core.NbtUtils;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
+import net.minecraft.world.level.levelgen.feature.SpringFeature;
 
 import static net.lerariemann.infinity.dimensions.features.Placement.heightRange;
 
@@ -30,7 +31,15 @@ public class RandomSpring extends RandomisedFeature {
             config.putInt("rock_count", open ? 4 : 5);
         }
         config.putBoolean("requires_block_below", random.nextBoolean());
-        config.put("state", PROVIDER.randomElement(random, ConfigType.FLUIDS));
+
+        CompoundTag fluid = PROVIDER.randomElement(random, ConfigType.FLUIDS);
+        CompoundTag fluidConf = new CompoundTag();
+        fluidConf.putString("Name", NbtUtils.getString(fluid, "fluidName", "minecraft:water"));
+        CompoundTag properties = new CompoundTag();
+        properties.putBoolean("falling", true);
+        fluidConf.put("Properties", properties);
+
+        config.put("state", fluidConf);
         config.putString("valid_blocks", NbtUtils.getString(daddy.default_block, "Name"));
         return feature(config);
     }
