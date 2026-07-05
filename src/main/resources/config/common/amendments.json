@@ -163,6 +163,28 @@
       "selector": "matching",
       "matching": "minecraft:wandering_trader",
       "results": "erase"
+    },
+    {
+      "area": "blocks",
+      "mod": "sable",
+      "selector": "all",
+      "results": "erase"
+    },
+    {
+      "area": "blocks",
+      "mod": "aeronautics",
+      "selector": "all",
+      "results": "erase"
+    },
+    {
+      "area": "blocks",
+      "mod": "ars_nouveau",
+      "selector": "matching_any",
+      "matching_any": [
+        "ars_nouveau:scribes_table",
+        "ars_nouveau:alteration_table"
+      ],
+      "results": "erase"
     }
   ]
 }
