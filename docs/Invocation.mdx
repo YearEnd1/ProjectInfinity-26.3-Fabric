@@ -21,6 +21,7 @@ Currently, the config files and therefore types of modded content which the invo
 * status effects,
 * block tags,
 * structures plus some of their additional data,
+* tree features,
 * biomes,
 * (in limited capacity) surface rules for biomes.
 
@@ -48,8 +49,8 @@ if it detects that the version of those configs (set in the invocation lock) is 
 do a backup of them before updating the mod!
 
 ## Amendments
-Amendments are a system of automatically changing values in config files without changing them one-by-one. A more proper integration (for editing them
-in GUI) will be explored later, but so far it is possible to do them by editing files.
+Amendments are a system of automatically changing values in config files without changing them one-by-one. They can be edited in the last tab
+of the mod's configuration menu (requires ModMenu and ClothConfig).
 
 Amendments are stored in `config/infinity/amendments.json` and only can affect modular configs. To change the list of active amendments,
 one must edit the amendments.json file _making sure to increase up the amendment_version statistic at the top_, then fully close and restart the game.
@@ -72,7 +73,7 @@ If the mod of the set ID is not loaded, the amendment is skipped.
  additional fields are `field_name` and `field` allowing you to add any field to the data amended content has;
  * `"erase"` - skip the entry entirely, effectively the same as setting its weight to 0.
 
-Let's break down the default list of ten amendments the mod comes with. Most of them are fixes for various mod compatibility issues:
+Let's break down the first ten amendments from the default list the mod comes with. Most of them are fixes for various mod compatibility issues:
 ```
     {
       "area": "fluids",
