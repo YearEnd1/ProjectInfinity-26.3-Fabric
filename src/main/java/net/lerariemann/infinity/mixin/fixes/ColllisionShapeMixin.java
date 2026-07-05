@@ -19,9 +19,7 @@ public class ColllisionShapeMixin {
     @Inject(method = "getCollisionShape(Lnet/minecraft/world/level/BlockGetter;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/phys/shapes/CollisionContext;)Lnet/minecraft/world/phys/shapes/VoxelShape;",
             at = @At("RETURN"), cancellable = true)
     private void antsStandOnWater(BlockGetter world, BlockPos pos, CollisionContext context, CallbackInfoReturnable<VoxelShape> cir) {
-        //? if >1.21.3 {
         try {
-        //?}
             FluidState fluidState = world.getFluidState(pos);
             if (!fluidState.is(FluidTags.WATER)) return;
             int level = fluidState.getAmount();
@@ -31,8 +29,6 @@ public class ColllisionShapeMixin {
                     && context.canStandOnFluid(world.getFluidState(pos.above()), fluidState)) {
                 cir.setReturnValue(Shapes.or(cir.getReturnValue(), AntEntity.getWaterCollisionShape(trueLevel)));
             }
-            //? if >1.21.3 {
         } catch (Exception ignored) {}
-        //?}
     }
 }
