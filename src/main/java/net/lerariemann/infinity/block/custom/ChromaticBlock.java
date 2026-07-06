@@ -36,14 +36,11 @@ public class ChromaticBlock extends BaseEntityBlock implements Boopable {
 
     @Override
     public ItemStack getCloneItemStack(
-            //? if >1.21 {
-            LevelReader
-             //?} else {
-            /*BlockGetter
-            *///?}
-            world, BlockPos pos, BlockState state
+            //~ if >1.21 'BlockGetter' -> 'LevelReader' {
+            LevelReader world, BlockPos pos, BlockState state
+            //~}
     //? if >1.21.2 {
-            , boolean bl
+            , boolean includeData
     //?}
     ) {
         ItemStack res = super.getCloneItemStack(world, pos, state
@@ -52,11 +49,9 @@ public class ChromaticBlock extends BaseEntityBlock implements Boopable {
         //?}
         );
         if (!res.isEmpty() && world.getBlockEntity(pos) instanceof ChromaticBlockEntity cbe) {
-            //? if >1.21 {
+            //~ if >1.21 'setTag'->'applyComponents' {
             res.applyComponents(cbe.asMap());
-            //?} else {
-            /*res.setTag(cbe.asMap());
-            *///?}
+            //~}
         }
         return res;
     }
@@ -88,21 +83,12 @@ public class ChromaticBlock extends BaseEntityBlock implements Boopable {
         }
 
         @Override
-        //? if >1.21 {
-        protected
-        //?} else {
-        /*public
-        *///?}
-        VoxelShape getShape(BlockState state, BlockGetter world, BlockPos pos, CollisionContext context) {
+        public VoxelShape getShape(BlockState state, BlockGetter world, BlockPos pos, CollisionContext context) {
             return SHAPE;
         }
 
         @Override
-        //? if >1.21 {
-        protected
-        //?} else {
-        /*public
-            *///?}
+        public
         //? if >1.21.2 {
         BlockState updateShape(BlockState state, LevelReader world, ScheduledTickAccess scheduledTickAccess, BlockPos pos, Direction direction, BlockPos neighborPos, BlockState neighborState, RandomSource random) {
         //?} else {
@@ -117,12 +103,7 @@ public class ChromaticBlock extends BaseEntityBlock implements Boopable {
         }
 
         @Override
-        //? if >1.21 {
-        protected
-        //?} else {
-        /*public
-            *///?}
-         boolean canSurvive(BlockState state, LevelReader world, BlockPos pos) {
+        public boolean canSurvive(BlockState state, LevelReader world, BlockPos pos) {
             return !world.isEmptyBlock(pos.below());
         }
     }

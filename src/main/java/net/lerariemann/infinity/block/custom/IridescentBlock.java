@@ -84,21 +84,12 @@ public class IridescentBlock extends Block {
         }
 
         @Override
-        //? if >1.21 {
-        protected
-        //?} else {
-        /*public
-            *///?}
-         VoxelShape getShape(BlockState state, BlockGetter world, BlockPos pos, CollisionContext context) {
+        public VoxelShape getShape(BlockState state, BlockGetter world, BlockPos pos, CollisionContext context) {
             return SHAPE;
         }
 
         @Override
-        //? if >1.21 {
-        protected
-        //?} else {
-        /*public
-         *///?}
+        public
         //? if >1.21.2 {
         BlockState updateShape(BlockState state, LevelReader world, ScheduledTickAccess scheduledTickAccess, BlockPos pos, Direction direction, BlockPos neighborPos, BlockState neighborState, RandomSource random) {
             //?} else {
@@ -113,12 +104,7 @@ public class IridescentBlock extends Block {
         }
 
         @Override
-        //? if >1.21 {
-        protected
-        //?} else {
-        /*public
-            *///?}
-         boolean canSurvive(BlockState state, LevelReader world, BlockPos pos) {
+        public boolean canSurvive(BlockState state, LevelReader world, BlockPos pos) {
             return !world.isEmptyBlock(pos.below());
         }
 

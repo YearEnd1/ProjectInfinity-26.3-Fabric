@@ -16,12 +16,7 @@ import java.util.Optional;
 
 public record EffectGiver(Holder<MobEffect> id, int duration, int amplifier, int cooldown) {
     public static Holder<MobEffect> effectOf(String id) {
-        Optional<Holder.Reference<MobEffect>> entry = BuiltInRegistries.MOB_EFFECT
-        //? if >1.21.2 {
-        .get(ResourceKey.create(Registries.MOB_EFFECT, VersionMethods.id(id)));
-        //?} else {
-        /*.getHolder(ResourceKey.create(Registries.MOB_EFFECT, VersionMethods.id(id)));
-        *///?}
+        Optional<Holder.Reference<MobEffect>> entry = VersionMethods.getOptionalFromRegistry(BuiltInRegistries.MOB_EFFECT, ResourceKey.create(Registries.MOB_EFFECT, VersionMethods.id(id)));
         if (entry.isEmpty() || entry.get().value() instanceof InstantenousMobEffect) return null;
         return entry.get();
     }

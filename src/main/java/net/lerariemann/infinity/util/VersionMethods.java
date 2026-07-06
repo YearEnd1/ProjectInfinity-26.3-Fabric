@@ -421,6 +421,10 @@ public interface VersionMethods {
         return registry.getValue(name);
     }
 
+    static <T> Optional<Holder.Reference<T>> getOptionalFromRegistry(Registry<T> registry, ResourceKey<T> name) {
+        return registry.get(name);
+    }
+
     static <T> Registry<T> getRegistry(RegistryAccess access, ResourceKey<Registry<T>> jukeboxSong) {
         return access.lookupOrThrow(jukeboxSong);
     }
@@ -454,6 +458,9 @@ public interface VersionMethods {
     }
     static <T> T getFromRegistry(Registry<T> registry, ResourceKey<T> name) {
         return registry.get(name);
+    }
+      static <T> Optional<Holder.Reference<T>> getOptionalFromRegistry(Registry<T> registry, ResourceKey<T> name) {
+        return registry.getHolder(name);
     }
 
     static <T> Registry<T> getRegistry(RegistryAccess access, ResourceKey<Registry<T>> jukeboxSong) {

@@ -11,7 +11,7 @@ description = '''
 Inspired by 2020's April Fools' 20w14infinite Snapshot, this mod brings endless randomly generated dimensions into Minecraft.
 '''
 logoFile = "assets/infinity/icon.png"
-issueTrackerURL = "https://tangled.org/@lerariemann.nekoweb.org/ProjectInfinity//issues"
+issueTrackerURL = "https://tangled.org/codexarchonic.nekoweb.org/ProjectInfinity/issues"
 displayURL = "https://modrinth.com/mod/infinite-dimensions"
 
 [[dependencies.infinity]]

@@ -69,34 +69,30 @@ public abstract class LivingEntityMixin extends Entity {
     *///?}
 
     /* Handle fall damage in dimensions with custom mavity */
+    //~ if >1.21.2 'double fallDistance' -> 'float fallDistance' {
     @Inject(method = "calculateFallDamage", at = @At(value = "HEAD"), cancellable = true)
-    protected void handleMavityFallDamage(
-            //? if >1.21.2 {
-            double
-            //?} else {
-            /*float
-            *///?}
-                    fallDistance, float damageMultiplier, CallbackInfoReturnable<Integer> cir) {
+    protected void handleMavityFallDamage(float fallDistance, float damageMultiplier, CallbackInfoReturnable<Integer> cir ) {
         InfinityOptions options = InfinityOptions.access(level());
         if (!options.isEmpty()) {
             if (this.getType().is(EntityTypeTags.FALL_DAMAGE_IMMUNE)) cir.setReturnValue(0);
             else {
-                double f =
+                double safeFallDistance =
                 //? if >1.21 {
                 getAttributeValue(Attributes.SAFE_FALL_DISTANCE);
                 //?} else {
                 /*3.0;
                 *///?}
                 double clampedMavity = Mth.clamp(options.getMavity(), 0.01, 2);
-                double g = fallDistance * clampedMavity - f;
-                double h =
+                double fallDamage = fallDistance * clampedMavity - safeFallDistance;
+                double fallDamageMultiplier =
                 //? if >1.21 {
                 getAttributeValue(Attributes.FALL_DAMAGE_MULTIPLIER);
                 //?} else {
                 /*1.0;
                 *///?}
-                cir.setReturnValue(Mth.ceil((g * damageMultiplier) * h));
+                cir.setReturnValue(Mth.ceil((fallDamage * damageMultiplier) * fallDamageMultiplier));
             }
         }
     }
+    //~}
 }

@@ -18,11 +18,9 @@ import java.util.Set;
 public interface NbtUtils {
 
     static Set<String> keys(CompoundTag tag) {
-        //? if >1.21.5 {
+        //~ if >1.21.5 'getAllKeys'->'keySet' {
         return tag.keySet();
-        //?} else {
-        /*return tag.getAllKeys();
-         *///?}
+        //~}
     }
 
     static String getAsString(Tag tag) {
@@ -36,11 +34,9 @@ public interface NbtUtils {
     //? if >1.21.5 {
 
     static Collection<String> keys(ValueInput tag) {
-        //? if neoforge {
-        /*return tag.keySet();
-        *///?} else {
+        //~ if neoforge 'keys'->'keySet' {
         return tag.keys();
-         //?}
+        //~}
     }
     static boolean compoundHasString(ValueInput tag, String dimension) {
         return tag.getString(dimension).isPresent();

@@ -155,30 +155,22 @@ public class BishopEntity extends AbstractChessFigure implements RangedAttackMob
         };
     }
 
+    //~ if >1.21.2 'CompoundTag'->'ValueOutput' {
     @Override
-    public void addAdditionalSaveData(
-            //? if >1.21.2 {
-            ValueOutput
-            //?} else {
-            /*CompoundTag
-             *///?}
-            nbt) {
+    public void addAdditionalSaveData(ValueOutput nbt) {
         super.addAdditionalSaveData(nbt);
         if (battle != null) nbt.putString("battle", battle.teamName);
     }
+    //~}
+    //~ if >1.21.2 'CompoundTag'->'ValueInput' {
     @Override
-    public void readAdditionalSaveData(
-            //? if >1.21.2 {
-            ValueInput
-            //?} else {
-            /*CompoundTag
-             *///?}
-            nbt) {
+    public void readAdditionalSaveData(ValueInput nbt) {
         super.readAdditionalSaveData(nbt);
         if (NbtUtils.compoundHasString(nbt, "battle") && level() instanceof ServerLevel w)
             battle = new BishopBattle(w, NbtUtils.getString(nbt, "battle"));
         updateAttackType();
     }
+    //~}
     public void addToBattle(BishopBattle battle) {
         this.battle = battle;
         battle.addEntity(this);

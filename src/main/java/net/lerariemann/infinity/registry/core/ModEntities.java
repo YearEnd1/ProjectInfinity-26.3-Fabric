@@ -135,12 +135,9 @@ public class ModEntities {
     }
 
     public static <T extends Mob> void registerSafe(EntityType<T> type,
-                                                    //? if >1.21 {
-                                                    SpawnPlacementType
-                                                    //?} else {
-                                                    /*SpawnPlacements.Type
-                                                    *///?}
-                                                    location, Heightmap.Types heightmapType, SpawnPlacements.SpawnPredicate<T> predicate,
+                                                    //~ if >1.21 'SpawnPlacements.Type' -> 'SpawnPlacementType' {
+                                                    SpawnPlacementType location, Heightmap.Types heightmapType, SpawnPlacements.SpawnPredicate<T> predicate,
+                                                    //~}
                                                     //? if neoforge {
                                                     /*RegisterSpawnPlacementsEvent event
                                                      *///?} else if forge {
@@ -188,28 +185,17 @@ public class ModEntities {
         registerSafe(EntityType.BREEZE, ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Monster::checkMonsterSpawnRules, event);
     }
 
-    public static boolean canChaosMonsterSpawn(EntityType<? extends Monster> type, ServerLevelAccessor world,
-
-                                               //? if >1.21.2 {
-                                               net.minecraft.world.entity.EntitySpawnReason
-                                                       //?} else {
-                                                       /*net.minecraft.world.entity.MobSpawnType
-                                                        *///?}
-                                               spawnReason, BlockPos pos, RandomSource random) {
+    //~ if >=1.21.2 'MobSpawnType' -> 'EntitySpawnReason' {
+    public static boolean canChaosMonsterSpawn(EntityType<? extends Monster> type, ServerLevelAccessor world, net.minecraft.world.entity.EntitySpawnReason spawnReason, BlockPos pos, RandomSource random) {
         return Monster.checkMonsterSpawnRules(type, world, spawnReason, pos, random)
                 && InfinityMethods.chaosMobsEnabled();
     }
-    public static boolean canChessFigureSpawn(EntityType<? extends AbstractChessFigure> type, ServerLevelAccessor world,
-                                              //? if >1.21.2 {
-                                              net.minecraft.world.entity.EntitySpawnReason
-                                              //?} else {
-                                              /*net.minecraft.world.entity.MobSpawnType
-                                               *///?}
-                                              spawnReason, BlockPos pos, RandomSource random) {
+    public static boolean canChessFigureSpawn(EntityType<? extends AbstractChessFigure> type, ServerLevelAccessor world, net.minecraft.world.entity.EntitySpawnReason spawnReason, BlockPos pos, RandomSource random) {
         return Mob.checkMobSpawnRules(type, world, spawnReason, pos, random)
                 && world.getDifficulty() != Difficulty.PEACEFUL
                 && InfinityMethods.chaosMobsEnabled();
     }
+    //~}
 
     public static void registerEntityRenderers() {
         EntityModelLayerRegistry.register(AntModel.MODEL_LAYER, AntModel::getTexturedModelData);
