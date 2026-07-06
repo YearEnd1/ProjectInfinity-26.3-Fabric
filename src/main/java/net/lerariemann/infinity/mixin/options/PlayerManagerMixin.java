@@ -39,34 +39,30 @@ public class PlayerManagerMixin {
     public boolean infinity$needsTpOut;
 
     @Inject(method = "<init>", at = @At("TAIL"))
-    //? if >1.21.9 {
-    /*private void injected(MinecraftServer server, LayeredRegistryAccess<RegistryLayer> registries, PlayerDataStorage playerIo, NotificationService notificationService, CallbackInfo ci) {
-    *///?} else {
+    //~ if >1.21.9 'int maxPlayers'->'NotificationService notificationService' {
     private void injected(MinecraftServer server, LayeredRegistryAccess<RegistryLayer> registryManager, PlayerDataStorage saveHandler, int maxPlayers, CallbackInfo ci) {
-    //?}
+    //~}
         infinity$needsTpOut = false;
     }
 
     //FIXME 1.21.10 - check new target
-    //? if >1.21.9 {
-    /*@Inject(method="placeNewPlayer", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/level/ServerPlayer;level()Lnet/minecraft/server/level/ServerLevel;"))
-    *///?} else {
+    //~ if >1.21.9 ';overworld()'->';level()' {
     @Inject(method="placeNewPlayer", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/MinecraftServer;overworld()Lnet/minecraft/server/level/ServerLevel;"))
-    //?}
-    //? if >1.21 {
-    void checkNeedsTpOut(Connection connection, ServerPlayer player, CommonListenerCookie clientData, CallbackInfo ci) {
-    //?} else {
-    /*void inj(Connection connection, ServerPlayer player, CallbackInfo ci) {
-    *///?}
+    //~}
+    void checkNeedsTpOut(Connection connection, ServerPlayer player,
+                         //? if >1.21 {
+                         CommonListenerCookie clientData,
+                         //?}
+                         CallbackInfo ci) {
         infinity$needsTpOut = true;
     }
 
     @Inject(method="placeNewPlayer", at = @At(value = "TAIL"))
-    //? if >1.21 {
-    void tpOut(Connection connection, ServerPlayer player, CommonListenerCookie clientData, CallbackInfo ci) {
-    //?} else {
-    /*void inj2(Connection connection, ServerPlayer player, CallbackInfo ci) {
-    *///?}
+    void tpOut(Connection connection, ServerPlayer player,
+               //? if >1.21 {
+               CommonListenerCookie clientData,
+               //?}
+               CallbackInfo ci) {
         if (infinity$needsTpOut) {
             infinity$needsTpOut = false;
             WarpLogic.respawnAlive(player);
@@ -76,11 +72,11 @@ public class PlayerManagerMixin {
 
     @Inject(method = "placeNewPlayer", at = @At(value="INVOKE",
             target = "Lnet/minecraft/server/players/PlayerList;sendPlayerPermissionLevel(Lnet/minecraft/server/level/ServerPlayer;)V"))
-    //? if >1.21 {
-    private void updatePlayer(Connection connection, ServerPlayer player, CommonListenerCookie clientData, CallbackInfo ci, @Local(ordinal=0) ServerLevel serverWorld2) {
-    //?} else {
-    /*private void injected(Connection connection, ServerPlayer player, CallbackInfo ci, @Local(ordinal=0) ServerLevel serverWorld2) {
-    *///?}
+    private void updatePlayer(Connection connection, ServerPlayer player,
+                              //? if >1.21 {
+                              CommonListenerCookie clientData,
+                              //?}
+                              CallbackInfo ci, @Local(ordinal=0) ServerLevel serverWorld2) {
         if (serverWorld2 == null) return;
         ShaderS2CPayload.sendTo(player, serverWorld2);
         StarsS2CPayload.sendTo(player);

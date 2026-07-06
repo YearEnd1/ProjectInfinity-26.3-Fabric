@@ -14,13 +14,10 @@ import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.resources.ResourceLocation;
 import org.jspecify.annotations.NonNull;
 
-public class AntRenderer
-        //? if >1.21.4 {
-        extends MobRenderer<AntEntity, AntEntityRenderState, AntModel>
-         //?} else {
-        /*extends MobRenderer<AntEntity, AntModel>
-        *///?}
-         {
+//~ if >1.21.4 'AntEntity, AntModel'->'AntEntity, AntEntityRenderState, AntModel' {
+public class AntRenderer extends MobRenderer<AntEntity, AntEntityRenderState, AntModel> {
+//~}
+
     private static final ResourceLocation TEXTURE = InfinityMethods.getId("textures/entity/ant.png");
 
     public AntRenderer(EntityRendererProvider.Context context) {

@@ -17,13 +17,9 @@ import net.minecraft.client.model.geom.builders.PartDefinition;
 import net.minecraft.util.Mth;
 import org.jspecify.annotations.NonNull;
 
-public class AntModel
-        //? if >1.21.4 {
-        extends EntityModel<AntEntityRenderState>
-        //?} else {
-        /*extends EntityModel<AntEntity>
-        *///?}
-         {
+//~ if >1.21.4 'AntEntity'-> 'AntEntityRenderState' {
+public class AntModel extends EntityModel<AntEntityRenderState> {
+//~}
 	public static final ModelLayerLocation MODEL_LAYER =
 		new ModelLayerLocation(InfinityMethods.getId("ant"), "main");
 

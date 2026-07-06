@@ -142,14 +142,9 @@ public class AntEntity extends AbstractChessFigure {
         *///?}
     }
 
+    //~ if >1.21.2 'CompoundTag'->'ValueOutput' {
     @Override
-    public void addAdditionalSaveData(
-            //? if >1.21.2 {
-            ValueOutput
-            //?} else {
-            /*CompoundTag
-             *///?}
-            nbt) {
+    public void addAdditionalSaveData(ValueOutput nbt) {
         super.addAdditionalSaveData(nbt);
         nbt.putBoolean("dropsLoot", dropsLoot);
         nbt.putString("direction", switch(this.direction) {
@@ -162,7 +157,7 @@ public class AntEntity extends AbstractChessFigure {
             //? if >1.21.2 {
             nbt.store("last_changed_pos", BlockPos.CODEC, lastChangedPos);
             //?} else {
-            /*CompoundTag pos = new CompoundTag();
+            /*ValueOutput pos = new ValueOutput();
             pos.putInt("x", lastChangedPos.getX());
             pos.putInt("y", lastChangedPos.getY());
             pos.putInt("z", lastChangedPos.getZ());
@@ -170,6 +165,7 @@ public class AntEntity extends AbstractChessFigure {
             *///?}
         }
     }
+    //~}
 
     @Override
     public boolean shouldPursueRegularGoals() {
@@ -314,11 +310,7 @@ public class AntEntity extends AbstractChessFigure {
         @Override
         public void start() {
             if (targetPos == null) return;
-            //? if >1.21 {
-            Vec3 v = targetPos.getBottomCenter();
-            //?} else {
-            /*Vec3 v = targetPos.getCenter();
-            *///?}
+            Vec3 v = Vec3.atBottomCenterOf(targetPos);
             mob.randomTeleport(v.x, v.y, v.z, false);
             mob.setYRot(mob.direction.toYRot());
         }

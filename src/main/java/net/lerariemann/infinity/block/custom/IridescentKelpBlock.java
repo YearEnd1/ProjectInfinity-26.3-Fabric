@@ -20,12 +20,7 @@ public class IridescentKelpBlock extends KelpBlock {
     }
 
     @Override
-    //? if >1.21 {
-    protected
-    //?} else {
-    /*public
-    *///?}
-    Block getBodyBlock() {
+    public Block getBodyBlock() {
         return ModBlocks.IRIDESCENT_KELP_PLANT.get();
     }
 
@@ -35,12 +30,7 @@ public class IridescentKelpBlock extends KelpBlock {
         }
 
         @Override
-        //? if >1.21 {
-        protected
-        //?} else {
-        /*public
-        *///?}
-        FluidState getFluidState(BlockState state) {
+        public FluidState getFluidState(BlockState state) {
             return InfinityPlatform.INSTANCE.getIridescenceStill().get().getSource(false);
         }
 

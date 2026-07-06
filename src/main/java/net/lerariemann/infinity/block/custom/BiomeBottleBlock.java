@@ -14,7 +14,6 @@ import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.item.component.BlockItemStateProperties;
 import net.minecraft.world.level.LevelReader;
 //?}
-import net.minecraft.core.Registry;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
@@ -98,12 +97,9 @@ public class BiomeBottleBlock extends BaseEntityBlock {
 
     @Override
     public ItemStack getCloneItemStack(
-            //? if >1.21 {
-            LevelReader world
-            //?} else {
-            /*BlockGetter world
-            *///?}
-            , BlockPos pos, BlockState state
+            //~ if >1.21 'BlockGetter' -> 'LevelReader' {
+            LevelReader world, BlockPos pos, BlockState state
+            //~}
             //? if >1.21.2
             , boolean bl
     ) {

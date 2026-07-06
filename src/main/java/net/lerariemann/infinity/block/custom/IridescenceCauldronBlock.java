@@ -38,15 +38,9 @@ import static net.minecraft.world.InteractionResult.SUCCESS;
 //?}
 
 public class IridescenceCauldronBlock extends AbstractCauldronBlock {
-	//? if >1.21
-	public static final MapCodec<IridescenceCauldronBlock> CODEC = simpleCodec(IridescenceCauldronBlock::new);
-
-	//? if >1.21.2 {
-	private static final VoxelShape SHAPE_INSIDE = Block.column(12.0, 4.0, 15.0);
-	private static final VoxelShape FILLED_SHAPE = Shapes.or(AbstractCauldronBlock.SHAPE, SHAPE_INSIDE);
-	//?}
 
 	//? if >1.21 {
+	public static final MapCodec<IridescenceCauldronBlock> CODEC = simpleCodec(IridescenceCauldronBlock::new);
 	@Override
 	public MapCodec<IridescenceCauldronBlock> codec() {
 		return CODEC;
@@ -68,22 +62,18 @@ public class IridescenceCauldronBlock extends AbstractCauldronBlock {
 	}
 
 	//? if >1.21.2 {
+	private static final VoxelShape SHAPE_INSIDE = Block.column(12.0, 4.0, 15.0);
+	private static final VoxelShape FILLED_SHAPE = Shapes.or(AbstractCauldronBlock.SHAPE, SHAPE_INSIDE);
+
 	@Override
 	protected VoxelShape getEntityInsideCollisionShape(BlockState state, BlockGetter level, BlockPos pos, Entity entity) {
 		return FILLED_SHAPE;
 	}
 	//?}
 
-	protected
-	//? =1.21.1 {
-	/*ItemInteractionResult
-	*///?} else {
-	InteractionResult
-	//?}
-	useItemOn(
-			ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult
-	)
-	{
+	//~ if =1.21.1 'InteractionResult' -> 'ItemInteractionResult' {
+	protected InteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) {
+	//~}
 		if (stack.is(Items.BUCKET)) {
 			stack.setCount(stack.getCount()-1);
 			player.getInventory().add(ModItems.IRIDESCENCE_BUCKET.get().getDefaultInstance());
@@ -104,11 +94,9 @@ public class IridescenceCauldronBlock extends AbstractCauldronBlock {
 
 	@Override
 	public ItemStack getCloneItemStack(
-			//? if >1.21
-			LevelReader level,
-			//? if <1.21
-			/*BlockGetter level,*/
-			BlockPos pos, BlockState state
+			//~ if >1.21 'BlockGetter' -> 'LevelReader' {
+			LevelReader level, BlockPos pos, BlockState state
+			//~}
 		  	//? >1.21.2
 			, boolean includeData
 	) {

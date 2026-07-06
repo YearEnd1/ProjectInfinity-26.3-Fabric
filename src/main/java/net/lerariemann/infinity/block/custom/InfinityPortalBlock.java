@@ -88,8 +88,7 @@ public class InfinityPortalBlock extends NetherPortalBlock implements EntityBloc
 
     @Override
     //? if >1.21 {
-    public InteractionResult useWithoutItem(BlockState state, Level w, BlockPos pos,
-                                            Player player, BlockHitResult hit) {
+    public InteractionResult useWithoutItem(BlockState state, Level w, BlockPos pos, Player player, BlockHitResult hit) {
     //?} else {
     /*public InteractionResult use(BlockState state, Level w, BlockPos pos, Player player, InteractionHand interactionHand, BlockHitResult hitResult) {
     *///?}
@@ -123,13 +122,15 @@ public class InfinityPortalBlock extends NetherPortalBlock implements EntityBloc
         return InteractionResult.PASS;
     }
 
+
+    @Override
     public ItemStack getCloneItemStack(
-            //? if >1.21 {
-            LevelReader
-            //?} else {
-            /*BlockGetter
-            *///?}
-             world, BlockPos pos, BlockState state) {
+            //~ if >1.21 'BlockGetter' -> 'LevelReader' {
+            LevelReader world, BlockPos pos, BlockState state
+            //~}
+            //? >1.21.2
+            , boolean includeData
+            ) {
         if (world.getBlockEntity(pos) instanceof InfinityPortalBlockEntity ipbe)
             return ModItems.TRANSFINITE_KEY.get().withPortalData(ipbe);
         return ItemStack.EMPTY;
@@ -276,18 +277,13 @@ public class InfinityPortalBlock extends NetherPortalBlock implements EntityBloc
 
 
     //? if >1.21 {
+    //~ if >1.21.2 'DimensionTransition' -> 'TeleportTransition' {
     /**
      * This is called when something's trying to use the portal and returns the data on where they end up.
      */
     @Nullable
     @Override
-    public
-    //? if >1.21.2 {
-    TeleportTransition
-    //?} else {
-    /*DimensionTransition
-    *///?}
-    getPortalDestination(ServerLevel worldFrom, Entity entity, BlockPos posFrom) {
+    public TeleportTransition getPortalDestination(ServerLevel worldFrom, Entity entity, BlockPos posFrom) {
         if (worldFrom.getBlockEntity(posFrom) instanceof InfinityPortalBlockEntity ipbe) {
             return (new InfinityPortal(ipbe, worldFrom, posFrom)).getTeleportTarget(entity);
         }
@@ -295,5 +291,6 @@ public class InfinityPortalBlock extends NetherPortalBlock implements EntityBloc
             InfinityMethods.sendUnexpectedError(player, "portal");
         return InfinityPortal.emptyTarget(entity); //if anything goes wrong, don't teleport anywhere
     }
+    //~}
     //?}
 }

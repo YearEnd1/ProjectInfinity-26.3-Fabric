@@ -21,16 +21,12 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(LavaFluid.class)
 public class LavaFluidMixin {
     /* Disabling fire tick in infdims */
+    //~ if >1.21.2 'Level'->'ServerLevel' {
     @Inject(method = "randomTick", at = @At(value = "HEAD"), cancellable = true)
-    void inj(
-            //? if >1.21.2 {
-            ServerLevel
-            //?} else {
-            /*Level
-            *///?}
-                    world, BlockPos pos, FluidState state, RandomSource random, CallbackInfo ci) {
+    void disableFireTick(ServerLevel world, BlockPos pos, FluidState state, RandomSource random, CallbackInfo ci) {
         if (InfinityMethods.isInfinity(world)) ci.cancel();
     }
+    //~}
 
     @ModifyExpressionValue(method = "spreadTo", at = @At(value = "INVOKE",
             target = "Lnet/minecraft/world/level/block/Block;defaultBlockState()Lnet/minecraft/world/level/block/state/BlockState;"))
