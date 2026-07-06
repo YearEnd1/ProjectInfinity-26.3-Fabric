@@ -97,7 +97,7 @@ public abstract class CollisionCraftingRecipe
     *///?}
 
     //? if <1.21.2
-    /*@Override*/
+    //@Override
     public ItemStack getResultItem(
             //? if =1.21.1 {
             /*HolderLookup.Provider registriesLookup

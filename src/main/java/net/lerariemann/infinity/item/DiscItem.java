@@ -144,7 +144,7 @@ extends Item
                 .set(DataComponents.JUKEBOX_PLAYABLE, new JukeboxPlayable(new EitherHolder<>(
                         ResourceKey.create(Registries.JUKEBOX_SONG, song))
                         //? if <1.21.2
-                        /*, true*/
+                        //, true
                 ))
                 .set(ModComponentTypes.COLOR.get(), (int) InfinityMethods.getDimensionSeed(song.getPath())).build());
         return stack;

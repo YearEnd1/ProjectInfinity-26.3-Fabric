@@ -69,9 +69,9 @@ public abstract class LivingEntityMixin extends Entity {
     *///?}
 
     /* Handle fall damage in dimensions with custom mavity */
-    //~ if >1.21.2 'double fallDistance' -> 'float fallDistance' {
+    //~ if >1.21.2 'float fallDistance' -> 'double fallDistance' {
     @Inject(method = "calculateFallDamage", at = @At(value = "HEAD"), cancellable = true)
-    protected void handleMavityFallDamage(float fallDistance, float damageMultiplier, CallbackInfoReturnable<Integer> cir ) {
+    protected void handleMavityFallDamage(double fallDistance, float damageMultiplier, CallbackInfoReturnable<Integer> cir ) {
         InfinityOptions options = InfinityOptions.access(level());
         if (!options.isEmpty()) {
             if (this.getType().is(EntityTypeTags.FALL_DAMAGE_IMMUNE)) cir.setReturnValue(0);

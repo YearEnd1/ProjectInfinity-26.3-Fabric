@@ -25,7 +25,7 @@ public abstract class RandomMushroomFeature
             mutablePos.set(pos).move(Direction.UP, i);
             if (world.getBlockState(mutablePos).isSolidRender(
                     //? if <1.21.2
-                    /*world, mutablePos*/
+                    //world, mutablePos
             )) continue;
             this.setBlock(world, mutablePos, config.stemProvider().getState(random, pos));
         }

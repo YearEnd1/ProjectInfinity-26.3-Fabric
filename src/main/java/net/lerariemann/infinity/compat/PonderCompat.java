@@ -1,7 +1,7 @@
 package net.lerariemann.infinity.compat;
 
 //? if <1.21.2
-/*import net.createmod.ponder.api.level.PonderLevel;*/
+//import net.createmod.ponder.api.level.PonderLevel;
 //? if >1.21.4 && fabric {
 import com.zurrtum.create.client.ponder.api.level.PonderLevel;
 //?}
