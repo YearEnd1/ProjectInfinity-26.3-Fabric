@@ -92,8 +92,11 @@ public class RandomProvider {
         return randomName(random.nextDouble(), key);
     }
     public String randomName(double d, ConfigType key) {
-        if (registry.containsKey(key))
-            return registry.get(key).getName(d);
+        if (registry.containsKey(key)) {
+            var name = registry.get(key).getName(d);
+            if (name == null) return key.getDef();
+            return name;
+        }
         return key.getDef();
     }
 
