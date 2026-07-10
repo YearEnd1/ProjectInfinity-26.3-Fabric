@@ -1,8 +1,8 @@
 Acknowledgements
 ----------------------
-Mod by LeraRiemann, cassiancc
+Mod by ArchonicCinnamon, CassianCC
 
-Music by ivory rosewood
+Music by Ivory Rosewood
 
 Additional code by:
 * BasiqueEvangelist
@@ -12,6 +12,14 @@ Alpha testers:
 * MamonaTheGreed
 * Mirakuzura
 * sweetbriar
+
+Ko-fi supporters:
+* 101929ha
+* Awulfha
+* B
+* Bilgerat Shibbles
+* CraisinLord
+* Lumegrin
 
 Golden bug catcher:
 * JustImagineIT
@@ -51,6 +59,11 @@ Bug catchers:
 * icg_aneki
 * Cozy Glow
 * DimensionCloud
+* kenziethefairyfox
+* 4ngrythekidd
+* ruen.tngl.sh
+* kirain115.tngl.sh
+* zharok.tngl.sh
 ----------------------
-infinity_version: 2006005
+infinity_version: 2007000
 May contain elephants
