@@ -9,7 +9,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 //? =1.21.1
-/*import net.minecraft.world.ItemInteractionResult;*/
+//import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.Entity;
 //? if >1.21.2 {
 import net.minecraft.world.entity.InsideBlockEffectApplier;

@@ -32,7 +32,7 @@ import org.apache.logging.log4j.LogManager;
 /*import net.minecraft.world.InteractionResultHolder;
 *///?}
 //? if =1.21.1
-/*import net.minecraft.world.ItemInteractionResult;*/
+//import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.effect.MobEffect;

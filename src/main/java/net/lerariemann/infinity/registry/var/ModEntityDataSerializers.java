@@ -12,7 +12,7 @@ import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.syncher.EntityDataSerializer;
 import net.minecraft.network.syncher.EntityDataSerializers;
 //? neoforge
-/*import net.neoforged.neoforge.registries.NeoForgeRegistries;*/
+//import net.neoforged.neoforge.registries.NeoForgeRegistries;
 
 public class ModEntityDataSerializers {
 
@@ -47,6 +47,6 @@ public class ModEntityDataSerializers {
 		//?} else if neoforge {
 		/*Registry.register(NeoForgeRegistries.ENTITY_DATA_SERIALIZERS, id, HUMANOID_COLORS);
 		*///?} else
-		/*EntityDataSerializers.registerSerializer(HUMANOID_COLORS);*/
+		//EntityDataSerializers.registerSerializer(HUMANOID_COLORS);
 	}
 }

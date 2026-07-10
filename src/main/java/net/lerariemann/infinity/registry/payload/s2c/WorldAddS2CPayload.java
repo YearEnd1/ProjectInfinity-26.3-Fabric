@@ -2,6 +2,8 @@ package net.lerariemann.infinity.registry.payload.s2c;
 
 
 //? if >1.21 {
+import net.lerariemann.infinity.compat.AeroCompat;
+import net.lerariemann.infinity.compat.ModCompat;
 import org.jspecify.annotations.NonNull;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
@@ -52,5 +54,10 @@ public record WorldAddS2CPayload(ResourceLocation id, CompoundTag data) implemen
         *///?}
     public void receive(Minecraft client) {
         client.execute(() -> DimensionGrabber.grabObjectForClient(client, DimensionType.DIRECT_CODEC, Registries.DIMENSION_TYPE, id, data));
+        //?if neoforge && =1.21.1 {
+        /*if (ModCompat.AERONAUTICS) {
+            AeroCompat.addDimToLocks(id);
+        }
+        *///?}
     }
 }

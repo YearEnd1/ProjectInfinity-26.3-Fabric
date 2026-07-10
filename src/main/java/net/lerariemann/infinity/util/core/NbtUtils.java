@@ -166,7 +166,7 @@ public interface NbtUtils {
     static ListTag getList(CompoundTag data, String key, byte nbttype) {
         return data.getList(key
                 //? if <1.21.2
-                /*, nbttype*/
+                //, nbttype
         )
                 //? if >1.21.2
                 .orElse(new ListTag())

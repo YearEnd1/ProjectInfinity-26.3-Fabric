@@ -180,10 +180,7 @@ dependencies {
 
     }
     if (hasProperty("deps.aero")) {
-        compileOnly("dev.ryanhcode.sable:sable-neoforge-${property("deps.minecraft")}:${property("deps.sable")}")
-        compileOnly("dev.simulated_team.simulated:simulated-neoforge-${property("deps.minecraft")}:${property("deps.aero")}")
-        compileOnly("foundry.veil:veil-neoforge-${property("deps.minecraft")}:${property("deps.veil")}")
-        compileOnly("top.theillusivec4.curios:curios-neoforge:${property("deps.curios")}+${property("deps.minecraft")}")
+        compileOnly("dev.simulated_team.simulated:simulated-neoforge-${property("deps.minecraft")}:${property("deps.aero")}") { isTransitive = false }
     }
     implementation("org.jspecify:jspecify:1.0.0")
 

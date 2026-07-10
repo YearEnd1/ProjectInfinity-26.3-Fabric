@@ -176,7 +176,7 @@ public class ModItemFunctions {
         if (match.isEmpty()) return Optional.empty();
         return Optional.of(match.get().value().getResultItem(
                 //? if <1.21.2
-                /*w.registryAccess()*/
+                //w.registryAccess()
         ));
         //?} else {
         /*Optional<CollisionCraftingRecipe> match = w.getRecipeManager()
