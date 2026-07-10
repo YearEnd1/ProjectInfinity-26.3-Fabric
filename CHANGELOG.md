@@ -1,4 +1,15 @@
-## [2.7.1 - 26/III/10]
+## [2.7.2 - ]
+
+### Features
+- Cass added iridescence cauldrons!
+
+### Fixes
+- Fluid spring features with some modded liquids used to crash due to the feature being defined improperly; fixed!
+- Fixed crashes with Sable/Create Aeronautics and with Sonicraft.
+- Fixed a crash with biome bottles incorrectly populating internal data.
+- Cass fixed a crash from Chaos Skeletons on servers (1.21.8).
+
+## [2.7.1 - 10/III/2026]
 
 ### Technical
 - Further refactors to Chaos Pawn serialization to prep for porting past 1.21.8.
@@ -6,7 +17,7 @@
 ### Fixed
 - Crash on 1.20.1.
 
-## [2.7.0 - 26/III/8]
+## [2.7.0 - 08/III/2026]
 
 ### Features
 - Haunted dimensions are significantly refactored; `notes` dimension is populated with features and opened to the public.
