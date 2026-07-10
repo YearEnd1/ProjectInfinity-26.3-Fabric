@@ -1,4 +1,4 @@
-## [2.7.2 - ]
+## [2.7.2 - 10/VII/2026]
 
 ### Features
 - Cass added iridescence cauldrons!
