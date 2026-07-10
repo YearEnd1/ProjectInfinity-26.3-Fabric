@@ -68,7 +68,7 @@ public abstract class ServerPlayerEntityMixin extends Player implements ServerPl
     public ServerPlayerEntityMixin(Level world, BlockPos pos, float yaw, GameProfile gameProfile) {
         super(world,
                 //? if <1.21.2
-                /*pos, yaw,*/
+                //pos, yaw,
                  gameProfile);
     }
 

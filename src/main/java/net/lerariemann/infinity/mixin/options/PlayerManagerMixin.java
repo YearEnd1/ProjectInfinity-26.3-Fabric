@@ -46,7 +46,7 @@ public class PlayerManagerMixin {
     }
 
     //FIXME 1.21.10 - check new target
-    //~ if >1.21.9 ';overworld()'->';level()' {
+    //~ if >1.21.9 'Lnet/minecraft/server/MinecraftServer;overworld()Lnet/minecraft/server/level/ServerLevel;'->'Lnet/minecraft/server/level/ServerPlayer;level()Lnet/minecraft/server/level/ServerLevel;' {
     @Inject(method="placeNewPlayer", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/MinecraftServer;overworld()Lnet/minecraft/server/level/ServerLevel;"))
     //~}
     void checkNeedsTpOut(Connection connection, ServerPlayer player,
