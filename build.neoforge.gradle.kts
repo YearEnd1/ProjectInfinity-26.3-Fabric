@@ -84,6 +84,28 @@ repositories {
             includeGroupAndSubgroups("com.tterrag")
         }
     }
+    maven {
+        name = "Sable, Aeronautics"
+        url = uri("https://maven.ryanhcode.dev/releases")
+        content {
+            includeGroupAndSubgroups("dev.simulated_team")
+            includeGroupAndSubgroups("dev.ryanhcode")
+        }
+    }
+    maven {
+        name = "Foundry Veil"
+        url = uri("https://maven.blamejared.com")
+        content {
+            includeGroupAndSubgroups("foundry.veil")
+        }
+    }
+    maven {
+        name = "Curios"
+        url = uri("https://artifactory.theillusivec4.top/artifactory/list/releases/")
+        content {
+            includeGroupAndSubgroups("top.theillusivec4.curios")
+        }
+    }
     exclusiveContent {
         forRepository {
             maven {
@@ -156,6 +178,12 @@ dependencies {
         runtimeOnly("dev.engine-room.flywheel:flywheel-neoforge-${property("deps.minecraft")}:${property("deps.flywheel")}")
         implementation("com.tterrag.registrate:Registrate:${property("deps.registrate")}")
 
+    }
+    if (hasProperty("deps.aero")) {
+        compileOnly("dev.ryanhcode.sable:sable-neoforge-${property("deps.minecraft")}:${property("deps.sable")}")
+        compileOnly("dev.simulated_team.simulated:simulated-neoforge-${property("deps.minecraft")}:${property("deps.aero")}")
+        compileOnly("foundry.veil:veil-neoforge-${property("deps.minecraft")}:${property("deps.veil")}")
+        compileOnly("top.theillusivec4.curios:curios-neoforge:${property("deps.curios")}+${property("deps.minecraft")}")
     }
     implementation("org.jspecify:jspecify:1.0.0")
 

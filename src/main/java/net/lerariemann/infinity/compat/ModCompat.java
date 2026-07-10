@@ -22,6 +22,8 @@ public class ModCompat {
      */
     public static final boolean CREATE = InfinityPlatform.INSTANCE.isModLoaded("create");
 
+    public static final boolean AERONAUTICS = InfinityPlatform.INSTANCE.isModLoaded("aeronautics");
+
     /**
      * DimLib
      * Immersive Portals runtime dimension registration.
