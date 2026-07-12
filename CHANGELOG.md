@@ -52,8 +52,8 @@ A crucial crash exclusive to Fabric 1.21.8 is fixed which was triggering a Concu
 
 ## [2.6.4 - 25/I/2026]
 ### Fixed
-- Create train tracks now respect offsets from the center of the portal; this makes it possible to route two tracks through the same portal. (Lera)
-- Chests in dungeons in random dimensions were missing their contents, now they aren't. (Lera)
+- Create train tracks now respect offsets from the center of the portal; this makes it possible to route two tracks through the same portal. (Cinnamon)
+- Chests in dungeons in random dimensions were missing their contents, now they aren't. (Cinnamon)
 - Beacon structure from `missing` now generates correctly. (Cassian)
 - F4 config screen was bugged on 1.21.8, it is fixed. (Cassian)
 - A crash with a "tinted leaves" particle is fixed. (1.21.8, Cassian)
@@ -82,11 +82,11 @@ A crucial crash exclusive to Fabric 1.21.8 is fixed which was triggering a Concu
 
 ## [2.6.1 - 12/I/2026]
 ### Fixed:
-- Star and sky rendering on 1.21.8. (Lera)
-- World shaders now work on 1.21.8 (Lera)
-- Loading root chances, which caused too many vanilla biomes in infinite dimensions. (Lera)
-- Sunset shading was misaligned on custom skies. (Lera)
-- Crash from `alphatree` on NeoForge. (Lera)
+- Star and sky rendering on 1.21.8. (Cinnamon)
+- World shaders now work on 1.21.8 (Cinnamon)
+- Loading root chances, which caused too many vanilla biomes in infinite dimensions. (Cinnamon)
+- Sunset shading was misaligned on custom skies. (Cinnamon)
+- Crash from `alphatree` on NeoForge. (Cinnamon)
 - Iridesence tinting in EIV. (Cassian)
 - Crash rendering Chaos Pawns. (Cassian)
 - Crash on dedicated NeoForge servers. (Cassian)
@@ -203,7 +203,7 @@ A crucial crash exclusive to Fabric 1.21.8 is fixed which was triggering a Concu
 - There was a safety net system in place before that checked if particular config files correspond to a loaded mod, and if they don't, it ignored them. This system failed with some mods that added content under a mod ID different from their own; as a temporary fix, i added a toggle for globally disabling this system as a config option gamerule.
 
 ## [2.4.0 - 24/I/2025]
-Lera presents: InfDim 2.4 the Chromatic Antics update :D
+Cinnamon presents: InfDim 2.4 the Chromatic Antics update :D
 
 ### New content:
 - Chromatic Wool (and its respective Carpet): new blocks that can be gotten by throwing wool into a portal. Can be dyed any color you want! The color starts as the portal's color but can be adjusted with an array of different items (consult EMI).

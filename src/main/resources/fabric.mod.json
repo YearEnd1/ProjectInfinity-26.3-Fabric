@@ -16,22 +16,22 @@
   "accessWidener": "accesswideners/${aw_file}",
   "entrypoints": {
     "main": [
-      "net.lerariemann.infinity.util.platform.fabric.FabricEntrypoint"
+      "net.codexarchonic.infinity.util.platform.fabric.FabricEntrypoint"
     ],
     "client": [
-      "net.lerariemann.infinity.util.platform.fabric.FabricClientEntrypoint"
+      "net.codexarchonic.infinity.util.platform.fabric.FabricClientEntrypoint"
     ],
     "modmenu": [
-      "net.lerariemann.infinity.util.platform.fabric.compat.ModMenuCompat"
+      "net.codexarchonic.infinity.util.platform.fabric.compat.ModMenuCompat"
     ],
     "emi": [
-      "net.lerariemann.infinity.compat.emi.EmiCompat"
+      "net.codexarchonic.infinity.compat.emi.EmiCompat"
     ],
     "rrv": [
-      "net.lerariemann.infinity.compat.rrv.RrvIntegration"
+      "net.codexarchonic.infinity.compat.rrv.RrvIntegration"
     ],
     "fabric-datagen": [
-      "net.lerariemann.infinity.data.InfinityDataGenerator"
+      "net.codexarchonic.infinity.data.InfinityDataGenerator"
     ]
   },
   "mixins": [

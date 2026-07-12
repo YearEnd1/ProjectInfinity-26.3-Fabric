@@ -1,0 +1,60 @@
+package net.codexarchonic.infinity.util.var;
+
+import net.codexarchonic.infinity.InfinityMod;
+import net.codexarchonic.infinity.util.InfinityMethods;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.tags.FluidTags;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.Difficulty;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.MobCategory;
+//? if >1.21.2 {
+import net.minecraft.world.entity.EntitySpawnReason;
+import static net.minecraft.world.entity.EntitySpawnReason.isSpawner;
+//?} else {
+/*import net.minecraft.world.entity.MobSpawnType;
+ *///?}
+//? if =1.21.1 {
+/*import static net.minecraft.world.entity.MobSpawnType.isSpawner;
+*///?}
+import net.minecraft.world.entity.animal.WaterAnimal;
+import net.minecraft.world.entity.monster.Monster;
+import net.minecraft.world.level.ServerLevelAccessor;
+
+
+
+public interface InfinitySpawnHelper {
+    static <T extends Entity> boolean canSpawn(EntityType<T> type, ServerLevelAccessor world,
+                                               //? if >1.21.2 {
+                                               EntitySpawnReason
+                                               //?} else {
+                                               /*MobSpawnType
+                                                *///?}
+                                               spawnReason, BlockPos pos, RandomSource random) {
+        boolean bl;
+        MobCategory sg = type.getCategory();
+        if (isSpawnGroupWater(sg) || (WaterAnimal.class.isAssignableFrom(type.getBaseClass())))
+            bl = world.getFluidState(pos).is(FluidTags.WATER);
+        else bl = (world.getBlockState(pos.below()).isValidSpawn(world, pos.below(), type));
+
+        //? if >1.21 {
+        bl = bl || isSpawner(spawnReason);
+        //?} else {
+        /*bl = bl || spawnReason.equals(MobSpawnType.SPAWNER);
+        *///?}
+
+        if (sg.equals(MobCategory.MONSTER))
+            bl = bl && (Monster.isDarkEnoughToSpawn(world, pos, random) && world.getDifficulty() != Difficulty.PEACEFUL);
+        if (BuiltInRegistries.ENTITY_TYPE.getKey(type).getNamespace().equals(InfinityMod.MOD_ID)) bl = bl && InfinityMethods.chaosMobsEnabled();
+        return bl;
+    }
+
+    static boolean isSpawnGroupWater(MobCategory sg) {
+        return switch (sg) {
+            case WATER_CREATURE, WATER_AMBIENT, UNDERGROUND_WATER_CREATURE, AXOLOTLS -> true;
+            default -> false;
+        };
+    }
+}

@@ -1,5 +1,5 @@
 {
-  "package": "net.lerariemann.infinity.mixin",
+  "package": "net.codexarchonic.infinity.mixin",
   "refmap": "infinity.refmap.json",
   "required": true,
   "minVersion": "0.8",
@@ -7,7 +7,7 @@
   "injectors": {
     "defaultRequire": 1
   },
-  "plugin": "net.lerariemann.infinity.mixin.InfinityMixinPlugin",
+  "plugin": "net.codexarchonic.infinity.mixin.InfinityMixinPlugin",
   "mixins": [
     "core.AbstractBlockMixin",
     "core.AbstractFireBlockMixin",

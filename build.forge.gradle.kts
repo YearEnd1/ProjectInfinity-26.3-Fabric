@@ -304,7 +304,7 @@ publishMods {
 publishing {
     publications {
         create<MavenPublication>("maven") {
-            groupId = "net.lerariemann"
+            groupId = "net.codexarchonic"
             artifactId = "infinity"
             version = "${property("mod.version")}+${property("deps.minecraft")}"
 

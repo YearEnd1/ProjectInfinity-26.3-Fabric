@@ -1,0 +1,42 @@
+package net.codexarchonic.infinity.block.custom;
+
+import net.codexarchonic.infinity.registry.core.ModBlocks;
+import net.codexarchonic.infinity.util.platform.InfinityPlatform;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.GrowingPlantHeadBlock;
+import net.minecraft.world.level.block.KelpBlock;
+import net.minecraft.world.level.block.KelpPlantBlock;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.material.FluidState;
+
+public class IridescentKelpBlock extends KelpBlock {
+    public IridescentKelpBlock(Properties settings) {
+        super(settings);
+    }
+
+    @Override
+    protected boolean canGrowInto(BlockState state) {
+        return state.is(ModBlocks.IRIDESCENCE.get());
+    }
+
+    @Override
+    public Block getBodyBlock() {
+        return ModBlocks.IRIDESCENT_KELP_PLANT.get();
+    }
+
+    public static class Plant extends KelpPlantBlock {
+        public Plant(Properties settings) {
+            super(settings);
+        }
+
+        @Override
+        public FluidState getFluidState(BlockState state) {
+            return InfinityPlatform.INSTANCE.getIridescenceStill().get().getSource(false);
+        }
+
+        @Override
+        protected GrowingPlantHeadBlock getHeadBlock() {
+            return ModBlocks.IRIDESCENT_KELP.get();
+        }
+    }
+}

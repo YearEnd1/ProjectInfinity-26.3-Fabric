@@ -1,0 +1,33 @@
+package net.codexarchonic.infinity.dimensions.features.vegetation;
+
+import net.codexarchonic.infinity.dimensions.RandomFeaturesList;
+import net.codexarchonic.infinity.dimensions.features.Placement;
+import net.codexarchonic.infinity.dimensions.features.RandomisedFeature;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
+
+public class RandomKelp extends RandomisedFeature {
+    public RandomKelp(RandomFeaturesList lst) {
+        super(lst.parent.id, lst, "kelp");
+        savePlacement("minecraft:kelp");
+    }
+    public CompoundTag feature() {
+        return null;
+    }
+    public CompoundTag noiseCount() {
+        CompoundTag res = Placement.ofType("noise_based_count");
+        res.putDouble("noise_factor", 80.0);
+        res.putDouble("noise_offset", 0.0);
+        res.putInt("noise_to_count_ratio", 20 + random.nextInt(120));
+        return res;
+    }
+
+    public ListTag placement() {
+        Placement res = new Placement();
+        res.data.add(noiseCount());
+        res.addInSquare();
+        res.addHeightmap("OCEAN_FLOOR_WG");
+        res.addBiome();
+        return res.data;
+    }
+}
