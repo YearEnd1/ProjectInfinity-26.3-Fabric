@@ -6,7 +6,7 @@ license = "LGPL-3.0-or-later"
 modId = "infinity"
 version = "${version}"
 displayName = "Infinite Dimensions"
-authors = "Lera Riemann, cassiancc"
+authors = "ArchonicCinnamon, CassianCC"
 description = '''
 Inspired by 2020's April Fools' 20w14infinite Snapshot, this mod brings endless randomly generated dimensions into Minecraft.
 '''
