@@ -20,7 +20,6 @@ import static net.minecraft.world.entity.SpawnPlacementTypes.*;
 //?} else {
 /*import static net.minecraft.world.entity.SpawnPlacements.Type.*;
 *///?}
-import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.entity.monster.AbstractSkeleton;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.level.ServerLevelAccessor;
@@ -129,26 +128,6 @@ public class ModEntities {
         EntityAttributeRegistry.register(BISHOP, BishopEntity::createAttributes);
     }
 
-    public static <T extends Mob> void registerSafe(EntityType<T> type,
-                                                    //~ if >1.21 'SpawnPlacements.Type' -> 'SpawnPlacementType' {
-                                                    SpawnPlacementType location, Heightmap.Types heightmapType, SpawnPlacements.SpawnPredicate<T> predicate,
-                                                    //~}
-                                                    //? if neoforge {
-                                                    /*RegisterSpawnPlacementsEvent event
-                                                     *///?} else if forge {
-                                                    /*SpawnPlacementRegisterEvent event
-                                                    *///?} else {
-                                                    Object event
-                                                    //?}
-    ) {
-        //? if fabric {
-        if (!SpawnPlacements.DATA_BY_TYPE.containsKey(type))
-            SpawnPlacements.register(type, location, heightmapType, predicate);
-        //?} else {
-        /*event.register(type, location, heightmapType, predicate, REPLACE);
-        *///?}
-    }
-
     public static void registerSpawnRestrictions(
             //? if neoforge {
             /*RegisterSpawnPlacementsEvent event
@@ -172,12 +151,6 @@ public class ModEntities {
         event.register(ANT.get(), ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, ModEntities::canChessFigureSpawn, REPLACE);
         event.register(BISHOP.get(), ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, ModEntities::canChessFigureSpawn, REPLACE);
         *///?}
-
-        registerSafe(EntityType.SNIFFER, ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Animal::checkAnimalSpawnRules, event);
-        registerSafe(EntityType.CAMEL, ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Animal::checkAnimalSpawnRules, event);
-        registerSafe(EntityType.ZOGLIN, ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Monster::checkMonsterSpawnRules, event);
-        //? if >1.21
-        registerSafe(EntityType.BREEZE, ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Monster::checkMonsterSpawnRules, event);
     }
 
     //~ if >=1.21.2 'MobSpawnType' -> 'EntitySpawnReason' {
