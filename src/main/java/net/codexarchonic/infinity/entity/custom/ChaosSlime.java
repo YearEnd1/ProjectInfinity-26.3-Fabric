@@ -9,10 +9,12 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.DustParticleOptions;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.*;
@@ -97,7 +99,7 @@ public class ChaosSlime extends Slime implements TintableEntity {
         this.entityData.set(color, r.nextInt(16777216));
         SpawnGroupData res = super.finalizeSpawn(world, difficulty, spawnReason, entityData
         //? if <1.21
-                /*, tag*/
+                //, tag
         );
         this.setSize(1 << r.nextInt(3), true);
         return res;
@@ -190,12 +192,8 @@ public class ChaosSlime extends Slime implements TintableEntity {
 
     @Override
     public void addAdditionalSaveData(
-            //? if >1.21.2 {
-            ValueOutput
-            //?} else {
-            /*CompoundTag
-             *///?}
-            nbt) {
+            //~ if >1.21.2 'CompoundTag'->'ValueOutput'
+            ValueOutput nbt) {
         super.addAdditionalSaveData(nbt);
         nbt.putInt("color", getColor());
         nbt.putString("core", BuiltInRegistries.BLOCK.getKey(this.getCore().getBlock()).toString());
@@ -203,12 +201,8 @@ public class ChaosSlime extends Slime implements TintableEntity {
 
     @Override
     public void readAdditionalSaveData(
-            //? if >1.21.2 {
-            ValueInput
-            //?} else {
-            /*CompoundTag
-             *///?}
-            nbt) {
+            //~ if >1.21.2 'CompoundTag'->'ValueInput'
+            ValueInput nbt) {
         super.readAdditionalSaveData(nbt);
         this.setColor(NbtUtils.getInt(nbt, "color"));
         Block b = VersionMethods.getBlock(VersionMethods.id(NbtUtils.getString(nbt,"core")));

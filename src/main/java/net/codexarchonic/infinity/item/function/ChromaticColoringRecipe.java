@@ -1,9 +1,11 @@
 package net.codexarchonic.infinity.item.function;
 
+import com.google.gson.JsonObject;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.codexarchonic.infinity.registry.core.ModItemFunctions;
 import net.codexarchonic.infinity.registry.core.ModItems;
+import net.codexarchonic.infinity.util.VersionMethods;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
 //? if >1.21 {

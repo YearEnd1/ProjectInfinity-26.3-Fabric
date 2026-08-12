@@ -106,7 +106,7 @@ public class ChaosSkeleton extends Skeleton implements TintableEntity {
         this.setDuration(r.nextInt(600));
         return super.finalizeSpawn(world, difficulty, spawnReason, entityData
         //? if <1.21
-        /*,tag*/
+        //,tag
         );
     }
 

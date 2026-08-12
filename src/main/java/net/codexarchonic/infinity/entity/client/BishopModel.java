@@ -1,5 +1,6 @@
 package net.codexarchonic.infinity.entity.client;
 
+import net.codexarchonic.infinity.entity.custom.BishopEntity;
 import net.codexarchonic.infinity.util.InfinityMethods;
 import net.minecraft.client.model.*;
 import net.minecraft.client.model.geom.ModelLayerLocation;

@@ -8,7 +8,7 @@ displayName = "Infinite Dimensions"
 version = "${version}"
 displayURL = "https://modrinth.com/mod/infinite-dimensions"
 logoFile = "assets/infinity/icon.png"
-authors = "ArchonicCinnamon, CassianCC"
+authors = "ArchonicCinnamon, cassiancc"
 description = '''Inspired by 2020's April Fools' 20w14infinite Snapshot, this mod brings endless randomly generated dimensions into Minecraft.'''
 
 [[mixins]]

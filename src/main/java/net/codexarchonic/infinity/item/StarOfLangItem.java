@@ -3,6 +3,7 @@ package net.codexarchonic.infinity.item;
 import net.codexarchonic.infinity.registry.core.ModItems;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import org.jspecify.annotations.NonNull;
 
 public class StarOfLangItem extends Item {
     public StarOfLangItem(Properties settings) {

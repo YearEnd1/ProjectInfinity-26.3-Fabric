@@ -1,6 +1,7 @@
 package net.codexarchonic.infinity.mixin.mobs;
 
 import net.codexarchonic.infinity.util.InfinityMethods;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.DifficultyInstance;

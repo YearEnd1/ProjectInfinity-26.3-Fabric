@@ -1,6 +1,8 @@
 package net.codexarchonic.infinity.item.function;
 
+import com.google.gson.JsonObject;
 import com.mojang.datafixers.util.Function3;
+import com.mojang.datafixers.util.Function4;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.codexarchonic.infinity.registry.core.ModItemFunctions;

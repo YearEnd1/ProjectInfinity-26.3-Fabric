@@ -5,15 +5,23 @@ package net.codexarchonic.infinity.registry.core;
 *///?}
 import dev.architectury.registry.registries.DeferredRegister;
 import dev.architectury.registry.registries.RegistrySupplier;
+import net.codexarchonic.infinity.block.custom.BiomeBottleBlock;
 import net.codexarchonic.infinity.item.function.*;
+import net.codexarchonic.infinity.util.InfinityMethods;
 import net.minecraft.core.BlockPos;
 //? if >1.21 {
 import net.minecraft.core.component.DataComponentPatch;
 import net.minecraft.core.dispenser.BlockSource;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.Mth;
 import net.minecraft.world.item.crafting.*;
 //?} else {
 /*import net.minecraft.core.BlockSource;
 
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.Mth;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.ticks.ContainerSingleItem;
 *///?}
 import net.minecraft.world.item.crafting.RecipeSerializer;
@@ -204,11 +212,9 @@ public class ModItemFunctions {
 
     public static boolean checkCollisionRecipes(ServerLevel w, ItemEntity itemEntity,
                                              RecipeType<CollisionCraftingRecipe> recipeType,
-                                             //? if >1.21 {
+                                             //~ if >1.21 'CompoundTag'-> 'DataComponentPatch' {
                                              Function<Item, Optional<DataComponentPatch>> componentFunction
-                                             //?} else {
-                                             /*Function<Item, Optional<CompoundTag>> componentFunction
-                                             *///?}
+                                             //~}
     ) {
         if (itemEntity.isRemoved()) return false;
         ItemStack itemStack = itemEntity.getItem();

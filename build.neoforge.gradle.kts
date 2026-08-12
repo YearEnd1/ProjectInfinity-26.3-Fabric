@@ -173,7 +173,7 @@ dependencies {
     if (hasProperty("deps.create")) {
         // Create
         compileOnly("com.simibubi.create:create-${property("deps.minecraft")}:${property("deps.create")}:slim") { isTransitive = false }
-        implementation("net.createmod.ponder:Ponder-NeoForge-${property("deps.minecraft")}:${property("deps.ponder")}")
+        implementation("net.createmod.ponder:ponder-neoforge:${property("deps.ponder")}+mc${property("deps.minecraft")}")
         compileOnly("dev.engine-room.flywheel:flywheel-neoforge-api-${property("deps.minecraft")}:${property("deps.flywheel")}")
         runtimeOnly("dev.engine-room.flywheel:flywheel-neoforge-${property("deps.minecraft")}:${property("deps.flywheel")}")
         implementation("com.tterrag.registrate:Registrate:${property("deps.registrate")}")

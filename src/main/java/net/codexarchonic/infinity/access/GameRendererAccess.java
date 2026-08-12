@@ -2,7 +2,9 @@ package net.codexarchonic.infinity.access;
 
 //? if >1.21.2 {
 import net.codexarchonic.infinity.iridescence.IridescentUniform;
- //?}
+ //?} else {
+/*import net.minecraft.resources.ResourceLocation;
+*///?}
 
 
 public interface GameRendererAccess {

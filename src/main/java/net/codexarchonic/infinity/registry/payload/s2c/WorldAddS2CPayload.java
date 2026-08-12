@@ -2,6 +2,8 @@ package net.codexarchonic.infinity.registry.payload.s2c;
 
 
 //? if >1.21 {
+import net.codexarchonic.infinity.compat.AeroCompat;
+import net.codexarchonic.infinity.compat.ModCompat;
 import org.jspecify.annotations.NonNull;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;

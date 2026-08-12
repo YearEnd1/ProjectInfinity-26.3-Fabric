@@ -11,6 +11,9 @@ import net.minecraft.core.NonNullList;
 import net.minecraft.world.item.crafting.CraftingInput;
 import net.minecraft.core.HolderLookup;
 //?}
+import net.minecraft.core.RegistryAccess;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.inventory.CraftingContainer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.CraftingBookCategory;
@@ -22,20 +25,18 @@ import org.jspecify.annotations.NonNull;
 public class F4RechargingRecipe extends CustomRecipe {
     public F4RechargingRecipe(
             //? if <1.21
-            /*ResourceLocation id,*/
+            //ResourceLocation id,
             CraftingBookCategory craftingRecipeCategory) {
         super(
                 //? if <1.21
-                /*id,*/
+                //id,
                 craftingRecipeCategory);
     }
 
     public boolean matches(
-            //? if >1.21 {
+            //~ if >1.21 'CraftingContainer'->'CraftingInput' {
             CraftingInput
-             //?} else {
-            /*CraftingContainer
-            *///?}
+             //~}
             craftingRecipeInput, Level world) {
         boolean foundF4 = false;
         //? if >1.21 {

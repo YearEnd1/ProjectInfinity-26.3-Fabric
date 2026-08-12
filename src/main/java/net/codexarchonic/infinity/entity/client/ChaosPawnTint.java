@@ -1,9 +1,11 @@
 package net.codexarchonic.infinity.entity.client;
 
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import net.codexarchonic.infinity.entity.custom.ChaosPawn;
 import net.codexarchonic.infinity.entity.custom.TintableEntity;
 import net.codexarchonic.infinity.util.InfinityMethods;
 import net.codexarchonic.infinity.util.VersionMethods;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.renderer.MultiBufferSource;

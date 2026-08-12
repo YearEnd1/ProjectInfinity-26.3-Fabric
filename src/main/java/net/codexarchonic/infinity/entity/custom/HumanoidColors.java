@@ -75,7 +75,7 @@ public class HumanoidColors {
 		//? if >1.21 {
 		return CODEC.decode(NbtOps.INSTANCE, colors).getOrThrow().getFirst();
 		//?} else
-		/*return CODEC.decode(NbtOps.INSTANCE, colors).get().orThrow().getFirst();*/
+		//return CODEC.decode(NbtOps.INSTANCE, colors).get().orThrow().getFirst();
 	}
 
 	public void putInt(String s, int integer) {

@@ -5,6 +5,10 @@ import net.minecraft.world.entity.projectile.AbstractArrow;
 import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.level.Level;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.ModifyArg;
+
+import static net.codexarchonic.infinity.util.InfinityMethods.getMavity;
 
 @Mixin(AbstractArrow.class)
 public abstract class PersistentProjectileEntityMixin extends Projectile {

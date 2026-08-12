@@ -17,6 +17,7 @@ import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 //?}
 import net.minecraft.core.registries.Registries;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -109,12 +110,8 @@ public class ChaosPawn extends AbstractChessFigure {
 
     @Override
     public void addAdditionalSaveData(
-            //? if >1.21.2 {
-            ValueOutput
-            //?} else {
-            /*CompoundTag
-             *///?}
-            nbt) {
+            //~ if >1.21.2 'CompoundTag'->'ValueOutput'
+            ValueOutput nbt) {
         super.addAdditionalSaveData(nbt);
         //? if >1.21.4 {
         nbt.store("colors", HumanoidColors.CODEC, getColors());
@@ -125,12 +122,8 @@ public class ChaosPawn extends AbstractChessFigure {
     }
     @Override
     public void readAdditionalSaveData(
-            //? if >1.21.2 {
-            ValueInput
-            //?} else {
-            /*CompoundTag
-             *///?}
-            nbt) {
+            //~ if >1.21.2 'CompoundTag'->'ValueInput'
+            ValueInput nbt) {
         super.readAdditionalSaveData(nbt);
         //? if >1.21.4 {
         this.setColors(nbt.read("colors", HumanoidColors.CODEC).orElse(new HumanoidColors()));
@@ -223,7 +216,7 @@ public class ChaosPawn extends AbstractChessFigure {
         this.setHealth((float)i);
         return super.finalizeSpawn(world, difficulty, spawnReason, entityData
             //? if <1.21
-            /*,tag*/
+            //,tag
         );
     }
 

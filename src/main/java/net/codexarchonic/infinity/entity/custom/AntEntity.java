@@ -6,6 +6,7 @@ import net.codexarchonic.infinity.util.core.NbtUtils;
 import net.codexarchonic.infinity.util.var.BishopBattle;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;

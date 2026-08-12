@@ -1,11 +1,13 @@
 package net.codexarchonic.infinity.entity.client;
 
+import com.mojang.blaze3d.vertex.PoseStack;
 import net.codexarchonic.infinity.entity.custom.BishopEntity;
 import net.codexarchonic.infinity.util.InfinityMethods;
 import net.minecraft.client.model.geom.ModelLayers;
 //? if >1.21.9 {
 /*import net.minecraft.client.renderer.entity.ArmorModelSet;
 *///?}
+import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.HumanoidMobRenderer;
 import net.minecraft.client.renderer.entity.layers.HumanoidArmorLayer;

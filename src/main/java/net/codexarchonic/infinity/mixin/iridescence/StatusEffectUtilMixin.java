@@ -16,7 +16,7 @@ public class StatusEffectUtilMixin {
     private static void hasDigSpeedFromAfterglow(LivingEntity entity, CallbackInfoReturnable<Boolean> cir) {
         if (entity.hasEffect(ModStatusEffects.AFTERGLOW
         //? if <1.21
-        /*.value()*/
+        //.value()
         ))
             cir.setReturnValue(true);
     }
@@ -25,12 +25,12 @@ public class StatusEffectUtilMixin {
     private static void increaseDigSpeedWithAfterglow(LivingEntity entity, CallbackInfoReturnable<Integer> cir) {
         if (entity.hasEffect(ModStatusEffects.AFTERGLOW
         //? if <1.21
-        /*.value()*/
+        //.value()
         ))
             cir.setReturnValue(cir.getReturnValue() +
                     Objects.requireNonNull(entity.getEffect(ModStatusEffects.AFTERGLOW
                     //? if <1.21
-                    /*.value()*/
+                    //.value()
                     )).getAmplifier());
     }
 }

@@ -1,7 +1,9 @@
 package net.codexarchonic.infinity.mixin.options;
 
 //? if <1.21.2 {
-/*import com.mojang.blaze3d.vertex.VertexBuffer;
+/*import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexBuffer;
+import org.joml.Matrix4f;
 import org.spongepowered.asm.mixin.injection.Constant;
 import org.spongepowered.asm.mixin.injection.ModifyConstant;
 import net.codexarchonic.infinity.util.InfinityMethods;
@@ -49,6 +51,8 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+
+import java.util.Map;
 
 @Mixin(LevelRenderer.class)
 public abstract class WorldRendererMixin implements WorldRendererAccess {

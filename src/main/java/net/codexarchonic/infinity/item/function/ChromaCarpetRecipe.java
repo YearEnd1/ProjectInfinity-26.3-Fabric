@@ -8,6 +8,9 @@ import net.codexarchonic.infinity.util.VersionMethods;
 import net.minecraft.world.item.crafting.CraftingInput;
 import net.minecraft.core.HolderLookup;
 //?}
+import net.minecraft.core.RegistryAccess;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.inventory.CraftingContainer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.CraftingBookCategory;
 
@@ -19,11 +22,11 @@ import org.jspecify.annotations.NonNull;
 public class ChromaCarpetRecipe extends CustomRecipe {
     public ChromaCarpetRecipe(
             //? if <1.21
-            /*ResourceLocation id,*/
+            //ResourceLocation id,
             CraftingBookCategory craftingRecipeCategory) {
         super(
                 //? if <1.21
-                /*id,*/
+                //id,
                 craftingRecipeCategory);
     }
 

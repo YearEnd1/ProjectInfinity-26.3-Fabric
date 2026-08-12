@@ -2,6 +2,7 @@ package net.codexarchonic.infinity.entity.custom;
 
 import net.codexarchonic.infinity.iridescence.Iridescence;
 import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
@@ -104,23 +105,15 @@ public abstract class AbstractChessFigure extends Monster implements NeutralMob 
 
     @Override
     public void addAdditionalSaveData(
-            //? if >1.21.2 {
-            ValueOutput
-            //?} else {
-            /*CompoundTag
-             *///?}
-            nbt) {
+            //~ if >1.21.2 'CompoundTag'->'ValueOutput'
+            ValueOutput nbt) {
         super.addAdditionalSaveData(nbt);
         this.addPersistentAngerSaveData(nbt);
     }
     @Override
     public void readAdditionalSaveData(
-            //? if >1.21.2 {
-            ValueInput
-            //?} else {
-            /*CompoundTag
-             *///?}
-            nbt) {
+            //~ if >1.21.2 'CompoundTag'->'ValueInput'
+            ValueInput nbt) {
         super.readAdditionalSaveData(nbt);
         this.readPersistentAngerSaveData(this.level(), nbt);
     }

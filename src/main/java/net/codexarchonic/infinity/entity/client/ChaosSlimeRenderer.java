@@ -15,6 +15,7 @@ import net.minecraft.client.renderer.SubmitNodeCollector;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
+import org.jspecify.annotations.NonNull;
 
 public class ChaosSlimeRenderer
         //? if >1.21.2 {

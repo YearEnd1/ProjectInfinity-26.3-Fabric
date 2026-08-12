@@ -5,6 +5,8 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.NoteBlock;
 import net.minecraft.world.level.block.state.BlockState;
@@ -43,11 +45,9 @@ public abstract class NoteBlockMixin {
     }
 
     @Inject(method = "setInstrument", at = @At("HEAD"), cancellable = true)
-    //? if >1.21.2 {
+    //~ if >1.21.2 'LevelAccessor'->'LevelReader' {
     void inj(LevelReader level, BlockPos pos, BlockState state, CallbackInfoReturnable<BlockState> cir) {
-    //?} else {
-    /*void inj(LevelAccessor level, BlockPos pos, BlockState state, CallbackInfoReturnable<BlockState> cir) {
-    *///?}
+    //~}
         if (level instanceof ServerLevel world && InfinityOptions.access(world).isHaunted()) {
             cir.setReturnValue(state);
         }

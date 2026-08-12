@@ -8,6 +8,7 @@ import dev.architectury.registry.registries.RegistrySupplier;
 import net.codexarchonic.infinity.entity.client.*;
 import net.codexarchonic.infinity.entity.custom.*;
 import net.codexarchonic.infinity.util.InfinityMethods;
+import net.codexarchonic.infinity.util.platform.InfinityPlatform;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;

@@ -21,6 +21,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.AbstractCauldronBlock;
@@ -94,7 +95,7 @@ public class IridescenceCauldronBlock extends AbstractCauldronBlock {
 			//~ if >1.21 'BlockGetter' -> 'LevelReader' {
 			LevelReader level, BlockPos pos, BlockState state
 			//~}
-		  	//? >1.21.2
+			//? >1.21.2
 			, boolean includeData
 	) {
 		return Items.CAULDRON.getDefaultInstance();

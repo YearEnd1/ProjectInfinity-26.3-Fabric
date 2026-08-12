@@ -20,10 +20,12 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.Recipe;
+import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.ItemLike;
 import org.jspecify.annotations.Nullable;
 
 import java.util.Locale;
+import java.util.function.Consumer;
 
 public class CollisionRecipeBuilder implements RecipeBuilder {
 	private final CollisionCraftingRecipe.Type type;

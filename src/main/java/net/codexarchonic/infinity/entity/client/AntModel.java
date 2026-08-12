@@ -1,6 +1,9 @@
 // Made with Blockbench 4.11.2
 package net.codexarchonic.infinity.entity.client;
 
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexConsumer;
+import net.codexarchonic.infinity.entity.custom.AntEntity;
 import net.codexarchonic.infinity.util.InfinityMethods;
 import net.minecraft.client.model.*;
 import net.minecraft.client.model.geom.ModelLayerLocation;
@@ -12,6 +15,7 @@ import net.minecraft.client.model.geom.builders.LayerDefinition;
 import net.minecraft.client.model.geom.builders.MeshDefinition;
 import net.minecraft.client.model.geom.builders.PartDefinition;
 import net.minecraft.util.Mth;
+import org.jspecify.annotations.NonNull;
 
 //~ if >1.21.4 'AntEntity'-> 'AntEntityRenderState' {
 public class AntModel extends EntityModel<AntEntityRenderState> {

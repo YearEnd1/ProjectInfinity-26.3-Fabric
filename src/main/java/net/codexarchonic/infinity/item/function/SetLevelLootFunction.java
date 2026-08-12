@@ -1,5 +1,7 @@
 package net.codexarchonic.infinity.item.function;
 
+import com.google.gson.JsonDeserializationContext;
+import com.google.gson.JsonObject;
 import net.codexarchonic.infinity.block.custom.BiomeBottleBlock;
 import net.codexarchonic.infinity.registry.core.ModItemFunctions;
 import net.minecraft.world.item.ItemStack;

@@ -3,6 +3,9 @@ package net.codexarchonic.infinity.item.function;
 import net.codexarchonic.infinity.block.custom.BiomeBottleBlock;
 import net.codexarchonic.infinity.registry.core.ModItemFunctions;
 import net.codexarchonic.infinity.registry.core.ModItems;
+import net.minecraft.core.RegistryAccess;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.inventory.CraftingContainer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.CraftingBookCategory;
 //? if >1.21 {
@@ -18,11 +21,11 @@ import org.jspecify.annotations.NonNull;
 public class BiomeBottleCombiningRecipe extends CustomRecipe {
     public BiomeBottleCombiningRecipe(
             //? if <1.21
-            /*ResourceLocation id,*/
+            //ResourceLocation id,
             CraftingBookCategory craftingRecipeCategory) {
         super(
                 //? if <1.21
-                /*id,*/
+                //id,
                 craftingRecipeCategory);
     }
 

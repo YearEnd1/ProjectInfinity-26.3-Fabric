@@ -75,7 +75,7 @@ public class BishopEntity extends AbstractChessFigure implements RangedAttackMob
     ) {
         entityData = super.finalizeSpawn(world, difficulty, spawnReason, entityData
             //? if <1.21
-            /*,tag*/
+            //,tag
         );
         updateWeapon(random.nextBoolean(), true);
         updateAttackType();

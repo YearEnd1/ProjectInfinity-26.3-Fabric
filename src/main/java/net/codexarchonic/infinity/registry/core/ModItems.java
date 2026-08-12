@@ -21,6 +21,7 @@ import net.minecraft.world.item.component.Consumable;
 //?}
 import net.minecraft.world.level.block.Block;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.function.BiFunction;
 import java.util.function.Function;

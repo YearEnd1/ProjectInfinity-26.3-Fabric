@@ -10,6 +10,10 @@ import net.minecraft.world.entity.projectile.LlamaSpit;
 import net.minecraft.world.entity.vehicle.AbstractMinecart;
 import net.minecraft.world.level.Level;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.ModifyArg;
+
+import static net.codexarchonic.infinity.util.InfinityMethods.getMavity;
 
 @Mixin({FallingBlockEntity.class, PrimedTnt.class, ItemEntity.class, ExperienceOrb.class, AbstractMinecart.class, LlamaSpit.class})
 public abstract class SeveralEntitiesMixin extends Entity {

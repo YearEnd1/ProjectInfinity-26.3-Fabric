@@ -2,7 +2,9 @@ package net.codexarchonic.infinity.entity.client;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import net.codexarchonic.infinity.entity.custom.TintableEntity;
 import net.codexarchonic.infinity.util.InfinityMethods;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
@@ -19,14 +21,10 @@ import net.minecraft.client.renderer.entity.state.LivingEntityRenderState;
 import net.minecraft.util.ARGB;
 //?}
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.Mob;
 
-public class TintedLayerRenderer<T extends
-        //? if >1.21.2 {
-        LivingEntityRenderState
-        //?} else {
-        /*Mob
-        *///?}
-        , S extends EntityModel<T>> extends RenderLayer<T, S> {
+//~ if >1.21.2 'Mob'->'LivingEntityRenderState'
+public class TintedLayerRenderer<T extends LivingEntityRenderState, S extends EntityModel<T>> extends RenderLayer<T, S> {
     private final S model;
 
     public TintedLayerRenderer(RenderLayerParent<T, S> context, S model) {

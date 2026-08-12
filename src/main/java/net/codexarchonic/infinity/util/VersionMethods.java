@@ -1,6 +1,8 @@
 package net.codexarchonic.infinity.util;
 
+import net.codexarchonic.infinity.access.GameRendererAccess;
 import net.codexarchonic.infinity.registry.core.ModComponentTypes;
+import net.codexarchonic.infinity.util.core.NbtUtils;
 import net.minecraft.client.Minecraft;
 //? if >1.21 {
 import dev.architectury.registry.registries.RegistrySupplier;
@@ -17,7 +19,12 @@ import net.minecraft.world.item.alchemy.PotionContents;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.item.component.CustomModelData;
 //?} else {
-/*import net.minecraft.nbt.CompoundTag;
+/*import net.minecraft.core.*;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.alchemy.PotionUtils;
 *///?}
 //? if >1.21.2 {

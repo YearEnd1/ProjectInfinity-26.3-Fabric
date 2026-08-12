@@ -4,6 +4,8 @@ import com.mojang.blaze3d.vertex.PoseStack;
 //? if >1.21.8 {
 /*import net.minecraft.client.renderer.SubmitNodeCollector;
 *///?} else {
+import net.codexarchonic.infinity.entity.custom.ChaosSlime;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.MultiBufferSource;
 //?}

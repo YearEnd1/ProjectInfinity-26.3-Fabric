@@ -105,7 +105,7 @@ public class IridescentPotionItem extends Item {
         int level = VersionMethods.getOrDefaultInt(stack, ModComponentTypes.CHARGE, this.level);
         List<MobEffectInstance> effects = List.of(new MobEffectInstance(ModStatusEffects.IRIDESCENT_EFFECT
                 //? if <1.21
-                /*.value()*/
+                //.value()
                 ,
                 Iridescence.getFullEffectLength(level), level));
         //? if <1.21.4 {

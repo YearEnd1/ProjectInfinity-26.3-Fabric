@@ -5,10 +5,12 @@ import net.fabricmc.fabric.api.object.builder.v1.entity.FabricTrackedDataRegistr
 import net.codexarchonic.infinity.InfinityMod;
 import net.codexarchonic.infinity.entity.custom.HumanoidColors;
 import net.codexarchonic.infinity.util.VersionMethods;
+import net.minecraft.core.Registry;
 import net.minecraft.network.FriendlyByteBuf;
 //? if >1.21
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.syncher.EntityDataSerializer;
+import net.minecraft.network.syncher.EntityDataSerializers;
 //? neoforge
 //import net.neoforged.neoforge.registries.NeoForgeRegistries;
 
