@@ -57,7 +57,12 @@ public class IridescentEffect extends MobEffect implements ModStatusEffects.Spec
         if (Objects.requireNonNull(entity) instanceof Player player) {
             if (player instanceof ServerPlayer serverPlayer) {
                 if (player.isInvulnerable()) player.setInvulnerable(false);
-                if (getPhase(entity) == Phase.PLATEAU) endJourney(serverPlayer, true, 0);
+
+                MobEffectInstance effect = entity.getEffect(VersionMethods.effectOrHolder(ModStatusEffects.IRIDESCENT_EFFECT));
+                if (effect != null && effect.getAmplifier() > 0
+                        && getPhase(effect.getDuration(), effect.getAmplifier()) == Phase.PLATEAU)
+                    endJourney(serverPlayer, true, 0);
+
                 unloadShader(serverPlayer);
             } else {
                 ShaderLoader.reloadShaders(Minecraft.getInstance(), InfinityOptions.ofClient().data, false);

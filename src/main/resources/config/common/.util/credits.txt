@@ -64,6 +64,8 @@ Bug catchers:
 * ruen.tngl.sh
 * kirain115.tngl.sh
 * zharok.tngl.sh
+* WorldCreator67
+* Emissaryofwind
 ----------------------
-infinity_version: 2007000
+infinity_version: 2007001
 May contain elephants

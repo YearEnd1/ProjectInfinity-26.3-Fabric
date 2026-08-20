@@ -6,6 +6,7 @@ import net.minecraft.tags.FluidTags;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.material.FluidState;
+import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
@@ -19,6 +20,7 @@ public class ColllisionShapeMixin {
     @Inject(method = "getCollisionShape(Lnet/minecraft/world/level/BlockGetter;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/phys/shapes/CollisionContext;)Lnet/minecraft/world/phys/shapes/VoxelShape;",
             at = @At("RETURN"), cancellable = true)
     private void antsStandOnWater(BlockGetter world, BlockPos pos, CollisionContext context, CallbackInfoReturnable<VoxelShape> cir) {
+        if (!context.canStandOnFluid(Fluids.EMPTY.defaultFluidState(), Fluids.WATER.defaultFluidState())) return;
         try { //sable crashes in here
             FluidState fluidState = world.getFluidState(pos);
             if (!fluidState.is(FluidTags.WATER)) return;
