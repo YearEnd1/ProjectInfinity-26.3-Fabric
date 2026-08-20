@@ -218,22 +218,10 @@ public interface Iridescence {
     }
 
     static void loadShader(ServerPlayer player) {
-        ShaderS2CPayload.sendTo(player, player.
-                //? if >1.21.2 {
-                level()
-                //?} else {
-                /*serverLevel()
-                *///?}
-                , true);
+        ShaderS2CPayload.sendTo(player, VersionMethods.getPlayerLevel(player), true);
     }
     static void unloadShader(ServerPlayer player) {
-        ShaderS2CPayload.sendTo(player, player.
-                //? if >1.21.2 {
-                level()
-                //?} else {
-                /*serverLevel()
-                *///?}
-                , false);
+        ShaderS2CPayload.sendTo(player, VersionMethods.getPlayerLevel(player), false);
     }
 
     static boolean shouldApplyShader(@Nullable Player player) {

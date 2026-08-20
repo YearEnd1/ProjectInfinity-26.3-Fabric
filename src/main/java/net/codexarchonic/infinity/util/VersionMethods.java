@@ -13,6 +13,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.dedicated.DedicatedServer;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.alchemy.PotionContents;
@@ -82,6 +83,14 @@ public interface VersionMethods {
         return ResourceLocation.fromNamespaceAndPath(namespace, path);
         //?} else {
         /*return new ResourceLocation(namespace, path);
+         *///?}
+    }
+
+    static ServerLevel getPlayerLevel(ServerPlayer player) {
+        //? if >1.21.2 {
+        return player.level();
+        //?} else {
+        /*return player.serverLevel();
          *///?}
     }
 

@@ -2,6 +2,7 @@ package net.codexarchonic.infinity.registry.payload.s2c;
 
 
 //? if >1.21 {
+import net.codexarchonic.infinity.util.VersionMethods;
 import org.jspecify.annotations.NonNull;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
@@ -62,13 +63,7 @@ public record ShaderS2CPayload(boolean iridescence, CompoundTag data) implements
     }
 
     public static void sendTo(ServerPlayer player) {
-        sendTo(player,
-                //? if >1.21.2 {
-                player.level()
-                //?} else {
-                /*player.serverLevel()
-                 *///?}
-                , Iridescence.shouldApplyShader(player));
+        sendTo(player, VersionMethods.getPlayerLevel(player), Iridescence.shouldApplyShader(player));
     }
     public static void sendTo(ServerPlayer player, ServerLevel world) {
         sendTo(player, world, Iridescence.shouldApplyShader(player));
