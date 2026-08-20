@@ -2,7 +2,6 @@ package net.codexarchonic.infinity.registry.var;
 
 import net.codexarchonic.infinity.block.entity.BiomeBottleBlockEntity;
 import net.codexarchonic.infinity.util.InfinityMethods;
-import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.advancements.critereon.*;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
@@ -17,6 +16,7 @@ import net.minecraft.advancements.CriterionTrigger;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.architectury.registry.registries.DeferredRegister;
+import org.jspecify.annotations.NullMarked;
 
 import static net.codexarchonic.infinity.InfinityMod.MOD_ID;
 //?} else {
@@ -25,7 +25,7 @@ import com.google.gson.JsonPrimitive;
 import net.minecraft.advancements.CriteriaTriggers;
 *///?}
 
-@MethodsReturnNonnullByDefault
+@NullMarked
 public class ModCriteria {
     public static abstract class FriendlyScoredCriterion extends SimpleCriterionTrigger<ScoredConditions> {
         //? if >1.21 {

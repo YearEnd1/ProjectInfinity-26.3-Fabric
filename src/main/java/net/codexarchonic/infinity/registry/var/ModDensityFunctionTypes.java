@@ -5,16 +5,16 @@ import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.architectury.registry.registries.DeferredRegister;
 import net.codexarchonic.infinity.util.InfinityMethods;
-import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.util.KeyDispatchDataCodec;
 import net.minecraft.world.level.levelgen.DensityFunction;
 import net.minecraft.world.level.levelgen.LegacyRandomSource;
 import net.minecraft.world.level.levelgen.synth.NormalNoise;
+import org.jspecify.annotations.NullMarked;
 
 import static net.codexarchonic.infinity.InfinityMod.MOD_ID;
 
-@MethodsReturnNonnullByDefault
+@NullMarked
 public class ModDensityFunctionTypes {
     interface Nonbinary extends DensityFunction {
         DensityFunction input();

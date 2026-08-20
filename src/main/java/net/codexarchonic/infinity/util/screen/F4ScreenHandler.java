@@ -96,7 +96,7 @@ public class F4ScreenHandler extends AbstractContainerMenu {
             //?} else {
             /*selected;
             *///?}
-            ResourceLocation id = VersionMethods.getDimensionIdentifier(f4);
+            ResourceLocation id = VersionMethods.getDimensionResourceLocation(f4);
             destination = id == null ? "" : id.toString();
         }
 

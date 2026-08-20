@@ -82,7 +82,7 @@ public class TransfiniteKeyItem extends Item implements PortalDataHolder.Destina
 
     @Override
     public ResourceLocation getDestination(ItemStack stack) {
-        return Objects.requireNonNullElse(VersionMethods.getDimensionIdentifier(stack),
+        return Objects.requireNonNullElse(VersionMethods.getDimensionResourceLocation(stack),
                 VersionMethods.id(InfinityMethods.ofRandomDim)); // no destination component -> randomize
     }
 
@@ -111,7 +111,7 @@ public class TransfiniteKeyItem extends Item implements PortalDataHolder.Destina
         /*super.appendHoverText(stack, context, tooltip, type);
         Consumer<Component> tooltipAdder = tooltip::add;
         *///?}
-        ResourceLocation dimension = VersionMethods.getDimensionIdentifier(stack);
+        ResourceLocation dimension = VersionMethods.getDimensionResourceLocation(stack);
         MutableComponent mutableText = (dimension != null)
                 ? InfinityMethods.getDimensionNameAsText(dimension)
                 : Component.translatable("tooltip.infinity.key.randomise");

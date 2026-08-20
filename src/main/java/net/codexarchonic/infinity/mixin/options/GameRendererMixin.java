@@ -73,7 +73,7 @@ public abstract class GameRendererMixin implements GameRendererAccess {
     @Inject(method="<init>", at= @At(value = "TAIL"))
     void initUniform(Minecraft minecraft, ItemInHandRenderer itemInHandRenderer, RenderBuffers renderBuffers,
              //? if >1.21.9
-             /*BlockRenderDispatcher blockRenderDispatcher,*/
+             //BlockRenderDispatcher blockRenderDispatcher,
              CallbackInfo ci) {
         this.infinity$iridUniform = new IridescentUniform();
     }

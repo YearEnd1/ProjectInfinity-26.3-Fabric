@@ -83,7 +83,7 @@ public class F4Item extends Item implements PortalDataHolder.Destinable {
         /*super.appendHoverText(stack, context, tooltip, type);
         Consumer<Component> tooltipAdder = tooltip::add;
         *///?}
-        ResourceLocation dimension = VersionMethods.getDimensionIdentifier(stack);
+        ResourceLocation dimension = VersionMethods.getDimensionResourceLocation(stack);
         MutableComponent mutableText = getDimensionTooltip(dimension).withStyle(ChatFormatting.GRAY);
         tooltipAdder.accept(mutableText);
         MutableComponent mutableText2 = Component.translatable("tooltip.infinity.f4.charges", getCharge(stack)).withStyle(ChatFormatting.GRAY);
@@ -114,7 +114,7 @@ public class F4Item extends Item implements PortalDataHolder.Destinable {
             return null;
         }
         BlockPos lowerLeft = lowerCenter.relative(dir2, -(size_x/2));
-        ResourceLocation id = VersionMethods.getDimensionIdentifier(stack);
+        ResourceLocation id = VersionMethods.getDimensionResourceLocation(stack);
         boolean doNotRenderPortal = (world.isClientSide() && (id == null || !id.getPath().contains("generated_")));
         if (PortalDataHolder.isDestinationRandom(id))
             id = InfinityMethods.getRandomId(world.random);

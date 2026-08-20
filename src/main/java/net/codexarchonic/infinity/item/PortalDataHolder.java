@@ -21,7 +21,7 @@ import java.util.Optional;
 public interface PortalDataHolder {
     @Nullable
     default ResourceLocation getDestination(ItemStack stack) {
-        return VersionMethods.getDimensionIdentifier(stack);
+        return VersionMethods.getDimensionResourceLocation(stack);
     }
 
     static boolean isDestinationRandom(@Nullable ResourceLocation id) {

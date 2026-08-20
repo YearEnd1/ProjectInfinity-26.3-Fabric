@@ -1,7 +1,7 @@
 @file:Suppress("UnstableApiUsage")
 
 plugins {
-    id("fabric-loom")
+    id("dev.kikugie.loom-back-compat")
     id("dev.kikugie.postprocess.jsonlang")
     id("me.modmuss50.mod-publish-plugin")
 }
@@ -11,7 +11,9 @@ val accesswidener = "$minecraft.accesswidener"
 version = "${property("mod.version")}+${property("deps.minecraft")}"
 if (property("mod.test_build") != "0") version = "$version-tb${property("mod.test_build")}"
 
-val majorVersion = if (stonecutter.eval(stonecutter.current.version, ">=1.21.2")) {
+val majorVersion = if (stonecutter.eval(stonecutter.current.version, ">26")) {
+    26
+} else if (stonecutter.eval(stonecutter.current.version, ">=1.21.2")) {
     22
 } else if (stonecutter.eval(stonecutter.current.version, ">=1.21")) {
     21
@@ -146,11 +148,13 @@ repositories {
 
 dependencies {
     minecraft("com.mojang:minecraft:${property("deps.minecraft")}")
-    mappings(loom.layered {
-        officialMojangMappings()
-        if (hasProperty("deps.parchment"))
-            parchment("org.parchmentmc.data:parchment-${property("deps.parchment")}@zip")
-    })
+    if (hasProperty("deps.parchment")) {
+        mappings(loom.layered {
+            officialMojangMappings()
+            if (hasProperty("deps.parchment"))
+                parchment("org.parchmentmc.data:parchment-${property("deps.parchment")}@zip")
+        })
+    }
     modImplementation("net.fabricmc:fabric-loader:${property("deps.fabric-loader")}")
     modImplementation("net.fabricmc.fabric-api:fabric-api:${property("deps.fabric_api")}")
     modImplementation("dev.architectury:architectury-fabric:${property("deps.architectury")}")
@@ -212,6 +216,41 @@ dependencies {
 }
 
 
+stonecutter {
+    replacements.string {
+        direction = eval(current.version, ">1.21.10")
+        replace("ResourceLocation", "Identifier")
+        replace("net.minecraft.advancements.critereon", "net.minecraft.advancements.criterion")
+        replace("net.minecraft.Util", "net.minecraft.util.Util")
+        replace("net.minecraft.BlockUtil", "net.minecraft.util.BlockUtil")
+        replace("net.minecraft.world.entity.monster.Skeleton", "net.minecraft.world.entity.monster.skeleton.Skeleton")
+        replace("net.minecraft.world.entity.monster.AbstractSkeleton", "net.minecraft.world.entity.monster.skeleton.AbstractSkeleton")
+
+    }
+    replacements.string {
+        direction = eval(current.version, ">=26.1")
+        replace("GuiGraphics ", "GuiGraphicsExtractor ")
+        replace("GuiGraphics.", "GuiGraphicsExtractor.")
+        replace("GuiGraphics;", "GuiGraphicsExtractor;")
+    }
+    replacements.string {
+        direction = eval(current.version, "<26.1")
+        replace(".fakeItem(", ".renderFakeItem(")
+        replace(".itemDecorations(", ".renderItemDecorations(")
+        replace(".horizontalLine(", ".hLine(")
+        replace(".verticalLine(", ".vLine(")
+        replace("guiGraphics.text(", "guiGraphics.drawString(")
+        replace("guiGraphics().text(", "guiGraphics().drawString(")
+        replace("guiGraphics.textWithWordWrap(", "guiGraphics.drawWordWrap(")
+        replace("guiGraphics().textWithWordWrap(", "guiGraphics().drawWordWrap(")
+        replace("net.minecraft.world.item.ItemStackTemplate", "cc.cassian.rrv.backport.ItemStackTemplate")
+        replace("extractBackground", "renderBackground")
+        replace("net.fabricmc.fabric.api.networking.v1.context.PacketContext", "xyz.nucleoid.packettweaker.PacketContext")
+        replace("centeredText", "drawCenteredString")
+    }
+}
+
+
 configurations.all {
     resolutionStrategy {
         force("net.fabricmc:fabric-loader:${property("deps.fabric-loader")}")
@@ -233,29 +272,43 @@ tasks.named("processResources") {
 tasks {
     processResources {
         exclude("**/neoforge.mods.toml", "infinity-forge.mixins.json", "**/mods.toml")
-        if (stonecutter.eval(stonecutter.current.version, ">1.21.5")) {
+        if (stonecutter.eval(stonecutter.current.version, ">26")) {
             exclude("**/resourcepacks/20")
             exclude("**/resourcepacks/21")
+            exclude("**/resourcepacks/22")
             exclude("**/config/20")
             exclude("**/config/21")
+            exclude("**/config/22")
+        }
+        else if (stonecutter.eval(stonecutter.current.version, ">1.21.5")) {
+            exclude("**/resourcepacks/20")
+            exclude("**/resourcepacks/21")
+            exclude("**/resourcepacks/26")
+            exclude("**/config/20")
+            exclude("**/config/21")
+            exclude("**/config/26")
         }
         else if (stonecutter.eval(stonecutter.current.version, "=1.21.1")) {
             exclude("**/resourcepacks/20")
             exclude("**/resourcepacks/22")
+            exclude("**/resourcepacks/26")
             exclude("**/config/20")
             exclude("**/config/22")
+            exclude("**/config/26")
         }
         else {
             exclude("**/resourcepacks/21")
             exclude("**/resourcepacks/22")
+            exclude("**/resourcepacks/26")
             exclude("**/config/21")
             exclude("**/config/22")
+            exclude("**/config/26")
         }
     }
 
     register<Copy>("buildAndCollect") {
         group = "build"
-        from(remapJar.map { it.archiveFile })
+        from(loomx.modJar.map { it.archiveFile })
         into(rootProject.layout.buildDirectory.file("libs/${project.property("mod.version")}"))
         dependsOn("build")
     }
@@ -263,7 +316,9 @@ tasks {
 
 java {
     withSourcesJar()
-    val javaCompat = if (stonecutter.eval(stonecutter.current.version, ">=1.21")) {
+    val javaCompat = if (stonecutter.eval(stonecutter.current.version, ">26")) {
+        JavaVersion.VERSION_25
+    } else if (stonecutter.eval(stonecutter.current.version, ">=1.21")) {
         JavaVersion.VERSION_21
     } else {
         JavaVersion.VERSION_17
@@ -280,8 +335,8 @@ val additionalVersions: List<String> = additionalVersionsStr
     ?: emptyList()
 
 publishMods {
-    file = tasks.remapJar.map { it.archiveFile.get() }
-    additionalFiles.from(tasks.remapSourcesJar.map { it.archiveFile.get() })
+    file = loomx.modJar.map { it.archiveFile.get() }
+    additionalFiles.from(loomx.modSourcesJar.map { it.archiveFile.get() })
 
     type = if (stonecutter.eval(stonecutter.current.version, ">=1.21.2")) {
         ALPHA

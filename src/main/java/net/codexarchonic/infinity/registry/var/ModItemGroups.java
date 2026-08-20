@@ -1,5 +1,5 @@
 package net.codexarchonic.infinity.registry.var;
-
+//~ if >26 'FabricItemGroupEntries'->'FabricCreativeModeTabOutput' {
 import static net.codexarchonic.infinity.registry.core.ModItems.*;
 import static net.minecraft.world.item.Items.*;
 //? if >1.21 {
@@ -23,6 +23,8 @@ import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
+*///?} else if fabric && >26 {
+/*import net.fabricmc.fabric.api.creativetab.v1.FabricItemGroupEntries;
 *///?} else {
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroupEntries;
 //?}
@@ -120,3 +122,4 @@ public class ModItemGroups {
         return creativeModeTab == tabKey;
     }
 }
+//~}

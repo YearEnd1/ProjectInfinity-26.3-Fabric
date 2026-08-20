@@ -204,6 +204,41 @@ dependencies {
 }
 
 
+stonecutter {
+    replacements.string {
+        direction = eval(current.version, ">1.21.10")
+        replace("ResourceLocation", "Identifier")
+        replace("net.minecraft.advancements.critereon", "net.minecraft.advancements.criterion")
+        replace("net.minecraft.Util", "net.minecraft.util.Util")
+        replace("net.minecraft.BlockUtil", "net.minecraft.util.BlockUtil")
+        replace("net.minecraft.world.entity.monster.Skeleton", "net.minecraft.world.entity.monster.skeleton.Skeleton")
+        replace("net.minecraft.world.entity.monster.AbstractSkeleton", "net.minecraft.world.entity.monster.skeleton.AbstractSkeleton")
+
+    }
+    replacements.string {
+        direction = eval(current.version, ">=26.1")
+        replace("GuiGraphics ", "GuiGraphicsExtractor ")
+        replace("GuiGraphics.", "GuiGraphicsExtractor.")
+        replace("GuiGraphics;", "GuiGraphicsExtractor;")
+    }
+    replacements.string {
+        direction = eval(current.version, "<26.1")
+        replace(".fakeItem(", ".renderFakeItem(")
+        replace(".itemDecorations(", ".renderItemDecorations(")
+        replace(".horizontalLine(", ".hLine(")
+        replace(".verticalLine(", ".vLine(")
+        replace("guiGraphics.text(", "guiGraphics.drawString(")
+        replace("guiGraphics().text(", "guiGraphics().drawString(")
+        replace("guiGraphics.textWithWordWrap(", "guiGraphics.drawWordWrap(")
+        replace("guiGraphics().textWithWordWrap(", "guiGraphics().drawWordWrap(")
+        replace("net.minecraft.world.item.ItemStackTemplate", "cc.cassian.rrv.backport.ItemStackTemplate")
+        replace("extractBackground", "renderBackground")
+        replace("net.fabricmc.fabric.api.networking.v1.context.PacketContext", "xyz.nucleoid.packettweaker.PacketContext")
+        replace("centeredText", "drawCenteredString")
+    }
+}
+
+
 mixin {
     add(sourceSets["main"], "infinity.refmap.json")
     config("infinity-forge.mixins.json")

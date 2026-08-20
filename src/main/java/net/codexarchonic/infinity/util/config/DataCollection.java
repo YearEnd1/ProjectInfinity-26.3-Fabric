@@ -55,7 +55,7 @@ public class DataCollection {
         return elem;
     }
 
-    public void addIdentifier(ResourceLocation id) {
+    public void addResourceLocation(ResourceLocation id) {
         add(id.getNamespace(), id.toString());
     }
 

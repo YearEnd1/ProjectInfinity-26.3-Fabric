@@ -152,7 +152,7 @@ public abstract class WorldRendererMixin implements WorldRendererAccess {
     @Inject(method = "<init>", at = @At("TAIL"))
     void customSky(Minecraft minecraft, EntityRenderDispatcher entityRenderDispatcher, BlockEntityRenderDispatcher blockEntityRenderDispatcher, RenderBuffers renderBuffers,
                    //? if >1.21.9
-                   /*LevelRenderState levelRenderState, FeatureRenderDispatcher featureRenderDispatcher,*/
+                   //LevelRenderState levelRenderState, FeatureRenderDispatcher featureRenderDispatcher,
                    CallbackInfo ci) {
         if (this.level != null) infinity$sky = new SkyRenderer(infinity$options(), this.level);
     }
@@ -171,7 +171,7 @@ public abstract class WorldRendererMixin implements WorldRendererAccess {
     //? if >1.21.2 {
 
         //? >1.21.9
-        /*float partialTick = Minecraft.getInstance().getDeltaTracker().getGameTimeDeltaTicks();*/
+        //float partialTick = Minecraft.getInstance().getDeltaTracker().getGameTimeDeltaTicks();
     
         InfinityOptions options = infinity$options();
         if (this.level != null && infinity$sky == null) {

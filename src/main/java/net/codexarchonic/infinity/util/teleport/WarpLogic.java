@@ -40,7 +40,7 @@ import java.util.Objects;
 
 public interface WarpLogic {
     /**
-     * Handles the /warp id command, converting the provided numeric ID to an Identifier.
+     * Handles the /warp id command, converting the provided numeric ID to an ResourceLocation.
      */
     static void requestWarpById(Collection<ServerPlayer> players, long value) {
         requestWarp(players, InfinityMethods.getDimId(value), true);

@@ -39,7 +39,7 @@ public class ConfigFactory<S> {
                 CompoundTag data = dataExtractor.apply(key);
                 if (data != null) {
                     ResourceLocation id = key.location();
-                    if (data.isEmpty()) collection.addIdentifier(id);
+                    if (data.isEmpty()) collection.addResourceLocation(id);
                     else collection.add(id.getNamespace(), id.toString(), data);
                 }
             } catch (Exception ignored) {

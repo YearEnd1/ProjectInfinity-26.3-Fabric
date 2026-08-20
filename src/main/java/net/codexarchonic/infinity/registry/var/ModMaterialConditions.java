@@ -6,12 +6,12 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.architectury.registry.registries.DeferredRegister;
 import net.codexarchonic.infinity.InfinityMod;
 import net.codexarchonic.infinity.util.var.TextData;
-import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.util.KeyDispatchDataCodec;
 import net.minecraft.world.level.levelgen.SurfaceRules;
 import net.codexarchonic.infinity.mixin.core.MaterialRuleContextAccess;
 import org.apache.commons.io.FileUtils;
+import org.jspecify.annotations.NullMarked;
 
 import java.io.File;
 import java.io.IOException;
@@ -20,7 +20,7 @@ import java.util.*;
 
 import static net.codexarchonic.infinity.InfinityMod.MOD_ID;
 
-@MethodsReturnNonnullByDefault
+@NullMarked
 public class ModMaterialConditions {
     public record LinearCondition(double k_x, double k_y, double k_z, double min, double max, int separation) implements SurfaceRules.ConditionSource
     {

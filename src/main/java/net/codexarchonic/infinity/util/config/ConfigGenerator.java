@@ -84,8 +84,8 @@ public interface ConfigGenerator {
         DataCollection sounds = new DataCollection.Logged(ConfigType.SOUNDS);
         r.registryKeySet().forEach(a -> {
             ResourceLocation id = a.location();
-            if (id.toString().contains("music")) music.addIdentifier(id);
-            else sounds.addIdentifier(id);
+            if (id.toString().contains("music")) music.addResourceLocation(id);
+            else sounds.addResourceLocation(id);
         });
         sounds.save();
         music.save();
@@ -94,9 +94,9 @@ public interface ConfigGenerator {
     static void generateBlockTags() {
         DataCollection tagMap = new DataCollection.Logged(ConfigType.TAGS, "block tags");
         //? if >1.21.2 {
-        BuiltInRegistries.BLOCK.listTagIds().forEach(tagKey -> tagMap.addIdentifier(tagKey.location()));
+        BuiltInRegistries.BLOCK.listTagIds().forEach(tagKey -> tagMap.addResourceLocation(tagKey.location()));
         //?} else {
-        /*BuiltInRegistries.BLOCK.getTagNames().forEach(tagKey -> tagMap.addIdentifier(tagKey.location()));
+        /*BuiltInRegistries.BLOCK.getTagNames().forEach(tagKey -> tagMap.addResourceLocation(tagKey.location()));
         *///?}
         tagMap.save();
     }
@@ -105,7 +105,7 @@ public interface ConfigGenerator {
         //? if >1.21.7 {
         var r = VersionMethods.getRegistry(server.reloadableRegistries().lookup(), Registries.LOOT_TABLE);
         DataCollection lootTables = new DataCollection.Logged(ConfigType.LOOT_TABLES, "loot tables");
-        r.listElementIds().forEach(id -> lootTables.addIdentifier(id.location()));
+        r.listElementIds().forEach(id -> lootTables.addResourceLocation(id.location()));
         lootTables.save();
         //?} else if =1.21.1 {
         /*ConfigFactory.of(server.reloadableRegistries().get().registryOrThrow(Registries.LOOT_TABLE), ConfigGenerator::extractLootTable)
@@ -167,7 +167,7 @@ public interface ConfigGenerator {
             if (blockName.contains("magenta") && !isLaggy(block) && isFloat(block.defaultBlockState(), serverWorld, inAir)) {
                 if (checkColorSet(blockName)) colorPresetMap.add(modId, blockName.replace("magenta", "$"));
             }
-            if (block.defaultBlockState().is(BlockTags.SMALL_FLOWERS)) flowerMap.addIdentifier(key.location());
+            if (block.defaultBlockState().is(BlockTags.SMALL_FLOWERS)) flowerMap.addResourceLocation(key.location());
         });
         blockMap.save();
         colorPresetMap.save();
@@ -193,7 +193,7 @@ public interface ConfigGenerator {
                 }
             }
         });
-        allBlocks.forEach(chests::addIdentifier);
+        allBlocks.forEach(chests::addResourceLocation);
         chests.save();
     }
 

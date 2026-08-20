@@ -4,7 +4,6 @@ import net.codexarchonic.infinity.InfinityMod;
 import net.codexarchonic.infinity.util.core.ConfigType;
 import net.codexarchonic.infinity.util.core.NbtUtils;
 import net.codexarchonic.infinity.util.var.BishopBattle;
-import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
@@ -39,9 +38,10 @@ import net.minecraft.world.level.pathfinder.PathFinder;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 //?}
+import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
 
-@MethodsReturnNonnullByDefault
+@NullMarked
 public class BishopEntity extends AbstractChessFigure implements RangedAttackMob {
     @Nullable
     public BishopBattle battle;

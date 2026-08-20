@@ -177,7 +177,7 @@ public interface VersionMethods {
         return null;
     }
 
-    static @Nullable ResourceLocation getDimensionIdentifier(ItemStack stack) {
+    static @Nullable ResourceLocation getDimensionResourceLocation(ItemStack stack) {
         String dimension = getDimensionComponents(stack);
         if (dimension != null) return ResourceLocation.tryParse(dimension);
         else return null;
@@ -209,7 +209,7 @@ public interface VersionMethods {
         return stack.get(component.get());
     }
 
-    static @Nullable ResourceLocation getDimensionIdentifier(ItemStack stack) {
+    static @Nullable ResourceLocation getDimensionResourceLocation(ItemStack stack) {
          return stack.getComponents().get(ModComponentTypes.DESTINATION.get());
     }
 
