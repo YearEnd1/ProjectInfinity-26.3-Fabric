@@ -1,8 +1,6 @@
 package net.codexarchonic.infinity.util;
 
-import net.codexarchonic.infinity.access.GameRendererAccess;
 import net.codexarchonic.infinity.registry.core.ModComponentTypes;
-import net.codexarchonic.infinity.util.core.NbtUtils;
 import net.minecraft.client.Minecraft;
 //? if >1.21 {
 import dev.architectury.registry.registries.RegistrySupplier;
@@ -42,7 +40,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.item.alchemy.Potion;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.level.WorldGenLevel;
@@ -353,7 +350,7 @@ public interface VersionMethods {
         return color | -16777216;
     }
 
-    static void consumeWithRemainder(Player player, ItemStack stack, ItemStack defaultInstance) {
+    static void consumeWithRemainder(Player player, ItemStack stack, ItemStack remainder) {
         //? if >1.21 {
         boolean creative = player.hasInfiniteMaterials();
         //?} else {
@@ -361,7 +358,7 @@ public interface VersionMethods {
         *///?}
         if (!creative) {
             stack.setCount(stack.getCount()-1);
-            player.getInventory().add(new ItemStack(Items.GLASS_BOTTLE));
+            player.getInventory().add(remainder);
         }
     }
 
