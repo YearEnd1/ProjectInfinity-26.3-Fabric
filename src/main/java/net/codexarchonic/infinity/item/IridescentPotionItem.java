@@ -103,11 +103,11 @@ public class IridescentPotionItem extends Item {
                                 *///?}
                                 , TooltipFlag type) {
         int level = VersionMethods.getOrDefaultInt(stack, ModComponentTypes.CHARGE, this.level);
-        List<MobEffectInstance> effects = List.of(new MobEffectInstance(ModStatusEffects.IRIDESCENT_EFFECT
-                //? if <1.21
-                //.value()
-                ,
-                Iridescence.getFullEffectLength(level), level));
+        List<MobEffectInstance> effects = List.of(
+                new MobEffectInstance(
+                        VersionMethods.effectOrHolder(ModStatusEffects.IRIDESCENT_EFFECT),
+                        Iridescence.getFullEffectLength(level),
+                        level));
         //? if <1.21.4 {
         /*Consumer<Component> tooltipAdder = tooltip::add;
         *///?}
