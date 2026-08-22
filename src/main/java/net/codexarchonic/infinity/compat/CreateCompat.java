@@ -82,7 +82,7 @@ public class CreateCompat {
         if (max_there - min_there == max_here - min_here) {
             there = min_there + (here - min_here);
         }
-        there = min_there + (int)((here - min_here)*(max_there-min_there)/(float)(max_here-min_here)); //might not be super good but feels decent
+        else there = min_there + (int)((here - min_here)*(max_there-min_there)/(float)(max_here-min_here)); //might not be super good but feels decent
 
         return new BlockPos(toX ? there : posTo.getX(), posTo.getY(), toX ? posTo.getZ() : there);
     }

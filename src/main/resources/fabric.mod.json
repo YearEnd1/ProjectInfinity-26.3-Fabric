@@ -11,7 +11,7 @@
   },
   "description": "",
   "icon": "assets/infinity/icon.png",
-  "license": "MIT",
+  "license": "LGPL-3.0-or-later",
   "environment": "*",
   "accessWidener": "accesswideners/${aw_file}",
   "entrypoints": {
