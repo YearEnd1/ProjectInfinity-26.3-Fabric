@@ -70,13 +70,15 @@ public class ModCommands {
                 })));
     }
 
-    private static RequiredArgumentBuilder<CommandSourceStack, String> textArgument(boolean b) {
-        return argument("text", StringArgumentType.string())
+    private static LiteralArgumentBuilder<CommandSourceStack> textArgument(boolean b) {
+        return Commands.literal("text").then(
+                argument("text", StringArgumentType.string())
                 .executes(context -> {
                     final String text = StringArgumentType.getString(context, "text");
                     WarpLogic.requestWarpByText(context, players(b, context), text);
                     return 1;
-                });
+                })
+        );
     }
 
     private static LiteralArgumentBuilder<CommandSourceStack> idArgument(boolean b) {
