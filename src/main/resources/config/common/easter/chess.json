@@ -15,6 +15,9 @@
       "type": "static"
     }
   },
+  "aliases": [
+    "checkerboard"
+  ],
   "generator": {
     "type": "minecraft:noise",
     "settings": {
