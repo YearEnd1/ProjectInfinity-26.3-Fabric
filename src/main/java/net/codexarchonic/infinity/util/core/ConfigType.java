@@ -7,6 +7,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.StringRepresentable;
 
 public enum ConfigType implements StringRepresentable {
+    ALL("all", ""),
     BLOCKS("blocks", "minecraft:stone"),
     ALL_BLOCKS("all_blocks", "minecraft:stone"),
     TOP_BLOCKS("top_blocks", "minecraft:stone"),
