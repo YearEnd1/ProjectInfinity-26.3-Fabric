@@ -23,6 +23,7 @@ import net.codexarchonic.infinity.util.loading.DimensionGrabber;
 import net.codexarchonic.infinity.options.PortalColorApplier;
 import net.codexarchonic.infinity.registry.var.ModCriteria;
 import net.codexarchonic.infinity.registry.var.ModStats;
+import net.codexarchonic.infinity.util.platform.InfinityPlatform;
 import net.minecraft.BlockUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -272,11 +273,33 @@ public interface PortalCreator {
     }
     static void modifyPortalRecursive(ServerLevel world, BlockPos pos, BiConsumer<Level, BlockPos> modifier) {
         Direction.Axis axis = world.getBlockState(pos).getValue(NetherPortalBlock.AXIS);
-        BlockUtil.FoundRectangle rect = BlockUtil.getLargestRectangleAround(pos, axis, 21,
-                Direction.Axis.Y, 21, posx -> world.getBlockState(posx).getBlock() instanceof NetherPortalBlock);
-        for (int i = 0; i < rect.axis1Size; i++) for (int j = 0; j < rect.axis2Size; j++) {
-            BlockPos blockPos = rect.minCorner.above(j).relative(axis, i);
-            modifier.accept(world, blockPos);
+        if (InfinityPlatform.INSTANCE.isModLoaded("nicerportals")) {
+            Set<BlockPos> visited = new HashSet<>();
+            List<BlockPos> bps = new ArrayList<>();
+            bps.add(pos);
+            visited.add(pos);
+            for (int i = 0; i < bps.size(); i++) {
+                BlockPos p = bps.get(i);
+                for (BlockPos p2: List.of(p.above(), p.below(), p.relative(axis, 1), p.relative(axis, -1))) {
+                    if (visited.contains(p2)) continue;
+                    visited.add(p2);
+                    if (world.getBlockState(p2).getBlock() instanceof NetherPortalBlock) {
+                        bps.add(p2);
+                    }
+                }
+                if (i >= 512) break;
+            }
+            for (BlockPos bp: bps) {
+                modifier.accept(world, bp);
+            }
+
+        } else {
+            BlockUtil.FoundRectangle rect = BlockUtil.getLargestRectangleAround(pos, axis, 21,
+                    Direction.Axis.Y, 21, posx -> world.getBlockState(posx).getBlock() instanceof NetherPortalBlock);
+            for (int i = 0; i < rect.axis1Size; i++) for (int j = 0; j < rect.axis2Size; j++) {
+                BlockPos blockPos = rect.minCorner.above(j).relative(axis, i);
+                modifier.accept(world, blockPos);
+            }
         }
     }
 
