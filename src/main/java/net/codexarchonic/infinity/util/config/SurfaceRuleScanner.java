@@ -83,11 +83,9 @@ public interface SurfaceRuleScanner {
                         TreeLeaf l = addOfRule(c, where, false);
                         add(next, l);
                     }
-                    else {
+                    else if (NbtUtils.compoundHasList(c, "biome_is")) {
                         TreeLeaf l = addOfRule(next, where, true);
-                        if(Objects.requireNonNull(c.get("biome_is")).getType().equals(ListTag.TYPE)) {
-                            NbtUtils.getList(c, "biome_is", Tag.TAG_STRING).forEach(e -> addBiomeLoc(NbtUtils.getAsString(e), l.i));
-                        }
+                        NbtUtils.getList(c, "biome_is", Tag.TAG_STRING).forEach(e -> addBiomeLoc(NbtUtils.getAsString(e), l.i));
                     }
                 }
                 case "sequence", "minecraft:sequence" -> {
