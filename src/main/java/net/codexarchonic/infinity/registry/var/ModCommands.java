@@ -3,7 +3,6 @@ package net.codexarchonic.infinity.registry.var;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
-import com.mojang.brigadier.builder.RequiredArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.brigadier.exceptions.DynamicCommandExceptionType;
@@ -38,7 +37,7 @@ public class ModCommands {
                         //?} else {
                         /*translatable
                 *///?}
-                ("error.infinity.warp.malformed_identifier", id)
+                (key, id)
         );
     }
 
