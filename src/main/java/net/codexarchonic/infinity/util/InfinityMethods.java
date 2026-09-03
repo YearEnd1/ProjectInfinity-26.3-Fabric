@@ -9,6 +9,7 @@ import net.codexarchonic.infinity.block.entity.SpecialBlockEntity;
 import net.codexarchonic.infinity.compat.ModCompat;
 import net.codexarchonic.infinity.compat.PonderCompat;
 import net.codexarchonic.infinity.registry.core.ModComponentTypes;
+import net.codexarchonic.infinity.util.core.Easterizer;
 import net.codexarchonic.infinity.util.core.RandomProvider;
 import net.codexarchonic.infinity.util.platform.InfinityPlatform;
 import net.minecraft.Util;
@@ -139,7 +140,7 @@ public interface InfinityMethods {
      */
     static ResourceLocation dimTextToId(String text) {
         ResourceLocation easterId = InfinityMod.provider.easterizer.getAsEaster(text);
-        if (easterId != null)
+        if (easterId != null && !Easterizer.isDisabled(text))
             return easterId;
         return InfinityMethods.getDimId(getDimensionSeed(text));
     }

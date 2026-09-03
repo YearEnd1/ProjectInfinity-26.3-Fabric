@@ -32,6 +32,8 @@ import net.minecraft.world.level.storage.ValueOutput;
 import org.apache.logging.log4j.LogManager;
 //?} else {
 /*import net.minecraft.world.InteractionResultHolder;
+import net.codexarchonic.infinity.access.GameRendererAccess;
+import net.codexarchonic.infinity.util.core.NbtUtils;
 *///?}
 //? if =1.21.1
 //import net.minecraft.world.ItemInteractionResult;

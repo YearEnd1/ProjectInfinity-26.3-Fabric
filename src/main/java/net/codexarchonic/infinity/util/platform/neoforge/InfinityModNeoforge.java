@@ -3,9 +3,9 @@ package net.codexarchonic.infinity.util.platform.neoforge;
 //? neoforge {
 /*import net.codexarchonic.infinity.InfinityMod;
 //? if >1.21.4 {
-/^import net.codexarchonic.infinity.compat.ModCompat;
+import net.codexarchonic.infinity.compat.ModCompat;
 import net.codexarchonic.infinity.compat.rrv.RrvIntegration;
-^///?}
+//?}
 import net.codexarchonic.infinity.registry.core.ModBlocks;
 import net.codexarchonic.infinity.registry.core.ModEntities;
 import net.codexarchonic.infinity.registry.core.ModItemFunctions;
@@ -43,9 +43,9 @@ public class InfinityModNeoforge {
         ModFluidsNeoforge.registerModFluids();
         ModEffectsNeoforge.register(eventBus);
         //? if <1.21.2 {
-        if (InfinityPlatform.INSTANCE.isModLoaded("create"))
+        /^if (InfinityPlatform.INSTANCE.isModLoaded("create"))
             net.codexarchonic.infinity.compat.CreateCompat.register();
-        //?}
+        ^///?}
     }
 
     @SubscribeEvent
@@ -80,9 +80,9 @@ public class InfinityModNeoforge {
         ModItemFunctions.registerDispenserBehaviour();
         // this is less than ideal but i cannot figure out why the proper solution isn't working
         //? if >1.21.4 {
-        /^if (ModCompat.RRV)
+        if (ModCompat.RRV)
             RrvIntegration.initialize();
-        ^///?}
+        //?}
     }
 
     @SubscribeEvent
