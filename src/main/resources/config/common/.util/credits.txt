@@ -66,6 +66,8 @@ Bug catchers:
 * zharok.tngl.sh
 * WorldCreator67
 * Emissaryofwind
+* Endro
+* Oka
 ----------------------
 infinity_version: 2007001
 May contain elephants

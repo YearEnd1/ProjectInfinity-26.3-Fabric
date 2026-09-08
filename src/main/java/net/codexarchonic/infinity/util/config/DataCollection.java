@@ -24,8 +24,8 @@ public class DataCollection {
 
     DataCollection(ConfigType name) {
         this.type = name;
-        this.amendments = amendmentList.getOrDefault(type, List.of());
-        this.amendments.addAll(amendmentList.getOrDefault(ConfigType.ALL, List.of()));
+        this.amendments = new ArrayList<>(amendmentList.getOrDefault(type, new ArrayList<>()));
+        this.amendments.addAll(amendmentList.getOrDefault(ConfigType.ALL, new ArrayList<>()));
     }
 
     void add(String modId, CompoundTag elem) {
