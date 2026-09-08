@@ -325,6 +325,8 @@ publishMods {
         accessToken = env.CURSEFORGE_API_KEY.orNull()
         minecraftVersions.add(stonecutter.current.version)
         minecraftVersions.addAll(additionalVersions)
+        server = true
+        client = true
         requires("architectury-api")
         requires("cloth-config")
         if (hasProperty("deps.emi")) {

@@ -8,6 +8,7 @@ import net.minecraft.client.color.item.ItemTintSources;
 import net.minecraft.client.renderer.chunk.ChunkSectionLayer;
 //?} else {
 /*import net.minecraft.client.renderer.RenderType;
+import net.codexarchonic.infinity.registry.core.ModItems;
 *///?}
 import net.codexarchonic.infinity.iridescence.Iridescence;
 import net.fabricmc.fabric.api.client.render.fluid.v1.FluidRenderHandlerRegistry;

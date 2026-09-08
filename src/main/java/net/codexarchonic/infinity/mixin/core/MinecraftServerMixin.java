@@ -4,8 +4,11 @@ import com.google.common.collect.ImmutableList;
 import net.codexarchonic.infinity.InfinityMod;
 //? if <1.21.2 && fabric {
 /*import net.codexarchonic.infinity.compat.GravityChangerCompat;
+import net.codexarchonic.infinity.compat.ModCompat;
 *///?}
-import net.codexarchonic.infinity.util.core.CommonIO;
+//? if <1.21.2 {
+/*import net.minecraft.world.level.border.BorderChangeListener;
+*///?}
 import net.codexarchonic.infinity.util.platform.InfinityPlatform;
 import net.codexarchonic.infinity.access.MinecraftServerAccess;
 import net.codexarchonic.infinity.util.config.ConfigManager;
@@ -16,12 +19,12 @@ import net.minecraft.server.MinecraftServer;
 //? if >1.21 {
 import net.minecraft.server.ServerInfo;
 import net.minecraft.world.level.GameRules;
-import net.minecraft.world.level.border.BorderChangeListener;
 import net.minecraft.world.level.chunk.storage.ChunkIOErrorReporter;
 //?} else {
 /*import net.codexarchonic.infinity.item.DiscItem;
 import net.minecraft.nbt.CompoundTag;
 import com.mojang.datafixers.util.Pair;
+import net.codexarchonic.infinity.util.core.CommonIO;
 *///?}
 import net.minecraft.server.TickTask;
 import net.minecraft.server.level.ServerLevel;
@@ -34,7 +37,6 @@ import net.minecraft.world.RandomSequences;
 import net.minecraft.world.level.CustomSpawner;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.BiomeManager;
-import net.minecraft.world.level.border.BorderChangeListener;
 import net.minecraft.world.level.dimension.LevelStem;
 import net.minecraft.world.level.storage.LevelResource;
 import net.minecraft.world.level.storage.LevelStorageSource;
