@@ -260,9 +260,11 @@ public class BiomeBottleBlock extends BaseEntityBlock {
             if (bs.is(ModBlocks.ALTAR.get())) {
                 BiomeBottleBlockEntity bbbe = world.getBlockEntity(pos, ModBlockEntities.BIOME_BOTTLE.get()).orElse(null);
                 if (bbbe != null) {
-                    Player p = world.getNearestPlayer(pos.getX(), pos.getY(), pos.getZ(), 10d, true);
-                    if (p instanceof ServerPlayer)
+                    Player p = world.getNearestPlayer(pos.getX(), pos.getY(), pos.getZ(), 10d, false);
+                    if (p instanceof ServerPlayer) {
                         ModCriteria.BIOME_BOTTLE.get().trigger((ServerPlayer) p, bbbe);
+                        InfinityMod.LOGGER.info("Triggered criterion");
+                    }
                     bbbe.startTicking();
                 }
             }
