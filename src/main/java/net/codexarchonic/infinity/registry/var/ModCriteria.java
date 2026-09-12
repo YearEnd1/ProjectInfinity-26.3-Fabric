@@ -25,7 +25,9 @@ import com.google.gson.JsonPrimitive;
 import net.minecraft.advancements.CriteriaTriggers;
 *///?}
 
+//? if >1.21 {
 @NullMarked
+//?}
 public class ModCriteria {
     public static abstract class FriendlyScoredCriterion extends SimpleCriterionTrigger<ScoredConditions> {
         //? if >1.21 {

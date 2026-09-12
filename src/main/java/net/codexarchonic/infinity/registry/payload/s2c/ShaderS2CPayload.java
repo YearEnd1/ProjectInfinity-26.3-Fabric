@@ -2,7 +2,6 @@ package net.codexarchonic.infinity.registry.payload.s2c;
 
 
 //? if >1.21 {
-import net.codexarchonic.infinity.util.VersionMethods;
 import org.jspecify.annotations.NonNull;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
@@ -14,6 +13,7 @@ import net.minecraft.client.multiplayer.ClientPacketListener;
 import net.fabricmc.fabric.api.networking.v1.PacketSender;
 import net.fabricmc.fabric.api.networking.v1.PacketType;
 *///?}
+import net.codexarchonic.infinity.util.VersionMethods;
 import net.codexarchonic.infinity.access.InfinityOptionsAccess;
 import net.codexarchonic.infinity.iridescence.Iridescence;
 import net.codexarchonic.infinity.options.InfinityOptions;

@@ -161,9 +161,8 @@ public abstract class MinecraftServerMixin extends ReentrantBlockableEventLoop<T
         infinity$worldsToAdd.put(key, world);
     }
 
-    /** Loads the scheduled dimensions. */
-    @Inject(method="tickChildren", at=@At("TAIL"))
-    void loadDimensions(BooleanSupplier hasTimeLeft, CallbackInfo ci) {
+    @Override
+    public void infinity$loadDimensions() {
         if (!infinity$worldsToAdd.isEmpty()) {
             for (ResourceKey<Level> key: infinity$worldsToAdd.keySet()) {
                 ServerLevel world = infinity$worldsToAdd.get(key);
@@ -176,6 +175,12 @@ public abstract class MinecraftServerMixin extends ReentrantBlockableEventLoop<T
             }
             infinity$worldsToAdd.clear();
         }
+    }
+
+    /** Loads the scheduled dimensions. */
+    @Inject(method="tickServer", at=@At("HEAD"))
+    void loadDimensions(BooleanSupplier hasTimeLeft, CallbackInfo ci) {
+        infinity$loadDimensions();
     }
 
     @Override

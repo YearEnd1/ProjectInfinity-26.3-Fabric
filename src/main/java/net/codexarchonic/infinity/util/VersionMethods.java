@@ -2,6 +2,7 @@ package net.codexarchonic.infinity.util;
 
 import net.codexarchonic.infinity.registry.core.ModComponentTypes;
 import net.minecraft.client.Minecraft;
+import net.minecraft.server.level.ServerPlayer;
 //? if >1.21 {
 import dev.architectury.registry.registries.RegistrySupplier;
 import net.minecraft.core.*;
@@ -11,7 +12,6 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.dedicated.DedicatedServer;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.alchemy.PotionContents;

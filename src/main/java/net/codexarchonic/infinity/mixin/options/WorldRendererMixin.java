@@ -31,6 +31,7 @@ import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.item.RecordItem;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
+import java.util.Map;
 *///?}
 //? if >1.21.9 {
 /*import net.minecraft.client.renderer.feature.FeatureRenderDispatcher;
@@ -42,6 +43,10 @@ import net.minecraft.client.multiplayer.ClientLevel;
 /*import net.neoforged.neoforge.client.IRenderableSection;
 import net.neoforged.neoforge.client.event.RenderLevelStageEvent;
 import net.neoforged.neoforge.common.NeoForge;
+import net.minecraft.client.renderer.culling.Frustum;
+import org.joml.Matrix4f;
+import net.minecraft.util.profiling.Profiler;
+import com.mojang.blaze3d.vertex.PoseStack;
 *///?}
 import net.minecraft.client.renderer.LevelRenderer;
 import org.spongepowered.asm.mixin.Final;
@@ -52,7 +57,6 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import java.util.Map;
 
 @Mixin(LevelRenderer.class)
 public abstract class WorldRendererMixin implements WorldRendererAccess {

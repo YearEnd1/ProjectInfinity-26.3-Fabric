@@ -8,6 +8,7 @@ import net.minecraft.world.level.dimension.LevelStem;
 public interface MinecraftServerAccess {
 
     void infinity$addWorld(ResourceKey<Level> key, LevelStem options);
+    void infinity$loadDimensions();
 
     boolean infinity$hasToAdd(ResourceKey<Level> key);
 

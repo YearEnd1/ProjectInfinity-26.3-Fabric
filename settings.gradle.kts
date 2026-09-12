@@ -3,7 +3,7 @@ pluginManagement {
         mavenLocal()
         mavenCentral()
         gradlePluginPortal()
-        maven("https://maven.fabricmc.net/") { name = "Fabric" }
+        maven("https://maven2.fabricmc.net/") { name = "Fabric" }
         maven("https://maven.neoforged.net/releases/") { name = "NeoForged" }
         maven("https://maven.kikugie.dev/snapshots") { name = "KikuGie" }
         maven("https://maven.kikugie.dev/releases") { name = "KikuGie Releases" }
