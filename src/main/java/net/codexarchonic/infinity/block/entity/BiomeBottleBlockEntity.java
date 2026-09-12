@@ -1,7 +1,9 @@
 package net.codexarchonic.infinity.block.entity;
 
+import net.codexarchonic.infinity.InfinityMod;
 import net.codexarchonic.infinity.block.custom.BiomeBottleBlock;
 import net.codexarchonic.infinity.registry.core.ModBlockEntities;
+import net.codexarchonic.infinity.registry.core.ModBlocks;
 import net.codexarchonic.infinity.registry.core.ModItems;
 import net.codexarchonic.infinity.util.VersionMethods;
 import net.codexarchonic.infinity.util.core.NbtUtils;
@@ -28,6 +30,8 @@ import org.jspecify.annotations.Nullable;
 import net.codexarchonic.infinity.registry.core.ModComponentTypes;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.component.DataComponentMap;
+
+import java.util.Optional;
 //?}
 
 public class BiomeBottleBlockEntity extends SpecialBlockEntity {
@@ -61,7 +65,7 @@ public class BiomeBottleBlockEntity extends SpecialBlockEntity {
     }
 
     public void setBiome(Holder<Biome> biome) {
-        if (biome.unwrapKey().isPresent()) setBiome(biome.value().getSkyColor(), biome.unwrapKey().get().location());
+        if (biome.unwrapKey().isPresent()) setBiome(biome.value().getFoliageColor(), biome.unwrapKey().get().location());
     }
 
     public void setBiome(int c, ResourceLocation i) {
@@ -147,12 +151,9 @@ public class BiomeBottleBlockEntity extends SpecialBlockEntity {
         return itemStack;
     }
 
-    public boolean isTicking() {
-        return from_charge > 0;
-    }
-
     public void startTicking() {
-        from_charge = charge;
+        if (charge > 10000) charge = 10000;
+        if (from_charge == 0) from_charge = charge;
     }
 
     public void empty() {
@@ -162,24 +163,50 @@ public class BiomeBottleBlockEntity extends SpecialBlockEntity {
         from_charge = 0;
     }
 
+    static ResourceLocation _getBiome(Level world, BlockPos pos) {
+        Holder<Biome> biome = world.getBiome(pos);
+        if (biome.unwrapKey().isPresent()) return biome.unwrapKey().get().location();
+        return BiomeBottleBlock.defaultBiome();
+    }
+
+    public void startTickingCosmic(Level world, BlockPos pos) {
+        if (charge == 0) setBiome(world.getBiome(pos));
+    }
+
+    private Optional<ResourceLocation> _cachedBiomeAtPosition = Optional.empty();
+
     public static void serverTick(Level world, BlockPos pos, BlockState state, BiomeBottleBlockEntity be) {
-        if (be.isTicking() && world instanceof ServerLevel w) {
-            if (w.getGameTime() % 20 == 0) {
-                int level = be.charge/100;
-                if (level <= 0) {
-                    be.empty();
-                }
-                else {
-                    int diff2 = be.charge > 1500 ? 500 : 100;
-                    int diff = be.charge%diff2;
-                    if (diff == 0) diff = diff2;
+        if (world.getGameTime() % 20 == 0 && world instanceof ServerLevel) {
+            BlockState bs = world.getBlockState(pos.below());
+            boolean bl = bs.is(ModBlocks.COSMIC_ALTAR.get()) && be.charge < 1000;
+            if (bl) {
+                if (be._cachedBiomeAtPosition.isEmpty()) be._cachedBiomeAtPosition = Optional.of(_getBiome(world, pos));
+                bl = be._cachedBiomeAtPosition.get().equals(be.biome);
+            }
+            boolean bl2 = bs.is(ModBlocks.ALTAR.get()) && be.from_charge > 0;
+
+            if (bl || bl2) {
+                ServerLevel w = (ServerLevel)world;
+
+                if (bl2) {
+                    int diff = be.charge > 1500 ? 500 : 100;
                     int charge_new = be.charge - diff;
+                    charge_new = Math.max(charge_new, 0);
                     BiomeBottleBlock.spreadRing(w, pos, be.biome, be.from_charge - be.charge, be.from_charge - charge_new);
                     be.charge = charge_new;
-                    world.setBlockAndUpdate(pos, state.setValue(BiomeBottleBlock.LEVEL, Mth.clamp(level - 1, 0, 10)));
-                    BiomeBottleBlock.playSploosh(w, pos);
-                    be.setChanged();
+                    if (charge_new == 0) {
+                        be.empty();
+                    }
                 }
+                else {
+                    be.charge += 100;
+                    be.charge = Mth.clamp(be.charge, 0, 1000);
+                }
+                int level = BiomeBottleBlock.getLevel(be.charge);
+
+                world.setBlockAndUpdate(pos, state.setValue(BiomeBottleBlock.LEVEL, level));
+                BiomeBottleBlock.playSploosh(w, pos);
+                be.setChanged();
             }
         }
     }

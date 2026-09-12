@@ -1,8 +1,12 @@
 package net.codexarchonic.infinity.block.custom;
 
+import net.codexarchonic.infinity.InfinityMod;
 import net.codexarchonic.infinity.block.entity.BiomeBottleBlockEntity;
 import net.codexarchonic.infinity.registry.core.ModBlockEntities;
+import net.codexarchonic.infinity.registry.core.ModBlocks;
+import net.codexarchonic.infinity.registry.var.ModCriteria;
 import net.codexarchonic.infinity.util.VersionMethods;
+import net.codexarchonic.infinity.util.var.BishopBattle;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.QuartPos;
@@ -11,6 +15,8 @@ import com.mojang.serialization.MapCodec;
 import net.codexarchonic.infinity.registry.core.ModComponentTypes;
 import net.minecraft.core.component.DataComponentMap;
 import net.minecraft.core.component.DataComponents;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.component.BlockItemStateProperties;
 import net.minecraft.world.level.LevelReader;
 //?}
@@ -245,5 +251,25 @@ public class BiomeBottleBlock extends BaseEntityBlock {
     public static List<BlockPos> offsets(BlockPos origin, int i, int j) {
         return List.of(origin.offset(i, 0, j), origin.offset(j, 0, i), origin.offset(-i, 0, j), origin.offset(j, 0, -i),
                 origin.offset(i, 0, -j), origin.offset(-j, 0, i), origin.offset(-i, 0, -j), origin.offset(-j, 0, -i));
+    }
+
+    @Override
+    public void onPlace(BlockState state, Level world, BlockPos pos, BlockState oldState, boolean notify) {
+        if (world instanceof ServerLevel) {
+            BlockState bs = world.getBlockState(pos.below());
+            if (bs.is(ModBlocks.ALTAR.get())) {
+                BiomeBottleBlockEntity bbbe = world.getBlockEntity(pos, ModBlockEntities.BIOME_BOTTLE.get()).orElse(null);
+                if (bbbe != null) {
+                    Player p = world.getNearestPlayer(pos.getX(), pos.getY(), pos.getZ(), 10d, true);
+                    if (p instanceof ServerPlayer)
+                        ModCriteria.BIOME_BOTTLE.get().trigger((ServerPlayer) p, bbbe);
+                    bbbe.startTicking();
+                }
+            }
+            if (bs.is(ModBlocks.COSMIC_ALTAR.get())) {
+                BiomeBottleBlockEntity bbbe = world.getBlockEntity(pos, ModBlockEntities.BIOME_BOTTLE.get()).orElse(null);
+                if (bbbe != null) bbbe.startTickingCosmic(world, pos);
+            }
+        }
     }
 }
