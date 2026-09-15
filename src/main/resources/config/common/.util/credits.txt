@@ -68,6 +68,9 @@ Bug catchers:
 * Emissaryofwind
 * Endro
 * Oka
+* Endro
+* dargoriox
+
 ----------------------
 infinity_version: 2007001
 May contain elephants
