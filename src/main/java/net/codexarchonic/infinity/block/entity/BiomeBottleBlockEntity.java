@@ -30,9 +30,9 @@ import org.jspecify.annotations.Nullable;
 import net.codexarchonic.infinity.registry.core.ModComponentTypes;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.component.DataComponentMap;
+//?}
 
 import java.util.Optional;
-//?}
 
 public class BiomeBottleBlockEntity extends SpecialBlockEntity {
     private final ContainerData propertyDelegate;

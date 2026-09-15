@@ -1,12 +1,10 @@
 package net.codexarchonic.infinity.block.custom;
 
-import net.codexarchonic.infinity.InfinityMod;
 import net.codexarchonic.infinity.block.entity.BiomeBottleBlockEntity;
 import net.codexarchonic.infinity.registry.core.ModBlockEntities;
 import net.codexarchonic.infinity.registry.core.ModBlocks;
 import net.codexarchonic.infinity.registry.var.ModCriteria;
 import net.codexarchonic.infinity.util.VersionMethods;
-import net.codexarchonic.infinity.util.var.BishopBattle;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.QuartPos;
@@ -15,11 +13,11 @@ import com.mojang.serialization.MapCodec;
 import net.codexarchonic.infinity.registry.core.ModComponentTypes;
 import net.minecraft.core.component.DataComponentMap;
 import net.minecraft.core.component.DataComponents;
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.component.BlockItemStateProperties;
 import net.minecraft.world.level.LevelReader;
 //?}
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;

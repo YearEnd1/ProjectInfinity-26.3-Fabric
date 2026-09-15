@@ -16,7 +16,9 @@ import net.minecraft.world.level.ItemLike;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Supplier;
-
+//?if <1.21 {
+/*import java.util.function.Consumer;
+*///?}
 import static net.codexarchonic.infinity.registry.core.ModItems.*;
 import static net.minecraft.data.recipes.RecipeCategory.BUILDING_BLOCKS;
 import static net.minecraft.data.recipes.RecipeCategory.MISC;
