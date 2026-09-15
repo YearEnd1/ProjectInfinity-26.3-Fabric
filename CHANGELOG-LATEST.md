@@ -3,6 +3,9 @@
 - Compatibility with Nicer Portals: with the mod present, portals of non-rectangular shapes will correctly update colour on changing the destination dimension.
 - Amendments can now use `area: all`.
 
+### Technical
+The mod's package name had changed to `net.codexarchonic.infinity`. This will break other mods depending on this, like Antarchy, so if you're a dev of one, please update!
+
 ### Bugfixes
 - Disabled easter egg dimensions were not actually disabled, this is fixed.
 - Fixed a crash with Valkyrien Skies (Forge 1.20)
