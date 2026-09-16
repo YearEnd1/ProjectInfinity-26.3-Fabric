@@ -30,6 +30,7 @@ public interface PortalDataHolder {
 
     default ResourceLocation getDestinationParsed(ItemStack stack, Level world) {
         ResourceLocation id = getDestination(stack);
+        //~ if >26 'random'->'getRandom()'
         return (isDestinationRandom(id)) ? InfinityMethods.getRandomId(world.random) : id;
     }
 

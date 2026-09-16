@@ -2,6 +2,7 @@ package net.codexarchonic.infinity.entity.client;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 //? if >1.21.8 {
+
 /*import net.minecraft.client.renderer.SubmitNodeCollector;
 *///?} else {
 import net.codexarchonic.infinity.entity.custom.ChaosSlime;

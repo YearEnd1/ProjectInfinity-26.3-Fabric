@@ -265,9 +265,11 @@ public class RandomDimension {
         TagKey<Biome> tag = preset.equals("overworld") ? BiomeTags.IS_OVERWORLD : BiomeTags.IS_NETHER;
         Registry<Biome> r = VersionMethods.getRegistry(server.registryAccess(), Registries.BIOME);
         r.registryKeySet().forEach(key -> {
+            //~ if >26 'location'->'identifier' {
             if (!Objects.equals(key.location().getNamespace(), "infinity")) {
                 if (r.get(key) != null && r.wrapAsHolder(VersionMethods.getFromRegistry(r, key)).is(tag)) vanilla_biomes.add(key.location().toString());
             }
+            //~}
         });
     }
 

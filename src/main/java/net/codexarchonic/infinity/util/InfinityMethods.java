@@ -84,6 +84,7 @@ public interface InfinityMethods {
         return isInfinity(w.dimension());
     }
     static boolean isInfinity(ResourceKey<Level> key) {
+        //~ if >26 'location'->'identifier'
         return key.location().getNamespace().equals(MOD_ID);
     }
     static boolean isBiomeInfinity(LevelAccessor world, BlockPos pos) {

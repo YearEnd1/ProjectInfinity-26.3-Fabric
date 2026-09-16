@@ -30,7 +30,9 @@ public class F4RechargingRecipe extends CustomRecipe {
         super(
                 //? if <1.21
                 //id,
-                craftingRecipeCategory);
+                //? if <26
+                craftingRecipeCategory
+        );
     }
 
     public boolean matches(
@@ -61,13 +63,13 @@ public class F4RechargingRecipe extends CustomRecipe {
              //?} else {
             /*CraftingContainer
             *///?}
-            craftingRecipeInput,
-            //? if >1.21 {
-            HolderLookup.Provider
-            //?} else {
-            /*RegistryAccess
+            craftingRecipeInput
+            //? if >1.21 && <26 {
+            ,HolderLookup.Provider wrapperLookup
+            //?} else if <1.21 {
+            /*,RegistryAccess wrapperLookup
             *///?}
-            wrapperLookup) {
+            ) {
         ItemStack f4 = null;
         int i = 0;
         //? if >1.21 {

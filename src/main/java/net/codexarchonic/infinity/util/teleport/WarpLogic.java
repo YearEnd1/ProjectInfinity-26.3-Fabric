@@ -179,6 +179,7 @@ public interface WarpLogic {
         int counter = 0;
         BlockPos pos = scanColumn(orig, world, true);
         while (pos == null) { // do eight attempts on strong rules and one on weak rules
+            //~ if >26 'random'->'getRandom()'
             iter = iter.offset(world.random.nextInt(16) - 8, 0, world.random.nextInt(16) - 8);
             pos = scanColumn(iter, world, true);
             if (++counter > 7) {

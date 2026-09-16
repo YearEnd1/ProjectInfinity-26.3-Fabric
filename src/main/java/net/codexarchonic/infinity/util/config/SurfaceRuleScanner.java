@@ -19,6 +19,7 @@ public interface SurfaceRuleScanner {
         Map<String, CompoundTag> map = new HashMap<>();
         Registry<NoiseGeneratorSettings> registry = VersionMethods.getRegistry(server.registryAccess(), Registries.NOISE_SETTINGS);
         registry.registryKeySet().forEach(key -> {
+            //~ if >26 'location'->'identifier'
             if (!key.location().getNamespace().contains("infinity")) {
                 Optional<NoiseGeneratorSettings> o = registry.getOptional(key);
                 o.ifPresent(settings -> {

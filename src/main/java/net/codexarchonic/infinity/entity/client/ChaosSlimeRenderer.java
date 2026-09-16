@@ -9,7 +9,7 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
 //? if >1.21.9 {
-/*import net.minecraft.client.renderer.state.CameraRenderState;
+/*import net.minecraft.client.renderer.state.level.CameraRenderState;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 *///?}
 

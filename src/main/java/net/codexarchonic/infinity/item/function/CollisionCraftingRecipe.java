@@ -1,17 +1,18 @@
 package net.codexarchonic.infinity.item.function;
 
-import com.google.gson.JsonObject;
 import com.mojang.datafixers.util.Function3;
-import com.mojang.datafixers.util.Function4;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.codexarchonic.infinity.registry.core.ModItemFunctions;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.util.ExtraCodecs;
 import net.minecraft.world.item.ItemStack;
+//? if >26 {
+/*import cc.cassian.rrv.backport.ItemStackTemplate;
+*///?}
 import net.minecraft.world.item.crafting.*;
 //? if >1.21 {
 import net.minecraft.world.item.crafting.SingleRecipeInput;
-import net.minecraft.core.HolderLookup;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
@@ -35,6 +36,7 @@ public abstract class CollisionCraftingRecipe
     /*protected final ResourceLocation id;
     *///?}
     protected final Ingredient input;
+    //~ if >26 'ItemStack'->'ItemStackTemplate'
     protected final ItemStack output;
     protected final String lore;
 
@@ -42,6 +44,7 @@ public abstract class CollisionCraftingRecipe
             //? if =1.20.1 {
             /*ResourceLocation id,
             *///?}
+            //~ if >26 'ItemStack'->'ItemStackTemplate'
             Ingredient input, ItemStack output, String lore) {
         //? if =1.20.1 {
         /*this.id = id;
@@ -76,15 +79,24 @@ public abstract class CollisionCraftingRecipe
              //?} else {
             /*ContainerSingleItem
             *///?}
-            input,
-            //? if >1.21 {
-            HolderLookup.Provider
-             //?} else {
-            /*RegistryAccess
+            input
+            //? if >1.21 && <26.1 {
+            , HolderLookup.Provider lookup
+            //?} else if <1.21 {
+            /*,RegistryAccess lookup
             *///?}
-            lookup) {
-        return output;
+            ) {
+        //~ if >26 'copy'->'create'
+        return output.copy();
     }
+
+     public boolean showNotification() {
+         return false;
+     }
+
+     public String group() {
+         return "";
+     }
 
     //? if <1.21.2 {
     /*@Override
@@ -102,6 +114,7 @@ public abstract class CollisionCraftingRecipe
             /*RegistryAccess registryAccess
             *///?}
     ) {
+        //~ if >26 'copy'->'create'
         return output.copy();
     }
 
@@ -127,12 +140,9 @@ public abstract class CollisionCraftingRecipe
         @Override
         public MapCodec<CollisionCraftingRecipe> codec() {
             return RecordCodecBuilder.mapCodec(instance -> instance.group(
-                    //? if >1.21.2 {
-                            Ingredient.CODEC
-                    //?} else {
-                            /*Ingredient.CODEC_NONEMPTY
-                    *///?}
-                            .fieldOf("input").forGetter(recipe -> recipe.input),
+                            //~ if >1.21.2 'CODEC_NONEMPTY'->'CODEC'
+                            Ingredient.CODEC.fieldOf("input").forGetter(recipe -> recipe.input),
+                            //~ if >26 'ItemStack.STRICT_CODEC'->'ItemStackTemplate.CODEC'
                             ItemStack.STRICT_CODEC.fieldOf("output").forGetter(recipe -> recipe.output),
                             ExtraCodecs.NON_EMPTY_STRING.fieldOf("lore").forGetter(recipe -> recipe.lore))
                     .apply(instance, func));
@@ -250,6 +260,7 @@ public abstract class CollisionCraftingRecipe
                 //? if =1.20.1 {
                 /*ResourceLocation id,
                  *///?}
+                //~ if >26 'ItemStack'->'ItemStackTemplate'
                 Ingredient input, ItemStack output, String lore) {
             super(
                     //? if =1.20.1 {

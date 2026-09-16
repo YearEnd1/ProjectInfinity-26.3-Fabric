@@ -35,7 +35,7 @@ import java.util.Map;
 *///?}
 //? if >1.21.9 {
 /*import net.minecraft.client.renderer.feature.FeatureRenderDispatcher;
-import net.minecraft.client.renderer.state.LevelRenderState;
+import net.minecraft.client.renderer.state.level.LevelRenderState;
 *///?}
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;

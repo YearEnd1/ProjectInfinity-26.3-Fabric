@@ -8,6 +8,9 @@ import net.codexarchonic.infinity.registry.core.ModItems;
 import net.codexarchonic.infinity.util.VersionMethods;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
+//? if >26 {
+/*import cc.cassian.rrv.backport.ItemStackTemplate;
+*///?}
 //? if >1.21 {
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
@@ -96,16 +99,16 @@ public class ChromaticColoringRecipe implements CraftingRecipe {
     public @NonNull ItemStack assemble(
             //? if >1.21 {
             CraftingInput
-             //?} else {
-            /*CraftingContainer
-            *///?}
-            input,
-            //? if >1.21 {
-            HolderLookup.Provider
-            //?} else {
-            /*RegistryAccess
-            *///?}
-            lookup) {
+                    //?} else {
+                    /*CraftingContainer
+                     *///?}
+                    input
+            //? if >1.21 && <26 {
+            ,HolderLookup.Provider lookup
+             //?} else if <1.21 {
+            /*,RegistryAccess lookup
+             *///?}
+            ) {
         ItemStack chroma = ItemStack.EMPTY;
         int i = 0;
         for (int k = 0; k < input.
@@ -132,6 +135,14 @@ public class ChromaticColoringRecipe implements CraftingRecipe {
             return result;
         }
         else return chroma.getItem().getDefaultInstance();
+    }
+
+    public boolean showNotification() {
+        return false;
+    }
+
+    public String group() {
+        return "";
     }
 
     @Override
@@ -202,12 +213,9 @@ public class ChromaticColoringRecipe implements CraftingRecipe {
         @Override
         public @NonNull MapCodec<ChromaticColoringRecipe> codec() {
             return RecordCodecBuilder.mapCodec(instance -> instance.group(
-                    //? if >1.21.2 {
-                            Ingredient.CODEC
-                    //?} else {
-                            /*Ingredient.CODEC_NONEMPTY
-                    *///?}
-                    .fieldOf("input").forGetter(recipe -> recipe.input),
+                            //~ if >1.21.2 'CODEC_NONEMPTY'->'CODEC'
+                            Ingredient.CODEC.fieldOf("input").forGetter(recipe -> recipe.input),
+                            //~ if >26 'ItemStack.STRICT_CODEC'->'ItemStackTemplate.CODEC'
                             ItemStack.STRICT_CODEC.fieldOf("output").forGetter(recipe -> recipe.output))
                     .apply(instance, func));
         }

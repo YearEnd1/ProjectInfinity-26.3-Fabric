@@ -27,7 +27,9 @@ public class ChromaCarpetRecipe extends CustomRecipe {
         super(
                 //? if <1.21
                 //id,
-                craftingRecipeCategory);
+                //? if <26
+                craftingRecipeCategory
+        );
     }
 
     public boolean matches(
@@ -73,13 +75,12 @@ public class ChromaCarpetRecipe extends CustomRecipe {
              //?} else {
             /*CraftingContainer
             *///?}
-            craftingRecipeInput,
-            //? if >1.21 {
-            HolderLookup.Provider
-            //?} else {
-            /*RegistryAccess
+            craftingRecipeInput
+            //? if >1.21 && <26 {
+            ,HolderLookup.Provider registryAccess
+            //?} else if <1.21 {
+            /*,RegistryAccess registryAccess
             *///?}
-            registryAccess
     ) {
         int color = 0;
         //? if >1.21 {

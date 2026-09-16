@@ -26,7 +26,9 @@ public class BiomeBottleCombiningRecipe extends CustomRecipe {
         super(
                 //? if <1.21
                 //id,
-                craftingRecipeCategory);
+                //? if <26
+                craftingRecipeCategory
+        );
     }
 
     @Override
@@ -69,16 +71,15 @@ public class BiomeBottleCombiningRecipe extends CustomRecipe {
     public @NonNull ItemStack assemble(
             //? if >1.21 {
             CraftingInput
-             //?} else {
-            /*CraftingContainer
-            *///?}
-            craftingRecipeInput,
-            //? if >1.21 {
-            HolderLookup.Provider
-            //?} else {
-            /*RegistryAccess
-            *///?}
-            registryAccess
+                    //?} else {
+                    /*CraftingContainer
+                     *///?}
+                    craftingRecipeInput
+            //? if >1.21 && <26 {
+            ,HolderLookup.Provider registryAccess
+             //?} else if <1.21 {
+            /*,RegistryAccess registryAccess
+             *///?}
             ) {
         ItemStack stack1 = ItemStack.EMPTY;
         int i = 0;
@@ -100,7 +101,7 @@ public class BiomeBottleCombiningRecipe extends CustomRecipe {
             }
         }
         if (i < 2) return ModItems.BIOME_BOTTLE_ITEM.get().getDefaultInstance();
-        ItemStack result = stack1.copy();
+        ItemStack result = stack1.copyWithCount(1);
         BiomeBottleBlock.updateCharge(result, charge);
         return result;
     }

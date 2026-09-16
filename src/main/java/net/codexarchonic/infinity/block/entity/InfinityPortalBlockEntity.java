@@ -136,6 +136,7 @@ public class InfinityPortalBlockEntity extends SpecialBlockEntity {
             BlockPos posTo = getOtherSidePos();
             if (posTo == null || !InfinityMethods.dimExists(worldTo)) return false;
             return (worldTo.getBlockEntity(posTo) instanceof InfinityPortalBlockEntity ipbe
+                    //~ if >26 'location'->'identifier'
                     && ipbe.getDimension().toString().equals(worldFrom.dimension().location().toString())
                     && ipbe.isConnected());
         }

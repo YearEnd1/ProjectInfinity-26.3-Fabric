@@ -1,7 +1,8 @@
 package net.codexarchonic.infinity.util.platform.fabric;
 
 //? fabric {
-
+//~ if >26 'ItemGroupEvents'->'CreativeModeTabEvents' {
+//~ if >26 'itemgroup'->'creativetab'
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.fabricmc.fabric.api.resource.ResourcePackActivationType;
@@ -39,7 +40,9 @@ public class FabricEntrypoint implements ModInitializer {
         ModItemFunctions.registerDispenserBehaviour();
         if (ModCompat.CREATE)
             CreateCompat.register();
+        //~ if >26 'MODIFY_ENTRIES_ALL'->'MODIFY_OUTPUT_ALL'
         ItemGroupEvents.MODIFY_ENTRIES_ALL.register(ModItemGroups::buildContents);
+        //~}
         ResourceManagerHelper.registerBuiltinResourcePack(
                 InfinityMethods.getId(String.valueOf(InfinityPlatform.version)),
                 FabricLoader.getInstance().getModContainer(InfinityMod.MOD_ID).orElseThrow(),

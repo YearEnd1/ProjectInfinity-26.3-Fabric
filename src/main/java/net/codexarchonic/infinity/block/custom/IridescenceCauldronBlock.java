@@ -5,6 +5,7 @@ import net.codexarchonic.infinity.iridescence.Iridescence;
 import net.codexarchonic.infinity.registry.core.ModItems;
 import net.codexarchonic.infinity.util.VersionMethods;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -105,13 +106,18 @@ public class IridescenceCauldronBlock extends AbstractCauldronBlock {
 	public void entityInside(BlockState state, Level level, BlockPos pos, Entity entity
 			//? if >1.21.2
 			, InsideBlockEffectApplier effectApplier
+			//? if >26
+			//, boolean isPrecise
 	) {
 		if (level instanceof ServerLevel serverLevel)
 			Iridescence.touchIridescence(entity, serverLevel);
 	}
 
 	@Override
-	public int getAnalogOutputSignal(BlockState state, Level level, BlockPos pos) {
+	public int getAnalogOutputSignal(BlockState state, Level level, BlockPos pos
+		//? if >26
+	 	//,Direction direction
+	) {
 		return 3;
 	}
 }
