@@ -33,21 +33,14 @@ public class BiomeBottleCombiningRecipe extends CustomRecipe {
 
     @Override
     public boolean matches(
-            //? if >1.21 {
-            CraftingInput
-             //?} else {
-            /*CraftingContainer
-            *///?}
-            craftingRecipeInput, Level world) {
+            //~ if >1.21 'CraftingContainer'-> 'CraftingInput'
+            CraftingInput craftingRecipeInput, Level world) {
         ItemStack stack1 = null;
         boolean bl = true;
         int charge = 0;
         for (int k = 0; k < craftingRecipeInput.
-                //? if >1.21 {
+                //? if ~1.21 'getContainerSize'->'size'
                 size
-                 //?} else {
-                /*getContainerSize
-                *///?}
              (); k++) {
             if (!bl) return false;
             ItemStack itemStack = craftingRecipeInput.getItem(k);
