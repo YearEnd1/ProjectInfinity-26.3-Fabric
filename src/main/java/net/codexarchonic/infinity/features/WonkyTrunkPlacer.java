@@ -52,6 +52,7 @@ public class WonkyTrunkPlacer extends TrunkPlacer {
 
     @Override
     public List<FoliagePlacer.FoliageAttachment> placeTrunk(LevelSimulatedReader world, BiConsumer<BlockPos, BlockState> replacer, RandomSource random, int height, BlockPos startPos, TreeConfiguration config) {
+        //? if <26
         setDirtAt(world, replacer, random, startPos.below(), config);
         BlockPos curr = startPos;
         this.placeLog(world, replacer, random, startPos, config);

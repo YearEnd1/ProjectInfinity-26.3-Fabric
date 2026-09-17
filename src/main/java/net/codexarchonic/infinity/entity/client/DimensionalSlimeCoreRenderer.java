@@ -1,17 +1,17 @@
 package net.codexarchonic.infinity.entity.client;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-//? if >1.21.8 {
-
-/*import net.minecraft.client.renderer.SubmitNodeCollector;
+//? if >26 {
+/*import net.minecraft.client.renderer.block.BlockModelResolver;
+import net.minecraft.client.renderer.SubmitNodeCollector;
 *///?} else {
 import net.codexarchonic.infinity.entity.custom.ChaosSlime;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.block.BlockRenderDispatcher;
 //?}
 import net.minecraft.client.model.SlimeModel;
-import net.minecraft.client.renderer.block.BlockRenderDispatcher;
 import net.minecraft.client.renderer.block.ModelBlockRenderer;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.client.renderer.entity.RenderLayerParent;
@@ -29,6 +29,7 @@ public class DimensionalSlimeCoreRenderer extends
         /*RenderLayer<ChaosSlime, SlimeModel<ChaosSlime>>
         *///?}
          {
+     //~ if >26 'BlockRenderDispatcher'->'BlockModelResolver' {
     private final BlockRenderDispatcher blockRenderManager;
 
     public DimensionalSlimeCoreRenderer(
@@ -39,6 +40,7 @@ public class DimensionalSlimeCoreRenderer extends
             /*<ChaosSlime, SlimeModel<ChaosSlime>>
             *///?}
                     context, BlockRenderDispatcher blockRenderManager) {
+        //~}
         super(context);
         this.blockRenderManager = blockRenderManager;
     }

@@ -80,7 +80,7 @@ public class F4Screen extends AbstractContainerScreen<F4ScreenHandler> {
     //~}
 
     @Override
-    //~ if >26 'renderBg(GuiGraphicsExtractor context, float delta, int mouseX, int mouseY)'->'extractBackground(GuiGraphicsExtractor context, int mouseX, int mouseY, float delta)'
+    //~ if >26 'renderBg(GuiGraphics context, float delta, int mouseX, int mouseY)'->'extractBackground(GuiGraphicsExtractor context, int mouseX, int mouseY, float delta)'
     public void renderBg(GuiGraphics context, float delta, int mouseX, int mouseY) {
         context.blit(
                 //? if >1.21.4 {

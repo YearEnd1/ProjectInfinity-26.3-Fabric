@@ -215,6 +215,7 @@ public class BiomeBottleBlock extends BaseEntityBlock {
             for (int j = 0; i*i + j*j < ramax; j++) if (i*i + j*j >= ramin) {
                 List<BlockPos> signs = offsets(origin, i, j);
                 posSet.addAll(signs);
+                //~ if >26 'new'->'containing'
                 set.addAll(signs.stream().map(ChunkPos::new)
                         .map(chunkPos -> world.getChunk(chunkPos.getWorldPosition()))
                         .filter(Objects::nonNull).collect(Collectors.toSet()));

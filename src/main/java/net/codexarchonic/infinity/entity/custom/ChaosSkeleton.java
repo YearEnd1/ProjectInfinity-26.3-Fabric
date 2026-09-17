@@ -128,7 +128,6 @@ public class ChaosSkeleton extends Skeleton implements TintableEntity {
         builder.define(duration, 200);
         builder.define(color, 0x00FF00);
     }
-    @Override
     public boolean isSunBurnTick() {
         return false;
     }

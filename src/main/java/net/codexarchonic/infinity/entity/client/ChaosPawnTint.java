@@ -9,14 +9,18 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderType;
+
 //? if >1.21.9 {
 /*import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.feature.ModelFeatureRenderer;
-*///?}
+import net.minecraft.client.renderer.rendertype.RenderTypes;
+*///?} else {
+import net.minecraft.client.renderer.RenderType;
+//?}
 
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
+
 import net.minecraft.resources.ResourceLocation;
 //? if <1.21.2 {
 /*import net.minecraft.util.FastColor;
@@ -69,7 +73,7 @@ public class ChaosPawnTint extends
             color = VersionMethods.opaque(color);
         }
         //FIXME 1.21.10 this probably shouldn't be null
-        vertexConsumer.submitModelPart(part, matrixStack, RenderType.cutout(), light, overlay, null, color, null);
+        vertexConsumer.submitModelPart(part, matrixStack, RenderTypes.cutoutMovingBlock(), light, overlay, null, color, null);
     }
     *///?} else if >1.21.5 {
     public void renderOneLayer(PoseStack matrixStack, VertexConsumer vertexConsumer, int light, int overlay, ChaosPawnRenderState livingEntity, ModelPart part, String name) {

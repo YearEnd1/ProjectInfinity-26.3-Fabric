@@ -107,7 +107,7 @@ public abstract class AbstractChessFigure extends Monster implements NeutralMob 
     //?}
     @Override
     public void startPersistentAngerTimer() {
-        //~ if >26 'AngerTime'->'AngerEndTime'
+        //~ if >26 'setRemainingPersistentAngerTime'->'setPersistentAngerEndTime'
         this.setRemainingPersistentAngerTime(TimeUtil.rangeOfSeconds(20, 40).sample(this.random));
     }
 

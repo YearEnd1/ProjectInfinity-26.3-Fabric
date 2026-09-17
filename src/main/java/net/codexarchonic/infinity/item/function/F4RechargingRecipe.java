@@ -1,5 +1,6 @@
 package net.codexarchonic.infinity.item.function;
 
+import com.mojang.serialization.MapCodec;
 import net.codexarchonic.infinity.item.F4Item;
 import net.codexarchonic.infinity.registry.core.ModComponentTypes;
 import net.codexarchonic.infinity.registry.core.ModItemFunctions;
@@ -23,6 +24,9 @@ import net.minecraft.world.level.Level;
 import org.jspecify.annotations.NonNull;
 
 public class F4RechargingRecipe extends CustomRecipe {
+    public static F4RechargingRecipe INSTANCE = new F4RechargingRecipe(CraftingBookCategory.MISC);
+    public static MapCodec<F4RechargingRecipe> CODEC = MapCodec.unit(F4RechargingRecipe.INSTANCE);
+
     public F4RechargingRecipe(
             //? if <1.21
             //ResourceLocation id,

@@ -28,6 +28,7 @@ public class ChaosSlimeRenderer
 
     public ChaosSlimeRenderer(EntityRendererProvider.Context context) {
         super(context, new SlimeModel(context.bakeLayer(ModelLayers.SLIME)), 0.25f);
+        //~ if >26 'getBlockRenderDispatcher'->'getBlockModelResolver'
         this.addLayer(new DimensionalSlimeCoreRenderer(this, context.getBlockRenderDispatcher()));
         this.addLayer(new TintedLayerRenderer(this, new SlimeModel(context.getModelSet().bakeLayer(ModelLayers.SLIME_OUTER))));
     }

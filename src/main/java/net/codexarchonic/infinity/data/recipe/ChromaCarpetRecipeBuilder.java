@@ -1,6 +1,8 @@
 package net.codexarchonic.infinity.data.recipe;
 
 
+import net.codexarchonic.infinity.util.InfinityMethods;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.data.recipes.RecipeBuilder;
 //? >1.21 {
 import net.minecraft.data.recipes.RecipeOutput;
@@ -42,6 +44,9 @@ public class ChromaCarpetRecipeBuilder implements RecipeBuilder {
 	public void save(RecipeOutput recipeOutput, ResourceKey<Recipe<?>> id) {
 		ChromaCarpetRecipe recipe = new ChromaCarpetRecipe(CraftingBookCategory.MISC);
 		recipeOutput.accept(id, recipe, null);
+	}
+	public ResourceKey<Recipe<?>> defaultId() {
+		return ResourceKey.create(Registries.RECIPE, InfinityMethods.getId("chroma_carpet"));
 	}
 	//?} else if >1.21 {
 	/*public void save(RecipeOutput recipeOutput, ResourceLocation id) {

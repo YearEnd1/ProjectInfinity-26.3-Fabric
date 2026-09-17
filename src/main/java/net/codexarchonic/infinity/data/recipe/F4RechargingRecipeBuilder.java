@@ -1,7 +1,10 @@
 package net.codexarchonic.infinity.data.recipe;
 
 
+import net.codexarchonic.infinity.InfinityMod;
 import net.codexarchonic.infinity.item.function.F4RechargingRecipe;
+import net.codexarchonic.infinity.util.InfinityMethods;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.data.recipes.RecipeBuilder;
 //? >1.21 {
 import net.minecraft.data.recipes.RecipeOutput;
@@ -34,14 +37,18 @@ public class F4RechargingRecipeBuilder implements RecipeBuilder {
 		return null;
 	}
 
+
+
 	public Item getResult() {
 		return F4.get();
 	}
 
 	//? if >1.21.2 {
 	public void save(RecipeOutput recipeOutput, ResourceKey<Recipe<?>> id) {
-		F4RechargingRecipe recipe = new F4RechargingRecipe(CraftingBookCategory.MISC);
-		recipeOutput.accept(id, recipe, null);
+		recipeOutput.accept(id, F4RechargingRecipe.INSTANCE, null);
+	}
+	public ResourceKey<Recipe<?>> defaultId() {
+		return ResourceKey.create(Registries.RECIPE, InfinityMethods.getId("f4_recharging"));
 	}
 	//?} else if >1.21 {
 	/*public void save(RecipeOutput recipeOutput, ResourceLocation id) {

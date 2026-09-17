@@ -1,5 +1,6 @@
 package net.codexarchonic.infinity.item.function;
 
+import com.mojang.serialization.MapCodec;
 import net.codexarchonic.infinity.registry.core.ModComponentTypes;
 import net.codexarchonic.infinity.registry.core.ModItemFunctions;
 import net.codexarchonic.infinity.registry.core.ModItems;
@@ -20,6 +21,9 @@ import net.minecraft.world.level.Level;
 import org.jspecify.annotations.NonNull;
 
 public class ChromaCarpetRecipe extends CustomRecipe {
+    public static ChromaCarpetRecipe INSTANCE = new ChromaCarpetRecipe(CraftingBookCategory.MISC);
+    public static MapCodec<ChromaCarpetRecipe> CODEC = MapCodec.unit(ChromaCarpetRecipe.INSTANCE);
+
     public ChromaCarpetRecipe(
             //? if <1.21
             //ResourceLocation id,

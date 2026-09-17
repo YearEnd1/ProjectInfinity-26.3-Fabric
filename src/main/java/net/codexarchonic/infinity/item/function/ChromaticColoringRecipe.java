@@ -242,6 +242,13 @@ public class ChromaticColoringRecipe implements CraftingRecipe {
             //~ if >26 'ItemStack'->'ItemStackTemplate'
             ItemStack.STREAM_CODEC.encode(buf, recipe.output);
         }
+
+        public RecipeSerializer<ChromaticColoringRecipe> serializer() {
+            //? if >26 {
+            /*return new RecipeSerializer<>(codec(), streamCodec());
+            *///?} else
+            return this;
+        }
         //?} else {
         /*@Override
         public ChromaticColoringRecipe fromJson(ResourceLocation id, JsonObject json) {

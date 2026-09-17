@@ -1,5 +1,7 @@
 package net.codexarchonic.infinity.data.recipe;
 
+import net.codexarchonic.infinity.util.InfinityMethods;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.data.recipes.RecipeBuilder;
 //? >1.21 {
 import net.minecraft.data.recipes.RecipeOutput;
@@ -34,15 +36,16 @@ public class BiomeBottleCombiningRecipeBuilder implements RecipeBuilder {
 		return null;
 	}
 
-	@Override
 	public Item getResult() {
 		return BIOME_BOTTLE.get().asItem();
 	}
 
 	//? if >1.21.2 {
 	public void save(RecipeOutput recipeOutput, ResourceKey<Recipe<?>> id) {
-		BiomeBottleCombiningRecipe recipe = new BiomeBottleCombiningRecipe(CraftingBookCategory.MISC);
-		recipeOutput.accept(id, recipe, null);
+		recipeOutput.accept(id, BiomeBottleCombiningRecipe.INSTANCE, null);
+	}
+	public ResourceKey<Recipe<?>> defaultId() {
+		return ResourceKey.create(Registries.RECIPE, InfinityMethods.getId("biome_bottle_combining"));
 	}
 	//?} else if >1.21 {
 	/*public void save(RecipeOutput recipeOutput, ResourceLocation id) {

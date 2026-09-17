@@ -1,5 +1,7 @@
 package net.codexarchonic.infinity.item.function;
 
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import net.codexarchonic.infinity.block.custom.BiomeBottleBlock;
 import net.codexarchonic.infinity.registry.core.ModItemFunctions;
 import net.codexarchonic.infinity.registry.core.ModItems;
@@ -19,6 +21,10 @@ import net.minecraft.world.level.block.Block;
 import org.jspecify.annotations.NonNull;
 
 public class BiomeBottleCombiningRecipe extends CustomRecipe {
+    public static BiomeBottleCombiningRecipe INSTANCE = new BiomeBottleCombiningRecipe(CraftingBookCategory.MISC);
+    public static MapCodec<BiomeBottleCombiningRecipe> CODEC = MapCodec.unit(BiomeBottleCombiningRecipe.INSTANCE);
+
+
     public BiomeBottleCombiningRecipe(
             //? if <1.21
             //ResourceLocation id,
