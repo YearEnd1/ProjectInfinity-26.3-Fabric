@@ -28,7 +28,10 @@ public class RandomCubeFeature extends Feature<RandomCubeFeature.Config> {
         Map<Integer, BlockState> blocks = new HashMap<>();
         int r = (int)context.config().radius().sample(random);
         boolean bl = context.config().useBands();
-        if (bl) for (int i = -3*r; i <= 3*r; i++) blocks.put(i, context.config().blockProvider().getState(random, blockPos.east(i)));
+        if (bl) for (int i = -3*r; i <= 3*r; i++) blocks.put(i, context.config().blockProvider().getState(
+                //? if >26
+                //structureWorldAccess,
+                random, blockPos.east(i)));
         for (int i = -r; i <= r; i++) for (int j = -r; j <= r; j++) for (int k = -r; k <= r; k++) {
             BlockPos blockPos1 = blockPos.offset(i, j, k);
             if (structureWorldAccess.isEmptyBlock(blockPos1) || context.config().replaceable().contains(structureWorldAccess.getBlockState(blockPos1)))

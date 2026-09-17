@@ -296,6 +296,7 @@ public class ChaosSkeleton extends Skeleton implements TintableEntity {
     *///?}
 
     private void dropEquipment(int lootingLevel, ServerLevel world) {
+        //~ if >26 'random'->'getRandom()'
         int count = world.random.nextIntBetweenInclusive(0, 2 + lootingLevel);
         this.spawnAtLocation(
                 //? if >1.21.4

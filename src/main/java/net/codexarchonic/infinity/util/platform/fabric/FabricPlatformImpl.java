@@ -11,6 +11,7 @@ import net.minecraft.world.item.enchantment.ItemEnchantments;
 //?} else {
 /*import net.minecraft.core.registries.BuiltInRegistries;
 *///?}
+//~ if >26 'ServerWorldEvents'->'ServerLevelEvents' {
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerWorldEvents;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.fabricmc.fabric.api.registry.FlammableBlockRegistry;
@@ -92,7 +93,9 @@ public class FabricPlatformImpl implements InfinityPlatform {
      * On Fabric, this invokes a server world event in Fabric API.
      */
     public void onWorldLoad(Object mixin, ServerLevel world) {
+        //~ if >26 'World'->'Level'
         ServerWorldEvents.LOAD.invoker().onWorldLoad((MinecraftServer) mixin, world);
+        //~}
     }
 
     /**

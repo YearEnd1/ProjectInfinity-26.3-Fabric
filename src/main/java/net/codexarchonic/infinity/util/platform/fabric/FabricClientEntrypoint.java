@@ -1,8 +1,15 @@
 package net.codexarchonic.infinity.util.platform.fabric;
 
 //? fabric {
+
+//? if >26 {
+/*import net.fabricmc.fabric.api.client.rendering.v1.BlockColorRegistry;
+*///?}
+
 //? if >1.21.2 {
+//? if <26 {
 import net.fabricmc.fabric.api.client.rendering.v1.BlockRenderLayerMap;
+//?}
 import net.codexarchonic.infinity.item.tint.InfinityTintSource;
 import net.minecraft.client.color.item.ItemTintSources;
 import net.minecraft.client.renderer.chunk.ChunkSectionLayer;
@@ -11,8 +18,10 @@ import net.minecraft.client.renderer.chunk.ChunkSectionLayer;
 import net.codexarchonic.infinity.registry.core.ModItems;
 *///?}
 import net.codexarchonic.infinity.iridescence.Iridescence;
+//? if <26 {
 import net.fabricmc.fabric.api.client.render.fluid.v1.FluidRenderHandlerRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
+//?}
 import net.fabricmc.fabric.api.transfer.v1.client.fluid.FluidVariantRendering;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariantAttributes;
 import net.fabricmc.api.ClientModInitializer;
@@ -28,6 +37,7 @@ public class FabricClientEntrypoint implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
         // Colour handlers
+        //~ if >26 'ColorProviderRegistry.BLOCK'->'BlockColorRegistry' {
         ColorProviderRegistry.BLOCK.register(InfinityMethods::getBookBoxColor,
                 ModBlocks.BOOK_BOX.get());
         ColorProviderRegistry.BLOCK.register(InfinityMethods::getBlockEntityColor,
@@ -38,6 +48,7 @@ public class FabricClientEntrypoint implements ClientModInitializer {
         ColorProviderRegistry.BLOCK.register((blockState, blockAndTintGetter, blockPos, i) -> Iridescence.getColor(blockAndTintGetter, blockPos),
                 ModBlocks.IRIDESCENCE_CAULDRON.get()
         );
+        //~}
         //? if <1.21.4 {
         /*ColorProviderRegistry.ITEM.register(InfinityMethods::getOverlayColorFromComponents,
                 ModItems.TRANSFINITE_KEY.get(),
@@ -55,6 +66,7 @@ public class FabricClientEntrypoint implements ClientModInitializer {
         //?}
 
         // Render layer maps
+        //? if <26 {
         //? if >1.21.2 {
         var translucent = ChunkSectionLayer.TRANSLUCENT;
         var cutout = ChunkSectionLayer.CUTOUT_MIPPED;
@@ -76,6 +88,7 @@ public class FabricClientEntrypoint implements ClientModInitializer {
         BlockRenderLayerMap.putFluids(translucent,
                 InfinityPlatform.INSTANCE.getIridescenceStill().get(),
                 InfinityPlatform.INSTANCE.getIridescenceFlowing().get());
+        //?}
 
         // Common client setup tasks
         InfinityModClient.initializeClient();

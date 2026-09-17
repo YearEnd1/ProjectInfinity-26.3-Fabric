@@ -15,6 +15,7 @@ import net.minecraft.world.level.block.Block;
 
 import java.util.concurrent.CompletableFuture;
 
+//~ if >26 '.BlockTagProvider'->'.BlockTagsProvider'
 public class InfinityBlockTagProvider extends FabricTagProvider.BlockTagProvider {
 	public InfinityBlockTagProvider(FabricDataOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture) {
 		super(output, registriesFuture);

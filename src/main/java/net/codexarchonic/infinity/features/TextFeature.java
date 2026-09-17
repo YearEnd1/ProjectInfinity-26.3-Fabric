@@ -41,7 +41,10 @@ public class TextFeature extends Feature<TextFeature.Config> {
                         if ((lst.get(j) >> k)%2 == 1) {
                             BlockPos blockPos1 = TextData.mutate(blockPos, context.config().orientation(), -k, len + j);
                             if ((structureWorldAccess.isEmptyBlock(blockPos1) || context.config().replaceable().contains(structureWorldAccess.getBlockState(blockPos1))))
-                                this.setBlock(structureWorldAccess, blockPos1, context.config().blockProvider().getState(random, blockPos1));
+                                this.setBlock(structureWorldAccess, blockPos1, context.config().blockProvider().getState(
+                                        //? if >26
+                                        //structureWorldAccess,
+                                        random, blockPos1));
                         }
                     }
                 }

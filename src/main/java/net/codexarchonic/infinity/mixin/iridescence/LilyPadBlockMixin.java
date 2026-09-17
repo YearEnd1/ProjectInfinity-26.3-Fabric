@@ -3,6 +3,7 @@ package net.codexarchonic.infinity.mixin.iridescence;
 import net.minecraft.core.BlockPos;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.world.level.BlockGetter;
+//~ if >26 'WaterlilyBlock'->'LilyPadBlock'
 import net.minecraft.world.level.block.WaterlilyBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluids;
@@ -11,6 +12,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
+//~ if >26 'WaterlilyBlock'->'LilyPadBlock'
 @Mixin(WaterlilyBlock.class)
 public class LilyPadBlockMixin {
     /* make lilypads plantable on iridescence */

@@ -195,6 +195,7 @@ public class AntEntity extends AbstractChessFigure {
     @Override
     public void aiStep() {
         super.aiStep();
+        //~ if >26 'this.fluidHeight.getDouble'->'getFluidHeight'
         if (!this.firstTick && this.fluidHeight.getDouble(FluidTags.WATER) > 0.0) {
             CollisionContext shapeContext = CollisionContext.of(this);
             if (shapeContext.isAbove(getWaterCollisionShape(15),

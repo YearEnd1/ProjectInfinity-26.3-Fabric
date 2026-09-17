@@ -6,6 +6,7 @@ import net.codexarchonic.infinity.block.custom.AltarBlock;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.core.registries.Registries;
+//~ if >26 'ParticleFactoryRegistry'->'ParticleProviderRegistry' {
 //? if fabric {
 import net.fabricmc.fabric.api.client.particle.v1.ParticleFactoryRegistry;
 //?}
@@ -72,3 +73,4 @@ public class ModParticles {
         }
     }
 }
+//~}

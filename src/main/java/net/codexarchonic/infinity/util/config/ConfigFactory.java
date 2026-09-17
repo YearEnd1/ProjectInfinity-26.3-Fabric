@@ -38,6 +38,7 @@ public class ConfigFactory<S> {
             try { //sonicraft crashes in here
                 CompoundTag data = dataExtractor.apply(key);
                 if (data != null) {
+                    //~ if >26 'location'->'identifier'
                     ResourceLocation id = key.location();
                     if (data.isEmpty()) collection.addResourceLocation(id);
                     else collection.add(id.getNamespace(), id.toString(), data);

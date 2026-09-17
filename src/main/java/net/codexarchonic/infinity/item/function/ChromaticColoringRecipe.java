@@ -32,8 +32,10 @@ import java.util.function.BiFunction;
 
 public class ChromaticColoringRecipe implements CraftingRecipe {
     private final Ingredient input;
+    //~ if >26 'ItemStack'->'ItemStackTemplate'
     private final ItemStack output;
 
+    //~ if >26 'ItemStack'->'ItemStackTemplate'
     public ChromaticColoringRecipe(Ingredient input, ItemStack output) {
         this.input = input;
         this.output = output;
@@ -126,6 +128,7 @@ public class ChromaticColoringRecipe implements CraftingRecipe {
         }
         assert !chroma.isEmpty();
         if (i > 0) {
+            //~ if >26 'copyWithCount'->'create().copyWithCount'
             ItemStack result = output.copyWithCount(i);
             //? if >1.21 {
             result.applyComponents(chroma.getComponents());
@@ -198,7 +201,8 @@ public class ChromaticColoringRecipe implements CraftingRecipe {
             /*RegistryAccess registryAccess
             *///?}
     ) {
-        return output;
+        //~ if >26 'copy'->'create'
+        return output.copy();
     }
 
     @Override
@@ -206,11 +210,13 @@ public class ChromaticColoringRecipe implements CraftingRecipe {
         return ModItemFunctions.CHROMATIC_COLORING.get();
     }
 
+    //~ if >26 'ItemStack'->'ItemStackTemplate'
     public record Serializer(BiFunction<Ingredient, ItemStack, ChromaticColoringRecipe> func)
-            implements RecipeSerializer<ChromaticColoringRecipe> {
+        //? if <26
+            implements RecipeSerializer<ChromaticColoringRecipe>
+    {
 
         //? if >1.21 {
-        @Override
         public @NonNull MapCodec<ChromaticColoringRecipe> codec() {
             return RecordCodecBuilder.mapCodec(instance -> instance.group(
                             //~ if >1.21.2 'CODEC_NONEMPTY'->'CODEC'
@@ -220,19 +226,20 @@ public class ChromaticColoringRecipe implements CraftingRecipe {
                     .apply(instance, func));
         }
 
-        @Override
         public @NonNull StreamCodec<RegistryFriendlyByteBuf, ChromaticColoringRecipe> streamCodec() {
             return StreamCodec.of(this::write, this::read);
         }
 
         private ChromaticColoringRecipe read(RegistryFriendlyByteBuf buf) {
             Ingredient input = Ingredient.CONTENTS_STREAM_CODEC.decode(buf);
+            //~ if >26 'ItemStack'->'ItemStackTemplate'
             ItemStack output = ItemStack.STREAM_CODEC.decode(buf);
             return func.apply(input, output);
         }
 
         private void write(RegistryFriendlyByteBuf buf, ChromaticColoringRecipe recipe) {
             Ingredient.CONTENTS_STREAM_CODEC.encode(buf, recipe.input);
+            //~ if >26 'ItemStack'->'ItemStackTemplate'
             ItemStack.STREAM_CODEC.encode(buf, recipe.output);
         }
         //?} else {

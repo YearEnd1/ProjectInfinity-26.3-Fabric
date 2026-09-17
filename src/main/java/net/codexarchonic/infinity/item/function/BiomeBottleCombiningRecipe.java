@@ -39,7 +39,7 @@ public class BiomeBottleCombiningRecipe extends CustomRecipe {
         boolean bl = true;
         int charge = 0;
         for (int k = 0; k < craftingRecipeInput.
-                //? if ~1.21 'getContainerSize'->'size'
+                //~ if >1.21 'getContainerSize'->'size'
                 size
              (); k++) {
             if (!bl) return false;

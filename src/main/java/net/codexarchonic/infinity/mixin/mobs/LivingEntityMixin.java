@@ -74,6 +74,7 @@ public abstract class LivingEntityMixin extends Entity {
     protected void handleMavityFallDamage(double fallDistance, float damageMultiplier, CallbackInfoReturnable<Integer> cir ) {
         InfinityOptions options = InfinityOptions.access(level());
         if (!options.isEmpty()) {
+            //~ if >26 'getType().is('->'is('
             if (this.getType().is(EntityTypeTags.FALL_DAMAGE_IMMUNE)) cir.setReturnValue(0);
             else {
                 double safeFallDistance =

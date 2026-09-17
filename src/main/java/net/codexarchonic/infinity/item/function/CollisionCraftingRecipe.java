@@ -128,16 +128,26 @@ public abstract class CollisionCraftingRecipe
         IRIDESCENCE
     }
 
-    public record Serializer(
+     public record Serializer(
             //? if =1.20.1 {
             /*Function4<ResourceLocation, Ingredient, ItemStack, String, CollisionCraftingRecipe> func
              *///?} else {
+            //~ if >26 'ItemStack'->'ItemStackTemplate'
             Function3<Ingredient, ItemStack, String, CollisionCraftingRecipe> func
             //?}
-    ) implements RecipeSerializer<CollisionCraftingRecipe> {
+    )
+        //? if <26
+            implements RecipeSerializer<CollisionCraftingRecipe>
+    {
+
+        public RecipeSerializer<CollisionCraftingRecipe> serializer() {
+            //? if >26 {
+            /*return new RecipeSerializer<>(codec(), streamCodec());
+            *///?} else
+            return this;
+        }
 
         //? if >1.21 {
-        @Override
         public MapCodec<CollisionCraftingRecipe> codec() {
             return RecordCodecBuilder.mapCodec(instance -> instance.group(
                             //~ if >1.21.2 'CODEC_NONEMPTY'->'CODEC'
@@ -148,13 +158,13 @@ public abstract class CollisionCraftingRecipe
                     .apply(instance, func));
         }
 
-        @Override
         public StreamCodec<RegistryFriendlyByteBuf, CollisionCraftingRecipe> streamCodec() {
             return StreamCodec.of(this::write, this::read);
         }
 
         private CollisionCraftingRecipe read(RegistryFriendlyByteBuf buf) {
             Ingredient input = Ingredient.CONTENTS_STREAM_CODEC.decode(buf);
+            //~ if >26 'ItemStack'->'ItemStackTemplate'
             ItemStack output = ItemStack.STREAM_CODEC.decode(buf);
             String str = ByteBufCodecs.STRING_UTF8.decode(buf);
             return func.apply(input, output, str);
@@ -162,6 +172,7 @@ public abstract class CollisionCraftingRecipe
 
         private void write(RegistryFriendlyByteBuf buf, CollisionCraftingRecipe recipe) {
             Ingredient.CONTENTS_STREAM_CODEC.encode(buf, recipe.input);
+            //~ if >26 'ItemStack'->'ItemStackTemplate'
             ItemStack.STREAM_CODEC.encode(buf, recipe.output);
             ByteBufCodecs.STRING_UTF8.encode(buf, recipe.lore);
         }
@@ -203,6 +214,7 @@ public abstract class CollisionCraftingRecipe
                 //? if =1.20.1 {
                 /*ResourceLocation id,
                  *///?}
+                //~ if >26 'ItemStack'->'ItemStackTemplate'
                 Ingredient input, ItemStack output, String lore) {
             super(
                     //? if =1.20.1 {

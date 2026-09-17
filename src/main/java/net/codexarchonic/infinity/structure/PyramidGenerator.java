@@ -45,7 +45,10 @@ public class PyramidGenerator extends ScatteredFeaturePiece {
                     if (this.getBlock(world, i, j, k, box).isAir() || this.getBlock(world, i, j, k, box).is(Blocks.WATER)) {
                         BlockState state;
                         if (b == null) state = Blocks.BRICKS.defaultBlockState();
-                        else state = b.getState(random, new BlockPos(i, j, k));
+                        else state = b.getState(
+                                //? if >26
+                                //world,
+                                random, new BlockPos(i, j, k));
                         this.placeBlock(world, state, i, j, k, box);
                     }
                 }

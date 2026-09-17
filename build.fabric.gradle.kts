@@ -239,6 +239,11 @@ stonecutter {
         replace("net.minecraft.world.entity.projectile.AbstractArrow", "net.minecraft.world.entity.projectile.arrow.AbstractArrow")
         replace("RULE_DOMOBSPAWNING", "SPAWN_MOBS")
         replace("FabricDataOutput", "FabricPackOutput")
+        replace("FabricTagProvider", "FabricTagsProvider")
+        replace(".FluidTagProvider", ".FluidTagsProvider")
+        replace(".CachedOrthoProjectionMatrixBuffer", ".Projection")
+        replace(" CachedOrthoProjectionMatrixBuffer", " Projection")
+        replace("AirBasedFogEnvironment", "AtmosphericFogEnvironment")
 
     }
     replacements.string {

@@ -55,15 +55,19 @@ public class ModPayloads {
     }
 
     public static void registerFabricServerside() {
+        //~ if >26 'playS2C'->'clientboundPlay' {
         PayloadTypeRegistry.playS2C().register(WorldAddS2CPayload.ID, WorldAddS2CPayload.CODEC);
         PayloadTypeRegistry.playS2C().register(BiomeAddS2CPayload.ID, BiomeAddS2CPayload.CODEC);
         PayloadTypeRegistry.playS2C().register(ShaderS2CPayload.ID, ShaderS2CPayload.CODEC);
         PayloadTypeRegistry.playS2C().register(StarsS2CPayload.ID, StarsS2CPayload.CODEC);
         PayloadTypeRegistry.playS2C().register(SoundPackS2CPayload.ID, SoundPackS2CPayload.CODEC);
+        //~}
 
+        //~ if >26 'playC2S'->'serverboundPlay' {
         PayloadTypeRegistry.playC2S().register(F4UpdateC2SPayload.ID, F4UpdateC2SPayload.CODEC);
         PayloadTypeRegistry.playC2S().register(F4DeployC2SPayload.ID, F4DeployC2SPayload.CODEC);
         PayloadTypeRegistry.playC2S().register(JukeboxesC2SPayload.ID, JukeboxesC2SPayload.CODEC);
+        //~}
 
         ServerPlayNetworking.registerGlobalReceiver(F4UpdateC2SPayload.ID, (payload, context) ->
                 payload.receive(context.player()));

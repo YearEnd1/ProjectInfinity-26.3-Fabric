@@ -12,6 +12,7 @@ import net.codexarchonic.infinity.registry.core.ModComponentTypes;
 import net.codexarchonic.infinity.util.core.Easterizer;
 import net.codexarchonic.infinity.util.core.RandomProvider;
 import net.codexarchonic.infinity.util.platform.InfinityPlatform;
+import net.minecraft.world.level.BlockAndTintGetter;
 import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;

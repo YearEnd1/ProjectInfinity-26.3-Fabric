@@ -34,7 +34,6 @@ public class ChromaCarpetRecipeBuilder implements RecipeBuilder {
 		return null;
 	}
 
-	@Override
 	public Item getResult() {
 		return BIOME_BOTTLE.get().asItem();
 	}

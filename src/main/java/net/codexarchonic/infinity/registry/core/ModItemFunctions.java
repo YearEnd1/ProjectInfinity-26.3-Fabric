@@ -42,6 +42,7 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.DispenserBlock;
 import net.minecraft.world.level.block.state.BlockState;
+//? if <26
 import net.minecraft.world.level.storage.loot.functions.LootItemFunctionType;
 import net.minecraft.world.phys.Vec3;
 import org.jspecify.annotations.NonNull;
@@ -119,10 +120,10 @@ public class ModItemFunctions {
                     new ChromaticColoringRecipe.Serializer(ChromaticColoringRecipe::new));
     public static RegistrySupplier<RecipeSerializer<CollisionCraftingRecipe>> PORTAL_CRAFTING =
             RECIPE_SERIALIZERS.register("collision_portal", () ->
-                    new CollisionCraftingRecipe.Serializer(CollisionCraftingRecipe.OfPortal::new));
+                    new CollisionCraftingRecipe.Serializer(CollisionCraftingRecipe.OfPortal::new).serializer());
     public static RegistrySupplier<RecipeSerializer<CollisionCraftingRecipe>> IRIDESCENCE_CRAFTING =
             RECIPE_SERIALIZERS.register("collision_iridescence", () ->
-                    new CollisionCraftingRecipe.Serializer(CollisionCraftingRecipe.OfIridescence::new));
+                    new CollisionCraftingRecipe.Serializer(CollisionCraftingRecipe.OfIridescence::new).serializer());
     //recipe types
     public static RegistrySupplier<RecipeType<CollisionCraftingRecipe>> PORTAL_CRAFTING_TYPE =
             RECIPE_TYPES.register("collision_portal", () -> CollisionCraftingRecipe.Type.PORTAL);

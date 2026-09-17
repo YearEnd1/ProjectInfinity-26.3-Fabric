@@ -222,6 +222,7 @@ public class ChaosCreeper extends Creeper implements TintableEntity {
     //? if >1.21 {
     protected void dropCustomDeathLoot(ServerLevel world, DamageSource source, boolean causedByPlayer) {
         super.dropCustomDeathLoot(world, source, causedByPlayer);
+        //~ if >26 'getType().is'->'is'
         if (source.getEntity() != null && source.getEntity().getType().is(EntityTypeTags.SKELETONS)) {
     //?} else {
     /*protected void dropCustomDeathLoot(DamageSource source, int looting, boolean recentlyHit) {

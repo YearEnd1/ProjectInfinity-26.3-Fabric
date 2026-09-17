@@ -8,7 +8,8 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.level.storage.loot.functions.LootItemConditionalFunction;
-import net.minecraft.world.level.storage.loot.functions .LootItemFunctionType;
+//? if <26
+import net.minecraft.world.level.storage.loot.functions.LootItemFunctionType;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
 import org.jspecify.annotations.NonNull;
@@ -27,12 +28,15 @@ public class SetAltarStateLootFunction extends LootItemConditionalFunction {
     private SetAltarStateLootFunction(List<LootItemCondition> conditions) {
         super(conditions);
     }
+
+
     //?} else {
     /*protected SetAltarStateLootFunction(LootItemCondition[] lootItemConditions) {
         super(lootItemConditions);
     }
     *///?}
 
+    //? if <26 {
     @Override
     public @NonNull LootItemFunctionType
         //? if >1.21 {
@@ -41,6 +45,12 @@ public class SetAltarStateLootFunction extends LootItemConditionalFunction {
     getType() {
         return ModItemFunctions.SET_ALTAR_STATE.get();
     }
+    //?} else {
+    /*@Override
+    public MapCodec<? extends LootItemConditionalFunction> codec() {
+        return CODEC;
+    }
+    *///?}
 
     @Override
     protected @NonNull ItemStack run(ItemStack stack, LootContext context) {

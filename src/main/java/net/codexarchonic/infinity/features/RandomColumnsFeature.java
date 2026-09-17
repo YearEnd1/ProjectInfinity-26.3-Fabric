@@ -45,7 +45,10 @@ public class RandomColumnsFeature
         for (BlockPos blockPos2 : BlockPos.randomBetweenClosed(random, l, blockPos.getX() - k, blockPos.getY(), blockPos.getZ() - k, blockPos.getX() + k, blockPos.getY(), blockPos.getZ() + k)) {
             int m = j - blockPos2.distManhattan(blockPos);
             if (m < 0) continue;
-            BlockState state = context.config().block().getState(random, blockPos2);
+            BlockState state = context.config().block().getState(
+                    //? if >26
+                    //structureWorldAccess,
+                    random, blockPos2);
             bl2 |= this.placeBasaltColumn(structureWorldAccess, i, blockPos2, m, randomColumnsFeatureConfig.reach().sample(random), state);
         }
         return bl2;

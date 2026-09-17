@@ -14,6 +14,7 @@ import net.minecraft.world.item.Item;
 
 import java.util.concurrent.CompletableFuture;
 
+//~ if >26 '.ItemTagProvider'->'.ItemTagsProvider'
 public class InfinityItemTagProvider extends FabricTagProvider.ItemTagProvider {
 	public InfinityItemTagProvider(FabricDataOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture) {
 		super(output, registriesFuture);

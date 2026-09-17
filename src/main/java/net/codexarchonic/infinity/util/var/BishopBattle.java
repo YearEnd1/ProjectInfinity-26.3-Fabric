@@ -26,6 +26,7 @@ public class BishopBattle {
     public PlayerTeam team;
 
     public BishopBattle(ServerLevel world) {
+        //~ if >26 'random'->'getRandom()'
         this(world, "bishop_battle_" + world.random.nextInt());
     }
 

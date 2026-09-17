@@ -190,7 +190,7 @@ public abstract class MinecraftServerMixin extends ReentrantBlockableEventLoop<T
 
     /** Makes weather properly work in infdims. */
     //? if >1.21.9 {
-    /*@Redirect(method="createLevels", at=@At(value="NEW", target="(Lnet/minecraft/server/MinecraftServer;Ljava/util/concurrent/Executor;Lnet/minecraft/world/level/storage/LevelStorageSource$LevelStorageAccess;Lnet/minecraft/world/level/storage/ServerLevelData;Lnet/minecraft/resources/ResourceKey;Lnet/minecraft/world/level/dimension/LevelStem;ZJLjava/util/List;ZLnet/minecraft/world/RandomSequences;)Lnet/minecraft/server/level/ServerLevel;"))
+    /*@Redirect(method="createLevels", at=@At(value="NEW", target="(Lnet/minecraft/server/MinecraftServer;Ljava/util/concurrent/Executor;Lnet/minecraft/world/level/storage/LevelStorageSource$LevelStorageAccess;Lnet/minecraft/world/level/storage/ServerLevelData;Lnet/minecraft/resources/ResourceKey;Lnet/minecraft/world/level/dimension/LevelStem;ZJLjava/util/List;Z)Lnet/minecraft/server/level/ServerLevel;"))
     *///?} else {
     @Redirect(method="createLevels", at=@At(value="NEW", target="(Lnet/minecraft/server/MinecraftServer;Ljava/util/concurrent/Executor;Lnet/minecraft/world/level/storage/LevelStorageSource$LevelStorageAccess;Lnet/minecraft/world/level/storage/ServerLevelData;Lnet/minecraft/resources/ResourceKey;Lnet/minecraft/world/level/dimension/LevelStem;Lnet/minecraft/server/level/progress/ChunkProgressListener;ZJLjava/util/List;ZLnet/minecraft/world/RandomSequences;)Lnet/minecraft/server/level/ServerLevel;"))
     //?}
@@ -198,6 +198,7 @@ public abstract class MinecraftServerMixin extends ReentrantBlockableEventLoop<T
                               //? if <1.21.9
                               ChunkProgressListener worldGenerationProgressListener,
                               boolean debugWorld, long seed, List<CustomSpawner> spawners, boolean shouldTickTime, RandomSequences randomSequencesState) {
+        //~ if >26 'location'->'identifier'
         ServerLevelData prop = (worldKey.location().toString().contains("infinity")) ? worldData.overworldData() : properties;
         return new ServerLevel(server, workerExecutor, session, prop, worldKey, dimensionOptions
                 //? if <1.21.9

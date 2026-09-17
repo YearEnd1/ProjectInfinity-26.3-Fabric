@@ -7,6 +7,7 @@ import net.codexarchonic.infinity.registry.core.ModItemFunctions;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.level.storage.loot.functions.LootItemConditionalFunction;
+//? if <26
 import net.minecraft.world.level.storage.loot.functions.LootItemFunctionType;
 import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
 import org.jspecify.annotations.NonNull;
@@ -37,6 +38,7 @@ public class SetLevelLootFunction extends LootItemConditionalFunction {
         return stack;
     }
 
+    //? if <26 {
     @Override
     public @NonNull LootItemFunctionType
     //? if >1.21 {
@@ -45,6 +47,12 @@ public class SetLevelLootFunction extends LootItemConditionalFunction {
     getType() {
         return ModItemFunctions.SET_BIOME_BOTTLE_LEVEL.get();
     }
+    //?} else {
+    /*@Override
+    public MapCodec<? extends LootItemConditionalFunction> codec() {
+        return CODEC;
+    }
+    *///?}
 
     //? if <1.21 {
     /*public static class Serializer extends LootItemConditionalFunction.Serializer<SetLevelLootFunction> {

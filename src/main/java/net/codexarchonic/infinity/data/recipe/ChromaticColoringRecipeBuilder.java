@@ -17,6 +17,8 @@ import net.minecraft.advancements.CriterionTriggerInstance;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
+//? if >26
+//import cc.cassian.rrv.backport.ItemStackTemplate;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
@@ -40,14 +42,19 @@ public class ChromaticColoringRecipeBuilder implements RecipeBuilder {
 		return null;
 	}
 
-
-
-	@Override
 	public Item getResult() {
 		return this.output;
 	}
 
-	//? if >1.21.2 {
+	//? if >26 {
+	/*public void save(RecipeOutput recipeOutput, ResourceKey<Recipe<?>> id) {
+		ChromaticColoringRecipe recipe = new ChromaticColoringRecipe(input, new ItemStackTemplate(output));
+		recipeOutput.accept(id, recipe, null);
+	}
+	public ResourceKey<Recipe<?>> defaultId() {
+		return ResourceKey.create(Registries.RECIPE, output.builtInRegistryHolder().key().identifier());
+	}
+	*///?} else if >1.21.2 {
 	public void save(RecipeOutput recipeOutput, ResourceKey<Recipe<?>> id) {
 		ChromaticColoringRecipe recipe = new ChromaticColoringRecipe(input, output.getDefaultInstance());
 		recipeOutput.accept(id, recipe, null);

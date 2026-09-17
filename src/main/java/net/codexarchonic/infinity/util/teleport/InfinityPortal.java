@@ -40,6 +40,7 @@ import org.jspecify.annotations.Nullable;
 import java.util.Comparator;
 import java.util.Optional;
 
+//~ if >26 '.location'->'.identifier' {
 public class InfinityPortal {
     InfinityPortalBlockEntity ipbe;
     ServerLevel worldFrom;
@@ -320,3 +321,4 @@ public class InfinityPortal {
         PortalCreator.modifyPortalRecursive(worldTo, posTo, otherSideModifier);
     }
 }
+//~}

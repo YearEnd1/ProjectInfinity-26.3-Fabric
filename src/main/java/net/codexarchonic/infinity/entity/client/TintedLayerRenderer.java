@@ -7,10 +7,12 @@ import net.codexarchonic.infinity.util.InfinityMethods;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderType;
 //? if >1.21.9 {
 /*import net.minecraft.client.renderer.SubmitNodeCollector;
-*///?}
+import net.minecraft.client.renderer.rendertype.RenderTypes;
+*///?} else {
+import net.minecraft.client.renderer.RenderType;
+//?}
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
@@ -18,6 +20,7 @@ import net.minecraft.client.renderer.entity.layers.RenderLayer;
 /*import net.minecraft.util.FastColor;
 *///?} else {
 import net.minecraft.client.renderer.entity.state.LivingEntityRenderState;
+
 import net.minecraft.util.ARGB;
 //?}
 import net.minecraft.resources.ResourceLocation;
@@ -57,7 +60,7 @@ public class TintedLayerRenderer<T extends LivingEntityRenderState, S extends En
         if (renderState instanceof TintableEntity ent) {
             color = ent.getColorForRender();
         }
-        nodeCollector.submitModel(model, renderState, matrixStack, RenderType.outline(texture), packedLight, LivingEntityRenderer.getOverlayCoords(renderState, 0.0f), color, null, renderState.outlineColor, null);
+        nodeCollector.submitModel(model, renderState, matrixStack, RenderTypes.outline(texture), packedLight, LivingEntityRenderer.getOverlayCoords(renderState, 0.0f), color, null, renderState.outlineColor, null);
     }
     *///?} else if >1.21.2 {
     //    public void render(MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int i, T livingEntity, float f, float g, float h, float j, float k, float l) {

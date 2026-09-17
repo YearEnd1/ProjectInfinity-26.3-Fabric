@@ -34,7 +34,6 @@ public class F4RechargingRecipeBuilder implements RecipeBuilder {
 		return null;
 	}
 
-	@Override
 	public Item getResult() {
 		return F4.get();
 	}
