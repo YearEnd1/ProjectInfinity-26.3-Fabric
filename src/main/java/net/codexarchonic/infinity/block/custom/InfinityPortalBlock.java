@@ -27,6 +27,7 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.*;
 import net.minecraft.world.*;
+import net.minecraft.world.attribute.EnvironmentAttributes;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
@@ -258,8 +259,11 @@ public class InfinityPortalBlock extends NetherPortalBlock implements EntityBloc
      */
     @Override
     public void randomTick(BlockState state, ServerLevel world, BlockPos pos, RandomSource random) {
-        //~ if >26 'getBoolean('->'get('
+        //~ if >26 'getBoolean('->'get(' {
+        //~ if >26 'dimensionType().natural()'->'environmentAttributes().getDimensionValue(EnvironmentAttributes.NETHER_PORTAL_SPAWNS_PIGLINS)' {
         if (world.dimensionType().natural() && world.getGameRules().getBoolean(GameRules.RULE_DOMOBSPAWNING)
+        //~}
+        //~}
                 && random.nextInt(2000) < world.getDifficulty().getId()) {
             ChaosPawn entity;
             while (world.getBlockState(pos).is(this)) {
@@ -272,7 +276,8 @@ public class InfinityPortalBlock extends NetherPortalBlock implements EntityBloc
                 BlockEntity blockEntity = world.getBlockEntity(pos.above());
                 if (blockEntity instanceof InfinityPortalBlockEntity npbe) {
                     int color = npbe.getPortalColor();
-                    Vec3 c = Vec3.fromRGB24(color);
+                    //~ if >26 'Vec3.fromRGB24'-> 'ARGB.vector3fFromRGB24'
+                    var c = Vec3.fromRGB24(color);
                     entity.setAllColors((int)(256 * c.z) + 256 * (int)(256 * c.y) + 65536 * (int)(256 * c.x));
                 }
             }

@@ -1,6 +1,8 @@
 package net.codexarchonic.infinity.entity.client;
 
 //? if >1.21.2 {
+//? if >26
+//import net.minecraft.client.renderer.block.BlockModelRenderState;
 import net.minecraft.client.renderer.entity.state.CreeperRenderState;
 import net.minecraft.client.renderer.entity.state.SkeletonRenderState;
 import net.minecraft.client.renderer.entity.state.SlimeRenderState;
@@ -15,7 +17,11 @@ public interface TintedRenderState {
     }
 
     class Slime extends SlimeRenderState implements TintedRenderState {
+        //? if >26 {
+        /*public final BlockModelRenderState coreModel = new BlockModelRenderState();
+        *///?}
         public BlockState core;
+
         public int colour;
 
         @Override
