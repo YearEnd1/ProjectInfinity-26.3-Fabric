@@ -3,7 +3,10 @@ package net.codexarchonic.infinity.util.platform.fabric;
 //? fabric {
 
 //? if >26 {
-/*import net.fabricmc.fabric.api.client.rendering.v1.BlockColorRegistry;
+/*import net.fabricmc.fabric.api.client.render.fluid.v1.FluidRenderingRegistry;
+import net.fabricmc.fabric.api.client.rendering.v1.BlockColorRegistry;
+import net.minecraft.client.renderer.block.FluidModel;
+import net.minecraft.client.resources.model.sprite.Material;
 *///?}
 
 //? if >1.21.2 {
@@ -12,6 +15,7 @@ import net.fabricmc.fabric.api.client.rendering.v1.BlockRenderLayerMap;
 //?}
 import net.codexarchonic.infinity.item.tint.InfinityTintSource;
 import net.minecraft.client.color.item.ItemTintSources;
+
 import net.minecraft.client.renderer.chunk.ChunkSectionLayer;
 //?} else {
 /*import net.minecraft.client.renderer.RenderType;
@@ -100,8 +104,12 @@ public class FabricClientEntrypoint implements ClientModInitializer {
         FluidVariantAttributes.register(InfinityPlatform.INSTANCE.getIridescenceFlowing().get(), new ModFluidsFabric.IridescenceVariantAttributeHandler());
         FluidVariantRendering.register(InfinityPlatform.INSTANCE.getIridescenceStill().get(), new ModFluidsFabric.IridescenceVariantRenderHandler());
         FluidVariantRendering.register(InfinityPlatform.INSTANCE.getIridescenceFlowing().get(), new ModFluidsFabric.IridescenceVariantRenderHandler());
+        //? if >26 {
+        /*FluidRenderingRegistry.register(InfinityPlatform.INSTANCE.getIridescenceStill().get(), new FluidModel.Unbaked(new Material(Iridescence.TEXTURE), new Material(Iridescence.FLOWING_TEXTURE), null, (b)->Iridescence.getTimeBasedColor()));
+        *///?} else {
         FluidRenderHandlerRegistry.INSTANCE.register(InfinityPlatform.INSTANCE.getIridescenceStill().get(), new ModFluidsFabric.IridescenceRenderHandler());
         FluidRenderHandlerRegistry.INSTANCE.register(InfinityPlatform.INSTANCE.getIridescenceFlowing().get(), new ModFluidsFabric.IridescenceRenderHandler());
+        //?}
     }
 }
 //?}

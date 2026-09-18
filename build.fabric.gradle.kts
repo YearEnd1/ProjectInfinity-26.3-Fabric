@@ -204,7 +204,7 @@ dependencies {
 
     // Create
     if (stonecutter.eval(stonecutter.current.version, ">=1.21.4")) {
-        modImplementation("maven.modrinth:create-fly:${property("deps.create")}")
+        modCompileOnly("maven.modrinth:create-fly:${property("deps.create")}")
     }
     else if (stonecutter.eval(stonecutter.current.version, ">=1.21")) {
         modCompileOnly("com.simibubi.create:create-fucked-up-1.21.1:${property("deps.create")}") { isTransitive = false }

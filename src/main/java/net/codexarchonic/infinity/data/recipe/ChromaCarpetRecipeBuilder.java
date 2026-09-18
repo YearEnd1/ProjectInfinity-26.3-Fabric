@@ -46,7 +46,7 @@ public class ChromaCarpetRecipeBuilder implements RecipeBuilder {
 		recipeOutput.accept(id, recipe, null);
 	}
 	public ResourceKey<Recipe<?>> defaultId() {
-		return ResourceKey.create(Registries.RECIPE, InfinityMethods.getId("chroma_carpet"));
+		return ResourceKey.create(Registries.RECIPE, InfinityMethods.getId("chromatic_carpet_from_wool"));
 	}
 	//?} else if >1.21 {
 	/*public void save(RecipeOutput recipeOutput, ResourceLocation id) {

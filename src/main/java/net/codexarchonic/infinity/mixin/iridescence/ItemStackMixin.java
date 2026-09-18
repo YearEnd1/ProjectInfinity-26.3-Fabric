@@ -17,13 +17,14 @@ import org.spongepowered.asm.mixin.injection.At;
 
 @Mixin(ItemStack.class)
 public abstract class ItemStackMixin {
-    @Shadow public abstract boolean is(TagKey<Item> tag);
+
 
     //? if >1.21.2 {
     @WrapMethod(method="getStyledHoverName")
     Component styleIridescentItems(Operation<Component> original) {
         var component = original.call();
-        if (is(ModTags.IRIDESCENT_ITEMS)) {
+        var stack = (ItemStack) (Object) this;
+        if (stack.is(ModTags.IRIDESCENT_ITEMS)) {
             return component.copy().withStyle(Style.EMPTY.withColor(Iridescence.getTimeBasedColor()));
         }
         return component;

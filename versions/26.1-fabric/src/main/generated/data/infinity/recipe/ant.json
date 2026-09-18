@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "key": {
+    "B": "minecraft:black_concrete",
+    "M": "infinity:star_of_lang",
+    "W": "minecraft:white_concrete"
+  },
+  "pattern": [
+    "WBW",
+    "BMB",
+    "WBW"
+  ],
+  "result": {
+    "id": "infinity:ant"
+  }
+}

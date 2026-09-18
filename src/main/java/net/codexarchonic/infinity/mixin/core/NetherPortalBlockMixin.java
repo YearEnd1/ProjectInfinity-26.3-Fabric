@@ -1,5 +1,7 @@
 package net.codexarchonic.infinity.mixin.core;
 
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import net.codexarchonic.infinity.registry.core.ModBlocks;
 import net.codexarchonic.infinity.block.entity.InfinityPortalBlockEntity;
 import net.codexarchonic.infinity.util.InfinityMethods;
@@ -24,6 +26,7 @@ import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Coerce;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -47,10 +50,10 @@ public class NetherPortalBlockMixin extends AbstractBlockMixin {
 	}
 
 	/* Allows infinity portals to consider themselves valid block configurations. */
-	@Redirect(method="updateShape",
-			at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/block/state/BlockState;is(Lnet/minecraft/world/level/block/Block;)Z"))
-	private boolean infinityPortalsAreValid(BlockState neighborState, Block block) {
-		return (neighborState.getBlock() instanceof NetherPortalBlock);
+	//~ if >26 'Lnet/minecraft/world/level/block/state/BlockState;is(Lnet/minecraft/world/level/block/Block;)Z'->'Lnet/minecraft/world/level/block/state/BlockState;is(Ljava/lang/Object;)Z'
+	@WrapOperation(method="updateShape", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/block/state/BlockState;is(Lnet/minecraft/world/level/block/Block;)Z"))
+	private boolean infinityPortalsAreValid(BlockState neighborState, @Coerce Object o, Operation<Boolean> original) {
+		return original.call(neighborState, o) || (neighborState.getBlock() instanceof NetherPortalBlock);
 	}
 
 	/* Makes sure that newly lit portals in infdims become infinity portals. */

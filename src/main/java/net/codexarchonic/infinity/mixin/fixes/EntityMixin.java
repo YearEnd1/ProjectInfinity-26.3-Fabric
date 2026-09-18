@@ -66,12 +66,14 @@ public abstract class EntityMixin {
     *///?}
 
     /* (Neo)forge-exclusive mixins working around its code (which causes mobs to be unable to swim in iridescence) */
-    @Inject(method="updateFluidHeightAndDoFluidPushing", at = @At(value = "RETURN"), cancellable = true)
+    //? neoforge {
+    /*@Inject(method="updateFluidHeightAndDoFluidPushing", at = @At(value = "RETURN"), cancellable = true)
     void neoMobsSwim(TagKey<Fluid> tag, double speed, CallbackInfoReturnable<Boolean> cir) {
         if (tag.equals(FluidTags.WATER))
             if (InfinityPlatform.INSTANCE.acidTest((Entity)(Object)this, false))
                 cir.setReturnValue(true);
     }
+    *///?}
 
     @Inject(method = "isEyeInFluid", at = @At("RETURN"), cancellable = true)
     void neoMobsSwim2(TagKey<Fluid> fluidTag, CallbackInfoReturnable<Boolean> cir) {

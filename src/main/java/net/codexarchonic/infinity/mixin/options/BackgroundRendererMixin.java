@@ -5,6 +5,7 @@ import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import com.llamalad7.mixinextras.sugar.Local;
 import net.codexarchonic.infinity.options.InfinityOptions;
 //? if >1.21.2 {
+import net.codexarchonic.infinity.util.VersionMethods;
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.fog.FogRenderer;
@@ -58,7 +59,7 @@ public class BackgroundRendererMixin {
     }
 
 
-    *///?} else {
+    *///?} else if =1.21.8 {
 
     @ModifyReturnValue(method = "computeFogColor",
             at= @At(value = "RETURN"))
@@ -71,13 +72,14 @@ public class BackgroundRendererMixin {
     }
 
     //?}
+    //FIXME 26.1
 
     @Unique
     private static Vector4f infinity$applyRainbowFog(ClientLevel world, float tickDelta) {
-        float main = world.getTimeOfDay(tickDelta) * 2 + 0.5f;
+        float main = VersionMethods.getTimeOfDay(world, tickDelta) * 2 + 0.5f;
         main -= (int)main;
         int color = Color.getHSBColor(main, 1.0f, 1.0f).getRGB();
-        float f = Mth.clamp(Mth.cos(world.getTimeOfDay(tickDelta) * ((float)Math.PI * 2)) * 2.0f + 0.5f, 0.2f, 1.0f);
+        float f = Mth.clamp(Mth.cos(VersionMethods.getTimeOfDay(world, tickDelta) * ((float)Math.PI * 2)) * 2.0f + 0.5f, 0.2f, 1.0f);
         var red = f * (float)(color >> 16 & 0xFF) / 255.0f;
         var green = f * (float)(color >> 8 & 0xFF) / 255.0f;
         var blue = f * (float)(color & 0xFF) / 255.0f;

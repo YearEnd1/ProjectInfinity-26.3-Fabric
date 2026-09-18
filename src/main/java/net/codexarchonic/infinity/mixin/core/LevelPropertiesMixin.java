@@ -16,6 +16,7 @@ import java.util.function.Consumer;
 /** Removes infinite dimensions from level.dat to allow the mod to change and erase them easily without trailing data. */
 @Mixin(PrimaryLevelData.class)
 public class LevelPropertiesMixin {
+    //? if <26 {
     @WrapOperation(method = "setTagData", at = @At(value = "INVOKE", target = "Ljava/util/Optional;ifPresent(Ljava/util/function/Consumer;)V"))
     void removeDimensionsFromLevelDat(Optional<Tag> instance, Consumer<? super Tag> action, Operation<Void> original) {
         if (instance.isEmpty()) return;
@@ -28,4 +29,6 @@ public class LevelPropertiesMixin {
         }
         action.accept(c);
     }
+    //?}
+    // 26.1 - dimensions no longer exist in level.dat, assuming fixed
 }

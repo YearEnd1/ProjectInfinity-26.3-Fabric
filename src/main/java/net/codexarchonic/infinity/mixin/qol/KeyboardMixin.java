@@ -9,8 +9,10 @@ import org.spongepowered.asm.mixin.injection.At;
 
 @Mixin(KeyboardHandler.class)
 public class KeyboardMixin {
+    //? if <26 {
     /* disable f4 being a hardcoded toggle postprocessing shaders key, as the mod makes it rebindable */
     @WrapOperation(method="keyPress", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/GameRenderer;togglePostEffect()V"))
     void disableF4(GameRenderer instance, Operation<Void> original) {
     }
+    //?}
 }

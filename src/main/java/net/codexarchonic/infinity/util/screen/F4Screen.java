@@ -53,10 +53,13 @@ public class F4Screen extends AbstractContainerScreen<F4ScreenHandler> {
         value.setBordered(false);
         value.setMaxLength(2);
         value.setValue(String.valueOf(valueReference.get()));
+        //? if <26 {
         value.setFilter(string -> (string.isEmpty() ||
                 (string.matches("[0-9]*")
                         && Integer.parseInt(string) > 0
                         && Integer.parseInt(string) < 22)));
+        //?}
+        //FIXME 26.1
         value.setX(leftPos + (valueReference.get() < 10 ? 85 : 82));
         value.setResponder(string -> {
             int v = string.isEmpty() ? 3 : Integer.parseInt(string);

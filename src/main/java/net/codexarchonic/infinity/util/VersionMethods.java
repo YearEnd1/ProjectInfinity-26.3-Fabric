@@ -2,8 +2,13 @@ package net.codexarchonic.infinity.util;
 
 import net.codexarchonic.infinity.registry.core.ModComponentTypes;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
+//? if >26 {
+/*import net.minecraft.world.attribute.EnvironmentAttributes;
+import net.minecraft.world.clock.WorldClocks;
+*///?}
 import net.minecraft.world.level.GameRules;
 //? if >1.21 {
 import dev.architectury.registry.registries.RegistrySupplier;
@@ -511,6 +516,21 @@ public interface VersionMethods {
     static InteractionResult passToDefaultBlockInteraction() {
         return InteractionResult.PASS;
     }
-    //?}
+	//?}
+    static float getTimeOfDay(ClientLevel world, float tickDelta) {
+        //? if >26 {
+        /*return world.clockManager().getTotalTicks(world.registryAccess().get(WorldClocks.OVERWORLD).get());
+        *///?} else {
+        return world.getTimeOfDay(tickDelta);
+         //?}
+    }
+
+	static double getSunAngle(ClientLevel world, float partialTicks) {
+        //? if >26 {
+        /*return world.environmentAttributes().getDimensionValue(EnvironmentAttributes.SUN_ANGLE);
+        *///?} else {
+        return world.getSunAngle(partialTicks);
+         //?}
+	}
 }
 

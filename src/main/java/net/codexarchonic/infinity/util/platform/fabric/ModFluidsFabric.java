@@ -163,6 +163,7 @@ public class ModFluidsFabric {
             return Iridescence.getColor(view, pos);
         }
     }
+    //? if <26 {
     public static class IridescenceRenderHandler implements FluidRenderHandler {
         @Override
         public TextureAtlasSprite[] getFluidSprites(@Nullable BlockAndTintGetter view, @Nullable BlockPos pos, FluidState state) {
@@ -189,5 +190,6 @@ public class ModFluidsFabric {
             return (view != null && pos != null) ? Iridescence.getPosBasedColor(pos) : Iridescence.getTimeBasedColor();
         }
     }
+    //?}
 }
 //?}

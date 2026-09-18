@@ -11,6 +11,7 @@ import org.spongepowered.asm.mixin.injection.At;
 @Mixin(FireBlock.class)
 public class FireBlockMixin {
     /* Disabling fire tick in infdims */
+    //~ if >26 'Lnet/minecraft/world/level/GameRules;getBoolean(Lnet/minecraft/world/level/GameRules$Key;)Z'->'Lnet/minecraft/server/level/ServerLevel;canSpreadFireAround(Lnet/minecraft/core/BlockPos;)Z'
     @ModifyExpressionValue(method = "tick", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/GameRules;getBoolean(Lnet/minecraft/world/level/GameRules$Key;)Z"))
     boolean disableFireTick(boolean original, @Local(argsOnly = true) ServerLevel world) {
         if (InfinityMethods.isInfinity(world)) return false;
