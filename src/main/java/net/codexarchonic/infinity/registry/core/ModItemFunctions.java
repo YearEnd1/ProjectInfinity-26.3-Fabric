@@ -141,7 +141,10 @@ public class ModItemFunctions {
     //regular recipe serializers
     public static RegistrySupplier<RecipeSerializer<ChromaticColoringRecipe>> CHROMATIC_COLORING =
             RECIPE_SERIALIZERS.register("chromatic_coloring", () ->
-                    new ChromaticColoringRecipe.Serializer(ChromaticColoringRecipe::new).serializer());
+                    new ChromaticColoringRecipe.Serializer(ChromaticColoringRecipe::new)
+                            //? if >26
+                            //.serializer()
+            );
     public static RegistrySupplier<RecipeSerializer<CollisionCraftingRecipe>> PORTAL_CRAFTING =
             RECIPE_SERIALIZERS.register("collision_portal", () ->
                     new CollisionCraftingRecipe.Serializer(CollisionCraftingRecipe.OfPortal::new).serializer());

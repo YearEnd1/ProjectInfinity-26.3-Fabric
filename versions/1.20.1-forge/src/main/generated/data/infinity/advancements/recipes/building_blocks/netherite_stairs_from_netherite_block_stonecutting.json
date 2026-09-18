@@ -1,12 +1,12 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_netherite_slab": {
+    "has_netherite_block": {
       "conditions": {
         "items": [
           {
             "items": [
-              "infinity:netherite_slab"
+              "minecraft:netherite_block"
             ]
           }
         ]
@@ -15,20 +15,20 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "minecraft:netherite_block_from_netherite_slab_stonecutting"
+        "recipe": "minecraft:netherite_stairs_from_netherite_block_stonecutting"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
   },
   "requirements": [
     [
-      "has_netherite_slab",
+      "has_netherite_block",
       "has_the_recipe"
     ]
   ],
   "rewards": {
     "recipes": [
-      "minecraft:netherite_block_from_netherite_slab_stonecutting"
+      "minecraft:netherite_stairs_from_netherite_block_stonecutting"
     ]
   },
   "sends_telemetry_event": false

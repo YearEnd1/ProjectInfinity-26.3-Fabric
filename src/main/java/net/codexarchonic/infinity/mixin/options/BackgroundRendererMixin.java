@@ -5,7 +5,7 @@ import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import com.llamalad7.mixinextras.sugar.Local;
 import net.codexarchonic.infinity.options.InfinityOptions;
 //? if >1.21.2 {
-import net.codexarchonic.infinity.util.VersionMethods;
+
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.fog.FogRenderer;
@@ -14,6 +14,7 @@ import net.minecraft.client.renderer.fog.FogRenderer;
 import net.minecraft.client.Camera;
 import net.minecraft.client.renderer.FogRenderer;
 *///?}
+import net.codexarchonic.infinity.util.VersionMethods;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.util.Mth;
 import net.minecraft.world.level.material.FogType;

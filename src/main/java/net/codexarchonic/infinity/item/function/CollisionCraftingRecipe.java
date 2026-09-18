@@ -1,6 +1,6 @@
 package net.codexarchonic.infinity.item.function;
 
-import com.mojang.datafixers.util.Function3;
+
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.codexarchonic.infinity.registry.core.ModItemFunctions;
@@ -16,12 +16,15 @@ import net.minecraft.world.item.crafting.SingleRecipeInput;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
+import com.mojang.datafixers.util.Function3;
 //?} else {
-/*import net.minecraft.world.ticks.ContainerSingleItem;
+/*import com.mojang.datafixers.util.Function4;
+import net.minecraft.world.ticks.ContainerSingleItem;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.util.GsonHelper;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
+import com.google.gson.JsonObject;
 *///?}
 import net.minecraft.world.level.Level;
 

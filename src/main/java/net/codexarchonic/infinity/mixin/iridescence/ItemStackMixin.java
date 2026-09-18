@@ -32,7 +32,8 @@ public abstract class ItemStackMixin {
     //?} else {
     /*@ModifyExpressionValue(method="getTooltipLines", at = @At(value = "INVOKE", target = "Lnet/minecraft/network/chat/MutableComponent;withStyle(Lnet/minecraft/ChatFormatting;)Lnet/minecraft/network/chat/MutableComponent;", ordinal = 0))
     MutableComponent styleIridescentItems(MutableComponent original) {
-        if (is(ModTags.IRIDESCENT_ITEMS)) {
+        var stack = (ItemStack) (Object) this;
+        if (stack.is(ModTags.IRIDESCENT_ITEMS)) {
             return original.withStyle(Style.EMPTY.withColor(Iridescence.getTimeBasedColor()));
         }
         return original;

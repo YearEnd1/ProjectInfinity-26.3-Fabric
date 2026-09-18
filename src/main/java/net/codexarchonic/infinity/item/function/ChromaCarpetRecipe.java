@@ -4,6 +4,7 @@ import com.mojang.serialization.MapCodec;
 import net.codexarchonic.infinity.registry.core.ModComponentTypes;
 import net.codexarchonic.infinity.registry.core.ModItemFunctions;
 import net.codexarchonic.infinity.registry.core.ModItems;
+import net.codexarchonic.infinity.util.InfinityMethods;
 import net.codexarchonic.infinity.util.VersionMethods;
 //? if >1.21 {
 import net.minecraft.world.item.crafting.CraftingInput;
@@ -21,7 +22,10 @@ import net.minecraft.world.level.Level;
 import org.jspecify.annotations.NonNull;
 
 public class ChromaCarpetRecipe extends CustomRecipe {
-    public static ChromaCarpetRecipe INSTANCE = new ChromaCarpetRecipe(CraftingBookCategory.MISC);
+    public static ChromaCarpetRecipe INSTANCE = new ChromaCarpetRecipe(
+            //? if <1.21
+            //InfinityMethods.getId("f4_recharging"),
+            CraftingBookCategory.MISC);
     public static MapCodec<ChromaCarpetRecipe> CODEC = MapCodec.unit(ChromaCarpetRecipe.INSTANCE);
 
     public ChromaCarpetRecipe(

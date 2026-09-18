@@ -153,8 +153,8 @@ public class InfinityRecipeProvider extends FabricRecipeProvider {
 			.unlockedBy(getHasName(NETHERITE_BLOCK), has(NETHERITE_BLOCK))
 			.save(output);
 
-		stonecutterResultFromBase(output, BUILDING_BLOCKS, NETHERITE_BLOCK, NETHERITE_STAIRS_ITEM.get());
-		stonecutterResultFromBase(output, BUILDING_BLOCKS, NETHERITE_BLOCK, NETHERITE_SLAB_ITEM.get(), 2);
+		stonecutterResultFromBase(output, BUILDING_BLOCKS, NETHERITE_STAIRS_ITEM.get(), NETHERITE_BLOCK);
+		stonecutterResultFromBase(output, BUILDING_BLOCKS, NETHERITE_SLAB_ITEM.get(), NETHERITE_BLOCK, 2);
 
 
 		shaped(MISC, BLACK_MATTER.get())
@@ -294,11 +294,11 @@ public class InfinityRecipeProvider extends FabricRecipeProvider {
 				return ShapedRecipeBuilder.shaped(recipeCategory, item, i);
 			}
 			*///?} else {
-			private void stonecutterResultFromBase(RecipeOutput output, RecipeCategory recipeCategory, Item item1, Item item) {
-				stonecutterResultFromBase(recipeCategory, item1, item);
+			private void stonecutterResultFromBase(RecipeOutput output, RecipeCategory recipeCategory, Item result, Item material) {
+				stonecutterResultFromBase(recipeCategory, result, material);
 			}
-			private void stonecutterResultFromBase(RecipeOutput output, RecipeCategory recipeCategory, Item item1, Item item, int i) {
-				stonecutterResultFromBase(recipeCategory, item1, item, i);
+			private void stonecutterResultFromBase(RecipeOutput output, RecipeCategory recipeCategory, Item result, Item material, int i) {
+				stonecutterResultFromBase(recipeCategory, result, material, i);
 			}
 			};
 	}

@@ -1,7 +1,8 @@
 package net.codexarchonic.infinity.util.var;
 
 import net.codexarchonic.infinity.util.VersionMethods;
-import net.minecraft.core.component.DataComponents;
+//? if >26
+//import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;

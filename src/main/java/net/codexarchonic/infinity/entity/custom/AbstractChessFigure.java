@@ -2,6 +2,7 @@ package net.codexarchonic.infinity.entity.custom;
 
 import net.codexarchonic.infinity.iridescence.Iridescence;
 import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
