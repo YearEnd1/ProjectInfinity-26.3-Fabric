@@ -1,0 +1,8 @@
+{
+  "type": "infinity:collision_portal",
+  "input": "#minecraft:wool",
+  "lore": "empty",
+  "output": {
+    "id": "infinity:chromatic_wool"
+  }
+}

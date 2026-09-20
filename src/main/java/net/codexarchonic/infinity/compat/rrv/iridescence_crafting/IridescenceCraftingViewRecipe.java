@@ -41,6 +41,7 @@ public class IridescenceCraftingViewRecipe implements ReliableClientRecipe {
     }
 
     @Override
+    //~ if >26 'getViewType'->'getType'
     public ReliableClientRecipeType getViewType() {
         return IridescenceCraftingViewType.INSTANCE;
     }

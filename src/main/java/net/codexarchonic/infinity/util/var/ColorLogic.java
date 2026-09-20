@@ -1,11 +1,15 @@
 package net.codexarchonic.infinity.util.var;
 
 import net.codexarchonic.infinity.util.VersionMethods;
+//? if >26
+//import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.DyeColor;
+import net.minecraft.world.item.DyeItem;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.Property;
@@ -89,4 +93,14 @@ public interface ColorLogic {
         }
         return null;
     }
+
+	static int getChromaticColor(DyeItem dye, ItemStack stack) {
+        //? if >26 {
+        /*var dyeColor = stack.get(DataComponents.DYE);
+        *///?} else {
+        var dyeColor = dye.getDyeColor();
+        //?}
+        if (dyeColor == null) return 0xFFFFFFFF;
+        return getChromaticColor(dyeColor);
+	}
 }

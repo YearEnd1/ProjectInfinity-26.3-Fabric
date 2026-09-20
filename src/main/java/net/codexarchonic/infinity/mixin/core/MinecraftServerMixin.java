@@ -38,6 +38,7 @@ import net.minecraft.world.level.CustomSpawner;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.BiomeManager;
 import net.minecraft.world.level.dimension.LevelStem;
+import net.minecraft.world.level.levelgen.WorldGenSettings;
 import net.minecraft.world.level.storage.LevelResource;
 import net.minecraft.world.level.storage.LevelStorageSource;
 import net.minecraft.world.level.storage.ServerLevelData;
@@ -79,7 +80,10 @@ public abstract class MinecraftServerMixin extends ReentrantBlockableEventLoop<T
     //?}
 
     public MinecraftServerMixin(String string) {
-        super(string);
+        super(string
+        //? if >26
+        //,false
+        );
     }
 
     @Shadow
@@ -91,6 +95,11 @@ public abstract class MinecraftServerMixin extends ReentrantBlockableEventLoop<T
 
     @Shadow public abstract Path getWorldPath(LevelResource levelResource);
 
+    //? if >26 {
+    /*@Shadow
+    @Final
+    private WorldGenSettings worldGenSettings;
+    *///?}
     @Unique
     public Map<ResourceKey<Level>, ServerLevel> infinity$worldsToAdd;
     @Unique
@@ -134,6 +143,12 @@ public abstract class MinecraftServerMixin extends ReentrantBlockableEventLoop<T
     @Override
     public void infinity$addWorld(ResourceKey<Level> key, LevelStem options) {
         ServerLevelData serverWorldProperties = worldData.overworldData();
+        //? if >26 {
+        /*var seed = worldGenSettings.options().seed();
+        *///?} else {
+        var seed = worldData.worldGenOptions().seed();
+        //?}
+
         ServerLevel world = new ServerLevel(
                 ((MinecraftServer) (Object) this),
                 executor,
@@ -151,10 +166,12 @@ public abstract class MinecraftServerMixin extends ReentrantBlockableEventLoop<T
                 ),
                 //?}
                 worldData.isDebugWorld(),
-                BiomeManager.obfuscateSeed(worldData.worldGenOptions().seed()),
+                BiomeManager.obfuscateSeed(seed),
                 ImmutableList.of(),
-                false,
-                getLevel(Level.OVERWORLD).getRandomSequences());
+                false
+                //? if <26
+                , getLevel(Level.OVERWORLD).getRandomSequences()
+        );
         //? if <1.21.2 {
         /*getLevel(Level.OVERWORLD).getWorldBorder().addListener(new BorderChangeListener.DelegateBorderChangeListener(world.getWorldBorder()));
         *///?}
@@ -190,19 +207,26 @@ public abstract class MinecraftServerMixin extends ReentrantBlockableEventLoop<T
 
     /** Makes weather properly work in infdims. */
     //? if >1.21.9 {
-    /*@Redirect(method="createLevels", at=@At(value="NEW", target="(Lnet/minecraft/server/MinecraftServer;Ljava/util/concurrent/Executor;Lnet/minecraft/world/level/storage/LevelStorageSource$LevelStorageAccess;Lnet/minecraft/world/level/storage/ServerLevelData;Lnet/minecraft/resources/ResourceKey;Lnet/minecraft/world/level/dimension/LevelStem;ZJLjava/util/List;ZLnet/minecraft/world/RandomSequences;)Lnet/minecraft/server/level/ServerLevel;"))
+    /*@Redirect(method="createLevels", at=@At(value="NEW", target="(Lnet/minecraft/server/MinecraftServer;Ljava/util/concurrent/Executor;Lnet/minecraft/world/level/storage/LevelStorageSource$LevelStorageAccess;Lnet/minecraft/world/level/storage/ServerLevelData;Lnet/minecraft/resources/ResourceKey;Lnet/minecraft/world/level/dimension/LevelStem;ZJLjava/util/List;Z)Lnet/minecraft/server/level/ServerLevel;"))
     *///?} else {
     @Redirect(method="createLevels", at=@At(value="NEW", target="(Lnet/minecraft/server/MinecraftServer;Ljava/util/concurrent/Executor;Lnet/minecraft/world/level/storage/LevelStorageSource$LevelStorageAccess;Lnet/minecraft/world/level/storage/ServerLevelData;Lnet/minecraft/resources/ResourceKey;Lnet/minecraft/world/level/dimension/LevelStem;Lnet/minecraft/server/level/progress/ChunkProgressListener;ZJLjava/util/List;ZLnet/minecraft/world/RandomSequences;)Lnet/minecraft/server/level/ServerLevel;"))
     //?}
     public ServerLevel fixWeatherCreation(MinecraftServer server, Executor workerExecutor, LevelStorageSource.LevelStorageAccess session, ServerLevelData properties, ResourceKey<Level> worldKey, LevelStem dimensionOptions,
                               //? if <1.21.9
                               ChunkProgressListener worldGenerationProgressListener,
-                              boolean debugWorld, long seed, List<CustomSpawner> spawners, boolean shouldTickTime, RandomSequences randomSequencesState) {
+                              boolean debugWorld, long seed, List<CustomSpawner> spawners, boolean shouldTickTime
+            //? if <26
+            , RandomSequences randomSequencesState
+    ) {
+        //~ if >26 'location'->'identifier'
         ServerLevelData prop = (worldKey.location().toString().contains("infinity")) ? worldData.overworldData() : properties;
         return new ServerLevel(server, workerExecutor, session, prop, worldKey, dimensionOptions
                 //? if <1.21.9
                 , worldGenerationProgressListener
-                , debugWorld, seed, spawners, shouldTickTime, randomSequencesState);
+                , debugWorld, seed, spawners, shouldTickTime
+                //? if <26
+                , randomSequencesState
+        );
     }
 
     //? if <1.21 {

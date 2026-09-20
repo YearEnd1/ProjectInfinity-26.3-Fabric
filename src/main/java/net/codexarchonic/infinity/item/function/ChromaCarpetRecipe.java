@@ -1,8 +1,10 @@
 package net.codexarchonic.infinity.item.function;
 
+import com.mojang.serialization.MapCodec;
 import net.codexarchonic.infinity.registry.core.ModComponentTypes;
 import net.codexarchonic.infinity.registry.core.ModItemFunctions;
 import net.codexarchonic.infinity.registry.core.ModItems;
+import net.codexarchonic.infinity.util.InfinityMethods;
 import net.codexarchonic.infinity.util.VersionMethods;
 //? if >1.21 {
 import net.minecraft.world.item.crafting.CraftingInput;
@@ -20,6 +22,12 @@ import net.minecraft.world.level.Level;
 import org.jspecify.annotations.NonNull;
 
 public class ChromaCarpetRecipe extends CustomRecipe {
+    public static ChromaCarpetRecipe INSTANCE = new ChromaCarpetRecipe(
+            //? if <1.21
+            //InfinityMethods.getId("f4_recharging"),
+            CraftingBookCategory.MISC);
+    public static MapCodec<ChromaCarpetRecipe> CODEC = MapCodec.unit(ChromaCarpetRecipe.INSTANCE);
+
     public ChromaCarpetRecipe(
             //? if <1.21
             //ResourceLocation id,
@@ -27,7 +35,9 @@ public class ChromaCarpetRecipe extends CustomRecipe {
         super(
                 //? if <1.21
                 //id,
-                craftingRecipeCategory);
+                //? if <26
+                craftingRecipeCategory
+        );
     }
 
     public boolean matches(
@@ -73,13 +83,12 @@ public class ChromaCarpetRecipe extends CustomRecipe {
              //?} else {
             /*CraftingContainer
             *///?}
-            craftingRecipeInput,
-            //? if >1.21 {
-            HolderLookup.Provider
-            //?} else {
-            /*RegistryAccess
+            craftingRecipeInput
+            //? if >1.21 && <26 {
+            ,HolderLookup.Provider registryAccess
+            //?} else if <1.21 {
+            /*,RegistryAccess registryAccess
             *///?}
-            registryAccess
     ) {
         int color = 0;
         //? if >1.21 {

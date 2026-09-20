@@ -36,7 +36,10 @@ public class RandomCeilingBlobFeature extends Feature<RandomCeilingBlobFeature.C
         if (!blocks.contains(blockState.getBlock())) {
             return false;
         }
-        BlockState state = context.config().block().getState(random, blockPos);
+        BlockState state = context.config().block().getState(
+                //? if >26
+                //structureWorldAccess,
+                random, blockPos);
         structureWorldAccess.setBlock(blockPos, state, Block.UPDATE_CLIENTS);
         for (int i = 0; i < 1500; ++i) {
             BlockPos blockPos2 = blockPos.offset(random.nextInt(config.size_xz()) - random.nextInt(config.size_xz()),

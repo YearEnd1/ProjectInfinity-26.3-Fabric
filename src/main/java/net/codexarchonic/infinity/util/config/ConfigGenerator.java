@@ -58,6 +58,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  * <p>Generating most content types is done via {@link ConfigFactory}.</p>
  * <p>Used by the {@link CosmicAltarBlockEntity} performing an invocation.</p>
  */
+//~ if >26 'location'->'identifier' {
 public interface ConfigGenerator {
     static void generateAll(MinecraftServer server) {
         ConfigFactory.of(BuiltInRegistries.ITEM).generate(ConfigType.ITEMS);
@@ -90,6 +91,7 @@ public interface ConfigGenerator {
         sounds.save();
         music.save();
     }
+    //~}
 
     static void generateBlockTags() {
         DataCollection tagMap = new DataCollection.Logged(ConfigType.TAGS, "block tags");
@@ -100,6 +102,8 @@ public interface ConfigGenerator {
         *///?}
         tagMap.save();
     }
+
+    //~ if >26 'location'->'identifier' {
 
     static void generateLootTables(MinecraftServer server) {
         //? if >1.21.7 {
@@ -404,3 +408,4 @@ public interface ConfigGenerator {
         return res;
     }
 }
+//~}

@@ -52,6 +52,10 @@ import java.util.function.Supplier;
 public abstract class ServerWorldMixin extends Level implements WorldGenLevel, InfinityOptionsAccess, Timebombable, SignalGetter {
     @Shadow public abstract void updateNeighborsAt(BlockPos pos, Block block);
 
+    //? if >26 {
+    /*@Shadow
+    public abstract float getMoonBrightness(BlockPos par1);
+    *///?}
     @Unique
     public InfinityOptions infinity$options;
     @Unique
@@ -70,10 +74,11 @@ public abstract class ServerWorldMixin extends Level implements WorldGenLevel, I
 
     @Inject(method = "<init>", at = @At("TAIL"))
     //? if >1.21.9 {
-    /*private void timebomb(MinecraftServer server, Executor dispatcher, LevelStorageSource.LevelStorageAccess storageSource, ServerLevelData levelData, ResourceKey<Level> worldKey, LevelStem levelStem, boolean isDebug, long biomeZoomSeed, List customSpawners, boolean tickTime, RandomSequences randomSequences, CallbackInfo ci) {
+    /*private void timebomb(MinecraftServer server, Executor executor, LevelStorageSource.LevelStorageAccess levelStorage, ServerLevelData levelData, ResourceKey<Level> worldKey, LevelStem levelStem, boolean isDebug, long biomeZoomSeed, List customSpawners, boolean tickTime, CallbackInfo ci) {
     *///?} else {
     private void timebomb(MinecraftServer server, Executor workerExecutor, LevelStorageSource.LevelStorageAccess session, ServerLevelData properties, ResourceKey<Level> worldKey, LevelStem dimensionOptions, ChunkProgressListener worldGenerationProgressListener, boolean debugWorld, long seed, List<CustomSpawner> spawners, boolean shouldTickTime, RandomSequences randomSequencesState, CallbackInfo ci) {
     //?}
+        //~ if >26 'location'->'identifier'
         infinity$options = InfinityOptions.generate(server, worldKey.location());
         DimensionType t = dimensionType();
         ((InfinityOptionsAccess)(Object)t).infinity$setOptions(infinity$options);
@@ -100,7 +105,10 @@ public abstract class ServerWorldMixin extends Level implements WorldGenLevel, I
 
     @Inject(method = "tickChunk", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/material/FluidState;isRandomlyTicking()Z"))
     void inj(LevelChunk chunk, int randomTickSpeed, CallbackInfo ci, @Local BlockState bs, @Local BlockPos blockPos2, @Local FluidState fs) {
-        if (infinity$options.isHaunted() && random.nextInt(50) < (int)(Math.floor(getMoonBrightness() * 4))) {
+        if (infinity$options.isHaunted() && random.nextInt(50) < (int)(Math.floor(getMoonBrightness(
+        //? if >26
+                //blockPos2
+        ) * 4))) {
             Direction direction = Direction.values()[InfinityMod.random.nextInt(6)];
             //? if <1.21.2 {
             /*neighborUpdater.neighborChanged(blockPos2.relative(direction), bs.getBlock(), blockPos2);
@@ -116,7 +124,10 @@ public abstract class ServerWorldMixin extends Level implements WorldGenLevel, I
             BlockPos p = pos.relative(direction, 1319);
             long L = Mth.getSeed(p.getX(), p.getY(), p.getZ());
             double d = (L & 0xFFFL) / (double)0xFFFL;
-            d += ((long)(getGameTime() * getMoonBrightness()) & 0xFFFL) / (double)0xFFFL; //pseudorandom on x y z, periodic on t
+            d += ((long)(getGameTime() * getMoonBrightness(
+                    //? if >26
+                    //pos
+            )) & 0xFFFL) / (double)0xFFFL; //pseudorandom on x y z, periodic on t
             d = d - Math.floor(d);
             if (d > 0.5f && d < 0.6f) {
                 return Mth.clamp((int)((d - 0.5f)*160f), 0, 15);

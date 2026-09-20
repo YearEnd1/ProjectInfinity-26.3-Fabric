@@ -59,7 +59,10 @@ public class LetterPiece extends ScatteredFeaturePiece {
             for (k = 0; k < 8; k++) {
                 BlockPos bp = TextData.mutate(BlockPos.ZERO, ori, k, j, 0, 8, letter.size(), 8);
                 this.placeBlock(world,
-                        ((letter.get(j) >> k)%2 == 1) ? block.getState(random, bp) : Blocks.AIR.defaultBlockState(),
+                        ((letter.get(j) >> k)%2 == 1) ? block.getState(
+                                //? if >26
+                                //world,
+                                random, bp) : Blocks.AIR.defaultBlockState(),
                         bp.getX(), bp.getY(), bp.getZ(), chunkBox);
             }
         }

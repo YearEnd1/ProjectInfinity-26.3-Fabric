@@ -19,6 +19,7 @@ import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Coerce;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
@@ -73,10 +74,11 @@ public abstract class GameRendererMixin implements GameRendererAccess {
     @Inject(method="<init>", at= @At(value = "TAIL"))
     void initUniform(Minecraft minecraft, ItemInHandRenderer itemInHandRenderer, RenderBuffers renderBuffers,
              //? if >1.21.9
-             //BlockRenderDispatcher blockRenderDispatcher,
+             //@Coerce Object blockRenderDispatcher,
              CallbackInfo ci) {
         this.infinity$iridUniform = new IridescentUniform();
     }
+    //~ if >26 'Lnet/minecraft/client/renderer/GlobalSettingsUniform;update(IIDJLnet/minecraft/client/DeltaTracker;I)V'->'Lnet/minecraft/client/renderer/GlobalSettingsUniform;update(IIDJLnet/minecraft/client/DeltaTracker;ILnet/minecraft/world/phys/Vec3;Z)V'
     @Inject(method="render", at= @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/GlobalSettingsUniform;update(IIDJLnet/minecraft/client/DeltaTracker;I)V"))
     void updateUniform(DeltaTracker deltaTracker, boolean renderLevel, CallbackInfo ci) {
         infinity$iridUniform.tryUpdate();

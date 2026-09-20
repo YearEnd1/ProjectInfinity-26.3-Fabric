@@ -18,6 +18,8 @@ import net.minecraft.advancements.CriterionTriggerInstance;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
+//? if >26
+//import cc.cassian.rrv.backport.ItemStackTemplate;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
@@ -58,12 +60,11 @@ public class CollisionRecipeBuilder implements RecipeBuilder {
 		return InfinityMethods.getId(BuiltInRegistries.ITEM.getKey(output).getPath() + "_from_" + type.name().toLowerCase(Locale.ROOT));
 	}
 
-	@Override
 	public Item getResult() {
 		return this.output;
 	}
 
-	//? if >1.21.2 {
+	//? if >1.21.2 && <26 {
 	public void save(RecipeOutput recipeOutput, ResourceKey<Recipe<?>> id) {
 		CollisionCraftingRecipe recipe = switch (type) {
 			case IRIDESCENCE -> new CollisionCraftingRecipe.OfIridescence(input, output.getDefaultInstance(), lore);
@@ -72,6 +73,21 @@ public class CollisionRecipeBuilder implements RecipeBuilder {
 		recipeOutput.accept(id, recipe, null);
 	}
 	//?}
+
+	//? if >26 {
+	/*public void save(RecipeOutput recipeOutput, ResourceKey<Recipe<?>> id) {
+		CollisionCraftingRecipe recipe = switch (type) {
+			case IRIDESCENCE -> new CollisionCraftingRecipe.OfIridescence(input, new ItemStackTemplate(output), lore);
+			case PORTAL -> new CollisionCraftingRecipe.OfPortal(input, new ItemStackTemplate(output), lore);
+		};
+		recipeOutput.accept(id, recipe, null);
+	}
+
+	@Override
+	public ResourceKey<Recipe<?>> defaultId() {
+		return ResourceKey.create(Registries.RECIPE, getDefaultId());
+	}
+	*///?}
 
 	//? >1.21 {
 	public void save(RecipeOutput recipeOutput, ResourceLocation id) {

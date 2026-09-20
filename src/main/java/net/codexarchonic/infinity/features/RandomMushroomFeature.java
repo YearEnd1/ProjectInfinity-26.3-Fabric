@@ -14,6 +14,7 @@ import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
 import net.minecraft.world.level.levelgen.feature.configurations.FeatureConfiguration;
 import net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProvider;
 
+//~ if >26 'LevelAccessor'->'WorldGenLevel' {
 public abstract class RandomMushroomFeature
         extends Feature<RandomMushroomFeature.Config> {
     public RandomMushroomFeature(Codec<Config> codec) {
@@ -27,7 +28,10 @@ public abstract class RandomMushroomFeature
                     //? if <1.21.2
                     //world, mutablePos
             )) continue;
-            this.setBlock(world, mutablePos, config.stemProvider().getState(random, pos));
+            this.setBlock(world, mutablePos, config.stemProvider().getState(
+                    //? if >26
+                    //world,
+                    random, pos));
         }
     }
 
@@ -71,7 +75,7 @@ public abstract class RandomMushroomFeature
     @Override
     public boolean place(FeaturePlaceContext<Config> context) {
         BlockPos.MutableBlockPos mutable;
-        WorldGenLevel structureWorldAccess = context.level();
+        LevelAccessor structureWorldAccess = context.level();
         BlockPos blockPos = context.origin();
         RandomSource random = context.random();
         Config hugeMushroomFeatureConfig = context.config();
@@ -101,3 +105,4 @@ public abstract class RandomMushroomFeature
     }
 }
 
+//~}

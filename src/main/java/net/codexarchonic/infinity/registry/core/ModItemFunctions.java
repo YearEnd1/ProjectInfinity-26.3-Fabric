@@ -3,6 +3,7 @@ package net.codexarchonic.infinity.registry.core;
 //? if <1.21.2 {
 /*import dev.architectury.registry.item.ItemPropertiesRegistry;
 *///?}
+import com.mojang.serialization.MapCodec;
 import dev.architectury.registry.registries.DeferredRegister;
 import dev.architectury.registry.registries.RegistrySupplier;
 import net.codexarchonic.infinity.block.custom.BiomeBottleBlock;
@@ -12,6 +13,7 @@ import net.minecraft.core.BlockPos;
 //? if >1.21 {
 import net.minecraft.core.component.DataComponentPatch;
 import net.minecraft.core.dispenser.BlockSource;
+import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.item.crafting.*;
@@ -42,7 +44,9 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.DispenserBlock;
 import net.minecraft.world.level.block.state.BlockState;
+//? if <26
 import net.minecraft.world.level.storage.loot.functions.LootItemFunctionType;
+import net.minecraft.world.level.storage.loot.functions.LootItemFunction;
 import net.minecraft.world.phys.Vec3;
 import org.jspecify.annotations.NonNull;
 
@@ -52,16 +56,18 @@ import java.util.function.Function;
 import static net.codexarchonic.infinity.InfinityMod.MOD_ID;
 
 public class ModItemFunctions {
+    public static final DeferredRegister<RecipeSerializer<?>> RECIPE_SERIALIZERS =
+            DeferredRegister.create(MOD_ID, Registries.RECIPE_SERIALIZER);
+    public static final DeferredRegister<RecipeType<?>> RECIPE_TYPES =
+            DeferredRegister.create(MOD_ID, Registries.RECIPE_TYPE);
+    //? if <26 {
     public static final DeferredRegister<LootItemFunctionType
             //? if >1.21 {
             <?>
              //?}
             > LOOT_FUNCTION_TYPES =
             DeferredRegister.create(MOD_ID, Registries.LOOT_FUNCTION_TYPE);
-    public static final DeferredRegister<RecipeSerializer<?>> RECIPE_SERIALIZERS =
-            DeferredRegister.create(MOD_ID, Registries.RECIPE_SERIALIZER);
-    public static final DeferredRegister<RecipeType<?>> RECIPE_TYPES =
-            DeferredRegister.create(MOD_ID, Registries.RECIPE_TYPE);
+
 
     public static RegistrySupplier<LootItemFunctionType
             //? if >1.21 {
@@ -113,16 +119,38 @@ public class ModItemFunctions {
                     /*new SimpleCraftingRecipeSerializer
                      *///?}
                     <>(ChromaCarpetRecipe::new));
+    //?} else {
+    /*public static final DeferredRegister<MapCodec<? extends LootItemFunction>> LOOT_FUNCTION_TYPES = DeferredRegister.create(MOD_ID, Registries.LOOT_FUNCTION_TYPE);
+
+    public static RegistrySupplier<MapCodec<? extends LootItemFunction>> SET_BIOME_BOTTLE_LEVEL =
+            LOOT_FUNCTION_TYPES.register("set_biome_bottle_level", ()-> SetLevelLootFunction.CODEC);
+    public static RegistrySupplier<MapCodec<SetAltarStateLootFunction>> SET_ALTAR_STATE =
+            LOOT_FUNCTION_TYPES.register("set_altar_state", () -> SetAltarStateLootFunction.CODEC);
+
+    //special recipe serializers
+    public static RegistrySupplier<RecipeSerializer<BiomeBottleCombiningRecipe>> BIOME_BOTTLE_COMBINING =
+            RECIPE_SERIALIZERS.register("biome_bottle_combining", () ->
+                    new RecipeSerializer<>(BiomeBottleCombiningRecipe.CODEC, ByteBufCodecs.fromCodecWithRegistries(BiomeBottleCombiningRecipe.CODEC.codec())));
+    public static RegistrySupplier<RecipeSerializer<F4RechargingRecipe>> F4_RECHARGING =
+            RECIPE_SERIALIZERS.register("f4_recharging", () ->
+                    new RecipeSerializer<>(F4RechargingRecipe.CODEC, ByteBufCodecs.fromCodecWithRegistries(F4RechargingRecipe.CODEC.codec())));
+    public static RegistrySupplier<RecipeSerializer<ChromaCarpetRecipe>> CARPET =
+            RECIPE_SERIALIZERS.register("chroma_carpet", () ->
+                    new RecipeSerializer<>(ChromaCarpetRecipe.CODEC, ByteBufCodecs.fromCodecWithRegistries(ChromaCarpetRecipe.CODEC.codec())));
+    *///?}
     //regular recipe serializers
     public static RegistrySupplier<RecipeSerializer<ChromaticColoringRecipe>> CHROMATIC_COLORING =
             RECIPE_SERIALIZERS.register("chromatic_coloring", () ->
-                    new ChromaticColoringRecipe.Serializer(ChromaticColoringRecipe::new));
+                    new ChromaticColoringRecipe.Serializer(ChromaticColoringRecipe::new)
+                            //? if >26
+                            //.serializer()
+            );
     public static RegistrySupplier<RecipeSerializer<CollisionCraftingRecipe>> PORTAL_CRAFTING =
             RECIPE_SERIALIZERS.register("collision_portal", () ->
-                    new CollisionCraftingRecipe.Serializer(CollisionCraftingRecipe.OfPortal::new));
+                    new CollisionCraftingRecipe.Serializer(CollisionCraftingRecipe.OfPortal::new).serializer());
     public static RegistrySupplier<RecipeSerializer<CollisionCraftingRecipe>> IRIDESCENCE_CRAFTING =
             RECIPE_SERIALIZERS.register("collision_iridescence", () ->
-                    new CollisionCraftingRecipe.Serializer(CollisionCraftingRecipe.OfIridescence::new));
+                    new CollisionCraftingRecipe.Serializer(CollisionCraftingRecipe.OfIridescence::new).serializer());
     //recipe types
     public static RegistrySupplier<RecipeType<CollisionCraftingRecipe>> PORTAL_CRAFTING_TYPE =
             RECIPE_TYPES.register("collision_portal", () -> CollisionCraftingRecipe.Type.PORTAL);

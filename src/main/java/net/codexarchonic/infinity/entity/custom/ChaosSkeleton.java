@@ -128,7 +128,6 @@ public class ChaosSkeleton extends Skeleton implements TintableEntity {
         builder.define(duration, 200);
         builder.define(color, 0x00FF00);
     }
-    @Override
     public boolean isSunBurnTick() {
         return false;
     }
@@ -296,6 +295,7 @@ public class ChaosSkeleton extends Skeleton implements TintableEntity {
     *///?}
 
     private void dropEquipment(int lootingLevel, ServerLevel world) {
+        //~ if >26 'random'->'getRandom()'
         int count = world.random.nextIntBetweenInclusive(0, 2 + lootingLevel);
         this.spawnAtLocation(
                 //? if >1.21.4

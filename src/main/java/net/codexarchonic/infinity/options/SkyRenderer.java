@@ -352,8 +352,8 @@ public record SkyRenderer(InfinityOptions options, Minecraft client, ClientLevel
         RenderSystem.disableBlend();
     }
 }
-
-*///?} else {
+//FIXME 26.1
+*///?} else if <26 {
 import com.mojang.blaze3d.buffers.GpuBuffer;
 import com.mojang.blaze3d.buffers.GpuBufferSlice;
 import com.mojang.blaze3d.pipeline.RenderPipeline;

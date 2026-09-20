@@ -2,7 +2,14 @@ package net.codexarchonic.infinity.util;
 
 import net.codexarchonic.infinity.registry.core.ModComponentTypes;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
+//? if >26 {
+/*import net.minecraft.world.attribute.EnvironmentAttributes;
+import net.minecraft.world.clock.WorldClocks;
+*///?}
+import net.minecraft.world.level.GameRules;
 //? if >1.21 {
 import dev.architectury.registry.registries.RegistrySupplier;
 import net.minecraft.core.*;
@@ -27,6 +34,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.alchemy.PotionUtils;
 *///?}
 //? if >1.21.2 {
+
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 import org.apache.logging.log4j.LogManager;
@@ -58,6 +66,17 @@ import java.util.Optional;
 import java.util.Set;
 
 public interface VersionMethods {
+
+    static void sendSystemMessage(Player player, Component message) {
+        //? if >26 {
+        /*player.sendSystemMessage(message);
+        *///?} else if >1.21.4 {
+        player.displayClientMessage(message, false);
+         //?} else {
+        /*player.sendSystemMessage(message);
+         *///?}
+    }
+
     static void loadPP(Minecraft client, String sid) {
         //? if >1.21.2 {
             client.gameRenderer.setPostEffect(InfinityMethods.getId(sid));
@@ -480,7 +499,7 @@ public interface VersionMethods {
     static boolean allowNether(@Nullable MinecraftServer server) {
         if (server == null) return true;
         //? if >1.21.9 {
-        /*return server.getGameRules().getRule(GameRules.RULE_ALLOW_NETHER).get();
+        /*return server.getGameRules().get(GameRules.ALLOW_ENTERING_NETHER_USING_PORTALS);
          *///?} else if >1.21 {
         if (server instanceof DedicatedServer dedicatedServer) return dedicatedServer.getProperties().allowNether;
         else return true;
@@ -497,6 +516,21 @@ public interface VersionMethods {
     static InteractionResult passToDefaultBlockInteraction() {
         return InteractionResult.PASS;
     }
-    //?}
+	//?}
+    static float getTimeOfDay(ClientLevel world, float tickDelta) {
+        //? if >26 {
+        /*return world.clockManager().getTotalTicks(world.registryAccess().get(WorldClocks.OVERWORLD).get());
+        *///?} else {
+        return world.getTimeOfDay(tickDelta);
+         //?}
+    }
+
+	static double getSunAngle(ClientLevel world, float partialTicks) {
+        //? if >26 {
+        /*return world.environmentAttributes().getDimensionValue(EnvironmentAttributes.SUN_ANGLE);
+        *///?} else {
+        return world.getSunAngle(partialTicks);
+         //?}
+	}
 }
 

@@ -33,7 +33,9 @@ import java.util.List;
 
 public interface InfinityPlatform {
     int version =
-    //? if >1.21.6 {
+    //? if >26 {
+    /*26;
+    *///?} else if >1.21.6 {
     22;
     //?} else if >1.21 {
     /*21;

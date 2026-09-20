@@ -1,8 +1,11 @@
 package net.codexarchonic.infinity.item.function;
 
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import net.codexarchonic.infinity.block.custom.BiomeBottleBlock;
 import net.codexarchonic.infinity.registry.core.ModItemFunctions;
 import net.codexarchonic.infinity.registry.core.ModItems;
+import net.codexarchonic.infinity.util.InfinityMethods;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.inventory.CraftingContainer;
@@ -19,6 +22,13 @@ import net.minecraft.world.level.block.Block;
 import org.jspecify.annotations.NonNull;
 
 public class BiomeBottleCombiningRecipe extends CustomRecipe {
+    public static BiomeBottleCombiningRecipe INSTANCE = new BiomeBottleCombiningRecipe(
+            //? if <1.21
+            //InfinityMethods.getId("chroma_carpet"),
+            CraftingBookCategory.MISC);
+    public static MapCodec<BiomeBottleCombiningRecipe> CODEC = MapCodec.unit(BiomeBottleCombiningRecipe.INSTANCE);
+
+
     public BiomeBottleCombiningRecipe(
             //? if <1.21
             //ResourceLocation id,
@@ -26,26 +36,21 @@ public class BiomeBottleCombiningRecipe extends CustomRecipe {
         super(
                 //? if <1.21
                 //id,
-                craftingRecipeCategory);
+                //? if <26
+                craftingRecipeCategory
+        );
     }
 
     @Override
     public boolean matches(
-            //? if >1.21 {
-            CraftingInput
-             //?} else {
-            /*CraftingContainer
-            *///?}
-            craftingRecipeInput, Level world) {
+            //~ if >1.21 'CraftingContainer'-> 'CraftingInput'
+            CraftingInput craftingRecipeInput, Level world) {
         ItemStack stack1 = null;
         boolean bl = true;
         int charge = 0;
         for (int k = 0; k < craftingRecipeInput.
-                //? if >1.21 {
+                //~ if >1.21 'getContainerSize'->'size'
                 size
-                 //?} else {
-                /*getContainerSize
-                *///?}
              (); k++) {
             if (!bl) return false;
             ItemStack itemStack = craftingRecipeInput.getItem(k);
@@ -69,16 +74,15 @@ public class BiomeBottleCombiningRecipe extends CustomRecipe {
     public @NonNull ItemStack assemble(
             //? if >1.21 {
             CraftingInput
-             //?} else {
-            /*CraftingContainer
-            *///?}
-            craftingRecipeInput,
-            //? if >1.21 {
-            HolderLookup.Provider
-            //?} else {
-            /*RegistryAccess
-            *///?}
-            registryAccess
+                    //?} else {
+                    /*CraftingContainer
+                     *///?}
+                    craftingRecipeInput
+            //? if >1.21 && <26 {
+            ,HolderLookup.Provider registryAccess
+             //?} else if <1.21 {
+            /*,RegistryAccess registryAccess
+             *///?}
             ) {
         ItemStack stack1 = ItemStack.EMPTY;
         int i = 0;
@@ -100,7 +104,7 @@ public class BiomeBottleCombiningRecipe extends CustomRecipe {
             }
         }
         if (i < 2) return ModItems.BIOME_BOTTLE_ITEM.get().getDefaultInstance();
-        ItemStack result = stack1.copy();
+        ItemStack result = stack1.copyWithCount(1);
         BiomeBottleBlock.updateCharge(result, charge);
         return result;
     }

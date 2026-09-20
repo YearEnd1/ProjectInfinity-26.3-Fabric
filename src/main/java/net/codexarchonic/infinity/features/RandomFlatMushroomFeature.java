@@ -4,8 +4,10 @@ import com.mojang.serialization.Codec;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.state.BlockState;
 
+//~ if >26 'LevelAccessor'->'WorldGenLevel' {
 public class RandomFlatMushroomFeature extends RandomMushroomFeature {
     public RandomFlatMushroomFeature(Codec<Config> codec) {
         super(codec);
@@ -28,7 +30,10 @@ public class RandomFlatMushroomFeature extends RandomMushroomFeature {
                         //? if <1.21.2
                         //world, mutable
                 )) continue;
-                BlockState blockState = config.capProvider().getState(random, start);
+                BlockState blockState = config.capProvider().getState(
+                        //? if >26
+                        //world,
+                        random, start);
                 this.setBlock(world, mutable, blockState);
             }
         }
@@ -39,3 +44,4 @@ public class RandomFlatMushroomFeature extends RandomMushroomFeature {
         return y <= 3 ? 0 : capSize;
     }
 }
+//~}

@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "A": "infinity:altar",
+    "L": "minecraft:lodestone",
+    "S": "infinity:iridescent_star"
+  },
+  "pattern": [
+    "LAL",
+    "ASA",
+    "LAL"
+  ],
+  "result": {
+    "id": "infinity:cosmic_altar"
+  }
+}

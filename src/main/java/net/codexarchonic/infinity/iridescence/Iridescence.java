@@ -73,6 +73,7 @@ public interface Iridescence {
     ResourceLocation OVERLAY_TEXTURE = InfinityMethods.getId("block/iridescence_overlay");
 
     static boolean isInfinite(Level world) {
+        //~ if >26 'location'->'identifier'
         return switch (world.dimension().location().toString()) {
             case "infinity:chaos", "infinity:colors" -> true;
             default -> false;
@@ -267,6 +268,7 @@ public interface Iridescence {
         compound.putDouble("x", player.position().x);
         compound.putDouble("y", player.position().y);
         compound.putDouble("z", player.position().z);
+        //~ if >26 'location'->'identifier'
         compound.putString("dim", player.level().dimension().location().toString());
         CommonIO.write(compound, InfinityMod.provider.savingPath, player.getStringUUID() + ".json");
     }

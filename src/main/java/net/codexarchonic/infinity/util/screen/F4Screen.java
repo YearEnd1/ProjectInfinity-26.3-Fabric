@@ -53,10 +53,13 @@ public class F4Screen extends AbstractContainerScreen<F4ScreenHandler> {
         value.setBordered(false);
         value.setMaxLength(2);
         value.setValue(String.valueOf(valueReference.get()));
+        //? if <26 {
         value.setFilter(string -> (string.isEmpty() ||
                 (string.matches("[0-9]*")
                         && Integer.parseInt(string) > 0
                         && Integer.parseInt(string) < 22)));
+        //?}
+        //FIXME 26.1
         value.setX(leftPos + (valueReference.get() < 10 ? 85 : 82));
         value.setResponder(string -> {
             int v = string.isEmpty() ? 3 : Integer.parseInt(string);
@@ -66,18 +69,22 @@ public class F4Screen extends AbstractContainerScreen<F4ScreenHandler> {
         addWidget(value);
     }
 
+    //~ if >26 'render('->'extractRenderState(' {
     @Override
-    public void render(GuiGraphics context, int mouseX, int mouseY, float delta) {
-        super.render(context, mouseX, mouseY, delta);
-        context.drawString(this.font, Component.literal("Portal width"), leftPos + 59, topPos + 18, 4210752, false);
-        context.drawString(this.font, Component.literal("Portal height"), leftPos + 56, topPos + 45, 4210752, false);
-        this.widthValue.render(context, mouseX, mouseY, delta);
-        this.heightValue.render(context, mouseX, mouseY, delta);
-        this.renderTooltip(context, mouseX, mouseY);
+    public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float delta) {
+        super.render(guiGraphics, mouseX, mouseY, delta);
+        guiGraphics.drawString(this.font, Component.literal("Portal width"), leftPos + 59, topPos + 18, 4210752, false);
+        guiGraphics.drawString(this.font, Component.literal("Portal height"), leftPos + 56, topPos + 45, 4210752, false);
+        this.widthValue.render(guiGraphics, mouseX, mouseY, delta);
+        this.heightValue.render(guiGraphics, mouseX, mouseY, delta);
+        //~ if >26 'renderTooltip'->'extractTooltip'
+        this.renderTooltip(guiGraphics, mouseX, mouseY);
     }
+    //~}
 
     @Override
-    protected void renderBg(GuiGraphics context, float delta, int mouseX, int mouseY) {
+    //~ if >26 'renderBg(GuiGraphics context, float delta, int mouseX, int mouseY)'->'extractBackground(GuiGraphicsExtractor context, int mouseX, int mouseY, float delta)'
+    public void renderBg(GuiGraphics context, float delta, int mouseX, int mouseY) {
         context.blit(
                 //? if >1.21.4 {
                 RenderPipelines.GUI_TEXTURED,

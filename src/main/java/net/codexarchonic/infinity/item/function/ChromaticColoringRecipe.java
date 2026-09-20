@@ -8,6 +8,9 @@ import net.codexarchonic.infinity.registry.core.ModItems;
 import net.codexarchonic.infinity.util.VersionMethods;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
+//? if >26 {
+/*import cc.cassian.rrv.backport.ItemStackTemplate;
+*///?}
 //? if >1.21 {
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
@@ -29,8 +32,10 @@ import java.util.function.BiFunction;
 
 public class ChromaticColoringRecipe implements CraftingRecipe {
     private final Ingredient input;
+    //~ if >26 'ItemStack'->'ItemStackTemplate'
     private final ItemStack output;
 
+    //~ if >26 'ItemStack'->'ItemStackTemplate'
     public ChromaticColoringRecipe(Ingredient input, ItemStack output) {
         this.input = input;
         this.output = output;
@@ -96,16 +101,16 @@ public class ChromaticColoringRecipe implements CraftingRecipe {
     public @NonNull ItemStack assemble(
             //? if >1.21 {
             CraftingInput
-             //?} else {
-            /*CraftingContainer
-            *///?}
-            input,
-            //? if >1.21 {
-            HolderLookup.Provider
-            //?} else {
-            /*RegistryAccess
-            *///?}
-            lookup) {
+                    //?} else {
+                    /*CraftingContainer
+                     *///?}
+                    input
+            //? if >1.21 && <26 {
+            ,HolderLookup.Provider lookup
+             //?} else if <1.21 {
+            /*,RegistryAccess lookup
+             *///?}
+            ) {
         ItemStack chroma = ItemStack.EMPTY;
         int i = 0;
         for (int k = 0; k < input.
@@ -123,6 +128,7 @@ public class ChromaticColoringRecipe implements CraftingRecipe {
         }
         assert !chroma.isEmpty();
         if (i > 0) {
+            //~ if >26 'copyWithCount'->'create().copyWithCount'
             ItemStack result = output.copyWithCount(i);
             //? if >1.21 {
             result.applyComponents(chroma.getComponents());
@@ -132,6 +138,14 @@ public class ChromaticColoringRecipe implements CraftingRecipe {
             return result;
         }
         else return chroma.getItem().getDefaultInstance();
+    }
+
+    public boolean showNotification() {
+        return false;
+    }
+
+    public String group() {
+        return "";
     }
 
     @Override
@@ -187,7 +201,8 @@ public class ChromaticColoringRecipe implements CraftingRecipe {
             /*RegistryAccess registryAccess
             *///?}
     ) {
-        return output;
+        //~ if >26 'copy'->'create'
+        return output.copy();
     }
 
     @Override
@@ -195,37 +210,44 @@ public class ChromaticColoringRecipe implements CraftingRecipe {
         return ModItemFunctions.CHROMATIC_COLORING.get();
     }
 
+    //~ if >26 'ItemStack'->'ItemStackTemplate'
     public record Serializer(BiFunction<Ingredient, ItemStack, ChromaticColoringRecipe> func)
-            implements RecipeSerializer<ChromaticColoringRecipe> {
+        //? if <26
+            implements RecipeSerializer<ChromaticColoringRecipe>
+    {
 
         //? if >1.21 {
-        @Override
         public @NonNull MapCodec<ChromaticColoringRecipe> codec() {
             return RecordCodecBuilder.mapCodec(instance -> instance.group(
-                    //? if >1.21.2 {
-                            Ingredient.CODEC
-                    //?} else {
-                            /*Ingredient.CODEC_NONEMPTY
-                    *///?}
-                    .fieldOf("input").forGetter(recipe -> recipe.input),
+                            //~ if >1.21.2 'CODEC_NONEMPTY'->'CODEC'
+                            Ingredient.CODEC.fieldOf("input").forGetter(recipe -> recipe.input),
+                            //~ if >26 'ItemStack.STRICT_CODEC'->'ItemStackTemplate.CODEC'
                             ItemStack.STRICT_CODEC.fieldOf("output").forGetter(recipe -> recipe.output))
                     .apply(instance, func));
         }
 
-        @Override
         public @NonNull StreamCodec<RegistryFriendlyByteBuf, ChromaticColoringRecipe> streamCodec() {
             return StreamCodec.of(this::write, this::read);
         }
 
         private ChromaticColoringRecipe read(RegistryFriendlyByteBuf buf) {
             Ingredient input = Ingredient.CONTENTS_STREAM_CODEC.decode(buf);
+            //~ if >26 'ItemStack'->'ItemStackTemplate'
             ItemStack output = ItemStack.STREAM_CODEC.decode(buf);
             return func.apply(input, output);
         }
 
         private void write(RegistryFriendlyByteBuf buf, ChromaticColoringRecipe recipe) {
             Ingredient.CONTENTS_STREAM_CODEC.encode(buf, recipe.input);
+            //~ if >26 'ItemStack'->'ItemStackTemplate'
             ItemStack.STREAM_CODEC.encode(buf, recipe.output);
+        }
+
+        public RecipeSerializer<ChromaticColoringRecipe> serializer() {
+            //? if >26 {
+            /*return new RecipeSerializer<>(codec(), streamCodec());
+            *///?} else
+            return this;
         }
         //?} else {
         /*@Override

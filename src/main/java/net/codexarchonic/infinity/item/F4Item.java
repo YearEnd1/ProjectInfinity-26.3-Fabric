@@ -105,19 +105,17 @@ public class F4Item extends Item implements PortalDataHolder.Destinable {
         int useCharges = player.isCreative() ? 0 : 2*(2 + size_x + size_y);
         if (charges < useCharges) {
             if (!world.isClientSide()) {
-                //? if >1.21.4 {
-                player.displayClientMessage(Component.translatable("error.infinity.f4.no_charges", useCharges), false);
-                //?} else {
-                /*player.sendSystemMessage(Component.translatable("error.infinity.f4.no_charges", useCharges));
-                *///?}
+                VersionMethods.sendSystemMessage(player, Component.translatable("error.infinity.f4.no_charges", useCharges));
             }
             return null;
         }
         BlockPos lowerLeft = lowerCenter.relative(dir2, -(size_x/2));
         ResourceLocation id = VersionMethods.getDimensionResourceLocation(stack);
         boolean doNotRenderPortal = (world.isClientSide() && (id == null || !id.getPath().contains("generated_")));
-        if (PortalDataHolder.isDestinationRandom(id))
-            id = InfinityMethods.getRandomId(world.random);
+        if (PortalDataHolder.isDestinationRandom(id)) {
+            //~ if >26 'random'->'getRandom()'
+			id = InfinityMethods.getRandomId(world.random);
+		}
         int obsNotReplaced = 0;
 
         //placing the portal

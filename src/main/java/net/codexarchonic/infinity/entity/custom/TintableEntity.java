@@ -42,6 +42,7 @@ public interface TintableEntity {
         *///?} else {
         return ARGB
         //?}
+        //~ if >26 'lerp'->'linearLerp'
         .lerp(r, s, t);
     }
 

@@ -19,10 +19,7 @@ import java.util.Map;
 *///?} else {
 import com.mojang.blaze3d.framegraph.FrameGraphBuilder;
 import net.codexarchonic.infinity.access.PostPassAccess;
-import net.minecraft.client.renderer.CachedOrthoProjectionMatrixBuffer;
-import net.minecraft.client.renderer.PostChain;
-import net.minecraft.client.renderer.PostChainConfig;
-import net.minecraft.client.renderer.PostPass;
+import net.minecraft.client.renderer.*;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.resources.ResourceLocation;
 import org.spongepowered.asm.mixin.Final;
@@ -65,7 +62,10 @@ public abstract class PostEffectProcessorMixin implements PostPassAccess {
     @Shadow @Final private List<PostPass> passes;
 
     @Inject(method = "load", at = @At("RETURN"))
-    private static void inj2(PostChainConfig config, TextureManager textureManager, Set<ResourceLocation> externalTargets, ResourceLocation name, CachedOrthoProjectionMatrixBuffer projectionMatrixBuffer, CallbackInfoReturnable<PostChain> cir) {
+    private static void inj2(PostChainConfig config, TextureManager textureManager, Set<ResourceLocation> externalTargets, ResourceLocation name, CachedOrthoProjectionMatrixBuffer projection,
+                             //? if >26
+                             //CachedOrthoProjectionMatrixBufferMatrixBuffer projectionMatrixBuffer,
+                             CallbackInfoReturnable<PostChain> cir) {
         if (name.toString().contains("infinity")) {
             ((PostPassAccess)cir.getReturnValue()).infinity$setIs();
         }

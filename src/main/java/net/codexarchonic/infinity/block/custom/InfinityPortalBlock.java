@@ -27,6 +27,8 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.*;
 import net.minecraft.world.*;
+//? if >26
+//import net.minecraft.world.attribute.EnvironmentAttributes;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
@@ -42,7 +44,7 @@ import net.minecraft.world.level.block.NetherPortalBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
-//? if =1.21.10 || 1.21.8 {
+//? if >1.21.6 {
 import net.minecraft.world.level.portal.TeleportTransition;
 import net.minecraft.world.entity.InsideBlockEffectApplier;
 import static net.minecraft.world.entity.EntitySpawnReason.STRUCTURE;
@@ -77,6 +79,7 @@ public class InfinityPortalBlock extends NetherPortalBlock implements EntityBloc
 
     @Nullable
     public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
+        //~ if >26 'location'->'identifier'
         return new InfinityPortalBlockEntity(pos, state, Level.OVERWORLD.location());
     }
 
@@ -170,8 +173,10 @@ public class InfinityPortalBlock extends NetherPortalBlock implements EntityBloc
             BlockEntity blockEntity = world.getBlockEntity(pos);
             if (blockEntity instanceof InfinityPortalBlockEntity npbe) {
                 int colorInt = npbe.getPortalColor();
-                Vec3 vec3d = Vec3.fromRGB24(colorInt);
+                //? if <1.21.2 {
+                /*Vec3 vec3d = Vec3.fromRGB24(colorInt);
                 double color = 1.0D + (colorInt >> 16 & 0xFF) / 255.0D;
+                *///?}
                 eff = new DustParticleOptions(
                         //? if <1.21.2 {
                         /*new Vector3f((float)vec3d.x, (float)vec3d.y, (float)vec3d.z), (float)color
@@ -190,12 +195,12 @@ public class InfinityPortalBlock extends NetherPortalBlock implements EntityBloc
      */
     @Override
     public void entityInside(BlockState state, Level w, BlockPos pos, Entity entity
-    //? if >1.21.2 {
-     ,InsideBlockEffectApplier insideBlockEffectApplier
-     //?}
-     //? if >1.21.9 {
-    /*,boolean intersects
-     *///?}
+                             //? if >1.21.2 {
+     , InsideBlockEffectApplier insideBlockEffectApplier
+                             //?}
+                             //? if >1.21.9 {
+    /*, boolean intersects
+                             *///?}
     ) {
         AtomicBoolean bl = new AtomicBoolean(false);
         if (w instanceof ServerLevel world
@@ -255,7 +260,11 @@ public class InfinityPortalBlock extends NetherPortalBlock implements EntityBloc
      */
     @Override
     public void randomTick(BlockState state, ServerLevel world, BlockPos pos, RandomSource random) {
+        //~ if >26 'getBoolean('->'get(' {
+        //~ if >26 'dimensionType().natural()'->'environmentAttributes().getDimensionValue(EnvironmentAttributes.NETHER_PORTAL_SPAWNS_PIGLINS)' {
         if (world.dimensionType().natural() && world.getGameRules().getBoolean(GameRules.RULE_DOMOBSPAWNING)
+        //~}
+        //~}
                 && random.nextInt(2000) < world.getDifficulty().getId()) {
             ChaosPawn entity;
             while (world.getBlockState(pos).is(this)) {
@@ -268,7 +277,8 @@ public class InfinityPortalBlock extends NetherPortalBlock implements EntityBloc
                 BlockEntity blockEntity = world.getBlockEntity(pos.above());
                 if (blockEntity instanceof InfinityPortalBlockEntity npbe) {
                     int color = npbe.getPortalColor();
-                    Vec3 c = Vec3.fromRGB24(color);
+                    //~ if >26 'Vec3.fromRGB24'-> 'ARGB.vector3fFromRGB24'
+                    var c = Vec3.fromRGB24(color);
                     entity.setAllColors((int)(256 * c.z) + 256 * (int)(256 * c.y) + 65536 * (int)(256 * c.x));
                 }
             }

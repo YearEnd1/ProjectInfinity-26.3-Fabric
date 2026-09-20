@@ -23,9 +23,15 @@ public class FishEntityMixin extends WaterAnimal {
         super(entityType, world);
     }
 
+    //? if >26 {
+    /*@ModifyArg(method="travelInWater", at = @At(value = "INVOKE",
+            target = "Lnet/minecraft/world/entity/animal/fish/AbstractFish;moveRelative(FLnet/minecraft/world/phys/Vec3;)V"),
+    index = 1)
+    *///?} else {
     @ModifyArg(method="travel", at = @At(value = "INVOKE",
             target = "Lnet/minecraft/world/entity/animal/AbstractFish;moveRelative(FLnet/minecraft/world/phys/Vec3;)V"),
-    index = 1)
+            index = 1)
+    //?}
     Vec3 fishSwimBackwards(Vec3 par2) {
         if (Iridescence.isUnderEffect(this)) {
             return par2.multiply(-1, 1, -1);

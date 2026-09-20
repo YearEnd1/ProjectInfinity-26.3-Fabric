@@ -1,26 +1,30 @@
 package net.codexarchonic.infinity.item.function;
 
-import com.google.gson.JsonObject;
-import com.mojang.datafixers.util.Function3;
-import com.mojang.datafixers.util.Function4;
+
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.codexarchonic.infinity.registry.core.ModItemFunctions;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.util.ExtraCodecs;
 import net.minecraft.world.item.ItemStack;
+//? if >26 {
+/*import cc.cassian.rrv.backport.ItemStackTemplate;
+*///?}
 import net.minecraft.world.item.crafting.*;
 //? if >1.21 {
 import net.minecraft.world.item.crafting.SingleRecipeInput;
-import net.minecraft.core.HolderLookup;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
+import com.mojang.datafixers.util.Function3;
 //?} else {
-/*import net.minecraft.world.ticks.ContainerSingleItem;
+/*import com.mojang.datafixers.util.Function4;
+import net.minecraft.world.ticks.ContainerSingleItem;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.util.GsonHelper;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
+import com.google.gson.JsonObject;
 *///?}
 import net.minecraft.world.level.Level;
 
@@ -35,6 +39,7 @@ public abstract class CollisionCraftingRecipe
     /*protected final ResourceLocation id;
     *///?}
     protected final Ingredient input;
+    //~ if >26 'ItemStack'->'ItemStackTemplate'
     protected final ItemStack output;
     protected final String lore;
 
@@ -42,6 +47,7 @@ public abstract class CollisionCraftingRecipe
             //? if =1.20.1 {
             /*ResourceLocation id,
             *///?}
+            //~ if >26 'ItemStack'->'ItemStackTemplate'
             Ingredient input, ItemStack output, String lore) {
         //? if =1.20.1 {
         /*this.id = id;
@@ -76,15 +82,24 @@ public abstract class CollisionCraftingRecipe
              //?} else {
             /*ContainerSingleItem
             *///?}
-            input,
-            //? if >1.21 {
-            HolderLookup.Provider
-             //?} else {
-            /*RegistryAccess
+            input
+            //? if >1.21 && <26.1 {
+            , HolderLookup.Provider lookup
+            //?} else if <1.21 {
+            /*,RegistryAccess lookup
             *///?}
-            lookup) {
-        return output;
+            ) {
+        //~ if >26 'copy'->'create'
+        return output.copy();
     }
+
+     public boolean showNotification() {
+         return false;
+     }
+
+     public String group() {
+         return "";
+     }
 
     //? if <1.21.2 {
     /*@Override
@@ -102,6 +117,7 @@ public abstract class CollisionCraftingRecipe
             /*RegistryAccess registryAccess
             *///?}
     ) {
+        //~ if >26 'copy'->'create'
         return output.copy();
     }
 
@@ -115,36 +131,43 @@ public abstract class CollisionCraftingRecipe
         IRIDESCENCE
     }
 
-    public record Serializer(
+     public record Serializer(
             //? if =1.20.1 {
             /*Function4<ResourceLocation, Ingredient, ItemStack, String, CollisionCraftingRecipe> func
              *///?} else {
+            //~ if >26 'ItemStack'->'ItemStackTemplate'
             Function3<Ingredient, ItemStack, String, CollisionCraftingRecipe> func
             //?}
-    ) implements RecipeSerializer<CollisionCraftingRecipe> {
+    )
+        //? if <26
+            implements RecipeSerializer<CollisionCraftingRecipe>
+    {
+
+        public RecipeSerializer<CollisionCraftingRecipe> serializer() {
+            //? if >26 {
+            /*return new RecipeSerializer<>(codec(), streamCodec());
+            *///?} else
+            return this;
+        }
 
         //? if >1.21 {
-        @Override
         public MapCodec<CollisionCraftingRecipe> codec() {
             return RecordCodecBuilder.mapCodec(instance -> instance.group(
-                    //? if >1.21.2 {
-                            Ingredient.CODEC
-                    //?} else {
-                            /*Ingredient.CODEC_NONEMPTY
-                    *///?}
-                            .fieldOf("input").forGetter(recipe -> recipe.input),
+                            //~ if >1.21.2 'CODEC_NONEMPTY'->'CODEC'
+                            Ingredient.CODEC.fieldOf("input").forGetter(recipe -> recipe.input),
+                            //~ if >26 'ItemStack.STRICT_CODEC'->'ItemStackTemplate.CODEC'
                             ItemStack.STRICT_CODEC.fieldOf("output").forGetter(recipe -> recipe.output),
                             ExtraCodecs.NON_EMPTY_STRING.fieldOf("lore").forGetter(recipe -> recipe.lore))
                     .apply(instance, func));
         }
 
-        @Override
         public StreamCodec<RegistryFriendlyByteBuf, CollisionCraftingRecipe> streamCodec() {
             return StreamCodec.of(this::write, this::read);
         }
 
         private CollisionCraftingRecipe read(RegistryFriendlyByteBuf buf) {
             Ingredient input = Ingredient.CONTENTS_STREAM_CODEC.decode(buf);
+            //~ if >26 'ItemStack'->'ItemStackTemplate'
             ItemStack output = ItemStack.STREAM_CODEC.decode(buf);
             String str = ByteBufCodecs.STRING_UTF8.decode(buf);
             return func.apply(input, output, str);
@@ -152,6 +175,7 @@ public abstract class CollisionCraftingRecipe
 
         private void write(RegistryFriendlyByteBuf buf, CollisionCraftingRecipe recipe) {
             Ingredient.CONTENTS_STREAM_CODEC.encode(buf, recipe.input);
+            //~ if >26 'ItemStack'->'ItemStackTemplate'
             ItemStack.STREAM_CODEC.encode(buf, recipe.output);
             ByteBufCodecs.STRING_UTF8.encode(buf, recipe.lore);
         }
@@ -193,6 +217,7 @@ public abstract class CollisionCraftingRecipe
                 //? if =1.20.1 {
                 /*ResourceLocation id,
                  *///?}
+                //~ if >26 'ItemStack'->'ItemStackTemplate'
                 Ingredient input, ItemStack output, String lore) {
             super(
                     //? if =1.20.1 {
@@ -250,6 +275,7 @@ public abstract class CollisionCraftingRecipe
                 //? if =1.20.1 {
                 /*ResourceLocation id,
                  *///?}
+                //~ if >26 'ItemStack'->'ItemStackTemplate'
                 Ingredient input, ItemStack output, String lore) {
             super(
                     //? if =1.20.1 {

@@ -1,20 +1,24 @@
 package net.codexarchonic.infinity.entity.client;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-//? if >1.21.8 {
-/*import net.minecraft.client.renderer.SubmitNodeCollector;
+//? if >26 {
+/*import net.minecraft.client.renderer.block.BlockModelRenderState;
+import net.minecraft.client.renderer.block.BlockModelResolver;
+import net.minecraft.client.renderer.SubmitNodeCollector;
+import net.minecraft.client.renderer.block.model.BlockDisplayContext;
 *///?} else {
 import net.codexarchonic.infinity.entity.custom.ChaosSlime;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.MultiBufferSource;
-//?}
-import net.minecraft.client.model.SlimeModel;
 import net.minecraft.client.renderer.block.BlockRenderDispatcher;
 import net.minecraft.client.renderer.block.ModelBlockRenderer;
+//?}
+import net.minecraft.client.model.SlimeModel;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
+import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.world.level.block.state.BlockState;
 //? if >1.21.6 && neoforge {
 /*import net.neoforged.neoforge.client.RenderTypeHelper;
@@ -28,7 +32,10 @@ public class DimensionalSlimeCoreRenderer extends
         /*RenderLayer<ChaosSlime, SlimeModel<ChaosSlime>>
         *///?}
          {
+     //~ if >26 'BlockRenderDispatcher'->'BlockModelResolver' {
     private final BlockRenderDispatcher blockRenderManager;
+    //? if >26
+    //public static final BlockDisplayContext BLOCK_DISPLAY_CONTEXT = BlockDisplayContext.create();
 
     public DimensionalSlimeCoreRenderer(
             RenderLayerParent
@@ -38,6 +45,7 @@ public class DimensionalSlimeCoreRenderer extends
             /*<ChaosSlime, SlimeModel<ChaosSlime>>
             *///?}
                     context, BlockRenderDispatcher blockRenderManager) {
+        //~}
         super(context);
         this.blockRenderManager = blockRenderManager;
     }
@@ -49,12 +57,12 @@ public class DimensionalSlimeCoreRenderer extends
         if (slime.isInvisible && !bl) {
             return;
         }
-        BlockState blockState = slime.core;
+        var blockState = slime.core;
         int m = LivingEntityRenderer.getOverlayCoords(slime, 0.0f);
         matrixStack.pushPose();
         matrixStack.scale(0.25f, 0.25f, 0.25f);
         matrixStack.translate(-0.5f, 4.5f, -0.5f);
-        this.renderCore(matrixStack, nodeCollector, packedLight, blockState, m);
+        this.renderCore(matrixStack, nodeCollector, packedLight, blockState, slime.coreModel, m);
         matrixStack.popPose();
     *///?} else if >1.21.2 {
     public void render(PoseStack matrixStack, MultiBufferSource vertexConsumerProvider, int i, TintedRenderState.Slime slime, float yRot, float xRot) {
@@ -92,10 +100,26 @@ public class DimensionalSlimeCoreRenderer extends
                             MultiBufferSource
                             //?}
 
-                                    vertexConsumers, int light, BlockState coreState, int overlay) {
+                                    vertexConsumers, int light, BlockState coreState,
+                            //? if >26
+                            //BlockModelRenderState coreModel,
+                            int overlay) {
+        //? if <26
         var coreModel = this.blockRenderManager.getBlockModel(coreState);
-        //? if >1.21.9 {
-        /*vertexConsumers.submitBlock(matrices, coreState, light, overlay, 0);
+        //? if >26 {
+        /*this.blockRenderManager.update(coreModel, coreState, BLOCK_DISPLAY_CONTEXT);
+        coreModel.submit(
+                // The current pose stack,
+                matrices,
+                // The node collector.
+                vertexConsumers,
+                // The light coordinates.
+                light,
+                // The overlay coordinates.
+                overlay,
+                // The outline color.
+                0
+        );
         *///?} else if >1.21.6 {
         ModelBlockRenderer.renderModel(matrices.last(), vertexConsumers.getBuffer(
                 //? if neoforge {

@@ -33,7 +33,11 @@ public abstract class PointOfInterestStorageMixin extends SectionStorage<PoiSect
         , PoiSection.Packed
         > {
 
-    //? if >1.21.2 {
+    //? if >26 {
+    /*public PointOfInterestStorageMixin(SimpleRegionStorage simpleRegionStorage, Codec<PoiSection.Packed> codec, Function<PoiSection, PoiSection.Packed> packer, BiFunction<PoiSection.Packed, Runnable, PoiSection> unpacker, Function<Runnable, PoiSection> factory, RegistryAccess registryAccess, ChunkIOErrorReporter errorReporter, LevelHeightAccessor levelHeightAccessor) {
+        super(simpleRegionStorage, codec, packer, unpacker, factory, registryAccess, errorReporter, levelHeightAccessor);
+    }
+    *///?} else if >1.21.2 {
     public PointOfInterestStorageMixin(SimpleRegionStorage simpleRegionStorage, Codec<PoiSection.Packed> codec, Function<PoiSection, PoiSection.Packed> packer, BiFunction<PoiSection.Packed, Runnable, PoiSection> unpacker, Function<Runnable, PoiSection> factory, RegistryAccess registryAccess, ChunkIOErrorReporter errorReporter, LevelHeightAccessor levelHeightAccessor) {
         super(simpleRegionStorage, codec, packer, unpacker, factory, registryAccess, errorReporter, levelHeightAccessor);
     }

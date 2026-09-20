@@ -1,5 +1,6 @@
 package net.codexarchonic.infinity.registry.var;
 
+//~ if >26 'PointOfInterestHelper'->'PoiHelper' {
 //? fabric {
 
 import net.fabricmc.fabric.api.object.builder.v1.world.poi.PointOfInterestHelper;
@@ -41,5 +42,6 @@ public class ModPoi {
         PointOfInterestHelper.register(InfinityMethods.getId("neither_portal"), 0, 1,
                 ImmutableSet.copyOf(ModBlocks.PORTAL.get().getStateDefinition().getPossibleStates()));
         //?}
+        //~}
     }
 }

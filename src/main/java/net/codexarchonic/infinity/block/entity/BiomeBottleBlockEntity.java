@@ -73,6 +73,7 @@ public class BiomeBottleBlockEntity extends SpecialBlockEntity {
     }
 
     public void setBiome(Holder<Biome> biome) {
+        //~ if >26 'location'->'identifier'
         if (biome.unwrapKey().isPresent()) setBiome(biome.value().getFoliageColor(), biome.unwrapKey().get().location());
     }
 
@@ -197,6 +198,7 @@ public class BiomeBottleBlockEntity extends SpecialBlockEntity {
 
     static ResourceLocation _getBiome(Level world, BlockPos pos) {
         Holder<Biome> biome = world.getBiome(pos);
+        //~ if >26 'location'->'identifier'
         if (biome.unwrapKey().isPresent()) return biome.unwrapKey().get().location();
         return BiomeBottleBlock.defaultBiome();
     }

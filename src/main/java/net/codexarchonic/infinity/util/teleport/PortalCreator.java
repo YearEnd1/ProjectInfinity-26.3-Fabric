@@ -232,7 +232,7 @@ public interface PortalCreator {
     }
 
     static void onInvocationNeedDetected(Player player) {
-        if (player != null) player.displayClientMessage(Component.translatable("error.infinity.invocation_needed"), false);
+        if (player != null) VersionMethods.sendSystemMessage(player, Component.translatable("error.infinity.invocation_needed"));
     }
 
     /**

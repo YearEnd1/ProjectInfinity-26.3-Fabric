@@ -11,6 +11,7 @@ import net.codexarchonic.infinity.registry.core.ModBlocks;
 import net.codexarchonic.infinity.iridescence.Iridescence;
 import net.codexarchonic.infinity.registry.core.ModItems;
 import net.minecraft.client.Minecraft;
+import net.minecraft.world.level.BlockAndTintGetter;
 import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.core.BlockPos;
@@ -162,6 +163,7 @@ public class ModFluidsFabric {
             return Iridescence.getColor(view, pos);
         }
     }
+    //? if <26 {
     public static class IridescenceRenderHandler implements FluidRenderHandler {
         @Override
         public TextureAtlasSprite[] getFluidSprites(@Nullable BlockAndTintGetter view, @Nullable BlockPos pos, FluidState state) {
@@ -188,5 +190,6 @@ public class ModFluidsFabric {
             return (view != null && pos != null) ? Iridescence.getPosBasedColor(pos) : Iridescence.getTimeBasedColor();
         }
     }
+    //?}
 }
 //?}

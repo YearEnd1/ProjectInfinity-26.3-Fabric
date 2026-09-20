@@ -3,6 +3,7 @@ package net.codexarchonic.infinity.data.loot;
 //? fabric {
 
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
+//~ if >26 'FabricBlockLootTableProvider'->'FabricBlockLootSubProvider' {
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricBlockLootTableProvider;
 import net.codexarchonic.infinity.registry.core.ModBlocks;
 import net.minecraft.core.HolderLookup;
@@ -11,6 +12,7 @@ import net.minecraft.world.item.Items;
 import java.util.concurrent.CompletableFuture;
 
 public class InfinityBlockLootTableProvider extends FabricBlockLootTableProvider {
+//~}
 
 	public InfinityBlockLootTableProvider(FabricDataOutput dataOutput, CompletableFuture<HolderLookup.Provider> registryLookup) {
 		super(dataOutput

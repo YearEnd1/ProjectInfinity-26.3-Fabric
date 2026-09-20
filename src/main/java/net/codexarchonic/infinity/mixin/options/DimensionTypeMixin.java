@@ -13,6 +13,7 @@ public abstract class DimensionTypeMixin implements InfinityOptionsAccess {
     @Unique
     public InfinityOptions infinity$options;
 
+    //? if <26 {
     @ModifyArg(method = "timeOfDay", at = @At(value="INVOKE", target="Lnet/minecraft/util/Mth;frac(D)D"), index = 0)
     private double customTimeOfDay(double value) {
         try {
@@ -22,6 +23,8 @@ public abstract class DimensionTypeMixin implements InfinityOptionsAccess {
             return value;
         }
     }
+    //?}
+    //TODO 26.1
     public InfinityOptions infinity$getOptions() {
         return InfinityOptions.nullSafe(infinity$options);
     }

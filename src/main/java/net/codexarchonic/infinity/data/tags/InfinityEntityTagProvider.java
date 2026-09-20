@@ -14,6 +14,7 @@ import net.minecraft.world.entity.EntityType;
 
 import java.util.concurrent.CompletableFuture;
 
+//~ if >26 '.EntityTypeTagProvider'->'.EntityTypeTagsProvider'
 public class InfinityEntityTagProvider extends FabricTagProvider.EntityTypeTagProvider {
 	public InfinityEntityTagProvider(FabricDataOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture) {
 		super(output, registriesFuture);

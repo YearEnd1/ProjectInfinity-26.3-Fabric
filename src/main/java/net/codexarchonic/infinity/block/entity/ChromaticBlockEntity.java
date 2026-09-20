@@ -144,7 +144,7 @@ public class ChromaticBlockEntity extends SpecialBlockEntity.Boopable {
             pitch = brightness / 255f;
         }
         else if (stack.getItem() instanceof DyeItem dye) {
-            setColor(ColorLogic.getChromaticColor(dye.getDyeColor()), cancel);
+            setColor(ColorLogic.getChromaticColor(dye, stack), cancel);
             event = SoundEvents.DYE_USE;
         }
         else return false;

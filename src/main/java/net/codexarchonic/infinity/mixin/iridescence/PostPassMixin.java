@@ -54,15 +54,18 @@ public class PostPassMixin implements PostPassAccess {
     }
     *///?}
 
-    //? neoforge && >1.21.2 {
+    //? neoforge && =1.21.8 {
     /*@Inject(method = "lambda$addToFrame$5", at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/systems/RenderPass;setVertexBuffer(ILcom/mojang/blaze3d/buffers/GpuBuffer;)V"))
     private void inj(ResourceHandle resourcehandle, GpuBufferSlice projectionMatrixBuffer, Map targets, CallbackInfo ci, @Local RenderPass renderPass) {
         if (infinity$is) IridescentUniform.trySet(renderPass);
     }
-    *///?} else fabric && >1.21.2 {
+    *///?} else fabric && =1.21.8 {
 	@Inject(method = "method_67884", at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/systems/RenderPass;setVertexBuffer(ILcom/mojang/blaze3d/buffers/GpuBuffer;)V"))
 	private void inj(ResourceHandle resourcehandle, GpuBufferSlice projectionMatrixBuffer, Map targets, CallbackInfo ci, @Local RenderPass renderPass) {
 		if (infinity$is) IridescentUniform.trySet(renderPass);
 	}
+	//?} else >26 {
+
 	//?}
+    //FIXME 26.1
 }

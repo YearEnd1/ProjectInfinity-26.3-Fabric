@@ -1,0 +1,7 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": "infinity:netherite_stairs",
+  "result": {
+    "id": "minecraft:netherite_block"
+  }
+}

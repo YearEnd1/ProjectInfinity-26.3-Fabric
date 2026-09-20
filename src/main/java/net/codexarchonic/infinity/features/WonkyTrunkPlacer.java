@@ -9,6 +9,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.util.ExtraCodecs;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.LevelSimulatedReader;
+import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.levelgen.feature.configurations.TreeConfiguration;
@@ -19,6 +20,7 @@ import java.util.List;
 import java.util.function.BiConsumer;
 import java.util.function.Function;
 
+//~ if >26 'LevelSimulatedReader'->'WorldGenLevel' {
 public class WonkyTrunkPlacer extends TrunkPlacer {
     public static final MapCodec<WonkyTrunkPlacer> CODEC = RecordCodecBuilder.mapCodec(
             instance -> trunkPlacerParts(instance)
@@ -50,6 +52,7 @@ public class WonkyTrunkPlacer extends TrunkPlacer {
 
     @Override
     public List<FoliagePlacer.FoliageAttachment> placeTrunk(LevelSimulatedReader world, BiConsumer<BlockPos, BlockState> replacer, RandomSource random, int height, BlockPos startPos, TreeConfiguration config) {
+        //? if <26
         setDirtAt(world, replacer, random, startPos.below(), config);
         BlockPos curr = startPos;
         this.placeLog(world, replacer, random, startPos, config);
@@ -86,7 +89,10 @@ public class WonkyTrunkPlacer extends TrunkPlacer {
             Function<BlockState, BlockState> function
     ) {
         if (this.validTreePos(world, pos)) {
-            BlockState bs = function.apply(config.trunkProvider.getState(random, pos));
+            BlockState bs = function.apply(config.trunkProvider.getState(
+                    //? if >26
+                    //world,
+                    random, pos));
             Direction.Axis axis = currentDir.getAxis();
             if (bs.hasProperty(BlockStateProperties.AXIS)) bs = bs.setValue(BlockStateProperties.AXIS, axis);
             if (bs.hasProperty(BlockStateProperties.HORIZONTAL_AXIS) && axis.isHorizontal()) bs = bs.setValue(BlockStateProperties.HORIZONTAL_AXIS, axis);
@@ -100,3 +106,4 @@ public class WonkyTrunkPlacer extends TrunkPlacer {
         }
     }
 }
+//~}

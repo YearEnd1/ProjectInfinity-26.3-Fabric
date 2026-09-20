@@ -16,8 +16,13 @@ import net.minecraft.client.renderer.blockentity.BlockEntityRenderDispatcher;
 import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.world.level.material.FogType;
 //?}
+//? if >26 {
+/*import net.minecraft.client.renderer.state.level.CameraRenderState;
+import net.minecraft.client.renderer.state.GameRenderState;
+*///?}
 import net.codexarchonic.infinity.access.WorldRendererAccess;
 import net.codexarchonic.infinity.options.InfinityOptions;
+//? if <26
 import net.codexarchonic.infinity.options.SkyRenderer;
 import net.minecraft.client.Camera;
 //? if >1.21 {
@@ -35,7 +40,7 @@ import java.util.Map;
 *///?}
 //? if >1.21.9 {
 /*import net.minecraft.client.renderer.feature.FeatureRenderDispatcher;
-import net.minecraft.client.renderer.state.LevelRenderState;
+import net.minecraft.client.renderer.state.level.LevelRenderState;
 *///?}
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
@@ -60,6 +65,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(LevelRenderer.class)
 public abstract class WorldRendererMixin implements WorldRendererAccess {
+    //? if <26 {
     @Shadow private ClientLevel level;
     @Final @Shadow private Minecraft minecraft;
 
@@ -70,7 +76,7 @@ public abstract class WorldRendererMixin implements WorldRendererAccess {
     public void infinity$setNeedsStars(boolean b) {
         //? if <1.21.2 {
         /*createStars();
-        *///?} else {
+        *///?} else if <26 {
         infinity$sky = new SkyRenderer(infinity$options(), this.level);
         //?}
     }
@@ -156,9 +162,11 @@ public abstract class WorldRendererMixin implements WorldRendererAccess {
     @Inject(method = "<init>", at = @At("TAIL"))
     void customSky(Minecraft minecraft, EntityRenderDispatcher entityRenderDispatcher, BlockEntityRenderDispatcher blockEntityRenderDispatcher, RenderBuffers renderBuffers,
                    //? if >1.21.9
-                   //LevelRenderState levelRenderState, FeatureRenderDispatcher featureRenderDispatcher,
+                   //GameRenderState levelRenderState, FeatureRenderDispatcher featureRenderDispatcher,
                    CallbackInfo ci) {
+        //? if <26
         if (this.level != null) infinity$sky = new SkyRenderer(infinity$options(), this.level);
+        //FIXME 26.1
     }
     //?}
     //? if >1.21.2 && neoforge {
@@ -167,7 +175,9 @@ public abstract class WorldRendererMixin implements WorldRendererAccess {
     *///?}
     //? if >1.21.2 && fabric {
     @Inject(method = "addSkyPass", at = @At("HEAD"), cancellable = true)
-    void addSkyPassFabric(FrameGraphBuilder frameGraphBuilder, Camera camera,
+    void addSkyPassFabric(FrameGraphBuilder frameGraphBuilder,
+              //~ if >26 'Camera '->'CameraRenderState '
+                          Camera camera,
              //? if <1.21.9
              float partialTick,
              GpuBufferSlice shaderFog, CallbackInfo ci) {
@@ -195,7 +205,7 @@ public abstract class WorldRendererMixin implements WorldRendererAccess {
                         /*if (!this.level.effects().renderSky(this.level, ticks, partialTick, modelViewMatrix, camera,
                                 () -> RenderSystem.setShaderFog(shaderFog))) {
     *///?}
-//? if >1.21.2 {
+//? if =1.21.8 {
     
                             RenderSystem.setShaderFog(shaderFog);
                             infinity$sky.renderAll(renderBuffers, partialTick);
@@ -239,4 +249,5 @@ public abstract class WorldRendererMixin implements WorldRendererAccess {
         this.notifyNearbyEntities(this.level, pos, sound != null);
     };
     *///?}
+    //?}
 }

@@ -6,7 +6,7 @@ import net.codexarchonic.infinity.util.InfinityMethods;
 import net.minecraft.client.renderer.MultiBufferSource;
 //? if >1.21.9 {
 /*import net.minecraft.client.renderer.SubmitNodeCollector;
-import net.minecraft.client.renderer.state.CameraRenderState;
+import net.minecraft.client.renderer.state.level.CameraRenderState;
 *///?}
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;

@@ -9,12 +9,7 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.TimeUtil;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.entity.EntitySelector;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.NeutralMob;
-import net.minecraft.world.entity.PathfinderMob;
+import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
@@ -41,8 +36,10 @@ import java.util.List;
 import java.util.UUID;
 
 public abstract class AbstractChessFigure extends Monster implements NeutralMob {
+    //~ if >26 'int'->'long'
     protected int angerTime;
     @Nullable
+    //~ if >26 'UUID'->'EntityReference<LivingEntity>'
     protected UUID angryAt;
 
     protected AbstractChessFigure(EntityType<? extends AbstractChessFigure> entityType, Level world) {
@@ -73,6 +70,24 @@ public abstract class AbstractChessFigure extends Monster implements NeutralMob 
         this.goalSelector.addGoal(8, new RandomLookAroundGoal(this));
     }
 
+    //? if >26 {
+    /*@Override
+    public void setPersistentAngerEndTime(long angerTime) {
+        this.angerTime = angerTime;
+    }
+    @Override
+    public long getPersistentAngerEndTime() {
+        return this.angerTime;
+    }
+    @Override
+    public void setPersistentAngerTarget(@Nullable EntityReference<LivingEntity> angryAt) {
+        this.angryAt = angryAt;
+    }
+    @Override
+    public @Nullable EntityReference<LivingEntity> getPersistentAngerTarget() {
+        return this.angryAt;
+    }
+    *///?} else {
     @Override
     public void setRemainingPersistentAngerTime(int angerTime) {
         this.angerTime = angerTime;
@@ -90,8 +105,10 @@ public abstract class AbstractChessFigure extends Monster implements NeutralMob 
     public UUID getPersistentAngerTarget() {
         return this.angryAt;
     }
+    //?}
     @Override
     public void startPersistentAngerTimer() {
+        //~ if >26 'setRemainingPersistentAngerTime'->'setPersistentAngerEndTime'
         this.setRemainingPersistentAngerTime(TimeUtil.rangeOfSeconds(20, 40).sample(this.random));
     }
 
@@ -235,6 +252,7 @@ public abstract class AbstractChessFigure extends Monster implements NeutralMob 
 
         @Override
         public boolean canUse() {
+            //~ if >26 'getBoolean(GameRules.RULE_UNIVERSAL_ANGER)'->'get(GameRules.UNIVERSAL_ANGER)'
             return ((ServerLevel) this.mob.level()).getGameRules().getBoolean(GameRules.RULE_UNIVERSAL_ANGER) && this.canStartUniversalAnger();
         }
 

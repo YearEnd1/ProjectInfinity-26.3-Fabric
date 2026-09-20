@@ -1,0 +1,8 @@
+{
+  "type": "infinity:collision_portal",
+  "input": "infinity:chromatic_potion",
+  "lore": "empty",
+  "output": {
+    "id": "infinity:iridescent_potion"
+  }
+}

@@ -7,6 +7,9 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.util.RandomSource;
 import net.minecraft.util.valueproviders.IntProvider;
+//? if >26 {
+/*import net.minecraft.util.valueproviders.IntProviders;
+*///?}
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.Block;
@@ -45,7 +48,10 @@ public class RandomColumnsFeature
         for (BlockPos blockPos2 : BlockPos.randomBetweenClosed(random, l, blockPos.getX() - k, blockPos.getY(), blockPos.getZ() - k, blockPos.getX() + k, blockPos.getY(), blockPos.getZ() + k)) {
             int m = j - blockPos2.distManhattan(blockPos);
             if (m < 0) continue;
-            BlockState state = context.config().block().getState(random, blockPos2);
+            BlockState state = context.config().block().getState(
+                    //? if >26
+                    //structureWorldAccess,
+                    random, blockPos2);
             bl2 |= this.placeBasaltColumn(structureWorldAccess, i, blockPos2, m, randomColumnsFeatureConfig.reach().sample(random), state);
         }
         return bl2;
@@ -130,8 +136,10 @@ public class RandomColumnsFeature
     public record Config(IntProvider reach, IntProvider height,
                          BlockStateProvider block) implements FeatureConfiguration {
         public static final Codec<Config> CODEC = RecordCodecBuilder.create(instance -> instance.group(
+                //~ if >26 'IntProvider'->'IntProviders' {
                 (IntProvider.codec(0, 3).fieldOf("reach")).forGetter(a -> a.reach),
                 (IntProvider.codec(1, 15).fieldOf("height")).forGetter(a -> a.height),
+                //~}
                 (BlockStateProvider.CODEC.fieldOf("block_provider")).forGetter(a -> a.block)).apply(
                 instance, Config::new));
     }

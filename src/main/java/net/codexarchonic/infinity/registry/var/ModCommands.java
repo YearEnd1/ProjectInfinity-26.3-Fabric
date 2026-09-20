@@ -17,6 +17,8 @@ import net.minecraft.commands.arguments.EntityArgument;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
+//? if >26
+//import net.minecraft.server.permissions.Permissions;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -49,6 +51,7 @@ public class ModCommands {
             warp = "warp";
         }
         CommandRegistrationEvent.EVENT.register((dispatcher, registryAccess, environment) -> dispatcher.register(literal(warp)
+                //~ if >26 'hasPermission(2)'->'permissions().hasPermission(Permissions.COMMANDS_GAMEMASTER)'
                 .requires(source -> source.hasPermission(2))
                 .then(
                         Commands.argument("targets", EntityArgument.players())
@@ -63,6 +66,7 @@ public class ModCommands {
                 .then(textArgument(false))
         ));
         CommandRegistrationEvent.EVENT.register((dispatcher, registryAccess, environment) -> dispatcher.register(literal("respawn")
+                //~ if >26 'hasPermission(2)'->'permissions().hasPermission(Permissions.COMMANDS_GAMEMASTER)'
                 .requires(source -> source.hasPermission(2)).executes(context -> {
                     WarpLogic.respawnAlive(context.getSource().getPlayer());
                     return 1;

@@ -1,9 +1,11 @@
 package net.codexarchonic.infinity.item.function;
 
+import com.mojang.serialization.MapCodec;
 import net.codexarchonic.infinity.item.F4Item;
 import net.codexarchonic.infinity.registry.core.ModComponentTypes;
 import net.codexarchonic.infinity.registry.core.ModItemFunctions;
 import net.codexarchonic.infinity.registry.core.ModItems;
+import net.codexarchonic.infinity.util.InfinityMethods;
 import net.codexarchonic.infinity.util.VersionMethods;
 
 import net.minecraft.core.NonNullList;
@@ -23,6 +25,12 @@ import net.minecraft.world.level.Level;
 import org.jspecify.annotations.NonNull;
 
 public class F4RechargingRecipe extends CustomRecipe {
+    public static F4RechargingRecipe INSTANCE = new F4RechargingRecipe(
+            //? if <1.21
+            //InfinityMethods.getId("f4_recharging"),
+            CraftingBookCategory.MISC);
+    public static MapCodec<F4RechargingRecipe> CODEC = MapCodec.unit(F4RechargingRecipe.INSTANCE);
+
     public F4RechargingRecipe(
             //? if <1.21
             //ResourceLocation id,
@@ -30,7 +38,9 @@ public class F4RechargingRecipe extends CustomRecipe {
         super(
                 //? if <1.21
                 //id,
-                craftingRecipeCategory);
+                //? if <26
+                craftingRecipeCategory
+        );
     }
 
     public boolean matches(
@@ -61,13 +71,13 @@ public class F4RechargingRecipe extends CustomRecipe {
              //?} else {
             /*CraftingContainer
             *///?}
-            craftingRecipeInput,
-            //? if >1.21 {
-            HolderLookup.Provider
-            //?} else {
-            /*RegistryAccess
+            craftingRecipeInput
+            //? if >1.21 && <26 {
+            ,HolderLookup.Provider wrapperLookup
+            //?} else if <1.21 {
+            /*,RegistryAccess wrapperLookup
             *///?}
-            wrapperLookup) {
+            ) {
         ItemStack f4 = null;
         int i = 0;
         //? if >1.21 {

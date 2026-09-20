@@ -6,6 +6,7 @@ import net.codexarchonic.infinity.registry.var.ModCriteria;
 import net.codexarchonic.infinity.registry.core.ModItems;
 import net.codexarchonic.infinity.registry.var.ModSounds;
 import net.codexarchonic.infinity.registry.var.ModStats;
+import net.codexarchonic.infinity.util.VersionMethods;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 //? if >1.21.9 {
@@ -73,6 +74,7 @@ public class TimeBombBlock extends Block {
 
     void eraseWorld(ServerLevel world) {
         ((Timebombable)world).infinity$timebomb();
+        //~ if >26 'location'->'identifier'
         Path path = world.getServer().getWorldPath(LevelResource.DATAPACK_DIR).resolve(world.dimension().location().getPath());
         try {
             FileUtils.deleteDirectory(path.toFile());
@@ -126,7 +128,7 @@ public class TimeBombBlock extends Block {
                 }
                 else if (world instanceof ServerLevel) {
                     world.playSound(null, pos, ModSounds.portalFail, SoundSource.BLOCKS, 1f, 1f);
-                    player.displayClientMessage(Component.translatable("error.infinity.timebomb.fail"), false);
+                    VersionMethods.sendSystemMessage(player, Component.translatable("error.infinity.timebomb.fail"));
                 }
             }
             else {

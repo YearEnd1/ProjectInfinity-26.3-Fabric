@@ -140,12 +140,17 @@ extends Item
     public static ItemStack getRandom(MinecraftServer server) {
         ItemStack stack = ModItems.DISC.get().getDefaultInstance();
         ResourceLocation song = VersionMethods.id(InfinityMod.provider.randomName(InfinityMod.random, ConfigType.JUKEBOXES));
+        ResourceKey<JukeboxSong> jukeboxSongKey = ResourceKey.create(Registries.JUKEBOX_SONG, song);
         stack.applyComponents(DataComponentMap.builder()
+                //? if >26 {
+                /*.set(DataComponents.JUKEBOX_PLAYABLE, new JukeboxPlayable(server.registryAccess().getOrThrow(jukeboxSongKey)))
+                *///?} else {
                 .set(DataComponents.JUKEBOX_PLAYABLE, new JukeboxPlayable(new EitherHolder<>(
-                        ResourceKey.create(Registries.JUKEBOX_SONG, song))
+                        jukeboxSongKey)
                         //? if <1.21.2
                         //, true
                 ))
+                //?}
                 .set(ModComponentTypes.COLOR.get(), (int) InfinityMethods.getDimensionSeed(song.getPath())).build());
         return stack;
     }

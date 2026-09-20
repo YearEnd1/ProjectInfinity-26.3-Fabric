@@ -34,7 +34,7 @@ public interface NbtUtils {
     //? if >1.21.5 {
 
     static Collection<String> keys(ValueInput tag) {
-        //~ if neoforge 'keys'->'keySet' {
+        //~ if neoforge || >26 'keys'->'keySet' {
         return tag.keys();
         //~}
     }

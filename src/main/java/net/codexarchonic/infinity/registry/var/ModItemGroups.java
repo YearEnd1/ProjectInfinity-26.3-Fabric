@@ -40,9 +40,11 @@ public class ModItemGroups {
             event, Item itemBefore, Item itemAfter) {
         //? if neoforge {
         /*event.insertAfter(itemBefore.getDefaultInstance(), itemAfter.getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
-        *///?} else if fabric {
+        *///?} else if fabric && <26 {
         event.addAfter(itemBefore, itemAfter);
-        //?} else {
+        //?} else if fabric {
+        /*event.insertAfter(itemBefore, itemAfter);
+        *///?} else {
         /*event.accept(itemAfter.getDefaultInstance(), CreativeModeTab.TabVisibility.PARENT_AND_SEARCH_TABS);
         *///?}
     }

@@ -2,6 +2,7 @@ package net.codexarchonic.infinity.util;
 
 import com.google.common.hash.HashCode;
 import com.google.common.hash.Hashing;
+import it.unimi.dsi.fastutil.ints.IntList;
 import net.codexarchonic.infinity.InfinityMod;
 import net.codexarchonic.infinity.access.InfinityOptionsAccess;
 import net.codexarchonic.infinity.access.Timebombable;
@@ -12,6 +13,7 @@ import net.codexarchonic.infinity.registry.core.ModComponentTypes;
 import net.codexarchonic.infinity.util.core.Easterizer;
 import net.codexarchonic.infinity.util.core.RandomProvider;
 import net.codexarchonic.infinity.util.platform.InfinityPlatform;
+import net.minecraft.world.level.BlockAndTintGetter;
 import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -84,6 +86,7 @@ public interface InfinityMethods {
         return isInfinity(w.dimension());
     }
     static boolean isInfinity(ResourceKey<Level> key) {
+        //~ if >26 'location'->'identifier'
         return key.location().getNamespace().equals(MOD_ID);
     }
     static boolean isBiomeInfinity(LevelAccessor world, BlockPos pos) {
@@ -180,6 +183,7 @@ public interface InfinityMethods {
     private static float bookBoxSample(BlockPos pos, int offset) {
         return Mth.clamp(0.5f * (1f + (float)sampler.getValue(4*pos.getX(), 4*(pos.getY() + offset), 4*pos.getZ())), 0f, 1f);
     }
+    //~ if >26 'int tintIndex'->'IntList tintIndex'
     static int getBookBoxColor(BlockState state, BlockAndTintGetter world, BlockPos pos, int tintIndex) {
         if (pos != null) {
             float r = bookBoxSample(pos, -1000);
@@ -232,6 +236,7 @@ public interface InfinityMethods {
     /**
      * For use in color providers with blocks which the block entity sets color for.
      */
+    //~ if >26 'int tintIndex'->'IntList tintIndex'
     static int getBlockEntityColor(BlockState state, BlockAndTintGetter world, BlockPos pos, int tintIndex) {
         if (world != null && pos != null) {
             BlockEntity blockEntity = world.getBlockEntity(pos);
