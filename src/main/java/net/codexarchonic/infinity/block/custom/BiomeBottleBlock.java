@@ -144,7 +144,7 @@ public class BiomeBottleBlock extends BaseEntityBlock {
     /*public static void updateCharge(ItemStack stack, int charge) {
         if (stack.hasTag()) {
             assert stack.getTag() != null;
-            stack.getTag().getCompound("BlockEntityTag").putInt("Charge", charge);
+            stack.getTag().getCompound("infdata").putInt("Charge", charge);
         }
     }
     public static void updateCharge(ItemStack stack) {
@@ -167,7 +167,7 @@ public class BiomeBottleBlock extends BaseEntityBlock {
         //?} else {
         /*if (stack.hasTag()) {
             assert stack.getTag() != null;
-            return VersionMethods.id(stack.getTag().getCompound("BlockEntityTag").getString("Biome"));
+            return VersionMethods.id(stack.getTag().getCompound("infdata").getString("Biome"));
         }
         return defaultBiome();
         *///?}
@@ -179,7 +179,7 @@ public class BiomeBottleBlock extends BaseEntityBlock {
         //?} else {
         /*if (stack.hasTag()) {
             assert stack.getTag() != null;
-            return stack.getTag().getCompound("BlockEntityTag").getInt("Charge");
+            return stack.getTag().getCompound("infdata").getInt("Charge");
         }
         return 0;
         *///?}

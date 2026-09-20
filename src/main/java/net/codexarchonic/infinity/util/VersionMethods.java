@@ -297,7 +297,7 @@ public interface VersionMethods {
         return stack.getComponents().get(ModComponentTypes.BIOME_CONTENTS.get());
         //?} else {
         /*if (stack.getTag() != null) {
-            return VersionMethods.id(stack.getTag().getCompound("BlockEntityTag").getString("Biome"));
+            return VersionMethods.id(stack.getTag().getCompound("infdata").getString("Biome"));
         }
         return null;
         *///?}

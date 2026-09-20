@@ -53,7 +53,7 @@ public class BiomeBottleBlockEntity extends SpecialBlockEntity {
 
             public void set(int index, int value) {
                 if (index == 0) {
-                    BiomeBottleBlockEntity.this.color = value;
+                    BiomeBottleBlockEntity.this.color = value & 0xFFFFFF;
                 }
 
             }
@@ -62,6 +62,14 @@ public class BiomeBottleBlockEntity extends SpecialBlockEntity {
             }
         };
         this.empty();
+    }
+
+    public void setCharge(int charge) {
+        this.charge = charge;
+        if (this.level != null)
+            level.setBlockAndUpdate(this.getBlockPos(), ModBlocks.BIOME_BOTTLE.get()
+                    .defaultBlockState()
+                    .setValue(BiomeBottleBlock.LEVEL, BiomeBottleBlock.getLevel(charge)));
     }
 
     public void setBiome(Holder<Biome> biome) {
@@ -83,12 +91,7 @@ public class BiomeBottleBlockEntity extends SpecialBlockEntity {
     /*public void saveAdditional(CompoundTag tag) {
         super.saveAdditional(tag);
 *///?}
-        CompoundTag res = new CompoundTag();
-        res.putString("Biome", biome.toString());
-        res.putInt("Color", color);
-        res.putInt("Charge", charge);
-        if (from_charge > 0) res.putInt("from_charge", from_charge);
-        VersionMethods.saveBlockEntityData(tag, res);
+        VersionMethods.saveBlockEntityData(tag, dataTag());
     }
 
 //? if >1.21.4 {
@@ -132,7 +135,14 @@ public class BiomeBottleBlockEntity extends SpecialBlockEntity {
     public CompoundTag getUpdateTag(HolderLookup.Provider registryLookup) {
         return saveWithoutMetadata(registryLookup);
     }
-    //?}
+    //?} else {
+    /*@Override
+    public CompoundTag getUpdateTag() {
+        CompoundTag tag = new CompoundTag();
+        VersionMethods.saveBlockEntityData(tag, dataTag());
+        return tag;
+    }
+    *///?}
 
     @Nullable
     @Override
@@ -144,12 +154,34 @@ public class BiomeBottleBlockEntity extends SpecialBlockEntity {
         return propertyDelegate.get(0);
     }
 
-    public ItemStack asStack() {
-        ItemStack itemStack = ModItems.BIOME_BOTTLE_ITEM.get().getDefaultInstance();
-        //? if >1.21
+    public CompoundTag dataTag() {
+        CompoundTag beData = new CompoundTag();
+        beData.putInt("Charge", charge);
+        beData.putInt("Color", color);
+        beData.putString("Biome", biome.toString());
+        if (from_charge > 0) beData.putInt("from_charge", from_charge);
+        InfinityMod.LOGGER.info("Charge {} Color {} Biome {}", charge, color, biome);
+        return beData;
+    }
+
+    public ItemStack updateStack(ItemStack itemStack) {
+        //? if >1.21 {
         itemStack.applyComponents(this.collectComponents());
+         //?} else {
+        /*CompoundTag tag = new CompoundTag();
+        VersionMethods.saveBlockEntityData(tag, dataTag());
+        itemStack.setTag(tag);
+        *///?}
         return itemStack;
     }
+
+    public ItemStack asStack() {
+        InfinityMod.LOGGER.info("boop");
+        return updateStack(ModItems.BIOME_BOTTLE_ITEM.get().getDefaultInstance());
+    }
+
+   // /setblock 2 78 5 infinity:biome_bottle[level=10]{infdata:{Biome:"minecraft:forest",Charge:1000,Color:-10899920}}
+   // {Count:1b,Slot:0b,id:"infinity:biome_bottle",tag:{infdata:{Biome:"minecraft:plains",Charge:0,Color:16777215}}}]}
 
     public void startTicking() {
         if (charge > 10000) charge = 10000;
@@ -202,8 +234,8 @@ public class BiomeBottleBlockEntity extends SpecialBlockEntity {
                     be.charge += 100;
                     be.charge = Mth.clamp(be.charge, 0, 1000);
                 }
-                int level = BiomeBottleBlock.getLevel(be.charge);
 
+                int level = BiomeBottleBlock.getLevel(be.charge);
                 world.setBlockAndUpdate(pos, state.setValue(BiomeBottleBlock.LEVEL, level));
                 BiomeBottleBlock.playSploosh(w, pos);
                 be.setChanged();

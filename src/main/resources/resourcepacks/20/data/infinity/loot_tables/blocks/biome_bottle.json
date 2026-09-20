@@ -13,17 +13,17 @@
               "ops": [
                 {
                   "op": "replace",
-                  "source": "Biome",
-                  "target": "BlockEntityTag.Biome"
+                  "source": "infdata.Biome",
+                  "target": "infdata.Biome"
                 },
                 {
                   "op": "replace",
-                  "source": "Charge",
-                  "target": "BlockEntityTag.Charge"
+                  "source": "infdata.Charge",
+                  "target": "infdata.Charge"
                 },
                 {
-                  "source": "Color",
-                  "target": "BlockEntityTag.Color",
+                  "source": "infdata.Color",
+                  "target": "infdata.Color",
                   "op": "replace"
                 }
               ],

@@ -208,7 +208,7 @@ public interface InfinityMethods {
                 if (stack.is(ModItems.TRANSFINITE_KEY.get()))
                     return stack.getTag().getInt(ModComponentTypes.COLOR);
                 else if (stack.is(ModItems.BIOME_BOTTLE_ITEM.get())) {
-                    return stack.getTag().getCompound("BlockEntityTag").getInt("Color");
+                    return stack.getTag().getCompound("infdata").getInt("Color");
                 }
                 else if (stack.is(ModItems.F4.get())) {
                     return VersionMethods.getOrDefaultInt(stack, ModComponentTypes.COLOR, 10879231);
