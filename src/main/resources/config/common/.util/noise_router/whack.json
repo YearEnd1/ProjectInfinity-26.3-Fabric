@@ -117,5 +117,6 @@
     }
   },
   "vein_toggle": "infinity:vein_toggle",
-  "fluid_level_floodedness": 0.0
+  "fluid_level_floodedness": 0.0,
+  "preliminary_surface_level": "infinity:preliminary_surface_level"
 }

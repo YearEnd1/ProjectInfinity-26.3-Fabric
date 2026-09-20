@@ -45,10 +45,14 @@ public class RandomDisk extends RandomisedFeature {
             targets.put("blocks", blocks);
         }
         config.put("target", targets);
+        //? if >26 {
+        /*config.put("state_provider", blockProvider);
+        *///?} else {
         CompoundTag state_provider = new CompoundTag();
         state_provider.put("fallback", blockProvider);
         state_provider.put("rules", new ListTag());
         config.put("state_provider", state_provider);
+        //?}
         return feature(config);
     }
 }

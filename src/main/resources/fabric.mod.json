@@ -13,7 +13,7 @@
   "icon": "assets/infinity/icon.png",
   "license": "LGPL-3.0-or-later",
   "environment": "*",
-  "accessWidener": "accesswideners/${aw_file}",
+  "accessWidener": "infinity.accesswidener",
   "entrypoints": {
     "main": [
       "net.codexarchonic.infinity.util.platform.fabric.FabricEntrypoint"

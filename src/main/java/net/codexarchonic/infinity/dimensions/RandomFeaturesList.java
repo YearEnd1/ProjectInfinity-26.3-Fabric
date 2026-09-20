@@ -91,6 +91,7 @@ public class RandomFeaturesList {
         ListTag res = getAllElements(ConfigType.LOCAL_MOD);
         addRandomFeature("iceberg", res, RandomIceberg::new);
         addRandomFeature("geode", res, RandomGeode::new);
+		//? if <26
         addRandomFeature("rock", res, RandomRock::new);
         return res;
     }
@@ -142,11 +143,15 @@ public class RandomFeaturesList {
         ListTag res = new ListTag();
         addRandomFeature("vegetation", res, RandomVegetation::new);
         res.addAll(getAllElements(ConfigType.VEG1));
+        //? if <26 {
         addRandomFeature(res, RandomFlowerPatch::new);
+        //?}
         res.add(StringTag.valueOf(PROVIDER.randomName(random, ConfigType.GRASS)));
         res.addAll(getAllElements(ConfigType.VEG2));
+		//? if <26 {
         addRandomFeature("surface_patch", res, RandomSurfacePatch::new);
         addRandomFeature("floating_patch", res, RandomFloatingPatch::new);
+		//?}
         if (NbtUtils.getString(parent.parent.default_fluid, "Name").contains("water")) {
             addRandomFeature("water_plants", res, RandomSeagrass::new);
             addRandomFeature("water_plants", res, RandomPickle::new);

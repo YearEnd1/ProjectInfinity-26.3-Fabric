@@ -16,6 +16,7 @@ import net.minecraft.core.component.DataComponentPatch;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.ItemStack;
 
 import java.util.List;
 
@@ -25,7 +26,10 @@ public class PortalCraftingViewRecipe implements ReliableClientRecipe {
     private String lore;
 
     public PortalCraftingViewRecipe(PortalCraftingServerRecipe modRecipe) {
-        var output = modRecipe.getResult();
+        this(SlotContent.of(modRecipe.getIngredient()), modRecipe.getResult(), modRecipe.getLore());
+    }
+
+    public PortalCraftingViewRecipe(SlotContent input, ItemStack output, String lore) {
         DataComponentPatch.Builder b = DataComponentPatch.builder();
         if (output.getItem() instanceof PortalDataHolder) {
             b = b.set(ModComponentTypes.COLOR.get(), ColorLogic.defaultPortal);
@@ -35,8 +39,8 @@ public class PortalCraftingViewRecipe implements ReliableClientRecipe {
             b = b.set(ModComponentTypes.DESTINATION.get(), ResourceLocation.parse("infinity:generated_0"));
         }
         output.applyComponentsAndValidate(b.build());
-        this.lore = modRecipe.getLore();
-        this.input = SlotContent.of(modRecipe.getIngredient());
+        this.lore = lore;
+        this.input = input;
         this.output = SlotContent.of(output);
     }
 

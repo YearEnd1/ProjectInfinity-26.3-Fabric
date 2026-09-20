@@ -45,10 +45,9 @@ public class PlayerManagerMixin {
         infinity$needsTpOut = false;
     }
 
-    //FIXME 1.21.10 - check new target
-    //~ if >1.21.9 'Lnet/minecraft/server/MinecraftServer;overworld()Lnet/minecraft/server/level/ServerLevel;'->'Lnet/minecraft/server/level/ServerPlayer;level()Lnet/minecraft/server/level/ServerLevel;' {
+    //? if <1.21.10 {
+    //FIXME 1.21.10 - find new target
     @Inject(method="placeNewPlayer", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/MinecraftServer;overworld()Lnet/minecraft/server/level/ServerLevel;"))
-    //~}
     void checkNeedsTpOut(Connection connection, ServerPlayer player,
                          //? if >1.21 {
                          CommonListenerCookie clientData,
@@ -56,6 +55,7 @@ public class PlayerManagerMixin {
                          CallbackInfo ci) {
         infinity$needsTpOut = true;
     }
+    //?}
 
     @Inject(method="placeNewPlayer", at = @At(value = "TAIL"))
     void tpOut(Connection connection, ServerPlayer player,

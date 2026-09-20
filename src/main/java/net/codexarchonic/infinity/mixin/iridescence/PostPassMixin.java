@@ -65,7 +65,10 @@ public class PostPassMixin implements PostPassAccess {
 		if (infinity$is) IridescentUniform.trySet(renderPass);
 	}
 	//?} else >26 {
-
-	//?}
+    /*@Inject(method = "lambda$addToFrame$1", at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/systems/RenderPass;setPipeline(Lcom/mojang/blaze3d/pipeline/RenderPipeline;)V"))
+    private void inj(ResourceHandle resourcehandle, GpuBufferSlice projectionMatrixBuffer, Map targets, CallbackInfo ci, @Local(name = "renderPass") RenderPass renderPass) {
+        if (infinity$is) IridescentUniform.trySet(renderPass);
+    }
+	*///?}
     //FIXME 26.1
 }

@@ -24,12 +24,16 @@ public class RandomDimensionType {
         name = "generated_" +dim.numericId;
         fullname = InfinityMod.MOD_ID + ":" + name;
         data = new CompoundTag();
+        //? if >26 {
+        /*add_roll("has_ender_dragon_fight");
+        *///?} else {
         add_roll("ultrawarm");
         add_roll("natural");
         add_roll("piglin_safe");
         add_roll("bed_works");
         add_roll("respawn_anchor_works");
         add_roll("has_raids");
+        //?}
         data.putBoolean("has_ceiling", dim.hasCeiling());
         data.putDouble("coordinate_scale", coordinateScale());
         data.putFloat("ambient_light", random.nextFloat());

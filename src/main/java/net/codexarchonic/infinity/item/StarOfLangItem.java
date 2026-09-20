@@ -26,12 +26,12 @@ public class StarOfLangItem extends Item {
     }
     *///?} else if neoforge && <1.21.2 {
     /*@Override
-    public @NonNull ItemStack getCraftingRemainingItem(@NonNull ItemStack itemStack) {
+    public ItemStack getCraftingRemainingItem(ItemStack itemStack) {
         return new ItemStack(ModItems.STAR_OF_LANG.get());
     }
 
     @Override
-    public boolean hasCraftingRemainingItem(@NonNull ItemStack stack) {
+    public boolean hasCraftingRemainingItem(ItemStack stack) {
         return true;
     }
     *///?} else if fabric {

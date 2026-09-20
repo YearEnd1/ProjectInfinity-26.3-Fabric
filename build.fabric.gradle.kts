@@ -7,7 +7,7 @@ plugins {
 }
 
 val minecraft = stonecutter.current.version
-val accesswidener = "$minecraft.accesswidener"
+val accesswidener = "infinity.accesswidener"
 version = "${property("mod.version")}+${property("deps.minecraft")}"
 if (property("mod.test_build") != "0") version = "$version-tb${property("mod.test_build")}"
 
@@ -403,7 +403,7 @@ publishMods {
 }
 
 loom {
-    accessWidenerPath = rootProject.file("src/main/resources/accesswideners/$accesswidener")
+    accessWidenerPath = file("src/main/resources/$accesswidener")
 }
 
 tasks.processResources {

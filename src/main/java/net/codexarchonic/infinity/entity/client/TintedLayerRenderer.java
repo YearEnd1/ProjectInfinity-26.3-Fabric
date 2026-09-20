@@ -46,13 +46,11 @@ public class TintedLayerRenderer<T extends LivingEntityRenderState, S extends En
 
         // TODO 1.21.10 find a better way of extracting a texture from a render state
         ResourceLocation texture;
-        if (renderState instanceof ChaosPawnRenderState) {
-            texture = InfinityMethods.getId("textures/entity/empty.png");
-        } else if (renderState instanceof TintedRenderState.Slime) {
-            texture = InfinityMethods.getId("textures/entity/slime.png");
-        } else {
-            texture = InfinityMethods.getId("textures/entity/empty.png");
-        }
+		if (renderState instanceof TintedRenderState tintedRenderState) {
+			texture = tintedRenderState.getTexture();
+		} else {
+			texture = InfinityMethods.getId("textures/entity/empty.png");
+		}
 
 //        (this.getParentModel()).copyTransforms(this.model);
         this.model.setupAnim(renderState);
@@ -60,7 +58,7 @@ public class TintedLayerRenderer<T extends LivingEntityRenderState, S extends En
         if (renderState instanceof TintableEntity ent) {
             color = ent.getColorForRender();
         }
-        nodeCollector.submitModel(model, renderState, matrixStack, RenderTypes.outline(texture), packedLight, LivingEntityRenderer.getOverlayCoords(renderState, 0.0f), color, null, renderState.outlineColor, null);
+        nodeCollector.submitModel(model, renderState, matrixStack, RenderTypes.outline(texture), packedLight, LivingEntityRenderer.getOverlayCoords(renderState, 0.0f), ARGB.opaque(color), null, renderState.outlineColor, null);
     }
     *///?} else if >1.21.2 {
     //    public void render(MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int i, T livingEntity, float f, float g, float h, float j, float k, float l) {

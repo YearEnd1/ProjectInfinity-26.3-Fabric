@@ -113,5 +113,6 @@
   "vegetation": "infinity:vegetation",
   "vein_gap": "infinity:vein_gap",
   "vein_ridged": "infinity:vein_ridged",
-  "vein_toggle": "infinity:vein_toggle"
+  "vein_toggle": "infinity:vein_toggle",
+  "preliminary_surface_level": "infinity:preliminary_surface_level"
 }

@@ -49,8 +49,9 @@ public abstract class LandPathNodeMakerMixin extends NodeEvaluator {
     }
 
     /* This allows other mobs pathfind when swimming in iridescence */
+    //~ if >26 'Lnet/minecraft/world/level/block/state/BlockState;is(Lnet/minecraft/world/level/block/Block;)Z'->'Lnet/minecraft/world/level/block/state/BlockState;is(Ljava/lang/Object;)Z'
     @ModifyExpressionValue(method= "getStart",
-            at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/block/state/BlockState;is(Lnet/minecraft/world/level/block/Block;)Z"))
+            at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/block/state/BlockState;is(Ljava/lang/Object;)Z"))
     boolean mobsSwimInIridescence(boolean original, @Local BlockState blockState) {
         return original || blockState.getFluidState().is(FluidTags.WATER);
     }

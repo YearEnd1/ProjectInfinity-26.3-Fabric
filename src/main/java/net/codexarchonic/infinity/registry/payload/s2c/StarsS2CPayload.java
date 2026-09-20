@@ -46,6 +46,8 @@ public record StarsS2CPayload() implements FriendlyPacket.S2C {
         *///?}
     @Override
     public void receive(Minecraft client) {
+        //FIXME 26.1
+        //? if <26
         client.execute(() -> ((WorldRendererAccess)(client.levelRenderer)).infinity$setNeedsStars(true));
     }
 
