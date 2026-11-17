@@ -1,6 +1,5 @@
 package net.codexarchonic.infinity.block.custom;
 
-import com.mojang.serialization.MapCodec;
 import net.codexarchonic.infinity.block.entity.ChromaticBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -24,7 +23,6 @@ import org.jspecify.annotations.Nullable;
 
 public class ChromaticBlock extends BaseEntityBlock implements Boopable {
     //? if >1.21
-    public static final MapCodec<ChromaticBlock> CODEC = simpleCodec(ChromaticBlock::new);
     public ChromaticBlock(Properties settings) {
         super(settings);
     }
@@ -111,12 +109,6 @@ public class ChromaticBlock extends BaseEntityBlock implements Boopable {
     public RenderShape getRenderShape(BlockState state) {
         return RenderShape.MODEL;
     }
-    //? if >1.21 {
-    @Override
-    protected MapCodec<? extends BaseEntityBlock> codec() {
-        return CODEC;
-    }
-    //?}
     @Override
     public @Nullable BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
         return new ChromaticBlockEntity(pos, state);

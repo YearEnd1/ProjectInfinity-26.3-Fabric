@@ -41,8 +41,8 @@ public class F4Screen extends AbstractContainerScreen<F4ScreenHandler> {
     @Override
     protected void init() {
         super.init();
-        widthValue = new EditBox(this.font, leftPos + 82, topPos + 30, 12, 8, Component.literal("width"));
-        heightValue = new EditBox(this.font, leftPos + 82, topPos + 57, 12, 8, Component.literal("height"));
+        widthValue = new EditBox(this.font, leftPos + 82, topPos + 30, 12, 8, Component.translatable("screen.infinity.f4.width"));
+        heightValue = new EditBox(this.font, leftPos + 82, topPos + 57, 12, 8, Component.translatable("screen.infinity.f4.height"));
         setupValue(widthValue, menu.width);
         setupValue(heightValue, menu.height);
     }
@@ -73,8 +73,8 @@ public class F4Screen extends AbstractContainerScreen<F4ScreenHandler> {
     @Override
     public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float delta) {
         super.render(guiGraphics, mouseX, mouseY, delta);
-        guiGraphics.drawString(this.font, Component.literal("Portal width"), leftPos + 59, topPos + 18, 4210752, false);
-        guiGraphics.drawString(this.font, Component.literal("Portal height"), leftPos + 56, topPos + 45, 4210752, false);
+        guiGraphics.drawString(this.font, Component.translatable("screen.infinity.f4.width"), leftPos + 59, topPos + 18, 4210752, false);
+        guiGraphics.drawString(this.font, Component.translatable("screen.infinity.f4.height"), leftPos + 56, topPos + 45, 4210752, false);
         this.widthValue.render(guiGraphics, mouseX, mouseY, delta);
         this.heightValue.render(guiGraphics, mouseX, mouseY, delta);
         //~ if >26 'renderTooltip'->'extractTooltip'

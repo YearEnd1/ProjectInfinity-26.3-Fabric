@@ -28,7 +28,8 @@ public class EasterConfigFactory {
         for (String name : sorted.toList()) {
             var defaultsDisabled = isEasterEggDisabled(defaultConfig, name);
             easterCategory.addEntry(builder.entryBuilder().startBooleanToggle(
-                            Component.nullToEmpty(InfinityMethods.formatAsTitleCase(name)), isEasterEggDisabled(currentConfig, name))
+                            Component.translatableWithFallback("config.infinity.easter." + name,
+                                    InfinityMethods.formatAsTitleCase(name)), isEasterEggDisabled(currentConfig, name))
                     .setSaveConsumer(newValue -> easterSetter(name, newValue))
                     .setTooltip(easterTooltip(defaultsDisabled))
                     .setDefaultValue(defaultsDisabled).build());

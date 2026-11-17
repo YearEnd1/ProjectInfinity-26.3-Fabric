@@ -1,7 +1,7 @@
 package net.codexarchonic.infinity.mixin.iridescence;
 
 //? if >1.21.2 {
-import com.mojang.blaze3d.systems.RenderPass;
+import com.mojang.renderpearl.api.commands.RenderPass;
 import net.codexarchonic.infinity.iridescence.IridescentUniform;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;

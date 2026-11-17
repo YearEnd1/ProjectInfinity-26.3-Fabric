@@ -7,7 +7,9 @@ import net.minecraft.client.model.geom.ModelLayers;
 //? if >1.21.9 {
 /*import net.minecraft.client.renderer.entity.ArmorModelSet;
 *///?}
+//? if <1.21.9 {
 import net.minecraft.client.renderer.MultiBufferSource;
+//?}
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.HumanoidMobRenderer;
 import net.minecraft.client.renderer.entity.layers.HumanoidArmorLayer;

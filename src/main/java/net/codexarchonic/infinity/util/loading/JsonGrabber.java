@@ -75,6 +75,8 @@ public class JsonGrabber<E> {
     }
 
     void grab(ResourceKey<E> key, JsonElement jsonElement, boolean bl) {
+        //? if >=26.3
+        jsonElement = WorldgenData.upgrade(jsonElement);
         RegistryOps<JsonElement> registryOps = RegistryOps.create(JsonOps.INSTANCE, registryInfoGetter);
         try {
             DataResult<E> dataResult = decoder.parse(registryOps, jsonElement);
@@ -83,12 +85,12 @@ public class JsonGrabber<E> {
                 if (bl || !registry.containsKey(key)) registry.register(key, object, ChemicalX);
             }
             else {
-                LogManager.getLogger().info(jsonElement);
+                throw new IllegalStateException("Failed to decode " + key + ": " + dataResult.error().orElseThrow().message());
             }
         }
         catch (Exception e) {
             LogManager.getLogger().info(jsonElement);
-            throw new RuntimeException(e.getMessage() + " Element affected: " + jsonElement.toString());
+            throw new IllegalStateException("Failed to load " + key + ": " + e.getMessage(), e);
         }
     }
 
@@ -115,11 +117,13 @@ public class JsonGrabber<E> {
             throw new RuntimeException(e);
         }
         JsonElement jsonElement = JsonParser.parseString(content);
+        //? if >=26.3
+        jsonElement = WorldgenData.upgrade(jsonElement);
         RegistryOps<JsonElement> registryOps = RegistryOps.create(JsonOps.INSTANCE, registryInfoGetter);
         DataResult<E> dataResult = decoder.parse(registryOps, jsonElement);
         E object = dataResult.getOrThrow(
                 //? if >1.21 {
-                (error) -> null
+                error -> new IllegalStateException("Failed to decode " + path + ": " + error)
                  //?} else {
                 /*false, (error) -> {}
                 *///?}

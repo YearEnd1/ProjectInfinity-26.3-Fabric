@@ -31,7 +31,7 @@ public class ModBlocks {
     public static final RegistrySupplier<Block> ALTAR = register("altar",
             AltarBlock::new, VersionMethods.copyBlockProperties(Blocks.STONE).noOcclusion().lightLevel(state -> state.getValue(AltarBlock.FLOWER) ? 15 : 0));
     public static final RegistrySupplier<Block> ANT = register("ant",
-            AntBlock::new, (VersionMethods.copyBlockProperties(Blocks.WHITE_CONCRETE)));
+            AntBlock::new, (VersionMethods.copyBlockProperties(Blocks.CONCRETE.white())));
     public static final RegistrySupplier<Block> BOOK_BOX = register("book_box",
             BookBoxBlock::new, (VersionMethods.copyBlockProperties(Blocks.BOOKSHELF)));
     public static final RegistrySupplier<Block> CURSOR = register("cursor", 
@@ -51,20 +51,20 @@ public class ModBlocks {
             BiomeBottleBlock::new, (VersionMethods.copyBlockProperties(Blocks.BEACON).lightLevel(state -> state.getValue(BiomeBottleBlock.LEVEL))
                     .sound(SoundType.GLASS)));
     public static final RegistrySupplier<Block> IRIDESCENT_WOOL = register("iridescent_wool", 
-            IridescentBlock::new, (VersionMethods.copyBlockProperties(Blocks.MAGENTA_WOOL)));
+            IridescentBlock::new, (VersionMethods.copyBlockProperties(Blocks.WOOL.magenta())));
     public static final RegistrySupplier<Block> IRIDESCENT_CARPET = register("iridescent_carpet", 
-            IridescentBlock.Carpet::new, (VersionMethods.copyBlockProperties(Blocks.MAGENTA_CARPET)));
+            IridescentBlock.Carpet::new, (VersionMethods.copyBlockProperties(Blocks.CARPET.magenta())));
     public static final RegistrySupplier<Block> CHROMATIC_WOOL = register("chromatic_wool", 
-            ChromaticBlock::new, (VersionMethods.copyBlockProperties(Blocks.MAGENTA_WOOL)));
+            ChromaticBlock::new, (VersionMethods.copyBlockProperties(Blocks.WOOL.magenta())));
     public static final RegistrySupplier<Block> CHROMATIC_CARPET = register("chromatic_carpet", 
-            ChromaticBlock.Carpet::new, (VersionMethods.copyBlockProperties(Blocks.MAGENTA_CARPET)));
+            ChromaticBlock.Carpet::new, (VersionMethods.copyBlockProperties(Blocks.CARPET.magenta())));
     public static final RegistrySupplier<IridescentKelpBlock> IRIDESCENT_KELP = register("iridescent_kelp",
             IridescentKelpBlock::new, (VersionMethods.copyBlockProperties(Blocks.KELP).mapColor(MapColor.COLOR_MAGENTA)));
     public static final RegistrySupplier<IridescentKelpBlock.Plant> IRIDESCENT_KELP_PLANT = register("iridescent_kelp_plant",
             IridescentKelpBlock.Plant::new, (VersionMethods.copyBlockProperties(Blocks.KELP).mapColor(MapColor.COLOR_MAGENTA)));
     public static final RegistrySupplier<RailHelper> RAIL_HELPER = register("rail_helper",
             RailHelper::new, (BlockBehaviour.Properties.of().strength(-1.0F, 3600000.8F).mapColor(MapColor.NONE)
-                    .noLootTable().noOcclusion().isValidSpawn((state, getter, pos, type)-> false).pushReaction(PushReaction.BLOCK)
+                    .noLootTable().noOcclusion().isValidSpawn((state, getter, pos, type)-> false).pushReaction(PushReaction.IMMOVEABLE)
                     //? if >1.21 {
                     .noTerrainParticles()
                     //?}

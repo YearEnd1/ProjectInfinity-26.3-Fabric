@@ -4,7 +4,7 @@ import net.codexarchonic.infinity.iridescence.Iridescence;
 import net.codexarchonic.infinity.registry.core.ModComponentTypes;
 import net.codexarchonic.infinity.registry.core.ModStatusEffects;
 import net.codexarchonic.infinity.util.VersionMethods;
-import net.minecraft.advancements.CriteriaTriggers;
+import net.minecraft.advancements.triggers.CriteriaTriggers;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.stats.Stats;

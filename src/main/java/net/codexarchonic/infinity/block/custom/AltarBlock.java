@@ -166,18 +166,18 @@ public class AltarBlock extends Block {
 
     public static int getColor(ItemStack itemStack, BlockState oldState) {
         int i = -1;
-        if (itemStack.is(Items.RED_DYE)) i = 1;
-        if (itemStack.is(Items.ORANGE_DYE)) i = 2;
-        if (itemStack.is(Items.YELLOW_DYE)) i = 3;
-        if (itemStack.is(Items.LIME_DYE)) i = oldState.getValue(COLOR) == 6 ? 5 : 4;
-        if (itemStack.is(Items.GREEN_DYE)) i = oldState.getValue(COLOR) == 4 ? 5 : 6;
-        if (itemStack.is(Items.LIGHT_BLUE_DYE)) i = 7;
-        if (itemStack.is(Items.CYAN_DYE)) i = 8;
-        if (itemStack.is(Items.BLUE_DYE)) i = 9;
-        if (itemStack.is(Items.PURPLE_DYE)) i = 10;
-        if (itemStack.is(Items.MAGENTA_DYE)) i = 11;
-        if (itemStack.is(Items.PINK_DYE)) i = 12;
-        if (itemStack.is(Items.GRAY_DYE)) i = 0;
+        if (itemStack.is(Items.DYE.red())) i = 1;
+        if (itemStack.is(Items.DYE.orange())) i = 2;
+        if (itemStack.is(Items.DYE.yellow())) i = 3;
+        if (itemStack.is(Items.DYE.lime())) i = oldState.getValue(COLOR) == 6 ? 5 : 4;
+        if (itemStack.is(Items.DYE.green())) i = oldState.getValue(COLOR) == 4 ? 5 : 6;
+        if (itemStack.is(Items.DYE.lightBlue())) i = 7;
+        if (itemStack.is(Items.DYE.cyan())) i = 8;
+        if (itemStack.is(Items.DYE.blue())) i = 9;
+        if (itemStack.is(Items.DYE.purple())) i = 10;
+        if (itemStack.is(Items.DYE.magenta())) i = 11;
+        if (itemStack.is(Items.DYE.pink())) i = 12;
+        if (itemStack.is(Items.DYE.gray())) i = 0;
         return i;
     }
 }

@@ -4,12 +4,13 @@
   "name": "Infinite Dimensions",
   "version": "${version}",
   "authors": ["ArchonicCinnamon", "cassiancc"],
+  "contributors": ["YearEnd1 (26.3 Fabric port maintenance)"],
   "contact": {
-    "homepage": "https://modrinth.com/mod/infinite-dimensions",
-    "sources": "https://tangled.org/codexarchonic.nekoweb.org/ProjectInfinity/",
-    "issues": "https://tangled.org/codexarchonic.nekoweb.org/ProjectInfinity/"
+    "homepage": "https://github.com/YearEnd1/ProjectInfinity-26.3-Fabric",
+    "sources": "https://github.com/YearEnd1/ProjectInfinity-26.3-Fabric",
+    "issues": "https://github.com/YearEnd1/ProjectInfinity-26.3-Fabric/issues"
   },
-  "description": "",
+  "description": "Unofficial Minecraft 26.3 Fabric port of Infinite Dimensions, with Simplified Chinese localization and optional Waystones integration.",
   "icon": "assets/infinity/icon.png",
   "license": "LGPL-3.0-or-later",
   "environment": "*",
@@ -38,6 +39,8 @@
     "infinity.mixins.json"
   ],
   "depends": {
+    "fabricloader": ">=0.20.1",
+    "java": ">=25",
     "minecraft": "${minecraft}",
     "fabric-api": "*",
     "architectury": "*"

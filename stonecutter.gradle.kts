@@ -7,21 +7,11 @@ plugins {
     id("org.moddedmc.wiki.toolkit") version "0.4.1"
 }
 
-stonecutter active "1.21.8-fabric"
+stonecutter active "26.3-fabric"
 
 stonecutter parameters {
     constants.match(node.metadata.project.substringAfterLast('-'), "fabric", "forge", "neoforge")
     filters.include("**/*.fsh", "**/*.vsh")
-}
-
-stonecutter tasks {
-    order("publishModrinth")
-    order("publishCurseforge")
-}
-
-for (version in stonecutter.versions.map { it.version }.distinct()) tasks.register("publish$version") {
-    group = "publishing"
-    dependsOn(stonecutter.tasks.named("publishMods") { metadata.version == version })
 }
 
 

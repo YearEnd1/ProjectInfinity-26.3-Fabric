@@ -41,10 +41,6 @@ public class FishEntityMixin extends WaterAnimal {
 
     @Mixin(AbstractFish.FishMoveControl.class)
     public static class FishMoveControlMixin extends MoveControl {
-        @Final
-        @Shadow
-        private AbstractFish fish;
-
         public FishMoveControlMixin(Mob entity) {
             super(entity);
         }
@@ -53,7 +49,7 @@ public class FishEntityMixin extends WaterAnimal {
         /*@ModifyArg(method = "tick", at= @At(value = "INVOKE",
                 target = "Lnet/minecraft/util/Mth;atan2(DD)D"), index = 0)
         double inj(double y) {
-            if (Iridescence.isUnderEffect(fish)) {
+            if (Iridescence.isUnderEffect((AbstractFish) this.mob)) {
                 return -y;
             }
             return y;
@@ -61,7 +57,7 @@ public class FishEntityMixin extends WaterAnimal {
         @ModifyArg(method = "tick", at= @At(value = "INVOKE",
                 target = "Lnet/minecraft/util/Mth;atan2(DD)D"), index = 1)
         double inj2(double y) {
-            if (Iridescence.isUnderEffect(fish)) {
+            if (Iridescence.isUnderEffect((AbstractFish) this.mob)) {
                 return -y;
             }
             return y;
@@ -70,7 +66,7 @@ public class FishEntityMixin extends WaterAnimal {
         @ModifyArgs(method = "tick", at= @At(value = "INVOKE",
                 target = "Lnet/minecraft/util/Mth;atan2(DD)D"))
         void fishSwimBackwards(Args args) {
-            if (Iridescence.isUnderEffect(fish)) {
+            if (Iridescence.isUnderEffect((AbstractFish) this.mob)) {
                 double g = args.get(0);
                 double d = args.get(1);
                 args.set(0, -1*g);

@@ -1,6 +1,5 @@
 package net.codexarchonic.infinity.block.custom;
 
-import com.mojang.serialization.MapCodec;
 import net.codexarchonic.infinity.block.entity.CosmicAltarBlockEntity;
 import net.codexarchonic.infinity.registry.var.ModParticles;
 import net.minecraft.core.BlockPos;
@@ -22,7 +21,6 @@ import static net.codexarchonic.infinity.InfinityMod.random;
 
 public class CosmicAltarBlock extends BaseEntityBlock implements Boopable {
     //? if >1.21
-    public static final MapCodec<CosmicAltarBlock> CODEC = simpleCodec(CosmicAltarBlock::new);
     public CosmicAltarBlock(Properties settings) {
         super(settings);
     }
@@ -45,8 +43,8 @@ public class CosmicAltarBlock extends BaseEntityBlock implements Boopable {
 
     public static void addParticle(Level lv, BlockPos altarPos, BlockPos pedestalPos, int type) {
         SimpleParticleType spt = ModParticles.altarParticles.get(type).get();
-        Vec3 start = pedestalPos.getCenter();
-        Vec3 end = altarPos.getCenter();
+        Vec3 start = Vec3.atCenterOf(pedestalPos);
+        Vec3 end = Vec3.atCenterOf(altarPos);
         lv.addParticle(spt,
                 end.x, end.y + 1.5, end.z,
                 start.x - end.x - random.nextFloat(),
@@ -54,12 +52,6 @@ public class CosmicAltarBlock extends BaseEntityBlock implements Boopable {
                 start.z - end.z - random.nextFloat());
     }
 
-    //? if >1.21 {
-    @Override
-    protected MapCodec<? extends BaseEntityBlock> codec() {
-        return CODEC;
-    }
-    //?}
 
     @Override
     public RenderShape getRenderShape(BlockState state) {

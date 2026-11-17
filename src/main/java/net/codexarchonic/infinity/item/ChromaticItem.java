@@ -53,6 +53,7 @@ public class ChromaticItem extends Item implements PortalDataHolder {
             *///?}
             > getIridComponents(ItemEntity entity) {
         Vec3 pos = entity.position();
+        //~ if >=26.3 'getValue'->'get'
         int hue = (int)(360*InfinityMethods.sampler.getValue(pos.x, pos.y, pos.z));
         return Optional.of(ofHue(hue));
     }

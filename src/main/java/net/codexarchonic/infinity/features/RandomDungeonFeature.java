@@ -1,5 +1,6 @@
 package net.codexarchonic.infinity.features;
 
+import net.minecraft.world.entity.EntityTypes;
 import com.mojang.logging.LogUtils;
 import com.mojang.serialization.Codec;
 import java.util.function.Predicate;
@@ -123,7 +124,7 @@ public class RandomDungeonFeature extends Feature<RandomDungeonFeature.Config> {
         this.safeSetBlock(structureWorldAccess, blockPos, Blocks.SPAWNER.defaultBlockState(), predicate);
         BlockEntity blockEntity = structureWorldAccess.getBlockEntity(blockPos);
         if (blockEntity instanceof SpawnerBlockEntity mobSpawnerBlockEntity) {
-            mobSpawnerBlockEntity.setEntityId(EntityType.byString(context.config().mob()).orElse(EntityType.PIG), random);
+            mobSpawnerBlockEntity.setEntityId(EntityType.byString(context.config().mob()).orElse(EntityTypes.PIG), random);
         } else {
             LOGGER.error("Failed to fetch mob spawner entity at ({}, {}, {})", blockPos.getX(), blockPos.getY(), blockPos.getZ());
         }

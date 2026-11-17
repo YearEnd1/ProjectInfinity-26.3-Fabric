@@ -1,5 +1,6 @@
 package net.codexarchonic.infinity.iridescence;
 
+import net.minecraft.world.entity.EntityTypes;
 import dev.architectury.registry.registries.RegistrySupplier;
 import net.codexarchonic.infinity.InfinityMod;
 import net.codexarchonic.infinity.item.PortalDataHolder;
@@ -35,7 +36,7 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.animal.AbstractFish;
 import net.minecraft.world.entity.item.ItemEntity;
-import net.minecraft.world.entity.monster.Slime;
+import net.minecraft.world.entity.monster.cubemob.Slime;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.ItemStack;
@@ -274,7 +275,7 @@ public interface Iridescence {
     }
 
     static void endJourney(ServerPlayer player, boolean isEarlyCancel, int amplifier) {
-        player.setInvulnerable(false);
+        player.setPermanentlyInvulnerable(false);
         if (!isEarlyCancel) {
             player.awardStat(ModStats.IRIDESCENCE, 1);
             if (amplifier != 0)
@@ -304,9 +305,9 @@ public interface Iridescence {
     }
 
     Map<EntityType<? extends Mob>, RegistrySupplier<? extends EntityType<? extends Mob>>> convertibles =
-            Map.ofEntries(Map.entry(EntityType.SKELETON, ModEntities.CHAOS_SKELETON),
-            Map.entry(EntityType.CREEPER, ModEntities.CHAOS_CREEPER),
-            Map.entry(EntityType.SLIME, ModEntities.CHAOS_SLIME)
+            Map.ofEntries(Map.entry(EntityTypes.SKELETON, ModEntities.CHAOS_SKELETON),
+            Map.entry(EntityTypes.CREEPER, ModEntities.CHAOS_CREEPER),
+            Map.entry(EntityTypes.SLIME, ModEntities.CHAOS_SLIME)
     );
 
     static boolean isConvertible(Mob entity) {

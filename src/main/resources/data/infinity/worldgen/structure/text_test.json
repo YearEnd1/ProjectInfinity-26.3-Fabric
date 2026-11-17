@@ -5,13 +5,10 @@
   "spawn_overrides": {},
   "text": "We apologize for the inconvenience.",
   "block": {
-    "type": "simple_state_provider",
-    "state": {
-      "Name": "minecraft:fire"
-    }
+    "id": "minecraft:fire"
   },
   "y": {
-    "type": "constant",
+    "type": "minecraft:constant",
     "value": {
       "absolute": 80
     }

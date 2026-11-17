@@ -142,6 +142,8 @@ public abstract class MinecraftServerMixin extends ReentrantBlockableEventLoop<T
      * (ensuring it will be accessible, tick, etc.) */
     @Override
     public void infinity$addWorld(ResourceKey<Level> key, LevelStem options) {
+        //? if >=26.3
+        net.codexarchonic.infinity.util.loading.CompatibleFeatureOrder.enable(key, options);
         ServerLevelData serverWorldProperties = worldData.overworldData();
         //? if >26 {
         /*var seed = worldGenSettings.options().seed();
@@ -220,6 +222,8 @@ public abstract class MinecraftServerMixin extends ReentrantBlockableEventLoop<T
     ) {
         //~ if >26 'location'->'identifier'
         ServerLevelData prop = (worldKey.location().toString().contains("infinity")) ? worldData.overworldData() : properties;
+        //? if >=26.3
+        net.codexarchonic.infinity.util.loading.CompatibleFeatureOrder.enable(worldKey, dimensionOptions);
         return new ServerLevel(server, workerExecutor, session, prop, worldKey, dimensionOptions
                 //? if <1.21.9
                 , worldGenerationProgressListener

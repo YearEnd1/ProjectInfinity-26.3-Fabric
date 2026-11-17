@@ -2,6 +2,8 @@ package net.codexarchonic.infinity.data.tags;
 
 //? fabric {
 
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
 import net.codexarchonic.infinity.registry.core.ModEntities;
@@ -23,20 +25,20 @@ public class InfinityEntityTagProvider extends FabricTagProvider.EntityTypeTagPr
 	@Override
 	protected void addTags(HolderLookup.Provider provider) {
 		//? if >1.21 {
-		valueLookupBuilder(EntityTypeTags.ARTHROPOD).add(
-				ModEntities.ANT.get()
+		builder(EntityTypeTags.ARTHROPOD).add(
+				k(ModEntities.ANT.get())
 		);
 		//?}
-		valueLookupBuilder(EntityTypeTags.SKELETONS).add(
-				ModEntities.CHAOS_SKELETON.get()
+		builder(EntityTypeTags.SKELETONS).add(
+				k(ModEntities.CHAOS_SKELETON.get())
 		);
-		valueLookupBuilder(EntityTypeTags.FROG_FOOD).add(
-				ModEntities.CHAOS_SLIME.get()
+		builder(EntityTypeTags.FROG_FOOD).add(
+				k(ModEntities.CHAOS_SLIME.get())
 		);
 	}
 
 	//? <1.21.2 {
-	/*private FabricTagProvider<EntityType<?>>.FabricTagBuilder valueLookupBuilder(TagKey<EntityType<?>> buckets) {
+	/*private FabricTagProvider<EntityType<?>>.FabricTagBuilder builder(TagKey<EntityType<?>> buckets) {
 		return getOrCreateTagBuilder(buckets);
 	}
 	*///?}
@@ -48,5 +50,9 @@ public class InfinityEntityTagProvider extends FabricTagProvider.EntityTypeTagPr
 	private TagKey<EntityType<?>> infinity(String id) {
 		return TagKey.create(Registries.ENTITY_TYPE, VersionMethods.id("infinity", id));
 	}
+	private static ResourceKey<EntityType<?>> k(EntityType<?> value) {
+		return BuiltInRegistries.ENTITY_TYPE.getResourceKey(value).orElseThrow();
+	}
+
 }
 //?}

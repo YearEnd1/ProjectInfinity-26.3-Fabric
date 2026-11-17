@@ -1,10 +1,9 @@
 package net.codexarchonic.infinity.mixin.iridescence;
 
-import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
-import com.llamalad7.mixinextras.sugar.Local;
 import net.codexarchonic.infinity.entity.custom.AbstractChessFigure;
 import net.codexarchonic.infinity.iridescence.Iridescence;
 import net.minecraft.core.BlockPos;
+import net.minecraft.tags.TagKey;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.level.block.state.BlockState;
@@ -13,10 +12,13 @@ import net.minecraft.world.level.pathfinder.WalkNodeEvaluator;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 
 //? if >1.21 {
+import net.minecraft.world.level.material.Fluid;
+import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.pathfinder.PathType;
 import net.minecraft.world.level.pathfinder.PathfindingContext;
 //?} else {
@@ -48,12 +50,12 @@ public abstract class LandPathNodeMakerMixin extends NodeEvaluator {
         }
     }
 
-    /* This allows other mobs pathfind when swimming in iridescence */
-    //~ if >26 'Lnet/minecraft/world/level/block/state/BlockState;is(Lnet/minecraft/world/level/block/Block;)Z'->'Lnet/minecraft/world/level/block/state/BlockState;is(Ljava/lang/Object;)Z' {
-    @ModifyExpressionValue(method= "getStart",
-            at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/block/state/BlockState;is(Lnet/minecraft/world/level/block/Block;)Z"))
-    //~}
-    boolean mobsSwimInIridescence(boolean original, @Local BlockState blockState) {
-        return original || blockState.getFluidState().is(FluidTags.WATER);
+    /* This allows other mobs pathfind when swimming in iridescence.
+       26.3 rewrote WalkNodeEvaluator#getStart to test FluidState#is(FluidTags.ENTITY_FLOATABLE)
+       instead of BlockState#is(Block), so hook the fluid tag test and treat iridescence as floatable. */
+    @Redirect(method = "getStart",
+            at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/material/FluidState;is(Lnet/minecraft/tags/TagKey;)Z"))
+    private boolean mobsSwimInIridescence(FluidState state, TagKey<Fluid> tag) {
+        return state.is(tag) || Iridescence.isIridescence(state);
     }
 }

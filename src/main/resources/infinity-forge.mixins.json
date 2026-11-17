@@ -32,7 +32,6 @@
     "fixes.SpawnHelperMixin",
     "fixes.WorldChunkMixin",
     "fixes.WorldMixin",
-    "iridescence.BrewingRecipeRegistryMixin",
     "iridescence.ConcretePowderBlockMixin",
     "iridescence.FishEntityMixin",
     "iridescence.FishEntityMixin$FishMoveControlMixin",

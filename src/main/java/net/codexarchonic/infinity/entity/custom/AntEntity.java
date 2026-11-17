@@ -312,7 +312,7 @@ public class AntEntity extends AbstractChessFigure {
         public void start() {
             if (targetPos == null) return;
             Vec3 v = Vec3.atBottomCenterOf(targetPos);
-            mob.randomTeleport(v.x, v.y, v.z, false);
+            mob.moveOrInterpolateTo(v, mob.getYRot(), mob.getXRot());
             mob.setYRot(mob.direction.toYRot());
         }
     }

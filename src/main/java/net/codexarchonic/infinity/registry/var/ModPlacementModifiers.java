@@ -10,13 +10,11 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.levelgen.placement.PlacementContext;
 import net.minecraft.world.level.levelgen.placement.PlacementFilter;
 import net.minecraft.world.level.levelgen.placement.PlacementModifier;
-import net.minecraft.world.level.levelgen.placement.PlacementModifierType;
-import org.jspecify.annotations.NonNull;
 
 import static net.codexarchonic.infinity.InfinityMod.MOD_ID;
 
 public class ModPlacementModifiers {
-    public static class CenterProximityPlacementModifier extends PlacementFilter {
+    public static class CenterProximityPlacementModifier implements PlacementFilter {
         public static final MapCodec<CenterProximityPlacementModifier> MODIFIER_CODEC = (ExtraCodecs.POSITIVE_INT.fieldOf("radius")).xmap(
                 CenterProximityPlacementModifier::new, a -> a.radius);
         private final int radius;
@@ -30,30 +28,23 @@ public class ModPlacementModifiers {
         }
 
         @Override
-        protected boolean shouldPlace(PlacementContext context, RandomSource random, BlockPos pos) {
-            return pos.getX()*pos.getX() + pos.getY()*pos.getY() + pos.getZ()*pos.getZ() < this.radius*this.radius;
+        public boolean shouldPlace(PlacementContext context, RandomSource random, BlockPos pos) {
+            long x = pos.getX();
+            long y = pos.getY();
+            long z = pos.getZ();
+            return x * x + y * y + z * z < (long) radius * radius;
         }
 
         @Override
-        public @NonNull PlacementModifierType<?> type() {
-            return PlacementModifierType.RARITY_FILTER;
+        public MapCodec<? extends PlacementFilter> codec() {
+            return MODIFIER_CODEC;
         }
     }
 
-    public static final DeferredRegister<PlacementModifierType<?>> PLACEMENT_MODIFIER_TYPES = DeferredRegister.create(MOD_ID, Registries.PLACEMENT_MODIFIER_TYPE);
-    public static final RegistrySupplier<PlacementModifierType<?>> PROXIMITY = register("center_proximity",
-            CenterProximityPlacementModifier.MODIFIER_CODEC);
+    public static final DeferredRegister<MapCodec<? extends PlacementModifier>> PLACEMENT_MODIFIER_TYPES = DeferredRegister.create(MOD_ID, Registries.PLACEMENT_MODIFIER_TYPE);
+    public static final RegistrySupplier<MapCodec<? extends PlacementModifier>> PROXIMITY =
+            PLACEMENT_MODIFIER_TYPES.register("center_proximity", () -> CenterProximityPlacementModifier.MODIFIER_CODEC);
 
-    static <P extends PlacementModifier> PlacementModifierType<P> getType(MapCodec<P> codec) {
-        //? if >1.21 {
-        return () -> codec;
-         //?} else {
-        /*return codec::codec;
-        *///?}
-    }
-    static RegistrySupplier<PlacementModifierType<?>> register(String id, MapCodec<? extends PlacementModifier> codec) {
-            return PLACEMENT_MODIFIER_TYPES.register(id, () -> getType(codec));
-    }
     public static void registerModifiers() {
         PLACEMENT_MODIFIER_TYPES.register();
     }

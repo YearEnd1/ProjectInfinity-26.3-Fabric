@@ -57,11 +57,10 @@ public interface ShaderLoader {
             VersionMethods.loadPP(client, "current");
             return;
         }
-        client.gameRenderer
         //? if >1.21.2 {
-        .clearPostEffect();
+        if (client.player != null) client.player.setActivePostEffects(java.util.List.of());
         //?} else {
-        /*.shutdownEffect();
+        /*client.gameRenderer.shutdownEffect();
         *///?}
     }
 

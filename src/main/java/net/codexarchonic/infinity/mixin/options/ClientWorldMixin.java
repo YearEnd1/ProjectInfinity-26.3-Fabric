@@ -4,7 +4,7 @@ import net.codexarchonic.infinity.access.InfinityOptionsAccess;
 import net.codexarchonic.infinity.options.InfinityOptions;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.multiplayer.ClientPacketListener;
-import net.minecraft.client.renderer.LevelRenderer;
+import net.minecraft.client.renderer.extract.LevelExtractor;
 import net.minecraft.core.Holder;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.resources.ResourceKey;
@@ -38,7 +38,7 @@ public abstract class ClientWorldMixin extends Level implements InfinityOptionsA
     @Inject(method = "<init>", at = @At("TAIL"))
     private void setClientInfinityOptions(ClientPacketListener connection, ClientLevel.ClientLevelData levelData, ResourceKey dimension, Holder dimensionTypeRegistration, int viewDistance, int simulationDistance,
     //? if >1.21.2 {
-    LevelRenderer levelRenderer, boolean isDebug, long biomeZoomSeed, int seaLevel, CallbackInfo ci) {
+    LevelExtractor levelExtractor, boolean isDebug, long biomeZoomSeed, int seaLevel, CallbackInfo ci) {
     //?} else {
     /*Supplier<ProfilerFiller> profiler, LevelRenderer worldRenderer, boolean debugWorld, long seed, CallbackInfo ci) {
     *///?}

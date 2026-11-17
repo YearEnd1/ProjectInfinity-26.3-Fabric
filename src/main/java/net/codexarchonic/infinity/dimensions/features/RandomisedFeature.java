@@ -80,9 +80,13 @@ public abstract class RandomisedFeature {
     public abstract ListTag placement();
 
     public CompoundTag feature(CompoundTag config) {
+        //? if >=26.3 {
+        /*return FeatureData.create(id, config);
+        *///?} else {
         CompoundTag res = new CompoundTag();
         res.putString("type", id);
         res.put("config", config);
         return res;
+        //?}
     }
 }

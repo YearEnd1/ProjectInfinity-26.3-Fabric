@@ -1,21 +1,34 @@
 package net.codexarchonic.infinity.mixin.iridescence;
 
-import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
-import com.llamalad7.mixinextras.sugar.Local;
+import net.minecraft.core.BlockPos;
 import net.minecraft.tags.FluidTags;
-import net.minecraft.world.entity.ai.navigation.GroundPathNavigation;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluids;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-@Mixin(GroundPathNavigation.class)
+/**
+ * 26.3: {@code GroundPathNavigation.getSurfaceY()} no longer calls
+ * {@code BlockState.is(Block)}; the floatable-fluid decision is the inherited
+ * {@code Entity.isInFloatableFluid()}. Reporting iridescence (a custom
+ * water-tagged fluid) as floatable lets mobs pathfind while swimming in it.
+ */
+@Mixin(Entity.class)
 public class MobNavigationMixin {
-    /* This allows mobs pathfind when swimming in iridescence */
-    //~ if >26 'Lnet/minecraft/world/level/block/state/BlockState;is(Lnet/minecraft/world/level/block/Block;)Z'->'Lnet/minecraft/world/level/block/state/BlockState;is(Ljava/lang/Object;)Z'
-    @ModifyExpressionValue(method="getSurfaceY", at= @At(value = "INVOKE", target = "Lnet/minecraft/world/level/block/state/BlockState;is(Lnet/minecraft/world/level/block/Block;)Z"))
-    boolean allowPathfindingInIridescence(boolean original, @Local BlockState blockState) {
-        return original || (blockState.getFluidState().is(FluidTags.WATER) &&
-                !blockState.getFluidState().equals(Fluids.WATER.getSource(false)));
+    @Inject(method = "isInFloatableFluid", at = @At("RETURN"), cancellable = true)
+    private void infinity$allowPathfindingInIridescence(CallbackInfoReturnable<Boolean> cir) {
+        if (Boolean.TRUE.equals(cir.getReturnValue())) {
+            return;
+        }
+        Entity self = (Entity) (Object) this;
+        BlockState blockState = self.level().getBlockState(
+                BlockPos.containing(self.getX(), self.getY(), self.getZ()));
+        if (blockState.getFluidState().is(FluidTags.WATER)
+                && !blockState.getFluidState().equals(Fluids.WATER.getSource(false))) {
+            cir.setReturnValue(true);
+        }
     }
 }

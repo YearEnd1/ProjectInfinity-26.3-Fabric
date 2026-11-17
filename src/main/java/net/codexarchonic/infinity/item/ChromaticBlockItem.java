@@ -6,29 +6,35 @@ import net.codexarchonic.infinity.registry.core.ModItems;
 import net.codexarchonic.infinity.util.VersionMethods;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.state.BlockState;
-import org.jspecify.annotations.Nullable;
 
 public class ChromaticBlockItem extends BlockItem implements PortalDataHolder {
     public ChromaticBlockItem(Block block, Properties settings) {
         super(block, settings);
     }
 
-    //todo: implement this properly
     @Override
-    protected boolean updateCustomBlockEntityTag(BlockPos pos, Level world, @Nullable Player player, ItemStack stack, BlockState state) {
-        boolean bl = updateCustomBlockEntityTag(world, player, pos, stack);
+    public InteractionResult place(BlockPlaceContext context) {
+        InteractionResult result = super.place(context);
+        if (!result.consumesAction()) {
+            return result;
+        }
+        Player player = context.getPlayer();
+        Level world = context.getLevel();
+        BlockPos pos = context.getClickedPos();
+        ItemStack stack = context.getItemInHand();
         if (player != null && player.getItemInHand(InteractionHand.OFF_HAND)
                 .is(ModItems.CHROMATIC_MATTER.get())
                 && world.getBlockEntity(pos) instanceof ChromaticBlockEntity cbe) {
             cbe.setColor(VersionMethods.getOrDefaultInt(stack, ModComponentTypes.COLOR, 0xFFFFFF));
         }
-        return bl;
+        return result;
     }
 
     @Override

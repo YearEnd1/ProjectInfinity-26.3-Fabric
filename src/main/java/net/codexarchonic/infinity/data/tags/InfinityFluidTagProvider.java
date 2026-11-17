@@ -2,6 +2,8 @@ package net.codexarchonic.infinity.data.tags;
 
 //? fabric {
 
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
 import net.codexarchonic.infinity.util.VersionMethods;
@@ -21,14 +23,14 @@ public class InfinityFluidTagProvider extends FabricTagProvider.FluidTagProvider
 
 	@Override
 	protected void addTags(HolderLookup.Provider provider) {
-		valueLookupBuilder(FluidTags.WATER).add(
-				ModFluidsFabric.IRIDESCENCE_FLOWING.get(),
-				ModFluidsFabric.IRIDESCENCE_STILL.get()
+		builder(FluidTags.WATER).add(
+				k(ModFluidsFabric.IRIDESCENCE_FLOWING.get()),
+				k(ModFluidsFabric.IRIDESCENCE_STILL.get())
 		);
 	}
 
 	//? <1.21.2 {
-	/*private FabricTagProvider<Fluid>.FabricTagBuilder valueLookupBuilder(TagKey<Fluid> buckets) {
+	/*private FabricTagProvider<Fluid>.FabricTagBuilder builder(TagKey<Fluid> buckets) {
 		return getOrCreateTagBuilder(buckets);
 	}
 	*///?}
@@ -40,5 +42,9 @@ public class InfinityFluidTagProvider extends FabricTagProvider.FluidTagProvider
 	private TagKey<Fluid> infinity(String id) {
 		return TagKey.create(Registries.FLUID, VersionMethods.id("infinity", id));
 	}
+	private static ResourceKey<Fluid> k(Fluid value) {
+		return BuiltInRegistries.FLUID.getResourceKey(value).orElseThrow();
+	}
+
 }
 //?}

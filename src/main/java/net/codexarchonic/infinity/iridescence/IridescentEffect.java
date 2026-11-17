@@ -10,7 +10,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
-import net.minecraft.world.effect.InstantenousMobEffect;
+import net.minecraft.world.effect.InstantaneousMobEffect;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -56,7 +56,7 @@ public class IridescentEffect extends MobEffect implements ModStatusEffects.Spec
     public void onRemoved(LivingEntity entity) {
         if (Objects.requireNonNull(entity) instanceof Player player) {
             if (player instanceof ServerPlayer serverPlayer) {
-                if (player.isInvulnerable()) player.setInvulnerable(false);
+                if (player.isInvulnerable()) player.setPermanentlyInvulnerable(false);
 
                 MobEffectInstance effect = entity.getEffect(VersionMethods.effectOrHolder(ModStatusEffects.IRIDESCENT_EFFECT));
                 if (effect != null && effect.getAmplifier() > 0
@@ -84,7 +84,7 @@ public class IridescentEffect extends MobEffect implements ModStatusEffects.Spec
             if (p instanceof ServerPlayer player) {
                 if (shouldWarp(duration, amplifier)) {
                     if (Iridescence.getPhase(duration + ticksInHour, amplifier) != Phase.PLATEAU) { //the first warp
-                        if (RandomProvider.rule("iridSafeMode")) player.setInvulnerable(true);
+                        if (RandomProvider.rule("iridSafeMode")) player.setPermanentlyInvulnerable(true);
                         saveCookie(player);
                     }
                     ResourceLocation id = getIdForWarp(player);
@@ -115,7 +115,7 @@ public class IridescentEffect extends MobEffect implements ModStatusEffects.Spec
     }
     //?}
 
-    public static class Setup extends InstantenousMobEffect {
+    public static class Setup extends InstantaneousMobEffect {
         public Setup(MobEffectCategory category, int color) {
             super(category, color);
         }

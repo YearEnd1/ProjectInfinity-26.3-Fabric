@@ -5,7 +5,9 @@ import net.codexarchonic.infinity.entity.custom.ChaosSlime;
 import net.codexarchonic.infinity.util.InfinityMethods;
 import net.minecraft.client.model.SlimeModel;
 import net.minecraft.client.model.geom.ModelLayers;
+//? if <1.21.9 {
 import net.minecraft.client.renderer.MultiBufferSource;
+//?}
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
 //? if >1.21.9 {

@@ -64,7 +64,7 @@ public class RandomStructure {
         for (String i : moblist.keySet()) {
             CompoundTag category = new CompoundTag();
             category.putString("bounding_box", roll("full_box") ? "full" : "piece");
-            category.put("spawns", new ListTag());
+            category.put("spawns", moblist.get(i));
             res.put(i, category);
         }
         return res;

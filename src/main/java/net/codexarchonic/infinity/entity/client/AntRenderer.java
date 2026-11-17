@@ -3,7 +3,9 @@ package net.codexarchonic.infinity.entity.client;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.codexarchonic.infinity.entity.custom.AntEntity;
 import net.codexarchonic.infinity.util.InfinityMethods;
+//? if <1.21.9 {
 import net.minecraft.client.renderer.MultiBufferSource;
+//?}
 //? if >1.21.9 {
 /*import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.state.level.CameraRenderState;

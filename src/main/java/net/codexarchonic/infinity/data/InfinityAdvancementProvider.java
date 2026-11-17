@@ -18,7 +18,7 @@ import static net.minecraft.advancements.AdvancementType.TASK;
 /*import static net.minecraft.advancements.FrameType.TASK;
 import static net.minecraft.advancements.RequirementsStrategy.OR;
 *///?}
-import net.minecraft.advancements.Criterion;
+import net.minecraft.advancements.triggers.Criterion;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.Items;
@@ -51,8 +51,7 @@ public class InfinityAdvancementProvider extends FabricAdvancementProvider {
 				.display(
 						ModItems.TRANSFINITE_KEY.get(), // The display icon
 						Component.translatable("advancements.infinity.acid_test.title"), // The title
-						Component.literal("advancements.infinity.acid_test.description"), // The description
-						null, // Background image for the tab in the advancements page, if this is a root advancement (has no parent)
+						Component.translatable("advancements.infinity.acid_test.description"), // The description
 						TASK, // TASK, CHALLENGE, or GOAL
 						true, // Show the toast when completing it
 						true, // Announce it to chat
@@ -64,7 +63,8 @@ public class InfinityAdvancementProvider extends FabricAdvancementProvider {
 				.addCriterion("pawn", mobChangeCriterion("infinity:chaos_pawn"))
 				.requirements(OR)
 				// Give the advancement an id
-				.save(consumer, InfinityMod.MOD_ID + ":acid_test");
+				.build(VersionMethods.id(InfinityMod.MOD_ID + ":acid_test"));
+		consumer.accept(acidTest);
 		// FIXME - generating advancements with parents appears to be broken on 1.20?
 		//? if >1.21 {
 		var multiverseRoot = Advancement.Builder.advancement()
@@ -72,8 +72,7 @@ public class InfinityAdvancementProvider extends FabricAdvancementProvider {
 				.display(
 						Items.WRITABLE_BOOK, // The display icon
 						Component.translatable("advancements.infinity.multiverse_start.title"), // The title
-						Component.literal("advancements.infinity.multiverse_start.description"), // The description
-						null, // Background image for the tab in the advancements page, if this is a root advancement (has no parent)
+						Component.translatable("advancements.infinity.multiverse_start.description"), // The description
 						TASK, // TASK, CHALLENGE, or GOAL
 						true, // Show the toast when completing it
 						true, // Announce it to chat
@@ -81,15 +80,15 @@ public class InfinityAdvancementProvider extends FabricAdvancementProvider {
 				)
 				.addCriterion("infinity_dims_open", dimsOpenCriterion(1))
 				// Give the advancement an id
-				.save(consumer, InfinityMod.MOD_ID + ":multiverse_root");
+				.build(VersionMethods.id(InfinityMod.MOD_ID + ":multiverse_root"));
+		consumer.accept(multiverseRoot);
 
 		var allTime = Advancement.Builder.advancement()
 				.parent(multiverseRoot)
 				.display(
 						Items.CLOCK, // The display icon
 						Component.translatable("advancements.infinity.all_time.title"), // The title
-						Component.literal("advancements.infinity.all_time.description"), // The description
-						null, // Background image for the tab in the advancements page, if this is a root advancement (has no parent)
+						Component.translatable("advancements.infinity.all_time.description"), // The description
 						TASK, // TASK, CHALLENGE, or GOAL
 						true, // Show the toast when completing it
 						true, // Announce it to chat
@@ -97,7 +96,8 @@ public class InfinityAdvancementProvider extends FabricAdvancementProvider {
 				)
 				.addCriterion("infinity_dims_closed", dimsClosedCriterion(1))
 				// Give the advancement an id
-				.save(consumer, InfinityMod.MOD_ID + ":all_time");
+				.build(VersionMethods.id(InfinityMod.MOD_ID + ":all_time"));
+		consumer.accept(allTime);
 		 //?}
 	}
 

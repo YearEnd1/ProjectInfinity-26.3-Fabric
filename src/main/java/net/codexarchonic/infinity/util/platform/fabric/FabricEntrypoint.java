@@ -33,6 +33,9 @@ public class FabricEntrypoint implements ModInitializer {
         // Run our common setup.
         ModFluidsFabric.registerModFluids();
         InfinityMod.init();
+        //? if >=26.3 {
+        net.codexarchonic.infinity.compat.WaystonesCompat.register();
+        //?}
         // Run any remaining tasks that require waiting for the registry to freeze on NeoForge.
         ModEntities.registerSpawnRestrictions();
         ModStats.load();
@@ -46,7 +49,7 @@ public class FabricEntrypoint implements ModInitializer {
         ResourceManagerHelper.registerBuiltinResourcePack(
                 InfinityMethods.getId(String.valueOf(InfinityPlatform.version)),
                 FabricLoader.getInstance().getModContainer(InfinityMod.MOD_ID).orElseThrow(),
-                Component.literal("Infinite Dimensions - Multiversioned Resources"),
+                Component.translatable("resourcepack.infinity.multiversioned"),
                 ResourcePackActivationType.ALWAYS_ENABLED);
         CauldronFluidContent.registerCauldron(ModBlocks.IRIDESCENCE_CAULDRON.get(), ModFluidsFabric.IRIDESCENCE_STILL.get(), FluidConstants.BUCKET, null);
     }

@@ -38,14 +38,6 @@ import static net.minecraft.world.InteractionResult.SUCCESS;
 
 public class IridescenceCauldronBlock extends AbstractCauldronBlock {
 
-	//? if >1.21 {
-	public static final MapCodec<IridescenceCauldronBlock> CODEC = simpleCodec(IridescenceCauldronBlock::new);
-	@Override
-	public MapCodec<IridescenceCauldronBlock> codec() {
-		return CODEC;
-	}
-	//?}
-
 	public IridescenceCauldronBlock(BlockBehaviour.Properties properties) {
 		super(properties, null);
 	}

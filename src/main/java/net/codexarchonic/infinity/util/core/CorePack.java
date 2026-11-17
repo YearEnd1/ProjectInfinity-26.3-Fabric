@@ -9,7 +9,11 @@ import net.minecraft.nbt.ListTag;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.dimension.DimensionType;
+//? if >=26.3 {
+/*import net.minecraft.world.level.levelgen.feature.Feature;
+*///?} else {
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
+//?}
 
 import java.nio.file.Path;
 import java.util.List;
@@ -30,8 +34,13 @@ public record CorePack(RandomProvider provider, Path savingPath) {
                 savingPath.resolve("data/infinity/dimension_type"));
         DimensionGrabber.readCategoryFromDisk(server, Biome.DIRECT_CODEC, Registries.BIOME,
                 savingPath.resolve("data/infinity/worldgen/biome"));
+        //? if >=26.3 {
+        /*DimensionGrabber.readCategoryFromDisk(server, Feature.DIRECT_CODEC, Registries.FEATURE,
+                savingPath.resolve("data/infinity/worldgen/feature"));
+        *///?} else {
         DimensionGrabber.readCategoryFromDisk(server, ConfiguredFeature.DIRECT_CODEC, Registries.CONFIGURED_FEATURE,
                 savingPath.resolve("data/infinity/worldgen/configured_feature"));
+        //?}
     }
 
     public static CompoundTag treePlacement(String tree, String block) {
@@ -61,10 +70,15 @@ public record CorePack(RandomProvider provider, Path savingPath) {
             l.add(c1);
         }
         c.put("features", l);
+        //? if >=26.3 {
+        /*c.putString("type", "minecraft:random_selector");
+        CommonIO.write(c, savingPath.resolve("data/" + InfinityMod.MOD_ID + "/worldgen/feature"), "all_trees.json");
+        *///?} else {
         CompoundTag c2 = new CompoundTag();
         c2.putString("type", "minecraft:random_selector");
         c2.put("config", c);
         CommonIO.write(c2, savingPath.resolve("data/" + InfinityMod.MOD_ID + "/worldgen/configured_feature"), "all_trees.json");
+        //?}
     }
 
     void saveEndOfTime() {

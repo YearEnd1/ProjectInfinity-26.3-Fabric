@@ -19,10 +19,16 @@ import static net.codexarchonic.infinity.InfinityMod.configPath;
 
 public interface CommonIO {
     static void write(CompoundTag base, String path, String filename) {
-        write(compoundToString(base), Paths.get(path), filename);
+        write(base, Paths.get(path), filename);
     }
 
     static void write(CompoundTag base, Path dir, String filename) {
+        //? if >=26.3 {
+        String directory = dir.toString().replace('\\', '/');
+        if (directory.contains("/worldgen/") || directory.endsWith("/dimension")) {
+            base = net.codexarchonic.infinity.util.loading.WorldgenData.upgrade(base);
+        }
+        //?}
         write(compoundToString(base), dir, filename);
     }
 
@@ -196,7 +202,7 @@ public interface CommonIO {
             case LongTag nbtLong -> String.valueOf(boundsCheck(nbtLong.longValue()));
             case IntTag nbtInt -> String.valueOf(boundsCheck(nbtInt.intValue()));
             case ShortTag nbtShort -> String.valueOf(boundsCheck(nbtShort.shortValue()));
-            case StringTag nbtString -> "\"" + nbtString.asString().orElseThrow().replace("\"", "\\\"") + "\"";
+            case StringTag nbtString -> new com.google.gson.JsonPrimitive(nbtString.asString().orElseThrow()).toString();
             default -> base.toString();
         };
         //?} else if >1.21 {
@@ -233,7 +239,7 @@ public interface CommonIO {
         } else if (base instanceof ShortTag nbtShort) {
             return String.valueOf(boundsCheck(nbtShort.getAsShort()));
         } else if (base instanceof StringTag nbtString) {
-            return "\"" + nbtString.getAsString().replace("\"", "\\\"") + "\"";
+            return new com.google.gson.JsonPrimitive(nbtString.getAsString()).toString();
         }
         return base.toString();
         *///?}

@@ -2,17 +2,17 @@
   "feature": "infinity:tree_white",
   "placement": [
     {
-      "type": "count_on_every_layer",
+      "type": "minecraft:count_on_every_layer",
       "count": 1
     },
     {
-      "type": "rarity_filter",
+      "type": "minecraft:rarity_filter",
       "chance": 10
     },
     {
-      "type": "block_predicate_filter",
+      "type": "minecraft:block_predicate_filter",
       "predicate": {
-        "type": "matching_blocks",
+        "type": "minecraft:matching_blocks",
         "offset": [
           0,
           -1,

@@ -25,7 +25,7 @@ public class SetAltarStateLootFunction extends LootItemConditionalFunction {
     public static final MapCodec<SetAltarStateLootFunction> CODEC = RecordCodecBuilder.mapCodec(
             instance -> commonFields(instance).apply(instance, SetAltarStateLootFunction::new)
     );
-    private SetAltarStateLootFunction(List<LootItemCondition> conditions) {
+    private SetAltarStateLootFunction(java.util.Optional<net.minecraft.core.Holder<LootItemCondition>> conditions) {
         super(conditions);
     }
 
@@ -55,7 +55,7 @@ public class SetAltarStateLootFunction extends LootItemConditionalFunction {
     @Override
     protected @NonNull ItemStack run(ItemStack stack, LootContext context) {
         //? if >1.21.2 {
-        BlockState st = context.getOptionalParameter(LootContextParams.BLOCK_STATE);
+        BlockState st = context.getOptional(LootContextParams.BLOCK_STATE);
         //?} else {
         /*BlockState st = context.getParamOrNull(LootContextParams.BLOCK_STATE);
         *///?}

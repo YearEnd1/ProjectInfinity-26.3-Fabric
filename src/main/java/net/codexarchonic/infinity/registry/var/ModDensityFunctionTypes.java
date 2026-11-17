@@ -7,7 +7,7 @@ import dev.architectury.registry.registries.DeferredRegister;
 import net.codexarchonic.infinity.util.InfinityMethods;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.util.KeyDispatchDataCodec;
-import net.minecraft.world.level.levelgen.DensityFunction;
+import net.minecraft.world.level.levelgen.densityfunction.DensityFunction;
 import net.minecraft.world.level.levelgen.LegacyRandomSource;
 import net.minecraft.world.level.levelgen.synth.NormalNoise;
 import org.jspecify.annotations.NullMarked;

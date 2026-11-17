@@ -24,8 +24,8 @@ public class RandomDelta extends RandomisedFeature {
         CompoundTag block = genBlockOrFluid();
         config.put("contents", block);
         addRandomBlock(config, "rim", ConfigType.FULL_BLOCKS);
-        config.put("size", NbtUtils.randomIntProvider(random, 17, true));
-        config.put("rim_size", NbtUtils.randomIntProvider(random, 17, true));
+        config.put("size", NbtUtils.randomIntProvider(random, 9, true));
+        config.put("rim_size", NbtUtils.randomIntProvider(random, 9, true));
         return feature(config);
     }
 }

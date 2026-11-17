@@ -51,9 +51,6 @@ public class BookBoxBlock extends Block {
         return useWithoutItem(blockState, level, blockPos, player, blockHitResult);
     }
 
-    //? if >1.21 {
-    @Override
-    //?}
     public InteractionResult useWithoutItem(BlockState state, Level world, BlockPos pos, Player player, BlockHitResult hit) {
         if (!world.isClientSide()) {
             ItemStack itemStack1 = Items.WRITTEN_BOOK.getDefaultInstance();

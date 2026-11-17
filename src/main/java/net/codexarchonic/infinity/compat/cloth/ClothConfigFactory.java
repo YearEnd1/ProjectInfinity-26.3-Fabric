@@ -1,5 +1,6 @@
 package net.codexarchonic.infinity.compat.cloth;
 
+import net.minecraft.locale.Language;
 import com.google.gson.*;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import me.shedaniel.clothconfig2.api.AbstractConfigListEntry;
@@ -30,7 +31,6 @@ import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 import static net.codexarchonic.infinity.InfinityMod.MOD_ID;
 import static net.codexarchonic.infinity.InfinityMod.commonConfigPathInJar;
 import static net.codexarchonic.infinity.util.InfinityMethods.formatAsTitleCase;
-import static net.minecraft.client.resources.language.I18n.exists;
 
 public class ClothConfigFactory {
 
@@ -220,7 +220,7 @@ public class ClothConfigFactory {
             //Translate the lore key.
             String translatedKey = I18n.get(loreKey);
             //Check if the translated key exists.
-            if (exists(loreKey) || (!translate)) {
+            if (Language.getInstance().has(loreKey) || (!translate)) {
                 //Check if custom wrapping should be used.
                 //Any tooltip longer than XX characters should be shortened.
                 while (translatedKey.length() >= maxLength) {

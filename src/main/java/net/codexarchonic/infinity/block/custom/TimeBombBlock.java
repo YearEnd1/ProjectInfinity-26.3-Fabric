@@ -1,5 +1,6 @@
 package net.codexarchonic.infinity.block.custom;
 
+import net.minecraft.world.phys.Vec3;
 import net.codexarchonic.infinity.access.Timebombable;
 import net.codexarchonic.infinity.util.InfinityMethods;
 import net.codexarchonic.infinity.registry.var.ModCriteria;
@@ -83,7 +84,7 @@ public class TimeBombBlock extends Block {
     }
 
     static AreaEffectCloud genCloud(Level world, BlockPos pos) {
-        AreaEffectCloud e = new AreaEffectCloud(world, pos.getCenter().x(), pos.getCenter().y(), pos.getCenter().z());
+        AreaEffectCloud e = new AreaEffectCloud(world, Vec3.atCenterOf(pos).x(), Vec3.atCenterOf(pos).y(), Vec3.atCenterOf(pos).z());
         //? if >1.21.9 {
         /*e.setCustomParticle(PowerParticleOption.create(ParticleTypes.DRAGON_BREATH, 1));
         *///?} else if >1.21.5 {
@@ -107,7 +108,7 @@ public class TimeBombBlock extends Block {
         if (state.getValue(ACTIVE)) {
             if (world instanceof ServerLevel w && !InfinityMethods.isTimebombed(w)) {
                 world.setBlockAndUpdate(pos, Blocks.AIR.defaultBlockState());
-                world.getEntities(EntityTypeTest.forClass(AreaEffectCloud.class), AABB.ofSize(pos.getCenter(), 1.0, 1.0, 1.0), Entity::isAlive).
+                world.getEntities(EntityTypeTest.forClass(AreaEffectCloud.class), AABB.ofSize(Vec3.atCenterOf(pos), 1.0, 1.0, 1.0), Entity::isAlive).
                         forEach(e -> e.remove(Entity.RemovalReason.DISCARDED));
                 return InteractionResult.SUCCESS;
             } //remove after regenerating a dimension

@@ -1,5 +1,6 @@
 package net.codexarchonic.infinity.entity.custom;
 
+import net.minecraft.world.entity.EntityTypes;
 import net.codexarchonic.infinity.InfinityMod;
 import net.codexarchonic.infinity.block.custom.BiomeBottleBlock;
 import net.codexarchonic.infinity.item.DiscItem;
@@ -188,7 +189,7 @@ public class ChaosCreeper extends Creeper implements TintableEntity {
             this.playSound(SoundEvents.BOTTLE_FILL, 1.0f, 1.0f);
             Level level = this.level();
             if (level instanceof ServerLevel) {
-                Creeper newCreeper = EntityType.CREEPER.create(level
+                Creeper newCreeper = EntityTypes.CREEPER.create(level
                         //? if >1.21.2
                         , CONVERSION
                 );

@@ -2,6 +2,7 @@ package net.codexarchonic.infinity.compat.rrv.portal_crafting;
 
 //? if >1.21.4 {
 
+import net.minecraft.locale.Language;
 import cc.cassian.rrv.api.recipe.ReliableClientRecipe;
 import cc.cassian.rrv.api.recipe.ReliableClientRecipeType;
 import cc.cassian.rrv.common.recipe.inventory.RecipeViewMenu;
@@ -55,7 +56,7 @@ public class PortalCraftingViewRecipe implements ReliableClientRecipe {
         slotFillContext.bindOptionalSlot(0, this.input, RecipeViewMenu.OptionalSlotRenderer.DEFAULT);
         slotFillContext.bindOptionalSlot(1, SlotContent.of(ModItems.PORTAL_ITEM.get()), RecipeViewMenu.OptionalSlotRenderer.DEFAULT);
         slotFillContext.bindOptionalSlot(2, this.output, RecipeViewMenu.OptionalSlotRenderer.DEFAULT);
-        if (this.lore != null && I18n.exists(this.lore)) {
+        if (this.lore != null && Language.getInstance().has(this.lore)) {
             slotFillContext.addAdditionalStackModifier(2, (stack, tooltip) -> {
                 tooltip.add(Component.translatable(this.lore));
             });

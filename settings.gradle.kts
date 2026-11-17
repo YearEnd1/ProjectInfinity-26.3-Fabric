@@ -1,5 +1,11 @@
 pluginManagement {
     repositories {
+        maven("https://maven.quiltmc.org/repository/release/") {
+            content { includeGroup("org.quiltmc.parsers") }
+        }
+        maven("https://maven.kikugie.dev/releases") {
+            content { includeGroupByRegex("dev\\.kikugie(\\..*)?") }
+        }
         mavenLocal()
         mavenCentral()
         gradlePluginPortal()
@@ -22,11 +28,9 @@ stonecutter {
         fun match(version: String, vararg loaders: String) = loaders
             .forEach { version("$version-$it", version).buildscript = "build.$it.gradle.kts" }
 
-        match("1.20.1", "fabric", "forge")
-        match("1.21.1", "fabric", "neoforge")
-        match("1.21.8", "fabric", "neoforge")
-        match("26.1", "fabric")
+        // This port supports the 26.3 Fabric target.
+        match("26.3", "fabric")
 
-        vcsVersion = "1.21.1-fabric"
+        vcsVersion = "26.3-fabric"
     }
 }

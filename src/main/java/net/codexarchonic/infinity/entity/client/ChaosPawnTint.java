@@ -8,7 +8,9 @@ import net.codexarchonic.infinity.util.VersionMethods;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.geom.ModelPart;
+//? if <1.21.9 {
 import net.minecraft.client.renderer.MultiBufferSource;
+//?}
 
 //? if >1.21.9 {
 /*import net.minecraft.client.renderer.SubmitNodeCollector;
@@ -73,7 +75,7 @@ public class ChaosPawnTint extends
             color = VersionMethods.opaque(color);
         }
         //FIXME 1.21.10 this probably shouldn't be null
-        vertexConsumer.submitModelPart(part, matrixStack, RenderTypes.cutoutMovingBlock(), light, overlay, null, color, null);
+        vertexConsumer.submitModelPart(part, matrixStack, RenderTypes.cutoutMovingBlock(), light, overlay, null);
     }
     *///?} else if >1.21.5 {
     public void renderOneLayer(PoseStack matrixStack, VertexConsumer vertexConsumer, int light, int overlay, ChaosPawnRenderState livingEntity, ModelPart part, String name) {

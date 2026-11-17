@@ -79,8 +79,8 @@ public interface VersionMethods {
 
     static void loadPP(Minecraft client, String sid) {
         //? if >1.21.2 {
-            client.gameRenderer.setPostEffect(InfinityMethods.getId(sid));
-            LogManager.getLogger().info(client.gameRenderer.currentPostEffect());
+            if (client.player != null) client.player.setActivePostEffects(java.util.List.of(InfinityMethods.getId(sid)));
+            LogManager.getLogger().info(client.gameRenderer.getRequestedPostEffects());
         //?} else {
         /*((GameRendererAccess)(client.gameRenderer)).infinity$loadPP(InfinityMethods.getId("shaders/" + sid + ".json"));
          *///?}
@@ -519,7 +519,7 @@ public interface VersionMethods {
 	//?}
     static float getTimeOfDay(ClientLevel world, float tickDelta) {
         //? if >26 {
-        /*return world.clockManager().getTotalTicks(world.registryAccess().get(WorldClocks.OVERWORLD).get());
+        /*return (float) world.clockManager().getInstance(world.registryAccess().get(WorldClocks.OVERWORLD).orElseThrow()).totalTicks();
         *///?} else {
         return world.getTimeOfDay(tickDelta);
          //?}

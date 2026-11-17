@@ -1,0 +1,59 @@
+{
+  "has_precipitation": false,
+  "temperature": 0.5,
+  "downfall": 0.8,
+  "effects": {
+    "fog_color": 16711680,
+    "sky_color": 65535,
+    "water_color": 255,
+    "water_fog_color": 65535,
+    "foliage_color": 16711935,
+    "grass_color": 16776960
+  },
+  "features": [
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    []
+  ],
+  "spawners": {
+    "monster": [
+      {
+        "type": "infinity:chaos_pawn",
+        "maxCount": 4,
+        "minCount": 4,
+        "weight": 1
+      }
+    ],
+    "creature": [
+      {
+        "type": "minecraft:sheep",
+        "maxCount": 4,
+        "minCount": 4,
+        "weight": 1
+      }
+    ],
+    "water_ambient": [
+      {
+        "type": "minecraft:tropical_fish",
+        "maxCount": 8,
+        "minCount": 8,
+        "weight": 1
+      }
+    ]
+  },
+  "spawn_costs": {},
+  "carvers": [],
+  "attributes": {
+    "minecraft:visual/sky_color": "#00ffff",
+    "minecraft:visual/fog_color": "#ff0000",
+    "minecraft:visual/water_fog_color": "#00ffff"
+  }
+}

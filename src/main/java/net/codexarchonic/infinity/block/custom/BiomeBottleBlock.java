@@ -9,7 +9,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.QuartPos;
 //? if >1.21 {
-import com.mojang.serialization.MapCodec;
 import net.codexarchonic.infinity.registry.core.ModComponentTypes;
 import net.minecraft.core.component.DataComponentMap;
 import net.minecraft.core.component.DataComponents;
@@ -51,7 +50,6 @@ import java.util.stream.Collectors;
 
 public class BiomeBottleBlock extends BaseEntityBlock {
     //? if >1.21 {
-    public static final MapCodec<BiomeBottleBlock> CODEC = simpleCodec(BiomeBottleBlock::new);
     //?}
     public static final IntegerProperty LEVEL = IntegerProperty.create("level", 0, 10);
     public static final VoxelShape MAIN = Block.box(2, 0, 2, 14, 12, 14);
@@ -77,12 +75,6 @@ public class BiomeBottleBlock extends BaseEntityBlock {
         builder.add(LEVEL);
     }
 
-    //? if >1.21 {
-    @Override
-    protected MapCodec<? extends BaseEntityBlock> codec() {
-        return CODEC;
-    }
-    //?}
     @Override
     public RenderShape getRenderShape(BlockState state) {
         return RenderShape.MODEL;
@@ -228,7 +220,7 @@ public class BiomeBottleBlock extends BaseEntityBlock {
         if (biome == null) return;
         set.forEach(chunk -> {
             if (chunk != null) {
-                chunk.fillBiomesFromNoise((x, y, z, noise) -> {
+                chunk.fillBiomesFromNoise((x, y, z) -> {
                     int i = QuartPos.toBlock(x);
                     int k = QuartPos.toBlock(z);
                     Holder<Biome> registryEntry2 = chunk.getNoiseBiome(x, y, z);
@@ -236,7 +228,7 @@ public class BiomeBottleBlock extends BaseEntityBlock {
                         return biome;
                     }
                     return registryEntry2;
-                }, world.getChunkSource().randomState().sampler());
+                });
                 //? if >1.21.2 {
                 chunk.markUnsaved();
                 //?} else {

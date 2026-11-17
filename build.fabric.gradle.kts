@@ -8,6 +8,38 @@ plugins {
 
 val minecraft = stonecutter.current.version
 val accesswidener = "infinity.accesswidener"
+if (minecraft == "26.3") {
+    val portSources = rootProject.file("src/26.3/java")
+    // The stonecutter plugin does not wire its processed sources into this source set,
+    // so compile the generated (preprocessed) tree instead of the raw shared sources.
+    val generatedSources = layout.buildDirectory.dir("generated/stonecutter/main/java")
+    sourceSets.main {
+        java.setSrcDirs(listOf(generatedSources.get().asFile, portSources))
+        java.exclude("**/MaterialRuleContextAccess.java")
+        java.exclude {
+            !it.isDirectory && !it.file.startsWith(portSources) && portSources.resolve(it.path).isFile
+        }
+    }
+    tasks.named("compileJava") {
+        dependsOn(":${stonecutter.current.project}:stonecutterGenerate")
+    }
+    tasks.matching { it.name == "sourcesJar" || it.name == "javadoc" }.configureEach {
+        dependsOn(":${stonecutter.current.project}:stonecutterGenerate")
+        if (this is Jar) duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    }
+
+    tasks.processResources {
+        val portResources = file("src/main/resources")
+        exclude("data/*/worldgen/configured_feature/**")
+        eachFile {
+            val replacement = portResources.resolve(path)
+            if (replacement.isFile && file != replacement) exclude()
+        }
+        filesMatching("infinity.mixins.json") {
+            filter { line -> line.takeUnless { it.contains("\"core.MaterialRuleContextAccess\"") } }
+        }
+    }
+}
 version = "${property("mod.version")}+${property("deps.minecraft")}"
 if (property("mod.test_build") != "0") version = "$version-tb${property("mod.test_build")}"
 
@@ -203,12 +235,12 @@ dependencies {
     }
 
     // Create
-    if (stonecutter.eval(stonecutter.current.version, ">=1.21.4")) {
+    if (hasProperty("deps.create") && stonecutter.eval(stonecutter.current.version, ">=1.21.4")) {
         modCompileOnly("maven.modrinth:create-fly:${property("deps.create")}")
     }
-    else if (stonecutter.eval(stonecutter.current.version, ">=1.21")) {
+    else if (hasProperty("deps.create") && stonecutter.eval(stonecutter.current.version, ">=1.21")) {
         modCompileOnly("com.simibubi.create:create-fucked-up-1.21.1:${property("deps.create")}") { isTransitive = false }
-    } else {
+    } else if (hasProperty("deps.create")) {
         modCompileOnly("com.simibubi.create:create-fabric-1.20.1:${property("deps.create")}")
         { isTransitive = false }
     }
@@ -289,8 +321,7 @@ tasks.named("processResources") {
 }
 
 tasks {
-    processResources {
-        exclude("**/neoforge.mods.toml", "infinity-forge.mixins.json", "**/mods.toml")
+    processResources {        exclude("**/neoforge.mods.toml", "infinity-forge.mixins.json", "**/mods.toml")
         if (stonecutter.eval(stonecutter.current.version, ">26")) {
             exclude("**/resourcepacks/20")
             exclude("**/resourcepacks/21")
@@ -353,54 +384,7 @@ val additionalVersions: List<String> = additionalVersionsStr
     ?.filter { it.isNotEmpty() }
     ?: emptyList()
 
-publishMods {
-    file = loomx.modJar.map { it.archiveFile.get() }
-    additionalFiles.from(loomx.modSourcesJar.map { it.archiveFile.get() })
-
-    type = if (stonecutter.eval(stonecutter.current.version, ">=1.21.2")) {
-        ALPHA
-    } else {
-        STABLE
-    }
-    displayName = "${property("mod.name")} ${property("mod.version")} for ${stonecutter.current.version} Fabric"
-    version = "${property("mod.version")}+${property("deps.minecraft")}-fabric"
-    changelog = provider { rootProject.file("CHANGELOG-LATEST.md").readText() }
-    modLoaders.add("fabric")
-
-    modrinth {
-        projectId = property("publish.modrinth") as String
-        accessToken = env.MODRINTH_API_KEY.orNull()
-        minecraftVersions.add(stonecutter.current.version)
-        minecraftVersions.addAll(additionalVersions)
-        requires("fabric-api")
-        requires("architectury-api")
-        requires("cloth-config")
-        if (hasProperty("deps.emi")) {
-            optional("emi")
-        }
-        if (hasProperty("deps.rrv")) {
-            optional("rrv")
-        }
-    }
-
-    curseforge {
-        projectId = property("publish.curseforge") as String
-        accessToken = env.CURSEFORGE_API_KEY.orNull()
-        minecraftVersions.add(stonecutter.current.version)
-        minecraftVersions.addAll(additionalVersions)
-        server = true
-        client = true
-        requires("fabric-api")
-        requires("architectury-api")
-        requires("cloth-config")
-        if (hasProperty("deps.emi")) {
-            optional("emi")
-        }
-        if (hasProperty("deps.rrv")) {
-            optional("rrv")
-        }
-    }
-}
+// This fork publishes releases through GitHub, independently of upstream.
 
 loom {
     accessWidenerPath = file("src/main/resources/$accesswidener")
@@ -416,4 +400,27 @@ tasks.processResources {
     from(rootProject.file("src/${minecraft}/resources")) {
         include("/*")
     }
+}
+
+// PORT 26.3: export the exact compile inputs so the port can be iterated with plain javac.
+tasks.withType<JavaCompile>().configureEach {
+    options.compilerArgs.addAll(listOf("-Xmaxerrs", "5000"))
+}
+
+tasks.register("dumpPortClasspath") {
+    group = "port"
+    doLast {
+        val ss = sourceSets.getByName("main")
+        rootProject.file("port-classpath.txt").writeText(
+            ss.compileClasspath.files.joinToString(File.pathSeparator) { it.absolutePath }
+        )
+        rootProject.file("port-sources.txt").writeText(
+            ss.java.srcDirs.joinToString(File.pathSeparator) { it.absolutePath }
+        )
+    }
+}
+
+// Include license texts and provenance with binary and source distributions.
+tasks.withType<Jar>().configureEach {
+    from(rootProject.files("LICENSE", "COPYING", "NOTICE")) { into("META-INF") }
 }

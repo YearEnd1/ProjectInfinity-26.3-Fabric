@@ -26,20 +26,11 @@ import org.jspecify.annotations.Nullable;
 public class IridescentBlock extends Block {
     public static int num_models = 24;
     public static final IntegerProperty COLOR_OFFSET = IntegerProperty.create("color", 0, num_models - 1);
-    //? if >1.21
-    public static final MapCodec<IridescentBlock> CODEC = simpleCodec(IridescentBlock::new);
 
     public IridescentBlock(Properties settings) {
         super(settings);
         this.registerDefaultState(defaultBlockState().setValue(COLOR_OFFSET, 0));
     }
-
-    //? if >1.21 {
-    @Override
-    public MapCodec<? extends IridescentBlock> codec() {
-        return CODEC;
-    }
-    //?}
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {

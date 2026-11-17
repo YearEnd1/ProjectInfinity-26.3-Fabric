@@ -3,15 +3,13 @@
   "criteria": {
     "infinity:bishop": {
       "conditions": {
-        "entity": [
-          {
-            "condition": "minecraft:entity_properties",
-            "entity": "this",
-            "predicate": {
-              "type": "infinity:bishop"
-            }
-          }
-        ]
+        "entity": {
+          "entity": "this",
+          "predicate": {
+            "minecraft:entity_type": "infinity:bishop"
+          },
+          "type": "minecraft:entity_properties"
+        }
       },
       "trigger": "minecraft:player_killed_entity"
     }

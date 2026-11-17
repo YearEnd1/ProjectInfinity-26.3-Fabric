@@ -1,5 +1,6 @@
 package net.codexarchonic.infinity.entity.custom;
 
+import net.minecraft.world.entity.EntityTypes;
 import net.codexarchonic.infinity.iridescence.Iridescence;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -258,7 +259,7 @@ public abstract class AbstractChessFigure extends Monster implements NeutralMob 
 
         private boolean canStartUniversalAnger() {
             return this.mob.getLastHurtByMob() != null
-                    && this.mob.getLastHurtByMob().getType() == EntityType.PLAYER
+                    && this.mob.getLastHurtByMob().getType() == EntityTypes.PLAYER
                     && this.mob.getLastHurtByMobTimestamp() > this.lastAttackedTime
                     && this.mob.shouldPursueRegularGoals();
         }

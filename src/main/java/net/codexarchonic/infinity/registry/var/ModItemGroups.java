@@ -101,11 +101,11 @@ public class ModItemGroups {
             addAfter(event, MUSIC_DISC_PIGSTEP, ModItems.DISC.get());
             addAfter(event, MILK_BUCKET, ModItems.IRIDESCENCE_BUCKET.get());
         } else if (equals(creativeModeTab, CreativeModeTabs.COLORED_BLOCKS)) {
-            addAfter(event, PINK_WOOL, ModItems.IRIDESCENT_WOOL.get());
-            addAfter(event, PINK_CARPET, ModItems.IRIDESCENT_CARPET.get());
-            addAfter(event, PINK_WOOL, ModItems.CHROMATIC_WOOL.get());
-            addAfter(event, PINK_CARPET, ModItems.CHROMATIC_CARPET.get());
-            addAfter(event, PINK_TERRACOTTA, ModItems.CURSOR_ITEM.get());
+            addAfter(event, WOOL.pink(), ModItems.IRIDESCENT_WOOL.get());
+            addAfter(event, CARPET.pink(), ModItems.IRIDESCENT_CARPET.get());
+            addAfter(event, WOOL.pink(), ModItems.CHROMATIC_WOOL.get());
+            addAfter(event, CARPET.pink(), ModItems.CHROMATIC_CARPET.get());
+            addAfter(event, DYED_TERRACOTTA.pink(), ModItems.CURSOR_ITEM.get());
         } else if (equals(creativeModeTab, CreativeModeTabs.SPAWN_EGGS)) {
             addAfter(event, ANT_SPAWN_EGG.get());
             addAfter(event, CHAOS_PAWN_SPAWN_EGG.get());

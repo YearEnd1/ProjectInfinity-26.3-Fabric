@@ -61,7 +61,7 @@ public class ModItems {
     public static final RegistrySupplier<Item> BOOK_BOX_ITEM =
             registerBlockItemAfter(ModBlocks.BOOK_BOX, CreativeModeTabs.FUNCTIONAL_BLOCKS, Items.CHISELED_BOOKSHELF, BlockItem::new);
     public static final RegistrySupplier<Item> CURSOR_ITEM  =
-            registerBlockItemAfter(ModBlocks.CURSOR, CreativeModeTabs.COLORED_BLOCKS, Items.PINK_TERRACOTTA, BlockItem::new);
+            registerBlockItemAfter(ModBlocks.CURSOR, CreativeModeTabs.COLORED_BLOCKS, Items.DYED_TERRACOTTA.pink(), BlockItem::new);
     public static final RegistrySupplier<Item> NETHERITE_SLAB_ITEM =
             registerBlockItemAfter(ModBlocks.NETHERITE_SLAB, CreativeModeTabs.BUILDING_BLOCKS, Items.NETHERITE_BLOCK, BlockItem::new);
     public static final RegistrySupplier<Item> NETHERITE_STAIRS_ITEM =
@@ -69,15 +69,15 @@ public class ModItems {
     public static final RegistrySupplier<Item> TIME_BOMB_ITEM =
             registerBlockItemAfter(ModBlocks.TIME_BOMB, CreativeModeTabs.FUNCTIONAL_BLOCKS, VAULT, BlockItem::new);
     public static final RegistrySupplier<Item> IRIDESCENT_WOOL  =
-            registerBlockItemAfter(ModBlocks.IRIDESCENT_WOOL, CreativeModeTabs.COLORED_BLOCKS, Items.PINK_WOOL, BlockItem::new);
+            registerBlockItemAfter(ModBlocks.IRIDESCENT_WOOL, CreativeModeTabs.COLORED_BLOCKS, Items.WOOL.pink(), BlockItem::new);
     public static final RegistrySupplier<Item> IRIDESCENT_CARPET  =
-            registerBlockItemAfter(ModBlocks.IRIDESCENT_CARPET, CreativeModeTabs.COLORED_BLOCKS, Items.PINK_CARPET, BlockItem::new);
+            registerBlockItemAfter(ModBlocks.IRIDESCENT_CARPET, CreativeModeTabs.COLORED_BLOCKS, Items.CARPET.pink(), BlockItem::new);
     public static final RegistrySupplier<ChromaticBlockItem> CHROMATIC_WOOL  =
-            registerBlockItemAfter(ModBlocks.CHROMATIC_WOOL, CreativeModeTabs.COLORED_BLOCKS, Items.PINK_WOOL,
+            registerBlockItemAfter(ModBlocks.CHROMATIC_WOOL, CreativeModeTabs.COLORED_BLOCKS, Items.WOOL.pink(),
                     (p, settings) -> new ChromaticBlockItem(p, colorProperties(ColorLogic.defaultChromatic, settings)));
 
     public static final RegistrySupplier<ChromaticBlockItem> CHROMATIC_CARPET  =
-            registerBlockItemAfter(ModBlocks.CHROMATIC_CARPET, CreativeModeTabs.COLORED_BLOCKS, Items.PINK_CARPET,
+            registerBlockItemAfter(ModBlocks.CHROMATIC_CARPET, CreativeModeTabs.COLORED_BLOCKS, Items.CARPET.pink(),
                     (p, settings) -> new ChromaticBlockItem(p, colorProperties(ColorLogic.defaultChromatic, settings)));
     public static final RegistrySupplier<Item> BIOME_BOTTLE_ITEM =
             registerBlockItemAfter(ModBlocks.BIOME_BOTTLE, CreativeModeTabs.INGREDIENTS, Items.EXPERIENCE_BOTTLE, BiomeBottleItem::new);

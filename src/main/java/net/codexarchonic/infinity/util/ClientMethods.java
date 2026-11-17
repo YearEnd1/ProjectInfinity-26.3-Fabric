@@ -10,7 +10,7 @@ import net.minecraft.world.entity.player.Player;
 public interface ClientMethods {
     static void setF4Screen(Player player) {
         if (player.isLocalPlayer()) {
-            Minecraft.getInstance().setScreen(F4Screen.of(player));
+            Minecraft.getInstance().setScreenAndShow(F4Screen.of(player));
         }
     }
 

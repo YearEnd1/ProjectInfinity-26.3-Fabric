@@ -53,8 +53,13 @@ import static net.codexarchonic.infinity.InfinityMod.MOD_ID;
 @SuppressWarnings("unused")
 public interface InfinityMethods {
     String ofRandomDim = "infinity:random";
+    //? if >=26.3 {
+    /*net.minecraft.world.level.levelgen.synth.Noise sampler =
+            NormalNoise.createParity(-5, genOctaves(2)).create(new LegacyRandomSource(0L));
+    *///?} else {
     NormalNoise sampler =
             NormalNoise.create(new LegacyRandomSource(0L), -5, genOctaves(2));
+    //?}
 
     static double[] genOctaves(int octaves){
         double[] a = new double[octaves];
@@ -62,6 +67,7 @@ public interface InfinityMethods {
         return a;
     }
     static double sample(BlockPos pos) {
+        //~ if >=26.3 'getValue'->'get'
         return sampler.getValue(pos.getX(), pos.getY(), pos.getZ());
     }
 
@@ -181,6 +187,7 @@ public interface InfinityMethods {
     }
 
     private static float bookBoxSample(BlockPos pos, int offset) {
+        //~ if >=26.3 'getValue'->'get'
         return Mth.clamp(0.5f * (1f + (float)sampler.getValue(4*pos.getX(), 4*(pos.getY() + offset), 4*pos.getZ())), 0f, 1f);
     }
     //~ if >26 'int tintIndex'->'IntList tintIndex'

@@ -177,10 +177,10 @@ public class ChaosPawn extends AbstractChessFigure {
     }
 
     public void initFromBlock(BlockState state) {
-        if (state.is(Blocks.WHITE_WOOL) || state.is(Blocks.WHITE_CONCRETE)) {
+        if (state.is(Blocks.WOOL.white()) || state.is(Blocks.CONCRETE.white())) {
             chess(true);
         }
-        else if (state.is(Blocks.BLACK_WOOL) || state.is(Blocks.BLACK_CONCRETE)) {
+        else if (state.is(Blocks.WOOL.black()) || state.is(Blocks.CONCRETE.black())) {
             chess(false);
         }
         else unchess();

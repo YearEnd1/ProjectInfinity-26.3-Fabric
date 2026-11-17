@@ -21,14 +21,12 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.phys.BlockHitResult;
 import org.jspecify.annotations.Nullable;
 //? if >1.21 {
-import com.mojang.serialization.MapCodec;
 //?}
 import java.util.Objects;
 
 
 public class AntBlock extends HorizontalDirectionalBlock {
     //? if >1.21 {
-    public static final MapCodec<AntBlock> CODEC = simpleCodec(AntBlock::new);
     //?}
 
     public AntBlock(Properties settings) {
@@ -36,12 +34,6 @@ public class AntBlock extends HorizontalDirectionalBlock {
         this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH));
     }
 
-    //? if >1.21 {
-    @Override
-    protected MapCodec<? extends HorizontalDirectionalBlock> codec() {
-        return CODEC;
-    }
-    //?}
     
     private static boolean inverseExists(Block down) {
         var s = BuiltInRegistries.BLOCK.getKey(down);

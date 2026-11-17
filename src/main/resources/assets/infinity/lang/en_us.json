@@ -288,5 +288,9 @@
   "config.infinity.rootChances.noise_settings.solid_lakes.description": "This setting controls the percentage chance for lakes to be composed of a random solid block instead of a fluid.",
   "config.infinity.rootChances.noise_settings.rift_world_chance.description": "This setting controls the percentage chance for dimensions to generate as a rift world, with 4 block gaps to the void on chunk borders.",
   "config.infinity.rootChances.noise_settings.solid_oceans.description": "This setting controls the percentage chance for oceans to be composed of a random solid block instead of a fluid.",
-  "config.infinity.easter.disabled.description": "This dimension has been disabled and may be reworked in a future update. By enabling it now, you may need to delete config files later to experience the finished dimension."
+  "config.infinity.easter.disabled.description": "This dimension has been disabled and may be reworked in a future update. By enabling it now, you may need to delete config files later to experience the finished dimension.",
+  "screen.infinity.f4.width": "Portal width",
+  "screen.infinity.f4.height": "Portal height",
+  "resourcepack.infinity.multiversioned": "Infinite Dimensions - Multiversioned Resources",
+  "biome.infinity.generated": "Random Biome #%s"
 }

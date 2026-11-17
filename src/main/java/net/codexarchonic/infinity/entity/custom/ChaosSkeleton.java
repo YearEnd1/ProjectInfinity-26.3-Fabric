@@ -1,5 +1,6 @@
 package net.codexarchonic.infinity.entity.custom;
 
+import net.minecraft.world.entity.EntityTypes;
 import net.codexarchonic.infinity.InfinityMod;
 import net.codexarchonic.infinity.registry.core.ModEntities;
 import net.codexarchonic.infinity.util.VersionMethods;
@@ -166,7 +167,7 @@ public class ChaosSkeleton extends Skeleton implements TintableEntity {
             player.setItemInHand(hand, itemStack3);
             this.playSound(SoundEvents.BOTTLE_FILL, 1.0f, 1.0f);
             Skeleton newSkeleton;
-            if (!this.level().isClientSide() && (newSkeleton = EntityType.SKELETON.create(this.level()
+            if (!this.level().isClientSide() && (newSkeleton = EntityTypes.SKELETON.create(this.level()
                     //? if >1.21.4 {
                     , CONVERSION
                     //?}

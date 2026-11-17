@@ -21,7 +21,7 @@ public class TextStructure extends Structure {
     public static final MapCodec<TextStructure> CODEC = RecordCodecBuilder.mapCodec(instance -> instance.group(
             TextStructure.settingsCodec(instance),
             (Codec.STRING.fieldOf("text")).forGetter(a -> a.text),
-            (BlockStateProvider.CODEC.fieldOf("block")).forGetter(a -> a.block),
+            (BlockStateProvider.DIRECT_CODEC.fieldOf("block")).forGetter(a -> a.block),
             (Codec.INT.fieldOf("polarization")).orElse(2).forGetter(a -> a.pol.id),
             (Codec.STRING.fieldOf("direction")).orElse("random").forGetter(a -> a.dir),
             (Codec.INT.fieldOf("char_spacing")).orElse(1).forGetter(a -> a.char_spacing),

@@ -1,4 +1,9 @@
 .env
+port-classpath.txt
+port-sources.txt
+*.orig
+*.log
+hs_err_pid*
 .gradle
 .kotlin
 .cache/

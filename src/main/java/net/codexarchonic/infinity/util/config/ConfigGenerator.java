@@ -42,6 +42,7 @@ import net.minecraft.world.level.block.entity.ShulkerBoxBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.AttachFace;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+//? if <26.3
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.structure.Structure;
@@ -75,7 +76,11 @@ public interface ConfigGenerator {
         //?}
         ConfigFactory.of(VersionMethods.getRegistry(manager, Registries.BIOME), ConfigGenerator::extractBiome).generate(ConfigType.BIOMES);
         ConfigFactory.of(VersionMethods.getRegistry(manager, Registries.STRUCTURE), ConfigGenerator::extractStructure).generate(ConfigType.STRUCTURES);
+        //? if >=26.3 {
+        /*ConfigFactory.of(VersionMethods.getRegistry(manager, Registries.FEATURE), ConfigGenerator::extractFeature).generate(ConfigType.TREES);
+        *///?} else {
         ConfigFactory.of(VersionMethods.getRegistry(manager, Registries.CONFIGURED_FEATURE), ConfigGenerator::extractFeature).generate(ConfigType.TREES);
+        //?}
         generateLootTables(server);
     }
 
@@ -282,7 +287,7 @@ public interface ConfigGenerator {
             case NEUTRAL -> "neutral";
         });
         res.putInt("Color", effect.getColor());
-        res.putBoolean("Instant", effect.isInstantenous());
+        res.putBoolean("Instant", effect.isInstantaneous());
         return res;
     }
 
@@ -349,18 +354,29 @@ public interface ConfigGenerator {
                 //? if >1.21.7
                 ()
         ).toString());
-        res.putInt("maxCount", entry.maxCount
-                //? if >1.21.7
-                        ()
-        );
-        res.putInt("minCount", entry.minCount
-                //? if >1.21.7
-                        ()
-        );
+        res.putInt("maxCount", entry.count().maxInclusive());
+        res.putInt("minCount", entry.count().minInclusive());
         res.putInt("weight", weight);
         return res;
     }
 
+    //? if >=26.3 {
+    /*static CompoundTag extractFeature(Registry<Feature> registry, ResourceKey<Feature> key) {
+        if (key.identifier().getNamespace().equals(InfinityMod.MOD_ID)) return null;
+        Feature feature = registry.getOptional(key).orElse(null);
+        if (feature == null) return null;
+        var type = BuiltInRegistries.FEATURE_TYPE.getKey(feature.codec());
+        if (type == null || !type.getNamespace().equals("minecraft")) return null;
+        return switch (type.getPath()) {
+            case "tree", "huge_fungus", "huge_brown_mushroom", "huge_red_mushroom" -> {
+                CompoundTag result = new CompoundTag();
+                result.putString("Type", type.getPath());
+                yield result;
+            }
+            default -> null;
+        };
+    }
+    *///?} else {
     static CompoundTag extractFeature(Registry<ConfiguredFeature<?,?>> registry, ResourceKey<ConfiguredFeature<?,?>> key) {
         ResourceLocation id = key.location();
         if (id.getNamespace().equals(InfinityMod.MOD_ID)) return null; //our mod's custom trees
@@ -381,12 +397,15 @@ public interface ConfigGenerator {
         if (type.equals(Feature.HUGE_RED_MUSHROOM)) return "huge_red_mushroom";
         return "";
     }
+    //?}
 
     static CompoundTag extractLootTable(Registry<LootTable> registry, ResourceKey<LootTable> key) {
         Optional<LootTable> o = registry.getOptional(key);
         if (o.isEmpty()) return null;
         LootTable table = o.get();
-        //? if >1.21 {
+        //? if >=26.3 {
+        /*ResourceLocation type = BuiltInRegistries.CONTEXT_KEY_SET.getKey(table.getParamSet());
+        *///?} else if >1.21 {
         ResourceLocation type = LootContextParamSets.REGISTRY.inverse().get(table.getParamSet());
         //?} else {
         /*ResourceLocation type = LootContextParamSets.getKey(table.getParamSet());

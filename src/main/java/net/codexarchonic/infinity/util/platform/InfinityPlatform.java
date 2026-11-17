@@ -43,7 +43,9 @@ public interface InfinityPlatform {
     /*20;
     *///?}
     int dataMcmeta =
-    //? if >1.21.6 {
+    //? if >=26.3 {
+    /*121;
+    *///?} else if >1.21.6 {
     81;
     //?} else if >1.21 {
     /*48;
@@ -51,7 +53,9 @@ public interface InfinityPlatform {
     /*15;
      *///?}
     int resourcesMcmeta =
-    //? if >1.21.6 {
+    //? if >=26.3 {
+    /*97;
+    *///?} else if >1.21.6 {
     64;
     //?} else if >1.21 {
     /*34;
@@ -69,7 +73,15 @@ public interface InfinityPlatform {
     static CompoundTag packMcmeta(String description, int version) {
         CompoundTag res = new CompoundTag();
         CompoundTag pack = new CompoundTag();
+        //? if >=26.3 {
+        /*var format = new net.minecraft.nbt.ListTag();
+        format.add(net.minecraft.nbt.IntTag.valueOf(version));
+        format.add(net.minecraft.nbt.IntTag.valueOf(version == resourcesMcmeta ? 1 : 0));
+        pack.put("min_format", format);
+        pack.put("max_format", format.copy());
+        *///?} else {
         pack.putInt("pack_format", version);
+        //?}
         pack.putString("description", description);
         res.put("pack", pack);
         return res;

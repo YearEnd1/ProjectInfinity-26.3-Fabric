@@ -90,23 +90,15 @@ public interface ConfigManager {
      * Creates or updates an individual config file.
      */
     static boolean registerConfig(Path fromPath, Path toDirectory, String fromDirectory) {
-        String path1 = fromPath.toString();
-        String fullname = path1.substring(path1.lastIndexOf(fromDirectory) + fromDirectory.length());
-        Path endfile = Paths.get(toDirectory + fullname);
+        String path1 = fromPath.toString().replace('\\', '/');
+        String prefix = fromDirectory.replace('\\', '/') + "/";
+        int start = path1.lastIndexOf(prefix);
+        if (start < 0) throw new IllegalArgumentException("Config root missing from " + fromPath);
+        String relative = path1.substring(start + prefix.length());
+        Path endfile = toDirectory.resolve(relative);
         try {
-            if (!endfile.toFile().exists()) {
-                String separator;
-                if (InfinityPlatform.INSTANCE.isDevelopment()) {
-                    separator = File.separator;
-                }
-                else {
-                    separator = "/";
-                }
-                int i = fullname.lastIndexOf(separator);
-                if (i>0) {
-                    String directory_name = fullname.substring(0, i);
-                    Files.createDirectories(Paths.get(toDirectory + directory_name));
-                }
+            if (!Files.exists(endfile)) {
+                Files.createDirectories(endfile.getParent());
                 Files.copy(fromPath, endfile);
                 return true;
             }

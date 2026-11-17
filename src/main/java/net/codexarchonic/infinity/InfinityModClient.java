@@ -13,7 +13,6 @@ import net.codexarchonic.infinity.util.VersionMethods;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.item.ItemStack;
-import org.lwjgl.glfw.GLFW;
 
 //? if >1.21.9 {
 /*import static net.minecraft.client.KeyMapping.Category.MISC;
@@ -26,12 +25,14 @@ public class InfinityModClient {
     //?}
 
     public static KeyMapping f4ConfigKey = new KeyMapping("key.infinity.f4",
+            //~ if >=26.3 'KEYSYM'->'KEYBOARD'
             InputConstants.Type.KEYSYM,
-            GLFW.GLFW_KEY_F4,
+            InputConstants.KEY_F4,
             MISC);
     public static KeyMapping postProcessorConfigKey = new KeyMapping("key.infinity.postprocessor",
+            //~ if >=26.3 'KEYSYM'->'KEYBOARD'
             InputConstants.Type.KEYSYM,
-            GLFW.GLFW_KEY_F12,
+            InputConstants.KEY_F12,
             MISC);
 
     public static void initializeClient() {
@@ -48,6 +49,7 @@ public class InfinityModClient {
                 if (interactionHolderResult != null)
                     client.player.setItemInHand(InteractionHand.MAIN_HAND, interactionHolderResult);
             }
+            //~ if >=26.3 'togglePostEffect'->'toggleSpectatorPostEffect'
             while (postProcessorConfigKey.consumeClick()) client.gameRenderer.togglePostEffect();
         });
     }

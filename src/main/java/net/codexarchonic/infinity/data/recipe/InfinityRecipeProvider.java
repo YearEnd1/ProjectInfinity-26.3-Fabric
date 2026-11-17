@@ -36,8 +36,10 @@ public class InfinityRecipeProvider extends FabricRecipeProvider {
 
 	//? if >1.21.6 {
 	@Override
-	protected RecipeProvider createRecipeProvider(HolderLookup.Provider registryLookup, RecipeOutput exporter) {
-		return new RecipeProvider(registryLookup, exporter) {
+	protected RecipeProvider createRecipeProvider(HolderLookup.Provider registryLookup,
+			net.minecraft.data.worldgen.BootstrapContext<net.minecraft.world.item.crafting.Recipe<?>> recipes,
+			net.minecraft.data.worldgen.BootstrapContext<net.minecraft.advancements.Advancement> advancements) {
+		return new RecipeProvider(recipes, advancements) {
 
 	@Override
 	public void buildRecipes() {
@@ -70,8 +72,8 @@ public class InfinityRecipeProvider extends FabricRecipeProvider {
 			.pattern("BMB")
 			.pattern("WBW")
 			.define('M', STAR_OF_LANG.get())
-			.define('W', WHITE_CONCRETE)
-			.define('B', BLACK_CONCRETE)
+			.define('W', CONCRETE.white())
+			.define('B', CONCRETE.black())
 			// Create an advancement that gives you the recipe
 			.unlockedBy(getHasName(STAR_OF_LANG.get()), has(STAR_OF_LANG.get()))
 			.save(output);
@@ -101,8 +103,8 @@ public class InfinityRecipeProvider extends FabricRecipeProvider {
 			.pattern("LSL")
 			.pattern("BLB")
 			.define('S', STAR_OF_LANG.get())
-			.define('L', LIME_CONCRETE)
-			.define('B', BLACK_CONCRETE)
+			.define('L', CONCRETE.lime())
+			.define('B', CONCRETE.black())
 			// Create an advancement that gives you the recipe
 			.unlockedBy(getHasName(STAR_OF_LANG.get()), has(STAR_OF_LANG.get()))
 			.save(output);
@@ -121,9 +123,9 @@ public class InfinityRecipeProvider extends FabricRecipeProvider {
 			.pattern("PPP")
 			.pattern("P P")
 			.pattern("PPP")
-			.define('P', LIGHT_GRAY_STAINED_GLASS_PANE)
+			.define('P', STAINED_GLASS_PANE.lightGray())
 			// Create an advancement that gives you the recipe
-			.unlockedBy(getHasName(LIGHT_GRAY_STAINED_GLASS_PANE), has(LIGHT_GRAY_STAINED_GLASS_PANE))
+			.unlockedBy(getHasName(STAINED_GLASS_PANE.lightGray()), has(STAINED_GLASS_PANE.lightGray()))
 			.save(output);
 
 
@@ -161,18 +163,18 @@ public class InfinityRecipeProvider extends FabricRecipeProvider {
 			.pattern("BBB")
 			.pattern("B B")
 			.pattern("BBB")
-			.define('B', BLACK_CONCRETE)
+			.define('B', CONCRETE.black())
 			// Create an advancement that gives you the recipe
-			.unlockedBy(getHasName(BLACK_CONCRETE), has(BLACK_CONCRETE))
+			.unlockedBy(getHasName(CONCRETE.black()), has(CONCRETE.black()))
 			.save(output);
 
 		shaped(MISC, WHITE_MATTER.get())
 			.pattern("BBB")
 			.pattern("B B")
 			.pattern("BBB")
-			.define('B', WHITE_CONCRETE)
+			.define('B', CONCRETE.white())
 			// Create an advancement that gives you the recipe
-			.unlockedBy(getHasName(WHITE_CONCRETE), has(WHITE_CONCRETE))
+			.unlockedBy(getHasName(CONCRETE.white()), has(CONCRETE.white()))
 			.save(output);
 
 		shaped(BUILDING_BLOCKS, IRIDESCENT_CARPET.get(), 3)

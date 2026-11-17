@@ -2,6 +2,8 @@ package net.codexarchonic.infinity.data.tags;
 
 //? fabric {
 
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
 import net.codexarchonic.infinity.registry.core.ModBlocks;
@@ -23,49 +25,49 @@ public class InfinityBlockTagProvider extends FabricTagProvider.BlockTagProvider
 
 	@Override
 	protected void addTags(HolderLookup.Provider provider) {
-		valueLookupBuilder(ModTags.IRIDESCENT_BLOCKS).add(
-				ModBlocks.IRIDESCENT_WOOL.get(),
-				ModBlocks.IRIDESCENT_CARPET.get(),
-				ModBlocks.IRIDESCENCE.get(),
-				ModBlocks.COSMIC_ALTAR.get()
+		builder(ModTags.IRIDESCENT_BLOCKS).add(
+				k(ModBlocks.IRIDESCENT_WOOL.get()),
+				k(ModBlocks.IRIDESCENT_CARPET.get()),
+				k(ModBlocks.IRIDESCENCE.get()),
+				k(ModBlocks.COSMIC_ALTAR.get())
 		);
-		valueLookupBuilder(BlockTags.WOOL).add(
-				ModBlocks.IRIDESCENT_WOOL.get(),
-				ModBlocks.CHROMATIC_WOOL.get()
+		builder(BlockTags.WOOL).add(
+				k(ModBlocks.IRIDESCENT_WOOL.get()),
+				k(ModBlocks.CHROMATIC_WOOL.get())
 		);
-		valueLookupBuilder(BlockTags.WOOL_CARPETS).add(
-				ModBlocks.IRIDESCENT_CARPET.get(),
-				ModBlocks.CHROMATIC_CARPET.get()
+		builder(BlockTags.WOOL_CARPETS).add(
+				k(ModBlocks.IRIDESCENT_CARPET.get()),
+				k(ModBlocks.CHROMATIC_CARPET.get())
 		);
-		valueLookupBuilder(BlockTags.MINEABLE_WITH_AXE).add(
-				ModBlocks.BOOK_BOX.get()
+		builder(BlockTags.MINEABLE_WITH_AXE).add(
+				k(ModBlocks.BOOK_BOX.get())
 		);
-		valueLookupBuilder(BlockTags.MINEABLE_WITH_PICKAXE).add(
-				ModBlocks.ALTAR.get(),
-				ModBlocks.CURSOR.get(),
-				ModBlocks.NETHERITE_SLAB.get(),
-				ModBlocks.NETHERITE_STAIRS.get(),
-				ModBlocks.BIOME_BOTTLE.get(),
-				ModBlocks.ANT.get(),
-				ModBlocks.COSMIC_ALTAR.get(),
-				ModBlocks.IRIDESCENCE_CAULDRON.get()
+		builder(BlockTags.MINEABLE_WITH_PICKAXE).add(
+				k(ModBlocks.ALTAR.get()),
+				k(ModBlocks.CURSOR.get()),
+				k(ModBlocks.NETHERITE_SLAB.get()),
+				k(ModBlocks.NETHERITE_STAIRS.get()),
+				k(ModBlocks.BIOME_BOTTLE.get()),
+				k(ModBlocks.ANT.get()),
+				k(ModBlocks.COSMIC_ALTAR.get()),
+				k(ModBlocks.IRIDESCENCE_CAULDRON.get())
 		);
-		valueLookupBuilder(BlockTags.PORTALS).add(
-				ModBlocks.PORTAL.get()
+		builder(BlockTags.PORTALS).add(
+				k(ModBlocks.PORTAL.get())
 		);
-		valueLookupBuilder(BlockTags.SLABS).add(
-				ModBlocks.NETHERITE_SLAB.get()
+		builder(BlockTags.SLABS).add(
+				k(ModBlocks.NETHERITE_SLAB.get())
 		);
-		valueLookupBuilder(BlockTags.STAIRS).add(
-				ModBlocks.NETHERITE_STAIRS.get()
+		builder(BlockTags.STAIRS).add(
+				k(ModBlocks.NETHERITE_STAIRS.get())
 		);
-		valueLookupBuilder(BlockTags.CAULDRONS).add(
-				ModBlocks.IRIDESCENCE_CAULDRON.get()
+		builder(BlockTags.CAULDRONS).add(
+				k(ModBlocks.IRIDESCENCE_CAULDRON.get())
 		);
 	}
 
 	//? <1.21.2 {
-	/*private FabricTagProvider<Block>.FabricTagBuilder valueLookupBuilder(TagKey<Block> buckets) {
+	/*private FabricTagProvider<Block>.FabricTagBuilder builder(TagKey<Block> buckets) {
 		return getOrCreateTagBuilder(buckets);
 	}
 	*///?}
@@ -77,5 +79,9 @@ public class InfinityBlockTagProvider extends FabricTagProvider.BlockTagProvider
 	private TagKey<Block> infinity(String id) {
 		return TagKey.create(Registries.BLOCK, VersionMethods.id("infinity", id));
 	}
+	private static ResourceKey<Block> k(Block value) {
+		return BuiltInRegistries.BLOCK.getResourceKey(value).orElseThrow();
+	}
+
 }
 //?}

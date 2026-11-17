@@ -1,5 +1,6 @@
 package net.codexarchonic.infinity.util.teleport;
 
+import net.minecraft.world.phys.Vec3;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import net.codexarchonic.infinity.access.MinecraftServerAccess;
@@ -127,7 +128,7 @@ public interface WarpLogic {
         ensureSafety(w, blockPos2, Blocks.AIR);
         ensureSafety(w, blockPos2.above(), Blocks.AIR);
         //? if >1.21.2 {
-        VersionMethods.teleportTo(player, w, blockPos2.getCenter(), player.getYRot(), player.getXRot());
+        VersionMethods.teleportTo(player, w, Vec3.atCenterOf(blockPos2), player.getYRot(), player.getXRot());
         //?} else {
         /*player.teleportTo(w, blockPos2.getX() + 0.5, blockPos2.getY(), blockPos2.getZ() + 0.5,
                 new HashSet<>(), player.getYRot(), player.getXRot());

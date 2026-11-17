@@ -5,8 +5,6 @@ import net.codexarchonic.infinity.iridescence.Iridescence;
 //? if >1.21.2 {
 import net.codexarchonic.infinity.iridescence.IridescentUniform;
 import net.minecraft.client.DeltaTracker;
-import net.minecraft.client.renderer.ItemInHandRenderer;
-import net.minecraft.client.renderer.RenderBuffers;
 import org.spongepowered.asm.mixin.Unique;
  //?}
 import net.codexarchonic.infinity.options.InfinityOptions;
@@ -32,8 +30,6 @@ public abstract class GameRendererMixin implements GameRendererAccess {
     @Shadow
     protected abstract void loadEffect(ResourceLocation id);
     *///?} else {
-    @Shadow
-    public abstract void setPostEffect(ResourceLocation par1);
     //?}
 
     //? if <1.21.2 {
@@ -72,15 +68,12 @@ public abstract class GameRendererMixin implements GameRendererAccess {
     }
 
     @Inject(method="<init>", at= @At(value = "TAIL"))
-    void initUniform(Minecraft minecraft, ItemInHandRenderer itemInHandRenderer, RenderBuffers renderBuffers,
-             //? if >1.21.9
-             //@Coerce Object blockRenderDispatcher,
+    void initUniform(@Coerce Object minecraft, @Coerce Object handsRenderer, @Coerce Object modelManager, @Coerce Object itemModelResolver,
              CallbackInfo ci) {
         this.infinity$iridUniform = new IridescentUniform();
     }
-    //~ if >26 'Lnet/minecraft/client/renderer/GlobalSettingsUniform;update(IIDJLnet/minecraft/client/DeltaTracker;I)V'->'Lnet/minecraft/client/renderer/GlobalSettingsUniform;update(IIDJLnet/minecraft/client/DeltaTracker;ILnet/minecraft/world/phys/Vec3;Z)V'
-    @Inject(method="render", at= @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/GlobalSettingsUniform;update(IIDJLnet/minecraft/client/DeltaTracker;I)V"))
-    void updateUniform(DeltaTracker deltaTracker, boolean renderLevel, CallbackInfo ci) {
+    @Inject(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/renderer/GlobalSettingsUniform;update(IIDJFILnet/minecraft/world/phys/Vec3;Z)V"))
+    void updateUniform(CallbackInfo ci) {
         infinity$iridUniform.tryUpdate();
     }
     @Inject(method="close", at= @At(value = "TAIL"))

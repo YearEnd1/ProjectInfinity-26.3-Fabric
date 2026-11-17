@@ -8,7 +8,7 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.effect.InstantenousMobEffect;
+import net.minecraft.world.effect.InstantaneousMobEffect;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffectInstance;
 
@@ -17,7 +17,7 @@ import java.util.Optional;
 public record EffectGiver(Holder<MobEffect> id, int duration, int amplifier, int cooldown) {
     public static Holder<MobEffect> effectOf(String id) {
         Optional<Holder.Reference<MobEffect>> entry = VersionMethods.getOptionalFromRegistry(BuiltInRegistries.MOB_EFFECT, ResourceKey.create(Registries.MOB_EFFECT, VersionMethods.id(id)));
-        if (entry.isEmpty() || entry.get().value() instanceof InstantenousMobEffect) return null;
+        if (entry.isEmpty() || entry.get().value() instanceof InstantaneousMobEffect) return null;
         return entry.get();
     }
 

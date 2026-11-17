@@ -4,7 +4,7 @@ import dev.architectury.core.item.ArchitecturyBucketItem;
 import net.codexarchonic.infinity.registry.core.ModBlocks;
 import net.codexarchonic.infinity.util.VersionMethods;
 import net.codexarchonic.infinity.util.platform.InfinityPlatform;
-import net.minecraft.advancements.CriteriaTriggers;
+import net.minecraft.advancements.triggers.CriteriaTriggers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionResult;

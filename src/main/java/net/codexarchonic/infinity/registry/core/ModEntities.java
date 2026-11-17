@@ -39,7 +39,7 @@ import static net.codexarchonic.infinity.InfinityMod.MOD_ID;
 public class ModEntities {
     public static void copy(Mob from, Mob e) {
         //? if >1.21.9 {
-        /*e.moveOrInterpolateTo(from.position());
+        /*e.moveOrInterpolateTo(from.position(), from.getYRot(), from.getXRot());
         *///?} else if >1.21.6 {
         e.moveOrInterpolateTo(from.position(), from.getYRot(), from.getXRot());
         //?} else {
@@ -54,7 +54,7 @@ public class ModEntities {
         if (from.isPersistenceRequired()) {
             e.setPersistenceRequired();
         }
-        e.setInvulnerable(from.isInvulnerable());
+        e.setPermanentlyInvulnerable(from.isInvulnerable());
         e.setItemInHand(InteractionHand.MAIN_HAND, from.getItemInHand(InteractionHand.MAIN_HAND));
         e.setItemInHand(InteractionHand.OFF_HAND, from.getItemInHand(InteractionHand.OFF_HAND));
     }

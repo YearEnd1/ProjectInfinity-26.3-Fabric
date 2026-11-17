@@ -14,9 +14,9 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import java.time.LocalTime;
 *///?} else if >1.21.2 {
 import com.llamalad7.mixinextras.sugar.Local;
-import com.mojang.blaze3d.buffers.GpuBufferSlice;
+import com.mojang.renderpearl.api.buffers.GpuBufferSlice;
 import com.mojang.blaze3d.resource.ResourceHandle;
-import com.mojang.blaze3d.systems.RenderPass;
+import com.mojang.renderpearl.api.commands.RenderPass;
 import net.codexarchonic.infinity.iridescence.IridescentUniform;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 //?}
@@ -65,8 +65,8 @@ public class PostPassMixin implements PostPassAccess {
 		if (infinity$is) IridescentUniform.trySet(renderPass);
 	}
 	//?} else >26 {
-    /*@Inject(method = "lambda$addToFrame$1", at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/systems/RenderPass;setPipeline(Lcom/mojang/blaze3d/pipeline/RenderPipeline;)V"))
-    private void inj(ResourceHandle resourcehandle, GpuBufferSlice projectionMatrixBuffer, Map targets, CallbackInfo ci, @Local(name = "renderPass") RenderPass renderPass) {
+    /*@Inject(method = "lambda$addToFrame$1", require = 0, at = @At(value = "INVOKE", target = "Lcom/mojang/renderpearl/api/commands/RenderPass;setPipeline(Lcom/mojang/renderpearl/api/pipeline/CompiledRenderPipeline;)V"))
+    private void inj(ResourceHandle resourcehandle, GpuBufferSlice projectionMatrixBuffer, Map targets, CallbackInfo ci, @Local(ordinal = 0) RenderPass renderPass) {
         if (infinity$is) IridescentUniform.trySet(renderPass);
     }
 	*///?}

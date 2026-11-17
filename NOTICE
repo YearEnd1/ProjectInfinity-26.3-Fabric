@@ -1,0 +1,17 @@
+Infinite Dimensions / ProjectInfinity
+
+Upstream project: https://tangled.org/codexarchonic.nekoweb.org/ProjectInfinity
+Upstream authors: ArchonicCinnamon and cassiancc
+Upstream baseline: c26f116e3f2ee57fa4207c0bce00d61a00d8d7f9
+License identifier declared by upstream: LGPL-3.0-or-later
+
+This is an unofficial Minecraft 26.3 Fabric port maintained by YearEnd1.
+The port includes API and world-generation migrations, compatibility fixes,
+Simplified Chinese localization, dynamic biome names, and optional Waystones
+generation integration. It is not an official release of the upstream project.
+
+Original authorship, Git history, source notices, and acknowledgements are retained.
+See README.upstream.md for the upstream acknowledgements, including ivory rosewood's music.
+LICENSE contains the GNU Lesser General Public License version 3.
+COPYING contains the GNU General Public License version 3 referenced by that license.
+The upstream project's LGPL-3.0-or-later license identifier remains unchanged.

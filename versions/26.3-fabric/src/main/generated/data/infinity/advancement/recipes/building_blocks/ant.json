@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_star_of_lang": {
+      "conditions": {
+        "items": [
+          {
+            "items": "infinity:star_of_lang"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipes": "infinity:ant"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_star_of_lang"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "infinity:ant"
+    ]
+  }
+}

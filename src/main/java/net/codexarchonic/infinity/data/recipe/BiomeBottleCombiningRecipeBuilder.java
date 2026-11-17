@@ -5,7 +5,7 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.data.recipes.RecipeBuilder;
 //? >1.21 {
 import net.minecraft.data.recipes.RecipeOutput;
-import net.minecraft.advancements.Criterion;
+import net.minecraft.advancements.triggers.Criterion;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.crafting.CraftingBookCategory;
 import net.minecraft.resources.ResourceKey;
@@ -15,7 +15,7 @@ import net.codexarchonic.infinity.item.function.BiomeBottleCombiningRecipe;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.codexarchonic.infinity.registry.core.ModItemFunctions;
 import com.google.gson.JsonObject;
-import net.minecraft.advancements.CriterionTriggerInstance;
+import net.minecraft.advancements.triggers.CriterionTriggerInstance;
 *///?}
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;

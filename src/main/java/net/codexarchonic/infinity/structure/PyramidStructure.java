@@ -16,7 +16,7 @@ public class PyramidStructure extends Structure {
             PyramidStructure.settingsCodec(instance),
             (Codec.INT.fieldOf("top_y")).forGetter(a -> a.top_y),
             (Codec.INT.fieldOf("bottom_y")).forGetter(a -> a.top_y),
-            (BlockStateProvider.CODEC.fieldOf("block")).forGetter(a -> a.block)).apply(instance, PyramidStructure::new));
+            (BlockStateProvider.DIRECT_CODEC.fieldOf("block")).forGetter(a -> a.block)).apply(instance, PyramidStructure::new));
     int top_y;
     int bottom_y;
     BlockStateProvider block;

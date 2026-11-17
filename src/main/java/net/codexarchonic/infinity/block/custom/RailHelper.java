@@ -1,6 +1,5 @@
 package net.codexarchonic.infinity.block.custom;
 
-import com.mojang.serialization.MapCodec;
 import net.codexarchonic.infinity.compat.CreateCompat;
 import net.codexarchonic.infinity.compat.ModCompat;
 import net.codexarchonic.infinity.registry.core.ModBlockEntities;
@@ -20,12 +19,6 @@ public class RailHelper extends BaseEntityBlock {
         super(settings);
     }
 
-    //? if >1.21 {
-    @Override
-    protected MapCodec<? extends BaseEntityBlock> codec() {
-        return simpleCodec(RailHelper::new);
-    }
-    //?}
 
     @Override
     public void onPlace(BlockState state, Level world, BlockPos pos, BlockState oldState, boolean notify) {

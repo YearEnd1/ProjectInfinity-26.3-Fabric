@@ -23,7 +23,7 @@ public class SetLevelLootFunction extends LootItemConditionalFunction {
     public static final MapCodec<SetLevelLootFunction> CODEC = RecordCodecBuilder.mapCodec(
             instance -> commonFields(instance).apply(instance, SetLevelLootFunction::new)
     );
-    protected SetLevelLootFunction(List<LootItemCondition> conditions) {
+    protected SetLevelLootFunction(java.util.Optional<net.minecraft.core.Holder<LootItemCondition>> conditions) {
         super(conditions);
     }
     //?} else {
